@@ -87,6 +87,14 @@ export default function NetworkGraph({
         links.push({ source: e.code, target: "H:" + e.communityRole, kind: "hub" });
       }
     }
+    // Unlinked experts gravitate to a research-queue pool
+    const linked = new Set(links.map((l) => l.source as string));
+    for (const e of experts) {
+      if (!linked.has(e.code)) {
+        ensure("P:queue", "hub", "Черга ресерчу / без класифікації");
+        links.push({ source: e.code, target: "P:queue", kind: "pool" });
+      }
+    }
     // Expert-to-expert: shared organisation (revealed mode) or shared case theme
     const byOrg = new Map<string, string[]>();
     experts.forEach((e) => {
@@ -130,8 +138,8 @@ export default function NetworkGraph({
   useEffect(() => {
     const f = fg.current;
     if (!f) return;
-    f.d3Force("charge")?.strength(-28);
-    f.d3Force("link")?.distance((l: GLink) => (l.kind === "peer" ? 12 : 40));
+    f.d3Force("charge")?.strength(-45);
+    f.d3Force("link")?.distance((l: GLink) => (l.kind === "peer" ? 15 : l.kind === "pool" ? 70 : 55));
   }, [data]);
 
   return (
@@ -194,6 +202,7 @@ export default function NetworkGraph({
             ctx.lineWidth = 1.2 / Math.max(scale, 0.6);
             ctx.strokeStyle = col;
             ctx.stroke();
+            if (n.size < 4 && scale < 1.6 && n.id !== active) { ctx.globalAlpha = 1; return; }
             ctx.font = `500 ${Math.max(11 / scale, 3)}px IBM Plex Sans`;
             ctx.fillStyle = col;
             ctx.textAlign = "center";

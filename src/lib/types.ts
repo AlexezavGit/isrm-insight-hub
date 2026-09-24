@@ -20,19 +20,19 @@ export interface Expert {
   contribution: string;
   potentialRole: string;
   trust: number;
-  caseTheme?: string;
-  internationalRelevance?: string;
+  caseTheme?: string | undefined;
+  internationalRelevance?: string | undefined;
   // revealed only
-  organization?: string;
-  role?: string;
-  phone?: string;
-  linkedin?: string;
-  source?: string;
-  sensitivity?: string;
+  organization?: string | undefined;
+  role?: string | undefined;
+  phone?: string | undefined;
+  linkedin?: string | undefined;
+  source?: string | undefined;
+  sensitivity?: string | undefined;
 }
 
 export interface NetworkPayload {
   level: AccessLevel;
-  grantedBy?: string;
+  grantedBy?: string | undefined;
   experts: Expert[];
 }
