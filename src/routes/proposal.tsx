@@ -18,7 +18,7 @@ const STEPS = [
   { t: "Карта мережі", d: "Force-directed граф 178 вузлів із трьома шарами кластерів: сектори, теми українського досвіду та хаби спільноти. Клік фокусує оточення експерта, колесо — масштаб, фільтри перебудовують граф наживо.", link: "/", cta: "Відкрити карту" },
   { t: "Протокол приватності", d: "За замовчуванням — знеособлення: псевдоніми EXP-xxx, сектор, рівень верифікації. Код верифікованого рекомендодавця відкриває імена й організації; пароль координатора — прямі контакти. Рішення про розкриття приймає сервер — дані не потрапляють у браузер без права доступу.", link: "/directory", cta: "Спробувати" },
   { t: "Реєстр і фільтри", d: "Пошук за 178 записами: 45 Verified проти черги ресерчу, сектор, географія (визначена за міжнародним кодом), теми українського досвіду, роль в ISRM.", link: "/directory", cta: "До реєстру" },
-  { t: "Досьє та індекс довіри", d: "Індекс 0–100 складається з впевненості співставлення, статусу ідентичності, верифікації та доказової бази. Кнопка безпечного запиту передає контакт лише через координатора.", link: "/experts/EXP-004", cta: "Приклад досьє" },
+  { t: "Досьє та індекс довіри", d: "Індекс 0–100 складається з впевненості співставлення, статусу ідентичності, верифікації та доказової бази. Кнопка безпечного запиту передає контакт лише через координатора.", link: "/experts/$code", cta: "Приклад досьє" },
   { t: "Кабінет координатора", d: "Єдина черга запитів контактів та пропозицій ЛПР, операційні показники ідентифікації та пріоритетів.", link: "/coordinator", cta: "Кабінет" },
 ] as const;
 
@@ -42,7 +42,7 @@ function Proposal() {
   const [topic, setTopic] = useState("Функціональність");
   const [msg, setMsg] = useState("");
   const [sent, setSent] = useState(false);
-  const s = STEPS[step];
+  const s = STEPS[step]!;
   return (
     <main className="mx-auto max-w-6xl px-5 py-10">
       <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary">Артефакт-пропозиція · для ЛПР</p>
@@ -63,7 +63,7 @@ function Proposal() {
           <h2 className="mt-2 font-display text-3xl">{s.t}</h2>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">{s.d}</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link to={s.link} className="rounded bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">{s.cta}</Link>
+            <Link to={s.link} params={{ code: "EXP-004" }} className="rounded bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">{s.cta}</Link>
             {step < STEPS.length - 1 && <button onClick={() => setStep(step + 1)} className="rounded border border-border px-4 py-2 text-sm hover:border-primary">Далі →</button>}
           </div>
         </div>
