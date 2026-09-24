@@ -93,7 +93,7 @@ export default function NetworkGraph({
       if (e.organization) byOrg.set(e.organization, [...(byOrg.get(e.organization) || []), e.code]);
     });
     byOrg.forEach((codes) => {
-      for (let i = 1; i < codes.length; i++) links.push({ source: codes[0], target: codes[i], kind: "peer" });
+      for (let i = 1; i < codes.length; i++) links.push({ source: codes[0]!, target: codes[i]!, kind: "peer" });
     });
     return { nodes, links };
   }, [experts, layers]);

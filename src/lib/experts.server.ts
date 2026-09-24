@@ -17,8 +17,8 @@ function ukraineCategory(t: string) {
 
 export function buildExperts(level: AccessLevel): Expert[] {
   return (raw as Raw[]).map((r) => {
-    const ed = r.expertise_details as Record<string, string>;
-    const vd = (r.verified_details || {}) as Record<string, string>;
+    const ed: any = r.expertise_details;
+    const vd: any = r.verified_details || {};
     const cat = ukraineCategory(ed.ukraine_theme);
     const trust = Math.min(
       100,

@@ -9,7 +9,7 @@ const KEY = "isrm-access-code";
 interface Ctx {
   code: string;
   setCode: (c: string) => void;
-  data?: NetworkPayload;
+  data: NetworkPayload | undefined;
   loading: boolean;
 }
 const AccessCtx = createContext<Ctx | null>(null);
