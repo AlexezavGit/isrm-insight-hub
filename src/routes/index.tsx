@@ -4,6 +4,7 @@ import { useAccess } from "@/lib/access";
 import { applyFilters, FilterBar, useFilters } from "@/lib/filters";
 import { TrustBar, VerifyBadge } from "@/components/AppShell";
 import type { GraphLayers } from "@/components/NetworkGraph";
+import { useI18n } from "@/lib/i18n";
 
 const NetworkGraph = lazy(() => import("@/components/NetworkGraph"));
 
@@ -21,6 +22,7 @@ export const Route = createFileRoute("/")({
 
 function NetworkPage() {
   const { data, loading } = useAccess();
+  const { locale, t } = useI18n();
   const [f, setF] = useFilters();
   const [focus, setFocus] = useState<string | null>(null);
   const [layers, setLayers] = useState<GraphLayers>({ sector: true, theme: true, hub: true });
@@ -33,14 +35,14 @@ function NetworkPage() {
 
   return (
     <div className="mx-auto grid max-w-[1600px] gap-0 lg:h-[calc(100vh-3.5rem)] lg:grid-cols-[300px_1fr_340px]">
-      <aside className="space-y-6 overflow-y-auto border-r border-border p-5">
+      <aside className="space-y-5 border-b border-border p-4 sm:p-5 lg:overflow-y-auto lg:border-b-0 lg:border-r">
         <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary">Зріз мережі</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary">{t("networkSlice")}</p>
           <div className="mt-3 grid grid-cols-3 gap-px overflow-hidden rounded border border-border bg-border">
             {[
-              ["Вузлів", list.length],
-              ["Verified", verified],
-              ["Черга", list.length - verified],
+              [t("nodes"), list.length],
+              [t("verified"), verified],
+              [t("researchQueue"), list.length - verified],
             ].map(([l, v]) => (
               <div key={l} className="bg-card p-3">
                 <p className="font-display text-2xl tabular-nums">{v}</p>
@@ -51,11 +53,11 @@ function NetworkPage() {
         </div>
         <FilterBar experts={all} f={f} setF={setF} compact />
         <div>
-          <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">Шари кластерів</p>
+          <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">{t("clusterLayers")}</p>
           {([
-            ["sector", "Сектори", "border-primary"],
-            ["theme", "Теми українського досвіду", "border-chart-2"],
-            ["hub", "Хаби / ролі спільноти", "border-chart-5"],
+            ["sector", t("sectors"), "border-primary"],
+            ["theme", t("themes"), "border-chart-2"],
+            ["hub", t("hubs"), "border-chart-5"],
           ] as const).map(([k, l, c]) => (
             <label key={k} className="flex cursor-pointer items-center gap-2 py-1 text-sm">
               <input type="checkbox" checked={layers[k]} onChange={(e) => setLayers({ ...layers, [k]: e.target.checked })} className="accent-primary" />
@@ -65,25 +67,25 @@ function NetworkPage() {
           ))}
         </div>
         <div className="space-y-1.5 border-t border-border pt-4 text-xs text-muted-foreground">
-          <p><span className="mr-2 inline-block h-2 w-2 rounded-full bg-success" />Верифікований експерт</p>
-          <p><span className="mr-2 inline-block h-2 w-2 rounded-full bg-muted-foreground" />Черга ресерчу</p>
-          <p>Розмір вузла — індекс довіри. Клік — фокус на оточенні.</p>
+          <p><span className="mr-2 inline-block h-2 w-2 rounded-full bg-success" />{t("verifiedExpert")}</p>
+          <p><span className="mr-2 inline-block h-2 w-2 rounded-full bg-muted-foreground" />{t("researchQueue")}</p>
+          <p>{t("graphHint")}</p>
         </div>
       </aside>
 
-      <section className="relative min-h-[520px] overflow-hidden bg-[radial-gradient(circle_at_center,var(--color-card),var(--color-background)_70%)]">
+      <section className="relative h-[62svh] min-h-[420px] overflow-hidden bg-[radial-gradient(circle_at_center,var(--color-card),var(--color-background)_70%)] lg:h-auto lg:min-h-0">
         {mounted && !loading && (
           <Suspense fallback={null}>
             <NetworkGraph experts={list} layers={layers} focus={focus} onFocus={setFocus} />
           </Suspense>
         )}
-        {loading && <p className="absolute inset-0 grid place-items-center font-mono text-xs text-muted-foreground">Завантаження мережі…</p>}
+        {loading && <p className="absolute inset-0 grid place-items-center font-mono text-xs text-muted-foreground">{t("loading")}</p>}
         <div className="pointer-events-none absolute left-4 top-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-          Force-directed · {data?.level === "guest" ? "псевдоніми" : "повні дані"}
+          Force-directed · {data?.level === "guest" ? t("aliases") : t("fullData")}
         </div>
       </section>
 
-      <aside className="overflow-y-auto border-l border-border p-5">
+      <aside className="overflow-y-auto border-t border-border p-4 sm:p-5 lg:border-l lg:border-t-0">
         {sel ? (
           <div className="space-y-5">
             <div>
@@ -94,11 +96,11 @@ function NetworkPage() {
             </div>
             <dl className="space-y-3 text-sm">
               {[
-                ["Сектор", sel.sector],
-                ["Географія", sel.country],
-                ["Експертиза", sel.primaryExpertise],
-                ["Український досвід", sel.ukraineTheme],
-                ["Роль в ISRM", sel.communityRole],
+                [t("sector"), sel.sector],
+                [t("geography"), sel.country],
+                [t("expertise"), sel.primaryExpertise],
+                [t("ukraineExperience"), sel.ukraineTheme],
+                [t("isrmRole"), sel.communityRole],
               ].map(([k, v]) => (
                 <div key={k}>
                   <dt className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{k}</dt>
@@ -107,12 +109,12 @@ function NetworkPage() {
               ))}
             </dl>
             <Link to="/experts/$code" params={{ code: sel.code }} className="block rounded bg-primary px-4 py-2 text-center text-sm font-medium text-primary-foreground">
-              Відкрити досьє
+              {t("openDossier")}
             </Link>
           </div>
         ) : (
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary">Найвищий рівень довіри</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary">{t("highestTrust")}</p>
             <ul className="mt-3 divide-y divide-border">
               {[...list].sort((a, b) => b.trust - a.trust).slice(0, 14).map((e) => (
                 <li key={e.code}>

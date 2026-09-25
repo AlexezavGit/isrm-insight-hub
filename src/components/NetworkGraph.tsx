@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import ForceGraph2D from "react-force-graph-2d";
 import type { Expert } from "@/lib/types";
+import { useI18n } from "@/lib/i18n";
 
 type Kind = "expert" | "sector" | "theme" | "hub";
 interface GNode {
@@ -39,6 +40,7 @@ export default function NetworkGraph({
   focus: string | null;
   onFocus: (code: string | null) => void;
 }) {
+  const { t } = useI18n();
   const wrap = useRef<HTMLDivElement>(null);
   const fg = useRef<any>(null);
   const [size, setSize] = useState({ w: 800, h: 600 });
@@ -91,7 +93,7 @@ export default function NetworkGraph({
     const linked = new Set(links.map((l) => l.source as string));
     for (const e of experts) {
       if (!linked.has(e.code)) {
-        ensure("P:queue", "hub", "Черга ресерчу / без класифікації");
+        ensure("P:queue", "hub", t("researchQueue"));
         links.push({ source: e.code, target: "P:queue", kind: "pool" });
       }
     }
@@ -104,7 +106,7 @@ export default function NetworkGraph({
       for (let i = 1; i < codes.length; i++) links.push({ source: codes[0]!, target: codes[i]!, kind: "peer" });
     });
     return { nodes, links };
-  }, [experts, layers]);
+  }, [experts, layers, t]);
 
   const neighbors = useMemo(() => {
     const m = new Map<string, Set<string>>();
