@@ -75,10 +75,10 @@ function Proposal() {
   const c = COPY[locale];
   const [step, setStep] = useState(0);
   const [from, setFrom] = useState("");
-  const [topic, setTopic] = useState(c.topics[0]);
+  const [topic, setTopic] = useState<string>(c.topics[0]);
   const [msg, setMsg] = useState("");
   const [sent, setSent] = useState(false);
-  const s = c.steps[step];
+  const s = c.steps[step] ?? c.steps[0];
   return (
     <main className="mx-auto max-w-6xl px-4 py-8 sm:px-5 sm:py-10">
       <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary">{c.eyebrow}</p>
@@ -99,7 +99,7 @@ function Proposal() {
 
       <section className="mt-16 scroll-mt-20" id="pricing">
         <div className="max-w-3xl"><p className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary">Investment case</p><h2 className="mt-2 font-display text-4xl">{c.pricing}</h2><p className="mt-3 text-muted-foreground">{c.pricingIntro}</p></div>
-        <div className="mt-7 grid gap-4 lg:grid-cols-3">{c.packages.map((p) => <article key={p.name} className={`relative flex flex-col rounded border p-5 ${p.recommended ? "border-primary bg-primary/5" : "border-border bg-card"}`}>{p.recommended && <span className="absolute right-4 top-4 rounded-sm bg-primary px-2 py-1 font-mono text-[9px] uppercase text-primary-foreground">{c.recommended}</span>}<p className="font-mono text-xs uppercase text-muted-foreground">{p.time}</p><h3 className="mt-3 font-display text-3xl">{p.name}</h3><p className="mt-3 text-sm text-muted-foreground">{p.desc}</p><p className="mt-6 font-display text-4xl text-primary">{p.price}</p><p className="text-xs text-muted-foreground">{c.oneTime} · {p.monthly} {c.monthly}</p><ul className="mt-6 flex-1 space-y-3">{p.features.map((feature) => <li key={feature} className="flex gap-2 text-sm"><Check className="mt-0.5 h-4 w-4 shrink-0 text-success" />{feature}</li>)}</ul><Button asChild variant={p.recommended ? "default" : "outline"} className="mt-7 w-full"><a href="#feedback">{c.choose}</a></Button></article>)}</div>
+        <div className="mt-7 grid gap-4 lg:grid-cols-3">{c.packages.map((p) => { const recommended = "recommended" in p && p.recommended; return <article key={p.name} className={`relative flex flex-col rounded border p-5 ${recommended ? "border-primary bg-primary/5" : "border-border bg-card"}`}>{recommended && <span className="absolute right-4 top-4 rounded-sm bg-primary px-2 py-1 font-mono text-[9px] uppercase text-primary-foreground">{c.recommended}</span>}<p className="font-mono text-xs uppercase text-muted-foreground">{p.time}</p><h3 className="mt-3 font-display text-3xl">{p.name}</h3><p className="mt-3 text-sm text-muted-foreground">{p.desc}</p><p className="mt-6 font-display text-4xl text-primary">{p.price}</p><p className="text-xs text-muted-foreground">{c.oneTime} · {p.monthly} {c.monthly}</p><ul className="mt-6 flex-1 space-y-3">{p.features.map((feature) => <li key={feature} className="flex gap-2 text-sm"><Check className="mt-0.5 h-4 w-4 shrink-0 text-success" />{feature}</li>)}</ul><Button asChild variant={recommended ? "default" : "outline"} className="mt-7 w-full"><a href="#feedback">{c.choose}</a></Button></article>; })}</div>
         <div className="mt-5 grid gap-px overflow-hidden rounded border border-border bg-border md:grid-cols-2"><div className="bg-card p-5"><ShieldCheck className="h-5 w-5 text-primary" /><h3 className="mt-3 font-medium">{c.rationale}</h3><p className="mt-2 text-sm text-muted-foreground">{c.rationaleText}</p></div><div className="bg-card p-5"><Server className="h-5 w-5 text-chart-2" /><h3 className="mt-3 font-medium">{c.assumptions}</h3><p className="mt-2 text-sm text-muted-foreground">{c.assumptionsText}</p></div></div>
       </section>
 
