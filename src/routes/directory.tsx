@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { useAccess } from "@/lib/access";
 import { applyFilters, FilterBar, useFilters } from "@/lib/filters";
 import { TrustBar, VerifyBadge } from "@/components/AppShell";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/directory")({
   head: () => ({
@@ -11,6 +12,8 @@ export const Route = createFileRoute("/directory")({
       { name: "description", content: "Пошук і фільтри за 178 записами: верифікація, сектор, географія, український досвід, роль." },
       { property: "og:title", content: "Реєстр експертів — ISRM Ukraine" },
       { property: "og:description", content: "Пошук і фільтри по закритій експертній мережі ISRM Ukraine." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Directory,
@@ -18,32 +21,42 @@ export const Route = createFileRoute("/directory")({
 
 function Directory() {
   const { data, loading } = useAccess();
+  const { t } = useI18n();
   const [f, setF] = useFilters();
   const all = data?.experts ?? [];
   const list = useMemo(() => applyFilters(all, f).sort((a, b) => b.trust - a.trust), [all, f]);
   return (
     <main className="mx-auto max-w-[1600px] px-5 py-8">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary">Реєстр</p>
-          <h1 className="mt-1 font-display text-4xl">Експерти мережі</h1>
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4">
+        <div className="min-w-0">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary">{t("directory")}</p>
+          <h1 className="mt-1 truncate font-display text-3xl sm:text-4xl">{t("experts")}</h1>
         </div>
-        <p className="font-mono text-xs text-muted-foreground">{list.length} / {all.length} записів</p>
+        <p className="shrink-0 font-mono text-xs text-muted-foreground">{list.length} / {all.length} {t("records")}</p>
       </div>
       <div className="mt-6 rounded border border-border bg-card p-4">
         <FilterBar experts={all} f={f} setF={setF} />
       </div>
-      <div className="mt-4 overflow-x-auto rounded border border-border">
+      <div className="mt-4 grid gap-2 md:hidden">
+        {loading && <p className="p-6 text-center text-muted-foreground">{t("loading")}</p>}
+        {list.map((e) => (
+          <Link key={e.code} to="/experts/$code" params={{ code: e.code }} className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 rounded border border-border bg-card p-4">
+            <div className="min-w-0"><p className="font-mono text-[11px] text-primary">{e.code}</p><h2 className="truncate font-medium">{e.displayName}</h2><p className="mt-1 truncate text-xs text-muted-foreground">{e.sector} · {e.country}</p></div>
+            <div className="shrink-0 text-right"><VerifyBadge verified={e.verified} /><div className="mt-2"><TrustBar value={e.trust} /></div></div>
+          </Link>
+        ))}
+      </div>
+      <div className="mt-4 hidden overflow-x-auto rounded border border-border md:block">
         <table className="w-full text-sm">
           <thead className="bg-card font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
             <tr>
-              {["Код", "Експерт", "Сектор", "Географія", "Український досвід", "Роль", "Статус", "Довіра"].map((h) => (
+              {[t("code"), t("expert"), t("sector"), t("geography"), t("ukraineExperience"), t("isrmRole"), t("status"), t("trust")].map((h) => (
                 <th key={h} className="px-3 py-2.5 text-left font-medium">{h}</th>
               ))}
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
-            {loading && <tr><td colSpan={8} className="p-6 text-center text-muted-foreground">Завантаження…</td></tr>}
+            {loading && <tr><td colSpan={8} className="p-6 text-center text-muted-foreground">{t("loading")}</td></tr>}
             {list.map((e) => (
               <tr key={e.code} className="hover:bg-accent/50">
                 <td className="px-3 py-2 font-mono text-xs text-muted-foreground">{e.code}</td>

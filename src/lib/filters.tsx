@@ -1,5 +1,7 @@
 import { useMemo, useState } from "react";
 import type { Expert } from "./types";
+import { useI18n } from "./i18n";
+import { Button } from "@/components/ui/button";
 
 export interface Filters {
   q: string;
@@ -41,6 +43,7 @@ function counts(list: Expert[], k: (e: Expert) => string) {
 }
 
 export function FilterBar({ experts, f, setF, compact }: { experts: Expert[]; f: Filters; setF: (f: Filters) => void; compact?: boolean }) {
+  const { t } = useI18n();
   const opts = useMemo(
     () => ({
       sector: counts(experts, (e) => e.sector),
@@ -56,28 +59,28 @@ export function FilterBar({ experts, f, setF, compact }: { experts: Expert[]; f:
   return (
     <div className={compact ? "space-y-3" : "grid gap-3 md:grid-cols-6"}>
       <div className={compact ? "" : "md:col-span-2"}>
-        <Label c="Пошук" />
-        <input value={f.q} onChange={(e) => setF({ ...f, q: e.target.value })} placeholder="Код, експертиза, тег…" className={sel} />
+        <Label c={t("search")} />
+        <input value={f.q} onChange={(e) => setF({ ...f, q: e.target.value })} placeholder={t("searchPlaceholder")} className={sel} />
       </div>
       <div>
-        <Label c="Верифікація" />
+        <Label c={t("verification")} />
         <div className="flex overflow-hidden rounded border border-input text-xs">
           {([
-            ["all", `Усі ${experts.length}`],
+            ["all", `${t("all")} ${experts.length}`],
             ["verified", `✓ ${vCount}`],
-            ["queue", `Черга ${experts.length - vCount}`],
+            ["queue", `${t("researchQueue")} ${experts.length - vCount}`],
           ] as const).map(([k, l]) => (
-            <button key={k} onClick={() => setF({ ...f, verified: k })} className={`flex-1 px-2 py-1.5 ${f.verified === k ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+            <Button key={k} type="button" variant={f.verified === k ? "default" : "ghost"} onClick={() => setF({ ...f, verified: k })} className="h-auto flex-1 rounded-none px-2 py-1.5 text-[11px]">
               {l}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
       {(["sector", "country", "theme", "role"] as const).map((k) => (
         <div key={k}>
-          <Label c={{ sector: "Сектор", country: "Географія", theme: "Український досвід", role: "Роль в ISRM" }[k]} />
+          <Label c={{ sector: t("sector"), country: t("geography"), theme: t("ukraineExperience"), role: t("isrmRole") }[k]} />
           <select value={f[k]} onChange={(e) => setF({ ...f, [k]: e.target.value })} className={sel}>
-            <option value="">Усі</option>
+            <option value="">{t("all")}</option>
             {opts[k].map(([v, n]) => (
               <option key={v} value={v}>
                 {v} · {n}

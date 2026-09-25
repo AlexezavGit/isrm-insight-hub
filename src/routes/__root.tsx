@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { AccessProvider } from "../lib/access";
+import { I18nProvider } from "../lib/i18n";
 import { AppShell } from "../components/AppShell";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
@@ -121,9 +122,11 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <AccessProvider>
-        <AppShell>
-          <Outlet />
-        </AppShell>
+        <I18nProvider>
+          <AppShell>
+            <Outlet />
+          </AppShell>
+        </I18nProvider>
       </AccessProvider>
     </QueryClientProvider>
   );
