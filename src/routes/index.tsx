@@ -15,6 +15,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Інтерактивний граф 178 експертів ISRM Ukraine: сектори, теми українського досвіду, хаби спільноти." },
       { property: "og:title", content: "Карта мережі — ISRM Ukraine" },
       { property: "og:description", content: "Інтерактивний граф закритої експертної мережі ISRM Ukraine." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: NetworkPage,

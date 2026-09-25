@@ -13,6 +13,8 @@ export const Route = createFileRoute("/experts/$code")({
       { name: "description", content: `Профіль експерта ${params.code}: рівень довіри, компетенції, безпечний запит контакту.` },
       { property: "og:title", content: `Досьє ${params.code} — ISRM Ukraine` },
       { property: "og:description", content: "Профіль експерта закритої мережі ISRM Ukraine." },
+      { property: "og:type", content: "profile" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Dossier,

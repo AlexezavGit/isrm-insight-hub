@@ -12,6 +12,8 @@ export const Route = createFileRoute("/directory")({
       { name: "description", content: "Пошук і фільтри за 178 записами: верифікація, сектор, географія, український досвід, роль." },
       { property: "og:title", content: "Реєстр експертів — ISRM Ukraine" },
       { property: "og:description", content: "Пошук і фільтри по закритій експертній мережі ISRM Ukraine." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Directory,

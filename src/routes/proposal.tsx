@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Check, Server, ShieldCheck, Sparkles } from "lucide-react";
 import { pushInbox } from "@/lib/access";
-import { useI18n, type Locale } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/proposal")({
