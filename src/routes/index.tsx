@@ -22,7 +22,7 @@ export const Route = createFileRoute("/")({
 
 function NetworkPage() {
   const { data, loading } = useAccess();
-  const { locale, t } = useI18n();
+  const { t } = useI18n();
   const [f, setF] = useFilters();
   const [focus, setFocus] = useState<string | null>(null);
   const [layers, setLayers] = useState<GraphLayers>({ sector: true, theme: true, hub: true });
