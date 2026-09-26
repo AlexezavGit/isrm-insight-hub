@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "sdk_version": "3.0.4",
+  "path": "/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "isrm-insight-hub",
+      "version": "0.1.0",
+      "title": "ISRM Insight Hub"
+    },
+    "tools": [
+      {
+        "name": "search_experts",
+        "title": "Search experts",
+        "description": "Search the anonymised ISRM Ukraine expert network by keyword, sector, country or verification status.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "maxLength": 200,
+              "description": "Keyword matched against expertise, tags and themes."
+            },
+            "sector": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Exact sector name."
+            },
+            "country": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Country name."
+            },
+            "verifiedOnly": {
+              "type": "boolean",
+              "description": "Only return verified experts."
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "description": "Max results (default 20)."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_expert",
+        "title": "Get expert profile",
+        "description": "Get the anonymised profile of one expert by code, e.g. EXP-042.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 20,
+              "description": "Expert code like EXP-042."
+            }
+          },
+          "required": [
+            "code"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "network_stats",
+        "title": "Network statistics",
+        "description": "Summary of the ISRM Ukraine expert network: totals, verification, sectors, countries and Ukrainian experience themes.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
