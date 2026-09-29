@@ -8,4 +8,4 @@
 - [x] Add mock compose flows for project tasks, invitations, and targeted alerts.
 - [x] Reframe every capability as a customizable member network service with descriptions and proposal links.
 - [x] Update the proposal with layered architecture and the three-stage service rollout timeline.
-- [ ] Verify desktop and mobile layouts, interactions, and current build status.
+- [x] Verify desktop and mobile layouts, interactions, and current build status.
