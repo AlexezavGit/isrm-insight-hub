@@ -54,8 +54,8 @@ export function FilterBar({ experts, f, setF, compact }: { experts: Expert[]; f:
     [experts],
   );
   const vCount = experts.filter((e) => e.verified).length;
-  const sel = "w-full rounded border border-input bg-background px-2 py-1.5 text-xs outline-none focus:border-primary";
-  const Label = ({ c }: { c: string }) => <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">{c}</p>;
+  const sel = "field py-2 text-sm";
+  const Label = ({ c }: { c: string }) => <p className="tech-label mb-1 text-muted-foreground">{c}</p>;
   return (
     <div className={compact ? "space-y-3" : "grid gap-3 md:grid-cols-6"}>
       <div className={compact ? "" : "md:col-span-2"}>
