@@ -8,10 +8,10 @@ import { useI18n } from "@/lib/i18n";
 export const Route = createFileRoute("/directory")({
   head: () => ({
     meta: [
-      { title: "Реєстр експертів — ISRM Ukraine" },
-      { name: "description", content: "Пошук і фільтри за 178 записами: верифікація, сектор, географія, український досвід, роль." },
-      { property: "og:title", content: "Реєстр експертів — ISRM Ukraine" },
-      { property: "og:description", content: "Пошук і фільтри по закритій експертній мережі ISRM Ukraine." },
+      { title: "Expert Directory — ISRM Ukraine" },
+      { name: "description", content: "Search the expert network by verification, sector, geography, experience and network role." },
+      { property: "og:title", content: "Expert Directory — ISRM Ukraine" },
+      { property: "og:description", content: "A privacy-aware expert directory for the ISRM Ukraine network." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

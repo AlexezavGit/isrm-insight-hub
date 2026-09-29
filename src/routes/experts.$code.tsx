@@ -9,10 +9,10 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/experts/$code")({
   head: ({ params }) => ({
     meta: [
-      { title: `Досьє ${params.code} — ISRM Ukraine` },
-      { name: "description", content: `Профіль експерта ${params.code}: рівень довіри, компетенції, безпечний запит контакту.` },
-      { property: "og:title", content: `Досьє ${params.code} — ISRM Ukraine` },
-      { property: "og:description", content: "Профіль експерта закритої мережі ISRM Ukraine." },
+      { title: `Expert dossier ${params.code} — ISRM Ukraine` },
+      { name: "description", content: `Expert profile ${params.code}: trust level, competencies and secure participation request.` },
+      { property: "og:title", content: `Expert dossier ${params.code} — ISRM Ukraine` },
+      { property: "og:description", content: "A privacy-aware expert profile in the ISRM Ukraine network." },
       { property: "og:type", content: "profile" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
