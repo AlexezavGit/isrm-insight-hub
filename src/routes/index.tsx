@@ -1,138 +1,79 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { ExternalLink, MapPinned, Search, SlidersHorizontal, UserRound, X } from "lucide-react";
 import { useAccess } from "@/lib/access";
 import { applyFilters, FilterBar, useFilters } from "@/lib/filters";
-import { TrustBar, VerifyBadge } from "@/components/AppShell";
+import { AccessControl, TrustBar, VerifyBadge } from "@/components/AppShell";
+import { MemberCabinet } from "@/components/MemberCabinet";
 import type { GraphLayers } from "@/components/NetworkGraph";
 import { useI18n } from "@/lib/i18n";
+import { Button } from "@/components/ui/button";
 
 const NetworkGraph = lazy(() => import("@/components/NetworkGraph"));
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Карта мережі — ISRM Ukraine" },
-      { name: "description", content: "Інтерактивний граф 178 експертів ISRM Ukraine: сектори, теми українського досвіду, хаби спільноти." },
-      { property: "og:title", content: "Карта мережі — ISRM Ukraine" },
-      { property: "og:description", content: "Інтерактивний граф закритої експертної мережі ISRM Ukraine." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
-  component: NetworkPage,
+  head: () => ({ meta: [
+    { title: "ISRM Ukraine — Live Expert Network" },
+    { name: "description", content: "A live, privacy-aware map of verified expertise, sectors and network services." },
+    { property: "og:title", content: "ISRM Ukraine — Live Expert Network" },
+    { property: "og:description", content: "Explore the live expert network, trust signals and operational services." },
+    { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" },
+  ] }), component: NetworkPage,
 });
 
 function NetworkPage() {
   const { data, loading } = useAccess();
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
   const [f, setF] = useFilters();
   const [focus, setFocus] = useState<string | null>(null);
   const [layers, setLayers] = useState<GraphLayers>({ sector: true, theme: true, hub: true });
+  const [searchOpen, setSearchOpen] = useState(true);
+  const [cabinetOpen, setCabinetOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   const all = data?.experts ?? [];
   const list = useMemo(() => applyFilters(all, f), [all, f]);
-  const sel = all.find((e) => e.code === focus);
-  const verified = list.filter((e) => e.verified).length;
+  const selected = all.find((expert) => expert.code === focus);
+  const verified = list.filter((expert) => expert.verified).length;
+  const coverage = Math.round((new Set(list.filter((expert) => expert.sector !== "Unclassified").map((expert) => expert.sector)).size / Math.max(1, new Set(all.filter((expert) => expert.sector !== "Unclassified").map((expert) => expert.sector)).size)) * 100);
+  const copy = locale === "en" ? { live: "Network live", title: "ISRM Ukraine", subtitle: "Expert network command surface", coverage: "Expertise coverage", visible: "Visible experts", search: "Search", cabinet: "Cabinet", war: "War Room", dossier: "Open dossier", send: "Send to project", close: "Close", layers: "Graph layers" } : { live: "Мережа наживо", title: "ISRM Ukraine", subtitle: "Командна поверхня експертної мережі", coverage: "Охоплення експертизи", visible: "Видимі експерти", search: "Пошук", cabinet: "Кабінет", war: "War Room", dossier: "Відкрити досьє", send: "До проєкту", close: "Закрити", layers: "Шари графа" };
 
-  return (
-    <div className="mx-auto grid max-w-[1600px] gap-0 lg:h-[calc(100vh-3.5rem)] lg:grid-cols-[300px_1fr_340px]">
-      <aside className="space-y-5 border-b border-border p-4 sm:p-5 lg:overflow-y-auto lg:border-b-0 lg:border-r">
-        <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary">{t("networkSlice")}</p>
-          <div className="mt-3 grid grid-cols-3 gap-px overflow-hidden rounded border border-border bg-border">
-            {[
-              [t("nodes"), list.length],
-              [t("verified"), verified],
-              [t("researchQueue"), list.length - verified],
-            ].map(([l, v]) => (
-              <div key={l} className="bg-card p-3">
-                <p className="font-display text-2xl tabular-nums">{v}</p>
-                <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{l}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-        <FilterBar experts={all} f={f} setF={setF} compact />
-        <div>
-          <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">{t("clusterLayers")}</p>
-          {([
-            ["sector", t("sectors"), "border-primary"],
-            ["theme", t("themes"), "border-chart-2"],
-            ["hub", t("hubs"), "border-chart-5"],
-          ] as const).map(([k, l, c]) => (
-            <label key={k} className="flex cursor-pointer items-center gap-2 py-1 text-sm">
-              <input type="checkbox" checked={layers[k]} onChange={(e) => setLayers({ ...layers, [k]: e.target.checked })} className="accent-primary" />
-              <span className={`h-2.5 w-2.5 rounded-full border-2 ${c}`} />
-              {l}
-            </label>
-          ))}
-        </div>
-        <div className="space-y-1.5 border-t border-border pt-4 text-xs text-muted-foreground">
-          <p><span className="mr-2 inline-block h-2 w-2 rounded-full bg-success" />{t("verifiedExpert")}</p>
-          <p><span className="mr-2 inline-block h-2 w-2 rounded-full bg-muted-foreground" />{t("researchQueue")}</p>
-          <p>{t("graphHint")}</p>
-        </div>
-      </aside>
+  return <main className="relative h-[100svh] min-h-[640px] overflow-hidden">
+    <section className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--color-card),transparent_68%)]">
+      {mounted && !loading && <Suspense fallback={null}><NetworkGraph experts={list} layers={layers} focus={focus} onFocus={(code) => code?.startsWith("S:") || code?.startsWith("T:") || code?.startsWith("H:") || code === "P:queue" ? undefined : setFocus(code)} /></Suspense>}
+      {loading && <p className="absolute inset-0 grid place-items-center tech-label text-muted-foreground">{t("loading")}</p>}
+    </section>
 
-      <section className="relative h-[62svh] min-h-[420px] overflow-hidden bg-[radial-gradient(circle_at_center,var(--color-card),var(--color-background)_70%)] lg:h-auto lg:min-h-0">
-        {mounted && !loading && (
-          <Suspense fallback={null}>
-            <NetworkGraph experts={list} layers={layers} focus={focus} onFocus={setFocus} />
-          </Suspense>
-        )}
-        {loading && <p className="absolute inset-0 grid place-items-center font-mono text-xs text-muted-foreground">{t("loading")}</p>}
-        <div className="pointer-events-none absolute left-4 top-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-          Force-directed · {data?.level === "guest" ? t("aliases") : t("fullData")}
-        </div>
-      </section>
+    <header className="pointer-events-none absolute inset-x-0 top-0 z-30 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3 p-3 sm:p-5">
+      <div className="min-w-0"><div className="inline-flex items-center gap-2 rounded border border-border bg-panel/70 px-3 py-2 backdrop-blur-xl"><span className="h-2 w-2 animate-pulse rounded-full bg-success" /><span className="tech-label text-success">{copy.live}</span><span className="hidden h-4 w-px bg-border sm:block" /><span className="hidden truncate font-display text-sm sm:block">{copy.title} · {copy.subtitle}</span></div></div>
+      <div className="pointer-events-auto shrink-0"><AccessControl /></div>
+    </header>
 
-      <aside className="overflow-y-auto border-t border-border p-4 sm:p-5 lg:border-l lg:border-t-0">
-        {sel ? (
-          <div className="space-y-5">
-            <div>
-              <p className="font-mono text-xs text-primary">{sel.code}</p>
-              <h2 className="mt-1 font-display text-2xl leading-tight">{sel.displayName}</h2>
-              {sel.organization && <p className="mt-1 text-sm text-muted-foreground">{sel.role} · {sel.organization}</p>}
-              <div className="mt-3 flex items-center gap-3"><VerifyBadge verified={sel.verified} /><TrustBar value={sel.trust} /></div>
-            </div>
-            <dl className="space-y-3 text-sm">
-              {[
-                [t("sector"), sel.sector],
-                [t("geography"), sel.country],
-                [t("expertise"), sel.primaryExpertise],
-                [t("ukraineExperience"), sel.ukraineTheme],
-                [t("isrmRole"), sel.communityRole],
-              ].map(([k, v]) => (
-                <div key={k}>
-                  <dt className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{k}</dt>
-                  <dd className="mt-0.5">{v}</dd>
-                </div>
-              ))}
-            </dl>
-            <Link to="/experts/$code" params={{ code: sel.code }} className="block rounded bg-primary px-4 py-2 text-center text-sm font-medium text-primary-foreground">
-              {t("openDossier")}
-            </Link>
-          </div>
-        ) : (
-          <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary">{t("highestTrust")}</p>
-            <ul className="mt-3 divide-y divide-border">
-              {[...list].sort((a, b) => b.trust - a.trust).slice(0, 14).map((e) => (
-                <li key={e.code}>
-                  <button onClick={() => setFocus(e.code)} className="flex w-full items-center justify-between gap-3 py-2 text-left hover:text-primary">
-                    <span className="min-w-0">
-                      <span className="block font-mono text-[11px] text-muted-foreground">{e.code}</span>
-                      <span className="block truncate text-sm">{e.displayName}</span>
-                    </span>
-                    <TrustBar value={e.trust} />
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </aside>
-    </div>
-  );
+    {searchOpen && <aside className="absolute inset-x-3 top-16 z-20 max-h-[52svh] overflow-y-auto rounded border border-border bg-panel/78 p-4 shadow-2xl backdrop-blur-xl sm:inset-x-auto sm:left-5 sm:top-20 sm:max-h-[calc(100svh-11rem)] sm:w-[310px]">
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3"><div><p className="tech-label text-primary">{t("networkSlice")}</p><h1 className="mt-1 font-display text-2xl">{copy.visible}</h1></div><Button variant="ghost" size="icon" onClick={() => setSearchOpen(false)} aria-label={copy.close}><X /></Button></div>
+      <div className="mt-4 grid grid-cols-3 gap-px overflow-hidden rounded border border-border bg-border text-center">
+        <Metric value={list.length} label={t("nodes")} /><Metric value={verified} label={t("verified")} /><Metric value={coverage} suffix="%" label={copy.coverage} />
+      </div>
+      <div className="mt-3"><div className="flex justify-between tech-label text-muted-foreground"><span>{t("verified")}</span><span>{verified} → {list.length - verified}</span></div><div className="mt-2 flex h-1.5 overflow-hidden rounded bg-muted"><div className="bg-success transition-all duration-700" style={{ width: `${list.length ? (verified / list.length) * 100 : 0}%` }} /><div className="bg-brass/70 transition-all duration-700" style={{ width: `${list.length ? ((list.length - verified) / list.length) * 100 : 0}%` }} /></div></div>
+      <div className="mt-5"><FilterBar experts={all} f={f} setF={setF} compact /></div>
+      <div className="mt-5 border-t border-border pt-4"><p className="tech-label mb-2 text-muted-foreground">{copy.layers}</p>{([ ["sector", t("sectors"), "border-primary"], ["theme", t("themes"), "border-brass"], ["hub", t("hubs"), "border-success"] ] as const).map(([key, label, color]) => <label key={key} className="flex cursor-pointer items-center gap-2 py-1.5 text-sm"><input type="checkbox" checked={layers[key]} onChange={(event) => setLayers({ ...layers, [key]: event.target.checked })} className="accent-primary" /><span className={`h-2.5 w-2.5 rounded-full border-2 ${color}`} />{label}</label>)}</div>
+    </aside>}
+
+    {selected && <aside className="blueprint-corners absolute bottom-24 left-3 right-3 z-20 rounded border border-border bg-panel/82 p-4 shadow-2xl backdrop-blur-xl sm:left-auto sm:right-5 sm:w-[330px]">
+      <button onClick={() => setFocus(null)} className="absolute right-3 top-3 text-muted-foreground hover:text-foreground" aria-label={copy.close}><X className="h-4 w-4" /></button>
+      <p className="tech-label text-primary">{selected.code} · {data?.level === "guest" ? t("aliases") : t("fullData")}</p><h2 className="mt-2 pr-7 font-display text-2xl leading-tight">{selected.displayName}</h2>{selected.organization && <p className="mt-1 text-sm text-muted-foreground">{selected.role} · {selected.organization}</p>}
+      <div className="mt-3 flex items-center gap-3"><VerifyBadge verified={selected.verified} /><TrustBar value={selected.trust} /></div><p className="mt-4 text-sm leading-relaxed text-muted-foreground">{selected.primaryExpertise}</p>
+      <div className="mt-4 grid grid-cols-2 gap-2"><Button asChild variant="outline"><Link to="/experts/$code" params={{ code: selected.code }}>{copy.dossier}</Link></Button><Button onClick={() => { setCabinetOpen(true); }}>{copy.send}</Button></div>
+    </aside>}
+
+    <nav className="absolute bottom-4 left-1/2 z-40 flex -translate-x-1/2 items-center gap-1 rounded border border-border bg-panel/88 p-1.5 shadow-2xl backdrop-blur-2xl">
+      <DockButton icon={Search} label={copy.search} active={searchOpen} onClick={() => { setSearchOpen(!searchOpen); setCabinetOpen(false); }} />
+      <DockButton icon={UserRound} label={copy.cabinet} active={cabinetOpen} onClick={() => { setCabinetOpen(true); setSearchOpen(false); }} />
+      <Button asChild variant="ghost" className="h-14 min-w-20 flex-col gap-1 px-3"><a href="https://worldmonitor.app/" target="_blank" rel="noreferrer"><MapPinned className="h-5 w-5" /><span className="text-xs">{copy.war}</span><ExternalLink className="absolute right-1 top-1 h-2.5 w-2.5" /></a></Button>
+    </nav>
+    <MemberCabinet open={cabinetOpen} onClose={() => setCabinetOpen(false)} onFindExpert={() => { setCabinetOpen(false); setSearchOpen(true); }} />
+  </main>;
 }
+
+function Metric({ value, suffix = "", label }: { value: number; suffix?: string; label: string }) { return <div className="bg-card/75 p-2.5"><p className="font-display text-2xl tabular-nums text-foreground">{value}{suffix}</p><p className="tech-label truncate text-muted-foreground">{label}</p></div>; }
+function DockButton({ icon: Icon, label, active, onClick }: { icon: typeof SlidersHorizontal; label: string; active: boolean; onClick: () => void }) { return <Button variant={active ? "secondary" : "ghost"} onClick={onClick} className="h-14 min-w-20 flex-col gap-1 px-3"><Icon className={active ? "text-primary" : "text-muted-foreground"} /><span className="text-xs">{label}</span></Button>; }
