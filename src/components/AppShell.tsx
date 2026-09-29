@@ -1,80 +1,24 @@
-import { Link } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Lock, Unlock, ShieldCheck } from "lucide-react";
+import { LogIn, LogOut, ShieldCheck } from "lucide-react";
 import { useAccess } from "@/lib/access";
 import { checkAccess } from "@/lib/network.functions";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 
-const NAV = [
-  { to: "/", label: "network" },
-  { to: "/directory", label: "directory" },
-  { to: "/proposal", label: "proposal" },
-  { to: "/coordinator", label: "coordinator" },
-] as const;
-
 export function AppShell({ children }: { children: ReactNode }) {
+  return <div className="min-h-screen bg-background text-foreground">{children}</div>;
+}
+
+export function AccessControl() {
   const { data, setCode } = useAccess();
-  const { locale, setLocale, t } = useI18n();
+  const { locale, setLocale } = useI18n();
   const [open, setOpen] = useState(false);
   const level = data?.level ?? "guest";
-  return (
-    <div className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
-        <div className="mx-auto grid min-h-14 max-w-[1600px] grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-2 sm:flex sm:px-5">
-          <Link to="/" className="flex min-w-0 items-baseline gap-2">
-            <span className="font-display text-xl tracking-tight">ISRM</span>
-            <span className="truncate font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Ukraine · Network</span>
-          </Link>
-          <nav className="hidden gap-1 md:flex">
-            {NAV.map((n) => (
-              <Link
-                key={n.to}
-                to={n.to}
-                activeOptions={{ exact: n.to === "/" }}
-                className="rounded px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
-                activeProps={{ className: "bg-secondary text-foreground" }}
-              >
-                {t(n.label)}
-              </Link>
-            ))}
-          </nav>
-          <div className="flex shrink-0 items-center gap-2 sm:ml-auto">
-            <div className="flex rounded border border-border p-0.5" aria-label="Language">
-              {(["uk", "en"] as const).map((code) => (
-                <Button key={code} type="button" variant={locale === code ? "secondary" : "ghost"} size="sm" onClick={() => setLocale(code)} className="h-7 px-2 font-mono text-[10px] uppercase">
-                  {code}
-                </Button>
-              ))}
-            </div>
-            <span className="hidden font-mono text-[11px] uppercase tracking-wider text-muted-foreground sm:inline">
-              {level === "guest" ? t("anonymous") : data?.grantedBy}
-            </span>
-            {level === "guest" ? (
-              <Button onClick={() => setOpen(true)} variant="outline" size="sm" aria-label={t("reveal")} title={t("reveal")}>
-                <Lock className="h-3.5 w-3.5" /><span className="hidden lg:inline">{t("reveal")}</span>
-              </Button>
-            ) : (
-              <Button onClick={() => setCode("")} variant="outline" size="sm" className="border-primary/50 bg-primary/10 text-primary">
-                {level === "coordinator" ? <ShieldCheck className="h-3.5 w-3.5" /> : <Unlock className="h-3.5 w-3.5" />}
-                <span className="hidden lg:inline">{t("exitAccess")}</span>
-              </Button>
-            )}
-          </div>
-        </div>
-        <nav className="flex gap-1 overflow-x-auto border-t border-border px-3 py-1 md:hidden">
-          {NAV.map((n) => (
-            <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} className="whitespace-nowrap rounded px-2 py-1 text-xs text-muted-foreground" activeProps={{ className: "bg-secondary text-foreground" }}>
-              {t(n.label)}
-            </Link>
-          ))}
-        </nav>
-      </header>
-      {children}
-      {open && <UnlockDialog onClose={() => setOpen(false)} />}
-    </div>
-  );
+  return <><div className="flex items-center gap-1 rounded border border-border bg-panel/75 p-1 backdrop-blur-xl">
+    {(["en", "uk"] as const).map((code) => <Button key={code} variant={locale === code ? "secondary" : "ghost"} size="sm" onClick={() => setLocale(code)} className="h-7 px-2 font-mono text-[10px] uppercase">{code}</Button>)}
+    {level === "guest" ? <Button onClick={() => setOpen(true)} size="sm"><LogIn />Sign in</Button> : <Button onClick={() => setCode("")} variant="outline" size="sm" className="border-primary/60 bg-primary/10 text-primary">{level === "coordinator" ? <ShieldCheck /> : <LogOut />}<span className="hidden sm:inline">Sign out</span></Button>}
+  </div>{open && <UnlockDialog onClose={() => setOpen(false)} />}</>;
 }
 
 function UnlockDialog({ onClose }: { onClose: () => void }) {

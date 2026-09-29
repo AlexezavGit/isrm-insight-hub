@@ -60,7 +60,8 @@ export default function NetworkGraph({
   );
 
   useEffect(() => {
-    const el = wrap.current!;
+    const el = wrap.current;
+    if (!el) return;
     const ro = new ResizeObserver(() => setSize({ w: el.clientWidth, h: el.clientHeight }));
     ro.observe(el);
     return () => ro.disconnect();
@@ -115,8 +116,8 @@ export default function NetworkGraph({
       const t = typeof l.target === "string" ? l.target : l.target.id;
       if (!m.has(s)) m.set(s, new Set());
       if (!m.has(t)) m.set(t, new Set());
-      m.get(s)!.add(t);
-      m.get(t)!.add(s);
+      m.get(s)?.add(t);
+      m.get(t)?.add(s);
     });
     return m;
   }, [data]);
@@ -140,8 +141,8 @@ export default function NetworkGraph({
   useEffect(() => {
     const f = fg.current;
     if (!f) return;
-    f.d3Force("charge")?.strength(-45);
-    f.d3Force("link")?.distance((l: GLink) => (l.kind === "peer" ? 15 : l.kind === "pool" ? 70 : 55));
+    f.d3Force("charge")?.strength(-34);
+    f.d3Force("link")?.distance((l: GLink) => (l.kind === "peer" ? 12 : l.kind === "pool" ? 54 : 42));
   }, [data]);
 
   return (
@@ -188,11 +189,11 @@ export default function NetworkGraph({
               ctx.arc(n.x, n.y, r + 3 / scale + 1, 0, 2 * Math.PI);
               ctx.stroke();
             }
-            if (scale > 2.2 || n.id === active) {
-              ctx.font = `${10 / scale}px IBM Plex Mono`;
+            if (scale > 1.85 || n.id === active) {
+              ctx.font = `500 ${12 / scale}px Space Grotesk`;
               ctx.fillStyle = colors.fg;
               ctx.textAlign = "center";
-              ctx.fillText(e.code, n.x, n.y + r + 9 / scale);
+              ctx.fillText(e.displayName, n.x, n.y + r + 11 / scale);
             }
           } else {
             const col = n.kind === "sector" ? colors.primary : n.kind === "theme" ? colors.c2 : colors.c5;
@@ -205,7 +206,7 @@ export default function NetworkGraph({
             ctx.strokeStyle = col;
             ctx.stroke();
             if (n.size < 4 && scale < 1.6 && n.id !== active) { ctx.globalAlpha = 1; return; }
-            ctx.font = `500 ${Math.max(11 / scale, 3)}px IBM Plex Sans`;
+            ctx.font = `600 ${Math.max(13 / scale, 3.5)}px Space Grotesk`;
             ctx.fillStyle = col;
             ctx.textAlign = "center";
             ctx.fillText(n.label.length > 38 ? n.label.slice(0, 36) + "…" : n.label, n.x, n.y - r - 4 / scale);
@@ -218,6 +219,6 @@ export default function NetworkGraph({
 }
 
 function radius(n: GNode) {
-  if (n.kind === "expert") return 2 + (n.expert!.trust / 100) * 3.5;
+  if (n.kind === "expert") return 2 + ((n.expert?.trust ?? 0) / 100) * 3.5;
   return 4 + Math.sqrt(n.size) * 1.6;
 }

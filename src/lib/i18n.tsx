@@ -22,7 +22,7 @@ interface I18nContextValue { locale: Locale; setLocale: (locale: Locale) => void
 const I18nContext = createContext<I18nContextValue | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>("uk");
+  const [locale, setLocaleState] = useState<Locale>("en");
   useEffect(() => {
     const saved = localStorage.getItem("isrm-locale");
     if (saved === "uk" || saved === "en") setLocaleState(saved);
