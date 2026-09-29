@@ -8,10 +8,10 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/coordinator")({
   head: () => ({
     meta: [
-      { title: "Кабінет координатора — ISRM Ukraine" },
-      { name: "description", content: "Вхідні запити контактів та пропозиції від ЛПР для координатора мережі." },
-      { property: "og:title", content: "Кабінет координатора — ISRM Ukraine" },
-      { property: "og:description", content: "Черга запитів та відгуків координатора ISRM Ukraine." },
+      { title: "Member Cabinet — ISRM Ukraine" },
+      { name: "description", content: "Member projects, expert requests, communications and network service operations." },
+      { property: "og:title", content: "Member Cabinet — ISRM Ukraine" },
+      { property: "og:description", content: "Operational workspace and network services for verified ISRM Ukraine members." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
