@@ -65,11 +65,16 @@ export function buildExperts(level: AccessLevel): Expert[] {
   });
 }
 
+// Public/MCP surface: always anonymised guest data, never parameterised by access level.
+export function buildPublicExperts(): Expert[] {
+  return buildExperts("guest");
+}
+
 export function resolveAccess(code: string | undefined): { level: AccessLevel; grantedBy?: string } {
   const c = (code || "").trim();
   if (!c) return { level: "guest" };
-  const admin = process.env["ISRM_ADMIN_CODE"] || "ISRM-COORD-2026";
-  if (c === admin) return { level: "coordinator", grantedBy: "Координатор" };
+  const admin = process.env["ISRM_ADMIN_CODE"];
+  if (admin && admin.length >= 12 && c === admin) return { level: "coordinator", grantedBy: "Координатор" };
   const norm = c.toLowerCase();
   const ref = (raw as Raw[]).find(
     (r) =>

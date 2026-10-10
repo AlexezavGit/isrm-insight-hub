@@ -1,5 +1,5 @@
 import { defineTool } from "@lovable.dev/mcp-js";
-import { buildExperts } from "../../experts.server";
+import { buildPublicExperts } from "../../experts.server";
 
 const count = (xs: string[]) => {
   const m: Record<string, number> = {};
@@ -14,7 +14,7 @@ export default defineTool({
   inputSchema: {},
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: () => {
-    const all = buildExperts("guest");
+    const all = buildPublicExperts();
     const stats = {
       total: all.length,
       verified: all.filter((e) => e.verified).length,

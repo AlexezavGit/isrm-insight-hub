@@ -47,7 +47,7 @@ function UnlockDialog({ onClose }: { onClose: () => void }) {
         <input autoFocus value={val} onChange={(e) => setVal(e.target.value)} placeholder="EXP-004 · ім'я · пароль" className="mt-5 w-full rounded border border-input bg-background px-3 py-2.5 font-mono text-sm outline-none focus:border-primary" />
         {err && <p className="mt-2 text-sm text-destructive">{err}</p>}
         <div className="mt-3 rounded border border-dashed border-border p-3 font-mono text-[11px] text-muted-foreground">
-          {t("demo")}: <span className="text-foreground">EXP-004</span> · <span className="text-foreground">ISRM-COORD-2026</span>
+          {t("demo")}: <span className="text-foreground">EXP-004</span>
         </div>
         <div className="mt-5 flex justify-end gap-2">
           <Button type="button" onClick={onClose} variant="ghost">{t("cancel")}</Button>
