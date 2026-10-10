@@ -1,6 +1,6 @@
 import { defineTool, ToolError } from "@lovable.dev/mcp-js";
 import { z } from "zod";
-import { buildExperts } from "../../experts.server";
+import { buildPublicExperts } from "../../experts.server";
 import { toPublicExpert } from "../shape";
 
 export default defineTool({
@@ -10,7 +10,7 @@ export default defineTool({
   inputSchema: { code: z.string().min(1).max(20).describe("Expert code like EXP-042.") },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: ({ code }) => {
-    const e = buildExperts("guest").find((x) => x.code.toLowerCase() === code.trim().toLowerCase());
+    const e = buildPublicExperts().find((x) => x.code.toLowerCase() === code.trim().toLowerCase());
     if (!e) throw new ToolError(`No expert with code ${code}`);
     const expert = toPublicExpert(e);
     return { content: [{ type: "text", text: JSON.stringify(expert) }], structuredContent: { expert } };

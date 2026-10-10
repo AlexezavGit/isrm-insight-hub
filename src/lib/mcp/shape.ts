@@ -1,6 +1,7 @@
 import type { Expert } from "../types";
 
 // Anonymised fields only — never names, organisations or contacts.
+// Explicit allow-list: fields are copied individually so revealed fields can never leak.
 export const toPublicExpert = (e: Expert) => ({
   code: e.code,
   pseudonym: e.displayName,

@@ -1,6 +1,6 @@
 import { defineTool } from "@lovable.dev/mcp-js";
 import { z } from "zod";
-import { buildExperts } from "../../experts.server";
+import { buildPublicExperts } from "../../experts.server";
 import { toPublicExpert } from "../shape";
 
 export default defineTool({
@@ -17,7 +17,7 @@ export default defineTool({
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: ({ query, sector, country, verifiedOnly, limit }) => {
     const q = query?.toLowerCase();
-    const list = buildExperts("guest")
+    const list = buildPublicExperts()
       .filter((e) => !verifiedOnly || e.verified)
       .filter((e) => !sector || e.sector.toLowerCase() === sector.toLowerCase())
       .filter((e) => !country || e.country.toLowerCase() === country.toLowerCase())
