@@ -5,7 +5,7 @@ import { oauthReturnPath } from "@/lib/oauth-return-path";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/login")({
-  validateSearch: (s: Record<string, unknown>) => ({ next: oauthReturnPath(s.next) }),
+  validateSearch: (s: Record<string, unknown>) => ({ next: oauthReturnPath(s['next']) }),
   head: () => ({
     meta: [
       { title: "Sign in — ISRM Ukraine" },
