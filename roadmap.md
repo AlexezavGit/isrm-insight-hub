@@ -10,4 +10,4 @@
 - [x] Update the proposal with layered architecture and the three-stage service rollout timeline.
 - [x] Verify desktop and mobile layouts, interactions, and current build status.
 
-- [ ] Security: decide referral-code access model and public agent tools (pending user choice)
+- [x] Security: agent tools now require sign-in; referral-code findings pending a decision
