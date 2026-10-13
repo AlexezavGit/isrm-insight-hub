@@ -12,10 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CoordinatorRouteImport } from './routes/coordinator'
 import { Route as DirectoryRouteImport } from './routes/directory'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as ProposalRouteImport } from './routes/proposal'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as ExpertsCodeRouteImport } from './routes/experts.$code'
+import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -30,6 +32,11 @@ const CoordinatorRoute = CoordinatorRouteImport.update({
 const DirectoryRoute = DirectoryRouteImport.update({
   id: '/directory',
   path: '/directory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const McpRoute = McpRouteImport.update({
@@ -53,34 +60,45 @@ const ExpertsCodeRoute = ExpertsCodeRouteImport.update({
   path: '/experts/$code',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
+  id: '/.lovable/oauth/consent',
+  path: '/.lovable/oauth/consent',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/coordinator': typeof CoordinatorRoute
   '/directory': typeof DirectoryRoute
+  '/login': typeof LoginRoute
   '/mcp': typeof McpRoute
   '/proposal': typeof ProposalRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/experts/$code': typeof ExpertsCodeRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/coordinator': typeof CoordinatorRoute
   '/directory': typeof DirectoryRoute
+  '/login': typeof LoginRoute
   '/mcp': typeof McpRoute
   '/proposal': typeof ProposalRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/experts/$code': typeof ExpertsCodeRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/coordinator': typeof CoordinatorRoute
   '/directory': typeof DirectoryRoute
+  '/login': typeof LoginRoute
   '/mcp': typeof McpRoute
   '/proposal': typeof ProposalRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/experts/$code': typeof ExpertsCodeRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -88,38 +106,46 @@ export interface FileRouteTypes {
     | '/'
     | '/coordinator'
     | '/directory'
+    | '/login'
     | '/mcp'
     | '/proposal'
     | '/.well-known/oauth-protected-resource'
     | '/experts/$code'
+    | '/.lovable/oauth/consent'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/coordinator'
     | '/directory'
+    | '/login'
     | '/mcp'
     | '/proposal'
     | '/.well-known/oauth-protected-resource'
     | '/experts/$code'
+    | '/.lovable/oauth/consent'
   id:
     | '__root__'
     | '/'
     | '/coordinator'
     | '/directory'
+    | '/login'
     | '/mcp'
     | '/proposal'
     | '/.well-known/oauth-protected-resource'
     | '/experts/$code'
+    | '/.lovable/oauth/consent'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CoordinatorRoute: typeof CoordinatorRoute
   DirectoryRoute: typeof DirectoryRoute
+  LoginRoute: typeof LoginRoute
   McpRoute: typeof McpRoute
   ProposalRoute: typeof ProposalRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ExpertsCodeRoute: typeof ExpertsCodeRoute
+  DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -143,6 +169,13 @@ declare module '@tanstack/react-router' {
       path: '/directory'
       fullPath: '/directory'
       preLoaderRoute: typeof DirectoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mcp': {
@@ -173,6 +206,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExpertsCodeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.lovable/oauth/consent': {
+      id: '/.lovable/oauth/consent'
+      path: '/.lovable/oauth/consent'
+      fullPath: '/.lovable/oauth/consent'
+      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -180,11 +220,13 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CoordinatorRoute: CoordinatorRoute,
   DirectoryRoute: DirectoryRoute,
+  LoginRoute: LoginRoute,
   McpRoute: McpRoute,
   ProposalRoute: ProposalRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   ExpertsCodeRoute: ExpertsCodeRoute,
+  DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -3,13 +3,17 @@
   "sdk_version": "3.0.4",
   "path": "/mcp",
   "auth": {
-    "type": "none"
+    "type": "oauth",
+    "issuer": "https://ebdmmqcmcgvhcturptzh.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
   },
   "mcp": {
     "server": {
-      "name": "isrm-insight-hub",
-      "version": "0.1.0",
-      "title": "ISRM Insight Hub"
+      "name": "isrm-connect-forge",
+      "version": "0.2.0",
+      "title": "Isrm Connect Forge"
     },
     "tools": [
       {
