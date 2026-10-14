@@ -38,15 +38,15 @@ export default function NetworkGraph({
   onFocus,
   serviceMode = false,
   showExpertsOnServices = false,
+  locale = "en",
 }: {
   experts: Expert[];
   layers: GraphLayers;
   focus: string | null;
   onFocus: (code: string | null) => void;
-  /** When true, show service functions graph (cycle ring) instead of expert graph */
   serviceMode?: boolean;
-  /** When true (dependencies mode), clicking a service node reveals connected expert nodes */
   showExpertsOnServices?: boolean;
+  locale?: string;
 }) {
   const { t } = useI18n();
   const wrap = useRef<HTMLDivElement>(null);
@@ -96,18 +96,18 @@ export default function NetworkGraph({
     const nodes: GNode[] = [];
     const links: GLink[] = [];
     // Central node: MVP application (single hub)
-    nodes.push({ id: "hub:mvp", kind: "hub", label: "MVP Application", size: 8, fx: 0, fy: 0 } as GNode & { fx: number; fy: number });
+    nodes.push({ id: "hub:mvp", kind: "hub", label: locale === "uk" ? "MVP Застосунок" : "MVP Application", size: 8, fx: 0, fy: 0 } as GNode & { fx: number; fy: number });
     // Engagement cycle services — ordered as the cycle on proposal page
     // These correspond to the pilot-group PROPOSAL_FUNCTIONS + key engagement steps
     const cycleServices = [
-      { id: "svc:members",    label: "Active Members",         kind: "sector" as const },
-      { id: "svc:agenda",     label: "Expert Agenda",          kind: "sector" as const },
-      { id: "svc:discussions",label: "Discussions",            kind: "theme" as const },
-      { id: "svc:reports",    label: "Reports + Case Library", kind: "theme" as const },
-      { id: "svc:expertise",  label: "Network Expertise / TII",kind: "theme" as const },
-      { id: "svc:membership", label: "New Memberships",        kind: "sector" as const },
-      { id: "svc:warroom",    label: "War Room",               kind: "sector" as const },
-      { id: "svc:conference", label: "Conference + Almanac",   kind: "sector" as const },
+      { id: "svc:members",    label: locale === "uk" ? "Активні члени"          : "Active Members",         kind: "sector" as const },
+      { id: "svc:agenda",     label: locale === "uk" ? "Адженда обговорень"       : "Expert Agenda",          kind: "sector" as const },
+      { id: "svc:discussions",label: locale === "uk" ? "Обговорення"              : "Discussions",            kind: "theme" as const },
+      { id: "svc:reports",    label: locale === "uk" ? "Звіти та кейси"           : "Reports + Cases",        kind: "theme" as const },
+      { id: "svc:expertise",  label: locale === "uk" ? "Мережева експертиза / TII": "Network Expertise / TII",kind: "theme" as const },
+      { id: "svc:membership", label: locale === "uk" ? "Нові членства"            : "New Memberships",        kind: "sector" as const },
+      { id: "svc:warroom",    label: locale === "uk" ? "War Room"                 : "War Room",               kind: "sector" as const },
+      { id: "svc:conference", label: locale === "uk" ? "Конференція + Альманах"   : "Conference + Almanac",   kind: "sector" as const },
     ];
     // Place cycle nodes with initial positions in a circle
     const R = 180; // radius of the service ring
@@ -285,9 +285,37 @@ export default function NetworkGraph({
             return activeSet.has(s) && activeSet.has(t) ? colors.primary : "rgba(120,120,130,0.05)";
           return l.kind === "peer" ? colors.primary : "rgba(150,150,160,0.12)";
         }}
-        linkWidth={(l: any) =>
-          activeSet && activeSet.has(l.source.id) && activeSet.has(l.target.id) ? 1.2 : 0.5
-        }
+        linkWidth={(l: any) => {
+          if (l.kind === "dependency") return 1.0;
+          return activeSet && activeSet.has(l.source.id) && activeSet.has(l.target.id) ? 1.2 : 0.5;
+        }}
+        linkCanvasObject={(l: any, ctx, scale) => {
+          if (l.kind !== "dependency") return;
+          // Draw edge label showing the dependency value
+          const source = l.source as GNode;
+          const target = l.target as GNode;
+          if (source?.x == null || source?.y == null || target?.x == null || target?.y == null) return;
+          const mx = (source.x + target.x) / 2;
+          const my = (source.y + target.y) / 2;
+          const labels: Record<string, string> = {
+            "svc:membership": locale === "uk" ? "нове членство" : "new member",
+            "svc:conference": locale === "uk" ? "конференція" : "conference",
+            "svc:reports":    locale === "uk" ? "публікація"   : "publication",
+            "svc:expertise":  locale === "uk" ? "TII"          : "TII",
+            "svc:discussions":locale === "uk" ? "обговорення"  : "discussion",
+          };
+          const targetId = typeof target.id === "string" ? target.id : "";
+          const lbl = labels[targetId];
+          if (!lbl) return;
+          ctx.save();
+          ctx.font = `500 ${Math.max(7 / scale, 4)}px Space Grotesk`;
+          ctx.fillStyle = colors.success + "cc";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(lbl, mx, my);
+          ctx.restore();
+        }}
+        linkCanvasObjectMode={() => "after"}
         onNodeHover={(n: any) => setHover(n?.id ?? null)}
         onNodeClick={(n: any) => {
           // In deps mode: clicking a service node toggles its expert connections

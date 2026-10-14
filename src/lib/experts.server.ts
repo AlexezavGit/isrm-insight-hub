@@ -16,9 +16,9 @@ export interface PartnerPreview {
 }
 
 function ukraineCategory(t: string) {
-  if (!t) return "Не оцінено";
+  if (!t) return "Not assessed";
   if (t.includes("— verify") || t.includes("— assess")) return t.replace(/ — (verify|assess)$/, "");
-  return "Задокументований український кейс";
+  return "Documented Ukrainian case";
 }
 
 export function buildExperts(level: AccessLevel): Expert[] {

@@ -422,7 +422,7 @@ export function MemberCabinet({
     locale === "en"
       ? {
         eyebrow: "Member cabinet · demo profile",
-        title: "Network services",
+        title: "Customisable network services",
         member: "Verified member",
         directory: "Expert directory",
         projects: "Active projects",
@@ -472,7 +472,7 @@ export function MemberCabinet({
   }, [active]);
   if (!open) return null;
   return (
-    <aside className="fixed bottom-0 right-0 z-50 w-full overflow-y-auto overscroll-contain border-l border-border bg-panel/90 pb-24 backdrop-blur-2xl max-h-[50svh] sm:bottom-0 sm:inset-y-0 sm:top-16 sm:max-h-none sm:w-1/2 sm:max-w-[480px]">
+    <aside className="fixed bottom-[5rem] right-0 z-40 w-full overflow-y-auto overscroll-contain border border-border rounded-t-lg bg-panel/95 pb-4 backdrop-blur-2xl max-h-[calc(50svh-5rem)] sm:bottom-0 sm:inset-y-0 sm:top-16 sm:max-h-none sm:w-1/2 sm:max-w-[480px] sm:rounded-none sm:border-l sm:border-t-0">
       <header className="sticky top-0 z-10 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 border-b border-border bg-panel/90 p-5 backdrop-blur-xl">
         <div className="min-w-0">
           <h2 className="truncate font-display text-xl sm:text-2xl">{copy.title}</h2>

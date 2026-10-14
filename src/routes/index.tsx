@@ -156,14 +156,18 @@ function NetworkPage() {
               experts={graphExperts}
               layers={layers}
               focus={focus}
-              serviceMode={cabinetOpen && !dependenciesMode || dependenciesMode}
+              serviceMode={cabinetOpen || dependenciesMode}
               showExpertsOnServices={dependenciesMode}
+              locale={locale}
               onFocus={(code) => {
                 // Background click (code = null): close all panels
                 if (code === null) {
                   setFocus(null);
                   setSearchOpen(false);
-                  if (!dependenciesMode) setCabinetOpen(false);
+                  // In service/deps mode: keep cabinetOpen so service graph stays
+                  // Only close cabinet if we were in pure people graph mode
+                  if (!cabinetOpen && !dependenciesMode) setCabinetOpen(false);
+                  setDependenciesMode(false);
                   return;
                 }
                 if (
@@ -402,6 +406,7 @@ function NetworkPage() {
           onClick={() => {
             const nextOpen = !searchOpen;
             setSearchOpen(nextOpen);
+            // Search explicitly exits service graph (cabinet and deps off)
             setCabinetOpen(false);
             setDependenciesMode(false);
             setFocus(null);
@@ -425,9 +430,9 @@ function NetworkPage() {
           onClick={() => {
             const next = !dependenciesMode;
             setDependenciesMode(next);
-            // Close both panels — deps mode shows service graph standalone
+            // Always keep service graph (cabinetOpen=true) when toggling deps
+            setCabinetOpen(true);
             setSearchOpen(false);
-            if (!next) setCabinetOpen(false);
           }}
         />
         <Button
