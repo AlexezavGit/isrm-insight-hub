@@ -159,21 +159,26 @@ function NetworkPage() {
               serviceMode={cabinetOpen && !dependenciesMode || dependenciesMode}
               showExpertsOnServices={dependenciesMode}
               onFocus={(code) => {
+                // Background click (code = null): close all panels
+                if (code === null) {
+                  setFocus(null);
+                  setSearchOpen(false);
+                  if (!dependenciesMode) setCabinetOpen(false);
+                  return;
+                }
                 if (
-                  code?.startsWith("S:") ||
-                  code?.startsWith("T:") ||
-                  code?.startsWith("H:") ||
-                  code?.startsWith("svc:") ||
-                  code?.startsWith("hub:") ||
+                  code.startsWith("S:") ||
+                  code.startsWith("T:") ||
+                  code.startsWith("H:") ||
+                  code.startsWith("svc:") ||
+                  code.startsWith("hub:") ||
                   code === "P:queue"
                 ) {
                   return;
                 }
                 setFocus(code);
-                if (code) {
-                  setSearchOpen(false);
-                  setCabinetOpen(false);
-                }
+                setSearchOpen(false);
+                setCabinetOpen(false);
               }}
             />
           </Suspense>
@@ -267,6 +272,27 @@ function NetworkPage() {
           )}
         </div>
       </header>
+
+      {/* Dependencies info overlay — visible in dependencies mode */}
+      {dependenciesMode && (
+        <div className="pointer-events-none absolute inset-x-0 bottom-[5.5rem] z-10 flex justify-center sm:bottom-[5rem]">
+          <div className="pointer-events-auto mx-4 max-w-sm rounded border border-success/40 bg-panel/90 px-4 py-3 backdrop-blur-xl text-sm">
+            <p className="tech-label text-success mb-1.5">
+              {locale === "uk" ? "Що стає доступним через залежності" : "What dependencies unlock"}
+            </p>
+            <ul className="space-y-1 text-xs text-muted-foreground">
+              <li>↗ {locale === "uk" ? "Крос-селл: одна функція розкриває суміжні можливості" : "Cross-sell: one function reveals adjacent capabilities"}</li>
+              <li>↗ {locale === "uk" ? "Овер-селл: збільшення портфоліо через traversal залежностей" : "Over-sell: portfolio growth through dependency traversal"}</li>
+              <li>↗ {locale === "uk" ? "Розширення капасіті: спільноти як downstream можливості" : "Capacity expansion: communities as downstream opportunities"}</li>
+              <li>↗ {locale === "uk" ? "Накопичення мережевої експертизи та знань" : "Network expertise accumulation and knowledge capture"}</li>
+              <li>↗ {locale === "uk" ? "Публікації та розвиток паблісіті з результатів груп" : "Publications and publicity from working-group outputs"}</li>
+            </ul>
+            <p className="mt-2 text-[10px] text-muted-foreground opacity-60">
+              {locale === "uk" ? "Клікніть на вузол сервісу щоб показати пов'язаних людей" : "Click a service node to reveal connected people"}
+            </p>
+          </div>
+        </div>
+      )}
 
       {searchOpen && (
         <aside

@@ -422,7 +422,7 @@ export function MemberCabinet({
     locale === "en"
       ? {
         eyebrow: "Member cabinet · demo profile",
-        title: "Operations and network services",
+        title: "Network services",
         member: "Verified member",
         directory: "Expert directory",
         projects: "Active projects",
@@ -523,26 +523,6 @@ export function MemberCabinet({
           <p className="mt-3 max-w-prose text-sm leading-relaxed text-muted-foreground">
             {copy.circlesIntro}
           </p>
-          <Button
-            type="button"
-            variant="outline"
-            className="mt-4"
-            aria-expanded={dependenciesOpen}
-            onClick={() => setDependenciesOpen((open) => !open)}
-          >
-            <GitBranch aria-hidden="true" />
-            {dependenciesOpen
-              ? locale === "en"
-                ? "Hide function dependencies"
-                : "Сховати залежності функцій"
-              : locale === "en"
-                ? "Show function dependencies"
-                : "Показати залежності функцій"}
-          </Button>
-          {dependenciesOpen ? (
-            <ServiceDependencyMap locale={locale} />
-          ) : (
-            <>
               <div ref={serviceDeckRef} className="mt-4 flex snap-x gap-3 overflow-x-auto pb-3">
                 {SERVICES.map((item, i) => (
                   <button
@@ -599,8 +579,6 @@ export function MemberCabinet({
                   </Link>
                 </Button>
               </article>
-            </>
-          )}
         </section>
 
       </div>

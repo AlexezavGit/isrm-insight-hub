@@ -343,17 +343,20 @@ export default function NetworkGraph({
             ctx.lineWidth = 1.2 / Math.max(scale, 0.6);
             ctx.strokeStyle = col;
             ctx.stroke();
-            if (n.size < 4 && scale < 1.6 && n.id !== active) {
+            // Always show labels for service/hub nodes; hide small cluster nodes at low zoom
+            const isServiceNode = typeof n.id === "string" && (n.id.startsWith("svc:") || n.id.startsWith("hub:"));
+            if (!isServiceNode && n.size < 4 && scale < 1.6 && n.id !== active) {
               ctx.globalAlpha = 1;
               return;
             }
-            ctx.font = `600 ${Math.max(13 / scale, 3.5)}px Space Grotesk`;
+            const labelSize = isServiceNode ? Math.max(11 / scale, 7) : Math.max(13 / scale, 3.5);
+            ctx.font = `600 ${labelSize}px Space Grotesk`;
             ctx.fillStyle = col;
             ctx.textAlign = "center";
             ctx.fillText(
               n.label.length > 38 ? n.label.slice(0, 36) + "…" : n.label,
               n.x,
-              n.y - r - 4 / scale,
+              n.y - r - 5 / scale,
             );
           }
           ctx.globalAlpha = 1;
