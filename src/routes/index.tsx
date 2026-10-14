@@ -2,7 +2,7 @@ import { createFileRoute, Link, useMatch, redirect } from "@tanstack/react-route
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { FileText, Search, SlidersHorizontal, UserRound, X } from "lucide-react";
 import { useAccess } from "@/lib/access";
-import { applyFilters, FilterBar, useFilters } from "@/lib/filters";
+import { applyFilters, FilterBar, useFilters, EMPTY } from "@/lib/filters";
 import { AccessControl, VerifyBadge } from "@/components/AppShell";
 import { MemberCabinet } from "@/components/MemberCabinet";
 import type { GraphLayers } from "@/components/NetworkGraph";
@@ -148,14 +148,21 @@ function NetworkPage() {
 
   return (
     <main className="relative h-[100svh] min-h-0 overflow-hidden">
-      <section className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--color-card),transparent_68%)]">
+      <section
+        className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--color-card),transparent_68%)] transition-[left,right] duration-300"
+        style={{
+          left: searchOpen ? "min(50vw, 480px)" : 0,
+          right: cabinetOpen ? "min(50vw, 480px)" : 0,
+        }}
+      >
         {mounted && !loading && (
           <Suspense fallback={null}>
             <NetworkGraph
               experts={graphExperts}
               layers={layers}
               focus={focus}
-              serviceMode={cabinetOpen && !dependenciesMode}
+              serviceMode={cabinetOpen || dependenciesMode}
+              showExpertsOnServices={dependenciesMode}
               onFocus={(code) => {
                 if (
                   code?.startsWith("S:") ||
@@ -178,6 +185,39 @@ function NetworkPage() {
           <p className="absolute inset-0 grid place-items-center tech-label text-muted-foreground">
             {t("loading")}
           </p>
+        )}
+        {/* Empty state: filters produced no visible experts */}
+        {!loading && mounted && !cabinetOpen && graphExperts.length === 0 && all.length > 0 && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center">
+            <div className="rounded-lg border border-border bg-panel/90 p-6 shadow-xl backdrop-blur-xl max-w-sm">
+              <p className="tech-label text-primary mb-2">{locale === "uk" ? "Збіг не знайдено" : "No match found"}</p>
+              <p className="font-display text-lg mb-3">
+                {locale === "uk"
+                  ? "Обрана комбінація фільтрів не повертає жодного експерта."
+                  : "The selected filter combination returns no experts."}
+              </p>
+              <p className="text-sm text-muted-foreground mb-5">
+                {locale === "uk"
+                  ? "Спробуйте розширити пошук або перейдіть до конфігуратора, щоб розвинути експертне коло."
+                  : "Try broadening the search, or go to the configurator to expand the expert network."}
+              </p>
+              <div className="flex flex-col gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setF(EMPTY)}
+                >
+                  {locale === "uk" ? "Скинути фільтри" : "Reset filters"}
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={() => { setCabinetOpen(true); setSearchOpen(false); }}
+                >
+                  {locale === "uk" ? "Відкрити конфігуратор" : "Open configurator"}
+                </Button>
+              </div>
+            </div>
+          </div>
         )}
       </section>
 
@@ -252,7 +292,7 @@ function NetworkPage() {
                 ["hub", t("hubs"), "border-success"],
                 [
                   "researchQueue",
-                  `${t("researchQueue")} · ${queueCount}`,
+                  t("researchQueue"),
                   "border-muted-foreground",
                 ],
               ] as const
@@ -360,9 +400,11 @@ function NetworkPage() {
           label={locale === "uk" ? "Залежності" : "Dependencies"}
           active={dependenciesMode}
           onClick={() => {
-            setDependenciesMode((prev) => !prev);
-            if (!dependenciesMode) {
-              setCabinetOpen(false);
+            const next = !dependenciesMode;
+            setDependenciesMode(next);
+            // Dependencies mode needs the service graph as base — keep cabinetOpen true
+            if (next) {
+              setCabinetOpen(true);
               setSearchOpen(false);
             }
           }}

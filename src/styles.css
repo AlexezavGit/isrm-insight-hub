@@ -4490,3 +4490,183 @@ button.partner-primary-button {
   .cycle-tl-right { grid-column: 2; grid-row: 2; }
   .cycle-tl-empty { display: none; }
 }
+
+/* ── Branch timeline (replaces vertical timeline grid) ─────────── */
+/* Concept: left branches = multiple actions flowing into trunk;
+   trunk = central spine;
+   right branches = revenue outcomes growing from trunk */
+
+.cycle-timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 1.5rem;
+  padding-left: 0;
+}
+
+.cycle-timeline-row {
+  display: grid;
+  grid-template-columns: 1fr 2px 1fr;
+  grid-template-rows: auto;
+  gap: 0 0.5rem;
+  align-items: stretch;
+  min-height: 90px;
+  position: relative;
+}
+
+/* ── Trunk (centre spine) ─── */
+.cycle-tl-spine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+.cycle-tl-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 2.5px solid var(--background);
+  outline: 2px solid var(--primary);
+  flex-shrink: 0;
+  margin-top: 18px;
+  z-index: 3;
+  position: relative;
+}
+.cycle-tl-line {
+  width: 2px;
+  flex: 1;
+  background: var(--primary);
+  opacity: 0.5;
+  min-height: 30px;
+}
+/* Last node return arrow */
+.cycle-tl-return {
+  width: 2px;
+  flex: 1;
+  background: var(--primary);
+  opacity: 0.5;
+  min-height: 24px;
+  position: relative;
+}
+.cycle-tl-return::after {
+  content: "↻";
+  position: absolute;
+  bottom: -1.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--primary);
+  font-size: 1.2rem;
+  opacity: 0.7;
+}
+
+/* ── Left side: action cards with branch line ─── */
+.cycle-tl-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 12px 0.5rem 12px 0;
+  position: relative;
+}
+.cycle-tl-left::after {
+  /* horizontal branch connecting card to spine */
+  content: "";
+  position: absolute;
+  right: -0.5rem;
+  top: 26px;
+  width: 0.5rem;
+  height: 2px;
+  background: var(--primary);
+  opacity: 0.5;
+}
+
+/* ── Right side: revenue cards with branch line ─── */
+.cycle-tl-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 12px 0 12px 0.5rem;
+  position: relative;
+}
+.cycle-tl-right:has(.cycle-tl-card--revenue)::before {
+  /* horizontal branch from spine to revenue card */
+  content: "";
+  position: absolute;
+  left: -0.5rem;
+  top: 26px;
+  width: 0.5rem;
+  height: 2px;
+  background: var(--chart-2);
+  opacity: 0.6;
+}
+
+/* ── Cards ─── */
+.cycle-tl-card {
+  border-radius: 6px;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  width: 100%;
+}
+.cycle-tl-card--action {
+  border: 1px solid var(--border);
+  background: var(--card);
+  text-align: right;
+}
+.cycle-tl-card--action .cycle-tl-icon {
+  display: inline-block;
+  margin-bottom: 0.25rem;
+}
+.cycle-tl-card--revenue {
+  border: 1px solid color-mix(in srgb, var(--chart-2) 45%, transparent);
+  background: color-mix(in srgb, var(--chart-2) 7%, transparent);
+  text-align: left;
+}
+.cycle-tl-revenue-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--chart-2);
+  margin-bottom: 0.2rem;
+}
+.cycle-tl-empty { min-height: 4px; }
+.cycle-tl-funnel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  align-items: baseline;
+  justify-content: flex-end;
+  margin-top: 0.4rem;
+  padding: 0.25rem 0.5rem;
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
+  border-radius: 4px;
+}
+.cycle-tl-funnel strong {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--primary);
+}
+.cycle-tl-funnel span {
+  font-size: 0.73rem;
+  color: var(--muted-foreground);
+}
+
+/* Mobile: single column */
+@media (max-width: 599px) {
+  .cycle-timeline-row {
+    grid-template-columns: 20px 1fr;
+    grid-template-rows: auto auto;
+  }
+  .cycle-tl-left  { grid-column: 2; grid-row: 1; align-items: flex-start; padding: 8px 0 8px 0.4rem; text-align: left; }
+  .cycle-tl-left::after { right: auto; left: -0.4rem; }
+  .cycle-tl-card--action { text-align: left; }
+  .cycle-tl-funnel { justify-content: flex-start; }
+  .cycle-tl-spine { grid-column: 1; grid-row: 1 / 3; }
+  .cycle-tl-right { grid-column: 2; grid-row: 2; padding: 4px 0 8px 0.4rem; }
+  .cycle-tl-right::before { left: -0.4rem; }
+  .cycle-tl-empty { display: none; }
+}

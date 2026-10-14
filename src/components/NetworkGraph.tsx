@@ -37,19 +37,24 @@ export default function NetworkGraph({
   focus,
   onFocus,
   serviceMode = false,
+  showExpertsOnServices = false,
 }: {
   experts: Expert[];
   layers: GraphLayers;
   focus: string | null;
   onFocus: (code: string | null) => void;
-  /** When true, show service functions graph (two circles: MVP inner, pilot outer) instead of expert graph */
+  /** When true, show service functions graph (cycle ring) instead of expert graph */
   serviceMode?: boolean;
+  /** When true (dependencies mode), overlay expert nodes onto service nodes */
+  showExpertsOnServices?: boolean;
 }) {
   const { t } = useI18n();
   const wrap = useRef<HTMLDivElement>(null);
   const fg = useRef<any>(null);
   const [size, setSize] = useState({ w: 800, h: 600 });
   const [hover, setHover] = useState<string | null>(null);
+  // In dependencies mode, track which service nodes have been clicked to reveal experts
+  const [revealedServices, setRevealedServices] = useState<Set<string>>(new Set());
   const colors = useMemo(
     () => ({
       primary: css("--primary"),
@@ -71,6 +76,11 @@ export default function NetworkGraph({
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
+
+  // Reset revealed services when exiting dependencies mode
+  useEffect(() => {
+    if (!showExpertsOnServices) setRevealedServices(new Set());
+  }, [showExpertsOnServices]);
 
   // Service graph: two orbital rings around central hub
   const serviceData = useMemo(() => {
@@ -116,8 +126,39 @@ export default function NetworkGraph({
     return { nodes, links };
   }, []);
 
+  // When showExpertsOnServices: merge service graph + expert nodes attached to clicked services
+  const dependenciesData = useMemo(() => {
+    if (!showExpertsOnServices) return serviceData;
+    const nodes = [...serviceData.nodes];
+    const links = [...serviceData.links];
+    const svcToSectors: Record<string, string[]> = {
+      "svc:members":    ["Business / advisory", "Humanitarian / NGO"],
+      "svc:agenda":     ["Academia / research", "Security / risk / resilience"],
+      "svc:discussions":["Academia / research", "Humanitarian / NGO"],
+      "svc:reports":    ["Academia / research", "Business / advisory"],
+      "svc:expertise":  ["Security / risk / resilience", "Business / advisory"],
+      "svc:membership": ["Humanitarian / NGO", "Business / advisory"],
+      "svc:warroom":    ["Security / risk / resilience"],
+      "svc:conference": ["Academia / research", "Business / advisory", "Humanitarian / NGO"],
+    };
+    revealedServices.forEach((svcId) => {
+      const sectors = svcToSectors[svcId] ?? [];
+      const relevant = experts
+        .filter((e) => e.verified && sectors.some((s) => e.sector?.includes(s)))
+        .slice(0, 5);
+      relevant.forEach((e) => {
+        if (!nodes.find((n) => n.id === e.code)) {
+          nodes.push({ id: e.code, kind: "expert" as const, label: e.displayName, expert: e, size: 1 });
+        }
+        links.push({ source: e.code, target: svcId, kind: "dependency" });
+      });
+    });
+    return { nodes, links };
+  }, [showExpertsOnServices, serviceData, experts, revealedServices]);
+
+
   const data = useMemo(() => {
-    if (serviceMode) return serviceData;
+    if (serviceMode) return showExpertsOnServices ? dependenciesData : serviceData;
     const nodes: GNode[] = [];
     const links: GLink[] = [];
     const ensure = (id: string, kind: Kind, label: string) => {
@@ -223,6 +264,7 @@ export default function NetworkGraph({
             t = l.target.id;
           if (l.kind === "mvp" || l.kind === "mvp-ring") return colors.primary + "cc";
           if (l.kind === "pilot" || l.kind === "pilot-ring") return colors.c2 + "cc";
+          if (l.kind === "dependency") return colors.success + "aa";
           if (activeSet)
             return activeSet.has(s) && activeSet.has(t) ? colors.primary : "rgba(120,120,130,0.05)";
           return l.kind === "peer" ? colors.primary : "rgba(150,150,160,0.12)";
@@ -231,7 +273,19 @@ export default function NetworkGraph({
           activeSet && activeSet.has(l.source.id) && activeSet.has(l.target.id) ? 1.2 : 0.5
         }
         onNodeHover={(n: any) => setHover(n?.id ?? null)}
-        onNodeClick={(n: any) => onFocus(n.id === focus ? null : n.id)}
+        onNodeClick={(n: any) => {
+          if (showExpertsOnServices && n.id?.startsWith("svc:")) {
+            // Toggle expert overlay for this service node
+            setRevealedServices((prev) => {
+              const next = new Set(prev);
+              if (next.has(n.id)) next.delete(n.id);
+              else next.add(n.id);
+              return next;
+            });
+            return;
+          }
+          onFocus(n.id === focus ? null : n.id);
+        }}
         onBackgroundClick={() => onFocus(null)}
         nodePointerAreaPaint={(n: any, color, ctx) => {
           ctx.fillStyle = color;
