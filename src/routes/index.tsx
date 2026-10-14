@@ -161,7 +161,7 @@ function NetworkPage() {
               experts={graphExperts}
               layers={layers}
               focus={focus}
-              serviceMode={cabinetOpen || dependenciesMode}
+              serviceMode={cabinetOpen && !dependenciesMode || dependenciesMode}
               showExpertsOnServices={dependenciesMode}
               onFocus={(code) => {
                 if (
@@ -402,10 +402,9 @@ function NetworkPage() {
           onClick={() => {
             const next = !dependenciesMode;
             setDependenciesMode(next);
-            if (next) {
-              setCabinetOpen(true); // need service graph as base
-              setSearchOpen(false);
-            }
+            // Close both panels — deps mode shows service graph standalone
+            setSearchOpen(false);
+            if (!next) setCabinetOpen(false);
           }}
         />
         <Button
@@ -420,7 +419,7 @@ function NetworkPage() {
         </Button>
       </nav>
       <MemberCabinet
-        open={cabinetOpen}
+        open={cabinetOpen && !dependenciesMode}
         onClose={() => setCabinetOpen(false)}
         onFindExpert={() => {
           setCabinetOpen(false);

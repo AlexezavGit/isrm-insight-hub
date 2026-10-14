@@ -97,30 +97,7 @@ export function FilterBar({
           className={sel}
         />
       </div>
-      <div>
-        <Label c={t("verification")} />
-        <div className="flex overflow-hidden rounded border border-input text-xs">
-          {(
-            [
-              ["all", `${t("all")} ${experts.length}`],
-              ["verified", `✓ ${vCount}`],
-              ...(showResearchQueue
-                ? ([["queue", `${t("researchQueue")} ${experts.length - vCount}`]] as const)
-                : []),
-            ] as const
-          ).map(([k, l]) => (
-            <Button
-              key={k}
-              type="button"
-              variant={f.verified === k ? "default" : "ghost"}
-              onClick={() => setF({ ...f, verified: k })}
-              className="h-auto flex-1 rounded-none px-2 py-1.5 text-[11px]"
-            >
-              {l}
-            </Button>
-          ))}
-        </div>
-      </div>
+
       {(["sector", "country", "theme", "role"] as const).map((k) => (
         <div key={k}>
           <Label

@@ -53,8 +53,6 @@ export default function NetworkGraph({
   const fg = useRef<any>(null);
   const [size, setSize] = useState({ w: 800, h: 600 });
   const [hover, setHover] = useState<string | null>(null);
-  // Track which service nodes have been clicked to reveal experts (dependencies mode)
-  const [revealedServices, setRevealedServices] = useState<Set<string>>(new Set());
   const colors = useMemo(
     () => ({
       primary: css("--primary"),
@@ -77,9 +75,6 @@ export default function NetworkGraph({
     return () => ro.disconnect();
   }, []);
 
-  useEffect(() => {
-    if (!showExpertsOnServices) setRevealedServices(new Set());
-  }, [showExpertsOnServices]);
 
 
   // Service graph: two orbital rings around central hub
@@ -128,11 +123,10 @@ export default function NetworkGraph({
 
   const data = useMemo(() => {
     if (serviceMode) {
-      if (!showExpertsOnServices || revealedServices.size === 0) return serviceData;
-      // Merge: service ring + expert nodes attached to revealed service nodes
+      if (!showExpertsOnServices) return serviceData;
+      // Dependencies mode: show ALL verified experts connected to relevant service nodes at once
       const nodes = [...serviceData.nodes];
       const links = [...serviceData.links];
-      // Map each service to relevant expert sectors
       const svcSectors: Record<string, string[]> = {
         "svc:members":    ["Business / advisory", "Humanitarian / NGO"],
         "svc:agenda":     ["Academia / research", "Security / risk / resilience"],
@@ -143,21 +137,16 @@ export default function NetworkGraph({
         "svc:warroom":    ["Security / risk / resilience"],
         "svc:conference": ["Academia / research", "Business / advisory", "Humanitarian / NGO"],
       };
-      revealedServices.forEach((svcId) => {
-        const sectors = svcSectors[svcId] ?? [];
+      // Add expert nodes once, connect to all matching services
+      Object.entries(svcSectors).forEach(([svcId, sectors]) => {
         experts
           .filter((e) => e.verified && sectors.some((s) => e.sector?.includes(s)))
-          .slice(0, 6)
+          .slice(0, 4) // max 4 per service to keep graph readable
           .forEach((e) => {
             if (!nodes.find((n) => n.id === e.code)) {
               nodes.push({ id: e.code, kind: "expert" as const, label: e.displayName, expert: e, size: 1 });
             }
-            if (!links.find((l) =>
-              (l.source === e.code || (l.source as any).id === e.code) &&
-              (l.target === svcId  || (l.target as any).id === svcId)
-            )) {
-              links.push({ source: e.code, target: svcId, kind: "dependency" });
-            }
+            links.push({ source: e.code, target: svcId, kind: "dependency" });
           });
       });
       return { nodes, links };
@@ -277,18 +266,7 @@ export default function NetworkGraph({
           activeSet && activeSet.has(l.source.id) && activeSet.has(l.target.id) ? 1.2 : 0.5
         }
         onNodeHover={(n: any) => setHover(n?.id ?? null)}
-        onNodeClick={(n: any) => {
-          if (showExpertsOnServices && typeof n.id === "string" && n.id.startsWith("svc:")) {
-            setRevealedServices((prev) => {
-              const next = new Set(prev);
-              if (next.has(n.id)) next.delete(n.id);
-              else next.add(n.id);
-              return next;
-            });
-            return;
-          }
-          onFocus(n.id === focus ? null : n.id);
-        }}
+        onNodeClick={(n: any) => onFocus(n.id === focus ? null : n.id)}
         onBackgroundClick={() => onFocus(null)}
         nodePointerAreaPaint={(n: any, color, ctx) => {
           ctx.fillStyle = color;
