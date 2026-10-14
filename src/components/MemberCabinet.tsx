@@ -475,9 +475,7 @@ export function MemberCabinet({
     <aside className="fixed bottom-0 right-0 z-50 w-full overflow-y-auto overscroll-contain border-l border-border bg-panel/90 pb-24 backdrop-blur-2xl max-h-[50svh] sm:bottom-0 sm:inset-y-0 sm:top-16 sm:max-h-none sm:w-1/2 sm:max-w-[480px]">
       <header className="sticky top-0 z-10 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 border-b border-border bg-panel/90 p-5 backdrop-blur-xl">
         <div className="min-w-0">
-          <p className="tech-label text-primary">{copy.eyebrow}</p>
-          <h2 className="mt-1 truncate font-display text-2xl sm:text-3xl">{copy.title}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">Alex Morgan · {copy.member}</p>
+          <h2 className="truncate font-display text-xl sm:text-2xl">{copy.title}</h2>
         </div>
         <Button
           variant="ghost"

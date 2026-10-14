@@ -161,8 +161,7 @@ function NetworkPage() {
               experts={graphExperts}
               layers={layers}
               focus={focus}
-              serviceMode={cabinetOpen || dependenciesMode}
-              showExpertsOnServices={dependenciesMode}
+              serviceMode={cabinetOpen && !dependenciesMode}
               onFocus={(code) => {
                 if (
                   code?.startsWith("S:") ||
@@ -244,7 +243,7 @@ function NetworkPage() {
                 <>
                   <MetricBadge value={graphExperts.length} label={locale === "uk" ? "видимо" : "visible"} />
                   <MetricBadge value={list.filter((e) => e.verified).length} label={locale === "uk" ? "ідентифіковано" : "identified"} />
-                  <MetricBadge value={all.length} label={locale === "uk" ? "усього" : "total"} />
+                  <MetricBadge value={list.length} label={locale === "uk" ? "знайдено" : "found"} />
                 </>
               )}
             </div>
@@ -265,7 +264,7 @@ function NetworkPage() {
             <>
               <MetricBadge value={graphExperts.length} label={locale === "uk" ? "видимо" : "visible"} />
               <MetricBadge value={list.filter((e) => e.verified).length} label={locale === "uk" ? "ідентифіковано" : "identified"} />
-              <MetricBadge value={all.length} label={locale === "uk" ? "усього" : "total"} />
+              <MetricBadge value={list.length} label={locale === "uk" ? "знайдено" : "found"} />
             </>
           )}
         </div>
@@ -400,11 +399,9 @@ function NetworkPage() {
           label={locale === "uk" ? "Залежності" : "Dependencies"}
           active={dependenciesMode}
           onClick={() => {
-            const next = !dependenciesMode;
-            setDependenciesMode(next);
-            // Dependencies mode needs the service graph as base — keep cabinetOpen true
-            if (next) {
-              setCabinetOpen(true);
+            setDependenciesMode((prev) => !prev);
+            if (!dependenciesMode) {
+              setCabinetOpen(false);
               setSearchOpen(false);
             }
           }}
