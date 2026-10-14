@@ -53,6 +53,8 @@ export default function NetworkGraph({
   const fg = useRef<any>(null);
   const [size, setSize] = useState({ w: 800, h: 600 });
   const [hover, setHover] = useState<string | null>(null);
+  // Set of service node IDs that have been clicked to reveal their experts
+  const [revealedServices, setRevealedServices] = useState<Set<string>>(new Set());
   const colors = useMemo(
     () => ({
       primary: css("--primary"),
@@ -75,6 +77,18 @@ export default function NetworkGraph({
     return () => ro.disconnect();
   }, []);
 
+  // When deps mode turns off, clear revealed services
+  useEffect(() => {
+    if (!showExpertsOnServices) setRevealedServices(new Set());
+    else {
+      // When deps mode turns ON: pre-reveal ALL services immediately
+      setRevealedServices(new Set([
+        "svc:members", "svc:agenda", "svc:discussions", "svc:reports",
+        "svc:expertise", "svc:membership", "svc:warroom", "svc:conference"
+      ]));
+    }
+  }, [showExpertsOnServices]);
+
 
 
   // Service graph: two orbital rings around central hub
@@ -82,7 +96,7 @@ export default function NetworkGraph({
     const nodes: GNode[] = [];
     const links: GLink[] = [];
     // Central node: MVP application (single hub)
-    nodes.push({ id: "hub:mvp", kind: "hub", label: "MVP Application", size: 8 });
+    nodes.push({ id: "hub:mvp", kind: "hub", label: "MVP Application", size: 8, fx: 0, fy: 0 } as GNode & { fx: number; fy: number });
     // Engagement cycle services — ordered as the cycle on proposal page
     // These correspond to the pilot-group PROPOSAL_FUNCTIONS + key engagement steps
     const cycleServices = [
@@ -104,9 +118,12 @@ export default function NetworkGraph({
         kind: svc.kind,
         label: svc.label,
         size: 3,
+        // fx/fy pin the node in place — it won't move when experts are added
         x: Math.cos(angle) * R,
         y: Math.sin(angle) * R,
-      });
+        fx: Math.cos(angle) * R,
+        fy: Math.sin(angle) * R,
+      } as GNode & { fx: number; fy: number });
       // Each cycle node connects to the central MVP hub
       links.push({ source: "hub:mvp", target: svc.id, kind: "mvp" });
     });
@@ -123,8 +140,8 @@ export default function NetworkGraph({
 
   const data = useMemo(() => {
     if (serviceMode) {
-      if (!showExpertsOnServices) return serviceData;
-      // Dependencies mode: show ALL verified experts connected to relevant service nodes at once
+      if (!showExpertsOnServices || revealedServices.size === 0) return serviceData;
+      // Build merged graph: pinned service ring + expert nodes for revealed services
       const nodes = [...serviceData.nodes];
       const links = [...serviceData.links];
       const svcSectors: Record<string, string[]> = {
@@ -137,16 +154,22 @@ export default function NetworkGraph({
         "svc:warroom":    ["Security / risk / resilience"],
         "svc:conference": ["Academia / research", "Business / advisory", "Humanitarian / NGO"],
       };
-      // Add expert nodes once, connect to all matching services
-      Object.entries(svcSectors).forEach(([svcId, sectors]) => {
+      revealedServices.forEach((svcId) => {
+        const sectors = svcSectors[svcId] ?? [];
         experts
           .filter((e) => e.verified && sectors.some((s) => e.sector?.includes(s)))
-          .slice(0, 4) // max 4 per service to keep graph readable
+          .slice(0, 4)
           .forEach((e) => {
             if (!nodes.find((n) => n.id === e.code)) {
               nodes.push({ id: e.code, kind: "expert" as const, label: e.displayName, expert: e, size: 1 });
             }
-            links.push({ source: e.code, target: svcId, kind: "dependency" });
+            if (!links.some((l) => {
+              const s = typeof l.source === "string" ? l.source : (l.source as GNode).id;
+              const t = typeof l.target === "string" ? l.target : (l.target as GNode).id;
+              return s === e.code && t === svcId;
+            })) {
+              links.push({ source: e.code, target: svcId, kind: "dependency" });
+            }
           });
       });
       return { nodes, links };
@@ -248,7 +271,7 @@ export default function NetworkGraph({
         height={size.h}
         graphData={data}
         backgroundColor="rgba(0,0,0,0)"
-        cooldownTicks={180}
+        cooldownTicks={serviceMode ? 40 : 180}
         onEngineStop={() => !focus && fg.current?.zoomToFit(400, 60)}
         nodeRelSize={1}
         linkColor={(l: any) => {
@@ -266,7 +289,19 @@ export default function NetworkGraph({
           activeSet && activeSet.has(l.source.id) && activeSet.has(l.target.id) ? 1.2 : 0.5
         }
         onNodeHover={(n: any) => setHover(n?.id ?? null)}
-        onNodeClick={(n: any) => onFocus(n.id === focus ? null : n.id)}
+        onNodeClick={(n: any) => {
+          // In deps mode: clicking a service node toggles its expert connections
+          if (showExpertsOnServices && typeof n.id === "string" && n.id.startsWith("svc:")) {
+            setRevealedServices((prev) => {
+              const next = new Set(prev);
+              if (next.has(n.id)) next.delete(n.id);
+              else next.add(n.id);
+              return next;
+            });
+            return;
+          }
+          onFocus(n.id === focus ? null : n.id);
+        }}
         onBackgroundClick={() => onFocus(null)}
         nodePointerAreaPaint={(n: any, color, ctx) => {
           ctx.fillStyle = color;

@@ -19,16 +19,11 @@ type IndexSearch = {
 
 export const Route = createFileRoute("/")({
   beforeLoad: ({ location }) => {
-    // Skip on server-side where sessionStorage is unavailable
-    if (typeof sessionStorage === 'undefined') return;
-    // Skip if user is navigating here with panel/stage/preset params (internal navigation)
+    // Always redirect bare "/" to /proposal to start the guided flow
+    // Skip redirect only when arriving with explicit panel/stage params (from proposal CTA)
     const searchStr = location.searchStr ?? '';
     if (searchStr.includes('panel=') || searchStr.includes('stage=') || searchStr.includes('preset=')) return;
-    // First-time visitor: redirect to /proposal to start the guided flow
-    const visited = sessionStorage.getItem('isrm-visited');
-    if (!visited) {
-      throw redirect({ to: '/proposal' });
-    }
+    throw redirect({ to: '/proposal' });
   },
   validateSearch: (search: Record<string, unknown>): IndexSearch => {
     const stage = search["stage"] === "configuration" ? ("configuration" as const) : undefined;
