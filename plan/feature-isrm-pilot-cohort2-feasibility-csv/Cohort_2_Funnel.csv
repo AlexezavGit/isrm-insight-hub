@@ -1,0 +1,19 @@
+cohort 2 funnel - inputs and outputs,,
+Input / step,Value,Formula / derivation
+LinkedIn reach,8742,snapshot 2026-08-28 · ISRM-PILOT-LI-FOLLOWERS verified
+R1 · Reach → application,0.02,ISRM-PILOT-CONV-R1-APP · 2.0% conservative
+R2 · Application → accepted,0.3,ISRM-PILOT-CONV-R2-ACC · 30% conservative
+R3 · Accepted → paid,0.25,ISRM-PILOT-CONV-R3-PAID · 25% conservative
+Engaged-in-services share,0.005,ISRM-PILOT-SAAS-ENGAGE · 0.5% conservative
+Annual subscription fee (client input),100,ISRM-PILOT-SUB-FEE · awaiting client input
+SaaS price per engaged user,240,ISRM-PILOT-SAAS-PRICE · £240/year anchor
+,,
+Funnel output — derived from inputs above,,
+applications,175.0,Reach × R1
+accepted,52.0,Applications × R2
+paid new members,13.0,Accepted × R3
+engaged-in-services users,44.0,Reach × saasEngage
+,,
+"Two revenue views — same funnel output, two multipliers",,
+Client view · subscription revenue (year 1),,Paid members × subscription fee · 0 if fee not supplied
+"Partner view · SaaS revenue (year 1, conservative)",10560.0,Engaged users × SaaS price

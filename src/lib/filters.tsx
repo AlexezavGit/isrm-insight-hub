@@ -11,7 +11,14 @@ export interface Filters {
   theme: string;
   role: string;
 }
-export const EMPTY: Filters = { q: "", verified: "all", sector: "", country: "", theme: "", role: "" };
+export const EMPTY: Filters = {
+  q: "",
+  verified: "all",
+  sector: "",
+  country: "",
+  theme: "",
+  role: "",
+};
 
 export function useFilters() {
   return useState<Filters>(EMPTY);
@@ -27,7 +34,16 @@ export function applyFilters(list: Expert[], f: Filters) {
     if (f.theme && e.ukraineCategory !== f.theme) return false;
     if (f.role && e.communityRole !== f.role) return false;
     if (q) {
-      const hay = [e.code, e.displayName, e.sector, e.primaryExpertise, e.organization, e.role, e.ukraineTheme, ...e.tags]
+      const hay = [
+        e.code,
+        e.displayName,
+        e.sector,
+        e.primaryExpertise,
+        e.organization,
+        e.role,
+        e.ukraineTheme,
+        ...e.tags,
+      ]
         .join(" ")
         .toLowerCase();
       if (!hay.includes(q)) return false;
@@ -42,7 +58,19 @@ function counts(list: Expert[], k: (e: Expert) => string) {
   return [...m.entries()].sort((a, b) => b[1] - a[1]);
 }
 
-export function FilterBar({ experts, f, setF, compact }: { experts: Expert[]; f: Filters; setF: (f: Filters) => void; compact?: boolean }) {
+export function FilterBar({
+  experts,
+  f,
+  setF,
+  compact,
+  showResearchQueue = true,
+}: {
+  experts: Expert[];
+  f: Filters;
+  setF: (f: Filters) => void;
+  compact?: boolean;
+  showResearchQueue?: boolean;
+}) {
   const { t } = useI18n();
   const opts = useMemo(
     () => ({
@@ -55,22 +83,39 @@ export function FilterBar({ experts, f, setF, compact }: { experts: Expert[]; f:
   );
   const vCount = experts.filter((e) => e.verified).length;
   const sel = "field py-2 text-sm";
-  const Label = ({ c }: { c: string }) => <p className="tech-label mb-1 text-muted-foreground">{c}</p>;
+  const Label = ({ c }: { c: string }) => (
+    <p className="tech-label mb-1 text-muted-foreground">{c}</p>
+  );
   return (
     <div className={compact ? "space-y-3" : "grid gap-3 md:grid-cols-6"}>
       <div className={compact ? "" : "md:col-span-2"}>
         <Label c={t("search")} />
-        <input value={f.q} onChange={(e) => setF({ ...f, q: e.target.value })} placeholder={t("searchPlaceholder")} className={sel} />
+        <input
+          value={f.q}
+          onChange={(e) => setF({ ...f, q: e.target.value })}
+          placeholder={t("searchPlaceholder")}
+          className={sel}
+        />
       </div>
       <div>
         <Label c={t("verification")} />
         <div className="flex overflow-hidden rounded border border-input text-xs">
-          {([
-            ["all", `${t("all")} ${experts.length}`],
-            ["verified", `✓ ${vCount}`],
-            ["queue", `${t("researchQueue")} ${experts.length - vCount}`],
-          ] as const).map(([k, l]) => (
-            <Button key={k} type="button" variant={f.verified === k ? "default" : "ghost"} onClick={() => setF({ ...f, verified: k })} className="h-auto flex-1 rounded-none px-2 py-1.5 text-[11px]">
+          {(
+            [
+              ["all", `${t("all")} ${experts.length}`],
+              ["verified", `✓ ${vCount}`],
+              ...(showResearchQueue
+                ? ([["queue", `${t("researchQueue")} ${experts.length - vCount}`]] as const)
+                : []),
+            ] as const
+          ).map(([k, l]) => (
+            <Button
+              key={k}
+              type="button"
+              variant={f.verified === k ? "default" : "ghost"}
+              onClick={() => setF({ ...f, verified: k })}
+              className="h-auto flex-1 rounded-none px-2 py-1.5 text-[11px]"
+            >
               {l}
             </Button>
           ))}
@@ -78,8 +123,21 @@ export function FilterBar({ experts, f, setF, compact }: { experts: Expert[]; f:
       </div>
       {(["sector", "country", "theme", "role"] as const).map((k) => (
         <div key={k}>
-          <Label c={{ sector: t("sector"), country: t("geography"), theme: t("ukraineExperience"), role: t("isrmRole") }[k]} />
-          <select value={f[k]} onChange={(e) => setF({ ...f, [k]: e.target.value })} className={sel}>
+          <Label
+            c={
+              {
+                sector: t("sector"),
+                country: t("geography"),
+                theme: t("ukraineExperience"),
+                role: t("isrmRole"),
+              }[k]
+            }
+          />
+          <select
+            value={f[k]}
+            onChange={(e) => setF({ ...f, [k]: e.target.value })}
+            className={sel}
+          >
             <option value="">{t("all")}</option>
             {opts[k].map(([v, n]) => (
               <option key={v} value={v}>

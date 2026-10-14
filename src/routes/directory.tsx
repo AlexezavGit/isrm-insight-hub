@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { useAccess } from "@/lib/access";
 import { applyFilters, FilterBar, useFilters } from "@/lib/filters";
-import { TrustBar, VerifyBadge } from "@/components/AppShell";
+import { VerifyBadge } from "@/components/AppShell";
 import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/directory")({
@@ -24,7 +24,10 @@ function Directory() {
   const { t } = useI18n();
   const [f, setF] = useFilters();
   const all = data?.experts ?? [];
-  const list = useMemo(() => applyFilters(all, f).sort((a, b) => b.trust - a.trust), [all, f]);
+  const list = useMemo(
+    () => applyFilters(all, f).sort((a, b) => a.displayName.localeCompare(b.displayName)),
+    [all, f],
+  );
   return (
     <main className="mx-auto max-w-[1600px] px-5 py-8">
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4">
@@ -42,7 +45,7 @@ function Directory() {
         {list.map((e) => (
           <Link key={e.code} to="/experts/$code" params={{ code: e.code }} className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 rounded border border-border bg-card p-4">
             <div className="min-w-0"><p className="font-mono text-[11px] text-primary">{e.code}</p><h2 className="truncate font-medium">{e.displayName}</h2><p className="mt-1 truncate text-xs text-muted-foreground">{e.sector} · {e.country}</p></div>
-            <div className="shrink-0 text-right"><VerifyBadge verified={e.verified} /><div className="mt-2"><TrustBar value={e.trust} /></div></div>
+            <div className="shrink-0 text-right"><VerifyBadge verified={e.verified} /><p className="tii-status mt-2">{t("tiiPending")}</p></div>
           </Link>
         ))}
       </div>
@@ -50,7 +53,7 @@ function Directory() {
         <table className="w-full text-sm">
           <thead className="bg-card font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
             <tr>
-              {[t("code"), t("expert"), t("sector"), t("geography"), t("ukraineExperience"), t("isrmRole"), t("status"), t("trust")].map((h) => (
+              {[t("code"), t("expert"), t("sector"), t("geography"), t("ukraineExperience"), t("isrmRole"), t("status"), t("tii")].map((h) => (
                 <th key={h} className="px-3 py-2.5 text-left font-medium">{h}</th>
               ))}
             </tr>
@@ -69,7 +72,7 @@ function Directory() {
                 <td className="max-w-[260px] truncate px-3 py-2 text-muted-foreground">{e.ukraineCategory}</td>
                 <td className="px-3 py-2 text-xs text-muted-foreground">{e.communityRole}</td>
                 <td className="px-3 py-2"><VerifyBadge verified={e.verified} /></td>
-                <td className="px-3 py-2"><TrustBar value={e.trust} /></td>
+                <td className="px-3 py-2"><span className="tii-status">{t("tiiPending")}</span></td>
               </tr>
             ))}
           </tbody>

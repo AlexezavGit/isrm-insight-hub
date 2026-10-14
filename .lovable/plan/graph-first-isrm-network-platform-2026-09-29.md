@@ -1,5 +1,7 @@
 # Graph-first ISRM Network Platform
 
+> **Superseded decision (2026-10-06):** The external World Monitor / War Room navigation described below was removed from the live app at the user's request. This plan is retained as historical context and must not be used to reintroduce that control.
+
 ## What will change
 
 - Make English the default language while keeping the UK/EN switch.

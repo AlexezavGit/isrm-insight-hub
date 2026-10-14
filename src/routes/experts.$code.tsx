@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowLeft, Lock, Send } from "lucide-react";
 import { pushInbox, useAccess } from "@/lib/access";
-import { TrustBar, VerifyBadge } from "@/components/AppShell";
+import { VerifyBadge } from "@/components/AppShell";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 
@@ -10,7 +10,7 @@ export const Route = createFileRoute("/experts/$code")({
   head: ({ params }) => ({
     meta: [
       { title: `Expert dossier ${params.code} — ISRM Ukraine` },
-      { name: "description", content: `Expert profile ${params.code}: trust level, competencies and secure participation request.` },
+      { name: "description", content: `Expert profile ${params.code}: source-described competencies and participation information. Trust & Influence Index (TII) has no validated score.` },
       { property: "og:title", content: `Expert dossier ${params.code} — ISRM Ukraine` },
       { property: "og:description", content: "A privacy-aware expert profile in the ISRM Ukraine network." },
       { property: "og:type", content: "profile" },
@@ -23,7 +23,8 @@ export const Route = createFileRoute("/experts/$code")({
 function Dossier() {
   const { code } = Route.useParams();
   const { data, loading } = useAccess();
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
+  const uk = locale === "uk";
   const e = data?.experts.find((x) => x.code === code);
   const [open, setOpen] = useState(false);
   const [sent, setSent] = useState(false);
@@ -33,12 +34,12 @@ function Dossier() {
   if (!e) return <p className="p-10">{t("records")} — 0</p>;
   const guest = data?.level === "guest";
   const breakdown = [
-    ["Верифікація профілю", e.verified ? "Так" : "Ні"],
-    ["Статус ідентичності", e.identityStatus],
-    ["Впевненість співставлення", e.confidence],
-    ["Доказова база", e.evidence],
-    ["Етап CRM", e.crmStage],
-    ["Пріоритет", e.priority],
+    [uk ? "Верифікація профілю" : "Profile verification", e.verified ? (uk ? "Так" : "Yes") : (uk ? "Ні" : "No")],
+    [uk ? "Статус ідентичності" : "Identity status", e.identityStatus],
+    [t("matchConfidence"), e.confidence],
+    [uk ? "Доказова база · вихідне поле" : "Evidence basis · source field", e.evidence],
+    [uk ? "Етап CRM · вихідне поле" : "CRM stage · source field", e.crmStage],
+    [uk ? "Пріоритет · вихідне поле" : "Priority · source field", e.priority],
   ];
   return (
     <main className="mx-auto max-w-6xl px-5 py-8">
@@ -81,8 +82,8 @@ function Dossier() {
         <aside className="space-y-4">
           <div className="rounded border border-border bg-card p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">{t("trustIndex")}</p>
-            <p className="mt-1 font-display text-5xl tabular-nums text-primary">{e.trust}<span className="text-lg text-muted-foreground">/100</span></p>
-            <div className="mt-2"><TrustBar value={e.trust} /></div>
+            <p className="mt-2 font-display text-xl text-primary">{t("tiiPending")}</p>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{t("tiiDescription")}</p>
             <dl className="mt-4 space-y-2 text-sm">
               {breakdown.map(([k, v]) => (
                 <div key={k} className="flex justify-between gap-3">

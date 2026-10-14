@@ -6,9 +6,14 @@ import { toPublicExpert } from "../shape";
 export default defineTool({
   name: "search_experts",
   title: "Search experts",
-  description: "Search the anonymised ISRM Ukraine expert network by keyword, sector, country or verification status.",
+  description:
+    "Search the anonymised ISRM Ukraine expert network by keyword, sector, country or verification status.",
   inputSchema: {
-    query: z.string().max(200).optional().describe("Keyword matched against expertise, tags and themes."),
+    query: z
+      .string()
+      .max(200)
+      .optional()
+      .describe("Keyword matched against expertise, tags and themes."),
     sector: z.string().max(100).optional().describe("Exact sector name."),
     country: z.string().max(100).optional().describe("Country name."),
     verifiedOnly: z.boolean().optional().describe("Only return verified experts."),
@@ -21,8 +26,15 @@ export default defineTool({
       .filter((e) => !verifiedOnly || e.verified)
       .filter((e) => !sector || e.sector.toLowerCase() === sector.toLowerCase())
       .filter((e) => !country || e.country.toLowerCase() === country.toLowerCase())
-      .filter((e) => !q || [e.primaryExpertise, e.ukraineTheme, e.contribution, e.sector, ...e.tags].join(" ").toLowerCase().includes(q))
-      .sort((a, b) => b.trust - a.trust)
+      .filter(
+        (e) =>
+          !q ||
+          [e.primaryExpertise, e.ukraineTheme, e.contribution, e.sector, ...e.tags]
+            .join(" ")
+            .toLowerCase()
+            .includes(q),
+      )
+      .sort((a, b) => a.code.localeCompare(b.code))
       .slice(0, limit ?? 20)
       .map(toPublicExpert);
     return {

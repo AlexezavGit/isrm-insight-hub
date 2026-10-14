@@ -1,0 +1,429 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 Реалізувати `src/components/EntryFrame.tsx` з IntersectionObserver-анімацією": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978344247
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978349679
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978749765
+      }
+    ],
+    "2.1 Створити `src/components/ContactDialog.tsx` з Radix UI Dialog і Zod-валідацією": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978344339
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978352615
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978753070
+      }
+    ],
+    "3. Checkpoint — базові компоненти": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978344429
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978759394
+      }
+    ],
+    "4.1 Додати типобезпечні search-параметри через `validateSearch` у `createFileRoute(\"/\")`": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978344511
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978762709
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978818030
+      }
+    ],
+    "4.2 Ініціалізувати стан `searchOpen` / `cabinetOpen` з параметрів маршруту": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978344541
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791979433962
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791979813033
+      }
+    ],
+    "4.5 Додати `max-h-[50svh] overflow-y-auto` до Search Panel `<aside>` для мобільних viewport": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978344577
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791979437718
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791979816317
+      }
+    ],
+    "4.6 Оновити `MemberCabinet.tsx` — додати `max-h-[50svh] overflow-y-auto` на мобільних": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978344614
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791979441088
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791979819608
+      }
+    ],
+    "4.7 Оновити Bottom Nav: замінити третю кнопку на `<Link to=\"/scope\">` з `useMatch` для активного стану": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978344648
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791979444647
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791979823018
+      }
+    ],
+    "5. Checkpoint — NetworkPage": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978344687
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791979826141
+      }
+    ],
+    "6.1 Додати Value-Unlock список під картку «Search» у розділі 01": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978344723
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791979830582
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791980275988
+      }
+    ],
+    "6.2 Додати Value-Unlock список під картку «Service functions» у розділі 01": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978344755
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791979833668
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791980279132
+      }
+    ],
+    "6.4 Видалити секцію 03 (`aria-labelledby=\"client-packages-heading\"`) із `proposal.tsx`": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978344787
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791979837834
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791980282746
+      }
+    ],
+    "6.5 Видалити секцію capacity (`aria-labelledby=\"client-capacity-heading\"`) і cohort2 із `proposal.tsx`": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978344820
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791979842406
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791980286093
+      }
+    ],
+    "6.6 Замінити всі CTA-якорі на `#client-packages-heading` і `#client-capacity-heading` на `<Link to=\"/scope\">`": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978344878
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791980289715
+      },
+      {
+        "executionId": "0aa3916f-3fd4-4980-971a-f0bb4ea4d66a",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791982107881
+      }
+    ],
+    "6.7 Додати `<EntryFrame locale={locale} />` як фінальний елемент перед `<footer>` у `proposal.tsx`": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978344913
+      },
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791980293397
+      },
+      {
+        "executionId": "0aa3916f-3fd4-4980-971a-f0bb4ea4d66a",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791982077202
+      },
+      {
+        "executionId": "0aa3916f-3fd4-4980-971a-f0bb4ea4d66a",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791982111337
+      }
+    ],
+    "7. Checkpoint — proposal.tsx": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978344958
+      },
+      {
+        "executionId": "0aa3916f-3fd4-4980-971a-f0bb4ea4d66a",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791982114553
+      }
+    ],
+    "8.1 Створити `src/routes/scope.tsx` з `createFileRoute(\"/scope\")` і head-метаданими": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978345007
+      },
+      {
+        "executionId": "0aa3916f-3fd4-4980-971a-f0bb4ea4d66a",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791982118437
+      },
+      {
+        "executionId": "0aa3916f-3fd4-4980-971a-f0bb4ea4d66a",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791982608133
+      }
+    ],
+    "8.2 Перенести JSX секції 03 (пакети) з `proposal.tsx` до `ScopePage`": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978345056
+      },
+      {
+        "executionId": "0aa3916f-3fd4-4980-971a-f0bb4ea4d66a",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791982611776
+      }
+    ],
+    "8.3 Перенести JSX секції capacity до `ScopePage`": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978345108
+      },
+      {
+        "executionId": "0aa3916f-3fd4-4980-971a-f0bb4ea4d66a",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791982917452
+      }
+    ],
+    "8.4 Додати кнопку «← До пропозиції» (`<Link to=\"/proposal\">`) у header `ScopePage`": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978345137
+      },
+      {
+        "executionId": "0aa3916f-3fd4-4980-971a-f0bb4ea4d66a",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791982920986
+      }
+    ],
+    "8.5 Додати перемикач мови EN / UA у `ScopePage`, аналогічний `proposal.tsx`": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978345172
+      },
+      {
+        "executionId": "0aa3916f-3fd4-4980-971a-f0bb4ea4d66a",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791982924508
+      }
+    ],
+    "8.6 Підключити `<ContactDialog>` до `ScopePage` через `contactOpen` / `setContactOpen`": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978345213
+      },
+      {
+        "executionId": "0aa3916f-3fd4-4980-971a-f0bb4ea4d66a",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791982928132
+      }
+    ],
+    "9.1 Змінити умову `loadExpertNetwork` у `__root.tsx` на `pathname !== \"/proposal\" && pathname !== \"/scope\"`": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978345249
+      },
+      {
+        "executionId": "0aa3916f-3fd4-4980-971a-f0bb4ea4d66a",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791982931632
+      }
+    ],
+    "10.1 Переконатися, що `routeTree.gen.ts` містить `/scope` після збірки або зареєструвати маршрут вручну якщо автогенерація не спрацює": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978345286
+      },
+      {
+        "executionId": "0aa3916f-3fd4-4980-971a-f0bb4ea4d66a",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791982935909
+      }
+    ],
+    "11. Final checkpoint — Ensure all tests pass": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978345322
+      },
+      {
+        "executionId": "0aa3916f-3fd4-4980-971a-f0bb4ea4d66a",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791982939424
+      }
+    ],
+    "1. Створити компонент `EntryFrame`": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978749945
+      }
+    ],
+    "2. Реалізувати компонент `ContactDialog`": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791978753107
+      }
+    ],
+    "4. Оновити `NetworkPage` (`src/routes/index.tsx`) — search-параметри, висота панелей, Bottom Nav": [
+      {
+        "executionId": "d13e46e6-fc2b-4b36-b214-6b83423a34cd",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791979823089
+      }
+    ],
+    "6. Оновити `proposal.tsx` — Value-Unlock списки, видалення секцій, Entry Frame": [
+      {
+        "executionId": "0aa3916f-3fd4-4980-971a-f0bb4ea4d66a",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791982111377
+      }
+    ],
+    "8. Створити нову сторінку `/scope` (`src/routes/scope.tsx`)": [
+      {
+        "executionId": "0aa3916f-3fd4-4980-971a-f0bb4ea4d66a",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791982928180
+      }
+    ],
+    "9. Оновити `__root.tsx` — виключити `/scope` із завантаження graph-даних": [
+      {
+        "executionId": "0aa3916f-3fd4-4980-971a-f0bb4ea4d66a",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791982931722
+      }
+    ],
+    "10. Фінальне з'єднання та перевірка маршрутів": [
+      {
+        "executionId": "0aa3916f-3fd4-4980-971a-f0bb4ea4d66a",
+        "chatSessionId": "sess_532a37b8-57d1-40df-b167-aa53c3180552",
+        "timestamp": 1791982935993
+      }
+    ]
+  }
+}

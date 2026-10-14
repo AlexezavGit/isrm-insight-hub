@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { getNetwork } from "./network.functions";
 import type { NetworkPayload } from "./types";
@@ -14,7 +14,14 @@ interface Ctx {
 }
 const AccessCtx = createContext<Ctx | null>(null);
 
-export function AccessProvider({ children }: { children: ReactNode }) {
+export function AccessProvider({
+  children,
+  enabled = true,
+}: {
+  children: ReactNode;
+  enabled?: boolean;
+}) {
+  const queryClient = useQueryClient();
   const [code, setCodeState] = useState("");
   useEffect(() => {
     setCodeState(sessionStorage.getItem(KEY) || "");
@@ -29,8 +36,20 @@ export function AccessProvider({ children }: { children: ReactNode }) {
     queryKey: ["network", code],
     queryFn: () => fetchNet({ data: { code } }),
     staleTime: Infinity,
+    enabled,
   });
-  const v = useMemo(() => ({ code, setCode, data: q.data, loading: q.isLoading }), [code, q.data, q.isLoading]);
+  useEffect(() => {
+    if (!enabled) queryClient.removeQueries({ queryKey: ["network"] });
+  }, [enabled, queryClient]);
+  const v = useMemo(
+    () => ({
+      code,
+      setCode,
+      data: enabled ? q.data : undefined,
+      loading: enabled && q.isLoading,
+    }),
+    [code, enabled, q.data, q.isLoading],
+  );
   return <AccessCtx.Provider value={v}>{children}</AccessCtx.Provider>;
 }
 

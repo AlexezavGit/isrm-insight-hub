@@ -1,0 +1,16 @@
+SaaS feasibility sensitivity (registry §7f),,,,,
+Effective reach,Eng-share,ARPU,Annual SaaS revenue,Implication tier,Implication detail
+8742,0.005,240,10490.4,token,Recovers nothing of partner block. Confirms §7e.6 honest.
+8742,0.02,240,41961.6,self-sustaining,Pilot reaches above-default services engagement; covers hosting + Cloudflare + Supabase + part-time engineer
+8742,0.005,1200,52452.0,self-sustaining,Pilot does not move; ARPU moves (corporate buyer pays for ten seats)
+50000,0.005,240,60000.0,self-sustaining,Reach moves; engagement stays conservative. UK/US LinkedIn Page scale.
+50000,0.02,240,240000.0,real SaaS,International chapter + above-default engagement. Realistic only after 12-24 months.
+50000,0.05,600,1500000.0,large SaaS,Upper aspirational band; requires reach scaling + pricing tier mix shift
+,,,,,
+,,,,,
+Verdict (registry §7f.3),,,,,
+"LinkedIn alone, year 1, does NOT support meaningful SaaS revenue. To reach £30k+/year, at least one of three parameters must move:",,,,,
+Effective reach 8742 → 25000+ (3×),,,,,
+Engaged-in-services share 0.5% → 2%+ (4×),,,,,
+ARPU £240 → £600+/year (5×),,,,,
+Any one → self-sustaining; any two → real SaaS. None is year-1 deliverable for current pilot.,,,,,

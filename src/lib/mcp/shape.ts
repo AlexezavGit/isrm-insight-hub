@@ -7,7 +7,6 @@ export const toPublicExpert = (e: Expert) => ({
   sector: e.sector,
   country: e.country,
   verified: e.verified,
-  trust: e.trust,
   communityRole: e.communityRole,
   tags: e.tags.map((t) => t),
   primaryExpertise: e.primaryExpertise ?? "",

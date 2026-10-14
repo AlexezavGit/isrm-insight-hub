@@ -1,0 +1,13 @@
+partner rate card,,,,,
+Code,Value (GBP/h),Note,,,
+ISRM-RATE-PARTNER-LOW,25,Low end of Clutch UA $25-49 band converted at K_eur_usd,,,
+ISRM-RATE-PARTNER-BASE,37,Midpoint of $25-49; cross-checked vs BLS,,,
+ISRM-RATE-PARTNER-HIGH,49,High end of $25-49; below BLS 90th percentile $100,,,
+,,,,,
+module lines T5,,,,,
+Code,Module,Package,Role,Hours,Pay base @ £37/h
+ISRM-MOD-MVP-SEARCH,Search,02,ops,16,592
+ISRM-MOD-MVP-GRAPH,Graph,02,product,32,1184
+ISRM-MOD-PILOT-GRAPH,Graph pilot,03,product,20,740
+ISRM-MOD-PILOT-DEP,Dependencies,03,product,16,592
+Σ modules,,,,84,3108

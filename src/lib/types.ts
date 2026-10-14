@@ -19,7 +19,6 @@ export interface Expert {
   evidence: string;
   contribution: string;
   potentialRole: string;
-  trust: number;
   caseTheme?: string | undefined;
   internationalRelevance?: string | undefined;
   // revealed only
