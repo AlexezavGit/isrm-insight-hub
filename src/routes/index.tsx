@@ -161,7 +161,8 @@ function NetworkPage() {
               experts={graphExperts}
               layers={layers}
               focus={focus}
-              serviceMode={cabinetOpen && !dependenciesMode}
+              serviceMode={cabinetOpen || dependenciesMode}
+              showExpertsOnServices={dependenciesMode}
               onFocus={(code) => {
                 if (
                   code?.startsWith("S:") ||
@@ -399,9 +400,10 @@ function NetworkPage() {
           label={locale === "uk" ? "Залежності" : "Dependencies"}
           active={dependenciesMode}
           onClick={() => {
-            setDependenciesMode((prev) => !prev);
-            if (!dependenciesMode) {
-              setCabinetOpen(false);
+            const next = !dependenciesMode;
+            setDependenciesMode(next);
+            if (next) {
+              setCabinetOpen(true); // need service graph as base
               setSearchOpen(false);
             }
           }}

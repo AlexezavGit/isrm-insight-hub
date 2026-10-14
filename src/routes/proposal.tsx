@@ -425,17 +425,11 @@ function ClientProposal() {
                 },
               ] as const).map((node, i, arr) => (
                 <div key={node.id} className="cycle-timeline-row">
-                  {/* Left: action */}
+                  {/* Left: action only (no funnel) */}
                   <div className="cycle-tl-left">
                     <div className="cycle-tl-card cycle-tl-card--action">
                       <span className="cycle-tl-icon" aria-hidden="true">{node.icon}</span>
                       <p>{node.action[uk ? "uk" : "en"]}</p>
-                      {node.funnel && (
-                        <div className="cycle-tl-funnel">
-                          <strong>{node.funnel.value}</strong>
-                          <span>{node.funnel.note[uk ? "uk" : "en"]}</span>
-                        </div>
-                      )}
                     </div>
                   </div>
 
@@ -446,14 +440,24 @@ function ClientProposal() {
                     {i === arr.length - 1 && <div className="cycle-tl-return" aria-hidden="true" />}
                   </div>
 
-                  {/* Right: revenue / empty */}
+                  {/* Right: revenue + funnel (audience numbers as outcome) */}
                   <div className="cycle-tl-right">
-                    {node.revenue ? (
+                    {(node.revenue || node.funnel) ? (
                       <div className="cycle-tl-card cycle-tl-card--revenue">
-                        <span className="cycle-tl-revenue-label" aria-hidden="true">
-                          {text("Revenue opportunity", "Можливість доходу")}
-                        </span>
-                        <p>{node.revenue[uk ? "uk" : "en"]}</p>
+                        {node.revenue && (
+                          <>
+                            <span className="cycle-tl-revenue-label" aria-hidden="true">
+                              {text("Revenue opportunity", "Можливість доходу")}
+                            </span>
+                            <p>{node.revenue[uk ? "uk" : "en"]}</p>
+                          </>
+                        )}
+                        {node.funnel && (
+                          <div className="cycle-tl-funnel" style={{ marginTop: node.revenue ? "0.5rem" : 0 }}>
+                            <strong>{node.funnel.value}</strong>
+                            <span>{node.funnel.note[uk ? "uk" : "en"]}</span>
+                          </div>
+                        )}
                       </div>
                     ) : (
                       <div className="cycle-tl-empty" aria-hidden="true" />
@@ -488,7 +492,7 @@ function ClientProposal() {
                 </p>
               </div>
             </div>
-            <div className="client-pilot-grid">
+            <div className="client-pilot-grid client-pilot-grid--3col">
               {[
                 {
                   title: text("Expertise gap analysis", "Аналіз прогалин в експертизі"),

@@ -37,6 +37,7 @@ export default function NetworkGraph({
   focus,
   onFocus,
   serviceMode = false,
+  showExpertsOnServices = false,
 }: {
   experts: Expert[];
   layers: GraphLayers;
@@ -44,12 +45,16 @@ export default function NetworkGraph({
   onFocus: (code: string | null) => void;
   /** When true, show service functions graph (cycle ring) instead of expert graph */
   serviceMode?: boolean;
+  /** When true (dependencies mode), clicking a service node reveals connected expert nodes */
+  showExpertsOnServices?: boolean;
 }) {
   const { t } = useI18n();
   const wrap = useRef<HTMLDivElement>(null);
   const fg = useRef<any>(null);
   const [size, setSize] = useState({ w: 800, h: 600 });
   const [hover, setHover] = useState<string | null>(null);
+  // Track which service nodes have been clicked to reveal experts (dependencies mode)
+  const [revealedServices, setRevealedServices] = useState<Set<string>>(new Set());
   const colors = useMemo(
     () => ({
       primary: css("--primary"),
@@ -71,6 +76,10 @@ export default function NetworkGraph({
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (!showExpertsOnServices) setRevealedServices(new Set());
+  }, [showExpertsOnServices]);
 
 
   // Service graph: two orbital rings around central hub
@@ -118,7 +127,41 @@ export default function NetworkGraph({
   }, []);
 
   const data = useMemo(() => {
-    if (serviceMode) return serviceData;
+    if (serviceMode) {
+      if (!showExpertsOnServices || revealedServices.size === 0) return serviceData;
+      // Merge: service ring + expert nodes attached to revealed service nodes
+      const nodes = [...serviceData.nodes];
+      const links = [...serviceData.links];
+      // Map each service to relevant expert sectors
+      const svcSectors: Record<string, string[]> = {
+        "svc:members":    ["Business / advisory", "Humanitarian / NGO"],
+        "svc:agenda":     ["Academia / research", "Security / risk / resilience"],
+        "svc:discussions":["Academia / research", "Humanitarian / NGO"],
+        "svc:reports":    ["Academia / research", "Business / advisory"],
+        "svc:expertise":  ["Security / risk / resilience", "Business / advisory"],
+        "svc:membership": ["Humanitarian / NGO", "Business / advisory"],
+        "svc:warroom":    ["Security / risk / resilience"],
+        "svc:conference": ["Academia / research", "Business / advisory", "Humanitarian / NGO"],
+      };
+      revealedServices.forEach((svcId) => {
+        const sectors = svcSectors[svcId] ?? [];
+        experts
+          .filter((e) => e.verified && sectors.some((s) => e.sector?.includes(s)))
+          .slice(0, 6)
+          .forEach((e) => {
+            if (!nodes.find((n) => n.id === e.code)) {
+              nodes.push({ id: e.code, kind: "expert" as const, label: e.displayName, expert: e, size: 1 });
+            }
+            if (!links.find((l) =>
+              (l.source === e.code || (l.source as any).id === e.code) &&
+              (l.target === svcId  || (l.target as any).id === svcId)
+            )) {
+              links.push({ source: e.code, target: svcId, kind: "dependency" });
+            }
+          });
+      });
+      return { nodes, links };
+    }
     const nodes: GNode[] = [];
     const links: GLink[] = [];
     const ensure = (id: string, kind: Kind, label: string) => {
@@ -224,6 +267,7 @@ export default function NetworkGraph({
             t = l.target.id;
           if (l.kind === "mvp" || l.kind === "mvp-ring") return colors.primary + "cc";
           if (l.kind === "pilot" || l.kind === "pilot-ring") return colors.c2 + "cc";
+          if (l.kind === "dependency") return colors.success + "99";
 
           if (activeSet)
             return activeSet.has(s) && activeSet.has(t) ? colors.primary : "rgba(120,120,130,0.05)";
@@ -233,7 +277,18 @@ export default function NetworkGraph({
           activeSet && activeSet.has(l.source.id) && activeSet.has(l.target.id) ? 1.2 : 0.5
         }
         onNodeHover={(n: any) => setHover(n?.id ?? null)}
-        onNodeClick={(n: any) => onFocus(n.id === focus ? null : n.id)}
+        onNodeClick={(n: any) => {
+          if (showExpertsOnServices && typeof n.id === "string" && n.id.startsWith("svc:")) {
+            setRevealedServices((prev) => {
+              const next = new Set(prev);
+              if (next.has(n.id)) next.delete(n.id);
+              else next.add(n.id);
+              return next;
+            });
+            return;
+          }
+          onFocus(n.id === focus ? null : n.id);
+        }}
         onBackgroundClick={() => onFocus(null)}
         nodePointerAreaPaint={(n: any, color, ctx) => {
           ctx.fillStyle = color;
