@@ -163,6 +163,8 @@ function NetworkPage() {
                   code?.startsWith("S:") ||
                   code?.startsWith("T:") ||
                   code?.startsWith("H:") ||
+                  code?.startsWith("svc:") ||
+                  code?.startsWith("hub:") ||
                   code === "P:queue"
                 ) {
                   return;

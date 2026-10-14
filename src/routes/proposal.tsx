@@ -58,12 +58,7 @@ function ClientProposal() {
                 "Від упорядкованої таблиці — до робочого процесу з експертами",
               )}
             </h1>
-            <p className="partner-lede">
-              {text(
-                "A useful application MVP first, followed only by an optional expert-community cycle and a later public-product decision.",
-                "Спершу самостійно корисний MVP, потім — лише за окремим рішенням — цикл експертної спільноти та подальший розгляд публічного продукту.",
-              )}
-            </p>
+
           </div>
           <div className="partner-header-status">
             <div
@@ -88,19 +83,11 @@ function ClientProposal() {
                 UA
               </button>
             </div>
-            <span className="partner-badge">
-              {text("Discussion draft · not a quote", "Чернетка для обговорення · не оферта")}
-            </span>
+
           </div>
         </header>
 
-        <div className="partner-value-revelation-banner" role="note" aria-label={text("Why dependencies matter", "Чому залежності мають значення")}>
-          <strong>{text("Why dependencies matter:", "Чому залежності мають значення:")}</strong>{" "}
-          {text(
-            "Choosing a single function unlocks capabilities that were never accessible without the application — cross-sell, over-sell, member-capacity expansion, network expertise, and free publicity through dependency traversal. The application service is the surface where these become visible.",
-            "Вибір однієї функції розкриває можливості, які були недосяжними без застосунку — крос-селл, овер-селл, розширення капасіті членів, мережева експертиза, безоплатні публікації й розвиток паблісіті через traversal залежностей. Сервіс застосунку — це поверхня, на якій це стає видимим.",
-          )}
-        </div>
+        
 
         <section className="partner-view" aria-labelledby="client-offer-heading">
           <article className="partner-card client-offer-hero">
