@@ -9,6 +9,53 @@ type Props = {
   setLocale: (locale: "en" | "uk") => void;
 };
 
+const LAYOUT = `
+.client-proposal .cycle-timeline-row {
+  grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1.3fr) !important;
+  align-items: stretch;
+}
+.client-proposal .cycle-tl-left,
+.client-proposal .cycle-tl-right { min-width: 0; }
+.client-proposal .cycle-tl-funnel {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 0.35rem !important;
+  width: 100% !important;
+}
+.client-proposal .cycle-tl-funnel strong {
+  display: block !important;
+  width: 100% !important;
+  text-align: right !important;
+  white-space: nowrap !important;
+  font-size: 1.35rem !important;
+  line-height: 1.2 !important;
+}
+.client-proposal .cycle-tl-funnel span {
+  display: block !important;
+  width: 100% !important;
+  white-space: normal !important;
+  text-align: left !important;
+  line-height: 1.45 !important;
+}
+.client-proposal .client-pilot-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  width: 100% !important;
+  gap: 1rem !important;
+}
+.client-proposal .client-pilot-step {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  height: 100%;
+}
+@media (max-width: 800px) {
+  .client-proposal .client-pilot-grid { grid-template-columns: 1fr !important; }
+  .client-proposal .cycle-timeline-row { grid-template-columns: 1fr !important; }
+}
+`;
+
 export function ClientProposalBody({ locale, text, uk, setLocale }: Props) {
   const dependencyEdges = PROPOSAL_FUNCTIONS.flatMap((feature) =>
     feature.dependencies.flatMap((dependencyId) => {
@@ -19,6 +66,7 @@ export function ClientProposalBody({ locale, text, uk, setLocale }: Props) {
 
   return (
     <main className="partner-review client-proposal client-offer">
+      <style>{LAYOUT}</style>
       <div className="partner-shell">
         <ClientProposalUpper
           locale={locale}
