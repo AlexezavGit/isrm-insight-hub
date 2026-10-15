@@ -14,27 +14,14 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
       <header className="partner-header">
         <div>
           <div className="partner-logo-row" aria-label="ISRM">
-            <svg
+            <img
               className="partner-isrm-logo"
-              viewBox="0 0 120 28"
-              width="120"
-              height="28"
-              role="img"
-              aria-label="ISRM"
-            >
-              <title>ISRM</title>
-              <text
-                x="0"
-                y="22"
-                fontFamily="Space Grotesk, Montserrat, ui-sans-serif, system-ui, sans-serif"
-                fontWeight="700"
-                fontSize="26"
-                letterSpacing="0.04em"
-                fill="currentColor"
-              >
-                ISRM
-              </text>
-            </svg>
+              src="https://www.theisrm.org/wp-content/uploads/2025/02/isrm-logo.jpg"
+              alt="ISRM"
+              width={1000}
+              height={552}
+              style={{ display: "block", height: 52, width: "auto" }}
+            />
           </div>
           <p className="partner-eyebrow">{text("Client proposal", "Пропозиція замовнику")}</p>
           <h1>
