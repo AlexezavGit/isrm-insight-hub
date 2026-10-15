@@ -120,7 +120,7 @@ function ClientProposal() {
             </div>
           </article>
 
-          <section className="client-preview-section" aria-labelledby="client-preview-heading">
+          <section className="client-preview-section" aria-labelledby="client-preview-heading" style={{ marginTop: "3rem" }}>
             <div className="partner-section-heading">
               <span>01</span>
               <div>
@@ -288,7 +288,7 @@ function ClientProposal() {
             </div>
           </section>
 
-          <section aria-labelledby="client-engagement-heading">
+          <section aria-labelledby="client-engagement-heading" style={{ marginTop: "4rem" }}>
             <div className="partner-section-heading">
               <span>02</span>
               <div>
@@ -444,7 +444,7 @@ function ClientProposal() {
             </p>
           </section>
 
-          <section aria-labelledby="client-consulting-heading">
+          <section aria-labelledby="client-consulting-heading" style={{ marginTop: "4rem" }}>
             <div className="partner-section-heading">
               <span>03</span>
               <div>

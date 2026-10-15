@@ -325,7 +325,7 @@ export function MemberCabinet({
               <p className="tech-label text-primary">
                 Service deck · {active + 1}/{SERVICES.length}
               </p>
-              <h3 className="mt-1 font-display text-2xl">Customisable network services</h3>
+
             </div>
             <div className="flex gap-1">
               <Button
@@ -346,19 +346,17 @@ export function MemberCabinet({
               </Button>
             </div>
           </div>
-          <p className="mt-3 max-w-prose text-sm leading-relaxed text-muted-foreground">
-            {copy.circlesIntro}
-          </p>
+
               <div ref={serviceDeckRef} className="mt-4 flex snap-x gap-3 overflow-x-auto pb-3">
                 {SERVICES.map((item, i) => (
                   <button
                     key={item.title.en}
                     data-service-index={i}
                     onClick={() => setActive(i)}
-                    className={`min-h-32 w-48 shrink-0 snap-start rounded border p-4 text-left transition-colors ${i === active ? "border-primary bg-primary/10" : "border-border bg-card/65 hover:border-brass/60"}`}
+                    className={`h-auto w-40 shrink-0 snap-start rounded border p-3 text-left transition-colors flex items-center gap-2 ${i === active ? "border-primary bg-primary/10" : "border-border bg-card/65 hover:border-brass/60"}`}
                   >
-                    <item.icon className="h-5 w-5 text-primary" />
-                    <p className="mt-5 text-sm font-semibold">{item.title[language]}</p>
+                    <item.icon className="h-4 w-4 text-primary shrink-0" />
+                    <p className="text-xs font-semibold leading-tight">{item.title[language]}</p>
                     
                   </button>
                 ))}
