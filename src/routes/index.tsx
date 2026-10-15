@@ -277,26 +277,7 @@ function NetworkPage() {
         </div>
       </header>
 
-      {/* Dependencies info overlay — visible in dependencies mode */}
-      {dependenciesMode && (
-        <div className="pointer-events-none absolute inset-x-0 bottom-[5.5rem] z-10 flex justify-center sm:bottom-[5rem]">
-          <div className="pointer-events-auto mx-4 max-w-sm rounded border border-success/40 bg-panel/90 px-4 py-3 backdrop-blur-xl text-sm">
-            <p className="tech-label text-success mb-1.5">
-              {locale === "uk" ? "Що стає доступним через залежності" : "What dependencies unlock"}
-            </p>
-            <ul className="space-y-1 text-xs text-muted-foreground">
-              <li>↗ {locale === "uk" ? "Крос-селл: одна функція розкриває суміжні можливості" : "Cross-sell: one function reveals adjacent capabilities"}</li>
-              <li>↗ {locale === "uk" ? "Овер-селл: збільшення портфоліо через traversal залежностей" : "Over-sell: portfolio growth through dependency traversal"}</li>
-              <li>↗ {locale === "uk" ? "Розширення капасіті: спільноти як downstream можливості" : "Capacity expansion: communities as downstream opportunities"}</li>
-              <li>↗ {locale === "uk" ? "Накопичення мережевої експертизи та знань" : "Network expertise accumulation and knowledge capture"}</li>
-              <li>↗ {locale === "uk" ? "Публікації та розвиток паблісіті з результатів груп" : "Publications and publicity from working-group outputs"}</li>
-            </ul>
-            <p className="mt-2 text-[10px] text-muted-foreground opacity-60">
-              {locale === "uk" ? "Клікніть на вузол сервісу щоб показати пов'язаних людей" : "Click a service node to reveal connected people"}
-            </p>
-          </div>
-        </div>
-      )}
+
 
       {searchOpen && (
         <aside
@@ -446,6 +427,47 @@ function NetworkPage() {
           </Link>
         </Button>
       </nav>
+      {/* Dependencies sidebar — visible in dependencies mode */}
+      {dependenciesMode && (
+        <aside className="fixed bottom-[5rem] right-0 z-40 w-full overflow-y-auto overscroll-contain border border-border rounded-t-lg bg-panel/95 pb-4 backdrop-blur-2xl max-h-[calc(50svh-5rem)] sm:bottom-0 sm:inset-y-0 sm:top-16 sm:max-h-none sm:w-1/2 sm:max-w-[480px] sm:rounded-none sm:border-l sm:border-t-0">
+          <div className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-panel/90 px-5 py-4 backdrop-blur-xl">
+            <div>
+              <p className="tech-label text-success">{locale === "uk" ? "Залежності" : "Dependencies"}</p>
+              <h2 className="mt-0.5 font-display text-xl">{locale === "uk" ? "Що стає доступним" : "What becomes accessible"}</h2>
+            </div>
+            <Button variant="ghost" size="icon" onClick={() => setDependenciesMode(false)} aria-label="Close">
+              <X />
+            </Button>
+          </div>
+          <div className="space-y-3 p-4 sm:p-5">
+              <div className="deps-item" key="0">
+                <span className="deps-item-title">{locale === "uk" ? "Крос-селл" : "Cross-sell"}</span>
+                <p className="deps-item-body">{locale === "uk" ? "Вибір однієї функції розкриває суміжні можливості, недоступні без сервісу застосунку." : "Selecting one function reveals adjacent capabilities that were not accessible without the application service."}</p>
+              </div>
+              <div className="deps-item" key="1">
+                <span className="deps-item-title">{locale === "uk" ? "Овер-селл" : "Over-sell"}</span>
+                <p className="deps-item-body">{locale === "uk" ? "Збільшення клієнтського портфоліо через суміжні функції, які відкриваються при traversal залежностей." : "Increase average client portfolio size by exposing adjacent functions through dependency traversal."}</p>
+              </div>
+              <div className="deps-item" key="2">
+                <span className="deps-item-title">{locale === "uk" ? "Розширення капасіті" : "Capacity expansion"}</span>
+                <p className="deps-item-body">{locale === "uk" ? "Спільноти та робочі групи стають downstream можливостями від однієї обраної функції." : "Communities and working groups revealed as downstream opportunities from a single function."}</p>
+              </div>
+              <div className="deps-item" key="3">
+                <span className="deps-item-title">{locale === "uk" ? "Мережева експертиза" : "Network expertise"}</span>
+                <p className="deps-item-body">{locale === "uk" ? "Спільний перегляд доказів і фіксація знань у робочих групах формують структуровану карту компетенцій." : "Shared evidence review and knowledge capture across working groups builds a structured competency map."}</p>
+              </div>
+              <div className="deps-item" key="4">
+                <span className="deps-item-title">{locale === "uk" ? "Безоплатні публікації" : "Free publications"}</span>
+                <p className="deps-item-body">{locale === "uk" ? "Результати робочих груп стають актуальними публікаціями без окремих витрат на виробництво." : "Working-group outputs become current publications without separate production cost."}</p>
+              </div>
+              <div className="deps-item" key="5">
+                <span className="deps-item-title">{locale === "uk" ? "Розвиток паблісіті" : "Publicity development"}</span>
+                <p className="deps-item-body">{locale === "uk" ? "Відстеження згадок у медіа й оцінка готовності до конференції стають доступними через мережу." : "Media-tracked mentions and conference-readiness assessment become accessible through the network."}</p>
+              </div>
+          </div>
+        </aside>
+      )}
+
       <MemberCabinet
         open={cabinetOpen && !dependenciesMode}
         onClose={() => setCabinetOpen(false)}

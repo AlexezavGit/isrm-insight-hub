@@ -102,303 +102,129 @@ const SERVICE_DRAFTS_KEY = "isrm-service-deck-drafts-v1";
 const SERVICES = [
   {
     icon: BriefcaseBusiness,
-    title: { en: "Projects & expert requests", uk: "Проєкти й запити на експертизу" },
+    title: { en: "MVP Application", uk: "MVP Застосунок" },
     purpose: {
-      en: "Turn an expertise need into a scoped project, matched team and controlled delivery. Keep goals, owners, tasks and accepted outputs together so work does not disappear into another spreadsheet.",
-      uk: "Перетворює потребу в експертизі на проєкт із визначеним обсягом, командою та контрольованим виконанням. Цілі, відповідальні, задачі й прийняті результати зберігаються разом, а не губляться в окремих таблицях.",
+      en: "The core working application: find the right expertise, form project groups, track goals and contributions, prepare first contact. Everything else builds on this.",
+      uk: "Основний робочий застосунок: знайти потрібну експертизу, сформувати проєктні групи, відстежувати цілі й внески, підготувати перший контакт. Все інше будується на цьому.",
     },
     role: {
-      en: "Join as a project lead, contributor or reviewer; agree who owns decisions and deliverables.",
-      uk: "Долучайтеся як керівник проєкту, виконавець або рецензент; зафіксуйте власників рішень і результатів.",
+      en: "Expert search and filtering · Purpose-based group selection · Profile and evidence review · Project goal and task tracking · First contact preparation",
+      uk: "Пошук і фільтрування експертів · Відбір групи за метою · Перегляд профілю й доказів · Облік цілей і задач · Підготовка першого контакту",
     },
-    questions: {
-      en: {
-        need: "Do members need a shared project record, or is a structured request and expert group enough?",
-        behavior:
-          "Should the workflow track tasks and deliverables only, or also approvals and change history?",
-      },
-      uk: {
-        need: "Чи потрібен учасникам спільний запис проєкту, чи достатньо структурованого запиту й групи експертів?",
-        behavior:
-          "Чи має процес відстежувати лише задачі й результати, чи також погодження та історію змін?",
-      },
-    },
-    stage: 2,
-  },
-  {
-    icon: Megaphone,
-    title: { en: "Recruitment campaigns", uk: "Кампанії залучення експертів" },
-    purpose: {
-      en: "Plan a bounded campaign for an agreed expert profile and purpose. Keep the audience, approved channel, message and actual delivery evidence distinct from the size of a group or follower count.",
-      uk: "Допомагає спланувати обмежену кампанію для погодженого профілю експерта й мети. Аудиторія, дозволений канал, повідомлення та фактична доставка відокремлюються від кількості учасників групи чи підписників.",
-    },
-    role: {
-      en: "Refer candidates, review profiles or help prepare outreach through a channel the owner has approved.",
-      uk: "Рекомендуйте кандидатів, переглядайте профілі або допомагайте з комунікацією через канал, погоджений його власником.",
-    },
-    questions: {
-      en: {
-        need: "Is targeted recruitment needed, and which expertise gap should it address?",
-        behavior:
-          "Should invitations be prepared for manual review, or should the service only record referrals and responses?",
-      },
-      uk: {
-        need: "Чи потрібне адресне залучення і яку прогалину в експертизі воно має закрити?",
-        behavior:
-          "Сервіс має готувати запрошення для ручного перегляду чи лише фіксувати рекомендації та відповіді?",
-      },
-    },
-    stage: 3,
-  },
-  {
-    icon: MessageSquareText,
-    title: { en: "Expert discussions", uk: "Експертні обговорення" },
-    purpose: {
-      en: "Support private roundtables, collaborative research and structured consultations with an agreed agenda. Preserve decisions, evidence and disagreements as reviewable outputs rather than treating attendance as endorsement.",
-      uk: "Підтримує закриті круглі столи, спільні дослідження й структуровані консультації за погодженим порядком денним. Рішення, докази й розбіжності фіксуються як результати; сама участь не подається як схвалення.",
-    },
-    role: {
-      en: "Contribute evidence, moderate a session or prepare a synthesis for review.",
-      uk: "Надавайте докази, модеруючи сесію, або готуйте узагальнення для перевірки.",
-    },
-    questions: {
-      en: {
-        need: "Do experts need a facilitated live discussion, an asynchronous review, or both?",
-        behavior:
-          "Should the record capture attributed contributions, anonymized notes, agreed decisions, or a mix chosen by participants?",
-      },
-      uk: {
-        need: "Експертам потрібне модероване обговорення наживо, асинхронний перегляд чи обидва формати?",
-        behavior:
-          "Фіксувати авторські внески, анонімізовані нотатки, погоджені рішення чи обраний учасниками варіант?",
-      },
-    },
+    questions: { en: { need: "", behavior: "" }, uk: { need: "", behavior: "" } },
     stage: 1,
   },
   {
-    icon: CalendarDays,
-    title: { en: "Meeting operations", uk: "Організація зустрічей" },
+    icon: Users,
+    title: { en: "Active Members", uk: "Активні члени" },
     purpose: {
-      en: "Coordinate access, agenda, attendance, materials and follow-up for online or in-person sessions. The required level may range from a checklist to a reusable event record with assigned actions.",
-      uk: "Координує доступ, порядок денний, присутність, матеріали й наступні дії для онлайн- або очних зустрічей. Потрібний рівень може бути від чекліста до повторно використовуваного запису події з призначеними діями.",
+      en: "Engage existing members systematically. Their expertise, network connections and active projects form the starting base of the cycle.",
+      uk: "Системно залучайте наявних членів. Їхня експертиза, зв'язки та активні проєкти формують стартову базу циклу.",
     },
     role: {
-      en: "Host, attend or provide briefing materials; identify who owns follow-up actions.",
-      uk: "Проводьте зустріч, беріть участь або готуйте матеріали; визначайте відповідальних за наступні дії.",
+      en: "Maintain profiles, contribute expertise, connect to project requests.",
+      uk: "Підтримуйте профілі, долучайте експертизу, реагуйте на запити.",
     },
-    questions: {
-      en: {
-        need: "Is a meeting workflow needed beyond existing calendar and video-conference tools?",
-        behavior:
-          "Should the service manage invitations and attendance, or only agendas, materials and follow-up actions?",
-      },
-      uk: {
-        need: "Чи потрібен окремий процес зустрічей понад наявні календарі й відеозв’язок?",
-        behavior:
-          "Сервіс має керувати запрошеннями й присутністю чи лише порядком денним, матеріалами та подальшими діями?",
-      },
-    },
-    stage: 3,
+    questions: { en: { need: "", behavior: "" }, uk: { need: "", behavior: "" } },
+    stage: 1,
   },
   {
-    icon: Newspaper,
-    title: { en: "Network intelligence", uk: "Аналітика мережі" },
+    icon: Activity,
+    title: { en: "Expert Agenda", uk: "Адженда обговорень" },
     purpose: {
-      en: "Bring together selected network news, calls, opportunities and sector signals with a clear source and date. Curation and permission to reuse a source remain explicit responsibilities.",
-      uk: "Збирає відібрані новини мережі, запити, можливості й галузеві сигнали з указанням джерела та дати. Відбір і дозвіл на повторне використання джерела залишаються явними обов’язками.",
+      en: "Co-create a current agenda of topics — regulatory, strategic, operational. The agenda is what makes followers want to engage and members want to contribute.",
+      uk: "Спільно формуйте актуальну адженду тем — регуляторних, стратегічних, операційних. Адженда приваблює фоловерів і мотивує членів до внесків.",
     },
     role: {
-      en: "Follow topics, submit a sourced signal or respond to a call.",
-      uk: "Стежте за темами, додавайте сигнал із джерелом або відповідайте на запит.",
+      en: "Propose topics, vote on priorities, assign working group leads.",
+      uk: "Пропонуйте теми, голосуйте за пріоритети, призначайте лідерів робочих груп.",
     },
-    questions: {
-      en: {
-        need: "Would members use one curated stream, or should updates stay within each project?",
-        behavior:
-          "Which sources and topics are in scope, and who reviews accuracy and reuse rights before publishing?",
-      },
-      uk: {
-        need: "Учасникам потрібна спільна стрічка чи оновлення мають залишатися в межах кожного проєкту?",
-        behavior:
-          "Які джерела й теми потрібні та хто перевіряє точність і права повторного використання перед публікацією?",
-      },
-    },
-    stage: 4,
+    questions: { en: { need: "", behavior: "" }, uk: { need: "", behavior: "" } },
+    stage: 2,
   },
   {
-    icon: BellRing,
-    title: { en: "Targeted alerts", uk: "Цільові сповіщення" },
+    icon: MessageSquareText,
+    title: { en: "Discussions", uk: "Обговорення" },
     purpose: {
-      en: "Route time-sensitive opportunities to relevant experts through controlled, approved channels. Relevance must not imply that a person consented to contact or will respond.",
-      uk: "Передає термінові можливості релевантним експертам через контрольовані й погоджені канали. Релевантність не означає згоди людини на контакт або гарантії відповіді.",
+      en: "Structured working groups and expert roundtables. Capture decisions, evidence and outputs — participation is not endorsement.",
+      uk: "Структуровані робочі групи та круглі столи. Фіксуйте рішення, докази й результати — участь не є схваленням.",
     },
     role: {
-      en: "Set notification preferences and decide whether to answer each request.",
-      uk: "Налаштовуйте вподобання сповіщень і самостійно вирішуйте, чи відповідати на кожен запит.",
+      en: "Contribute evidence, moderate a session, or prepare a synthesis for review.",
+      uk: "Надавайте докази, модеруйте сесію або готуйте узагальнення для перевірки.",
     },
-    questions: {
-      en: {
-        need: "Are alerts needed, or are a searchable opportunity list and voluntary subscriptions enough?",
-        behavior:
-          "Should members opt into topics, select channels, set quiet hours, or choose only the frequency?",
-      },
-      uk: {
-        need: "Чи потрібні сповіщення, чи достатньо пошуку можливостей і добровільних підписок?",
-        behavior:
-          "Чи мають учасники обирати теми й канали, задавати тихий час або лише частоту повідомлень?",
-      },
-    },
-    stage: 3,
-  },
-  {
-    icon: Bot,
-    title: { en: "AI & OSINT", uk: "AI та OSINT" },
-    purpose: {
-      en: "Explore assisted research briefs, source checks and a network assistant as separate capabilities. Every generated statement would need source links, uncertainty labels and human review before operational use.",
-      uk: "Окремо розглядає допоміжні дослідницькі брифи, перевірку джерел і помічника мережі. Кожне згенероване твердження перед практичним використанням потребувало б посилання на джерело, позначки невизначеності й людської перевірки.",
-    },
-    role: {
-      en: "Request a bounded research task, validate sources and decide what may be attached to project work.",
-      uk: "Ставте обмежене дослідницьке завдання, перевіряйте джерела й вирішуйте, що можна додати до проєкту.",
-    },
-    questions: {
-      en: {
-        need: "Which research task is sufficiently repetitive to justify assistance rather than manual work?",
-        behavior:
-          "Should the tool find sources, summarize approved material, or compare evidence—and what must remain human-reviewed?",
-      },
-      uk: {
-        need: "Яке дослідницьке завдання достатньо повторюване, щоб виправдати автоматизовану допомогу замість ручної роботи?",
-        behavior:
-          "Інструмент має знаходити джерела, узагальнювати погоджені матеріали чи порівнювати докази — і що обов’язково перевіряє людина?",
-      },
-    },
-    stage: 4,
-  },
-  {
-    icon: Handshake,
-    title: { en: "Partner services", uk: "Партнерські сервіси" },
-    purpose: {
-      en: "Make vetted operational support discoverable, such as legal, evacuation, local handling or equipment maintenance. Listing a provider is not a safety guarantee; qualification, availability and due diligence need clear owners.",
-      uk: "Допомагає знаходити перевірену операційну підтримку: юридичну, евакуаційну, локальну чи технічне обслуговування. Наявність постачальника в каталозі не гарантує безпеку; перевірка кваліфікації, доступності й надійності потребує відповідальних.",
-    },
-    role: {
-      en: "Request or provide a service, and share feedback only under an agreed review process.",
-      uk: "Запитуйте або надавайте послугу; залишайте відгук лише за погодженим процесом перевірки.",
-    },
-    questions: {
-      en: {
-        need: "Which service categories are missing from existing trusted referral channels?",
-        behavior:
-          "Should the directory show qualifications and availability, route a request, or only provide a vetted introduction?",
-      },
-      uk: {
-        need: "Яких категорій послуг бракує в наявних довірених каналах рекомендацій?",
-        behavior:
-          "Каталог має показувати кваліфікацію й доступність, передавати запит чи лише надавати перевірений контакт?",
-      },
-    },
-    stage: 4,
+    questions: { en: { need: "", behavior: "" }, uk: { need: "", behavior: "" } },
+    stage: 2,
   },
   {
     icon: Library,
-    title: { en: "Knowledge repository", uk: "Сховище знань" },
+    title: { en: "Reports + Cases", uk: "Звіти та кейси" },
     purpose: {
-      en: "Make permitted project outputs, meeting materials and research reports reusable with provenance. Access and reuse conditions should travel with each artifact rather than be inferred from its presence.",
-      uk: "Дозволяє повторно використовувати результати проєктів, матеріали зустрічей і звіти з фіксацією походження. Умови доступу й повторного використання мають супроводжувати кожен матеріал, а не виводитися з його наявності.",
+      en: "Working groups produce attributable outputs: evidence-based reports, case studies of completed member projects, sector briefs. The intellectual capital of the network.",
+      uk: "Робочі групи дають атрибутовані результати: звіти з доказами, кейси виконаних проєктів членів, секторні брифи. Інтелектуальний капітал мережі.",
     },
     role: {
-      en: "Contribute an artifact, describe its source and access terms, or request permission to reuse it.",
-      uk: "Додавайте матеріал із джерелом та умовами доступу або запитуйте дозвіл на його повторне використання.",
+      en: "Author, review or validate a report. Attach to a project record.",
+      uk: "Створюйте, рецензуйте або валідуйте звіт. Прив'язуйте до запису проєкту.",
     },
-    questions: {
-      en: {
-        need: "Is a shared repository needed, or are project-specific stores sufficient?",
-        behavior:
-          "Which metadata, access roles, retention rules and reuse-permission checks must exist before search?",
-      },
-      uk: {
-        need: "Чи потрібне спільне сховище, чи достатньо окремих сховищ проєктів?",
-        behavior:
-          "Які метадані, ролі доступу, строки зберігання й перевірки дозволу на повторне використання потрібні до пошуку?",
-      },
-    },
+    questions: { en: { need: "", behavior: "" }, uk: { need: "", behavior: "" } },
     stage: 3,
   },
   {
-    icon: FileSearch,
-    title: { en: "Compliance & conflicts", uk: "Комплаєнс і конфлікти інтересів" },
+    icon: ShieldCheck,
+    title: { en: "Network Expertise / TII", uk: "Мережева експертиза / TII" },
     purpose: {
-      en: "Track required consent, NDA, disclosure and conflict checks before sensitive participation. The service should make unresolved checks visible without turning a record into a legal determination.",
-      uk: "Відстежує потрібні згоди, NDA, розкриття інформації та перевірки конфліктів до чутливої участі. Невирішені перевірки мають бути видимими, але запис у системі не є юридичним висновком.",
+      en: "Reports and cases build a structured map of the network's real capabilities. The Trust & Influence Index gives this map attribution, dates and evidence — not a ranking, but a record.",
+      uk: "Звіти та кейси формують структуровану карту реальних можливостей мережі. Trust & Influence Index надає цій карті атрибуцію, дати й докази — не рейтинг, а запис.",
     },
     role: {
-      en: "Maintain declarations, flag a conflict and route the case to an accountable reviewer.",
-      uk: "Оновлюйте декларації, повідомляйте про конфлікт і передавайте випадок відповідальному рецензенту.",
+      en: "Co-design TII evidence rules. Review and correct your own record.",
+      uk: "Беріть участь у спільному проєктуванні правил TII. Переглядайте та виправляйте свій запис.",
     },
-    questions: {
-      en: {
-        need: "Which checks are currently missed or repeated across projects?",
-        behavior:
-          "Should the system block an assignment, show a pending review, or record an informed exception?",
-      },
-      uk: {
-        need: "Які перевірки зараз пропускають або повторюють у різних проєктах?",
-        behavior:
-          "Система має блокувати призначення, показувати очікування перевірки чи фіксувати погоджений виняток?",
-      },
-    },
+    questions: { en: { need: "", behavior: "" }, uk: { need: "", behavior: "" } },
     stage: 3,
   },
   {
     icon: Star,
-    title: { en: "Trust & credentials", uk: "Довіра й підтвердження" },
+    title: { en: "New Memberships", uk: "Нові членства" },
     purpose: {
-      en: "Build an attributable record of expertise and contributions that can support human review. Evidence quality, context, consent and correction rights must be visible; the record is not an automatic score of a person.",
-      uk: "Формує атрибутований запис експертності й внесків для людського перегляду. Якість доказу, контекст, згода й право на виправлення мають бути видимими; запис не є автоматичною оцінкою людини.",
+      en: "Followers who participated in discussions and read the reports convert to paid members — through demonstrated value, not a cold pitch.",
+      uk: "Фоловери, які брали участь в обговореннях і читали звіти, стають платними членами — через продемонстровану цінність, а не холодний питч.",
     },
     role: {
-      en: "Provide evidence, review what is attributed to you and challenge errors or missing context.",
-      uk: "Надавайте докази, перевіряйте приписану вам інформацію та оскаржуйте помилки чи втрачений контекст.",
+      en: "Refer candidates. Review and accept membership applications.",
+      uk: "Рекомендуйте кандидатів. Переглядайте та приймайте заявки.",
     },
-    questions: {
-      en: {
-        need: "Which expertise claims need independent evidence, and who is allowed to review it?",
-        behavior:
-          "Should evidence be organized as a source-linked dossier, a contribution history, or both—with what correction route?",
-      },
-      uk: {
-        need: "Які твердження про експертність потребують незалежного доказу і хто може його переглядати?",
-        behavior:
-          "Докази мають бути досьє з джерелами, історією внесків чи обома форматами — і як виправляти помилки?",
-      },
+    questions: { en: { need: "", behavior: "" }, uk: { need: "", behavior: "" } },
+    stage: 3,
+  },
+  {
+    icon: Megaphone,
+    title: { en: "War Room", uk: "War Room" },
+    purpose: {
+      en: "An operational map of active members, ongoing projects and deployed expertise in real time. Coordinators see capacity, gaps and what is being delivered.",
+      uk: "Операційна карта активних членів, поточних проєктів і задіяної в мережі експертизи в реальному часі. Координатори бачать потенціал, прогалини й що виконується.",
     },
+    role: {
+      en: "Monitor project status. Assign resources to critical requests.",
+      uk: "Контролюйте статус проєктів. Призначайте ресурси на критичні запити.",
+    },
+    questions: { en: { need: "", behavior: "" }, uk: { need: "", behavior: "" } },
     stage: 4,
   },
   {
-    icon: Activity,
-    title: { en: "Consulting pipeline", uk: "Потік консультаційних запитів" },
+    icon: Newspaper,
+    title: { en: "Conference + Almanac", uk: "Конференція + Альманах" },
     purpose: {
-      en: "Help experts assess relevant consulting requests and decide whether to respond. A match should support discovery, not automatically disclose contact details, imply availability or assign work.",
-      uk: "Допомагає експертам оцінювати релевантні консультаційні запити й вирішувати, чи відповідати. Збіг полегшує пошук, але не розкриває контактні дані, не підтверджує доступність і не призначає роботу автоматично.",
+      en: "Annual output: a paid professional conference and the association almanac — recommendations for practice development, stakeholder risk guidance, professional and regulatory agenda. New followers discover the network here.",
+      uk: "Річний результат: платна фахова конференція та альманах асоціації — рекомендації з розвитку практики, поради стейкхолдерам щодо ризиків, профільна та регуляторна адженда. Тут мережу знаходять нові фоловери.",
     },
     role: {
-      en: "Set areas of interest and availability, choose whether to respond, then define a scope directly.",
-      uk: "Вкажіть напрями інтересу й доступність, вирішіть, чи відповідати, а потім окремо визначте обсяг робіт.",
+      en: "Present, contribute to or sponsor the conference. Co-author the almanac.",
+      uk: "Виступайте, долучайтеся або спонсоруйте конференцію. Беріть участь у створенні альманаху.",
     },
-    questions: {
-      en: {
-        need: "Do experts need a shared request pipeline, or are existing introductions sufficient?",
-        behavior:
-          "Should a request disclose its budget and timeline before an expert opts in, and who decides a match is relevant?",
-      },
-      uk: {
-        need: "Чи потрібен експертам спільний потік запитів, чи достатньо наявних знайомств і рекомендацій?",
-        behavior:
-          "Запит має показувати бюджет і строки до відгуку експерта, і хто визначає релевантність збігу?",
-      },
-    },
-    stage: 1,
+    questions: { en: { need: "", behavior: "" }, uk: { need: "", behavior: "" } },
+    stage: 4,
   },
 ] as const;
 
@@ -533,9 +359,7 @@ export function MemberCabinet({
                   >
                     <item.icon className="h-5 w-5 text-primary" />
                     <p className="mt-5 text-sm font-semibold">{item.title[language]}</p>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      {copy.stage} {item.stage}
-                    </p>
+                    
                   </button>
                 ))}
               </div>
@@ -545,7 +369,7 @@ export function MemberCabinet({
               >
                 <div className="flex items-start justify-between gap-4">
                   <service.icon className="h-6 w-6 text-primary" />
-                  <span className="tech-label text-brass">{stages[service.stage - 1]}</span>
+                  
                 </div>
                 <h3 className="mt-5 font-display text-2xl">{service.title[language]}</h3>
                 <dl className="mt-5 space-y-4 text-sm">
@@ -569,15 +393,6 @@ export function MemberCabinet({
                 <p className="mt-3 text-xs text-muted-foreground">
                   {copy.requestNote}
                 </p>
-                <Button
-                  asChild
-                  className="mt-4 min-h-12 w-full justify-between whitespace-normal text-left"
-                >
-                  <Link to="/proposal">
-                    {copy.fullProposal}
-                    <ChevronRight aria-hidden="true" />
-                  </Link>
-                </Button>
               </article>
         </section>
 

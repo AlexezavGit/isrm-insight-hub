@@ -165,10 +165,6 @@ function ClientProposal() {
                   )}
                 </p>
                 <section className="partner-value-unlocks" aria-label={text("Value revealed through search", "Цінність, розкрита через пошук")}>
-                  <span className="partner-value-unlocks-eyebrow">
-                    {text("Now accessible · search", "Тепер доступно · пошук")}
-                  </span>
-                  <h3>{text("What becomes accessible only through search", "Що стає доступним лише через пошук")}</h3>
                   <ul>
                     <li>{text("Filter expertise by sector, region and experience without exposing identities", "Фільтрувати експертизу за сектором, регіоном і досвідом — без розкриття ідентичностей")}</li>
                     <li>{text("Browse the network anonymously before any engagement decision", "Переглядати мережу анонімно до будь-якого рішення про залучення")}</li>
@@ -205,10 +201,6 @@ function ClientProposal() {
                   )}
                 </p>
                 <section className="partner-value-unlocks" aria-label={text("Value revealed through service functions", "Цінність, розкрита через сервісні функції")}>
-                  <span className="partner-value-unlocks-eyebrow">
-                    {text("Now accessible · service functions", "Тепер доступно · сервісні функції")}
-                  </span>
-                  <h3>{text("What becomes accessible only through service configuration", "Що стає доступним лише через конфігурацію сервісів")}</h3>
                   <ul>
                     <li>{text("Form project groups from found experts and assign structured goals", "Формувати проєктні групи із знайдених експертів і призначати структуровані цілі")}</li>
                     <li>{text("Track accepted tasks and outputs per expert and per project group", "Відстежувати прийняті задачі й результати у розрізі кожного експерта й групи")}</li>
@@ -247,15 +239,6 @@ function ClientProposal() {
                   )}
                 </p>
                 <section className="partner-value-unlocks" aria-label={text("Value revealed through dependencies", "Цінність, розкрита через залежності")}>
-                  <span className="partner-value-unlocks-eyebrow">
-                    {text("Now accessible · dependency revelation", "Тепер доступно · розкриття через залежності")}
-                  </span>
-                  <h3>
-                    {text(
-                      "What becomes accessible only through this dependency",
-                      "Що стає доступним лише через цю залежність",
-                    )}
-                  </h3>
                   <ul>
                     <li>
                       {text(
@@ -307,7 +290,7 @@ function ClientProposal() {
 
           <section aria-labelledby="client-engagement-heading">
             <div className="partner-section-heading">
-              <span style={{ visibility: "hidden" }}>02</span>
+              <span>02</span>
               <div>
                 <h2 id="client-engagement-heading">
                   {text(
@@ -463,7 +446,7 @@ function ClientProposal() {
 
           <section aria-labelledby="client-consulting-heading">
             <div className="partner-section-heading">
-              <span style={{ visibility: "hidden" }}>03</span>
+              <span>03</span>
               <div>
                 <h2 id="client-consulting-heading">
                   {text(

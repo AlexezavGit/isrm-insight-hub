@@ -4445,3 +4445,26 @@ button.partner-primary-button {
   .cycle-tl-right::before { left: -0.4rem; }
   .cycle-tl-empty { display: none; }
 }
+
+/* ── Dependencies sidebar items ────────────────────────────────── */
+.deps-item {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  background: color-mix(in srgb, var(--success) 5%, var(--card));
+  border-left: 3px solid var(--success);
+}
+.deps-item-title {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 0.3rem;
+}
+.deps-item-body {
+  font-size: 0.825rem;
+  line-height: 1.55;
+  color: var(--muted-foreground);
+  margin: 0;
+}

@@ -109,7 +109,7 @@ function ScopePage() {
             <Button asChild variant="ghost" className="partner-back">
               <Link to="/proposal">
                 <ArrowLeft aria-hidden="true" />
-                {text("← Back to proposal", "← До пропозиції")}
+                {text("Back to the expert network", "До мережі експертів")}
               </Link>
             </Button>
             <p className="partner-eyebrow">{text("ISRM · Scope & Budget", "ISRM · Обсяг і бюджет")}</p>
@@ -336,10 +336,10 @@ function ScopePage() {
               style={{ width: "100%", fontSize: "1rem", padding: "0.8rem 1rem" }}
             >
               {budgetChoice === "approve"
-                ? text("Confirm scope — discuss next steps", "Підтвердити scope — обговорити кроки")
+                ? text("Confirm & Send", "Підтвердити та відіслати")
                 : budgetChoice === "limit"
-                ? text("Submit ceiling — adjust scope", "Надіслати стелю — скоригувати scope")
-                : text("Choose your budget position", "Оберіть позицію щодо бюджету")}
+                ? text("Confirm & Send", "Підтвердити та відіслати")
+                : text("Select a budget position above", "Оберіть позицію вище")}
             </Button>
 
             <nav className="client-price-sources" style={{ marginTop: "1rem" }} aria-label={text("Rate sources", "Джерела ставок")}>
@@ -355,7 +355,7 @@ function ScopePage() {
         <footer className="partner-footer">
           <div className="cta-bottom">
             <Button asChild variant="outline" className="button-outline">
-              <Link to="/proposal"><ArrowLeft aria-hidden="true" />{text("Back to proposal", "До пропозиції")}</Link>
+              <Link to="/proposal">{text("Back to the expert network", "До мережі експертів")}</Link>
             </Button>
           </div>
           <p className="partner-footer-route-notice" role="note">

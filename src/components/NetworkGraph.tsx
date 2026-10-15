@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import ForceGraph2D from "react-force-graph-2d";
 import type { Expert } from "@/lib/types";
-import { useI18n } from "@/lib/i18n";
 import { PROPOSAL_FUNCTIONS } from "@/lib/proposal-data";
 
 type Kind = "expert" | "sector" | "theme" | "hub";
@@ -48,7 +47,7 @@ export default function NetworkGraph({
   showExpertsOnServices?: boolean;
   locale?: string;
 }) {
-  const { t } = useI18n();
+  // locale prop used directly for labels
   const wrap = useRef<HTMLDivElement>(null);
   const fg = useRef<any>(null);
   const [size, setSize] = useState({ w: 800, h: 600 });
@@ -200,7 +199,7 @@ export default function NetworkGraph({
         links.push({ source: e.code, target: "H:" + e.communityRole, kind: "hub" });
       }
       if (!e.verified && layers.researchQueue) {
-        ensure("P:queue", "hub", t("researchQueue"));
+        ensure("P:queue", "hub", locale === "uk" ? "Черга ресерчу" : "Research queue");
         links.push({ source: e.code, target: "P:queue", kind: "pool" });
       }
     }
@@ -214,7 +213,7 @@ export default function NetworkGraph({
         links.push({ source: codes[0]!, target: codes[i]!, kind: "peer" });
     });
     return { nodes, links };
-  }, [experts, layers, t, serviceMode, serviceData]);  // serviceData included for serviceMode switch
+  }, [experts, layers, locale, serviceMode, serviceData]);
 
   const neighbors = useMemo(() => {
     const m = new Map<string, Set<string>>();
