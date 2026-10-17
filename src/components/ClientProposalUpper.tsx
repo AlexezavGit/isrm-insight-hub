@@ -1,12 +1,12 @@
 import { GitBranch, Search } from "lucide-react";
 import { IsrmLogo } from "@/components/IsrmLogo";
+import type { DependencyEdge } from "@/data/client-proposal-data";
 
 type Props = {
-  locale: "en" | "uk";
   text: (en: string, ua: string) => string;
   uk: boolean;
-  setLocale: (locale: "en" | "uk") => void;
-  dependencyEdges: Array<{ prerequisite: any; feature: any }>;
+  setLocale: (next: "en" | "uk") => void;
+  dependencyEdges: DependencyEdge[];
 };
 
 export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Props) {
@@ -15,7 +15,7 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
       <header className="partner-header">
         <div>
           <div className="partner-logo-row mb-3" aria-label="ISRM">
-            <IsrmLogo className="h-10 w-auto" showSubtitle={true} />
+            <IsrmLogo className="h-10 w-auto" />
           </div>
           <p className="partner-eyebrow">{text("Client proposal", "Пропозиція замовнику")}</p>
           <h1 className="font-display text-2xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
@@ -29,24 +29,24 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
             style={{
               maxWidth: 860,
               marginTop: "1.25rem",
-              padding: "1rem 1.25rem",
-              borderLeft: "4px solid var(--brass, #c8901a)",
-              borderRadius: "0 6px 6px 0",
-              background: "color-mix(in oklab, var(--brass, #c8901a) 12%, var(--card, #f2eadb))",
+              padding: "1.25rem 1.5rem",
+              borderLeft: "5px solid var(--brass, #c8901a)",
+              borderRadius: "0 8px 8px 0",
+              background: "color-mix(in oklab, var(--brass, #c8901a) 14%, var(--card, #f2eadb))",
               fontSize: "1.02rem",
               lineHeight: 1.6,
             }}
           >
-            <p style={{ fontWeight: 700, fontSize: "1.1rem", marginBottom: "0.5rem", color: "var(--color-foreground)" }}>
+            <p style={{ fontWeight: 800, fontSize: "1.2rem", marginBottom: "0.6rem", color: "#064e3b" }}>
               {text("You asked what comes next.", "Ви питали, що далі.")}
             </p>
-            <p style={{ marginBottom: "0.5rem" }}>
+            <p style={{ marginBottom: "0.6rem", color: "#132a22", fontSize: "1.02rem", lineHeight: 1.6 }}>
               {text(
                 "We have the option of continuing to individually assess experts in a thorough manner, but what if you could receive a game-changing tool enabling interaction within the expert network?",
                 "Можна й надалі індивідуально та ретельно оцінювати експертів по одному, але що якби ви отримали революційний інструмент взаємодії всередині експертної мережі?",
               )}
             </p>
-            <p>
+            <p style={{ color: "#132a22", fontSize: "1.02rem", lineHeight: 1.6, margin: 0 }}>
               {text(
                 "THIS time, I will bring an interactive expert workflow—not another sorted spreadsheet: a surface for engagement and collecting network expertise: finding the right expert, blending project groups, tracking contributions, making capacity visible, cross-sell, over-sell, member development and thought leadership.",
                 "Цього разу я пропоную інтерактивний воркфлоу експертної мережі, а не чергову відсортовану таблицю: робочу поверхню для залучення та збору мережевої експертизи: підбір потрібного експерта, формування проєктних груп, облік внесків, унаочнення капасіті, крос-сел, овер-сел, розвиток членства та лідерство думок.",
@@ -67,16 +67,19 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
       </header>
 
       <section className="partner-view" aria-labelledby="client-preview-heading">
-        <section className="client-preview-section" aria-labelledby="client-preview-heading" style={{ marginTop: "1.5rem" }}>
-          <div className="partner-section-heading" style={{ margin: "3rem 0" }}>
+        <section className="client-preview-section" aria-labelledby="client-preview-heading" style={{ marginTop: "2rem" }}>
+          <div className="partner-section-heading" style={{ margin: "4rem 0" }}>
             <span>01</span>
             <div>
               <h2 id="client-preview-heading">
-                {text(
-                  "The application — what it does from the first release",
-                  "Застосунок — що він робить з першого випуску",
-                )}
+                {text("What you would be able to do", "Що ви зможете робити")}
               </h2>
+              <p>
+                {text(
+                  "These pictures show the paths in the prototype. This is not yet a finished service, and it is not a private login for members.",
+                  "Ці малюнки показують шляхи в прототипі. Це ще не готовий сервіс і не особистий вхід для членів.",
+                )}
+              </p>
             </div>
           </div>
           <div className="client-preview-grid">

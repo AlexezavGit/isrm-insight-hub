@@ -109,7 +109,7 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
               },
             ] as const
           ).map((node, i, arr) => (
-            <div className="cycle-tl-row" key={node.id}>
+            <div className="cycle-timeline-row cycle-tl-row" key={node.id}>
               <div className="cycle-tl-left">
                 <div className="cycle-tl-card cycle-tl-card--action">
                   <span className="cycle-tl-icon" aria-hidden="true">
@@ -152,7 +152,7 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
           ))}
         </div>
 
-        <p className="partner-muted" style={{ fontSize: "0.78rem", marginTop: "0.75rem" }}>
+        <p className="partner-muted" style={{ fontSize: "0.78rem", marginTop: "1rem" }}>
           *{" "}
           {text(
             "Conversion references (planning only, not ISRM forecasts): Higher Logic Association Community Report · LinkedIn B2B engagement lower band (~2%) · voluntary association free-to-paid / apply-to-accepted benchmarks (~25–30%) · ASAE 2026 member onboarding case.",
@@ -181,88 +181,206 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
           </div>
         </div>
 
-        <div className="client-pilot-grid" style={{ display: "grid", gap: "1rem" }}>
-          {[
-            {
-              title: text("Map network expertise & gaps", "Картувати мережеву експертизу та прогалини"),
-              detail: text(
-                "Establish the current state of network expertise, surface gaps, open sector and territory discussions.",
-                "Визначити поточний стан мережевої експертизи, виявити gaps, відкрити обговорення за секторами та територіями.",
-              ),
-            },
-            {
-              title: text("Critical path & leadership campaign", "Критичний шлях і лідерська кампанія"),
-              detail: text(
-                "Build the critical path, run the leadership campaign, and maintain rigorous standards within trusted consultancy boundaries.",
-                "Побудувати критичний шлях, провести лідерську кампанію та утримувати високі стандарти в зоні trusted consultancy.",
-              ),
-            },
-            {
-              title: text("Board alignment & trusted decisions", "Підготовка борду та довірені рішення"),
-              detail: text(
-                "Translate research, market evidence and practitioner feedback into actionable board mandates, governance limits and client offerings.",
-                "Перетворення аналітики, ринкових доказів та відгуків практиків на чіткі мандати борду, правила управління та клієнтські пропозиції.",
-              ),
-            },
-          ].map((step) => (
-            <article className="partner-card client-pilot-step" key={step.title}>
-              <h3>{step.title}</h3>
-              <p className="partner-muted">{step.detail}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {/* DEDICATED BLOCK: Trust & Influence Index (ALWAYS written in full, no acronyms) */}
-      <section aria-labelledby="tii-spine-heading" style={{ marginTop: "3.5rem" }}>
+        {/* EXPANDED STRATEGY ARCHITECTURE & TRUST & INFLUENCE INDEX */}
         <div
           style={{
-            border: "1.5px solid var(--brass, #c8901a)",
-            borderRadius: "12px",
-            padding: "2rem",
-            background: "color-mix(in oklab, var(--brass, #c8901a) 8%, var(--card, #f2eadb))",
-            boxShadow: "0 8px 30px rgba(0,0,0,0.06)",
+            border: "2px solid var(--brass, #c8901a)",
+            borderRadius: "14px",
+            padding: "2.25rem",
+            background: "color-mix(in oklab, var(--brass, #c8901a) 10%, var(--card, #f5ede0))",
+            boxShadow: "0 10px 32px rgba(18, 60, 58, 0.08)",
+            marginBottom: "2.5rem",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem" }}>
+          {/* Header pill & Title */}
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "0.85rem", marginBottom: "1rem" }}>
             <span
               style={{
                 fontFamily: "var(--font-mono)",
                 fontSize: "0.75rem",
                 fontWeight: 700,
-                letterSpacing: "0.08em",
+                letterSpacing: "0.1em",
                 textTransform: "uppercase",
-                padding: "0.25rem 0.6rem",
-                borderRadius: "4px",
+                padding: "0.3rem 0.75rem",
+                borderRadius: "5px",
                 background: "var(--brass, #c8901a)",
-                color: "#fff",
+                color: "#ffffff",
+                boxShadow: "0 2px 6px rgba(200, 144, 26, 0.3)",
               }}
             >
               {text("Strategic Anchor", "Стратегічний стрижень")}
             </span>
-            <h2 id="tii-spine-heading" style={{ fontSize: "1.35rem", fontWeight: 700, margin: 0, color: "var(--color-foreground)" }}>
+            <h3 style={{ fontSize: "1.5rem", fontWeight: 800, margin: 0, color: "#064e3b", letterSpacing: "-0.01em" }}>
               {text("Trust & Influence Index", "Trust & Influence Index")}
-            </h2>
+            </h3>
           </div>
+
+          {/* Lead strategic description */}
           <p
             style={{
-              fontSize: "1.08rem",
+              fontSize: "1.12rem",
               lineHeight: 1.65,
-              color: "var(--color-foreground)",
-              fontWeight: 500,
+              color: "#132a22",
+              fontWeight: 600,
+              marginBottom: "1.5rem",
             }}
           >
             {text(
-              "Trust & Influence Index is the spine of the strategy — a composite balance of publications, successful cases, solution level, research, professional interaction and recommendations. It is co-designed with the client before any score is calculated.",
-              "Trust & Influence Index — це стрижень стратегії: композитний баланс публікацій, успішних кейсів, рівня рішень, досліджень, професійної взаємодії та рекомендацій. Він розробляється спільно із замовником до будь-якого розрахунку балу.",
+              "Trust & Influence Index is the strategic spine of the network — an institutional magnet around which dozens and hundreds of risk professionals crystalize. How it is structured determines the network's commercial and reputational power: through sector discussions, territorial chapters, conferences, and demonstrable fee differentiation between ranked experts and unverified practitioners.",
+              "Trust & Influence Index — це стратегічний стрижень мережі: інституційний магніт, навколо якого кристалізуються десятки й сотні професіоналів. Те, як він формується, визначає ринкову та репутаційну силу мережі: через секторні обговорення, територіальні хаби, конференції та наочну різницю в гонорарах між експертами з верифікованим рейтингом і практиками без нього.",
             )}
           </p>
-          <p className="partner-muted" style={{ marginTop: "1rem", fontSize: "0.85rem", lineHeight: 1.5 }}>
-            {text(
-              "Evidence before labels: Attribution rules, verified case criteria and peer validation protocols are established collectively to ensure professional integrity across all sectors and jurisdictions.",
-              "Докази перед мітками: Правила атрибуції, критерії перевірених кейсів і протоколи експертної взаємодії узгоджуються колегіально для гарантії професійної доброчесності за всіма секторами та юрисдикціями.",
-            )}
-          </p>
+
+          {/* Roadmap steps */}
+          <div style={{ marginBottom: "2rem" }}>
+            <h4
+              style={{
+                fontSize: "0.85rem",
+                textTransform: "uppercase",
+                letterSpacing: "0.1em",
+                fontWeight: 800,
+                color: "#064e3b",
+                marginBottom: "0.85rem",
+              }}
+            >
+              {text("Roadmap to Trusted Consultancy", "Шлях побудови довіреного консалтингу")}
+            </h4>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1rem" }}>
+              {[
+                {
+                  step: "01",
+                  title: text("Map Expertise & Identify Gaps", "Картування експертизи та виявлення gaps"),
+                  desc: text(
+                    "Establish the baseline capability of current network members, surface critical gaps across industries and territories.",
+                    "Визначити базовий стан наявної експертизи мережі, виявити критичні прогалини за секторами та територіями.",
+                  ),
+                },
+                {
+                  step: "02",
+                  title: text("Open Sector & Territory Dialogue", "Секторні та територіальні обговорення"),
+                  desc: text(
+                    "Launch focused roundtables in critical infrastructure, banking, defense, and cyber, collecting attributable peer evidence.",
+                    "Запустити фахові круглі столи в критичній інфраструктурі, банкінгу, безпеці та кібер, фіксуючи атрибутовані внески.",
+                  ),
+                },
+                {
+                  step: "03",
+                  title: text("Applied Research & Case Vault", "Прикладні дослідження та база кейсів"),
+                  desc: text(
+                    "Convert transcripts and working group sessions into tangible publications, solution blueprints, and conference almanacs.",
+                    "Перетворювати стенограми та сесії робочих груп у практичні звіти, архітектури рішень та альманахи конференцій.",
+                  ),
+                },
+                {
+                  step: "04",
+                  title: text("Critical Path & Leadership Campaign", "Критичний шлях і лідерська кампанія"),
+                  desc: text(
+                    "Build the critical delivery path, execute thought leadership campaigns, and keep all engagements inside trusted boundaries.",
+                    "Побудувати критичний шлях, провести кампанію лідерства думок та утримувати виконання у зоні trusted consultancy.",
+                  ),
+                },
+                {
+                  step: "05",
+                  title: text("Fee Spread & Market Monetization", "Диференціація гонорарів і ринкова сила"),
+                  desc: text(
+                    "Showcase clear rate premiums for ranked experts vs unranked, driving active member retention and client trust.",
+                    "Демонструвати вищу цінність і преміальні гонорари для експертів із рейтингом проти неперевірених, стимулюючи залучення.",
+                  ),
+                },
+              ].map((item) => (
+                <div
+                  key={item.step}
+                  style={{
+                    background: "#ffffff",
+                    borderRadius: "8px",
+                    padding: "1rem 1.15rem",
+                    border: "1px solid rgba(11, 84, 76, 0.18)",
+                    boxShadow: "0 2px 6px rgba(0,0,0,0.03)",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.4rem" }}>
+                    <span
+                      style={{
+                        fontFamily: "var(--font-mono)",
+                        fontWeight: 800,
+                        fontSize: "0.8rem",
+                        color: "#c8901a",
+                      }}
+                    >
+                      {item.step}
+                    </span>
+                    <strong style={{ fontSize: "0.95rem", color: "#064e3b" }}>{item.title}</strong>
+                  </div>
+                  <p style={{ margin: 0, fontSize: "0.85rem", lineHeight: 1.5, color: "#2d4a3e" }}>{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Composite Balance Factors */}
+          <div>
+            <h4
+              style={{
+                fontSize: "0.85rem",
+                textTransform: "uppercase",
+                letterSpacing: "0.1em",
+                fontWeight: 800,
+                color: "#064e3b",
+                marginBottom: "0.85rem",
+              }}
+            >
+              {text("Composite Balance of Factors", "Композитний баланс факторів оцінки")}
+            </h4>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+                gap: "0.75rem",
+              }}
+            >
+              {[
+                { label: text("Publications", "Публікації"), note: text("Reports, almanacs, articles", "Звіти, альманахи, статті") },
+                { label: text("Successful Cases", "Успішні кейси"), note: text("Verified deployed projects", "Підтверджені впроваджені кейси") },
+                { label: text("Solution Level", "Рівень рішень"), note: text("Architectural complexity", "Складність і масштаб солюшинів") },
+                { label: text("Applied Research", "Дослідження"), note: text("Empirical risk models", "Аналітичні та ризик-моделі") },
+                { label: text("Peer Interaction", "Професійна взаємодія"), note: text("Working group validation", "Валідація колегами та робочими групами") },
+                { label: text("Recommendations", "Рекомендації"), note: text("Client & sponsor endorsements", "Відгуки замовників та інституцій") },
+              ].map((factor) => (
+                <div
+                  key={factor.label}
+                  style={{
+                    background: "rgba(255, 255, 255, 0.85)",
+                    borderLeft: "3.5px solid #064e3b",
+                    borderRadius: "0 6px 6px 0",
+                    padding: "0.75rem 0.9rem",
+                    border: "1px solid rgba(6, 78, 59, 0.15)",
+                  }}
+                >
+                  <strong style={{ display: "block", fontSize: "0.9rem", color: "#064e3b", marginBottom: "0.2rem" }}>
+                    {factor.label}
+                  </strong>
+                  <span style={{ fontSize: "0.78rem", color: "#3a564b" }}>{factor.note}</span>
+                </div>
+              ))}
+            </div>
+            <p
+              style={{
+                marginTop: "1.25rem",
+                fontSize: "0.85rem",
+                lineHeight: 1.55,
+                color: "#1a382e",
+                fontStyle: "italic",
+                borderTop: "1px solid rgba(200, 144, 26, 0.3)",
+                paddingTop: "0.85rem",
+                margin: "1.25rem 0 0 0",
+              }}
+            >
+              {text(
+                "Evidence before labels: Attribution rules, case verification criteria, and peer validation protocols are established collectively with the client before computing any score or issuing ratings.",
+                "Докази перед мітками: Правила атрибуції, критерії перевірки кейсів і протоколи колегіальної валідації узгоджуються спільно із замовником до обчислення будь-якого балу чи присвоєння рейтингу.",
+              )}
+            </p>
+          </div>
         </div>
       </section>
 
@@ -278,31 +396,18 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
           <span>
             {text(
               "Full project context, scope boundaries, estimation limits and source links are in the project description.",
-              "Повний контекст проєкту, межі scope, обмеження оцінювання та посилання на джерела — в описі проєкту.",
+              "Повний контекст проєкту, межі обсягу, ліміти розрахунків та посилання на джерела наведено в описі проєкту.",
             )}
           </span>
-        </div>
-        <p className="partner-footer-route-notice" role="note">
-          {text(
-            "This proposal is a browser-local preview, not transmitted, not approved. Indicative ranges are planning references pending preliminary scope and budget-ceiling approval; the first payment is at least 30% of the agreed total and is due on package delivery/acceptance.",
-            "Ця пропозиція — локальний браузерний preview, не передана, не погоджена. Індикативні діапазони — планувальні орієнтири, що чекають на попереднє погодження scope та верхньої межі бюджету; перший платіж становить не менше 30% від погодженої суми й здійснюється в момент здачі/приймання пакета.",
-          )}
-        </p>
-        <p style={{ marginTop: "1.5rem", textAlign: "center" }}>
-          <Link
-            to="/partner"
-            style={{
-              fontSize: "0.7rem",
-              color: "var(--color-muted-foreground)",
-              opacity: 0.4,
-              textDecoration: "none",
-              fontFamily: "var(--font-mono)",
-            }}
-            aria-label="Service configurator — partner access only"
+          <a
+            href="/ISRM_Project_Description.md"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="partner-spec-link"
           >
-            {text("service configurator", "конфігуратор сервісу")}
-          </Link>
-        </p>
+            {text("Open specification (ISRM_Project_Description.md) ↗", "Відкрити специфікацію (ISRM_Project_Description.md) ↗")}
+          </a>
+        </div>
       </footer>
     </>
   );
