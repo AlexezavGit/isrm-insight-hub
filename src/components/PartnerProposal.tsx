@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import type { PartnerGraphLink, PartnerGraphNode } from "@/components/PartnerGraph";
 import { getPartnerPreview } from "@/lib/network.functions";
 import { useI18n } from "@/lib/i18n";
+import { IsrmLogo } from "@/components/IsrmLogo";
 import {
   CLIENT_PACKAGES,
   CLIENT_PAYMENT_TERMS,
@@ -631,6 +632,9 @@ export default function PartnerProposal() {
       <div className="partner-shell">
         <header className="partner-header">
           <div>
+            <div className="mb-3" aria-label="ISRM">
+              <IsrmLogo className="h-9 w-auto" showSubtitle={true} />
+            </div>
             <Button variant="ghost" className="partner-back" onClick={() => setView("description")}>
               <ArrowLeft aria-hidden="true" />
               {i18n.back}

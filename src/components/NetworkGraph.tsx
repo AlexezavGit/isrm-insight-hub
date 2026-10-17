@@ -59,8 +59,8 @@ export default function NetworkGraph({
   onAllServicesRevealed?: () => void;
   locale?: string;
 }) {
-  const wrap = useRef<HTMLDivElement>(null);
   const fg = useRef<any>(null);
+  const wrap = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ w: 800, h: 600 });
   const [hover, setHover] = useState<string | null>(null);
 
@@ -87,14 +87,14 @@ export default function NetworkGraph({
 
   const colors = useMemo(
     () => ({
-      primary: css("--primary") || "#e2b357",
-      fg: css("--foreground") || "#f8fafc",
-      muted: css("--muted-foreground") || "#94a3b8",
-      border: css("--border") || "#334155",
-      success: css("--success") || "#10b981",
-      c2: css("--chart-2") || "#38bdf8",
-      c5: css("--chart-5") || "#c084fc",
-      bg: css("--background") || "#090d16",
+      primary: "#e2b357",
+      fg: "#f8fafc",
+      muted: "#94a3b8",
+      border: "#334155",
+      success: "#10b981",
+      c2: "#38bdf8",
+      c5: "#c084fc",
+      bg: "#090d16",
     }),
     [],
   );
@@ -115,7 +115,7 @@ export default function NetworkGraph({
         id: "hub:mvp",
         kind: "hub",
         label: locale === "uk" ? "MVP Застосунок" : "MVP Application",
-        size: 9,
+        size: 11,
         fx: 0,
         fy: 0,
         x: 0,
@@ -123,62 +123,63 @@ export default function NetworkGraph({
       },
     ];
 
+    const lang = locale === "uk" ? "uk" : "en";
     NETWORK_SERVICES.forEach((svc, i) => {
       const angle = (i / NETWORK_SERVICES.length) * 2 * Math.PI - Math.PI / 2;
       const x = Math.round(Math.cos(angle) * R);
       const y = Math.round(Math.sin(angle) * R);
+
       nodes.push({
         id: svc.id,
-        kind: "sector",
-        label: svc.title[locale === "uk" ? "uk" : "en"],
+        kind: "theme",
+        label: svc.title[lang],
         service: svc,
-        size: 5,
-        x,
-        y,
+        size: 7.5,
         fx: x,
         fy: y,
+        x,
+        y,
       });
     });
 
-    const links: GLink[] = [];
-    // Radial links from center to services
-    NETWORK_SERVICES.forEach((svc) => {
-      links.push({
-        source: "hub:mvp",
-        target: svc.id,
-        kind: "mvp",
-      });
-    });
-
-    // Ring connecting the outer circle
-    for (let i = 0; i < NETWORK_SERVICES.length; i++) {
-      links.push({
-        source: NETWORK_SERVICES[i]!.id,
-        target: NETWORK_SERVICES[(i + 1) % NETWORK_SERVICES.length]!.id,
-        kind: "ring",
-      });
-    }
-
-    return { nodes, links };
+    return nodes;
   }, [locale]);
 
-  // Generate the current graph data
   const data = useMemo(() => {
     if (serviceMode) {
-      const nodes = [...fixedServiceNodes.nodes];
-      const links = [...fixedServiceNodes.links];
+      const nodes: GNode[] = [...fixedServiceNodes];
+      const links: GLink[] = [];
 
-      // Distribute verified experts across services deterministically
-      const verifiedExperts = experts.filter((e) => e.verified);
-      const pool = verifiedExperts.length > 0 ? verifiedExperts : experts;
+      // Ring connection edges between adjacent services
+      const count = NETWORK_SERVICES.length;
+      for (let i = 0; i < count; i++) {
+        const next = (i + 1) % count;
+        links.push({
+          source: NETWORK_SERVICES[i].id,
+          target: NETWORK_SERVICES[next].id,
+          kind: "ring",
+        });
+      }
 
+      // Spokes connecting central MVP to each of the 8 services
+      // Only the currently active service spoke gets the dependency label
+      NETWORK_SERVICES.forEach((svc) => {
+        const isCurrentActive = currentActiveService === svc.id;
+        links.push({
+          source: "hub:mvp",
+          target: svc.id,
+          kind: "mvp",
+          label: isCurrentActive ? svc.dependencyLabel[locale === "uk" ? "uk" : "en"] : undefined,
+        });
+      });
+
+      // Sprout anonymous person nodes for all revealed services
+      const pool = experts.filter((e) => e.verified);
       revealedServices.forEach((svcId) => {
-        const svc = NETWORK_SERVICES.find((s) => s.id === svcId);
-        if (!svc) return;
-
         const svcIndex = NETWORK_SERVICES.findIndex((s) => s.id === svcId);
+        if (svcIndex < 0) return;
+        const svc = NETWORK_SERVICES[svcIndex];
         const count = svc.assumedExpertCount;
-        // Select an offset of experts from the pool
         const start = (svcIndex * 3) % Math.max(1, pool.length);
         const assigned = [];
         for (let i = 0; i < count; i++) {
@@ -188,14 +189,11 @@ export default function NetworkGraph({
 
         const angle = (svcIndex / NETWORK_SERVICES.length) * 2 * Math.PI - Math.PI / 2;
         const R = 210;
-        const cx = Math.cos(angle) * R;
-        const cy = Math.sin(angle) * R;
 
         assigned.forEach((e, idx) => {
           const personId = `p:${svcId}:${e.code}`;
-          // Position person nodes slightly around the service node
-          const pAngle = angle + ((idx - (count - 1) / 2) * 0.28);
-          const pDist = R + 48 + (idx % 2 === 0 ? 0 : 22);
+          const pAngle = angle + ((idx - (count - 1) / 2) * 0.26);
+          const pDist = R + 44 + (idx % 2 === 0 ? 0 : 20);
           const px = Math.cos(pAngle) * pDist;
           const py = Math.sin(pAngle) * pDist;
 
@@ -203,9 +201,9 @@ export default function NetworkGraph({
             nodes.push({
               id: personId,
               kind: "expert",
-              label: "", // Anonymous: no names displayed on person nodes per spec
+              label: "", // Anonymous person node
               expert: e,
-              size: 2.2,
+              size: 5.5,
               x: px,
               y: py,
               fx: px,
@@ -213,12 +211,10 @@ export default function NetworkGraph({
             });
           }
 
-          const isCurrentActive = currentActiveService === svcId;
           links.push({
             source: svcId,
             target: personId,
-            kind: "dependency",
-            label: isCurrentActive ? svc.dependencyLabel[locale === "uk" ? "uk" : "en"] : undefined,
+            kind: "sprout",
           });
         });
       });
@@ -238,7 +234,7 @@ export default function NetworkGraph({
 
     for (const e of experts) {
       if (!e.verified && !layers.researchQueue) continue;
-      nodes.push({ id: e.code, kind: "expert", label: e.displayName, expert: e, size: 1.5 });
+      nodes.push({ id: e.code, kind: "expert", label: e.displayName, expert: e, size: 2.2 });
       if (layers.sector && e.sector && e.sector !== "Unclassified") {
         ensure("S:" + e.sector, "sector", e.sector);
         links.push({ source: e.code, target: "S:" + e.sector, kind: "sector" });
@@ -282,33 +278,26 @@ export default function NetworkGraph({
     currentActiveService,
   ]);
 
-  const neighbors = useMemo(() => {
-    const m = new Map<string, Set<string>>();
-    data.links.forEach((l) => {
-      const s = typeof l.source === "string" ? l.source : (l.source as GNode).id;
-      const t = typeof l.target === "string" ? l.target : (l.target as GNode).id;
-      if (!m.has(s)) m.set(s, new Set());
-      if (!m.has(t)) m.set(t, new Set());
-      m.get(s)?.add(t);
-      m.get(t)?.add(s);
-    });
-    return m;
-  }, [data]);
-
   const active = focus || hover;
   const activeSet = useMemo(() => {
     if (!active) return null;
-    const s = new Set([active, ...(neighbors.get(active) || [])]);
+    const s = new Set<string>([active]);
+    data.links.forEach((l) => {
+      const src = typeof l.source === "string" ? l.source : (l.source as GNode).id;
+      const tgt = typeof l.target === "string" ? l.target : (l.target as GNode).id;
+      if (src === active) s.add(tgt);
+      if (tgt === active) s.add(src);
+    });
     return s;
-  }, [active, neighbors]);
+  }, [active, data.links]);
 
-  // Center on focus when focus changes
+  // Center on focused expert
   useEffect(() => {
     if (!focus || !fg.current) return;
     const n = data.nodes.find((x) => x.id === focus || (x.expert && x.expert.code === focus));
-    if (n?.x != null && n?.y != null) {
+    if (n && n.x != null && n.y != null) {
       fg.current.centerAt(n.x, n.y, 600);
-      fg.current.zoom(2.5, 600);
+      fg.current.zoom(2.2, 600);
     }
   }, [focus, data]);
 
@@ -316,7 +305,7 @@ export default function NetworkGraph({
   useEffect(() => {
     if (serviceMode && fg.current) {
       fg.current.centerAt(0, 0, 700);
-      fg.current.zoom(1.1, 700);
+      fg.current.zoom(1.15, 700);
     }
   }, [serviceMode]);
 
@@ -334,20 +323,17 @@ export default function NetworkGraph({
         linkColor={(l: any) => {
           const s = l.source.id;
           const t = l.target.id;
-          if (l.kind === "mvp") return colors.primary + "dd";
+          if (l.kind === "mvp") return colors.primary + "ee";
           if (l.kind === "ring") return colors.c2 + "99";
-          if (l.kind === "dependency") {
-            const isLabeled = l.label != null;
-            return isLabeled ? colors.primary : colors.muted + "44";
-          }
+          if (l.kind === "sprout") return colors.primary + "aa";
           if (activeSet)
             return activeSet.has(s) && activeSet.has(t) ? colors.primary : "rgba(120,120,130,0.05)";
           return l.kind === "peer" ? colors.primary : "rgba(150,150,160,0.12)";
         }}
         linkWidth={(l: any) => {
-          if (l.kind === "mvp") return 1.8;
+          if (l.kind === "mvp") return l.label ? 2.5 : 1.8;
           if (l.kind === "ring") return 1.4;
-          if (l.kind === "dependency") return l.label ? 1.6 : 0.8;
+          if (l.kind === "sprout") return 1.2;
           return activeSet && activeSet.has(l.source.id) && activeSet.has(l.target.id) ? 1.2 : 0.5;
         }}
         linkCanvasObject={(l: any, ctx, scale) => {
@@ -359,18 +345,35 @@ export default function NetworkGraph({
           const my = (source.y + target.y) / 2;
 
           ctx.save();
-          const fontSize = Math.max(9 / scale, 4);
-          ctx.font = `600 ${fontSize}px Space Grotesk, sans-serif`;
-          ctx.fillStyle = colors.primary;
+          const fontSize = Math.max(10 / scale, 6.5);
+          ctx.font = `600 ${fontSize}px 'Space Grotesk', system-ui, sans-serif`;
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
 
-          // Subtle pill background behind edge label for readability
           const textWidth = ctx.measureText(l.label).width;
-          ctx.fillStyle = colors.bg + "ee";
-          ctx.fillRect(mx - textWidth / 2 - 4 / scale, my - fontSize / 2 - 2 / scale, textWidth + 8 / scale, fontSize + 4 / scale);
+          const px = 8 / scale;
+          const py = 4 / scale;
+          const w = textWidth + px * 2;
+          const h = fontSize + py * 2;
+          const x = mx - w / 2;
+          const y = my - h / 2;
 
-          ctx.fillStyle = colors.primary;
+          // Draw dark translucent frosted badge
+          ctx.fillStyle = "rgba(10, 16, 28, 0.94)";
+          ctx.beginPath();
+          if (typeof (ctx as any).roundRect === "function") {
+            (ctx as any).roundRect(x, y, w, h, 4 / scale);
+          } else {
+            ctx.rect(x, y, w, h);
+          }
+          ctx.fill();
+
+          ctx.lineWidth = 1 / scale;
+          ctx.strokeStyle = "rgba(226, 179, 87, 0.85)";
+          ctx.stroke();
+
+          // High-contrast clean white text
+          ctx.fillStyle = "#f8fafc";
           ctx.fillText(l.label, mx, my);
           ctx.restore();
         }}
@@ -414,29 +417,43 @@ export default function NetworkGraph({
         nodePointerAreaPaint={(n: any, color, ctx) => {
           ctx.fillStyle = color;
           ctx.beginPath();
-          ctx.arc(n.x, n.y, radius(n) + 4, 0, 2 * Math.PI);
+          const r = n.kind === "expert" && !n.label ? 7.5 : radius(n);
+          ctx.arc(n.x, n.y, r + 5, 0, 2 * Math.PI);
           ctx.fill();
         }}
         nodeCanvasObject={(n: any, ctx, scale) => {
           const dim = activeSet && !activeSet.has(n.id);
           ctx.globalAlpha = dim ? 0.15 : 1;
-          const r = radius(n);
 
           if (n.kind === "expert") {
             const e: Expert | undefined = n.expert;
             const isAnonymous = !n.label;
+            const r = isAnonymous ? 6.5 : radius(n);
 
             ctx.beginPath();
             ctx.arc(n.x, n.y, r, 0, 2 * Math.PI);
-            ctx.fillStyle = e?.verified ? colors.success : colors.muted;
+            ctx.fillStyle = isAnonymous ? "#38bdf8" : (e?.verified ? colors.success : colors.muted);
             ctx.fill();
+
+            // Crisp border
+            ctx.lineWidth = 1.5 / scale;
+            ctx.strokeStyle = "#ffffff";
+            ctx.stroke();
+
+            // Inner white dot to look like an expert avatar
+            if (isAnonymous) {
+              ctx.beginPath();
+              ctx.arc(n.x, n.y, 2.2 / scale, 0, 2 * Math.PI);
+              ctx.fillStyle = "#ffffff";
+              ctx.fill();
+            }
 
             // Selected ring
             if (n.id === focus || (e && e.code === focus)) {
-              ctx.lineWidth = 2 / scale;
+              ctx.lineWidth = 2.5 / scale;
               ctx.strokeStyle = colors.primary;
               ctx.beginPath();
-              ctx.arc(n.x, n.y, r + 3 / scale + 1, 0, 2 * Math.PI);
+              ctx.arc(n.x, n.y, r + 4 / scale, 0, 2 * Math.PI);
               ctx.stroke();
             }
 
@@ -452,26 +469,22 @@ export default function NetworkGraph({
             const isHub = n.kind === "hub";
             const isService = typeof n.id === "string" && n.id.startsWith("svc:");
             const isActiveService = isService && currentActiveService === n.id;
-            const isRevealed = isService && revealedServices.has(n.id);
+            const r = radius(n);
 
             const col = isHub
               ? colors.primary
               : isActiveService
               ? colors.primary
-              : isRevealed
-              ? colors.c2
               : colors.fg;
 
             ctx.beginPath();
             if (isHub) {
-              // Diamond or rounded box for central MVP
-              const s = r * 1.8;
-              ctx.rect(n.x - s / 2, n.y - s / 2, s, s);
+              ctx.rect(n.x - r, n.y - r, r * 2, r * 2);
             } else {
               ctx.arc(n.x, n.y, r, 0, 2 * Math.PI);
             }
 
-            ctx.fillStyle = isActiveService ? colors.primary + "33" : colors.bg;
+            ctx.fillStyle = isActiveService ? colors.primary + "33" : "rgba(10, 16, 28, 0.95)";
             ctx.fill();
 
             ctx.lineWidth = (isActiveService ? 2.5 : 1.5) / Math.max(scale, 0.6);
@@ -480,8 +493,8 @@ export default function NetworkGraph({
 
             // Outer glow for active service
             if (isActiveService) {
-              ctx.lineWidth = 1.2 / scale;
-              ctx.strokeStyle = colors.primary + "66";
+              ctx.lineWidth = 1.4 / scale;
+              ctx.strokeStyle = colors.primary + "88";
               ctx.beginPath();
               ctx.arc(n.x, n.y, r + 6 / scale, 0, 2 * Math.PI);
               ctx.stroke();
@@ -513,6 +526,6 @@ export default function NetworkGraph({
 
 function radius(n: GNode) {
   if (n.kind === "expert") return n.size || 2.5;
-  if (n.kind === "hub") return 10;
-  return 6 + Math.sqrt(n.size) * 1.5;
+  if (n.kind === "hub") return 11;
+  return 7 + Math.sqrt(n.size) * 1.5;
 }

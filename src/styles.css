@@ -4470,3 +4470,27 @@ button.partner-primary-button {
   color: var(--muted-foreground);
   margin: 0;
 }
+
+/* ── Print / PDF styles ─────────────────────────────────────────── */
+@media print {
+  nav, .partner-header-status, .partner-back, .cta-bottom, .client-price-sources, button {
+    display: none !important;
+  }
+  body, main, .partner-shell {
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+  .scope-layout {
+    display: block !important;
+  }
+  .scope-section, .scope-price-panel {
+    border: 1px solid #ccc !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 1.5rem !important;
+    background: #ffffff !important;
+  }
+}
+

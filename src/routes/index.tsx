@@ -1,10 +1,11 @@
-import { createFileRoute, Link, useMatch } from "@tanstack/react-router";
+import { createFileRoute, Link, useMatch, redirect } from "@tanstack/react-router";
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
-import { FileText, Search, UserRound, X } from "lucide-react";
+import { FileText, Search, SlidersHorizontal, X } from "lucide-react";
 import { useAccess } from "@/lib/access";
 import { applyFilters, FilterBar, useFilters, EMPTY } from "@/lib/filters";
 import { AccessControl, VerifyBadge } from "@/components/AppShell";
 import { MemberCabinet } from "@/components/MemberCabinet";
+import { IsrmLogo } from "@/components/IsrmLogo";
 import type { GraphLayers } from "@/components/NetworkGraph";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
@@ -15,18 +16,34 @@ type IndexSearch = {
   panel?: "search";
   stage?: "configuration";
   preset?: string;
+  network?: string;
 };
 
 export const Route = createFileRoute("/")({
+  beforeLoad: ({ location }) => {
+    // All initial entries start at /proposal unless coming with explicit flow parameter
+    const searchStr = location.searchStr ?? "";
+    if (
+      searchStr.includes("panel=") ||
+      searchStr.includes("stage=") ||
+      searchStr.includes("preset=") ||
+      searchStr.includes("network=true")
+    ) {
+      return;
+    }
+    throw redirect({ to: "/proposal" });
+  },
   validateSearch: (search: Record<string, unknown>): IndexSearch => {
     const stage = search["stage"] === "configuration" ? ("configuration" as const) : undefined;
     const panel = !stage && search["panel"] === "search" ? ("search" as const) : undefined;
     const rawPreset = search["preset"];
     const preset = typeof rawPreset === "string" ? rawPreset : undefined;
+    const network = typeof search["network"] === "string" ? search["network"] : undefined;
     const result: IndexSearch = {};
     if (stage) result.stage = stage;
     if (panel) result.panel = panel;
     if (preset !== undefined) result.preset = preset;
+    if (network !== undefined) result.network = network;
     return result;
   },
   head: () => ({
@@ -35,13 +52,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "A privacy-aware map of expertise, sectors and network services; TII methodology is under development and no score is calculated.",
+          "A privacy-aware map of expertise, sectors and network services; Trust & Influence Index methodology is under development and no score is calculated.",
       },
       { property: "og:title", content: "ISRM Ukraine — Live Expert Network" },
       {
         property: "og:description",
         content:
-          "Explore the expert network, source data and operational services; Trust & Influence Index (TII) has no validated score.",
+          "Explore the expert network, source data and operational services; Trust & Influence Index has no validated score.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -76,12 +93,11 @@ function NetworkPage() {
 
   const all = data?.experts ?? [];
 
-  // Verified audience data — sources: DDD/6_ISRM_Community_Activation_Evidence_and_Data_Gaps.md
   const AUDIENCE = {
-    crm: 178,          // CRM-ROWS: WhatsApp-cohort CRM records
-    verified: 45,      // CRM-VERIFIED: "Verified profile" status in CRM
-    liPage: 8742,      // AUD-LI-PAGE: LinkedIn Page followers
-    liGroup: 11700,    // AUD-LI-GROUP: LinkedIn Group members
+    crm: 178,
+    verified: 45,
+    liPage: 8742,
+    liGroup: 11700,
   } as const;
 
   const list = useMemo(() => applyFilters(all, f), [all, f]);
@@ -100,10 +116,9 @@ function NetworkPage() {
     locale === "en"
       ? {
         live: "Network live",
-        title: "ISRM Ukraine",
+        title: "ISRM",
         subtitle: "Expert network command surface",
-        coverage: "Expertise coverage",
-        visible: "Visible experts",
+        briefing: "0 · Briefing",
         search: "1 · Search",
         cabinet: "2 · Configure",
         approval: "3 · Scope & Limits",
@@ -114,10 +129,9 @@ function NetworkPage() {
       }
       : {
         live: "Мережа наживо",
-        title: "ISRM Ukraine",
+        title: "ISRM",
         subtitle: "Командна поверхня експертної мережі",
-        coverage: "Охоплення експертизи",
-        visible: "Видимі експерти",
+        briefing: "0 · Бриф",
         search: "1 · Пошук",
         cabinet: "2 · Конфігуратор",
         approval: "3 · Погодження та ліміти",
@@ -143,7 +157,6 @@ function NetworkPage() {
               onAllServicesRevealed={() => setAllRevealedModalOpen(true)}
               locale={locale}
               onFocus={(code) => {
-                // Background click (code = null): close open side panels
                 if (code === null) {
                   setFocus(null);
                   setSearchOpen(false);
@@ -173,7 +186,6 @@ function NetworkPage() {
           </p>
         )}
 
-        {/* Empty state: filters produced no visible experts */}
         {!loading && mounted && !dependenciesMode && graphExperts.length === 0 && all.length > 0 && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center">
             <div className="rounded-lg border border-border bg-panel/90 p-6 shadow-xl backdrop-blur-xl max-w-sm">
@@ -189,17 +201,10 @@ function NetworkPage() {
                   : "Try broadening the search, or go to the configurator to expand the expert network."}
               </p>
               <div className="flex flex-col gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setF(EMPTY)}
-                >
+                <Button variant="outline" size="sm" onClick={() => setF(EMPTY)}>
                   {locale === "uk" ? "Скинути фільтри" : "Reset filters"}
                 </Button>
-                <Button
-                  size="sm"
-                  onClick={() => { setCabinetOpen(true); setSearchOpen(false); }}
-                >
+                <Button size="sm" onClick={() => { setCabinetOpen(true); setSearchOpen(false); }}>
                   {locale === "uk" ? "Відкрити конфігуратор" : "Open configurator"}
                 </Button>
               </div>
@@ -208,19 +213,22 @@ function NetworkPage() {
         )}
       </section>
 
-      {/* Header with Live Status & Audience Badges */}
+      {/* Header with ISRM Logo, Live Status & Audience Badges */}
       <header className="pointer-events-none absolute inset-x-0 top-0 z-30 p-3 sm:p-4">
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
           <div className="min-w-0 flex flex-wrap items-center gap-2">
-            <div className="inline-flex items-center gap-2 rounded border border-border bg-panel/70 px-3 py-1.5 backdrop-blur-xl">
+            <div className="pointer-events-auto inline-flex items-center gap-2.5 rounded border border-border bg-panel/85 px-3 py-1.5 backdrop-blur-xl">
+              <Link to="/proposal" className="inline-flex items-center hover:opacity-90 transition-opacity">
+                <IsrmLogo className="h-6 w-auto" showSubtitle={false} />
+              </Link>
+              <span className="h-3 w-px bg-border" />
               <span className="h-2 w-2 animate-pulse rounded-full bg-success" />
               <span className="tech-label text-success">{copy.live}</span>
-              <span className="hidden h-4 w-px bg-border sm:block" />
-              <span className="hidden truncate font-display text-sm sm:block">
-                {copy.title} · {copy.subtitle}
+              <span className="hidden truncate font-display text-xs sm:block text-muted-foreground">
+                {copy.subtitle}
               </span>
             </div>
-            {/* Dashboard metrics always visible in header */}
+
             <div className="pointer-events-auto hidden sm:flex items-center gap-px rounded border border-border bg-panel/70 backdrop-blur-xl overflow-hidden text-center">
               {dependenciesMode ? (
                 <>
@@ -280,7 +288,6 @@ function NetworkPage() {
 
           <FilterBar experts={all} f={f} setF={setF} compact showResearchQueue={false} />
 
-          {/* Graph layers: keep ONLY Research queue as requested */}
           <div className="mt-5 border-t border-border pt-4">
             <p className="tech-label mb-2 text-muted-foreground">{copy.layers}</p>
             <label className="flex cursor-pointer items-center gap-2 py-1.5 text-sm">
@@ -295,7 +302,6 @@ function NetworkPage() {
             </label>
           </div>
 
-          {/* Prominent "Підібрати / Match" button */}
           <div className="mt-5 pt-2">
             <Button
               className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold py-2.5 shadow-md"
@@ -329,7 +335,7 @@ function NetworkPage() {
           )}
           <div className="mt-3 flex flex-wrap items-center gap-3">
             <VerifyBadge verified={selected.verified} />
-            <span className="tii-status">{t("tiiPending")}</span>
+            <span className="tii-status">Trust & Influence Index pending</span>
           </div>
           <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
             {t("tiiDescription")}
@@ -364,8 +370,19 @@ function NetworkPage() {
         </aside>
       )}
 
-      {/* ── BOTTOM DOCK: 3 Steps (1 Search, 2 Configure, 3 Scope & Limits) ── */}
+      {/* ── BOTTOM DOCK: 4 Steps (0 Briefing, 1 Search, 2 Configure, 3 Scope & Limits) ── */}
       <nav className="fixed bottom-[calc(env(safe-area-inset-bottom)+0.75rem)] left-1/2 z-50 flex max-w-[calc(100vw-1rem)] -translate-x-1/2 items-center gap-1 rounded border border-border bg-panel/95 p-1.5 shadow-2xl backdrop-blur-2xl">
+        <Button
+          asChild
+          variant="ghost"
+          className="h-14 min-w-18 max-w-24 flex-col gap-1 whitespace-normal px-2"
+        >
+          <Link to="/proposal">
+            <FileText className="h-5 w-5 text-muted-foreground" />
+            <span className="text-center text-[0.65rem] leading-tight text-muted-foreground">{copy.briefing}</span>
+          </Link>
+        </Button>
+
         <DockButton
           icon={Search}
           label={copy.search}
@@ -378,8 +395,9 @@ function NetworkPage() {
             setFocus(null);
           }}
         />
+
         <DockButton
-          icon={UserRound}
+          icon={SlidersHorizontal}
           label={copy.cabinet}
           active={cabinetOpen}
           onClick={() => {
@@ -388,6 +406,7 @@ function NetworkPage() {
             setFocus(null);
           }}
         />
+
         <Button
           asChild
           variant={onScope ? "secondary" : "default"}
@@ -428,16 +447,10 @@ function NetworkPage() {
                 : "You have explored all operations and dependencies of the expert network. Would you like to proceed to the next stage — agreeing on scope and budget limits?"}
             </p>
             <div className="mt-6 flex items-center justify-end gap-3">
-              <Button
-                variant="outline"
-                onClick={() => setAllRevealedModalOpen(false)}
-              >
+              <Button variant="outline" onClick={() => setAllRevealedModalOpen(false)}>
                 {locale === "uk" ? "Скасувати" : "Cancel"}
               </Button>
-              <Button
-                asChild
-                className="bg-primary text-primary-foreground font-semibold"
-              >
+              <Button asChild className="bg-primary text-primary-foreground font-semibold">
                 <Link to="/scope" onClick={() => setAllRevealedModalOpen(false)}>
                   {locale === "uk" ? "Перейти до погоджень" : "Proceed to Scope"}
                 </Link>
@@ -451,9 +464,7 @@ function NetworkPage() {
 }
 
 function MetricBadge({ value, suffix = "", label, note }: { value: number; suffix?: string; label: string; note?: string }) {
-  const display = value >= 1000
-    ? (value / 1000).toFixed(value % 1000 === 0 ? 0 : 1) + "k"
-    : String(value);
+  const display = value >= 1000 ? (value / 1000).toFixed(value % 1000 === 0 ? 0 : 1) + "k" : String(value);
   return (
     <div className="bg-panel/80 px-3 py-1.5 min-w-[64px]">
       <p className="font-display text-base tabular-nums text-foreground leading-none">
@@ -486,7 +497,7 @@ function DockButton({
       aria-label={label}
       aria-expanded={active}
       aria-controls={controlsId}
-      className="h-14 min-w-20 flex-col gap-1 px-3"
+      className="h-14 min-w-18 flex-col gap-1 px-2.5"
     >
       <Icon className={active ? "text-primary" : "text-muted-foreground"} />
       <span className="text-xs">{label}</span>

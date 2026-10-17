@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import PartnerProposal from "@/components/PartnerProposal";
 import { Button } from "@/components/ui/button";
+import { IsrmLogo } from "@/components/IsrmLogo";
 
 // Service configurator — protected by a simple session password.
 // This is NOT authentication; it is a lightweight access barrier for a local demo.
@@ -58,6 +59,9 @@ function PartnerGate() {
         flexDirection: "column",
         gap: "1rem",
       }}>
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: "0.5rem" }}>
+          <IsrmLogo className="h-9 w-auto" showSubtitle={true} />
+        </div>
         <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.15em", color: "var(--color-primary)" }}>
           Service configurator
         </p>

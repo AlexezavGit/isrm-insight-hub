@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowLeft, ExternalLink, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ExternalLink, FileDown, Mail, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { IsrmLogo } from "@/components/IsrmLogo";
 import {
   CLIENT_OFFER_PACKAGES,
   CLIENT_CONSULTING_OPTION,
@@ -10,7 +11,6 @@ import {
 import { CLIENT_OFFER_COMBINED_ESTIMATE } from "@/lib/proposal-data";
 import { MARKET_BENCHMARKS } from "@/lib/proposal-data";
 import { useI18n } from "@/lib/i18n";
-import { ContactDialog } from "@/components/ContactDialog";
 
 export const Route = createFileRoute("/scope")({
   head: () => ({
@@ -29,61 +29,10 @@ export const Route = createFileRoute("/scope")({
   component: ScopePage,
 });
 
-// The three scope sections
-const SCOPE_SECTIONS = [
-  {
-    id: "mvp",
-    number: "01",
-    title: { en: "Application MVP", uk: "MVP застосунку" },
-    included: true, // always on
-    description: {
-      en: "Expert search, group selection, project assignment, profile review and evidence record. The first useful standalone product — not a demo.",
-      uk: "Пошук експертів, відбір групи, призначення до проєкту, перевірка профілю та запис доказів. Перший самостійно корисний продукт — не демо.",
-    },
-    features: {
-      en: ["Expert search and filtering", "Purpose-based group selection", "Profile and evidence review", "Project goal and task tracking", "First contact preparation"],
-      uk: ["Пошук і фільтрування експертів", "Відбір групи за метою", "Перегляд профілю й доказів", "Облік цілей і задач проєкту", "Підготовка першого контакту"],
-    },
-    packageIndex: 0,
-  },
-  {
-    id: "pilot",
-    number: "02",
-    title: { en: "Expert engagement cycle", uk: "Цикл залучення експертів" },
-    included: false, // opt-in
-    description: {
-      en: "Recruitment campaigns, TII co-design, structured working groups and a findings report. Optional after the MVP is accepted — requires a separate decision.",
-      uk: "Кампанії залучення, спільне проєктування TII, структуровані робочі групи та звіт. Опційно після прийняття MVP — потребує окремого рішення.",
-    },
-    features: {
-      en: ["Expert recruitment campaigns", "Trust & Influence Index co-design", "Agenda-based working groups", "Community questionnaire", "Publications and findings report"],
-      uk: ["Кампанії залучення експертів", "Спільне проєктування TII", "Тематичні робочі групи", "Опитувальник спільноти", "Публікації та звіт"],
-    },
-    packageIndex: 1,
-  },
-  {
-    id: "consulting",
-    number: "03",
-    title: { en: "Consulting & strategy", uk: "Консалтинг і стратегія" },
-    included: false, // opt-in
-    description: {
-      en: "Strategic sessions to define expertise priorities, prepare the board for decisions and co-design the TII framework. A separate engagement — not bundled into development.",
-      uk: "Стратегічні сесії для визначення пріоритетів експертизи, підготовки борду до рішень і спільного проєктування рамки TII. Окрема залученість — не включена у вартість розробки.",
-    },
-    features: {
-      en: ["Expertise gap analysis", "Board decision facilitation", "TII framework co-design"],
-      uk: ["Аналіз прогалин в експертизі", "Фасилітація рішень борду", "Спільне проєктування рамки TII"],
-    },
-    packageIndex: null, // consulting is separately priced
-  },
-] as const;
-
 function ScopePage() {
   const { locale, setLocale } = useI18n();
-  const [contactOpen, setContactOpen] = useState(false);
   const [budgetInput, setBudgetInput] = useState("");
   const [budgetChoice, setBudgetChoice] = useState<"approve" | "limit" | null>(null);
-  // Which optional sections are checked
   const [pilotIncluded, setPilotIncluded] = useState(false);
   const [consultingIncluded, setConsultingIncluded] = useState(false);
   const uk = locale === "uk";
@@ -96,9 +45,51 @@ function ScopePage() {
       maximumFractionDigits: 0,
     }).format(value);
 
-  // Price visibility: MVP always shown (high contrast), others gain contrast when checked
   const mvpPrice = CLIENT_OFFER_PACKAGES[0];
   const pilotPrice = CLIENT_OFFER_PACKAGES[1];
+
+  const handleConfirmAndSend = () => {
+    const scopeList = [
+      uk ? "• MVP застосунку (включено)" : "• Application MVP (included)",
+      pilotIncluded ? (uk ? "• Цикл залучення експертів" : "• Expert engagement cycle") : null,
+      consultingIncluded ? (uk ? "• Консалтинг і стратегія" : "• Consulting & strategy") : null,
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    const budgetText =
+      budgetChoice === "approve"
+        ? uk
+          ? "Погоджено індикативний діапазон"
+          : "Approved indicative range"
+        : budgetChoice === "limit" && budgetInput
+        ? uk
+          ? `Встановлено бюджетну стелю: ${budgetInput}`
+          : `Budget ceiling: ${budgetInput}`
+        : uk
+        ? "Позиція щодо бюджету не вказана"
+        : "Budget position not specified";
+
+    const subject = encodeURIComponent(
+      uk
+        ? `ISRM Погодження обсягів та бюджету — ${pilotIncluded ? "MVP + Цикл залучення" : "MVP Застосунку"}`
+        : `ISRM Scope & Budget Confirmation — ${pilotIncluded ? "MVP + Expert Cycle" : "Application MVP"}`
+    );
+
+    const body = encodeURIComponent(
+      uk
+        ? `Доброго дня,\n\nНадсилаю узгодження обсягів та бюджету для проєкту ISRM Ukraine Insight Hub:\n\n` +
+            `ОБРАНИЙ ОБСЯГ (SCOPE):\n${scopeList}\n\n` +
+            `ПОЗИЦІЯ ЩОДО БЮДЖЕТУ:\n${budgetText}\n\n` +
+            `[До цього листа прикріплено експорт PDF]\n\nЗ повагою,\n`
+        : `Hello,\n\nSubmitting preliminary scope and budget confirmation for ISRM Ukraine Insight Hub:\n\n` +
+            `SELECTED SCOPE:\n${scopeList}\n\n` +
+            `BUDGET POSITION:\n${budgetText}\n\n` +
+            `[PDF export attached]\n\nBest regards,\n`
+    );
+
+    window.location.href = `mailto:alexezav@gmail.com,dmitrfilim@gmail.com?subject=${subject}&body=${body}`;
+  };
 
   return (
     <main className="partner-review client-proposal client-offer">
@@ -106,10 +97,13 @@ function ScopePage() {
         {/* ── Header ────────────────────────────────────────────────── */}
         <header className="partner-header">
           <div>
+            <div className="mb-3" aria-label="ISRM">
+              <IsrmLogo className="h-9 w-auto" showSubtitle={true} />
+            </div>
             <Button asChild variant="ghost" className="partner-back">
-              <Link to="/">
-                <ArrowLeft aria-hidden="true" />
-                {text("Back to the expert network", "До мережі експертів")}
+              <Link to="/proposal">
+                <ArrowLeft aria-hidden="true" className="mr-1 h-4 w-4" />
+                {text("Back to proposal", "До пропозиції")}
               </Link>
             </Button>
             <p className="partner-eyebrow">{text("ISRM · Scope & Budget", "ISRM · Обсяг і бюджет")}</p>
@@ -123,8 +117,12 @@ function ScopePage() {
           </div>
           <div className="partner-header-status">
             <div className="partner-locale-switch" role="group" aria-label={text("Page language", "Мова сторінки")}>
-              <button type="button" aria-pressed={!uk} className={!uk ? "is-active" : ""} onClick={() => setLocale("en")}>EN</button>
-              <button type="button" aria-pressed={uk} className={uk ? "is-active" : ""} onClick={() => setLocale("uk")}>UA</button>
+              <button type="button" aria-pressed={!uk} className={!uk ? "is-active" : ""} onClick={() => setLocale("en")}>
+                EN
+              </button>
+              <button type="button" aria-pressed={uk} className={uk ? "is-active" : ""} onClick={() => setLocale("uk")}>
+                UA
+              </button>
             </div>
             <span className="partner-badge">{text("Indicative · not a quote", "Індикативно · не оферта")}</span>
           </div>
@@ -132,10 +130,8 @@ function ScopePage() {
 
         {/* ── Main two-column layout: sections left, price right ─────── */}
         <div className="scope-layout">
-
           {/* LEFT: scope sections */}
           <div className="scope-sections">
-
             {/* Section 01 — MVP (always included, checked + disabled checkbox) */}
             <article className="scope-section scope-section--active" aria-labelledby="scope-mvp-heading">
               <div className="scope-section-header">
@@ -145,12 +141,7 @@ function ScopePage() {
                     {text("Application MVP", "MVP застосунку")}
                   </h2>
                   <label className="scope-checkbox-label" style={{ cursor: "not-allowed", opacity: 0.9 }}>
-                    <input
-                      type="checkbox"
-                      checked={true}
-                      disabled={true}
-                      className="scope-checkbox accent-primary"
-                    />
+                    <input type="checkbox" checked={true} disabled={true} className="scope-checkbox accent-primary" />
                     <span className="font-semibold text-primary">{text("Included (core)", "Включено (основа)")}</span>
                   </label>
                 </div>
@@ -163,17 +154,28 @@ function ScopePage() {
               </p>
               <ul className="scope-feature-list">
                 {(uk
-                  ? ["Пошук і фільтрування експертів", "Відбір групи за метою", "Перегляд профілю й доказів", "Облік цілей і задач проєкту", "Підготовка першого контакту"]
-                  : ["Expert search and filtering", "Purpose-based group selection", "Profile and evidence review", "Project goal and task tracking", "First contact preparation"]
-                ).map((f) => <li key={f}>{f}</li>)}
+                  ? [
+                      "Пошук і фільтрування експертів",
+                      "Відбір групи за метою",
+                      "Перегляд профілю й доказів",
+                      "Облік цілей і задач проєкту",
+                      "Підготовка першого контакту",
+                    ]
+                  : [
+                      "Expert search and filtering",
+                      "Purpose-based group selection",
+                      "Profile and evidence review",
+                      "Project goal and task tracking",
+                      "First contact preparation",
+                    ]
+                ).map((f) => (
+                  <li key={f}>{f}</li>
+                ))}
               </ul>
             </article>
 
             {/* Section 02 — Engagement cycle (opt-in) */}
-            <article
-              className={`scope-section${pilotIncluded ? " scope-section--active" : ""}`}
-              aria-labelledby="scope-pilot-heading"
-            >
+            <article className={`scope-section${pilotIncluded ? " scope-section--active" : ""}`} aria-labelledby="scope-pilot-heading">
               <div className="scope-section-header">
                 <span className="scope-section-number">02</span>
                 <div style={{ flex: 1 }}>
@@ -196,23 +198,34 @@ function ScopePage() {
               </div>
               <p className="scope-section-desc">
                 {text(
-                  "Recruitment campaigns, TII co-design, structured working groups and a findings report. Optional after the MVP is accepted.",
-                  "Кампанії залучення, спільне проєктування TII, структуровані робочі групи та звіт. Опційно після прийняття MVP.",
+                  "Recruitment campaigns, Trust & Influence Index co-design, structured working groups and a findings report. Optional after the MVP is accepted.",
+                  "Кампанії залучення, спільне проєктування Trust & Influence Index, структуровані робочі групи та звіт. Опційно після прийняття MVP.",
                 )}
               </p>
               <ul className="scope-feature-list">
                 {(uk
-                  ? ["Кампанії залучення експертів", "Спільне проєктування TII", "Тематичні робочі групи", "Опитувальник спільноти", "Публікації та звіт"]
-                  : ["Expert recruitment campaigns", "Trust & Influence Index co-design", "Agenda-based working groups", "Community questionnaire", "Publications and findings report"]
-                ).map((f) => <li key={f}>{f}</li>)}
+                  ? [
+                      "Кампанії залучення експертів",
+                      "Спільне проєктування Trust & Influence Index",
+                      "Тематичні робочі групи",
+                      "Опитувальник спільноти",
+                      "Публікації та звіт",
+                    ]
+                  : [
+                      "Expert recruitment campaigns",
+                      "Trust & Influence Index co-design",
+                      "Agenda-based working groups",
+                      "Community questionnaire",
+                      "Publications and findings report",
+                    ]
+                ).map((f) => (
+                  <li key={f}>{f}</li>
+                ))}
               </ul>
             </article>
 
-            {/* Section 03 — Consulting (opt-in, single checkbox → immediate price) */}
-            <article
-              className={`scope-section${consultingIncluded ? " scope-section--active" : ""}`}
-              aria-labelledby="scope-consulting-heading"
-            >
+            {/* Section 03 — Consulting (opt-in) */}
+            <article className={`scope-section${consultingIncluded ? " scope-section--active" : ""}`} aria-labelledby="scope-consulting-heading">
               <div className="scope-section-header">
                 <span className="scope-section-number">03</span>
                 <div style={{ flex: 1 }}>
@@ -235,15 +248,17 @@ function ScopePage() {
               </div>
               <p className="scope-section-desc">
                 {text(
-                  "Strategic sessions, board preparation, expertise gap analysis and TII framework co-design. Separately priced — not bundled into development.",
-                  "Стратегічні сесії, підготовка борду, аналіз прогалин в експертизі та спільне проєктування рамки TII. Окрема ціна — не включена у розробку.",
+                  "Strategic sessions, board preparation, expertise gap analysis and Trust & Influence Index framework co-design. Separately priced — not bundled into development.",
+                  "Стратегічні сесії, підготовка борду, аналіз прогалин в експертизі та спільне проєктування рамки Trust & Influence Index. Окрема ціна — не включена у розробку.",
                 )}
               </p>
               <ul className="scope-feature-list">
                 {(uk
-                  ? ["Аналіз прогалин в експертизі", "Фасилітація рішень борду", "Спільне проєктування рамки TII"]
-                  : ["Expertise gap analysis", "Board decision facilitation", "TII framework co-design"]
-                ).map((f) => <li key={f}>{f}</li>)}
+                  ? ["Аналіз прогалин в експертизі", "Фасилітація рішень борду", "Спільне проєктування рамки Trust & Influence Index"]
+                  : ["Expertise gap analysis", "Board decision facilitation", "Trust & Influence Index framework co-design"]
+                ).map((f) => (
+                  <li key={f}>{f}</li>
+                ))}
               </ul>
               {consultingIncluded && (
                 <p className="partner-muted" style={{ marginTop: "0.75rem", fontSize: "0.875rem" }}>
@@ -259,15 +274,15 @@ function ScopePage() {
               {text("Indicative budget ceiling", "Індикативна верхня межа")}
             </p>
 
-            {/* MVP price — always high contrast */}
-            <div className={`scope-price-row scope-price-row--mvp`}>
+            {/* MVP price */}
+            <div className="scope-price-row scope-price-row--mvp">
               <span className="scope-price-label">{text("MVP", "MVP")}</span>
               <span className="scope-price-value scope-price-value--active">
                 {mvpPrice ? text("Up to", "До") + " " + money(mvpPrice.estimate.high.total) : "—"}
               </span>
             </div>
 
-            {/* Pilot price — gains contrast when checked */}
+            {/* Pilot price */}
             <div className={`scope-price-row${pilotIncluded ? " scope-price-row--selected" : ""}`}>
               <span className="scope-price-label">{text("Engagement cycle", "Цикл залучення")}</span>
               <span className={`scope-price-value${pilotIncluded ? " scope-price-value--active" : ""}`}>
@@ -275,7 +290,7 @@ function ScopePage() {
               </span>
             </div>
 
-            {/* Consulting price — gains contrast when checked */}
+            {/* Consulting price */}
             <div className={`scope-price-row${consultingIncluded ? " scope-price-row--selected" : ""}`}>
               <span className="scope-price-label">{text("Consulting", "Консалтинг")}</span>
               <span className={`scope-price-value${consultingIncluded ? " scope-price-value--active" : ""}`}>
@@ -283,9 +298,12 @@ function ScopePage() {
               </span>
             </div>
 
-            {/* Total — shown when at least one optional section selected */}
+            {/* Total */}
             {(pilotIncluded || consultingIncluded) && (
-              <div className="scope-price-row scope-price-row--selected" style={{ borderTop: "2px solid var(--color-border)", marginTop: "0.25rem", paddingTop: "0.75rem" }}>
+              <div
+                className="scope-price-row scope-price-row--selected"
+                style={{ borderTop: "2px solid var(--color-border)", marginTop: "0.25rem", paddingTop: "0.75rem" }}
+              >
                 <span className="scope-price-label" style={{ fontWeight: 600, color: "var(--color-foreground)" }}>
                   {text("Total (MVP + selected)", "Разом (MVP + обране)")}
                 </span>
@@ -311,24 +329,47 @@ function ScopePage() {
                 {text("Your budget position:", "Ваша позиція щодо бюджету:")}
               </p>
               <label style={{ display: "flex", alignItems: "center", gap: "0.6rem", cursor: "pointer", fontSize: "0.95rem" }}>
-                <input type="radio" name="budget-pos" value="approve" checked={budgetChoice === "approve"} onChange={() => setBudgetChoice("approve")}
-                  style={{ width: "1.1rem", height: "1.1rem", accentColor: "var(--color-primary)" }} />
+                <input
+                  type="radio"
+                  name="budget-pos"
+                  value="approve"
+                  checked={budgetChoice === "approve"}
+                  onChange={() => setBudgetChoice("approve")}
+                  style={{ width: "1.1rem", height: "1.1rem", accentColor: "var(--color-primary)" }}
+                />
                 <span>{text("This range works for me", "Цей діапазон мені підходить")}</span>
               </label>
               <label style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem", cursor: "pointer", fontSize: "0.95rem" }}>
-                <input type="radio" name="budget-pos" value="limit" checked={budgetChoice === "limit"} onChange={() => setBudgetChoice("limit")}
-                  style={{ width: "1.1rem", height: "1.1rem", accentColor: "var(--color-primary)", marginTop: "0.2rem" }} />
+                <input
+                  type="radio"
+                  name="budget-pos"
+                  value="limit"
+                  checked={budgetChoice === "limit"}
+                  onChange={() => setBudgetChoice("limit")}
+                  style={{ width: "1.1rem", height: "1.1rem", accentColor: "var(--color-primary)", marginTop: "0.2rem" }}
+                />
                 <div style={{ flex: 1 }}>
                   <span>{text("Set a budget ceiling:", "Визначити бюджетну стелю:")}</span>
                   {budgetChoice === "limit" && (
                     <input
-                      type="text" inputMode="numeric"
+                      type="text"
+                      inputMode="numeric"
                       placeholder={text("e.g. $40,000", "напр. $40 000")}
-                      value={budgetInput} onChange={(e) => setBudgetInput(e.target.value)}
+                      value={budgetInput}
+                      onChange={(e) => setBudgetInput(e.target.value)}
                       aria-label={text("Budget ceiling", "Бюджетна стеля")}
-                      style={{ display: "block", width: "100%", marginTop: "0.5rem", padding: "0.5rem 0.75rem", fontSize: "1rem",
-                        border: "1.5px solid var(--color-border)", borderRadius: "6px",
-                        background: "var(--color-background)", color: "var(--color-foreground)", outline: "none" }}
+                      style={{
+                        display: "block",
+                        width: "100%",
+                        marginTop: "0.5rem",
+                        padding: "0.5rem 0.75rem",
+                        fontSize: "1rem",
+                        border: "1.5px solid var(--color-border)",
+                        borderRadius: "6px",
+                        background: "var(--color-background)",
+                        color: "var(--color-foreground)",
+                        outline: "none",
+                      }}
                       autoFocus
                     />
                   )}
@@ -336,18 +377,45 @@ function ScopePage() {
               </label>
             </div>
 
-            <Button
-              onClick={() => setContactOpen(true)}
-              style={{ width: "100%", fontSize: "1rem", padding: "0.8rem 1rem" }}
-            >
-              {text("Confirm & Send", "Підтвердити та відіслати")}
-            </Button>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+              {/* Save PDF Button */}
+              <Button
+                variant="outline"
+                onClick={() => window.print()}
+                className="w-full flex items-center justify-center gap-2"
+                style={{ fontSize: "0.95rem", padding: "0.75rem 1rem" }}
+              >
+                <FileDown className="h-4 w-4 text-primary" />
+                {text("Save as PDF", "Зберегти в PDF")}
+              </Button>
+
+              {/* Confirm & Send Button via direct Mailto */}
+              <Button
+                onClick={handleConfirmAndSend}
+                className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold"
+                style={{ fontSize: "1rem", padding: "0.85rem 1rem" }}
+              >
+                <Send className="h-4 w-4" />
+                {text("Confirm & Send Email", "Підтвердити та відіслати email")}
+              </Button>
+            </div>
+
+            <p className="text-[11px] text-muted-foreground mt-2 text-center">
+              {text(
+                "Direct email to alexezav@gmail.com and dmitrfilim@gmail.com. Attach the saved PDF to complete.",
+                "Прямий лист на alexezav@gmail.com та dmitrfilim@gmail.com. Додайте збережений PDF до листа.",
+              )}
+            </p>
 
             <nav className="client-price-sources" style={{ marginTop: "1rem" }} aria-label={text("Rate sources", "Джерела ставок")}>
               <span>{text("Rate sources:", "Джерела ставок:")}</span>
-              {MARKET_BENCHMARKS.sources.filter(({ label }) => label.startsWith("Clutch")).map((s) => (
-                <a href={s.url} key={s.label} target="_blank" rel="noreferrer">{s.label} <ExternalLink aria-hidden="true" /></a>
-              ))}
+              {MARKET_BENCHMARKS.sources
+                .filter(({ label }) => label.startsWith("Clutch"))
+                .map((s) => (
+                  <a href={s.url} key={s.label} target="_blank" rel="noreferrer">
+                    {s.label} <ExternalLink aria-hidden="true" />
+                  </a>
+                ))}
             </nav>
           </aside>
         </div>
@@ -356,9 +424,9 @@ function ScopePage() {
         <footer className="partner-footer">
           <div className="cta-bottom">
             <Button asChild variant="outline" className="button-outline">
-              <Link to="/">
+              <Link to="/proposal">
                 <ArrowLeft aria-hidden="true" className="mr-1.5 h-4 w-4" />
-                {text("Back to the expert network", "До мережі експертів")}
+                {text("Back to proposal", "До пропозиції")}
               </Link>
             </Button>
           </div>
@@ -372,23 +440,6 @@ function ScopePage() {
             {CLIENT_PRICING_STATUS[uk ? "uk" : "en"]}
           </p>
         </footer>
-
-        <ContactDialog
-          open={contactOpen}
-          onOpenChange={setContactOpen}
-          locale={locale}
-          budgetNote={
-            budgetChoice === "approve"
-              ? text("Budget: approved as presented", "Бюджет: погоджено як представлено") +
-                (pilotIncluded ? text(" + engagement cycle", " + цикл залучення") : "") +
-                (consultingIncluded ? text(" + consulting", " + консалтинг") : "")
-              : budgetChoice === "limit" && budgetInput
-              ? `${text("Budget ceiling:", "Бюджетна стеля:")} ${budgetInput}` +
-                (pilotIncluded ? text(" + engagement cycle", " + цикл залучення") : "") +
-                (consultingIncluded ? text(" + consulting", " + консалтинг") : "")
-              : undefined
-          }
-        />
       </div>
     </main>
   );

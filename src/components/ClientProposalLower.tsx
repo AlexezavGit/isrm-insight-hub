@@ -98,24 +98,18 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
                 id: "conference",
                 icon: "🎤",
                 action: {
-                  en: "Sector and territory conferences. Almanac, speakers, tickets and follow-up into the next cycle.",
-                  uk: "Конференції за секторами та територіями. Альманах, доповідачі, квитки й повернення в наступний цикл.",
+                  en: "Deliver the sector conference. Showcase member work, release the findings report, and open the next cycle.",
+                  uk: "Проводьте секторну конференцію. Презентуйте роботу членів, випускайте підсумковий звіт і відкривайте наступний цикл.",
                 },
                 revenue: {
-                  en: "Paid conference tickets. Almanac distribution. New followers enter the cycle.",
-                  uk: "Оплачувані квитки на конференцію. Розповсюдження альманаху. Нові фоловери входять у цикл.",
+                  en: "Conference registrations and higher-tier memberships.",
+                  uk: "Реєстрації на конференцію та вищі рівні членства.",
                 },
-                funnel: {
-                  value: "8,742",
-                  note: {
-                    en: "LinkedIn Page followers · source pool each cycle",
-                    uk: "підписники LinkedIn Page · вихідний пул кожного циклу",
-                  },
-                },
+                funnel: null,
               },
             ] as const
           ).map((node, i, arr) => (
-            <div key={node.id} className="cycle-timeline-row">
+            <div className="cycle-tl-row" key={node.id}>
               <div className="cycle-tl-left">
                 <div className="cycle-tl-card cycle-tl-card--action">
                   <span className="cycle-tl-icon" aria-hidden="true">
@@ -167,45 +161,47 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
         </p>
       </section>
 
+      {/* Section 03: Consulting & Strategy */}
       <section aria-labelledby="client-consulting-heading" style={{ marginTop: "4rem" }}>
         <div className="partner-section-heading" style={{ margin: "4rem 0" }}>
           <span>03</span>
           <div>
             <h2 id="client-consulting-heading">
               {text(
-                "Consulting & strategy · Trust and Influence Index",
-                "Консалтинг і стратегія · Trust and Influence Index",
+                "Consulting & strategy",
+                "Консалтинг і стратегія",
               )}
             </h2>
-            <p>
+            <p className="partner-body" style={{ marginTop: "0.75rem", lineHeight: "1.6" }}>
               {text(
-                "TII is the spine of the strategy — a composite balance of publications, successful cases, solution level, research, professional interaction and recommendations. It is co-designed with the client before any score is calculated.",
-                "TII — стрижень стратегії: композитний баланс публікацій, успішних кейсів, рівня рішень, досліджень, професійної взаємодії та рекомендацій. Розробляється спільно із замовником до будь-якого розрахунку балу.",
+                "Strategic consulting aligns network capabilities with high-value outcomes. Reaching this stage starts with assessing the current state of network expertise, identifying structural gaps, initiating peer discussions, conducting research, mapping the critical path, and executing focused campaigns within a trusted consultancy perimeter.",
+                "Стратегічний консалтинг узгоджує спроможність мережі з високою цінністю для партнерів і замовників. Досягнення цього етапу починається з оцінки базового стану мережевої експертизи, виявлення прогалин (gaps), фахових обговорень, досліджень, побудови критичного шляху та проведення цільових кампаній у зоні довіреного консалтингу.",
               )}
             </p>
           </div>
         </div>
-        <div className="client-pilot-grid" style={{ display: "grid", gap: "0.75rem" }}>
+
+        <div className="client-pilot-grid" style={{ display: "grid", gap: "1rem" }}>
           {[
             {
-              title: text("Map network expertise", "Картувати мережеву експертизу"),
+              title: text("Map network expertise & gaps", "Картувати мережеву експертизу та прогалини"),
               detail: text(
                 "Establish the current state of network expertise, surface gaps, open sector and territory discussions.",
                 "Визначити поточний стан мережевої експертизи, виявити gaps, відкрити обговорення за секторами та територіями.",
               ),
             },
             {
-              title: text("Critical path & campaign", "Критичний шлях і кампанія"),
+              title: text("Critical path & leadership campaign", "Критичний шлях і лідерська кампанія"),
               detail: text(
-                "Build the critical path, run the campaign, and keep work inside trusted consultancy boundaries.",
-                "Побудувати критичний шлях, провести кампанію, утримувати роботу в зоні trusted consultancy.",
+                "Build the critical path, run the leadership campaign, and maintain rigorous standards within trusted consultancy boundaries.",
+                "Побудувати критичний шлях, провести лідерську кампанію та утримувати високі стандарти в зоні trusted consultancy.",
               ),
             },
             {
-              title: text("Evidence before labels", "Докази перед мітками"),
+              title: text("Board alignment & trusted decisions", "Підготовка борду та довірені рішення"),
               detail: text(
-                "Co-design attribution rules with the client before computing any score or assigning any label.",
-                "Спільно з клієнтом узгодити правила атрибуції до обчислення будь-якого балу чи присвоєння мітки.",
+                "Translate research, market evidence and practitioner feedback into actionable board mandates, governance limits and client offerings.",
+                "Перетворення аналітики, ринкових доказів та відгуків практиків на чіткі мандати борду, правила управління та клієнтські пропозиції.",
               ),
             },
           ].map((step) => (
@@ -214,6 +210,59 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
               <p className="partner-muted">{step.detail}</p>
             </article>
           ))}
+        </div>
+      </section>
+
+      {/* DEDICATED BLOCK: Trust & Influence Index (ALWAYS written in full, no acronyms) */}
+      <section aria-labelledby="tii-spine-heading" style={{ marginTop: "3.5rem" }}>
+        <div
+          style={{
+            border: "1.5px solid var(--brass, #c8901a)",
+            borderRadius: "12px",
+            padding: "2rem",
+            background: "color-mix(in oklab, var(--brass, #c8901a) 8%, var(--card, #f2eadb))",
+            boxShadow: "0 8px 30px rgba(0,0,0,0.06)",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem" }}>
+            <span
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "0.75rem",
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                padding: "0.25rem 0.6rem",
+                borderRadius: "4px",
+                background: "var(--brass, #c8901a)",
+                color: "#fff",
+              }}
+            >
+              {text("Strategic Anchor", "Стратегічний стрижень")}
+            </span>
+            <h2 id="tii-spine-heading" style={{ fontSize: "1.35rem", fontWeight: 700, margin: 0, color: "var(--color-foreground)" }}>
+              {text("Trust & Influence Index", "Trust & Influence Index")}
+            </h2>
+          </div>
+          <p
+            style={{
+              fontSize: "1.08rem",
+              lineHeight: 1.65,
+              color: "var(--color-foreground)",
+              fontWeight: 500,
+            }}
+          >
+            {text(
+              "Trust & Influence Index is the spine of the strategy — a composite balance of publications, successful cases, solution level, research, professional interaction and recommendations. It is co-designed with the client before any score is calculated.",
+              "Trust & Influence Index — це стрижень стратегії: композитний баланс публікацій, успішних кейсів, рівня рішень, досліджень, професійної взаємодії та рекомендацій. Він розробляється спільно із замовником до будь-якого розрахунку балу.",
+            )}
+          </p>
+          <p className="partner-muted" style={{ marginTop: "1rem", fontSize: "0.85rem", lineHeight: 1.5 }}>
+            {text(
+              "Evidence before labels: Attribution rules, verified case criteria and peer validation protocols are established collectively to ensure professional integrity across all sectors and jurisdictions.",
+              "Докази перед мітками: Правила атрибуції, критерії перевірених кейсів і протоколи експертної взаємодії узгоджуються колегіально для гарантії професійної доброчесності за всіма секторами та юрисдикціями.",
+            )}
+          </p>
         </div>
       </section>
 
