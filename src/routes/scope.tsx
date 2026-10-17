@@ -101,9 +101,9 @@ function ScopePage() {
               <IsrmLogo className="h-9 w-auto" showSubtitle={true} />
             </div>
             <Button asChild variant="ghost" className="partner-back">
-              <Link to="/proposal">
+              <Link to="/" search={{ network: "true" }}>
                 <ArrowLeft aria-hidden="true" className="mr-1 h-4 w-4" />
-                {text("Back to proposal", "До пропозиції")}
+                {text("Back to graph", "До графа")}
               </Link>
             </Button>
             <p className="partner-eyebrow">{text("ISRM · Scope & Budget", "ISRM · Обсяг і бюджет")}</p>

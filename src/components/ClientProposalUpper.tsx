@@ -54,7 +54,26 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
             </p>
           </div>
         </div>
-        <div className="partner-header-status">
+        <div className="partner-header-status" style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <a
+            href="/partner"
+            style={{
+              fontSize: "0.78rem",
+              fontWeight: 600,
+              padding: "0.4rem 0.75rem",
+              borderRadius: "6px",
+              border: "1px solid var(--border)",
+              background: "var(--card)",
+              color: "var(--foreground)",
+              textDecoration: "none",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.35rem",
+            }}
+          >
+            <span>{text("Partner Configurator", "Конфігуратор для партнерів")}</span>
+            <span aria-hidden="true">↗</span>
+          </a>
           <div className="partner-locale-switch" role="group" aria-label={text("Page language", "Мова сторінки")}>
             <button type="button" aria-pressed={!uk} className={!uk ? "is-active" : ""} onClick={() => setLocale("en")}>
               EN
@@ -67,7 +86,7 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
       </header>
 
       <section className="partner-view" aria-labelledby="client-preview-heading">
-        <section className="client-preview-section" aria-labelledby="client-preview-heading" style={{ marginTop: "2rem" }}>
+        <section className="client-preview-section" aria-labelledby="client-preview-heading" style={{ marginTop: "4rem" }}>
           <div className="partner-section-heading" style={{ margin: "4rem 0" }}>
             <span>01</span>
             <div>
@@ -76,8 +95,8 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
               </h2>
               <p>
                 {text(
-                  "These pictures show the paths in the prototype. This is not yet a finished service, and it is not a private login for members.",
-                  "Ці малюнки показують шляхи в прототипі. Це ще не готовий сервіс і не особистий вхід для членів.",
+                  "These sketches show the paths in the prototype. This is not yet a finished service, and it is not a private login for members.",
+                  "Ці ескізи показують шляхи в прототипі. Це ще не готовий сервіс і не особистий вхід для членів.",
                 )}
               </p>
             </div>

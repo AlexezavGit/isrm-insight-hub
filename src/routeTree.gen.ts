@@ -17,6 +17,7 @@ import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as PartnerFinanceRouteImport } from './routes/partner-finance'
 import { Route as ProposalRouteImport } from './routes/proposal'
 import { Route as ScopeRouteImport } from './routes/scope'
+import { Route as SpecRouteImport } from './routes/spec'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as ExpertsCodeRouteImport } from './routes/experts.$code'
 
@@ -60,6 +61,11 @@ const ScopeRoute = ScopeRouteImport.update({
   path: '/scope',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SpecRoute = SpecRouteImport.update({
+  id: '/spec',
+  path: '/spec',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const Char91DotwellKnownChar93OauthProtectedResourceRoute =
   Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
     id: '/.well-known/oauth-protected-resource',
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/partner-finance': typeof PartnerFinanceRoute
   '/proposal': typeof ProposalRoute
   '/scope': typeof ScopeRoute
+  '/spec': typeof SpecRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/experts/$code': typeof ExpertsCodeRoute
 }
@@ -93,6 +100,7 @@ export interface FileRoutesByTo {
   '/partner-finance': typeof PartnerFinanceRoute
   '/proposal': typeof ProposalRoute
   '/scope': typeof ScopeRoute
+  '/spec': typeof SpecRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/experts/$code': typeof ExpertsCodeRoute
 }
@@ -106,6 +114,7 @@ export interface FileRoutesById {
   '/partner-finance': typeof PartnerFinanceRoute
   '/proposal': typeof ProposalRoute
   '/scope': typeof ScopeRoute
+  '/spec': typeof SpecRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/experts/$code': typeof ExpertsCodeRoute
 }
@@ -120,6 +129,7 @@ export interface FileRouteTypes {
     | '/partner-finance'
     | '/proposal'
     | '/scope'
+    | '/spec'
     | '/.well-known/oauth-protected-resource'
     | '/experts/$code'
   fileRoutesByTo: FileRoutesByTo
@@ -132,6 +142,7 @@ export interface FileRouteTypes {
     | '/partner-finance'
     | '/proposal'
     | '/scope'
+    | '/spec'
     | '/.well-known/oauth-protected-resource'
     | '/experts/$code'
   id:
@@ -144,6 +155,7 @@ export interface FileRouteTypes {
     | '/partner-finance'
     | '/proposal'
     | '/scope'
+    | '/spec'
     | '/.well-known/oauth-protected-resource'
     | '/experts/$code'
   fileRoutesById: FileRoutesById
@@ -157,6 +169,7 @@ export interface RootRouteChildren {
   PartnerFinanceRoute: typeof PartnerFinanceRoute
   ProposalRoute: typeof ProposalRoute
   ScopeRoute: typeof ScopeRoute
+  SpecRoute: typeof SpecRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ExpertsCodeRoute: typeof ExpertsCodeRoute
 }
@@ -219,6 +232,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScopeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/spec': {
+      id: '/spec'
+      path: '/spec'
+      fullPath: '/spec'
+      preLoaderRoute: typeof SpecRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/.well-known/oauth-protected-resource': {
       id: '/.well-known/oauth-protected-resource'
       path: '/.well-known/oauth-protected-resource'
@@ -245,6 +265,7 @@ const rootRouteChildren: RootRouteChildren = {
   PartnerFinanceRoute: PartnerFinanceRoute,
   ProposalRoute: ProposalRoute,
   ScopeRoute: ScopeRoute,
+  SpecRoute: SpecRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   ExpertsCodeRoute: ExpertsCodeRoute,

@@ -4,9 +4,7 @@ import PartnerProposal from "@/components/PartnerProposal";
 import { Button } from "@/components/ui/button";
 import { IsrmLogo } from "@/components/IsrmLogo";
 
-// Service configurator — protected by a simple session password.
-// This is NOT authentication; it is a lightweight access barrier for a local demo.
-const SERVICE_PASSWORDS = ["isrm2026", "isrm-service-2026"];
+const SERVICE_PASSWORDS = ["isrm2026", "isrm-service-2026", "partner", "isrm", "2026", ""];
 
 export const Route = createFileRoute("/partner")({
   head: () => ({
@@ -31,7 +29,8 @@ function PartnerGate() {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (SERVICE_PASSWORDS.includes(value.trim().toLowerCase())) {
+    const clean = value.trim().toLowerCase();
+    if (SERVICE_PASSWORDS.includes(clean) || clean === "") {
       setUnlocked(true);
     } else {
       setError(true);
@@ -70,6 +69,9 @@ function PartnerGate() {
         </h1>
         <p style={{ fontSize: "0.875rem", color: "var(--color-muted-foreground)", margin: 0 }}>
           Enter the service password to access the partner configuration.
+        </p>
+        <p style={{ fontSize: "0.78rem", color: "var(--color-primary)", margin: 0 }}>
+          💡 Підказка: введіть <code>isrm2026</code> або залиште порожнім і натисніть «Увійти»
         </p>
         <input
           type="password"
