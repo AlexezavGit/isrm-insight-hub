@@ -440,6 +440,8 @@
   align-items: flex-start;
   gap: 15px;
   padding: 16px 0 6px;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
 }
 .partner-section-heading > span {
   display: grid;

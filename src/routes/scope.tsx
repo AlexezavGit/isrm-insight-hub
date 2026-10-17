@@ -107,7 +107,7 @@ function ScopePage() {
         <header className="partner-header">
           <div>
             <Button asChild variant="ghost" className="partner-back">
-              <Link to="/proposal">
+              <Link to="/">
                 <ArrowLeft aria-hidden="true" />
                 {text("Back to the expert network", "До мережі експертів")}
               </Link>
@@ -136,17 +136,23 @@ function ScopePage() {
           {/* LEFT: scope sections */}
           <div className="scope-sections">
 
-            {/* Section 01 — MVP (always included, no checkbox) */}
+            {/* Section 01 — MVP (always included, checked + disabled checkbox) */}
             <article className="scope-section scope-section--active" aria-labelledby="scope-mvp-heading">
               <div className="scope-section-header">
                 <span className="scope-section-number">01</span>
-                <div>
+                <div style={{ flex: 1 }}>
                   <h2 id="scope-mvp-heading" className="scope-section-title">
                     {text("Application MVP", "MVP застосунку")}
                   </h2>
-                  <span className="scope-section-badge scope-section-badge--included">
-                    {text("Included", "Включено")}
-                  </span>
+                  <label className="scope-checkbox-label" style={{ cursor: "not-allowed", opacity: 0.9 }}>
+                    <input
+                      type="checkbox"
+                      checked={true}
+                      disabled={true}
+                      className="scope-checkbox accent-primary"
+                    />
+                    <span className="font-semibold text-primary">{text("Included (core)", "Включено (основа)")}</span>
+                  </label>
                 </div>
               </div>
               <p className="scope-section-desc">
@@ -332,14 +338,9 @@ function ScopePage() {
 
             <Button
               onClick={() => setContactOpen(true)}
-              disabled={!budgetChoice}
               style={{ width: "100%", fontSize: "1rem", padding: "0.8rem 1rem" }}
             >
-              {budgetChoice === "approve"
-                ? text("Confirm & Send", "Підтвердити та відіслати")
-                : budgetChoice === "limit"
-                ? text("Confirm & Send", "Підтвердити та відіслати")
-                : text("Select a budget position above", "Оберіть позицію вище")}
+              {text("Confirm & Send", "Підтвердити та відіслати")}
             </Button>
 
             <nav className="client-price-sources" style={{ marginTop: "1rem" }} aria-label={text("Rate sources", "Джерела ставок")}>
@@ -355,7 +356,10 @@ function ScopePage() {
         <footer className="partner-footer">
           <div className="cta-bottom">
             <Button asChild variant="outline" className="button-outline">
-              <Link to="/proposal">{text("Back to the expert network", "До мережі експертів")}</Link>
+              <Link to="/">
+                <ArrowLeft aria-hidden="true" className="mr-1.5 h-4 w-4" />
+                {text("Back to the expert network", "До мережі експертів")}
+              </Link>
             </Button>
           </div>
           <p className="partner-footer-route-notice" role="note">

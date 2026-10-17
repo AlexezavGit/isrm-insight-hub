@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 // Service configurator — protected by a simple session password.
 // This is NOT authentication; it is a lightweight access barrier for a local demo.
-const SERVICE_PASSWORD = "isrm-service-2026";
+const SERVICE_PASSWORDS = ["isrm2026", "isrm-service-2026"];
 
 export const Route = createFileRoute("/partner")({
   head: () => ({
@@ -30,7 +30,7 @@ function PartnerGate() {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (value.trim() === SERVICE_PASSWORD) {
+    if (SERVICE_PASSWORDS.includes(value.trim().toLowerCase())) {
       setUnlocked(true);
     } else {
       setError(true);

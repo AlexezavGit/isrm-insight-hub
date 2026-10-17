@@ -118,7 +118,7 @@ export function FilterBar({
             <option value="">{t("all")}</option>
             {opts[k].map(([v, n]) => (
               <option key={v} value={v}>
-                {v} · {n}
+                {k === "sector" ? v : `${v} · ${n}`}
               </option>
             ))}
           </select>
