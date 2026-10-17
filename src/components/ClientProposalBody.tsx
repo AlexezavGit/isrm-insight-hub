@@ -54,6 +54,18 @@ const LAYOUT = `
   .client-proposal .client-pilot-grid { grid-template-columns: 1fr !important; }
   .client-proposal .cycle-timeline-row { grid-template-columns: 1fr !important; }
 }
+.client-proposal .consulting-pillars-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 1.5rem !important;
+  align-items: stretch !important;
+  margin-bottom: 2.5rem !important;
+}
+@media (max-width: 991px) {
+  .client-proposal .consulting-pillars-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
 `;
 
 export function ClientProposalBody({ locale, text, uk, setLocale }: Props) {

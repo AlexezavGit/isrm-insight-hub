@@ -38,17 +38,17 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
             }}
           >
             <p style={{ fontWeight: 800, fontSize: "1.2rem", marginBottom: "0.6rem", color: "#064e3b" }}>
-              {text("You asked what comes next.", "Ви питали, що далі.")}
+              {text("The question was: what comes next?", "Ви питали, що далі.")}
             </p>
             <p style={{ marginBottom: "0.6rem", color: "#132a22", fontSize: "1.02rem", lineHeight: 1.6 }}>
               {text(
-                "We have the option of continuing to individually assess experts in a thorough manner, but what if you could receive a game-changing tool enabling interaction within the expert network?",
+                "We maintain the option of continuing to appraise individual experts with meticulous care; yet what if the Institute were equipped with an authoritative platform enabling active collaboration across the expert network?",
                 "Можна й надалі індивідуально та ретельно оцінювати експертів по одному, але що якби ви отримали революційний інструмент взаємодії всередині експертної мережі?",
               )}
             </p>
             <p style={{ color: "#132a22", fontSize: "1.02rem", lineHeight: 1.6, margin: 0 }}>
               {text(
-                "THIS time, I will bring an interactive expert workflow—not another sorted spreadsheet: a surface for engagement and collecting network expertise: finding the right expert, blending project groups, tracking contributions, making capacity visible, cross-sell, over-sell, member development and thought leadership.",
+                "THIS time, I bring an interactive collegiate workflow rather than an inert register: an operational surface to convene network expertise, assemble multidisciplinary project commissions, record peer contributions, illuminate institutional capacity, and advance professional stewardship and thought leadership.",
                 "Цього разу я пропоную інтерактивний воркфлоу експертної мережі, а не чергову відсортовану таблицю: робочу поверхню для залучення та збору мережевої експертизи: підбір потрібного експерта, формування проєктних груп, облік внесків, унаочнення капасіті, крос-сел, овер-сел, розвиток членства та лідерство думок.",
               )}
             </p>
@@ -91,11 +91,11 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
             <span>01</span>
             <div>
               <h2 id="client-preview-heading">
-                {text("What you would be able to do", "Що ви зможете робити")}
+                {text("Operational Capabilities", "Що ви зможете робити")}
               </h2>
               <p>
                 {text(
-                  "These sketches show the paths in the prototype. This is not yet a finished service, and it is not a private login for members.",
+                  "These design sketches illustrate key navigational pathways within the interactive prototype. This represents an exploratory architectural model rather than a finalised commercial service or private member portal.",
                   "Ці ескізи показують шляхи в прототипі. Це ще не готовий сервіс і не особистий вхід для членів.",
                 )}
               </p>
@@ -119,11 +119,11 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
               <h3>{text("Search", "Пошук")}</h3>
               <section className="partner-value-unlocks" aria-label={text("What search lets you do", "Що дає пошук")}>
                 <ul>
-                  <li>{text("Filter by sector, region and experience without showing who the person is", "Фільтрувати за сектором, регіоном і досвідом, не показуючи, хто це")}</li>
-                  <li>{text("Look through the network before you decide to approach anyone", "Переглядати мережу, перш ніж вирішите, до кого звертатись")}</li>
-                  <li>{text("See which sectors are thin before you form a project group", "Бачити, в яких секторах мало людей, перш ніж збирати групу")}</li>
-                  <li>{text("Match people to what a project actually needs", "Добирати людей під те, чого справді потребує проєкт")}</li>
-                  <li>{text("Draw up a short list of several experts before you contact them", "Скласти короткий список з кількох експертів, перш ніж писати їм")}</li>
+                  <li>{text("Filter by sector, jurisdiction, and professional tenure whilst preserving individual anonymity", "Фільтрувати за сектором, регіоном і досвідом, не показуючи, хто це")}</li>
+                  <li>{text("Survey the fellowship's capabilities prior to initiating direct contact", "Переглядати мережу, перш ніж вирішите, до кого звертатись")}</li>
+                  <li>{text("Identify capacity constraints across specialised sectors prior to convening working groups", "Бачити, в яких секторах мало людей, перш ніж збирати групу")}</li>
+                  <li>{text("Align specialist competencies precisely with client mandate requirements", "Добирати людей під те, чого справді потребує проєкт")}</li>
+                  <li>{text("Compile a vetted shortlist of distinguished practitioners prior to formal engagement", "Скласти короткий список з кількох експертів, перш ніж писати їм")}</li>
                 </ul>
               </section>
             </article>
@@ -141,11 +141,11 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
               <h3>{text("Services", "Сервіси")}</h3>
               <section className="partner-value-unlocks">
                 <ul>
-                  <li>{text("Form a project group from the experts you have found, and give it a clear aim", "Зібрати проєктну групу з знайдених експертів і дати їй чітку мету")}</li>
-                  <li>{text("See which tasks have been accepted, and what each expert and each group has produced", "Бачити, які задачі прийнято і що зробив кожен експерт і кожна група")}</li>
-                  <li>{text("Write to a chosen group, rather than to everyone", "Писати обраній групі, а не всім поспіль")}</li>
-                  <li>{text("Keep a record of what each member of a working group has contributed", "Зберігати запис, що саме зробив кожен учасник робочої групи")}</li>
-                  <li>{text("Run a working group on a set subject, with a clear brief and a clear result", "Вести робочу групу з теми, з чітким завданням і чітким результатом")}</li>
+                  <li>{text("Convene an interdisciplinary panel from identified experts under explicit terms of reference", "Зібрати проєктну групу з знайдених експертів і дати їй чітку мету")}</li>
+                  <li>{text("Monitor accepted deliverables and review the analytical output generated by each expert panel", "Бачити, які задачі прийнято і що зробив кожен експерт і кожна група")}</li>
+                  <li>{text("Direct targeted communications to specific panels rather than broadcasting across the fellowship", "Писати обраній групі, а не всім поспіль")}</li>
+                  <li>{text("Maintain an auditable ledger of intellectual contributions and peer reviews", "Зберігати запис, що саме зробив кожен учасник робочої групи")}</li>
+                  <li>{text("Facilitate dedicated enquiries with structured briefs and tangible institutional outcomes", "Вести робочу групу з теми, з чітким завданням і чітким результатом")}</li>
                 </ul>
               </section>
             </article>
@@ -167,11 +167,11 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
               <h3>{text("What depends on what", "Що від чого залежить")}</h3>
               <section className="partner-value-unlocks">
                 <ul>
-                  <li>{text("Offer members a further service, starting from the one they already use", "Запропонувати членам наступний сервіс, від того, яким вони вже користуються")}</li>
-                  <li>{text("Show related services, so a member can take on more than one", "Показати суміжні сервіси, щоб член міг узяти більше ніж один")}</li>
-                  <li>{text("Grow what members can do, through communities and working groups that follow", "Розширювати можливості членів через спільноти і робочі групи, які з цього випливають")}</li>
-                  <li>{text("Keep what the network learns: review the evidence together and write it down", "Зберігати те, чого навчилась мережа: разом переглянути докази і записати їх")}</li>
-                  <li>{text("Raise the Institute's profile: track mentions in the press, and judge whether you are ready for a conference", "Піднімати ім'я Інституту: стежити згадки в пресі і оцінити, чи готові ви до конференції")}</li>
+                  <li>{text("Introduce members to complementary services progressing naturally from established engagements", "Запропонувати членам наступний сервіс, від того, яким вони вже користуються")}</li>
+                  <li>{text("Illuminate adjacent practices, enabling practitioners to contribute across multiple mandates", "Показати суміжні сервіси, щоб член міг узяти більше ніж один")}</li>
+                  <li>{text("Expand member capabilities through sustained communities of practice and subsequent working panels", "Розширювати можливості членів через спільноти і робочі групи, які з цього випливають")}</li>
+                  <li>{text("Institutionalise collective knowledge: rigorously review empirical evidence and formalise findings", "Зберігати те, чого навчилась мережа: разом переглянути докази і записати їх")}</li>
+                  <li>{text("Enhance the Institute's public eminence: monitor citations and assess readiness for sector conferences", "Піднімати ім'я Інституту: стежити згадки в пресі і оцінити, чи готові ви до конференції")}</li>
                 </ul>
               </section>
             </article>

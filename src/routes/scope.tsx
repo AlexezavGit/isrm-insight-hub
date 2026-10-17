@@ -103,14 +103,14 @@ function ScopePage() {
             <Button asChild variant="ghost" className="partner-back">
               <Link to="/" search={{ network: "true" }}>
                 <ArrowLeft aria-hidden="true" className="mr-1 h-4 w-4" />
-                {text("Back to graph", "До графа")}
+                {text("Return to network graph", "До графа")}
               </Link>
             </Button>
-            <p className="partner-eyebrow">{text("ISRM · Scope & Budget", "ISRM · Обсяг і бюджет")}</p>
-            <h1>{text("What will be built — and what it costs", "Що буде побудовано — і скільки це коштує")}</h1>
+            <p className="partner-eyebrow">{text("ISRM · Programme Scope & Budget", "ISRM · Обсяг і бюджет")}</p>
+            <h1>{text("Deliverables, Programme Scope and Indicative Investment", "Що буде побудовано — і скільки це коштує")}</h1>
             <p className="partner-lede">
               {text(
-                "The MVP is included by default. Check the optional sections that fit your needs, then indicate your budget position.",
+                "The core Application MVP is established as the essential baseline. Please select any complementary components required, and indicate your institutional budget position.",
                 "MVP включено за замовчуванням. Позначте опційні розділи, які відповідають вашим потребам, потім вкажіть свою позицію щодо бюджету.",
               )}
             </p>
@@ -124,7 +124,7 @@ function ScopePage() {
                 UA
               </button>
             </div>
-            <span className="partner-badge">{text("Indicative · not a quote", "Індикативно · не оферта")}</span>
+            <span className="partner-badge">{text("Indicative · not a formal tender", "Індикативно · не оферта")}</span>
           </div>
         </header>
 
@@ -148,7 +148,7 @@ function ScopePage() {
               </div>
               <p className="scope-section-desc">
                 {text(
-                  "Expert search, group selection, project assignment, profile review and evidence record. The first useful standalone product.",
+                  "Specialist search, collegiate panel selection, project assignment, credential verification, and attributable evidence logging. The foundational standalone platform.",
                   "Пошук експертів, відбір групи, призначення до проєкту, перевірка профілю та запис доказів. Перший самостійно корисний продукт.",
                 )}
               </p>
@@ -162,11 +162,11 @@ function ScopePage() {
                       "Підготовка першого контакту",
                     ]
                   : [
-                      "Expert search and filtering",
-                      "Purpose-based group selection",
-                      "Profile and evidence review",
-                      "Project goal and task tracking",
-                      "First contact preparation",
+                      "Specialist search and capability filtering",
+                      "Mandate-based expert panel selection",
+                      "Profile review and evidence validation",
+                      "Project objectives and deliverable tracking",
+                      "First collegiate contact preparation",
                     ]
                 ).map((f) => (
                   <li key={f}>{f}</li>
@@ -181,7 +181,7 @@ function ScopePage() {
                 <div style={{ flex: 1 }}>
                   <label className="scope-section-label" htmlFor="include-pilot">
                     <h2 id="scope-pilot-heading" className="scope-section-title">
-                      {text("Expert engagement cycle", "Цикл залучення експертів")}
+                      {text("Expert Engagement Cycle", "Цикл залучення експертів")}
                     </h2>
                   </label>
                   <label className="scope-checkbox-label" htmlFor="include-pilot">
@@ -198,7 +198,7 @@ function ScopePage() {
               </div>
               <p className="scope-section-desc">
                 {text(
-                  "Recruitment campaigns, Trust & Influence Index co-design, structured working groups and a findings report. Optional after the MVP is accepted.",
+                  "Collegiate recruitment campaigns, Trust & Influence Index co-design, structured inquiry panels, and a published synthesis report. Commissioned following MVP acceptance.",
                   "Кампанії залучення, спільне проєктування Trust & Influence Index, структуровані робочі групи та звіт. Опційно після прийняття MVP.",
                 )}
               </p>
@@ -212,11 +212,11 @@ function ScopePage() {
                       "Публікації та звіт",
                     ]
                   : [
-                      "Expert recruitment campaigns",
+                      "Collegiate recruitment campaigns",
                       "Trust & Influence Index co-design",
-                      "Agenda-based working groups",
-                      "Community questionnaire",
-                      "Publications and findings report",
+                      "Agenda-based working panels",
+                      "Fellowship community questionnaire",
+                      "Monographs and annual synthesis report",
                     ]
                 ).map((f) => (
                   <li key={f}>{f}</li>
@@ -231,7 +231,7 @@ function ScopePage() {
                 <div style={{ flex: 1 }}>
                   <label className="scope-section-label" htmlFor="include-consulting">
                     <h2 id="scope-consulting-heading" className="scope-section-title">
-                      {text("Consulting & strategy", "Консалтинг і стратегія")}
+                      {text("Strategic Advisory & Governance", "Консалтинг і стратегія")}
                     </h2>
                   </label>
                   <label className="scope-checkbox-label" htmlFor="include-consulting">
@@ -248,14 +248,14 @@ function ScopePage() {
               </div>
               <p className="scope-section-desc">
                 {text(
-                  "Strategic sessions, board preparation, expertise gap analysis and Trust & Influence Index framework co-design. Separately priced — not bundled into development.",
+                  "Strategic advisory sessions, Board governance briefings, capability gap analysis, and bespoke methodology formulation. Individually quoted — distinct from software development.",
                   "Стратегічні сесії, підготовка борду, аналіз прогалин в експертизі та спільне проєктування рамки Trust & Influence Index. Окрема ціна — не включена у розробку.",
                 )}
               </p>
               <ul className="scope-feature-list">
                 {(uk
                   ? ["Аналіз прогалин в експертизі", "Фасилітація рішень борду", "Спільне проєктування рамки Trust & Influence Index"]
-                  : ["Expertise gap analysis", "Board decision facilitation", "Trust & Influence Index framework co-design"]
+                  : ["Institutional expertise gap analysis", "Council and Board governance facilitation", "Trust & Influence Index framework co-design"]
                 ).map((f) => (
                   <li key={f}>{f}</li>
                 ))}
@@ -276,7 +276,7 @@ function ScopePage() {
 
             {/* MVP price */}
             <div className="scope-price-row scope-price-row--mvp">
-              <span className="scope-price-label">{text("MVP", "MVP")}</span>
+              <span className="scope-price-label">{text("Application MVP", "MVP")}</span>
               <span className="scope-price-value scope-price-value--active">
                 {mvpPrice ? text("Up to", "До") + " " + money(mvpPrice.estimate.high.total) : "—"}
               </span>
@@ -284,7 +284,7 @@ function ScopePage() {
 
             {/* Pilot price */}
             <div className={`scope-price-row${pilotIncluded ? " scope-price-row--selected" : ""}`}>
-              <span className="scope-price-label">{text("Engagement cycle", "Цикл залучення")}</span>
+              <span className="scope-price-label">{text("Engagement Cycle", "Цикл залучення")}</span>
               <span className={`scope-price-value${pilotIncluded ? " scope-price-value--active" : ""}`}>
                 {pilotPrice ? text("Up to", "До") + " " + money(pilotPrice.estimate.high.total) : "—"}
               </span>
@@ -292,9 +292,9 @@ function ScopePage() {
 
             {/* Consulting price */}
             <div className={`scope-price-row${consultingIncluded ? " scope-price-row--selected" : ""}`}>
-              <span className="scope-price-label">{text("Consulting", "Консалтинг")}</span>
+              <span className="scope-price-label">{text("Strategic Advisory", "Консалтинг")}</span>
               <span className={`scope-price-value${consultingIncluded ? " scope-price-value--active" : ""}`}>
-                {text("Separately quoted", "Окреме котирування")}
+                {text("Subject to separate quotation", "Окреме котирування")}
               </span>
             </div>
 
