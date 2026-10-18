@@ -17,13 +17,38 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
           <div className="partner-logo-row mb-3" aria-label="ISRM">
             <IsrmLogo className="h-10 w-auto" />
           </div>
-          <p className="partner-eyebrow">{text("Client proposal", "Пропозиція замовнику")}</p>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "0.6rem", marginBottom: "0.6rem" }}>
+            <p className="partner-eyebrow" style={{ margin: 0 }}>{text("Client proposal", "Пропозиція замовнику")}</p>
+            <span style={{ fontSize: "0.75rem", color: "#64748b" }}>·</span>
+            <span style={{ fontSize: "0.74rem", color: "#64748b", letterSpacing: "0.06em", textTransform: "uppercase", fontWeight: 600 }}>
+              {text("Strictly Confidential · October 2026", "Конфіденційно · Жовтень 2026")}
+            </span>
+          </div>
           <h1 className="font-display text-2xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
             {text(
-              "AI OSINT and human appraisal — a space of experts with Trust and Influence",
-              "ШІ OSINT та людська оцінка — простір експертів із довірою та впливом",
+              "AI, open-source intelligence, and human judgement — a place for experts the Institute can trust",
+              "ШІ, відкриті джерела та людська оцінка — простір для експертів, яким довіряє Інститут",
             )}
           </h1>
+
+          {/* Executive context — Trust as foundation */}
+          <div
+            style={{
+              maxWidth: 860,
+              marginTop: "1.5rem",
+              padding: "1.25rem 0",
+              borderTop: "1px solid rgba(200,144,26,0.3)",
+              borderBottom: "1px solid rgba(200,144,26,0.3)",
+            }}
+          >
+            <p style={{ fontSize: "1.05rem", lineHeight: 1.75, color: "#0a2e24", margin: 0, fontWeight: 500 }}>
+              {text(
+                "Trust is not a static certificate — it is the operational infrastructure of professional advisory. In an era where AI fundamentally transforms the strategic landscape, the decisive advantage belongs neither to autonomous algorithms nor to unaugmented consultants, but to the collegiate synergy of verified practitioners with AI-powered evidence on board. This proposal outlines the foundational digital instrument enabling the Institute to convene, mobilise, and evidence trusted expertise across its network.",
+                "Довіра — це не статичний сертифікат, а фундаментальна інфраструктура фахового консалтингу. В епоху, коли ШІ безповоротно змінює стратегічний ландшафт, вирішальна перевага належить не автономним алгоритмам і не ізольованим експертам, а їхньому колегіальному тандему: консультантам із ШІ-інструментарієм на борту. Ця пропозиція описує базовий цифровий інструмент, що дозволяє Інституту збирати, мобілізувати та доказово підтверджувати експертизу в масштабах усієї мережі.",
+              )}
+            </p>
+          </div>
+
           <div
             className="partner-lede partner-question-plaque"
             style={{
@@ -37,42 +62,46 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
               lineHeight: 1.6,
             }}
           >
-            <p style={{ fontWeight: 800, fontSize: "1.2rem", marginBottom: "0.6rem", color: "#064e3b" }}>
+            <p style={{ fontWeight: 800, fontSize: "1.2rem", marginBottom: "0.6rem", color: "#0a2e24" }}>
               {text("The question was: what comes next?", "Ви питали, що далі.")}
             </p>
-            <p style={{ marginBottom: "0.6rem", color: "#132a22", fontSize: "1.02rem", lineHeight: 1.6 }}>
+            <p style={{ marginBottom: "0.6rem", color: "#0a2e24", fontSize: "1.02rem", lineHeight: 1.6 }}>
               {text(
-                "We maintain the option of continuing to appraise individual experts with meticulous care; yet what if the Institute were equipped with an authoritative platform enabling active collaboration across the expert network?",
-                "Можна й надалі індивідуально та ретельно оцінювати експертів по одному, але що якби ви отримали революційний інструмент взаємодії всередині експертної мережі?",
+                "We may continue appraising individual experts with the same meticulous care — yet what if the Institute were equipped with an authoritative platform enabling active collaboration, verifiable contribution records, and collective intelligence across the entire expert network?",
+                "Можна й надалі індивідуально та ретельно оцінювати експертів по одному — але що якби Інститут отримав авторитетну платформу для активної взаємодії, фіксації внесків та колективного інтелекту всієї мережі?",
               )}
             </p>
-            <p style={{ color: "#132a22", fontSize: "1.02rem", lineHeight: 1.6, margin: 0 }}>
+            <p style={{ color: "#0a2e24", fontSize: "1.02rem", lineHeight: 1.6, margin: 0 }}>
               {text(
-                "THIS time, I bring an interactive collegiate workflow rather than an inert register: an operational surface to convene network expertise, assemble multidisciplinary project commissions, record peer contributions, illuminate institutional capacity, and advance professional stewardship and thought leadership.",
-                "Цього разу я пропоную інтерактивний воркфлоу експертної мережі, а не чергову відсортовану таблицю: робочу поверхню для залучення та збору мережевої експертизи: підбір потрібного експерта, формування проєктних груп, облік внесків, унаочнення капасіті, крос-сел, овер-сел, розвиток членства та лідерство думок.",
+                "This proposal introduces an interactive collegiate workflow rather than an inert register: an operational surface to convene network expertise, assemble multidisciplinary project commissions, record peer contributions, illuminate institutional capacity, and advance thought leadership — with AI-verified evidence at every stage.",
+                "Ця пропозиція — інтерактивний воркфлоу, а не чергова таблиця: робоча поверхня для збору мережевої експертизи, формування проєктних груп, обліку внесків, унаочнення потенціалу та лідерства думок — з верифікацією фактів за допомогою ШІ на кожному етапі.",
               )}
             </p>
           </div>
         </div>
-        <div className="partner-header-status" style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+        <div className="partner-header-status" style={{ display: "flex", alignItems: "center", gap: "0.85rem" }}>
           <a
             href="/partner"
             style={{
-              fontSize: "0.78rem",
-              fontWeight: 600,
-              padding: "0.4rem 0.75rem",
-              borderRadius: "6px",
-              border: "1px solid var(--border)",
-              background: "var(--card)",
-              color: "var(--foreground)",
+              fontSize: "0.62rem",
+              fontWeight: 500,
+              padding: "0.2rem 0.45rem",
+              borderRadius: "4px",
+              border: "none",
+              background: "transparent",
+              color: "rgba(10, 46, 36, 0.18)",
               textDecoration: "none",
               display: "inline-flex",
               alignItems: "center",
-              gap: "0.35rem",
+              gap: "0.2rem",
+              transition: "opacity 0.3s",
+              letterSpacing: "0.03em",
             }}
+            title={text("Internal partner configurator", "Внутрішній конфігуратор для партнерів")}
+            onMouseOver={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(10,46,36,0.55)"; }}
+            onMouseOut={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(10,46,36,0.18)"; }}
           >
-            <span>{text("Partner Configurator", "Конфігуратор для партнерів")}</span>
-            <span aria-hidden="true">↗</span>
+            <span>{text("⚙", "⚙")}</span>
           </a>
           <div className="partner-locale-switch" role="group" aria-label={text("Page language", "Мова сторінки")}>
             <button type="button" aria-pressed={!uk} className={!uk ? "is-active" : ""} onClick={() => setLocale("en")}>

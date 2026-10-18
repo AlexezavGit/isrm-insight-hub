@@ -37,6 +37,9 @@ function ScopePage() {
   const [consultingIncluded, setConsultingIncluded] = useState(false);
   const uk = locale === "uk";
   const text = (en: string, ua: string) => (uk ? ua : en);
+  const [sendAttempted, setSendAttempted] = useState(false);
+  const canSend = budgetChoice !== null && (budgetChoice !== "limit" || budgetInput.trim() !== "");
+  const showError = sendAttempted && !canSend;
 
   const money = (value: number) =>
     new Intl.NumberFormat(uk ? "uk-UA" : "en-US", {
@@ -49,10 +52,37 @@ function ScopePage() {
   const pilotPrice = CLIENT_OFFER_PACKAGES[1];
 
   const handleConfirmAndSend = () => {
-    const scopeList = [
-      uk ? "• MVP застосунку (включено)" : "• Application MVP (included)",
-      pilotIncluded ? (uk ? "• Цикл залучення експертів" : "• Expert engagement cycle") : null,
-      consultingIncluded ? (uk ? "• Консалтинг і стратегія" : "• Consulting & strategy") : null,
+    setSendAttempted(true);
+    if (!canSend) return;
+
+    const mvpHigh = mvpPrice?.estimate.high.total ?? 0;
+    const pilotHigh = pilotPrice?.estimate.high.total ?? 0;
+    const combinedHigh = CLIENT_OFFER_COMBINED_ESTIMATE.high.total;
+
+    const fmt = (n: number) =>
+      new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
+
+    const scopeLines = [
+      uk
+        ? `• MVP застосунку — до ${fmt(mvpHigh)} (включено)`
+        : `• Application MVP — up to ${fmt(mvpHigh)} (included)`,
+      pilotIncluded
+        ? uk
+          ? `• Цикл залучення експертів — до ${fmt(pilotHigh)}`
+          : `• Expert Engagement Cycle — up to ${fmt(pilotHigh)}`
+        : null,
+      consultingIncluded
+        ? uk
+          ? `• Стратегічний консалтинг — окреме котирування`
+          : `• Strategic Advisory — subject to separate quotation`
+        : null,
+      (pilotIncluded || consultingIncluded)
+        ? uk
+          ? `  ────────────────────────────────
+  Разом (верхня межа): до ${fmt(pilotIncluded ? combinedHigh : mvpHigh)}`
+          : `  ────────────────────────────────
+  Total ceiling: up to ${fmt(pilotIncluded ? combinedHigh : mvpHigh)}`
+        : null,
     ]
       .filter(Boolean)
       .join("\n");
@@ -61,14 +91,12 @@ function ScopePage() {
       budgetChoice === "approve"
         ? uk
           ? "Погоджено індикативний діапазон"
-          : "Approved indicative range"
+          : "Indicative range approved"
         : budgetChoice === "limit" && budgetInput
         ? uk
-          ? `Встановлено бюджетну стелю: ${budgetInput}`
+          ? `Бюджетна стеля: ${budgetInput}`
           : `Budget ceiling: ${budgetInput}`
-        : uk
-        ? "Позиція щодо бюджету не вказана"
-        : "Budget position not specified";
+        : "";
 
     const subject = encodeURIComponent(
       uk
@@ -78,14 +106,14 @@ function ScopePage() {
 
     const body = encodeURIComponent(
       uk
-        ? `Доброго дня,\n\nНадсилаю узгодження обсягів та бюджету для проєкту ISRM Ukraine Insight Hub:\n\n` +
-            `ОБРАНИЙ ОБСЯГ (SCOPE):\n${scopeList}\n\n` +
-            `ПОЗИЦІЯ ЩОДО БЮДЖЕТУ:\n${budgetText}\n\n` +
-            `[До цього листа прикріплено експорт PDF]\n\nЗ повагою,\n`
-        : `Hello,\n\nSubmitting preliminary scope and budget confirmation for ISRM Ukraine Insight Hub:\n\n` +
-            `SELECTED SCOPE:\n${scopeList}\n\n` +
-            `BUDGET POSITION:\n${budgetText}\n\n` +
-            `[PDF export attached]\n\nBest regards,\n`
+        ? `Доброго дня,\n\nНадсилаю узгодження обсягів та бюджету для проєкту ISRM Ukraine Insight Hub.\n\n` +
+            `──── ОБРАНИЙ ОБСЯГ ────\n${scopeLines}\n\n` +
+            `──── ПОЗИЦІЯ ЩОДО БЮДЖЕТУ ────\n${budgetText}\n\n` +
+            `З повагою,\n`
+        : `Hello,\n\nPlease find below the preliminary scope and budget confirmation for the ISRM Ukraine Insight Hub project.\n\n` +
+            `──── SELECTED SCOPE ────\n${scopeLines}\n\n` +
+            `──── BUDGET POSITION ────\n${budgetText}\n\n` +
+            `Kind regards,\n`
     );
 
     window.location.href = `mailto:alexezav@gmail.com,dmitrfilim@gmail.com?subject=${subject}&body=${body}`;
@@ -101,10 +129,10 @@ function ScopePage() {
               <IsrmLogo className="h-9 w-auto" showSubtitle={true} />
             </div>
             <Button asChild variant="ghost" className="partner-back">
-              <Link to="/" search={{ network: "true" }}>
+              <a href="/?network=true">
                 <ArrowLeft aria-hidden="true" className="mr-1 h-4 w-4" />
                 {text("Return to network graph", "До графа")}
-              </Link>
+              </a>
             </Button>
             <p className="partner-eyebrow">{text("ISRM · Programme Scope & Budget", "ISRM · Обсяг і бюджет")}</p>
             <h1>{text("Deliverables, Programme Scope and Indicative Investment", "Що буде побудовано — і скільки це коштує")}</h1>
@@ -390,10 +418,32 @@ function ScopePage() {
               </Button>
 
               {/* Confirm & Send Button via direct Mailto */}
+              {showError && (
+                <p
+                  id="budget-error"
+                  role="alert"
+                  style={{
+                    fontSize: "0.82rem",
+                    color: "#c0392b",
+                    textAlign: "center",
+                    marginBottom: "0.25rem",
+                  }}
+                >
+                  {text(
+                    budgetChoice === "limit" && !budgetInput.trim()
+                      ? "Please enter a budget ceiling amount."
+                      : "Please select a budget position before sending.",
+                    budgetChoice === "limit" && !budgetInput.trim()
+                      ? "Будь ласка, вкажіть суму бюджетної стелі."
+                      : "Будь ласка, вкажіть вашу позицію щодо бюджету.",
+                  )}
+                </p>
+              )}
               <Button
                 onClick={handleConfirmAndSend}
+                aria-describedby={showError ? "budget-error" : undefined}
                 className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold"
-                style={{ fontSize: "1rem", padding: "0.85rem 1rem" }}
+                style={{ fontSize: "1rem", padding: "0.85rem 1rem", opacity: sendAttempted && !canSend ? 0.75 : 1 }}
               >
                 <Send className="h-4 w-4" />
                 {text("Confirm & Send Email", "Підтвердити та відіслати email")}
@@ -402,8 +452,8 @@ function ScopePage() {
 
             <p className="text-[11px] text-muted-foreground mt-2 text-center">
               {text(
-                "Direct email to alexezav@gmail.com and dmitrfilim@gmail.com. Attach the saved PDF to complete.",
-                "Прямий лист на alexezav@gmail.com та dmitrfilim@gmail.com. Додайте збережений PDF до листа.",
+                "Opens your default email client addressed to alexezav@gmail.com and dmitrfilim@gmail.com. Scope and budget details are pre-filled in the message body.",
+                "Відкриває ваш поштовий клієнт з листом на alexezav@gmail.com та dmitrfilim@gmail.com. Обсяги та бюджет вже заповнені у тілі листа.",
               )}
             </p>
 
