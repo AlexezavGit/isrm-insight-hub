@@ -142,7 +142,7 @@ export function MemberCabinet({
   return (
     <>
       {/* ── LEFT DRAWER: Configurator Panel (Vertical Listing) ── */}
-      <aside className="fixed left-0 bottom-[5.5rem] top-16 z-30 w-[88vw] max-w-[400px] sm:w-[400px] border-r border-border bg-panel/90 p-4 sm:p-5 shadow-2xl backdrop-blur-xl overflow-y-auto">
+      <aside className="fixed left-0 bottom-0 pb-28 top-16 z-30 w-[78vw] max-w-[400px] sm:w-[400px] border-r border-[rgba(200,144,26,0.3)] bg-[#082422]/92 p-4 sm:p-5 shadow-[0_12px_40px_rgba(0,0,0,0.65)] backdrop-blur-xl overflow-y-auto">
         <header className="flex items-center justify-between pb-3.5 border-b border-border">
           <div>
             <p className="tech-label text-primary">{locale === "uk" ? "2 · Конфігуратор" : "2 · Configurator"}</p>
@@ -195,7 +195,7 @@ export function MemberCabinet({
 
       {/* ── RIGHT DRAWER: Service Description Frame ── */}
       {detailsOpen && (
-        <aside className="fixed right-0 bottom-[5.5rem] top-16 z-35 w-[88vw] max-w-[460px] sm:w-[460px] border-l border-border bg-panel/95 p-5 shadow-2xl backdrop-blur-2xl overflow-y-auto">
+        <aside className="fixed right-0 bottom-0 pb-28 top-16 z-35 w-[78vw] max-w-[460px] sm:w-[460px] border-l border-[rgba(200,144,26,0.3)] bg-[#082422]/92 p-5 shadow-[0_12px_40px_rgba(0,0,0,0.65)] backdrop-blur-xl overflow-y-auto">
           <header className="flex items-center justify-between pb-3.5 border-b border-border">
             <div className="flex items-center gap-2.5 min-w-0">
               <service.icon className="h-5 w-5 text-primary shrink-0" />

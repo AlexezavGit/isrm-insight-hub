@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useMatch, redirect } from "@tanstack/react-router";
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
-import { FileText, Search, SlidersHorizontal, X } from "lucide-react";
+import { ExternalLink, FileText, Info, Search, SlidersHorizontal, Users, X } from "lucide-react";
 import { useAccess } from "@/lib/access";
 import { applyFilters, FilterBar, useFilters, EMPTY } from "@/lib/filters";
 import { AccessControl, VerifyBadge } from "@/components/AppShell";
@@ -20,15 +20,23 @@ type IndexSearch = {
 };
 
 export const Route = createFileRoute("/")({
-  beforeLoad: ({ location }) => {
-    // All initial entries start at /proposal unless coming with explicit flow parameter
+  beforeLoad: ({ location, search }) => {
+    // All initial entries start at /proposal unless coming with explicit flow parameter or session grant
+    const s = search as Record<string, unknown> | undefined;
     const searchStr = location.searchStr ?? "";
-    if (
-      searchStr.includes("panel=") ||
-      searchStr.includes("stage=") ||
-      searchStr.includes("preset=") ||
-      searchStr.includes("network=true")
-    ) {
+    const allowed =
+      Boolean(s?.panel) ||
+      Boolean(s?.stage) ||
+      Boolean(s?.preset) ||
+      Boolean(s?.network) ||
+      searchStr.includes("panel") ||
+      searchStr.includes("stage") ||
+      searchStr.includes("preset") ||
+      searchStr.includes("network") ||
+      (typeof sessionStorage !== "undefined" &&
+        sessionStorage.getItem("isrm-allow-graph") === "1");
+
+    if (allowed) {
       return;
     }
     throw redirect({ to: "/proposal" });
@@ -70,7 +78,6 @@ export const Route = createFileRoute("/")({
 function NetworkPage() {
   const { data, loading } = useAccess();
   const { locale, t } = useI18n();
-  const { panel, stage } = Route.useSearch();
   const onScope = useMatch({ from: "/scope", shouldThrow: false });
   const [f, setF] = useFilters();
   const [focus, setFocus] = useState<string | null>(null);
@@ -80,12 +87,21 @@ function NetworkPage() {
     hub: true,
     researchQueue: false,
   });
-  const [searchOpen, setSearchOpen] = useState(() => panel === "search");
+
+  // Graph initially opens with NO open panels
+  const [searchOpen, setSearchOpen] = useState(false);
   const [dependenciesMode, setDependenciesMode] = useState(false);
-  const [cabinetOpen, setCabinetOpen] = useState(() => stage === "configuration");
+  const [cabinetOpen, setCabinetOpen] = useState(false);
   const [activeServiceId, setActiveServiceId] = useState<string | null>(null);
   const [allRevealedModalOpen, setAllRevealedModalOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+
+  // Group formation workflow states
+  const [projectGroup, setProjectGroup] = useState<string[]>([]);
+  const [groupViewOpen, setGroupViewOpen] = useState(false);
+  const [projectFormOpen, setProjectFormOpen] = useState(false);
+  const [projectForm, setProjectForm] = useState({ title: "", desc: "", goal: "" });
+  const [legendOpen, setLegendOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -112,6 +128,16 @@ function NetworkPage() {
 
   const selected = graphExperts.find((expert) => expert.code === focus);
 
+  // Dismiss ALL open panels when clicking empty space on the graph
+  const handleBackgroundClick = () => {
+    setSearchOpen(false);
+    setCabinetOpen(false);
+    setFocus(null);
+    setGroupViewOpen(false);
+    setProjectFormOpen(false);
+    setActiveServiceId(null);
+  };
+
   const copy =
     locale === "en"
       ? {
@@ -122,7 +148,7 @@ function NetworkPage() {
         search: "1 · Search",
         cabinet: "2 · Configure",
         approval: "3 · Scope & Limits",
-        dossier: "Open dossier",
+        dossier: "Full dossier",
         configureServices: "Configure services",
         close: "Close",
         layers: "Graph layers",
@@ -135,32 +161,53 @@ function NetworkPage() {
         search: "1 · Пошук",
         cabinet: "2 · Конфігуратор",
         approval: "3 · Погодження та ліміти",
-        dossier: "Відкрити досьє",
+        dossier: "Повне досьє",
         configureServices: "Конфігурація сервісів",
         close: "Закрити",
         layers: "Шари графа",
       };
 
   return (
-    <main className="relative h-[100svh] min-h-0 overflow-hidden">
-      {/* Background Graph Canvas */}
-      <section className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--color-card),transparent_68%)]">
-        {mounted && !loading && (
-          <Suspense fallback={null}>
+    <main className="relative h-screen w-full overflow-hidden bg-background">
+      <h1 className="sr-only">ISRM Ukraine — Live Expert Network</h1>
+
+      {/* Network Graph Container with smooth responsive shift when side drawer is open */}
+      <section
+        aria-label={locale === "uk" ? "Інтерактивний граф мережі" : "Interactive network graph"}
+        className={`absolute inset-0 transition-transform duration-500 ease-out ${
+          searchOpen || cabinetOpen ? "lg:translate-x-28" : selected || groupViewOpen ? "lg:-translate-x-28" : "translate-x-0"
+        }`}
+      >
+        {mounted && (
+          <Suspense
+            fallback={
+              <p className="absolute inset-0 grid place-items-center tech-label text-muted-foreground">
+                {t("loading")}
+              </p>
+            }
+          >
             <NetworkGraph
               experts={graphExperts}
               layers={layers}
               focus={focus}
               serviceMode={dependenciesMode}
               activeServiceId={activeServiceId}
-              onServiceSelect={(svcId) => setActiveServiceId(svcId)}
+              onServiceSelect={(svcId) => {
+                setActiveServiceId(svcId);
+                if (svcId) {
+                  setFocus(null);
+                  setGroupViewOpen(false);
+                }
+              }}
               onAllServicesRevealed={() => setAllRevealedModalOpen(true)}
+              onBackgroundClick={handleBackgroundClick}
+              leftPanelOpen={searchOpen || cabinetOpen}
+              rightPanelOpen={Boolean(selected || groupViewOpen)}
               locale={locale}
               onFocus={(code) => {
                 if (code === null) {
                   setFocus(null);
-                  setSearchOpen(false);
-                  setCabinetOpen(false);
+                  setGroupViewOpen(false);
                   return;
                 }
                 if (
@@ -174,6 +221,8 @@ function NetworkPage() {
                   return;
                 }
                 setFocus(code);
+                setGroupViewOpen(false);
+                setProjectFormOpen(false);
                 setSearchOpen(false);
                 setCabinetOpen(false);
               }}
@@ -204,7 +253,14 @@ function NetworkPage() {
                 <Button variant="outline" size="sm" onClick={() => setF(EMPTY)}>
                   {locale === "uk" ? "Скинути фільтри" : "Reset filters"}
                 </Button>
-                <Button size="sm" onClick={() => { setCabinetOpen(true); setSearchOpen(false); }}>
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    setCabinetOpen(true);
+                    setDependenciesMode(true);
+                    setSearchOpen(false);
+                  }}
+                >
                   {locale === "uk" ? "Відкрити конфігуратор" : "Open configurator"}
                 </Button>
               </div>
@@ -272,7 +328,7 @@ function NetworkPage() {
       {searchOpen && (
         <aside
           id="network-search-panel"
-          className="fixed left-0 bottom-[5.5rem] top-16 z-30 w-[88vw] max-w-[420px] sm:w-[420px] overflow-y-auto overscroll-contain border-r border-border bg-panel/85 p-4 sm:p-5 shadow-2xl backdrop-blur-xl"
+          className="fixed left-0 bottom-0 pb-28 top-16 z-30 w-[78vw] max-w-[420px] sm:w-[420px] overflow-y-auto overscroll-contain border-r border-[rgba(200,144,26,0.3)] bg-[#082422]/92 p-4 sm:p-5 shadow-[0_12px_40px_rgba(0,0,0,0.65)] backdrop-blur-xl"
         >
           <div className="flex items-center justify-between mb-4">
             <div>
@@ -314,61 +370,329 @@ function NetworkPage() {
         </aside>
       )}
 
-      {/* ── RIGHT DRAWER: Mini-Dossier Frame ── */}
-      {selected && (
-        <aside className="fixed right-0 bottom-[5.5rem] top-16 z-35 w-[88vw] max-w-[360px] sm:w-[360px] overflow-y-auto overscroll-contain border-l border-border bg-panel/95 p-5 shadow-2xl backdrop-blur-2xl">
+      {/* ── RIGHT DRAWER: Mini-Dossier Frame / Project Group Listing / PM Brief Sheet ── */}
+      {(selected || groupViewOpen) && (
+        <aside className="fixed right-0 bottom-0 pb-28 top-16 z-35 w-[78vw] max-w-[420px] sm:w-[420px] overflow-y-auto overscroll-contain border-l border-[rgba(200,144,26,0.3)] bg-[#082422]/92 p-5 shadow-[0_12px_40px_rgba(0,0,0,0.65)] backdrop-blur-xl">
           <button
-            onClick={() => setFocus(null)}
+            onClick={() => {
+              setFocus(null);
+              setGroupViewOpen(false);
+              setProjectFormOpen(false);
+            }}
             className="absolute right-3.5 top-3.5 text-muted-foreground hover:text-foreground p-1"
             aria-label={copy.close}
           >
             <X className="h-4 w-4" />
           </button>
-          <p className="tech-label text-primary">
-            {selected.code} · {data?.level === "guest" ? t("aliases") : t("fullData")}
-          </p>
-          <h2 className="mt-2 pr-7 font-display text-2xl leading-tight text-foreground">{selected.displayName}</h2>
-          {selected.organization && (
-            <p className="mt-1 text-sm text-muted-foreground">
-              {selected.role} · {selected.organization}
-            </p>
+
+          {!groupViewOpen && selected ? (
+            /* Single Expert Mini-Dossier */
+            <>
+              <p className="tech-label text-primary">
+                {selected.code} · {data?.level === "guest" ? t("aliases") : t("fullData")}
+              </p>
+              <h2 className="mt-2 pr-7 font-display text-2xl leading-tight text-foreground">{selected.displayName}</h2>
+              {selected.organization && (
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {selected.role} · {selected.organization}
+                </p>
+              )}
+              <div className="mt-3 flex flex-wrap items-center gap-3">
+                <VerifyBadge verified={selected.verified} />
+                <span className="tii-status">Trust & Influence Index pending</span>
+              </div>
+              <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                {t("tiiDescription")}
+              </p>
+              <p className="mt-4 text-sm leading-relaxed text-foreground/90 bg-card/60 p-3 rounded-lg border border-border">
+                {selected.primaryExpertise}
+              </p>
+
+              {/* Action Buttons for Mini-Dossier */}
+              <div className="mt-5 flex flex-col gap-2.5">
+                <Button
+                  className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold shadow-md py-2.5"
+                  onClick={() => {
+                    if (!projectGroup.includes(selected.code)) {
+                      setProjectGroup([...projectGroup, selected.code]);
+                    }
+                    setGroupViewOpen(true);
+                  }}
+                >
+                  <Users className="h-4 w-4" />
+                  {locale === "uk" ? "Додати до групи" : "Add to project group"}
+                </Button>
+
+                <div className="grid grid-cols-2 gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      alert(
+                        locale === "uk"
+                          ? "Детальне досьє на стадії розробки (Under development)."
+                          : "Detailed dossier is currently under development.",
+                      );
+                    }}
+                  >
+                    {copy.dossier}
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    onClick={() => {
+                      setCabinetOpen(true);
+                      setDependenciesMode(true);
+                      setSearchOpen(false);
+                      setFocus(null);
+                    }}
+                  >
+                    {copy.configureServices}
+                  </Button>
+                </div>
+              </div>
+            </>
+          ) : (
+            /* Group Listing / Mini Project Sheet */
+            <div className="space-y-4">
+              <div className="border-b border-border pb-3">
+                <p className="tech-label text-primary">
+                  {locale === "uk" ? "Проєктна група" : "Project Group"} · {projectGroup.length} {locale === "uk" ? "експертів" : "experts"}
+                </p>
+                <h2 className="font-display text-xl font-semibold text-foreground mt-0.5">
+                  {projectFormOpen
+                    ? (locale === "uk" ? "Міні проєктний листок" : "Project Brief Sheet")
+                    : (locale === "uk" ? "Відібрані фахівці до проєкту" : "Selected Specialists")}
+                </h2>
+              </div>
+
+              {!projectFormOpen ? (
+                <>
+                  {projectGroup.length === 0 ? (
+                    <p className="text-sm text-muted-foreground py-6 text-center">
+                      {locale === "uk" ? "Група порожня. Оберіть експерта на графі та натисніть «Додати до групи»." : "Group is empty. Select an expert on the graph and click 'Add to project group'."}
+                    </p>
+                  ) : (
+                    <div className="space-y-2 max-h-[48vh] overflow-y-auto pr-1">
+                      {projectGroup.map((code) => {
+                        const exp = all.find((e) => e.code === code);
+                        if (!exp) return null;
+                        const isAuth = data?.level !== "guest";
+                        const nameDisplay = isAuth ? exp.name || exp.displayName : exp.code;
+                        return (
+                          <div
+                            key={code}
+                            className="flex items-center justify-between p-3 rounded-lg border border-border bg-card/75"
+                          >
+                            <div className="min-w-0 flex-1 pr-2">
+                              <p className="text-sm font-semibold text-foreground truncate">
+                                {nameDisplay}
+                              </p>
+                              <p className="text-xs text-muted-foreground truncate">
+                                {exp.sector || "Unclassified"} {exp.organization ? `· ${exp.organization}` : ""}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-1 shrink-0">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-7 w-7 text-primary hover:text-primary-foreground"
+                                title={locale === "uk" ? "Повне досьє" : "Full dossier"}
+                                onClick={() => {
+                                  alert(
+                                    locale === "uk"
+                                      ? "Повне досьє на стадії розробки (Under development)."
+                                      : "Full dossier is currently under development.",
+                                  );
+                                }}
+                              >
+                                <ExternalLink className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                                title={locale === "uk" ? "Вилучити" : "Remove"}
+                                onClick={() => setProjectGroup(projectGroup.filter((c) => c !== code))}
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  <div className="pt-2 flex flex-col gap-2">
+                    <Button
+                      className="w-full bg-primary text-primary-foreground font-semibold py-2.5 shadow-md"
+                      disabled={projectGroup.length === 0}
+                      onClick={() => setProjectFormOpen(true)}
+                    >
+                      {locale === "uk" ? "Зберегти групу до проєкту" : "Save group to project"}
+                    </Button>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          setFocus(null);
+                          setGroupViewOpen(false);
+                        }}
+                      >
+                        {locale === "uk" ? "До графа" : "To graph"}
+                      </Button>
+                      <Button
+                        variant="secondary"
+                        onClick={() => {
+                          setCabinetOpen(true);
+                          setDependenciesMode(true);
+                          setFocus(null);
+                          setGroupViewOpen(false);
+                        }}
+                      >
+                        {copy.configureServices}
+                      </Button>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                /* Mini Project Management Brief Sheet */
+                <div className="space-y-3.5">
+                  <div>
+                    <label className="tech-label text-muted-foreground block mb-1">
+                      {locale === "uk" ? "Назва проєкту *" : "Project Title *"}
+                    </label>
+                    <input
+                      type="text"
+                      className="field text-sm"
+                      placeholder={locale === "uk" ? "наприклад: Оцінка стійкості інфраструктури" : "e.g., Infrastructure Resilience Audit"}
+                      value={projectForm.title}
+                      onChange={(e) => setProjectForm({ ...projectForm, title: e.target.value })}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="tech-label text-muted-foreground block mb-1">
+                      {locale === "uk" ? "Ціль проєкту" : "Project Objective"}
+                    </label>
+                    <input
+                      type="text"
+                      className="field text-sm"
+                      placeholder={locale === "uk" ? "наприклад: Підготовка висновку для правління" : "e.g., Board briefing synthesis"}
+                      value={projectForm.goal}
+                      onChange={(e) => setProjectForm({ ...projectForm, goal: e.target.value })}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="tech-label text-muted-foreground block mb-1">
+                      {locale === "uk" ? "Короткий опис" : "Short Description"}
+                    </label>
+                    <textarea
+                      rows={3}
+                      className="field text-sm resize-none"
+                      placeholder={locale === "uk" ? "Короткий контекст задачі та вимоги до компетенцій..." : "Task context and required competencies..."}
+                      value={projectForm.desc}
+                      onChange={(e) => setProjectForm({ ...projectForm, desc: e.target.value })}
+                    />
+                  </div>
+
+                  <div className="p-2.5 rounded border border-border bg-card/60 text-xs text-muted-foreground">
+                    {locale === "uk"
+                      ? `До проєкту буде закріплено ${projectGroup.length} експертів.`
+                      : `${projectGroup.length} experts will be attached to this project.`}
+                  </div>
+
+                  <div className="pt-2 flex flex-col gap-2">
+                    <Button
+                      className="w-full bg-primary text-primary-foreground font-semibold py-2.5 shadow-md"
+                      onClick={() => {
+                        alert(
+                          locale === "uk"
+                            ? "Збереження проєкту на стадії розробки (Under development)."
+                            : "Project saving is currently under development.",
+                        );
+                      }}
+                    >
+                      {locale === "uk" ? "Зберегти" : "Save"}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => setProjectFormOpen(false)}
+                    >
+                      {locale === "uk" ? "Назад до списку групи" : "Back to group"}
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
           )}
-          <div className="mt-3 flex flex-wrap items-center gap-3">
-            <VerifyBadge verified={selected.verified} />
-            <span className="tii-status">Trust & Influence Index pending</span>
-          </div>
-          <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-            {t("tiiDescription")}
-          </p>
-          <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            {selected.primaryExpertise}
-          </p>
-          <div className="mt-5 grid grid-cols-2 gap-2">
-            <Button
-              variant="outline"
-              onClick={() => {
-                alert(
-                  locale === "uk"
-                    ? "Детальне досьє поки в розробці (Under development)."
-                    : "Detailed dossier is currently under development."
-                );
-              }}
-            >
-              {copy.dossier}
-            </Button>
-            <Button
-              onClick={() => {
-                setCabinetOpen(true);
-                setSearchOpen(false);
-                setDependenciesMode(false);
-                setFocus(null);
-              }}
-            >
-              {copy.configureServices}
-            </Button>
-          </div>
         </aside>
       )}
+
+      {/* ── GRAPH LEGEND BUTTON & FLOATING CARD ── */}
+      <div className="fixed bottom-24 left-4 z-40 hidden sm:block">
+        <button
+          onClick={() => setLegendOpen(!legendOpen)}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-[#082422]/90 text-xs font-mono text-muted-foreground hover:text-foreground backdrop-blur-xl shadow-lg transition-all"
+        >
+          <Info className="h-3.5 w-3.5 text-primary" />
+          <span>{locale === "uk" ? "Легенда графа" : "Graph Legend"}</span>
+        </button>
+
+        {legendOpen && (
+          <div className="absolute bottom-10 left-0 w-80 p-4 rounded-xl border border-[rgba(200,144,26,0.3)] bg-[#082422]/95 backdrop-blur-2xl shadow-2xl space-y-2.5 text-xs text-foreground/90">
+            <div className="flex items-center justify-between border-b border-border pb-2">
+              <span className="tech-label text-primary font-semibold">
+                {locale === "uk" ? "Позначення вузлів" : "Node Symbology"}
+              </span>
+              <button onClick={() => setLegendOpen(false)} className="text-muted-foreground hover:text-foreground">
+                <X className="h-3.5 w-3.5" />
+              </button>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <div className="w-3.5 h-3.5 border-2 border-primary bg-primary/20 shrink-0" />
+              <div>
+                <strong className="text-foreground">{locale === "uk" ? "Квадрат" : "Square"}</strong>
+                <p className="text-muted-foreground text-[11px] leading-tight">
+                  {locale === "uk" ? "MVP Застосунок / Ролі спільноти (Hub)" : "MVP Application / Community roles (Hub)"}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <div className="w-3.5 h-3.5 rounded-full border-2 border-[#3e91a2] bg-[#0b2422] shrink-0" />
+              <div>
+                <strong className="text-foreground">{locale === "uk" ? "Коло (Бірюзове)" : "Circle (Teal)"}</strong>
+                <p className="text-muted-foreground text-[11px] leading-tight">
+                  {locale === "uk" ? "Сервіси мережі / Тематичні напрями" : "Network services / Thematic tracks"}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <div className="w-3.5 h-3.5 rounded-full border-2 border-white bg-[#c8901a] shrink-0" />
+              <div>
+                <strong className="text-foreground">{locale === "uk" ? "Коло (Золоте)" : "Circle (Gold)"}</strong>
+                <p className="text-muted-foreground text-[11px] leading-tight">
+                  {locale === "uk" ? "Верифіковані експерти (досьє за кліком)" : "Verified experts (dossier on click)"}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <div className="w-4 h-0.5 bg-[#c8901a] shrink-0" />
+              <div>
+                <strong className="text-foreground">{locale === "uk" ? "Ребра зв'язку" : "Edges"}</strong>
+                <p className="text-muted-foreground text-[11px] leading-tight">
+                  {locale === "uk" ? "Залучення, робочі групи, співавторство" : "Outreach, working panels, authorship"}
+                </p>
+              </div>
+            </div>
+            <div className="pt-1.5 border-t border-border/60 text-[10.5px] text-muted-foreground italic">
+              {locale === "uk"
+                ? "Клік на сервісі підключає людей зовні; клік на вільному полі згортає панелі."
+                : "Clicking a service links people outward; clicking empty canvas dismisses panels."}
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* ── BOTTOM DOCK: 4 Steps (0 Briefing, 1 Search, 2 Configure, 3 Scope & Limits) ── */}
       <nav className="fixed bottom-[calc(env(safe-area-inset-bottom)+0.75rem)] left-1/2 z-50 flex max-w-[calc(100vw-1rem)] -translate-x-1/2 items-center gap-1 rounded border border-border bg-panel/95 p-1.5 shadow-2xl backdrop-blur-2xl">
@@ -389,10 +713,14 @@ function NetworkPage() {
           active={searchOpen}
           controlsId="network-search-panel"
           onClick={() => {
-            const nextOpen = !searchOpen;
-            setSearchOpen(nextOpen);
-            setCabinetOpen(false);
-            setFocus(null);
+            if (searchOpen) {
+              setSearchOpen(false);
+            } else {
+              setSearchOpen(true);
+              setCabinetOpen(false);
+              setFocus(null);
+              setGroupViewOpen(false);
+            }
           }}
         />
 
@@ -401,9 +729,17 @@ function NetworkPage() {
           label={copy.cabinet}
           active={cabinetOpen}
           onClick={() => {
-            setCabinetOpen(!cabinetOpen);
-            setSearchOpen(false);
-            setFocus(null);
+            if (cabinetOpen) {
+              setCabinetOpen(false);
+              setDependenciesMode(false);
+              setActiveServiceId(null);
+            } else {
+              setCabinetOpen(true);
+              setDependenciesMode(true);
+              setSearchOpen(false);
+              setFocus(null);
+              setGroupViewOpen(false);
+            }
           }}
         />
 
@@ -433,26 +769,26 @@ function NetworkPage() {
 
       {/* ── ALL 8 SERVICES REVEALED INVITATION MODAL ── */}
       {allRevealedModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-xl border border-border bg-panel/95 p-6 shadow-2xl backdrop-blur-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-md">
+          <div className="w-full max-w-lg rounded-xl border border-[rgba(200,144,26,0.4)] bg-[#082422]/95 p-6 shadow-2xl backdrop-blur-2xl">
             <p className="tech-label text-primary mb-1">
               {locale === "uk" ? "3 · Погодження та ліміти" : "3 · Scope & Limits"}
             </p>
             <h3 className="font-display text-xl font-semibold text-foreground">
-              {locale === "uk" ? "Всі 8 сервісів мережі активовано" : "All 8 network services activated"}
+              {locale === "uk" ? "Ви сягнули загальної кількості пропонованих сервісів (8 з 8)" : "You reached the total number of proposed services (8 of 8)"}
             </h3>
             <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
               {locale === "uk"
-                ? "Ви ознайомилися з усіма операціями та залежностями експертної мережі. Бажаєте перейти до наступного етапу — погодження обсягів робіт та лімітів бюджету?"
-                : "You have explored all operations and dependencies of the expert network. Would you like to proceed to the next stage — agreeing on scope and budget limits?"}
+                ? "Всі операції мережі взаємопов'язані. Ви можете повернутися до конфігурації або перейти до погодження обсягів робіт та бюджетів."
+                : "All 8 network operations are fully interconnected. You can return to configuration or proceed to agreeing on scope and budget limits."}
             </p>
-            <div className="mt-6 flex items-center justify-end gap-3">
+            <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
               <Button variant="outline" onClick={() => setAllRevealedModalOpen(false)}>
-                {locale === "uk" ? "Скасувати" : "Cancel"}
+                {locale === "uk" ? "Повернутися до конфігурації" : "Return to configuration"}
               </Button>
-              <Button asChild className="bg-primary text-primary-foreground font-semibold">
+              <Button asChild className="bg-primary text-primary-foreground font-semibold shadow-lg">
                 <Link to="/scope" onClick={() => setAllRevealedModalOpen(false)}>
-                  {locale === "uk" ? "Перейти до погоджень" : "Proceed to Scope"}
+                  {locale === "uk" ? "Додати / модифікувати сервіси · Погодження обсягів" : "Add / modify services · Scope & limits"}
                 </Link>
               </Button>
             </div>
@@ -471,7 +807,8 @@ function MetricBadge({ value, suffix = "", label, note }: { value: number; suffi
         {display}{suffix}
       </p>
       <p className="tech-label text-[10px] truncate text-muted-foreground mt-0.5">
-        {label}{note ? <span className="opacity-60"> {note}</span> : null}
+        {label}
+        {note && <span className="opacity-60 ml-0.5">{note}</span>}
       </p>
     </div>
   );
@@ -481,26 +818,27 @@ function DockButton({
   icon: Icon,
   label,
   active,
-  controlsId,
   onClick,
+  controlsId,
 }: {
-  icon: typeof Search;
+  icon: any;
   label: string;
   active: boolean;
-  controlsId?: string;
   onClick: () => void;
+  controlsId?: string;
 }) {
   return (
     <Button
       variant={active ? "secondary" : "ghost"}
-      onClick={onClick}
-      aria-label={label}
       aria-expanded={active}
       aria-controls={controlsId}
-      className="h-14 min-w-18 flex-col gap-1 px-2.5"
+      className={`h-14 min-w-18 max-w-24 flex-col gap-1 whitespace-normal px-2 ${
+        active ? "border-b-2 border-primary text-primary" : "text-muted-foreground"
+      }`}
+      onClick={onClick}
     >
-      <Icon className={active ? "text-primary" : "text-muted-foreground"} />
-      <span className="text-xs">{label}</span>
+      <Icon className="h-5 w-5" />
+      <span className="text-center text-[0.65rem] leading-tight">{label}</span>
     </Button>
   );
 }

@@ -75,7 +75,15 @@ export function EntryFrame({ locale }: EntryFrameProps) {
       <h2>{t.heading}</h2>
       <p>{t.subheading}</p>
       <Button asChild size="lg" className="entry-frame-cta">
-        <Link to="/" search={{ panel: "search" }}>
+        <Link
+          to="/"
+          search={{ network: "true" }}
+          onClick={() => {
+            if (typeof sessionStorage !== "undefined") {
+              sessionStorage.setItem("isrm-allow-graph", "1");
+            }
+          }}
+        >
           {t.cta}
           <ArrowRight aria-hidden="true" className="ml-1" />
         </Link>

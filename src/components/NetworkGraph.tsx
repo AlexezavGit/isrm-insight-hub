@@ -16,6 +16,7 @@ interface GNode {
   y?: number;
   fx?: number;
   fy?: number;
+  lastConnectedSvc?: string;
 }
 
 interface GLink {
@@ -32,10 +33,25 @@ export interface GraphLayers {
   researchQueue: boolean;
 }
 
-function css(v: string) {
-  return typeof window !== "undefined"
-    ? getComputedStyle(document.documentElement).getPropertyValue(v).trim()
-    : "";
+const SERVICE_EDGE_LABELS: Record<string, { en: string; uk: string }> = {
+  "hub:mvp": { uk: "Рада асоціації", en: "Advisory board" },
+  "svc:mvp": { uk: "Ядро мережі", en: "Core fellowship" },
+  "svc:acquisitions": { uk: "Цільовий відбір", en: "Targeted outreach" },
+  "svc:discussions": { uk: "Робоча група", en: "Working panel" },
+  "svc:reports": { uk: "Співавтор аналітики", en: "Report co-author" },
+  "svc:expertise": { uk: "Автор кейсу / TII", en: "Case author & TII" },
+  "svc:warroom": { uk: "Оперативна група", en: "Rapid response" },
+  "svc:conferences": { uk: "Спікер секції", en: "Section speaker" },
+  "svc:memberships": { uk: "Амбасадор спільноти", en: "Community ambassador" },
+};
+
+function strHash(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash << 5) - hash + str.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash);
 }
 
 export default function NetworkGraph({
@@ -47,6 +63,9 @@ export default function NetworkGraph({
   activeServiceId = null,
   onServiceSelect,
   onAllServicesRevealed,
+  onBackgroundClick,
+  leftPanelOpen = false,
+  rightPanelOpen = false,
   locale = "en",
 }: {
   experts: Expert[];
@@ -57,6 +76,9 @@ export default function NetworkGraph({
   activeServiceId?: string | null;
   onServiceSelect?: (serviceId: string | null) => void;
   onAllServicesRevealed?: () => void;
+  onBackgroundClick?: () => void;
+  leftPanelOpen?: boolean;
+  rightPanelOpen?: boolean;
   locale?: string;
 }) {
   const fg = useRef<any>(null);
@@ -85,15 +107,19 @@ export default function NetworkGraph({
     }
   }, [revealedServices.size, serviceMode, onAllServicesRevealed]);
 
+  // Color tokens aligned with FEEL Again / Bunker palette (Teal/Petrol, Gold, Orange, Cream)
   const colors = useMemo(
     () => ({
-      primary: "#e2b357",
+      petrol: "#0b2422",
+      petrolLight: "#3e91a2",
+      gold: "#c8901a",
+      goldLight: "#fce9b0",
+      orange: "#f08a2e",
       fg: "#f8fafc",
       muted: "#94a3b8",
       border: "#334155",
       success: "#10b981",
       c2: "#38bdf8",
-      c5: "#c084fc",
       bg: "#090d16",
     }),
     [],
@@ -107,15 +133,15 @@ export default function NetworkGraph({
     return () => ro.disconnect();
   }, []);
 
-  // Fixed ring geometry for services
+  // Fixed ring geometry for services: inner ring R=185, MVP at center
   const fixedServiceNodes = useMemo(() => {
-    const R = 210;
+    const R = 185;
     const nodes: GNode[] = [
       {
         id: "hub:mvp",
         kind: "hub",
         label: locale === "uk" ? "MVP Застосунок" : "MVP Application",
-        size: 11,
+        size: 12,
         fx: 0,
         fy: 0,
         x: 0,
@@ -134,7 +160,7 @@ export default function NetworkGraph({
         kind: "theme",
         label: svc.title[lang],
         service: svc,
-        size: 7.5,
+        size: 8.5,
         fx: x,
         fy: y,
         x,
@@ -149,6 +175,10 @@ export default function NetworkGraph({
   const serviceExpertMap = useMemo(() => {
     const verified = experts.filter((e) => e.verified);
     const map = new Map<string, Expert[]>();
+
+    // Core advisory founders for central MVP
+    map.set("hub:mvp", verified.slice(0, 4));
+
     NETWORK_SERVICES.forEach((svc, idx) => {
       const count = svc.assumedExpertCount || 6;
       const start = (idx * 5) % Math.max(1, verified.length);
@@ -174,83 +204,142 @@ export default function NetworkGraph({
       n.size++;
     };
 
-    // 1. All expert nodes (the underlying living network)
-    for (const e of experts) {
-      if (!e.verified && !layers.researchQueue) continue;
-      nodes.push({ id: e.code, kind: "expert", label: e.displayName, expert: e, size: 2.2 });
-      if (layers.sector && e.sector && e.sector !== "Unclassified") {
-        ensure("S:" + e.sector, "sector", e.sector);
-        links.push({ source: e.code, target: "S:" + e.sector, kind: "sector" });
-      }
-      if (
-        layers.theme &&
-        e.ukraineCategory &&
-        !["Ukraine-related experience", "Не оцінено"].includes(e.ukraineCategory)
-      ) {
-        ensure("T:" + e.ukraineCategory, "theme", e.ukraineCategory);
-        links.push({ source: e.code, target: "T:" + e.ukraineCategory, kind: "theme" });
-      }
-      if (layers.hub && e.communityRole && e.communityRole !== "Member / participant") {
-        ensure("H:" + e.communityRole, "hub", e.communityRole);
-        links.push({ source: e.code, target: "H:" + e.communityRole, kind: "hub" });
-      }
-      if (!e.verified && layers.researchQueue) {
-        ensure("P:queue", "hub", locale === "uk" ? "Черга ресерчу" : "Research queue");
-        links.push({ source: e.code, target: "P:queue", kind: "pool" });
-      }
-    }
-
-    // Expert peer links
-    const byOrg = new Map<string, string[]>();
-    experts.forEach((e) => {
-      if (e.organization) byOrg.set(e.organization, [...(byOrg.get(e.organization) || []), e.code]);
-    });
-    byOrg.forEach((codes) => {
-      for (let i = 1; i < codes.length; i++)
-        links.push({ source: codes[0]!, target: codes[i]!, kind: "peer" });
-    });
-
-    // 2. If serviceMode is active: overlay the service ring & dynamically link real experts
-    if (serviceMode) {
-      // Add fixedServiceNodes (hub:mvp and 8 services) on top
-      fixedServiceNodes.forEach((sn) => nodes.push({ ...sn }));
-
-      // Ring connection edges between adjacent services
-      const count = NETWORK_SERVICES.length;
-      for (let i = 0; i < count; i++) {
-        const next = (i + 1) % count;
-        links.push({
-          source: NETWORK_SERVICES[i].id,
-          target: NETWORK_SERVICES[next].id,
-          kind: "ring",
-        });
+    if (!serviceMode) {
+      // NORMAL MODE: Browse living network
+      for (const e of experts) {
+        if (!e.verified && !layers.researchQueue) continue;
+        nodes.push({ id: e.code, kind: "expert", label: e.displayName, expert: e, size: 2.5 });
+        if (layers.sector && e.sector && e.sector !== "Unclassified") {
+          ensure("S:" + e.sector, "sector", e.sector);
+          links.push({ source: e.code, target: "S:" + e.sector, kind: "sector" });
+        }
+        if (
+          layers.theme &&
+          e.ukraineCategory &&
+          !["Ukraine-related experience", "Не оцінено"].includes(e.ukraineCategory)
+        ) {
+          ensure("T:" + e.ukraineCategory, "theme", e.ukraineCategory);
+          links.push({ source: e.code, target: "T:" + e.ukraineCategory, kind: "theme" });
+        }
+        if (layers.hub && e.communityRole && e.communityRole !== "Member / participant") {
+          ensure("H:" + e.communityRole, "hub", e.communityRole);
+          links.push({ source: e.code, target: "H:" + e.communityRole, kind: "hub" });
+        }
+        if (!e.verified && layers.researchQueue) {
+          ensure("P:queue", "hub", locale === "uk" ? "Черга ресерчу" : "Research queue");
+          links.push({ source: e.code, target: "P:queue", kind: "pool" });
+        }
       }
 
-      // Spokes connecting central MVP to each of the 8 services
-      NETWORK_SERVICES.forEach((svc) => {
-        const isCurrentActive = currentActiveService === svc.id;
-        links.push({
-          source: "hub:mvp",
-          target: svc.id,
-          kind: "mvp",
-          label: isCurrentActive ? svc.dependencyLabel[locale === "uk" ? "uk" : "en"] : undefined,
-        });
+      // Expert peer links
+      const byOrg = new Map<string, string[]>();
+      experts.forEach((e) => {
+        if (e.organization) byOrg.set(e.organization, [...(byOrg.get(e.organization) || []), e.code]);
+      });
+      byOrg.forEach((codes) => {
+        for (let i = 1; i < codes.length; i++)
+          links.push({ source: codes[0]!, target: codes[i]!, kind: "peer" });
       });
 
-      // When a service is active: connect to REAL existing expert nodes
-      if (currentActiveService) {
-        const activeExperts = serviceExpertMap.get(currentActiveService) ?? [];
-        activeExperts.forEach((exp) => {
-          if (nodes.some((n) => n.id === exp.code)) {
-            links.push({
-              source: currentActiveService,
-              target: exp.code,
-              kind: "service-expert",
-            });
-          }
-        });
-      }
+      return { nodes, links };
     }
+
+    // SERVICE MODE: Overlay service ring & position experts strictly on the OUTER circle
+    fixedServiceNodes.forEach((sn) => nodes.push({ ...sn }));
+
+    // 1. Ring connection edges between adjacent services
+    const count = NETWORK_SERVICES.length;
+    for (let i = 0; i < count; i++) {
+      const next = (i + 1) % count;
+      links.push({
+        source: NETWORK_SERVICES[i].id,
+        target: NETWORK_SERVICES[next].id,
+        kind: "ring",
+      });
+    }
+
+    // 2. Clean spokes connecting central MVP to each of the 8 services
+    NETWORK_SERVICES.forEach((svc) => {
+      links.push({
+        source: "hub:mvp",
+        target: svc.id,
+        kind: "mvp",
+      });
+    });
+
+    // 3. Position expert nodes strictly on the OUTER circumference
+    const R_OUTER = 310;
+    const activeServicesList = Array.from(revealedServices);
+
+    for (const e of experts) {
+      if (!e.verified && !layers.researchQueue) continue;
+
+      // Find if connected to any revealed service
+      const connectedSvc = activeServicesList.find((svcId) =>
+        serviceExpertMap.get(svcId)?.some((exp) => exp.code === e.code),
+      );
+
+      let fx: number | undefined;
+      let fy: number | undefined;
+
+      if (connectedSvc) {
+        // Position radially outside that specific service node
+        const list = serviceExpertMap.get(connectedSvc) ?? [];
+        const idxInList = list.findIndex((exp) => exp.code === e.code);
+        const total = Math.max(1, list.length);
+
+        let svcAngle = 0;
+        if (connectedSvc === "hub:mvp") {
+          svcAngle = (idxInList / total) * 2 * Math.PI - Math.PI / 4;
+        } else {
+          const sIdx = NETWORK_SERVICES.findIndex((s) => s.id === connectedSvc);
+          svcAngle = (sIdx / NETWORK_SERVICES.length) * 2 * Math.PI - Math.PI / 2;
+        }
+
+        const angleSpread = svcAngle + (idxInList - (total - 1) / 2) * 0.16;
+        fx = Math.round(Math.cos(angleSpread) * R_OUTER);
+        fy = Math.round(Math.sin(angleSpread) * R_OUTER);
+      } else {
+        // Ambient background position around the outer periphery
+        const h = strHash(e.code);
+        const bgAngle = ((h % 360) * Math.PI) / 180;
+        const bgDist = 265 + (strHash(e.code + "rad") % 85);
+        fx = Math.round(Math.cos(bgAngle) * bgDist);
+        fy = Math.round(Math.sin(bgAngle) * bgDist);
+      }
+
+      nodes.push({
+        id: e.code,
+        kind: "expert",
+        label: e.displayName,
+        expert: e,
+        size: connectedSvc ? 5.5 : 2.5,
+        fx,
+        fy,
+        x: fx,
+        y: fy,
+        lastConnectedSvc: connectedSvc,
+      });
+    }
+
+    // 4. Edges from active services out to their people
+    activeServicesList.forEach((svcId) => {
+      const activeExperts = serviceExpertMap.get(svcId) ?? [];
+      const edgeLabel =
+        SERVICE_EDGE_LABELS[svcId]?.[locale === "uk" ? "uk" : "en"] ||
+        (locale === "uk" ? "Залучення" : "Engagement");
+
+      activeExperts.forEach((exp) => {
+        if (nodes.some((n) => n.id === exp.code)) {
+          links.push({
+            source: svcId,
+            target: exp.code,
+            kind: "service-expert",
+            label: edgeLabel,
+          });
+        }
+      });
+    });
 
     return { nodes, links };
   }, [
@@ -259,7 +348,7 @@ export default function NetworkGraph({
     locale,
     serviceMode,
     fixedServiceNodes,
-    currentActiveService,
+    revealedServices,
     serviceExpertMap,
   ]);
 
@@ -282,15 +371,27 @@ export default function NetworkGraph({
     const n = data.nodes.find((x) => x.id === focus || (x.expert && x.expert.code === focus));
     if (n && n.x != null && n.y != null) {
       fg.current.centerAt(n.x, n.y, 600);
-      fg.current.zoom(2.2, 600);
+      fg.current.zoom(2.0, 600);
     }
   }, [focus, data]);
 
-  // Center on graph origin when entering service mode
+  // Smooth camera centering and panel offset
+  useEffect(() => {
+    if (!fg.current) return;
+    if (leftPanelOpen && !rightPanelOpen) {
+      fg.current.centerAt(-85, 0, 500);
+    } else if (rightPanelOpen && !leftPanelOpen) {
+      fg.current.centerAt(85, 0, 500);
+    } else {
+      fg.current.centerAt(0, 0, 500);
+    }
+  }, [leftPanelOpen, rightPanelOpen]);
+
+  // Initial centering in service mode
   useEffect(() => {
     if (serviceMode && fg.current) {
       fg.current.centerAt(0, 0, 700);
-      fg.current.zoom(1.15, 700);
+      fg.current.zoom(1.05, 700);
     }
   }, [serviceMode]);
 
@@ -302,27 +403,27 @@ export default function NetworkGraph({
         height={size.h}
         graphData={data}
         backgroundColor="rgba(0,0,0,0)"
-        cooldownTicks={serviceMode ? 20 : 160}
+        cooldownTicks={serviceMode ? 10 : 140}
         onEngineStop={() => !focus && !serviceMode && fg.current?.zoomToFit(400, 60)}
         nodeRelSize={1}
         linkColor={(l: any) => {
           if (serviceMode) {
-            if (l.kind === "service-expert") return colors.primary;
-            if (l.kind === "mvp") return l.label ? colors.primary : colors.primary + "88";
-            if (l.kind === "ring") return colors.c2 + "99";
+            if (l.kind === "service-expert") return colors.gold;
+            if (l.kind === "mvp") return colors.petrolLight + "aa";
+            if (l.kind === "ring") return colors.c2 + "bb";
             return "rgba(120, 120, 130, 0.04)";
           }
           const s = typeof l.source === "object" ? l.source.id : l.source;
           const t = typeof l.target === "object" ? l.target.id : l.target;
           if (activeSet)
-            return activeSet.has(s) && activeSet.has(t) ? colors.primary : "rgba(120,120,130,0.05)";
-          return l.kind === "peer" ? colors.primary : "rgba(150,150,160,0.12)";
+            return activeSet.has(s) && activeSet.has(t) ? colors.gold : "rgba(120,120,130,0.05)";
+          return l.kind === "peer" ? colors.gold : "rgba(150,150,160,0.12)";
         }}
         linkWidth={(l: any) => {
           if (serviceMode) {
             if (l.kind === "service-expert") return 2.2;
-            if (l.kind === "mvp") return l.label ? 2.5 : 1.8;
-            if (l.kind === "ring") return 1.4;
+            if (l.kind === "mvp") return 1.8;
+            if (l.kind === "ring") return 1.5;
             return 0.3;
           }
           return activeSet && activeSet.has(l.source.id) && activeSet.has(l.target.id) ? 1.2 : 0.5;
@@ -336,21 +437,21 @@ export default function NetworkGraph({
           const my = (source.y + target.y) / 2;
 
           ctx.save();
-          const fontSize = Math.max(10 / scale, 6.5);
-          ctx.font = `600 ${fontSize}px 'Space Grotesk', system-ui, sans-serif`;
+          const fontSize = Math.max(9.5 / scale, 6);
+          ctx.font = `600 ${fontSize}px Space Grotesk, system-ui, sans-serif`;
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
 
           const textWidth = ctx.measureText(l.label).width;
-          const px = 8 / scale;
-          const py = 4 / scale;
+          const px = 7 / scale;
+          const py = 3.5 / scale;
           const w = textWidth + px * 2;
           const h = fontSize + py * 2;
           const x = mx - w / 2;
           const y = my - h / 2;
 
-          // Draw dark translucent frosted badge
-          ctx.fillStyle = "rgba(10, 16, 28, 0.94)";
+          // High-contrast frosted badge on the outer edge
+          ctx.fillStyle = "rgba(8, 36, 34, 0.94)";
           ctx.beginPath();
           if (typeof (ctx as any).roundRect === "function") {
             (ctx as any).roundRect(x, y, w, h, 4 / scale);
@@ -360,11 +461,11 @@ export default function NetworkGraph({
           ctx.fill();
 
           ctx.lineWidth = 1 / scale;
-          ctx.strokeStyle = "rgba(226, 179, 87, 0.85)";
+          ctx.strokeStyle = "rgba(200, 144, 26, 0.75)";
           ctx.stroke();
 
           // High-contrast clean white text
-          ctx.fillStyle = "#f8fafc";
+          ctx.fillStyle = "#ffffff";
           ctx.fillText(l.label, mx, my);
           ctx.restore();
         }}
@@ -374,19 +475,36 @@ export default function NetworkGraph({
           if (!n) return;
 
           if (serviceMode) {
-            // Hub centre node: ignore
-            if (n.id === "hub:mvp") return;
+            // Central MVP node: toggle MVP foundation experts
+            if (n.id === "hub:mvp") {
+              setRevealedServices((prev) => {
+                const next = new Set(prev);
+                if (next.has("hub:mvp")) {
+                  next.delete("hub:mvp");
+                } else {
+                  next.add("hub:mvp");
+                }
+                return next;
+              });
+              return;
+            }
 
-            // Service ring node: toggle active service
+            // Service ring node: toggle active service & connect/disconnect people
             if (typeof n.id === "string" && n.id.startsWith("svc:")) {
               const svcId = n.id;
-              if (currentActiveService === svcId) {
-                setCurrentActiveService(null);
-                onServiceSelect?.(null);
-              } else {
-                setCurrentActiveService(svcId);
-                onServiceSelect?.(svcId);
-              }
+              setRevealedServices((prev) => {
+                const next = new Set(prev);
+                if (next.has(svcId)) {
+                  next.delete(svcId);
+                  if (currentActiveService === svcId) setCurrentActiveService(null);
+                  onServiceSelect?.(null);
+                } else {
+                  next.add(svcId);
+                  setCurrentActiveService(svcId);
+                  onServiceSelect?.(svcId);
+                }
+                return next;
+              });
               return;
             }
 
@@ -399,30 +517,23 @@ export default function NetworkGraph({
             return;
           }
 
-          // Normal expert network view — only real expert nodes open a dossier.
-          // Sector / theme / hub aggregate nodes are visual groupings only; clicking
-          // them must not propagate a non-expert ID to the drawer.
+          // Normal expert network view
           if (n.expert) {
             onFocus(n.expert.code);
             return;
           }
 
-          // Toggle aggregation highlight (sector/theme/hub) without opening drawer
           if (n.kind === "sector" || n.kind === "theme" || n.kind === "hub") {
             onFocus(n.id === focus ? null : null);
             return;
           }
         }}
         onBackgroundClick={() => {
-          if (serviceMode) {
-            // Collapse active service on background click in service mode
-            if (currentActiveService) {
-              setCurrentActiveService(null);
-              onServiceSelect?.(null);
-            }
-            return;
+          if (onBackgroundClick) {
+            onBackgroundClick();
+          } else {
+            onFocus(null);
           }
-          onFocus(null);
         }}
         nodePointerAreaPaint={(n: any, color, ctx) => {
           ctx.fillStyle = color;
@@ -434,27 +545,28 @@ export default function NetworkGraph({
         nodeCanvasObject={(n: any, ctx, scale) => {
           if (serviceMode) {
             if (n.kind === "expert") {
-              const isConnected = currentActiveService
-                ? (serviceExpertMap.get(currentActiveService)?.some((exp) => exp.code === n.id) ?? false)
-                : false;
-              ctx.globalAlpha = isConnected ? 1 : 0.12;
+              const isConnected = !!n.lastConnectedSvc && revealedServices.has(n.lastConnectedSvc);
+              const allEightActive = revealedServices.size >= 8;
+
+              // When all 8 are active, edge lines form full mesh while node dots gracefully dim
+              ctx.globalAlpha = isConnected ? (allEightActive ? 0.75 : 1) : 0.12;
 
               const e: Expert | undefined = n.expert;
-              const r = isConnected ? 6.5 : radius(n);
+              const r = isConnected ? 6.5 : 3;
 
               ctx.beginPath();
               ctx.arc(n.x, n.y, r, 0, 2 * Math.PI);
-              ctx.fillStyle = isConnected ? colors.primary : (e?.verified ? colors.success : colors.muted);
+              ctx.fillStyle = isConnected ? colors.gold : (e?.verified ? colors.success : colors.muted);
               ctx.fill();
 
               // Crisp border
-              ctx.lineWidth = (isConnected ? 2.2 : 1) / scale;
-              ctx.strokeStyle = isConnected ? "#ffffff" : "rgba(255,255,255,0.4)";
+              ctx.lineWidth = (isConnected ? 2 : 1) / scale;
+              ctx.strokeStyle = isConnected ? "#ffffff" : "rgba(255,255,255,0.3)";
               ctx.stroke();
 
-              // If connected or active: show expert name label
+              // If connected or active/hover: show expert name label on the OUTSIDE
               if ((isConnected || n.id === active) && e) {
-                const fSize = Math.max(11 / scale, 6.5);
+                const fSize = Math.max(10.5 / scale, 6);
                 ctx.font = `600 ${fSize}px Space Grotesk, sans-serif`;
                 ctx.fillStyle = colors.fg;
                 ctx.textAlign = "center";
@@ -465,51 +577,57 @@ export default function NetworkGraph({
               return;
             }
 
-            // Hub or Service node in serviceMode
+            // Central MVP node (Square) or Service node (Circle)
             ctx.globalAlpha = 1;
             const isHub = n.kind === "hub";
             const isService = typeof n.id === "string" && n.id.startsWith("svc:");
-            const isActiveService = isService && currentActiveService === n.id;
-            const r = radius(n);
+            const isActive = isHub
+              ? revealedServices.has("hub:mvp")
+              : isService && revealedServices.has(n.id);
+            const r = isHub ? 12 : 8.5;
 
             const col = isHub
-              ? colors.primary
-              : isActiveService
-              ? colors.primary
-              : colors.fg;
+              ? colors.gold
+              : isActive
+              ? colors.goldLight
+              : colors.petrolLight;
 
             ctx.beginPath();
             if (isHub) {
+              // MVP Center is a square box
               ctx.rect(n.x - r, n.y - r, r * 2, r * 2);
             } else {
+              // Service nodes are circles
               ctx.arc(n.x, n.y, r, 0, 2 * Math.PI);
             }
 
-            ctx.fillStyle = isActiveService ? colors.primary + "33" : "rgba(10, 16, 28, 0.95)";
+            ctx.fillStyle = isActive ? "rgba(200, 144, 26, 0.28)" : "rgba(8, 36, 34, 0.95)";
             ctx.fill();
 
-            ctx.lineWidth = (isActiveService ? 2.5 : 1.5) / Math.max(scale, 0.6);
+            ctx.lineWidth = (isActive ? 2.8 : 1.8) / Math.max(scale, 0.6);
             ctx.strokeStyle = col;
             ctx.stroke();
 
-            // Outer glow for active service
-            if (isActiveService) {
-              ctx.lineWidth = 1.4 / scale;
-              ctx.strokeStyle = colors.primary + "88";
+            // Outer halo glow for active service
+            if (isActive) {
+              ctx.lineWidth = 1.2 / scale;
+              ctx.strokeStyle = colors.gold + "88";
               ctx.beginPath();
-              ctx.arc(n.x, n.y, r + 6 / scale, 0, 2 * Math.PI);
+              if (isHub) {
+                ctx.rect(n.x - r - 4 / scale, n.y - r - 4 / scale, (r + 4 / scale) * 2, (r + 4 / scale) * 2);
+              } else {
+                ctx.arc(n.x, n.y, r + 5 / scale, 0, 2 * Math.PI);
+              }
               ctx.stroke();
             }
 
-            // Labels for service and hub nodes
+            // Labels for service and MVP nodes
             const labelSize = isHub
-              ? Math.max(12 / scale, 8)
-              : isService
-              ? Math.max(10.5 / scale, 6.5)
-              : Math.max(11 / scale, 4);
+              ? Math.max(12 / scale, 7.5)
+              : Math.max(10.5 / scale, 6.5);
 
             ctx.font = `700 ${labelSize}px Space Grotesk, sans-serif`;
-            ctx.fillStyle = col;
+            ctx.fillStyle = isActive ? colors.goldLight : colors.fg;
             ctx.textAlign = "center";
             ctx.fillText(
               n.label.length > 36 ? n.label.slice(0, 34) + "…" : n.label,
@@ -519,7 +637,7 @@ export default function NetworkGraph({
             return;
           }
 
-          // Normal mode (serviceMode === false)
+          // NORMAL MODE (serviceMode === false)
           const dim = activeSet && !activeSet.has(n.id);
           ctx.globalAlpha = dim ? 0.15 : 1;
 
@@ -532,21 +650,18 @@ export default function NetworkGraph({
             ctx.fillStyle = e?.verified ? colors.success : colors.muted;
             ctx.fill();
 
-            // Crisp border
             ctx.lineWidth = 1.5 / scale;
             ctx.strokeStyle = "#ffffff";
             ctx.stroke();
 
-            // Selected ring
             if (n.id === focus || (e && e.code === focus)) {
               ctx.lineWidth = 2.5 / scale;
-              ctx.strokeStyle = colors.primary;
+              ctx.strokeStyle = colors.gold;
               ctx.beginPath();
               ctx.arc(n.x, n.y, r + 4 / scale, 0, 2 * Math.PI);
               ctx.stroke();
             }
 
-            // In normal mode: show name on active/hover
             if (n.id === active && e) {
               ctx.font = `600 ${12 / scale}px Space Grotesk, sans-serif`;
               ctx.fillStyle = colors.fg;
@@ -554,7 +669,7 @@ export default function NetworkGraph({
               ctx.fillText(e.displayName, n.x, n.y + r + 11 / scale);
             }
           } else {
-            // Sector / Theme / Hub node
+            // Sector / Theme / Hub node in normal mode
             const isHub = n.kind === "hub";
             const r = radius(n);
 
@@ -565,11 +680,11 @@ export default function NetworkGraph({
               ctx.arc(n.x, n.y, r, 0, 2 * Math.PI);
             }
 
-            ctx.fillStyle = "rgba(10, 16, 28, 0.95)";
+            ctx.fillStyle = "rgba(8, 36, 34, 0.95)";
             ctx.fill();
 
             ctx.lineWidth = 1.5 / Math.max(scale, 0.6);
-            ctx.strokeStyle = colors.fg;
+            ctx.strokeStyle = isHub ? colors.gold : colors.petrolLight;
             ctx.stroke();
 
             const labelSize = Math.max(11 / scale, 4);

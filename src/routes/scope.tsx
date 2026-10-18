@@ -12,6 +12,8 @@ import { CLIENT_OFFER_COMBINED_ESTIMATE } from "@/lib/proposal-data";
 import { MARKET_BENCHMARKS } from "@/lib/proposal-data";
 import { useI18n } from "@/lib/i18n";
 
+import { NETWORK_SERVICES } from "@/lib/services-data";
+
 export const Route = createFileRoute("/scope")({
   head: () => ({
     meta: [
@@ -98,6 +100,12 @@ function ScopePage() {
           : `Budget ceiling: ${budgetInput}`
         : "";
 
+    const servicesList = NETWORK_SERVICES.map((s, idx) => {
+      const title = s.title[uk ? "uk" : "en"];
+      const short = s.short[uk ? "uk" : "en"];
+      return `  ${idx + 1}. ${title} — ${short}`;
+    }).join("\n");
+
     const subject = encodeURIComponent(
       uk
         ? `ISRM Погодження обсягів та бюджету — ${pilotIncluded ? "MVP + Цикл залучення" : "MVP Застосунку"}`
@@ -108,10 +116,12 @@ function ScopePage() {
       uk
         ? `Доброго дня,\n\nНадсилаю узгодження обсягів та бюджету для проєкту ISRM Ukraine Insight Hub.\n\n` +
             `──── ОБРАНИЙ ОБСЯГ ────\n${scopeLines}\n\n` +
+            `──── ПЕРЕЛІК СЕРВІСІВ (АРХІТЕКТУРА МЕРЕЖІ) ────\n${servicesList}\n\n` +
             `──── ПОЗИЦІЯ ЩОДО БЮДЖЕТУ ────\n${budgetText}\n\n` +
             `З повагою,\n`
         : `Hello,\n\nPlease find below the preliminary scope and budget confirmation for the ISRM Ukraine Insight Hub project.\n\n` +
             `──── SELECTED SCOPE ────\n${scopeLines}\n\n` +
+            `──── SERVICES LISTING (NETWORK ARCHITECTURE) ────\n${servicesList}\n\n` +
             `──── BUDGET POSITION ────\n${budgetText}\n\n` +
             `Kind regards,\n`
     );
@@ -442,11 +452,11 @@ function ScopePage() {
               <Button
                 onClick={handleConfirmAndSend}
                 aria-describedby={showError ? "budget-error" : undefined}
-                className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold"
-                style={{ fontSize: "1rem", padding: "0.85rem 1rem", opacity: sendAttempted && !canSend ? 0.75 : 1 }}
+                className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold min-h-[50px] h-auto py-3 px-4 whitespace-normal text-center leading-snug shadow-md"
+                style={{ fontSize: "1rem", opacity: sendAttempted && !canSend ? 0.75 : 1 }}
               >
-                <Send className="h-4 w-4" />
-                {text("Confirm & Send Email", "Підтвердити та відіслати email")}
+                <Send className="h-4 w-4 shrink-0" />
+                <span>{text("Confirm & Send Email", "Підтвердити та відіслати email")}</span>
               </Button>
             </div>
 
