@@ -145,84 +145,26 @@ export default function NetworkGraph({
     return nodes;
   }, [locale]);
 
-  const data = useMemo(() => {
-    if (serviceMode) {
-      const nodes: GNode[] = [...fixedServiceNodes];
-      const links: GLink[] = [];
-
-      // Ring connection edges between adjacent services
-      const count = NETWORK_SERVICES.length;
+  // Map each service to a curated pool of verified experts from the real network
+  const serviceExpertMap = useMemo(() => {
+    const verified = experts.filter((e) => e.verified);
+    const map = new Map<string, Expert[]>();
+    NETWORK_SERVICES.forEach((svc, idx) => {
+      const count = svc.assumedExpertCount || 6;
+      const start = (idx * 5) % Math.max(1, verified.length);
+      const list: Expert[] = [];
       for (let i = 0; i < count; i++) {
-        const next = (i + 1) % count;
-        links.push({
-          source: NETWORK_SERVICES[i].id,
-          target: NETWORK_SERVICES[next].id,
-          kind: "ring",
-        });
-      }
-
-      // Spokes connecting central MVP to each of the 8 services
-      // Only the currently active service spoke gets the dependency label
-      NETWORK_SERVICES.forEach((svc) => {
-        const isCurrentActive = currentActiveService === svc.id;
-        links.push({
-          source: "hub:mvp",
-          target: svc.id,
-          kind: "mvp",
-          label: isCurrentActive ? svc.dependencyLabel[locale === "uk" ? "uk" : "en"] : undefined,
-        });
-      });
-
-      // Sprout anonymous person nodes for all revealed services
-      const pool = experts.filter((e) => e.verified);
-      revealedServices.forEach((svcId) => {
-        const svcIndex = NETWORK_SERVICES.findIndex((s) => s.id === svcId);
-        if (svcIndex < 0) return;
-        const svc = NETWORK_SERVICES[svcIndex];
-        const count = svc.assumedExpertCount;
-        const start = (svcIndex * 3) % Math.max(1, pool.length);
-        const assigned = [];
-        for (let i = 0; i < count; i++) {
-          const expert = pool[(start + i) % pool.length];
-          if (expert) assigned.push(expert);
+        const item = verified[(start + i) % verified.length];
+        if (item && !list.some((x) => x.code === item.code)) {
+          list.push(item);
         }
+      }
+      map.set(svc.id, list);
+    });
+    return map;
+  }, [experts]);
 
-        const angle = (svcIndex / NETWORK_SERVICES.length) * 2 * Math.PI - Math.PI / 2;
-        const R = 210;
-
-        assigned.forEach((e, idx) => {
-          const personId = `p:${svcId}:${e.code}`;
-          const pAngle = angle + ((idx - (count - 1) / 2) * 0.26);
-          const pDist = R + 44 + (idx % 2 === 0 ? 0 : 20);
-          const px = Math.cos(pAngle) * pDist;
-          const py = Math.sin(pAngle) * pDist;
-
-          if (!nodes.some((n) => n.id === personId)) {
-            nodes.push({
-              id: personId,
-              kind: "expert",
-              label: "", // Anonymous person node
-              expert: e,
-              size: 5.5,
-              x: px,
-              y: py,
-              fx: px,
-              fy: py,
-            });
-          }
-
-          links.push({
-            source: svcId,
-            target: personId,
-            kind: "sprout",
-          });
-        });
-      });
-
-      return { nodes, links };
-    }
-
-    // Normal expert network view
+  const data = useMemo(() => {
     const nodes: GNode[] = [];
     const links: GLink[] = [];
 
@@ -232,6 +174,7 @@ export default function NetworkGraph({
       n.size++;
     };
 
+    // 1. All expert nodes (the underlying living network)
     for (const e of experts) {
       if (!e.verified && !layers.researchQueue) continue;
       nodes.push({ id: e.code, kind: "expert", label: e.displayName, expert: e, size: 2.2 });
@@ -267,6 +210,48 @@ export default function NetworkGraph({
         links.push({ source: codes[0]!, target: codes[i]!, kind: "peer" });
     });
 
+    // 2. If serviceMode is active: overlay the service ring & dynamically link real experts
+    if (serviceMode) {
+      // Add fixedServiceNodes (hub:mvp and 8 services) on top
+      fixedServiceNodes.forEach((sn) => nodes.push({ ...sn }));
+
+      // Ring connection edges between adjacent services
+      const count = NETWORK_SERVICES.length;
+      for (let i = 0; i < count; i++) {
+        const next = (i + 1) % count;
+        links.push({
+          source: NETWORK_SERVICES[i].id,
+          target: NETWORK_SERVICES[next].id,
+          kind: "ring",
+        });
+      }
+
+      // Spokes connecting central MVP to each of the 8 services
+      NETWORK_SERVICES.forEach((svc) => {
+        const isCurrentActive = currentActiveService === svc.id;
+        links.push({
+          source: "hub:mvp",
+          target: svc.id,
+          kind: "mvp",
+          label: isCurrentActive ? svc.dependencyLabel[locale === "uk" ? "uk" : "en"] : undefined,
+        });
+      });
+
+      // When a service is active: connect to REAL existing expert nodes
+      if (currentActiveService) {
+        const activeExperts = serviceExpertMap.get(currentActiveService) ?? [];
+        activeExperts.forEach((exp) => {
+          if (nodes.some((n) => n.id === exp.code)) {
+            links.push({
+              source: currentActiveService,
+              target: exp.code,
+              kind: "service-expert",
+            });
+          }
+        });
+      }
+    }
+
     return { nodes, links };
   }, [
     experts,
@@ -274,8 +259,8 @@ export default function NetworkGraph({
     locale,
     serviceMode,
     fixedServiceNodes,
-    revealedServices,
     currentActiveService,
+    serviceExpertMap,
   ]);
 
   const active = focus || hover;
@@ -321,19 +306,25 @@ export default function NetworkGraph({
         onEngineStop={() => !focus && !serviceMode && fg.current?.zoomToFit(400, 60)}
         nodeRelSize={1}
         linkColor={(l: any) => {
-          const s = l.source.id;
-          const t = l.target.id;
-          if (l.kind === "mvp") return colors.primary + "ee";
-          if (l.kind === "ring") return colors.c2 + "99";
-          if (l.kind === "sprout") return colors.primary + "aa";
+          if (serviceMode) {
+            if (l.kind === "service-expert") return colors.primary;
+            if (l.kind === "mvp") return l.label ? colors.primary : colors.primary + "88";
+            if (l.kind === "ring") return colors.c2 + "99";
+            return "rgba(120, 120, 130, 0.04)";
+          }
+          const s = typeof l.source === "object" ? l.source.id : l.source;
+          const t = typeof l.target === "object" ? l.target.id : l.target;
           if (activeSet)
             return activeSet.has(s) && activeSet.has(t) ? colors.primary : "rgba(120,120,130,0.05)";
           return l.kind === "peer" ? colors.primary : "rgba(150,150,160,0.12)";
         }}
         linkWidth={(l: any) => {
-          if (l.kind === "mvp") return l.label ? 2.5 : 1.8;
-          if (l.kind === "ring") return 1.4;
-          if (l.kind === "sprout") return 1.2;
+          if (serviceMode) {
+            if (l.kind === "service-expert") return 2.2;
+            if (l.kind === "mvp") return l.label ? 2.5 : 1.8;
+            if (l.kind === "ring") return 1.4;
+            return 0.3;
+          }
           return activeSet && activeSet.has(l.source.id) && activeSet.has(l.target.id) ? 1.2 : 0.5;
         }}
         linkCanvasObject={(l: any, ctx, scale) => {
@@ -382,90 +373,100 @@ export default function NetworkGraph({
         onNodeClick={(n: any) => {
           if (!n) return;
 
-          // In serviceMode: clicking a service node toggles its people and labels
-          if (serviceMode && typeof n.id === "string" && n.id.startsWith("svc:")) {
-            const svcId = n.id;
-            if (currentActiveService === svcId) {
-              // Re-clicking active service: collapse its person nodes & edge labels
-              setCurrentActiveService(null);
-              setRevealedServices((prev) => {
-                const next = new Set(prev);
-                next.delete(svcId);
-                return next;
-              });
-              onServiceSelect?.(null);
-            } else {
-              // Clicking new service: make it active, sprout its person nodes & label edges
-              setCurrentActiveService(svcId);
-              setRevealedServices((prev) => new Set([...prev, svcId]));
-              onServiceSelect?.(svcId);
+          if (serviceMode) {
+            // Hub centre node: ignore
+            if (n.id === "hub:mvp") return;
+
+            // Service ring node: toggle active service
+            if (typeof n.id === "string" && n.id.startsWith("svc:")) {
+              const svcId = n.id;
+              if (currentActiveService === svcId) {
+                setCurrentActiveService(null);
+                onServiceSelect?.(null);
+              } else {
+                setCurrentActiveService(svcId);
+                onServiceSelect?.(svcId);
+              }
+              return;
             }
+
+            // Real expert node: open their mini-dossier!
+            if (n.expert) {
+              onFocus(n.expert.code);
+              return;
+            }
+
             return;
           }
 
-          // Clicking a person node (either anonymous person in service graph or expert in main graph)
+          // Normal expert network view — only real expert nodes open a dossier.
+          // Sector / theme / hub aggregate nodes are visual groupings only; clicking
+          // them must not propagate a non-expert ID to the drawer.
           if (n.expert) {
             onFocus(n.expert.code);
             return;
           }
 
-          onFocus(n.id === focus ? null : n.id);
+          // Toggle aggregation highlight (sector/theme/hub) without opening drawer
+          if (n.kind === "sector" || n.kind === "theme" || n.kind === "hub") {
+            onFocus(n.id === focus ? null : null);
+            return;
+          }
         }}
         onBackgroundClick={() => {
+          if (serviceMode) {
+            // Collapse active service on background click in service mode
+            if (currentActiveService) {
+              setCurrentActiveService(null);
+              onServiceSelect?.(null);
+            }
+            return;
+          }
           onFocus(null);
         }}
         nodePointerAreaPaint={(n: any, color, ctx) => {
           ctx.fillStyle = color;
           ctx.beginPath();
-          const r = n.kind === "expert" && !n.label ? 7.5 : radius(n);
+          const r = radius(n);
           ctx.arc(n.x, n.y, r + 5, 0, 2 * Math.PI);
           ctx.fill();
         }}
         nodeCanvasObject={(n: any, ctx, scale) => {
-          const dim = activeSet && !activeSet.has(n.id);
-          ctx.globalAlpha = dim ? 0.15 : 1;
+          if (serviceMode) {
+            if (n.kind === "expert") {
+              const isConnected = currentActiveService
+                ? (serviceExpertMap.get(currentActiveService)?.some((exp) => exp.code === n.id) ?? false)
+                : false;
+              ctx.globalAlpha = isConnected ? 1 : 0.12;
 
-          if (n.kind === "expert") {
-            const e: Expert | undefined = n.expert;
-            const isAnonymous = !n.label;
-            const r = isAnonymous ? 6.5 : radius(n);
+              const e: Expert | undefined = n.expert;
+              const r = isConnected ? 6.5 : radius(n);
 
-            ctx.beginPath();
-            ctx.arc(n.x, n.y, r, 0, 2 * Math.PI);
-            ctx.fillStyle = isAnonymous ? "#38bdf8" : (e?.verified ? colors.success : colors.muted);
-            ctx.fill();
-
-            // Crisp border
-            ctx.lineWidth = 1.5 / scale;
-            ctx.strokeStyle = "#ffffff";
-            ctx.stroke();
-
-            // Inner white dot to look like an expert avatar
-            if (isAnonymous) {
               ctx.beginPath();
-              ctx.arc(n.x, n.y, 2.2 / scale, 0, 2 * Math.PI);
-              ctx.fillStyle = "#ffffff";
+              ctx.arc(n.x, n.y, r, 0, 2 * Math.PI);
+              ctx.fillStyle = isConnected ? colors.primary : (e?.verified ? colors.success : colors.muted);
               ctx.fill();
-            }
 
-            // Selected ring
-            if (n.id === focus || (e && e.code === focus)) {
-              ctx.lineWidth = 2.5 / scale;
-              ctx.strokeStyle = colors.primary;
-              ctx.beginPath();
-              ctx.arc(n.x, n.y, r + 4 / scale, 0, 2 * Math.PI);
+              // Crisp border
+              ctx.lineWidth = (isConnected ? 2.2 : 1) / scale;
+              ctx.strokeStyle = isConnected ? "#ffffff" : "rgba(255,255,255,0.4)";
               ctx.stroke();
+
+              // If connected or active: show expert name label
+              if ((isConnected || n.id === active) && e) {
+                const fSize = Math.max(11 / scale, 6.5);
+                ctx.font = `600 ${fSize}px Space Grotesk, sans-serif`;
+                ctx.fillStyle = colors.fg;
+                ctx.textAlign = "center";
+                ctx.fillText(e.displayName, n.x, n.y + r + 10 / scale);
+              }
+
+              ctx.globalAlpha = 1;
+              return;
             }
 
-            // In normal mode: show name on active/hover
-            if (!isAnonymous && n.id === active && e) {
-              ctx.font = `600 ${12 / scale}px Space Grotesk, sans-serif`;
-              ctx.fillStyle = colors.fg;
-              ctx.textAlign = "center";
-              ctx.fillText(e.displayName, n.x, n.y + r + 11 / scale);
-            }
-          } else {
-            // Service / Hub / Sector / Theme node
+            // Hub or Service node in serviceMode
+            ctx.globalAlpha = 1;
             const isHub = n.kind === "hub";
             const isService = typeof n.id === "string" && n.id.startsWith("svc:");
             const isActiveService = isService && currentActiveService === n.id;
@@ -509,6 +510,71 @@ export default function NetworkGraph({
 
             ctx.font = `700 ${labelSize}px Space Grotesk, sans-serif`;
             ctx.fillStyle = col;
+            ctx.textAlign = "center";
+            ctx.fillText(
+              n.label.length > 36 ? n.label.slice(0, 34) + "…" : n.label,
+              n.x,
+              n.y - r - 6 / scale,
+            );
+            return;
+          }
+
+          // Normal mode (serviceMode === false)
+          const dim = activeSet && !activeSet.has(n.id);
+          ctx.globalAlpha = dim ? 0.15 : 1;
+
+          if (n.kind === "expert") {
+            const e: Expert | undefined = n.expert;
+            const r = radius(n);
+
+            ctx.beginPath();
+            ctx.arc(n.x, n.y, r, 0, 2 * Math.PI);
+            ctx.fillStyle = e?.verified ? colors.success : colors.muted;
+            ctx.fill();
+
+            // Crisp border
+            ctx.lineWidth = 1.5 / scale;
+            ctx.strokeStyle = "#ffffff";
+            ctx.stroke();
+
+            // Selected ring
+            if (n.id === focus || (e && e.code === focus)) {
+              ctx.lineWidth = 2.5 / scale;
+              ctx.strokeStyle = colors.primary;
+              ctx.beginPath();
+              ctx.arc(n.x, n.y, r + 4 / scale, 0, 2 * Math.PI);
+              ctx.stroke();
+            }
+
+            // In normal mode: show name on active/hover
+            if (n.id === active && e) {
+              ctx.font = `600 ${12 / scale}px Space Grotesk, sans-serif`;
+              ctx.fillStyle = colors.fg;
+              ctx.textAlign = "center";
+              ctx.fillText(e.displayName, n.x, n.y + r + 11 / scale);
+            }
+          } else {
+            // Sector / Theme / Hub node
+            const isHub = n.kind === "hub";
+            const r = radius(n);
+
+            ctx.beginPath();
+            if (isHub) {
+              ctx.rect(n.x - r, n.y - r, r * 2, r * 2);
+            } else {
+              ctx.arc(n.x, n.y, r, 0, 2 * Math.PI);
+            }
+
+            ctx.fillStyle = "rgba(10, 16, 28, 0.95)";
+            ctx.fill();
+
+            ctx.lineWidth = 1.5 / Math.max(scale, 0.6);
+            ctx.strokeStyle = colors.fg;
+            ctx.stroke();
+
+            const labelSize = Math.max(11 / scale, 4);
+            ctx.font = `700 ${labelSize}px Space Grotesk, sans-serif`;
+            ctx.fillStyle = colors.fg;
             ctx.textAlign = "center";
             ctx.fillText(
               n.label.length > 36 ? n.label.slice(0, 34) + "…" : n.label,

@@ -162,94 +162,202 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
         </p>
       </section>
 
-      {/* ── Section 03: Strategic consulting on the path to building network expertise ── */}
-      <section aria-labelledby="client-consulting-heading" style={{ marginTop: "4rem" }}>
-        <div className="partner-section-heading" style={{ margin: "4rem 0" }}>
+      {/* ── Section 03: Four Strategic Scopes & Path to Network Expertise ── */}
+      <section aria-labelledby="client-consulting-heading" style={{ marginTop: "4.5rem" }}>
+        <div className="partner-section-heading" style={{ margin: "3.5rem 0 2.5rem" }}>
           <span>03</span>
           <div>
             <h2 id="client-consulting-heading">
               {text(
-                "Strategic Consulting on the Path to Building Network Expertise",
-                "Стратегічний консалтинг на шляху до побудови мережевої експертизи",
+                "Four Strategic Scopes on the Path to Building Network Expertise",
+                "Чотири внутрішні напрями робіт на шляху до побудови мережевої експертизи",
               )}
             </h2>
-            <p className="partner-body" style={{ marginTop: "0.75rem", lineHeight: "1.65", fontSize: "1.05rem", color: "#132a22" }}>
+            <p className="partner-body" style={{ marginTop: "0.75rem", lineHeight: "1.7", fontSize: "1.05rem", color: "#132a22" }}>
               {text(
-                "The essential institutional value of external strategic consulting lies in delivering uncompromised objectivity, cross-sector benchmarking, and an independent perspective unencumbered by internal corporate inertia. The strategic formulations developed do not conclude as abstract advisory reports; rather, they are directly operationalised into practical digital instruments and ongoing workflows that sustain the organisation throughout post-consulting implementation.",
-                "Інституційна цінність зовнішнього стратегічного консалтингу полягає у забезпеченні бездоганної об'єктивності, міжгалузевого бенчмаркінгу та незалежного погляду, вільного від внутрішньокорпоративної інерції. Вироблені рішення не залишаються декларативними звітами, а трансформуються у прикладний технологічний інструментарій та цифрові робочі процеси, що забезпечують безперервний пост-консалтинговий супровід організації.",
+                "The essential institutional value of external strategic advisory lies in delivering uncompromised objectivity, cross-sector benchmarking, and an independent perspective unencumbered by internal corporate inertia. Rather than concluding as abstract advisory reports, these four sequential scopes operationalise collective capacity into practical digital workflows, collegiate trust, and sustainable institutional outcomes.",
+                "Інституційна цінність зовнішнього стратегічного консалтингу полягає у забезпеченні бездоганної об'єктивності, міжгалузевого бенчмаркінгу та незалежного погляду, вільного від внутрішньокорпоративної інерції. Вироблені рішення не залишаються декларативними звітами, а трансформуються у прикладний технологічний інструментарій та чотири вивірені напрями робіт, що забезпечують системний розвиток ком'юніті.",
               )}
             </p>
           </div>
         </div>
 
-        {/* Roles & Joint Outcomes */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.25rem", marginBottom: "2rem" }}>
+        {/* ── The 4 Strategic Scopes in Prescribed Sequence ── */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem", marginBottom: "3rem" }}>
+          {/* Scope 1: MVP Application */}
           <div
             style={{
               background: "#ffffff",
-              border: "1.5px solid rgba(11, 84, 76, 0.2)",
+              border: "1.5px solid rgba(11, 84, 76, 0.25)",
+              borderTop: "4px solid #064e3b",
               borderRadius: "10px",
-              padding: "1.25rem 1.5rem",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.04)",
+              padding: "1.5rem",
+              boxShadow: "0 6px 16px rgba(0,0,0,0.04)",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
             }}
           >
-            <span
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "0.72rem",
-                textTransform: "uppercase",
-                letterSpacing: "0.1em",
-                color: "#c8901a",
-                fontWeight: 700,
-                display: "block",
-                marginBottom: "0.4rem",
-              }}
-            >
-              {text("Role Architecture", "Ролі та залучення")}
-            </span>
-            <h3 style={{ fontSize: "1.05rem", fontWeight: 700, color: "#064e3b", margin: "0 0 0.5rem" }}>
-              {text("Who is involved from the Association", "Хто і як задіяний з боку асоціації")}
-            </h3>
-            <p style={{ fontSize: "0.88rem", lineHeight: 1.55, color: "#2d4a3e", margin: 0 }}>
-              {text(
-                "Council and Board members establish statutory governance and perimeters; recognised sector leaders direct specialised inquiry tracks; verified fellows provide empirical case evidence; and dedicated coordinators orchestrate knowledge synthesis.",
-                "Члени Правління формують мандати та межі управління; визнані галузеві лідери очолюють секторні треки; перевірені члени асоціації надають кейси та практичний досвід; координатори забезпечують регулярний синтез знань.",
-              )}
-            </p>
+            <div>
+              <span
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.75rem",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  color: "#c8901a",
+                  fontWeight: 800,
+                  display: "block",
+                  marginBottom: "0.4rem",
+                }}
+              >
+                {text("Scope 1 · Core Asset", "Напрям 1 · Базовий актив")}
+              </span>
+              <h3 style={{ fontSize: "1.15rem", fontWeight: 700, color: "#064e3b", margin: "0 0 0.75rem" }}>
+                {text("MVP Application & Peer Capital", "MVP застосунку: Базовий інструмент")}
+              </h3>
+              <p style={{ fontSize: "0.9rem", lineHeight: 1.6, color: "#2d4a3e", margin: 0 }}>
+                {text(
+                  "A concrete foundational instrument for orchestrating network expertise: establishing horizontal peer links, mobilizing collective human capital, maintaining a curated case repository, and automating the workflow from peer inquiry to media resonance. Delivers immediate institutional dividends: cross-practice referrals, client origination pooling, enhanced collective bargaining, and mentorship architectures that secure member retention.",
+                  "Конкретний базовий інструмент для роботи з мережею: прокладання горизонтальних зв'язків між фахівцями, мобілізація людського капіталу (peer capital), бібліотека верифікованих кейсів та автоматизація воркфлоу від експертного запиту до згадок у пресі з оцінкою якості комунікацій. Створює передумови наставництва та забезпечує дивіденди кращих практик професійних NGO: перехресні продажі, бізнес-реферали, спільний пул замовлень, посилення ринкової ваги та підвищення retention членів.",
+                )}
+              </p>
+            </div>
+            <div style={{ marginTop: "1rem", paddingTop: "0.75rem", borderTop: "1px dashed rgba(11, 84, 76, 0.15)", fontSize: "0.8rem", color: "#064e3b", fontWeight: 600 }}>
+              {text("Status: Self-contained functional MVP", "Статус: Самостійний завершений MVP")}
+            </div>
           </div>
 
+          {/* Scope 2: Optional Expert Pilot */}
           <div
             style={{
               background: "#ffffff",
-              border: "1.5px solid rgba(11, 84, 76, 0.2)",
+              border: "1.5px solid rgba(11, 84, 76, 0.25)",
+              borderTop: "4px solid #c8901a",
               borderRadius: "10px",
-              padding: "1.25rem 1.5rem",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.04)",
+              padding: "1.5rem",
+              boxShadow: "0 6px 16px rgba(0,0,0,0.04)",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
             }}
           >
-            <span
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "0.72rem",
-                textTransform: "uppercase",
-                letterSpacing: "0.1em",
-                color: "#c8901a",
-                fontWeight: 700,
-                display: "block",
-                marginBottom: "0.4rem",
-              }}
-            >
-              {text("Target Delivery", "Спільні аутками")}
-            </span>
-            <h3 style={{ fontSize: "1.05rem", fontWeight: 700, color: "#064e3b", margin: "0 0 0.5rem" }}>
-              {text("Outcomes created together", "Які аутками створюються разом")}
-            </h3>
-            <p style={{ fontSize: "0.88rem", lineHeight: 1.55, color: "#2d4a3e", margin: 0 }}>
-              {text(
-                "A calibrated capacity matrix, proven client portfolios with verifiable outcomes, transparent fee apportionment protocols, active inter-practice referral channels, and interactive risk dashboards informing executive governance.",
-                "Дієва матриця капасіті, портфоліо клієнтів із виміряними результатами, прозора модель розподілу гонорарів, активні реферальні ланцюги та інтерактивні дашборди для підтримки управлінських рішень.",
-              )}
-            </p>
+            <div>
+              <span
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.75rem",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  color: "#c8901a",
+                  fontWeight: 800,
+                  display: "block",
+                  marginBottom: "0.4rem",
+                }}
+              >
+                {text("Scope 2 · Advisory Sharing", "Напрям 2 · Шеринг досвіду")}
+              </span>
+              <h3 style={{ fontSize: "1.15rem", fontWeight: 700, color: "#064e3b", margin: "0 0 0.75rem" }}>
+                {text("Optional Expert Pilot & Engagement Cycle", "Опційний експертний пілот: Цикл залучення")}
+              </h3>
+              <p style={{ fontSize: "0.9rem", lineHeight: 1.6, color: "#2d4a3e", margin: 0 }}>
+                {text(
+                  "Structuring the professional agenda, convening sector roundtables, synthesising monographs, and planning strategic outreach across secondary networks of member followers. Offered as an open sharing of advisory expertise: we can deepen into these dimensions once the foundational tooling (MVP) is operational and we have cultivated an aligned understanding of the Institute's priorities and conceptual principles. The Institute may utilise this framework autonomously or engage targeted advisory support to co-develop formal project documentation.",
+                  "Формування адженди, проведення фахових обговорень, створення аналітичних матеріалів та планування кампанії охоплення із залученням вторинних мереж фоловерів членів асоціації для максимального резонансу. Це бачення пропонується як відкритий шеринг експертизи: ми можемо поглиблюватися в ці напрями тоді, коли матимемо відповідний інструментарій (діюче ядро MVP) та напрацьоване спільне розуміння пріоритетів і концептуальних засад інституту. Інститут може вільно користуватись фреймворком на свій розсуд або залучити консультантів для розвитку концепту в проєктну документацію.",
+                )}
+              </p>
+            </div>
+            <div style={{ marginTop: "1rem", paddingTop: "0.75rem", borderTop: "1px dashed rgba(11, 84, 76, 0.15)", fontSize: "0.8rem", color: "#c8901a", fontWeight: 600 }}>
+              {text("Status: Advisory option at Board's discretion", "Статус: Опція на розсуд Правління")}
+            </div>
+          </div>
+
+          {/* Scope 3: Strategic Consulting & Diagnostic */}
+          <div
+            style={{
+              background: "#ffffff",
+              border: "1.5px solid rgba(11, 84, 76, 0.25)",
+              borderTop: "4px solid #064e3b",
+              borderRadius: "10px",
+              padding: "1.5rem",
+              boxShadow: "0 6px 16px rgba(0,0,0,0.04)",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <div>
+              <span
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.75rem",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  color: "#c8901a",
+                  fontWeight: 800,
+                  display: "block",
+                  marginBottom: "0.4rem",
+                }}
+              >
+                {text("Scope 3 · Vision & Advisory", "Напрям 3 · Стратегія та діагностика")}
+              </span>
+              <h3 style={{ fontSize: "1.15rem", fontWeight: 700, color: "#064e3b", margin: "0 0 0.75rem" }}>
+                {text("Strategic Consulting & Think Tank Vision", "Стратегічний консалтинг і візія Think Tank")}
+              </h3>
+              <p style={{ fontSize: "0.9rem", lineHeight: 1.6, color: "#2d4a3e", margin: 0 }}>
+                {text(
+                  "For leadership seeking to institutionalise foresight: defining trajectory priorities, mapping emerging competency vectors, and establishing a reputable international Think Tank. Crucially, before executing any expansion, configuring the service catalog provides essential diagnostic self-awareness for the Institute, illuminating institutional boundaries and guiding a precisely tailored advisory engagement.",
+                  "Спільна робота над візією майбутнього, напрямами розвитку актуальної експертизи та створенням повноцінного інституційного Think Tank. Принципова передумова: попередня конфігурація сервісів є ефективною самодіагностикою для асоціації, яка дозволяє оцінити внутрішні спроможності та чітко сформувати tailor-made запит з урахуванням ресурсних обмежень.",
+                )}
+              </p>
+            </div>
+            <div style={{ marginTop: "1rem", paddingTop: "0.75rem", borderTop: "1px dashed rgba(11, 84, 76, 0.15)", fontSize: "0.8rem", color: "#064e3b", fontWeight: 600 }}>
+              {text("Status: Diagnostic-led strategic partnership", "Статус: Діагностика та стратегічний діалог")}
+            </div>
+          </div>
+
+          {/* Scope 4: Long-Term Horizon, SaaS & Trust Index */}
+          <div
+            style={{
+              background: "#ffffff",
+              border: "1.5px solid rgba(11, 84, 76, 0.25)",
+              borderTop: "4px solid #c8901a",
+              borderRadius: "10px",
+              padding: "1.5rem",
+              boxShadow: "0 6px 16px rgba(0,0,0,0.04)",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <div>
+              <span
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.75rem",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  color: "#c8901a",
+                  fontWeight: 800,
+                  display: "block",
+                  marginBottom: "0.4rem",
+                }}
+              >
+                {text("Scope 4 · Future Horizon", "Напрям 4 · Віддалена перспектива")}
+              </span>
+              <h3 style={{ fontSize: "1.15rem", fontWeight: 700, color: "#064e3b", margin: "0 0 0.75rem" }}>
+                {text("SaaS Scale & Trust & Influence Index", "Масштабування, SaaS та індекс TII")}
+              </h3>
+              <p style={{ fontSize: "0.9rem", lineHeight: 1.6, color: "#2d4a3e", margin: 0 }}>
+                {text(
+                  "Long-term trajectories: evolving from internal workflows into a public SaaS platform for specialized advisory networks and participating in major cross-disciplinary commissions. Anchored by the Trust & Influence Index (TII) as an operational hypothesis built on whole governance: convening members with distinguished non-member practitioners, opening professional deliberations, and fostering digital trust in peer decisions augmented by AI — producing an unambiguous map of expertise coverage and network assets.",
+                  "Широкі перспективи подальшого розвитку: від створення відкритої SaaS-платформи для експертів і консультантів до участі у масштабних міжгалузевих проектах. Стрижнем концепції виступає Trust & Influence Index (TII) як робоча гіпотеза за принципами whole governance: об'єднання членів асоціації з кращими зовнішніми практиками, відкритість професійних процесів, подолання міряння гонорарами та побудова цифрової довіри до рішень колег разом із ШІ, що дає чітке бачення покритого експертного поля.",
+                )}
+              </p>
+            </div>
+            <div style={{ marginTop: "1rem", paddingTop: "0.75rem", borderTop: "1px dashed rgba(11, 84, 76, 0.15)", fontSize: "0.8rem", color: "#64748b", fontWeight: 600 }}>
+              {text("Status: Post-pilot evolutionary horizon", "Статус: Пост-пілотне масштабування")}
+            </div>
           </div>
         </div>
 
@@ -536,29 +644,27 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
       {/* ── Footer ── */}
       <footer className="partner-footer">
         <div className="cta-bottom" style={{ display: "flex", flexWrap: "wrap", gap: "1rem", justifyContent: "center", alignItems: "center" }}>
-          <Button asChild variant="default" className="button-outline text-base px-6 py-5 shadow-lg">
+          <Button asChild variant="default" className="button-outline text-base px-8 py-5 shadow-lg">
             <Link to="/scope">{text("Examine scope & budget →", "Переглянути обсяг і ціну →")}</Link>
-          </Button>
-          <Button asChild variant="outline" className="button-outline text-base px-6 py-5 border-primary/50 text-primary hover:bg-primary/10 shadow-md">
-            <Link to="/partner">{text("Partner Configurator ↗", "Конфігуратор для партнерів ↗")}</Link>
           </Button>
         </div>
 
         <div className="partner-footer-actions" style={{ marginTop: "1.75rem", textAlign: "center" }}>
-          <span style={{ display: "block", marginBottom: "0.5rem" }}>
+          <span style={{ display: "block", marginBottom: "0.5rem", fontSize: "0.82rem", color: "var(--muted-foreground)" }}>
             {text(
-              "Comprehensive project context, governance boundaries, budgetary limits, and source citations are detailed within the formal specification.",
-              "Повний контекст проєкту, межі обсягу, ліміти розрахунків та посилання на джерела наведено в специфікації проєкту.",
+              "Comprehensive project context, governance boundaries, budgetary limits, and source citations are available in the full project brief.",
+              "Повний контекст проєкту, межі обсягу, ліміти розрахунків та посилання на джерела наведено у повному описі проєкту.",
             )}
           </span>
           <div style={{ display: "inline-flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: "1rem" }}>
-            <Link
-              to="/spec"
+            <a
+              href="/ISRM_Project_Description.md"
+              download="ISRM_Project_Description.md"
               className="partner-spec-link"
               style={{ fontWeight: 700, textDecoration: "underline", color: "var(--primary)" }}
             >
-              {text("Consult formal specification (ISRM_Project_Description.md) ↗", "Відкрити специфікацію (ISRM_Project_Description.md) ↗")}
-            </Link>
+              {text("Download full project brief (.md) ↓", "Завантажити повний опис (.md) ↓")}
+            </a>
             <span style={{ color: "var(--muted-foreground)" }}>·</span>
             <Link
               to="/partner"
@@ -567,6 +673,12 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
               {text("Partner portal access", "Вхід для партнерів")}
             </Link>
           </div>
+          <p style={{ marginTop: "1.25rem", fontSize: "0.75rem", color: "var(--muted-foreground)", letterSpacing: "0.03em" }}>
+            {text(
+              "Prepared for Chairman & Board Review · October 2026 · Strictly Confidential",
+              "Підготовлено для перегляду Головою та Правлінням · Жовтень 2026 · Конфіденційно",
+            )}
+          </p>
         </div>
       </footer>
     </>
