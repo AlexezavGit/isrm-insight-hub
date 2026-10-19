@@ -1,5 +1,6 @@
-import { GitBranch, Search } from "lucide-react";
+import { ArrowLeft, GitBranch, Search } from "lucide-react";
 import { IsrmLogo } from "@/components/IsrmLogo";
+import { Button } from "@/components/ui/button";
 import type { DependencyEdge } from "@/data/client-proposal-data";
 
 type Props = {
@@ -12,17 +13,75 @@ type Props = {
 export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Props) {
   return (
     <>
-      <header className="partner-header">
-        <div>
-          <div className="partner-logo-row mb-3" aria-label="ISRM">
-            <IsrmLogo className="h-10 w-auto" />
+      {/* ── Верхній колонтитул (Top running header / Toolbar) ──────────── */}
+      <div
+        className="partner-topbar"
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "1rem",
+          padding: "1rem 0 1.25rem",
+          marginBottom: "1.75rem",
+          borderBottom: "1px solid color-mix(in oklab, var(--brass, #c8901a) 25%, var(--border))",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
+          <div aria-label="ISRM">
+            <IsrmLogo className="h-9 w-auto" />
           </div>
+          <Button asChild variant="ghost" className="partner-back" style={{ padding: "0.25rem 0.5rem", height: "auto" }}>
+            <a href="/?network=true" style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", fontSize: "0.85rem" }}>
+              <ArrowLeft aria-hidden="true" style={{ width: 14, height: 14 }} />
+              <span>{text("Return to network graph", "До графа")}</span>
+            </a>
+          </Button>
+          <span style={{ fontSize: "0.75rem", color: "#64748b" }}>·</span>
+          <span style={{ fontSize: "0.74rem", color: "#64748b", letterSpacing: "0.06em", textTransform: "uppercase", fontWeight: 600 }}>
+            {text("Strictly Confidential · October 2026", "Конфіденційно · Жовтень 2026")}
+          </span>
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: "0.85rem" }}>
+          <a
+            href="/partner"
+            style={{
+              fontSize: "0.62rem",
+              fontWeight: 500,
+              padding: "0.2rem 0.45rem",
+              borderRadius: "4px",
+              border: "none",
+              background: "transparent",
+              color: "rgba(10, 46, 36, 0.25)",
+              textDecoration: "none",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.2rem",
+              transition: "opacity 0.3s",
+              letterSpacing: "0.03em",
+            }}
+            title={text("Internal partner configurator", "Внутрішній конфігуратор для партнерів")}
+            onMouseOver={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(10,46,36,0.6)"; }}
+            onMouseOut={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(10,46,36,0.25)"; }}
+          >
+            <span>⚙</span>
+          </a>
+          <div className="partner-locale-switch" role="group" aria-label={text("Page language", "Мова сторінки")}>
+            <button type="button" aria-pressed={!uk} className={!uk ? "is-active" : ""} onClick={() => setLocale("en")}>
+              EN
+            </button>
+            <button type="button" aria-pressed={uk} className={uk ? "is-active" : ""} onClick={() => setLocale("uk")}>
+              UA
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <header className="partner-header" style={{ display: "block", padding: "0 0 2rem" }}>
+        <div>
           <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "0.6rem", marginBottom: "0.6rem" }}>
             <p className="partner-eyebrow" style={{ margin: 0 }}>{text("Client proposal", "Пропозиція замовнику")}</p>
-            <span style={{ fontSize: "0.75rem", color: "#64748b" }}>·</span>
-            <span style={{ fontSize: "0.74rem", color: "#64748b", letterSpacing: "0.06em", textTransform: "uppercase", fontWeight: 600 }}>
-              {text("Strictly Confidential · October 2026", "Конфіденційно · Жовтень 2026")}
-            </span>
           </div>
           <h1 className="font-display text-2xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
             {text(
@@ -77,39 +136,6 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
                 "Ця пропозиція — інтерактивний воркфлоу, а не чергова таблиця: робоча поверхня для збору мережевої експертизи, формування проєктних груп, обліку внесків, унаочнення потенціалу та лідерства думок — з верифікацією фактів за допомогою ШІ на кожному етапі.",
               )}
             </p>
-          </div>
-        </div>
-        <div className="partner-header-status" style={{ display: "flex", alignItems: "center", gap: "0.85rem" }}>
-          <a
-            href="/partner"
-            style={{
-              fontSize: "0.62rem",
-              fontWeight: 500,
-              padding: "0.2rem 0.45rem",
-              borderRadius: "4px",
-              border: "none",
-              background: "transparent",
-              color: "rgba(10, 46, 36, 0.18)",
-              textDecoration: "none",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.2rem",
-              transition: "opacity 0.3s",
-              letterSpacing: "0.03em",
-            }}
-            title={text("Internal partner configurator", "Внутрішній конфігуратор для партнерів")}
-            onMouseOver={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(10,46,36,0.55)"; }}
-            onMouseOut={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(10,46,36,0.18)"; }}
-          >
-            <span>{text("⚙", "⚙")}</span>
-          </a>
-          <div className="partner-locale-switch" role="group" aria-label={text("Page language", "Мова сторінки")}>
-            <button type="button" aria-pressed={!uk} className={!uk ? "is-active" : ""} onClick={() => setLocale("en")}>
-              EN
-            </button>
-            <button type="button" aria-pressed={uk} className={uk ? "is-active" : ""} onClick={() => setLocale("uk")}>
-              UA
-            </button>
           </div>
         </div>
       </header>
