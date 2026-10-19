@@ -783,8 +783,10 @@ function NetworkPage() {
                 : "All 8 network operations are fully interconnected. You can return to configuration or proceed to agreeing on scope and budget limits."}
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
-              <Button variant="outline" onClick={() => setAllRevealedModalOpen(false)}>
-                {locale === "uk" ? "Повернутися до конфігурації" : "Return to configuration"}
+              <Button asChild variant="outline">
+                <Link to="/scope" onClick={() => setAllRevealedModalOpen(false)}>
+                  {locale === "uk" ? "Перейти до погодження" : "Proceed to scope & limits"}
+                </Link>
               </Button>
               <Button asChild className="bg-primary text-primary-foreground font-semibold shadow-lg">
                 <Link to="/scope" onClick={() => setAllRevealedModalOpen(false)}>

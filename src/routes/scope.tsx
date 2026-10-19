@@ -37,6 +37,7 @@ function ScopePage() {
   const [budgetChoice, setBudgetChoice] = useState<"approve" | "limit" | null>(null);
   const [pilotIncluded, setPilotIncluded] = useState(false);
   const [consultingIncluded, setConsultingIncluded] = useState(false);
+  const [customNotes, setCustomNotes] = useState("");
   const uk = locale === "uk";
   const text = (en: string, ua: string) => (uk ? ua : en);
   const [sendAttempted, setSendAttempted] = useState(false);
@@ -80,10 +81,8 @@ function ScopePage() {
         : null,
       (pilotIncluded || consultingIncluded)
         ? uk
-          ? `  ────────────────────────────────
-  Разом (верхня межа): до ${fmt(pilotIncluded ? combinedHigh : mvpHigh)}`
-          : `  ────────────────────────────────
-  Total ceiling: up to ${fmt(pilotIncluded ? combinedHigh : mvpHigh)}`
+          ? `  ────────────────────────────────\n  Разом (верхня межа): до ${fmt(pilotIncluded ? combinedHigh : mvpHigh)}`
+          : `  ────────────────────────────────\n  Total ceiling: up to ${fmt(pilotIncluded ? combinedHigh : mvpHigh)}`
         : null,
     ]
       .filter(Boolean)
@@ -106,6 +105,16 @@ function ScopePage() {
       return `  ${idx + 1}. ${title} — ${short}`;
     }).join("\n");
 
+    const preambleText = uk
+      ? `Цей документ є підтвердженою конфігурацією та обґрунтуванням для підготовки індивідуального (tailor-made) рішення щодо створення програмного забезпечення хабу ISRM, та є наслідком вивчення і погодження загальних обсягів робіт, програмний код яких забезпечує наступну функціональність:\n`
+      : `This document serves as a confirmed configuration and rationale for a tailor-made software proposal for the ISRM hub, following review and alignment on the scope of work:\n`;
+
+    const notesBlock = customNotes.trim()
+      ? uk
+        ? `──── КОМЕНТАРІ ТА ДОДАТКОВА ФУНКЦІОНАЛЬНІСТЬ ────\n${customNotes.trim()}\n\n`
+        : `──── ADDITIONAL NOTES & SERVICES ────\n${customNotes.trim()}\n\n`
+      : "";
+
     const subject = encodeURIComponent(
       uk
         ? `ISRM Погодження обсягів та бюджету — ${pilotIncluded ? "MVP + Цикл залучення" : "MVP Застосунку"}`
@@ -114,15 +123,20 @@ function ScopePage() {
 
     const body = encodeURIComponent(
       uk
-        ? `Доброго дня,\n\nНадсилаю узгодження обсягів та бюджету для проєкту ISRM Ukraine Insight Hub.\n\n` +
+        ? `Доброго дня,\n\n${preambleText}\n` +
             `──── ОБРАНИЙ ОБСЯГ ────\n${scopeLines}\n\n` +
             `──── ПЕРЕЛІК СЕРВІСІВ (АРХІТЕКТУРА МЕРЕЖІ) ────\n${servicesList}\n\n` +
-            `──── ПОЗИЦІЯ ЩОДО БЮДЖЕТУ ────\n${budgetText}\n\n` +
+            notesBlock +
+            `──── ПОГОДЖЕННЯ ЛІМІТІВ (ПОЗИЦІЯ ЩОДО БЮДЖЕТУ) ────\n${budgetText}\n\n` +
+            `─────────────────────────────────────────────────\n` +
+            `Модель взаємодії: цикл «люди → довіра → технології/ШІ → довіра → люди». Органічна конвертація фахової спільноти.\n` +
+            `Стратегічний вектор: після фіксації прикладних рішень готові перейти до меморандуму щодо фундаментальних ризиків та архітектури довіри.\n\n` +
             `З повагою,\n`
-        : `Hello,\n\nPlease find below the preliminary scope and budget confirmation for the ISRM Ukraine Insight Hub project.\n\n` +
+        : `Hello,\n\n${preambleText}\n` +
             `──── SELECTED SCOPE ────\n${scopeLines}\n\n` +
             `──── SERVICES LISTING (NETWORK ARCHITECTURE) ────\n${servicesList}\n\n` +
-            `──── BUDGET POSITION ────\n${budgetText}\n\n` +
+            notesBlock +
+            `──── BUDGET POSITION & CEILING ────\n${budgetText}\n\n` +
             `Kind regards,\n`
     );
 
@@ -165,6 +179,57 @@ function ScopePage() {
             <span className="partner-badge">{text("Indicative · not a formal tender", "Індикативно · не оферта")}</span>
           </div>
         </header>
+
+        {/* ── Strategic Preamble & Rationale ────────────────────────────── */}
+        <section
+          className="mb-8 p-5 sm:p-6 rounded-xl border border-primary/20 bg-card/60 backdrop-blur-md shadow-sm"
+          aria-labelledby="scope-preamble-heading"
+        >
+          <div className="flex items-center gap-2 mb-2">
+            <span className="h-2 w-2 rounded-full bg-primary" aria-hidden="true" />
+            <p className="text-xs uppercase tracking-wider font-semibold text-primary">
+              {text("Strategic Memorandum & Lifecycle Rationale", "Підтверджена конфігурація та довгострокова модель")}
+            </p>
+          </div>
+          <h2 id="scope-preamble-heading" className="text-lg sm:text-xl font-bold text-foreground">
+            {text(
+              "Foundational Rationale for a Tailor-Made Software Proposal",
+              "Підтверджена конфігурація та обґрунтування тейлор-мейд рішення",
+            )}
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+            {text(
+              "This document establishes the confirmed configuration and analytical rationale for preparing a tailor-made software solution for the ISRM network hub. It is the direct outcome of reviewing and aligning on the total scope of work, practical services, and agreed investment boundaries.",
+              "Цей документ є підтвердженою конфігурацією та аналітичним обґрунтуванням для підготовки індивідуального (tailor-made) рішення щодо створення програмного забезпечення хабу ISRM, та є наслідком вивчення і погодження загальних обсягів робіт, програмний код яких забезпечує обраний функціональний периметр, наведені нижче сервіси та граничні бюджети.",
+            )}
+          </p>
+
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+            <div className="p-3.5 rounded-lg border border-border/50 bg-background/50">
+              <strong className="block text-foreground font-semibold mb-1">
+                {text("Lifecycle Value & Acquisition Economics", "Цикл взаємодії та економіка залучення")}
+              </strong>
+              <p className="text-muted-foreground leading-relaxed">
+                {text(
+                  "We operate through a verified loop: people → trust → technology / AI → trust → people (direct unassisted trust is no longer effective in an era of information noise). Instead of costly and low-converting attempts to sell lifelong memberships, open professional working groups reduce new partner acquisition cost to a near-zero minimum, building sustainable organic reach across Ukraine, Europe, the UK, and US chapters.",
+                  "Ми використовуємо замкнений цикл: люди → довіра → технології / ШІ → довіра → люди (бо напряму «люди – довіра – люди» в епоху інформаційного шуму та знецінення контенту більше не працює). Замість дорогої та малоефективної моделі продажу пожиттєвого членства, відкриті фахові робочі групи знижують вартість залучення нових платних партнерів (CAC) до смішного мінімуму, масштабуючи мережу в Україні, Європі, Великій Британії та США.",
+                )}
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-lg border border-border/50 bg-background/50">
+              <strong className="block text-foreground font-semibold mb-1">
+                {text("Practical Engine & Strategic Horizon", "Прикладне ядро та стратегічний вектор")}
+              </strong>
+              <p className="text-muted-foreground leading-relaxed">
+                {text(
+                  "The presented interfaces represent the operational tip of the technological iceberg for trusted consultancy. The specialist search and CRM data are already in place as a working engine. Strategic horizon: we hold a broader hypothesis on trust architecture, accountability, and critical risk intelligence — subject to an independent memorandum following practical alignment.",
+                  "Показаний інтерфейс — це авансована надводна частина практичного застосунку для довірчого консалтингу. Пошук експертів та дані CRM уже заведені як робоче промислове ядро. Стратегічний вектор: ми маємо концептуальну гіпотезу ширшого масштабу щодо фундаментальної архітектури довіри, розподілу відповідальності та роботи з великими даними ризиків. За наявності взаємного інтересу після фіксації прикладних рішень — перейдемо до окремого стратегічного меморандуму.",
+                )}
+              </p>
+            </div>
+          </div>
+        </section>
 
         {/* ── Main two-column layout: sections left, price right ─────── */}
         <div className="scope-layout">
@@ -303,6 +368,45 @@ function ScopePage() {
                   {CLIENT_CONSULTING_OPTION[uk ? "uk" : "en"]}
                 </p>
               )}
+            </article>
+
+            {/* Section 04: Custom Notes / Additional Requirements */}
+            <article className="scope-section scope-section--active" style={{ marginTop: "1rem" }}>
+              <div className="scope-section-header">
+                <span className="scope-section-number">04</span>
+                <div style={{ flex: 1 }}>
+                  <h2 className="scope-section-title">
+                    {text("Custom Notes & Functional Adaptations", "Коментарі та додаткова функціональність")}
+                  </h2>
+                  <span className="text-xs text-muted-foreground block mt-0.5">
+                    {text("Tailor-made requirements, comments, and project specifics", "Тейлор-мейд побажання, додаткові модулі та коментарі")}
+                  </span>
+                </div>
+              </div>
+              <p className="scope-section-desc">
+                {text(
+                  "Specify any custom integrations, data slices, or specific requirements for your expert group in Ukraine, Europe, the UK, or the US.",
+                  "Вкажіть особливі побажання, додаткові сервіси або коментарі для вашої робочої групи в Україні, Європі, Великій Британії чи США.",
+                )}
+              </p>
+              <div className="mt-3">
+                <textarea
+                  value={customNotes}
+                  onChange={(e) => setCustomNotes(e.target.value)}
+                  placeholder={text(
+                    "e.g. Additional data filtering by region, custom verification criteria, direct integration with our community channels...",
+                    "наприклад: додаткові регіональні зрізи, інтеграція з ком'юніті-каналами, специфічні критерії валідації..."
+                  )}
+                  rows={4}
+                  className="w-full p-3 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-primary print:hidden"
+                />
+                {customNotes.trim() && (
+                  <div className="hidden print:block p-3 rounded border border-neutral-300 text-xs whitespace-pre-wrap text-black">
+                    <strong>{text("Additional notes:", "Додаткові коментарі:")}</strong>
+                    <p className="mt-1">{customNotes}</p>
+                  </div>
+                )}
+              </div>
             </article>
           </div>
 
