@@ -10,13 +10,13 @@ export const Route = createFileRoute("/proposal")({
   },
   head: () => ({
     meta: [
-      { title: "ISRM — Client proposal" },
+      { title: "Технології що створюють Довіру — фундамент Trusted Consultancy · ISRM" },
       {
         name: "description",
         content:
-          "A concise client proposal for the ISRM expert-network MVP and optional expert-community cycle.",
+          "Технології що створюють Довіру — фундамент Trusted Consultancy. Концепція цифрового хабу мережі експертів ISRM.",
       },
-      { property: "og:title", content: "ISRM — Client proposal" },
+      { property: "og:title", content: "Технології що створюють Довіру — фундамент Trusted Consultancy" },
       {
         property: "og:description",
         content: "Explore the expert workflow, pilot outcomes and indicative package ranges.",

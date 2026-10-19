@@ -26,8 +26,8 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
           </div>
           <h1 className="font-display text-2xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
             {text(
-              "AI, open-source intelligence, and human judgement — a place for experts the Institute can trust",
-              "ШІ, відкриті джерела та людська оцінка — простір для експертів, яким довіряє Інститут",
+              "Technologies that create Trust — the foundation of Trusted Consultancy",
+              "Технології що створюють Довіру — фундамент Trusted Consultancy",
             )}
           </h1>
 
@@ -43,8 +43,8 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
           >
             <p style={{ fontSize: "1.05rem", lineHeight: 1.75, color: "#0a2e24", margin: 0, fontWeight: 500 }}>
               {text(
-                "Trust is not a static certificate — it is the operational infrastructure of professional advisory. In an era where AI fundamentally transforms the strategic landscape, the decisive advantage belongs neither to autonomous algorithms nor to unaugmented consultants, but to the collegiate synergy of verified practitioners with AI-powered evidence on board. This proposal outlines the foundational digital instrument enabling the Institute to convene, mobilise, and evidence trusted expertise across its network.",
-                "Довіра — це не статичний сертифікат, а фундаментальна інфраструктура фахового консалтингу. В епоху, коли ШІ безповоротно змінює стратегічний ландшафт, вирішальна перевага належить не автономним алгоритмам і не ізольованим експертам, а їхньому колегіальному тандему: консультантам із ШІ-інструментарієм на борту. Ця пропозиція описує базовий цифровий інструмент, що дозволяє Інституту збирати, мобілізувати та доказово підтверджувати експертизу в масштабах усієї мережі.",
+                "Trust is not a static certificate — it is the operational infrastructure of professional advisory. In an era where direct unassisted trust between individuals is undermined by total information noise, we rely on a verified operational loop: people → trust → technology / AI → trust → people. The decisive advantage belongs to verified practitioners with transparent analytical evidence on board. This proposal outlines the foundational digital instrument enabling the Institute to convene, mobilise, and evidence trusted expertise across its network.",
+                "Довіра — це не статичний сертифікат, а фундаментальна інфраструктура фахового консалтингу. В епоху, коли прямий зв'язок «люди – довіра – люди» знецінюється тотальним інформаційним шумом, ми спираємося на замкнений операційний цикл: люди → довіра → технології / ШІ → довіра → люди. Вирішальна перевага належить колегіальному тандему верифікованих експертів із прозорим аналітичним інструментарієм на борту. Ця пропозиція описує базовий цифровий інструмент, що дозволяє Інституту збирати, мобілізувати та доказово підтверджувати експертизу в масштабах усієї мережі.",
               )}
             </p>
           </div>
