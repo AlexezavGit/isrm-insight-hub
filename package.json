@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build",
+    "build": "NITRO_PRESET=cloudflare-pages vite build",
     "build:dev": "vite build --mode development",
+    "deploy": "NITRO_PRESET=cloudflare-pages vite build && wrangler pages deploy dist --project-name=isrm --branch=isrm-partner-ranges-v1",
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write ."
