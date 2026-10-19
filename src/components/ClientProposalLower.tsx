@@ -42,13 +42,7 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
                   uk: "Залучайте активних членів. Формуйте робочу адженду навколо їхніх прогалин, активних проєктів і секторних пріоритетів.",
                 },
                 revenue: null as { en: string; uk: string } | null,
-                funnel: {
-                  value: "178",
-                  note: {
-                    en: "CRM contacts · 45 identified",
-                    uk: "CRM-контакти · 45 ідентифіковано",
-                  },
-                },
+                funnel: null,
               },
               {
                 id: "discuss",
@@ -87,13 +81,7 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
                   en: "Subscribed fellowship memberships and high-calibre conference delegations drawn from this engaged professional cohort.",
                   uk: "Платні членства та відвідування конференції з того ж пулу аудиторії.",
                 },
-                funnel: {
-                  value: "~52 / ~43",
-                  note: {
-                    en: "Paid memberships ≈ 8,742 × 2% × 30% ≈ 52 · Conference ≈ 8,742 × 2% × 25% ≈ 43 (planning benchmarks)",
-                    uk: "Платні членства ≈ 8 742 × 2% × 30% ≈ 52 · Конференція ≈ 8 742 × 2% × 25% ≈ 43 (планувальні орієнтири)",
-                  },
-                },
+                funnel: null,
               },
               {
                 id: "conference",
@@ -169,8 +157,8 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
           <div>
             <h2 id="client-consulting-heading">
               {text(
-                "Four Directions — from a Working Tool to Your Own Agenda",
-                "Чотири напрями — від робочого інструменту до власної адженди",
+                "Sequence of solution installation — the technological arm for experts and consultants",
+                "Послідовність інсталяції рішень — технологічного плеча для експертів та консультантів",
               )}
             </h2>
             <p className="partner-body" style={{ marginTop: "0.75rem", lineHeight: "1.7", fontSize: "1.05rem", color: "#132a22" }}>
@@ -271,16 +259,10 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
       <footer className="partner-footer">
         <div className="cta-bottom" style={{ display: "flex", flexWrap: "wrap", gap: "1rem", justifyContent: "center", alignItems: "center" }}>
           <Button asChild variant="default" className="button-outline text-base px-8 py-5 shadow-lg">
-            <Link to="/scope">{text("Examine scope & budget →", "Переглянути обсяг і ціну →")}</Link>
+            <Link to="/scope">{text("Proceed to agreement →", "перейти до погодження →")}</Link>
           </Button>
         </div>
 
-        <p style={{ marginTop: "1.25rem", fontSize: "0.75rem", color: "var(--muted-foreground)", letterSpacing: "0.03em", textAlign: "center" }}>
-          {text(
-            "Prepared for Chairman & Board Review",
-            "Підготовлено для перегляду Головою та Правлінням",
-          )}
-        </p>
       </footer>
     </>
   );

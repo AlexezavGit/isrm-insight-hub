@@ -122,7 +122,7 @@ export function MemberCabinet({
           explore: "Suggest an addition or change",
           requestNote: "This opens a local request draft; it does not change a live service.",
           dependencies: "Dependencies",
-          close: "Close configurator",
+          close: "Close",
         }
       : {
           title: "Операції та сервіси мережі",
@@ -131,7 +131,7 @@ export function MemberCabinet({
           explore: "Запропонувати додавання або зміну",
           requestNote: "Відкриває локальну чернетку запиту, а не змінює активний сервіс.",
           dependencies: "Залежності",
-          close: "Закрити конфігуратор",
+          close: "Закрити",
         };
 
   const language = locale === "uk" ? "uk" : "en";
@@ -142,10 +142,10 @@ export function MemberCabinet({
   return (
     <>
       {/* ── LEFT DRAWER: Configurator Panel (Vertical Listing) ── */}
-      <aside className="fixed left-0 bottom-0 pb-28 top-16 z-30 w-[78vw] max-w-[400px] sm:w-[400px] border-r border-[rgba(200,144,26,0.3)] bg-[#082422]/92 p-4 sm:p-5 shadow-[0_12px_40px_rgba(0,0,0,0.65)] backdrop-blur-xl overflow-y-auto">
+      <aside className="fixed left-0 bottom-0 pb-28 top-16 z-30 w-[78vw] max-w-[400px] sm:w-[400px] border-r border-[rgba(200,144,26,0.3)] bg-[#082422]/92 p-4 sm:p-5 shadow-[0_12px_40px_rgba(0,0,0,0.65)] frosted-panel overflow-y-auto">
         <header className="flex items-center justify-between pb-3.5 border-b border-border">
           <div>
-            <p className="tech-label text-primary">{locale === "uk" ? "2 · Конфігуратор" : "2 · Configurator"}</p>
+            <p className="tech-label text-primary">{locale === "uk" ? "2" : "2"}</p>
             <h2 className="font-display text-lg sm:text-xl font-semibold mt-0.5 text-foreground">{copy.title}</h2>
           </div>
           <Button variant="ghost" size="icon" onClick={onClose} aria-label={copy.close}>
@@ -195,7 +195,7 @@ export function MemberCabinet({
 
       {/* ── RIGHT DRAWER: Service Description Frame ── */}
       {detailsOpen && (
-        <aside className="fixed right-0 bottom-0 pb-28 top-16 z-35 w-[78vw] max-w-[460px] sm:w-[460px] border-l border-[rgba(200,144,26,0.3)] bg-[#082422]/92 p-5 shadow-[0_12px_40px_rgba(0,0,0,0.65)] backdrop-blur-xl overflow-y-auto">
+        <aside className="fixed right-0 bottom-0 pb-28 top-16 z-35 w-[78vw] max-w-[460px] sm:w-[460px] border-l border-[rgba(200,144,26,0.3)] bg-[#082422]/92 p-5 shadow-[0_12px_40px_rgba(0,0,0,0.65)] frosted-panel overflow-y-auto">
           <header className="flex items-center justify-between pb-3.5 border-b border-border">
             <div className="flex items-center gap-2.5 min-w-0">
               <service.icon className="h-5 w-5 text-primary shrink-0" />
@@ -552,7 +552,7 @@ function ServiceConfigurationFrame({
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
             <p className="tech-label text-primary">
-              {uk ? "Сервіси мережі · запит на зміну" : "Network services · change request"}
+              {uk ? "Шаблон опису функціональності, сервісу, супроводжуваного процесу" : "Functionality, service, accompanying process description template"}
             </p>
             <h2 id={headingId} className="mt-1 text-pretty font-display text-2xl sm:text-3xl">
               {serviceTitle}

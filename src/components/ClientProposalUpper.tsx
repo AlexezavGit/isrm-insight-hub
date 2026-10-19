@@ -28,10 +28,30 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
-          <div aria-label="ISRM">
+          <div aria-label="ISRM" style={{ display: "flex", flexDirection: "column", gap: "0.15rem" }}>
             <IsrmLogo className="h-9 w-auto" />
+            <address
+              style={{
+                fontSize: "0.62rem",
+                lineHeight: 1.35,
+                color: "color-mix(in oklab, var(--brass, #c8901a) 80%, var(--foreground, #13302c))",
+                fontStyle: "normal",
+                margin: 0,
+                fontFamily: "var(--font-mono)",
+                letterSpacing: "0.02em",
+              }}
+            >
+              {text(
+                "Dr David Rubens D.SyRM, CSyP, F.ISRM",
+                "Dr David Rubens D.SyRM, CSyP, F.ISRM",
+              )}
+              <br />
+              <span style={{ opacity: 0.85 }}>
+                {text("Executive Director of the ISRM", "Executive Director of the ISRM")}
+              </span>
+            </address>
           </div>
-          <Button asChild variant="ghost" className="partner-back" style={{ padding: "0.25rem 0.5rem", height: "auto" }}>
+          <Button asChild variant="ghost" className="partner-back" style={{ padding: "0.25rem 0.5rem", height: "auto", alignSelf: "center" }}>
             <a href="/?network=true" style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", fontSize: "0.85rem" }}>
               <ArrowLeft aria-hidden="true" style={{ width: 14, height: 14 }} />
               <span>{text("Return to network graph", "До графа")}</span>
@@ -57,7 +77,7 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
               transition: "opacity 0.3s",
               letterSpacing: "0.03em",
             }}
-            title={text("Internal partner configurator", "Внутрішній конфігуратор для партнерів")}
+            title={text("Internal access", "Внутрішній доступ")}
             onMouseOver={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(10,46,36,0.6)"; }}
             onMouseOut={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(10,46,36,0.25)"; }}
           >
@@ -95,8 +115,8 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
           >
             <p style={{ fontSize: "1.05rem", lineHeight: 1.75, color: "#0a2e24", margin: 0, fontWeight: 500 }}>
               {text(
-                "Trust is not a static certificate — it is the operational infrastructure of professional advisory. In an era where direct unassisted trust between individuals is undermined by total information noise, we rely on a verified operational loop: people → trust → technology / AI → trust → people. The decisive advantage belongs to verified practitioners with transparent analytical evidence on board. This proposal outlines the foundational digital instrument enabling the Institute to convene, mobilise, and evidence trusted expertise across its network.",
-                "Довіра — це не статичний сертифікат, а фундаментальна інфраструктура фахового консалтингу. В епоху, коли прямий зв'язок «люди – довіра – люди» знецінюється тотальним інформаційним шумом, ми спираємося на замкнений операційний цикл: люди → довіра → технології / ШІ → довіра → люди. Вирішальна перевага належить колегіальному тандему верифікованих експертів із прозорим аналітичним інструментарієм на борту. Ця пропозиція описує базовий цифровий інструмент, що дозволяє Інституту збирати, мобілізувати та доказово підтверджувати експертизу в масштабах усієї мережі.",
+                "Trust is not a static certificate — it is the operational infrastructure of professional advisory. In an era where direct unassisted trust between individuals is undermined by total information noise, we rely on a verified operational loop: people → trust → technology / AI → trust → people. The decisive advantage belongs to verified practitioners with transparent analytical evidence on board. This proposal outlines the foundational digital instrument enabling the Institute (ISRM — the Institute of Strategic Risk Management, member portal at theisrm.org and corporate site at isrmcorp.com) to convene, mobilise, and evidence trusted expertise across its network.",
+                "Довіра — це не статичний сертифікат, а фундаментальна інфраструктура фахового консалтингу. В епоху, коли прямий зв'язок «люди – довіра – люди» знецінюється тотальним інформаційним шумом, ми спираємося на замкнений операційний цикл: люди → довіра → технології / ШІ → довіра → люди. Вирішальна перевага належить колегіальному тандему верифікованих експертів із прозорим аналітичним інструментарієм на борту. Ця пропозиція описує базовий цифровий інструмент, що дозволяє Інституту (ISRM — Institute of Strategic Risk Management; членський портал theisrm.org та корпоративний сайт isrmcorp.com) збирати, мобілізувати та доказово підтверджувати експертизу в масштабах усієї мережі.",
               )}
             </p>
           </div>

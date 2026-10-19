@@ -143,10 +143,10 @@ function NetworkPage() {
       ? {
         live: "Network live",
         title: "ISRM",
-        subtitle: "Expert network command surface",
+        subtitle: "",
         briefing: "0 · Briefing",
         search: "1 · Search",
-        cabinet: "2 · Configure",
+        cabinet: "2",
         approval: "3 · Scope & Limits",
         dossier: "Full dossier",
         configureServices: "Configure services",
@@ -156,10 +156,10 @@ function NetworkPage() {
       : {
         live: "Мережа наживо",
         title: "ISRM",
-        subtitle: "Командна поверхня експертної мережі",
+        subtitle: "",
         briefing: "0 · Бриф",
         search: "1 · Пошук",
-        cabinet: "2 · Конфігуратор",
+        cabinet: "2",
         approval: "3 · Погодження та ліміти",
         dossier: "Повне досьє",
         configureServices: "Конфігурація сервісів",
@@ -237,7 +237,7 @@ function NetworkPage() {
 
         {!loading && mounted && !dependenciesMode && graphExperts.length === 0 && all.length > 0 && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center">
-            <div className="rounded-lg border border-border bg-panel/90 p-6 shadow-xl backdrop-blur-xl max-w-sm">
+            <div className="rounded-lg border border-border bg-panel/90 p-6 shadow-xl frosted-panel max-w-sm">
               <p className="tech-label text-primary mb-2">{locale === "uk" ? "Збіг не знайдено" : "No match found"}</p>
               <p className="font-display text-lg mb-3">
                 {locale === "uk"
@@ -273,7 +273,7 @@ function NetworkPage() {
       <header className="pointer-events-none absolute inset-x-0 top-0 z-30 p-3 sm:p-4">
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
           <div className="min-w-0 flex flex-wrap items-center gap-2">
-            <div className="pointer-events-auto inline-flex items-center gap-2.5 rounded border border-border bg-panel/85 px-3 py-1.5 backdrop-blur-xl">
+            <div className="pointer-events-auto inline-flex items-center gap-2.5 rounded border border-border bg-panel/85 px-3 py-1.5 frosted-panel">
               <Link to="/proposal" className="inline-flex items-center hover:opacity-90 transition-opacity">
                 <IsrmLogo className="h-6 w-auto" showSubtitle={false} />
               </Link>
@@ -281,11 +281,11 @@ function NetworkPage() {
               <span className="h-2 w-2 animate-pulse rounded-full bg-success" />
               <span className="tech-label text-success">{copy.live}</span>
               <span className="hidden truncate font-display text-xs sm:block text-muted-foreground">
-                {copy.subtitle}
+                {copy.subtitle ? copy.subtitle : ""}
               </span>
             </div>
 
-            <div className="pointer-events-auto hidden sm:flex items-center gap-px rounded border border-border bg-panel/70 backdrop-blur-xl overflow-hidden text-center">
+            <div className="pointer-events-auto hidden sm:flex items-center gap-px rounded border border-border bg-panel/70 frosted-panel overflow-hidden text-center">
               {dependenciesMode ? (
                 <>
                   <MetricBadge value={AUDIENCE.crm} label={locale === "uk" ? "у CRM" : "in CRM"} />
@@ -307,7 +307,7 @@ function NetworkPage() {
         </div>
 
         {/* Mobile dashboard strip */}
-        <div className="pointer-events-auto mt-2 flex sm:hidden gap-px rounded border border-border bg-panel/70 backdrop-blur-xl overflow-hidden text-center">
+        <div className="pointer-events-auto mt-2 flex sm:hidden gap-px rounded border border-border bg-panel/70 frosted-panel overflow-hidden text-center">
           {dependenciesMode ? (
             <>
               <MetricBadge value={AUDIENCE.crm} label={locale === "uk" ? "у CRM" : "in CRM"} />
@@ -328,7 +328,7 @@ function NetworkPage() {
       {searchOpen && (
         <aside
           id="network-search-panel"
-          className="fixed left-0 bottom-0 pb-28 top-16 z-30 w-[78vw] max-w-[420px] sm:w-[420px] overflow-y-auto overscroll-contain border-r border-[rgba(200,144,26,0.3)] bg-[#082422]/92 p-4 sm:p-5 shadow-[0_12px_40px_rgba(0,0,0,0.65)] backdrop-blur-xl"
+          className="fixed left-0 bottom-0 pb-28 top-16 z-30 w-[78vw] max-w-[420px] sm:w-[420px] overflow-y-auto overscroll-contain border-r border-[rgba(200,144,26,0.3)] bg-[#082422]/92 p-4 sm:p-5 shadow-[0_12px_40px_rgba(0,0,0,0.65)] frosted-panel"
         >
           <div className="flex items-center justify-between mb-4">
             <div>
@@ -372,7 +372,7 @@ function NetworkPage() {
 
       {/* ── RIGHT DRAWER: Mini-Dossier Frame / Project Group Listing / PM Brief Sheet ── */}
       {(selected || groupViewOpen) && (
-        <aside className="fixed right-0 bottom-0 pb-28 top-16 z-35 w-[78vw] max-w-[420px] sm:w-[420px] overflow-y-auto overscroll-contain border-l border-[rgba(200,144,26,0.3)] bg-[#082422]/92 p-5 shadow-[0_12px_40px_rgba(0,0,0,0.65)] backdrop-blur-xl">
+        <aside className="fixed right-0 bottom-0 pb-28 top-16 z-35 w-[78vw] max-w-[420px] sm:w-[420px] overflow-y-auto overscroll-contain border-l border-[rgba(200,144,26,0.3)] bg-[#082422]/92 p-5 shadow-[0_12px_40px_rgba(0,0,0,0.65)] frosted-panel">
           <button
             onClick={() => {
               setFocus(null);
@@ -633,14 +633,14 @@ function NetworkPage() {
       <div className="fixed bottom-24 left-4 z-40 hidden sm:block">
         <button
           onClick={() => setLegendOpen(!legendOpen)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-[#082422]/90 text-xs font-mono text-muted-foreground hover:text-foreground backdrop-blur-xl shadow-lg transition-all"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-[#082422]/90 text-xs font-mono text-muted-foreground hover:text-foreground frosted-panel shadow-lg transition-all"
         >
           <Info className="h-3.5 w-3.5 text-primary" />
           <span>{locale === "uk" ? "Легенда графа" : "Graph Legend"}</span>
         </button>
 
         {legendOpen && (
-          <div className="absolute bottom-10 left-0 w-80 p-4 rounded-xl border border-[rgba(200,144,26,0.3)] bg-[#082422]/95 backdrop-blur-2xl shadow-2xl space-y-2.5 text-xs text-foreground/90">
+          <div className="absolute bottom-10 left-0 w-80 p-4 rounded-xl border border-[rgba(200,144,26,0.3)] bg-[#082422]/95 frosted-panel shadow-2xl space-y-2.5 text-xs text-foreground/90">
             <div className="flex items-center justify-between border-b border-border pb-2">
               <span className="tech-label text-primary font-semibold">
                 {locale === "uk" ? "Позначення вузлів" : "Node Symbology"}
@@ -695,7 +695,7 @@ function NetworkPage() {
       </div>
 
       {/* ── BOTTOM DOCK: 4 Steps (0 Briefing, 1 Search, 2 Configure, 3 Scope & Limits) ── */}
-      <nav className="fixed bottom-[calc(env(safe-area-inset-bottom)+0.75rem)] left-1/2 z-50 flex max-w-[calc(100vw-1rem)] -translate-x-1/2 items-center gap-1 rounded border border-border bg-panel/95 p-1.5 shadow-2xl backdrop-blur-2xl">
+      <nav className="fixed bottom-[calc(env(safe-area-inset-bottom)+0.75rem)] left-1/2 z-50 flex max-w-[calc(100vw-1rem)] -translate-x-1/2 items-center gap-1 rounded border border-border bg-panel/95 p-1.5 shadow-2xl frosted-panel">
         <Button
           asChild
           variant="ghost"
@@ -770,7 +770,7 @@ function NetworkPage() {
       {/* ── ALL 8 SERVICES REVEALED INVITATION MODAL ── */}
       {allRevealedModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-md">
-          <div className="w-full max-w-lg rounded-xl border border-[rgba(200,144,26,0.4)] bg-[#082422]/95 p-6 shadow-2xl backdrop-blur-2xl">
+          <div className="w-full max-w-lg rounded-xl border border-[rgba(200,144,26,0.4)] bg-[#082422]/95 p-6 shadow-2xl frosted-panel">
             <p className="tech-label text-primary mb-1">
               {locale === "uk" ? "3 · Погодження та ліміти" : "3 · Scope & Limits"}
             </p>

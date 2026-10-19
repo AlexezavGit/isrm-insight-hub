@@ -169,6 +169,13 @@
     right bottom;
 }
 
+/* Frosted glass utility — canonical blur(16px) for all floating panels on the home graph and partner-review surfaces.
+   Standardised per ISRM DS directive (deuteranopia-safe high contrast + consistent feel). */
+@utility frosted-panel {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
 .partner-review {
   --background: #e9dec9;
   --foreground: #13302c;

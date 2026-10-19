@@ -572,7 +572,7 @@ export default function PartnerProposal() {
       : "Partner route: review roles and boundaries → search and configuration → review the cost model and decisions. Partner rates and estimates are entered separately; unknown values remain TBD.",
     description: uk ? "Опис і межі" : "Description and boundaries",
     experts: uk ? "Пошук експертів" : "Expert search",
-    configurator: uk ? "Конфігуратор" : "Configurator",
+    configurator: uk ? "Налаштування" : "Settings",
     workspace: uk ? "Пошук і конфігурація" : "Search and configuration",
     pilot: uk ? "Функції пілота" : "Pilot functions",
     order: uk ? "Кошторис і рішення" : "Cost model and decisions",
@@ -1124,7 +1124,7 @@ export default function PartnerProposal() {
                     className="partner-primary-button"
                     onClick={() => setWorkspaceMode("configurator")}
                   >
-                    {uk ? "Перейти до конфігуратора" : "Continue to configurator"}
+                    {uk ? "Перейти до налаштувань" : "Continue to settings"}
                     <ArrowRight size={16} />
                   </Button>
                 </div>

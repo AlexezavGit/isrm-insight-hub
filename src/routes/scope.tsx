@@ -106,8 +106,8 @@ function ScopePage() {
     }).join("\n");
 
     const preambleText = uk
-      ? `Цей документ є підтвердженою конфігурацією та обґрунтуванням для підготовки індивідуального (tailor-made) рішення щодо створення програмного забезпечення хабу ISRM, та є наслідком вивчення і погодження загальних обсягів робіт, програмний код яких забезпечує наступну функціональність:\n`
-      : `This document serves as a confirmed configuration and rationale for a tailor-made software proposal for the ISRM hub, following review and alignment on the scope of work:\n`;
+      ? `Цей документ є підтвердженою конфігурацією та аналітичним обґрунтуванням для підготовки індивідуального (tailor-made) технічного та комерційного рішення щодо розгортання програмного забезпечення цифрового хабу мережі ISRM. Документ є прямим наслідком вивчення, структурування та погодження архітектури функціональних блоків, програмний код та інфраструктура яких забезпечують:\n— Затверджений функціональний периметр: [перелік обраних сервісів з конфігуратора];\n— Спеціальні вимоги та адаптації: [коментарі, додаткові модулі та індивідуальні сервіси замовника];\n— Граничні параметри реалізації: [погоджена бюджетна стеля або індикативний діапазон строків і навантаження].\nЗафіксована конфігурація слугує базою для випуску специфікації робіт (SOW) та календарного плану розгортання.\n`
+      : `This document is the confirmed configuration and analytical rationale for preparing a tailor-made technical and commercial decision on deploying the ISRM network digital hub software. It is the direct result of reviewing, structuring, and aligning the architecture of functional blocks whose code and infrastructure deliver:\n— Approved functional perimeter: [list of selected services from the configurator];\n— Special requirements and adaptations: [comments, additional modules and bespoke services from the client];\n— Boundary parameters of implementation: [agreed budget ceiling or indicative range of timelines and load].\nThe fixed configuration serves as the basis for issuing the Statement of Work (SOW) and the deployment schedule.\n`;
 
     const notesBlock = customNotes.trim()
       ? uk
@@ -199,10 +199,82 @@ function ScopePage() {
           </h2>
           <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
             {text(
-              "This document establishes the confirmed configuration and analytical rationale for preparing a tailor-made software solution for the ISRM network hub. It is the direct outcome of reviewing and aligning on the total scope of work, practical services, and agreed investment boundaries.",
-              "Цей документ є підтвердженою конфігурацією та аналітичним обґрунтуванням для підготовки індивідуального (tailor-made) рішення щодо створення програмного забезпечення хабу ISRM, та є наслідком вивчення і погодження загальних обсягів робіт, програмний код яких забезпечує обраний функціональний периметр, наведені нижче сервіси та граничні бюджети.",
+              "This document is the confirmed configuration and analytical rationale for preparing a tailor-made technical and commercial decision on deploying the ISRM network digital hub software. It is the direct result of reviewing, structuring, and aligning the architecture of functional blocks whose code and infrastructure deliver: the approved functional perimeter (list of selected services from the configurator); special requirements and adaptations (comments, additional modules and bespoke services from the client); boundary parameters of implementation (agreed budget ceiling or indicative range of timelines and load). The fixed configuration serves as the basis for issuing the Statement of Work (SOW) and the deployment schedule.",
+              "Цей документ є підтвердженою конфігурацією та аналітичним обґрунтуванням для підготовки індивідуального (tailor-made) технічного та комерційного рішення щодо розгортання програмного забезпечення цифрового хабу мережі ISRM. Документ є прямим наслідком вивчення, структурування та погодження архітектури функціональних блоків, програмний код та інфраструктура яких забезпечують: затверджений функціональний периметр (перелік обраних сервісів з конфігуратора); спеціальні вимоги та адаптації (коментарі, додаткові модулі та індивідуальні сервіси замовника); граничні параметри реалізації (погоджена бюджетна стеля або індикативний діапазон строків і навантаження). Зафіксована конфігурація слугує базою для випуску специфікації робіт (SOW) та календарного плану розгортання.",
             )}
           </p>
+
+          {/* ── Level 2 · Executive Cover Letter ───────────────────────── */}
+          <div className="mt-5 p-4 sm:p-5 rounded-lg border border-brass/30 bg-brass/5">
+            <p className="text-xs uppercase tracking-wider font-semibold text-brass mb-2">
+              {text("Level 2 · Executive Cover Letter", "Рівень 2 · Супровідний офіційний лист")}
+            </p>
+            <h3 className="text-base sm:text-lg font-bold text-foreground mb-2">
+              {text("Partner Positioning & Expert Dialogue", "Партнерське позиціонування та експертний діалог")}
+            </h3>
+            <div className="text-sm text-muted-foreground leading-relaxed space-y-2">
+              <p>
+                {text(
+                  "We acknowledge the leadership of the Institute of Strategic Risk Management in setting standards for security, resilience, and crisis management across Ukraine and Europe. This document is an invitation to professional exchange, not a sales pitch.",
+                  "Визнаємо лідерську роль Інституту стратегічного управління ризиками (ISRM) у формуванні стандартів безпеки, резільєнтності та антикризового управління в Україні та Європі. Цей документ — запрошення до фахового обміну, а не комерційна пропозиція.",
+                )}
+              </p>
+              <p>
+                {text(
+                  "In a period of devalued surface-level consulting and an oversaturation of unverified generative AI tools, the critical asset is verified expert judgement. Our shared goal is to unite deep institutional expertise with frontier technology in a Centaur model — the experienced practitioner plus supervised analytical agents.",
+                  "У період девальвації поверхневого консалтингу та засилля неперевірених генеративних ШІ-інструментів критичним активом стає верифікована експертна оцінка. Наша спільна мета — поєднати глибоку інституційну експертизу з передовими технологіями у моделі «Centaur»: досвідчений експерт + керовані аналітичні агенти.",
+                )}
+              </p>
+              <p>
+                {text(
+                  "We do not speak in abstractions — we hand over a ready, working infrastructure: a digitised contact network (178 CRM records, 45 verified), a transparent funnel converting professional discussions into paid membership, and an open analytical reporting layer.",
+                  "Ми не говоримо абстракціями — передаємо готову чинну інфраструктуру: оцифровану мережу контактів (178 записів CRM, 45 верифіковано), прозору воронку конвертації фахових дискусій у платне членство, та відкритий шар аналітичної звітності.",
+                )}
+              </p>
+              <p className="font-semibold text-foreground">
+                {text(
+                  "We approach ISRM colleagues as first-line reviewers and partners — and ask the Board for a professional assessment of the proposed configuration.",
+                  "Звертаємося до колег по ISRM як до рецензентів та партнерів першого ешелону — і просимо Правління дати професійну оцінку запропонованої конфігурації.",
+                )}
+              </p>
+            </div>
+          </div>
+
+          {/* ── Level 3 · Strategic Manifesto — Mental Health & Resilience ── */}
+          <div className="mt-4 p-4 sm:p-5 rounded-lg border border-primary/30 bg-primary/5">
+            <p className="text-xs uppercase tracking-wider font-semibold text-primary mb-2">
+              {text("Level 3 · Strategic Synergy & High-Risk Analytics", "Рівень 3 · Стратегічна синергія та високі ризики")}
+            </p>
+            <h3 className="text-base sm:text-lg font-bold text-foreground mb-2">
+              {text("Mental Health, Resilience & Post-War Recovery", "Ментальне здоров'я, стійкість та повоєнне відновлення")}
+            </h3>
+            <div className="text-sm text-muted-foreground leading-relaxed space-y-2">
+              <p>
+                {text(
+                  "We invite the Institute and the Association to professional review and mutual integration in launching an open mental-health data dashboard (dashboard.feelagain.me). The Ukrainian chapter's programme Practical Mental Health Incident Management for Non-Specialists (theisrm.org/practical-mental-health-incident-management-for-non-specialists) sets the methodological foundation we propose to extend with analytical infrastructure.",
+                  "Запрошуємо Інститут та асоціацію до фахової експертизи та взаємної інтеграції у запуску відкритого дашборду даних ментального здоров'я (dashboard.feelagain.me). Програма українського чаптера Practical Mental Health Incident Management for Non-Specialists (theisrm.org/practical-mental-health-incident-management-for-non-specialists) задає методологічний фундамент, який пропонуємо розширити аналітичною інфраструктурою.",
+                )}
+              </p>
+              <p>
+                {text(
+                  "The sector of psychological resilience and recovery is not a purely medical topic — it is the bedrock of national resilience, workforce capacity, and post-war recovery security. The price of an analytical error here is measured not in sampling bias but in the threat of budgetary collapse of the social protection system.",
+                  "Сектор психологічної стійкості та відновлення — це не суто медична тема, а фундамент національної резільєнтності, кадрового потенціалу та безпеки повоєнного відновлення. Ціна аналітичної помилки тут вимірюється не похибкою вибірки, а загрозою бюджетного колапсу системи соціального захисту.",
+                )}
+              </p>
+              <p>
+                {text(
+                  "The risk-modelling practices developed for feelagain and the Institute's crisis-management experience reinforce one another. We propose a joint analytical line-up where the Institute acts as the methodological guarantor before international donors and stakeholders.",
+                  "Практики моделювання ризиків, розроблені для feelagain, та досвід ISRM у crisis management підсилюють одне одного. Пропонуємо спільний аналітичний лайн-ап, де інститут виступає експертним гарантом методології перед міжнародними донорами та стейкхолдерами.",
+                )}
+              </p>
+              <p className="font-semibold text-foreground">
+                {text(
+                  "Bridge to high-stakes analytics: this is the highest-risk, highest-reward track we can offer. We propose completing the practical MVP scope first, then returning to this strategic memorandum under separate terms.",
+                  "Міст до високоризикованої аналітики: це трек з найвищим ризиком і найбільшим потенціалом. Пропонуємо спершу завершити практичний MVP-scope, а потім повернутися до цього стратегічного меморандуму на окремих умовах.",
+                )}
+              </p>
+            </div>
+          </div>
 
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
             <div className="p-3.5 rounded-lg border border-border/50 bg-background/50">
