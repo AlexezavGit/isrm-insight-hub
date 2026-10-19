@@ -89,6 +89,32 @@ export default function NetworkGraph({
   // Set of service node IDs that have sprouted their person nodes
   const [revealedServices, setRevealedServices] = useState<Set<string>>(() => new Set());
   const [currentActiveService, setCurrentActiveService] = useState<string | null>(null);
+  // Services that were revealed but are now unclicked — their edges persist as
+  // 'shadow' edges with a 'Втрачено: [label]' negative label, signalling what the
+  // Institute would lose by toggling that service off. Cleared on re-click.
+  const [detachedServices, setDetachedServices] = useState<Set<string>>(() => new Set());
+  // Per-expert reveal timestamps for staggered emerge animation (200ms between siblings)
+  const [revealedAt, setRevealedAt] = useState<Map<string, number>>(() => new Map());
+  // Animation tick — bumped every 100ms via interval so nodeCanvasObject can read
+  // fresh Date.now() deltas and animate globalAlpha + position smoothly.
+  const [animTick, setAnimTick] = useState(0);
+
+  useEffect(() => {
+    let active = true;
+    let stopped = false;
+    let raf: number;
+    const loop = () => {
+      if (!active) return;
+      setAnimTick((t) => (t + 1) % 1_000_000);
+      if (!stopped) raf = window.setTimeout(loop, 80);
+    };
+    raf = window.setTimeout(loop, 80);
+    return () => {
+      active = false;
+      stopped = true;
+      window.clearTimeout(raf);
+    };
+  }, []);
 
   // Sync external activeServiceId with internal state
   useEffect(() => {
@@ -269,13 +295,23 @@ export default function NetworkGraph({
 
     // 3. Position expert nodes strictly on the OUTER circumference
     const R_OUTER = 310;
-    const activeServicesList = Array.from(revealedServices);
+    // Bug #16 fix: latest-clicked service wins positioning for shared experts.
+    // Array.from(revealedServices) preserves insertion order; reverse() puts latest first.
+    const activeServicesList = Array.from(revealedServices).reverse();
+    // Detached services (previously revealed, now unclicked) — keep their edges as shadows.
+    const detachedList = Array.from(detachedServices);
+    // Union: any service that ever had experts attached — used to render shadow edges.
+    const allEverAttached = new Set<string>([...revealedServices, ...detachedServices]);
 
     for (const e of experts) {
       if (!e.verified && !layers.researchQueue) continue;
 
-      // Find if connected to any revealed service
+      // Find if connected to any revealed service (latest-clicked wins)
       const connectedSvc = activeServicesList.find((svcId) =>
+        serviceExpertMap.get(svcId)?.some((exp) => exp.code === e.code),
+      );
+      // Find if detached (was in a previously-revealed service, but no longer connected)
+      const detachedSvc = detachedList.find((svcId) =>
         serviceExpertMap.get(svcId)?.some((exp) => exp.code === e.code),
       );
 
@@ -299,6 +335,22 @@ export default function NetworkGraph({
         const angleSpread = svcAngle + (idxInList - (total - 1) / 2) * 0.16;
         fx = Math.round(Math.cos(angleSpread) * R_OUTER);
         fy = Math.round(Math.sin(angleSpread) * R_OUTER);
+      } else if (detachedSvc) {
+        // Detached: keep expert position at last-known location so shadow edge makes sense.
+        // Reuse the same radial position as if still connected.
+        const list = serviceExpertMap.get(detachedSvc) ?? [];
+        const idxInList = list.findIndex((exp) => exp.code === e.code);
+        const total = Math.max(1, list.length);
+        let svcAngle = 0;
+        if (detachedSvc === "hub:mvp") {
+          svcAngle = (idxInList / total) * 2 * Math.PI - Math.PI / 4;
+        } else {
+          const sIdx = NETWORK_SERVICES.findIndex((s) => s.id === detachedSvc);
+          svcAngle = (sIdx / NETWORK_SERVICES.length) * 2 * Math.PI - Math.PI / 2;
+        }
+        const angleSpread = svcAngle + (idxInList - (total - 1) / 2) * 0.16;
+        fx = Math.round(Math.cos(angleSpread) * R_OUTER);
+        fy = Math.round(Math.sin(angleSpread) * R_OUTER);
       } else {
         // Ambient background position around the outer periphery
         const h = strHash(e.code);
@@ -318,11 +370,11 @@ export default function NetworkGraph({
         fy,
         x: fx,
         y: fy,
-        lastConnectedSvc: connectedSvc,
+        lastConnectedSvc: connectedSvc ?? detachedSvc,
       });
     }
 
-    // 4. Edges from active services out to their people
+    // 4. Edges from active services out to their people (gold, positive label)
     activeServicesList.forEach((svcId) => {
       const activeExperts = serviceExpertMap.get(svcId) ?? [];
       const edgeLabel =
@@ -341,6 +393,37 @@ export default function NetworkGraph({
       });
     });
 
+    // 4b. Shadow edges from detached services — same target experts but rendered
+    // as dashed gray/red with negative label 'Втрачено: [label]'.
+    detachedList.forEach((svcId) => {
+      const detachedExperts = serviceExpertMap.get(svcId) ?? [];
+      const originalLabel =
+        SERVICE_EDGE_LABELS[svcId]?.[locale === "uk" ? "uk" : "en"] ||
+        (locale === "uk" ? "Залучення" : "Engagement");
+      const lostPrefix = locale === "uk" ? "Втрачено: " : "Lost: ";
+      const lostLabel = lostPrefix + originalLabel;
+
+      detachedExperts.forEach((exp) => {
+        // Only draw shadow edge if expert is NOT currently connected to another revealed service
+        // (otherwise the same expert would have both a gold and a dashed edge from two services,
+        //  which is confusing — gold edge wins, shadow edge skipped for that expert).
+        const isStillConnectedElsewhere = activeServicesList.some((other) =>
+          other !== svcId && serviceExpertMap.get(other)?.some((e2) => e2.code === exp.code),
+        );
+        if (isStillConnectedElsewhere) return;
+        if (!nodes.some((n) => n.id === exp.code)) return;
+        links.push({
+          source: svcId,
+          target: exp.code,
+          kind: "service-expert-lost",
+          label: lostLabel,
+        });
+      });
+    });
+
+    void allEverAttached; // reserved for future telemetry hooks
+    void animTick; // force re-render subscription
+
     return { nodes, links };
   }, [
     experts,
@@ -349,7 +432,9 @@ export default function NetworkGraph({
     serviceMode,
     fixedServiceNodes,
     revealedServices,
+    detachedServices,
     serviceExpertMap,
+    animTick,
   ]);
 
   const active = focus || hover;
@@ -409,6 +494,10 @@ export default function NetworkGraph({
         linkColor={(l: any) => {
           if (serviceMode) {
             if (l.kind === "service-expert") return colors.gold;
+            if (l.kind === "service-expert-lost") {
+              // Shadow edge — desaturated red/gray, semi-transparent
+              return "rgba(220, 80, 60, 0.55)";
+            }
             if (l.kind === "mvp") return colors.petrolLight + "aa";
             if (l.kind === "ring") return colors.c2 + "bb";
             return "rgba(120, 120, 130, 0.04)";
@@ -422,11 +511,17 @@ export default function NetworkGraph({
         linkWidth={(l: any) => {
           if (serviceMode) {
             if (l.kind === "service-expert") return 2.2;
+            if (l.kind === "service-expert-lost") return 1.4;
             if (l.kind === "mvp") return 1.8;
             if (l.kind === "ring") return 1.5;
             return 0.3;
           }
           return activeSet && activeSet.has(l.source.id) && activeSet.has(l.target.id) ? 1.2 : 0.5;
+        }}
+        linkLineDash={(l: any) => {
+          // Dashed style for shadow edges — visual cue of loss/disconnection
+          if (serviceMode && l.kind === "service-expert-lost") return [6, 4];
+          return undefined;
         }}
         linkCanvasObject={(l: any, ctx, scale) => {
           if (!l.label) return;
@@ -450,8 +545,11 @@ export default function NetworkGraph({
           const x = mx - w / 2;
           const y = my - h / 2;
 
+          // Determine edge kind for color theming
+          const isLost = l.kind === "service-expert-lost";
+
           // High-contrast frosted badge on the outer edge
-          ctx.fillStyle = "rgba(8, 36, 34, 0.94)";
+          ctx.fillStyle = isLost ? "rgba(60, 12, 8, 0.92)" : "rgba(8, 36, 34, 0.94)";
           ctx.beginPath();
           if (typeof (ctx as any).roundRect === "function") {
             (ctx as any).roundRect(x, y, w, h, 4 / scale);
@@ -461,11 +559,11 @@ export default function NetworkGraph({
           ctx.fill();
 
           ctx.lineWidth = 1 / scale;
-          ctx.strokeStyle = "rgba(200, 144, 26, 0.75)";
+          ctx.strokeStyle = isLost ? "rgba(220, 80, 60, 0.75)" : "rgba(200, 144, 26, 0.75)";
           ctx.stroke();
 
-          // High-contrast clean white text
-          ctx.fillStyle = "#ffffff";
+          // High-contrast text: white for connected, warm red-tinted for lost
+          ctx.fillStyle = isLost ? "#fbc0b0" : "#ffffff";
           ctx.fillText(l.label, mx, my);
           ctx.restore();
         }}
@@ -475,36 +573,97 @@ export default function NetworkGraph({
           if (!n) return;
 
           if (serviceMode) {
-            // Central MVP node: toggle MVP foundation experts
+            // Central MVP node: MVP LOCK — once revealed, cannot be unclicked
+            // until ALL 8 surrounding services are unclicked. This enforces the
+            // 'foundation' metaphor: the core stands while services stand around it.
             if (n.id === "hub:mvp") {
-              setRevealedServices((prev) => {
-                const next = new Set(prev);
-                if (next.has("hub:mvp")) {
-                  next.delete("hub:mvp");
-                } else {
-                  next.add("hub:mvp");
+              if (revealedServices.has("hub:mvp")) {
+                const anyServiceActive = NETWORK_SERVICES.some((s) => revealedServices.has(s.id));
+                if (anyServiceActive) {
+                  // Block unclick — MVP is the foundation, can't be removed while services stand.
+                  // No alert (per user preference 'no parrot-style notifications'); the click just no-ops.
+                  return;
                 }
-                return next;
-              });
+                // All services unclicked — safe to unclick MVP too, also clear any detached shadow edges from MVP
+                setRevealedServices((prev) => {
+                  const next = new Set(prev);
+                  next.delete("hub:mvp");
+                  return next;
+                });
+                setDetachedServices((prev) => {
+                  const next = new Set(prev);
+                  next.delete("hub:mvp");
+                  return next;
+                });
+              } else {
+                // Reveal MVP — attach the 4 core advisory founders with staggered timestamps
+                const now = Date.now();
+                const coreExperts = serviceExpertMap.get("hub:mvp") ?? [];
+                setRevealedServices((prev) => {
+                  const next = new Set(prev);
+                  next.add("hub:mvp");
+                  return next;
+                });
+                // If MVP was previously detached (shadow edges), clear those — gold edges return
+                setDetachedServices((prev) => {
+                  const next = new Set(prev);
+                  next.delete("hub:mvp");
+                  return next;
+                });
+                setRevealedAt((prev) => {
+                  const next = new Map(prev);
+                  coreExperts.forEach((exp, idx) => {
+                    next.set(exp.code, now + idx * 220);
+                  });
+                  return next;
+                });
+              }
               return;
             }
 
             // Service ring node: toggle active service & connect/disconnect people
             if (typeof n.id === "string" && n.id.startsWith("svc:")) {
               const svcId = n.id;
-              setRevealedServices((prev) => {
-                const next = new Set(prev);
-                if (next.has(svcId)) {
+              const isCurrentlyRevealed = revealedServices.has(svcId);
+              if (isCurrentlyRevealed) {
+                // Unclick → move to detached (shadow edges with negative labels)
+                setRevealedServices((prev) => {
+                  const next = new Set(prev);
                   next.delete(svcId);
-                  if (currentActiveService === svcId) setCurrentActiveService(null);
-                  onServiceSelect?.(null);
-                } else {
+                  return next;
+                });
+                setDetachedServices((prev) => {
+                  const next = new Set(prev);
                   next.add(svcId);
-                  setCurrentActiveService(svcId);
-                  onServiceSelect?.(svcId);
-                }
-                return next;
-              });
+                  return next;
+                });
+                if (currentActiveService === svcId) setCurrentActiveService(null);
+                onServiceSelect?.(null);
+              } else {
+                // Click → reveal; clear from detached (gold edges return)
+                const now = Date.now();
+                const svcExperts = serviceExpertMap.get(svcId) ?? [];
+                setRevealedServices((prev) => {
+                  const next = new Set(prev);
+                  next.add(svcId);
+                  return next;
+                });
+                setDetachedServices((prev) => {
+                  const next = new Set(prev);
+                  next.delete(svcId);
+                  return next;
+                });
+                setCurrentActiveService(svcId);
+                onServiceSelect?.(svcId);
+                // Staggered emerge: each expert appears 220ms after the previous one
+                setRevealedAt((prev) => {
+                  const next = new Map(prev);
+                  svcExperts.forEach((exp, idx) => {
+                    next.set(exp.code, now + idx * 220);
+                  });
+                  return next;
+                });
+              }
               return;
             }
 
@@ -545,27 +704,64 @@ export default function NetworkGraph({
         nodeCanvasObject={(n: any, ctx, scale) => {
           if (serviceMode) {
             if (n.kind === "expert") {
-              const isConnected = !!n.lastConnectedSvc && revealedServices.has(n.lastConnectedSvc);
+              const e: Expert | undefined = n.expert;
+              // Check if this expert is currently connected (in a revealed service's pool)
+              const isCurrentlyConnected = !!n.lastConnectedSvc && revealedServices.has(n.lastConnectedSvc);
+              // Detached = was connected, now unclicked from that service but shadow edges remain
+              const isDetached = !isCurrentlyConnected && !!n.lastConnectedSvc && detachedServices.has(n.lastConnectedSvc);
               const allEightActive = revealedServices.size >= 8;
 
-              // When all 8 are active, edge lines form full mesh while node dots gracefully dim
-              ctx.globalAlpha = isConnected ? (allEightActive ? 0.75 : 1) : 0.12;
+              // Staggered emerge animation: alpha ramps from 0 → 1 over 600ms after revealedAt.
+              // 'Tennis-ball floating up' metaphor — slow, smooth, per-node delay 220ms.
+              const revealTime = e ? revealedAt.get(e.code) : undefined;
+              const now = Date.now();
+              let emergeAlpha = 1;
+              if (revealTime !== undefined) {
+                const elapsed = now - revealTime;
+                if (elapsed < 0) {
+                  emergeAlpha = 0; // not yet appeared (waiting for staggered delay)
+                } else if (elapsed < 600) {
+                  // Easing: ease-out cubic, alpha 0 → 1
+                  const t = elapsed / 600;
+                  emergeAlpha = 1 - Math.pow(1 - t, 3);
+                }
+              }
 
-              const e: Expert | undefined = n.expert;
-              const r = isConnected ? 6.5 : 3;
+              // Visibility logic:
+              //  - isCurrentlyConnected: full opacity, but staggered emerge animation
+              //  - isDetached: alpha 0 (node invisible, only shadow edge visible)
+              //  - ambient (not connected nor detached): dim underlay at 0.18 alpha
+              //    (was 0.12 — increased slightly so the living network is more visible
+              //    as an underlay without obstructing the services ring view per user spec)
+              let nodeAlpha: number;
+              if (isCurrentlyConnected) {
+                nodeAlpha = emergeAlpha * (allEightActive ? 0.75 : 1);
+              } else if (isDetached) {
+                nodeAlpha = 0; // invisible — only shadow edge remains
+              } else {
+                nodeAlpha = 0.18; // ambient underlay
+              }
+              ctx.globalAlpha = nodeAlpha;
+
+              if (nodeAlpha < 0.02) {
+                ctx.globalAlpha = 1;
+                return;
+              }
+
+              const r = isCurrentlyConnected ? 6.5 : 3;
 
               ctx.beginPath();
               ctx.arc(n.x, n.y, r, 0, 2 * Math.PI);
-              ctx.fillStyle = isConnected ? colors.gold : (e?.verified ? colors.success : colors.muted);
+              ctx.fillStyle = isCurrentlyConnected ? colors.gold : (e?.verified ? colors.success : colors.muted);
               ctx.fill();
 
               // Crisp border
-              ctx.lineWidth = (isConnected ? 2 : 1) / scale;
-              ctx.strokeStyle = isConnected ? "#ffffff" : "rgba(255,255,255,0.3)";
+              ctx.lineWidth = (isCurrentlyConnected ? 2 : 1) / scale;
+              ctx.strokeStyle = isCurrentlyConnected ? "#ffffff" : "rgba(255,255,255,0.3)";
               ctx.stroke();
 
               // If connected or active/hover: show expert name label on the OUTSIDE
-              if ((isConnected || n.id === active) && e) {
+              if ((isCurrentlyConnected || n.id === active) && e) {
                 const fSize = Math.max(10.5 / scale, 6);
                 ctx.font = `600 ${fSize}px Space Grotesk, sans-serif`;
                 ctx.fillStyle = colors.fg;

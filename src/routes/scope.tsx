@@ -397,6 +397,46 @@ function ScopePage() {
                   <li key={f}>{f}</li>
                 ))}
               </ul>
+              {/* Two-state signal: what you get vs what you lose */}
+              <div
+                style={{
+                  marginTop: "0.85rem",
+                  padding: "0.7rem 0.85rem",
+                  borderRadius: "8px",
+                  border: `1px solid ${pilotIncluded ? "rgba(16,185,129,0.4)" : "rgba(220,80,60,0.4)"}`,
+                  background: pilotIncluded
+                    ? "color-mix(in oklab, var(--color-success) 8%, transparent)"
+                    : "color-mix(in oklab, var(--color-destructive) 6%, transparent)",
+                  fontSize: "0.85rem",
+                  lineHeight: 1.55,
+                }}
+              >
+                <p
+                  style={{
+                    margin: 0,
+                    fontWeight: 700,
+                    fontSize: "0.72rem",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.08em",
+                    color: pilotIncluded ? "var(--color-success)" : "var(--color-destructive)",
+                  }}
+                >
+                  {pilotIncluded
+                    ? text("Функціональність — what you get", "Функціональність — що отримуєте")
+                    : text("Втрачається — what you lose", "Втрачається — що йде")}
+                </p>
+                <p style={{ margin: "0.4rem 0 0", color: "var(--color-foreground)" }}>
+                  {pilotIncluded
+                    ? text(
+                        "Engagement campaigns bring new fellows into the network; TII co-design establishes the methodology; working panels produce published synthesis and monographs. The Institute gains measurable recruitment, methodology assets, and thought leadership.",
+                        "Кампанії залучення приносять нових членів у мережу; спільне проєктування TII формує методологію; робочі групи публікують синтез-звіти та монографії. Інститут отримує вимірюване залучення, методологічні активи та лідерство думок.",
+                      )
+                    : text(
+                        "Without this cycle, the Institute keeps the MVP but loses the recruitment funnel, the TII methodology co-design, the published synthesis, and the annual monograph line-up — the network stays at the MVP size without organic growth.",
+                        "Без цього циклу Інститут зберігає MVP, але втрачає воронку залучення, спільне проєктування TII, публікацію синтез-звіту та щорічні монографії — мережа лишаються на рівні MVP без органічного зростання.",
+                      )}
+                </p>
+              </div>
             </article>
 
             {/* Section 03 — Consulting (opt-in) */}
@@ -440,6 +480,46 @@ function ScopePage() {
                   {CLIENT_CONSULTING_OPTION[uk ? "uk" : "en"]}
                 </p>
               )}
+              {/* Two-state signal: what you get vs what you lose */}
+              <div
+                style={{
+                  marginTop: "0.85rem",
+                  padding: "0.7rem 0.85rem",
+                  borderRadius: "8px",
+                  border: `1px solid ${consultingIncluded ? "rgba(16,185,129,0.4)" : "rgba(220,80,60,0.4)"}`,
+                  background: consultingIncluded
+                    ? "color-mix(in oklab, var(--color-success) 8%, transparent)"
+                    : "color-mix(in oklab, var(--color-destructive) 6%, transparent)",
+                  fontSize: "0.85rem",
+                  lineHeight: 1.55,
+                }}
+              >
+                <p
+                  style={{
+                    margin: 0,
+                    fontWeight: 700,
+                    fontSize: "0.72rem",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.08em",
+                    color: consultingIncluded ? "var(--color-success)" : "var(--color-destructive)",
+                  }}
+                >
+                  {consultingIncluded
+                    ? text("Функціональність — what you get", "Функціональність — що отримуєте")
+                    : text("Втрачається — what you lose", "Втрачається — що йде")}
+                </p>
+                <p style={{ margin: "0.4rem 0 0", color: "var(--color-foreground)" }}>
+                  {consultingIncluded
+                    ? text(
+                        "Strategic advisory sessions, Board governance briefings, expertise gap analysis, and TII framework co-design. The Institute gets senior counsel on priorities, governance, and methodology formulation.",
+                        "Стратегічні сесії, підготовка борду, аналіз прогалин в експертизі та спільне проєктування рамки TII. Інститут отримує старшу консультацію щодо пріоритетів, врядування та формування методології.",
+                      )
+                    : text(
+                        "Without advisory, the Institute self-directs the MVP rollout — losing access to senior counsel on governance facilitation, expertise gap analysis, and TII framework co-design. Decisions are made without external methodological review.",
+                        "Без консультацій Інститут самостійно веде розгортання MVP — втрачаючи доступ до старшої консультації з фасилітації врядування, аналізу прогалин в експертизі та спільного проєктування TII. Рішення приймаються без зовнішньої методологічної перевірки.",
+                      )}
+                </p>
+              </div>
             </article>
 
             {/* Section 04: Custom Notes / Additional Requirements */}
