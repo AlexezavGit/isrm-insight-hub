@@ -37,10 +37,6 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
               <span>{text("Return to network graph", "До графа")}</span>
             </a>
           </Button>
-          <span style={{ fontSize: "0.75rem", color: "#64748b" }}>·</span>
-          <span style={{ fontSize: "0.74rem", color: "#64748b", letterSpacing: "0.06em", textTransform: "uppercase", fontWeight: 600 }}>
-            {text("Strictly Confidential · October 2026", "Конфіденційно · Жовтень 2026")}
-          </span>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "0.85rem" }}>
@@ -80,9 +76,6 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
 
       <header className="partner-header" style={{ display: "block", padding: "0 0 2rem" }}>
         <div>
-          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "0.6rem", marginBottom: "0.6rem" }}>
-            <p className="partner-eyebrow" style={{ margin: 0 }}>{text("Client proposal", "Пропозиція замовнику")}</p>
-          </div>
           <h1 className="font-display text-2xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
             {text(
               "Technologies that create Trust — the foundation of Trusted Consultancy",
