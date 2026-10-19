@@ -277,8 +277,8 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
 
         <p style={{ marginTop: "1.25rem", fontSize: "0.75rem", color: "var(--muted-foreground)", letterSpacing: "0.03em", textAlign: "center" }}>
           {text(
-            "Prepared for Chairman & Board Review · October 2026 · Strictly Confidential",
-            "Підготовлено для перегляду Головою та Правлінням · Жовтень 2026 · Конфіденційно",
+            "Prepared for Chairman & Board Review",
+            "Підготовлено для перегляду Головою та Правлінням",
           )}
         </p>
       </footer>
