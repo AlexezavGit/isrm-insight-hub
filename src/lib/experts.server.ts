@@ -113,8 +113,13 @@ export function resolveAccess(code: string | undefined): {
 } {
   const c = (code || "").trim();
   if (!c) return { level: "guest" };
-  const admin = process.env["ISRM_ADMIN_CODE"]?.trim() || "isrm2026";
-  if (c === admin || c === "isrm2026" || c === "isrm-service-2026") return { level: "coordinator", grantedBy: "Координатор" };
+  // Permanent admin password — only the maintainer has it.
+  // Override at deploy time via ISRM_ADMIN_CODE env var on Cloudflare Pages
+  // (Settings → Environment variables → ISRM_ADMIN_CODE) for production-grade rotation.
+  // Old hardcoded values (isrm2026, isrm-service-2026) were removed because they leaked
+  // across source control and the public brief; treat them as retired.
+  const admin = process.env["ISRM_ADMIN_CODE"]?.trim() || "isrm-cabinet-2026-zv";
+  if (c === admin) return { level: "coordinator", grantedBy: "Координатор" };
   const norm = c.toLowerCase();
   const ref = (raw as Raw[]).find(
     (r) =>
