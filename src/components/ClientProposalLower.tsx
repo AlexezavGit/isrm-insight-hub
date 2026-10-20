@@ -173,11 +173,11 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1.25rem", marginBottom: "3rem" }}>
 
           {/* Scope 1 — decide today */}
-          <div style={{ background: "#ffffff", border: "1.5px solid rgba(11,84,76,0.25)", borderTop: "4px solid #064e3b", borderRadius: "10px", padding: "1.5rem", boxShadow: "0 6px 16px rgba(0,0,0,0.04)", display: "flex", flexDirection: "column" }}>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "#c8901a", fontWeight: 800, display: "block", marginBottom: "0.4rem" }}>
+          <div className="card-hanging" style={{ borderTopColor: "#064e3b", display: "flex", flexDirection: "column" }}>
+            <span className="tech-label text-brass" style={{ display: "block", marginBottom: "0.4rem" }}>
               {text("Scope 1 · Decide today", "Напрям 1 · Рішення зараз")}
             </span>
-            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, color: "#064e3b", margin: "0 0 0.75rem" }}>
+            <h3 className="header-pressed" style={{ fontSize: "1.05rem", color: "var(--brass)", margin: "0 0 0.75rem" }}>
               {text("MVP — the working platform", "MVP — робоча платформа")}
             </h3>
             <p style={{ fontSize: "0.88rem", lineHeight: 1.65, color: "#2d4a3e", margin: "0 0 1rem", flex: 1 }}>
@@ -192,11 +192,11 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
           </div>
 
           {/* Scope 2 — when MVP is live */}
-          <div style={{ background: "#ffffff", border: "1.5px solid rgba(11,84,76,0.18)", borderTop: "4px solid #c8901a", borderRadius: "10px", padding: "1.5rem", boxShadow: "0 4px 12px rgba(0,0,0,0.03)", display: "flex", flexDirection: "column", opacity: 0.92 }}>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "#c8901a", fontWeight: 800, display: "block", marginBottom: "0.4rem" }}>
+          <div className="card-hanging" style={{ borderTopColor: "#c8901a", display: "flex", flexDirection: "column", opacity: 0.96 }}>
+            <span className="tech-label text-brass" style={{ display: "block", marginBottom: "0.4rem" }}>
               {text("Scope 2 · When MVP is live", "Напрям 2 · Коли MVP стоїть")}
             </span>
-            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, color: "#064e3b", margin: "0 0 0.75rem" }}>
+            <h3 className="header-pressed" style={{ fontSize: "1.05rem", color: "var(--brass)", margin: "0 0 0.75rem" }}>
               {text("Expert Engagement Cycle", "Цикл залучення експертів")}
             </h3>
             <p style={{ fontSize: "0.88rem", lineHeight: 1.65, color: "#2d4a3e", margin: "0 0 1rem", flex: 1 }}>
@@ -211,17 +211,17 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
           </div>
 
           {/* Scope 3 — at your request */}
-          <div style={{ background: "#ffffff", border: "1.5px solid rgba(11,84,76,0.15)", borderTop: "4px solid #064e3b", borderRadius: "10px", padding: "1.5rem", boxShadow: "0 4px 12px rgba(0,0,0,0.03)", display: "flex", flexDirection: "column", opacity: 0.88 }}>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "#c8901a", fontWeight: 800, display: "block", marginBottom: "0.4rem" }}>
+          <div className="card-hanging" style={{ borderTopColor: "#064e3b", display: "flex", flexDirection: "column", opacity: 0.94 }}>
+            <span className="tech-label text-brass" style={{ display: "block", marginBottom: "0.4rem" }}>
               {text("Scope 3 · At your request", "Напрям 3 · За вашим запитом")}
             </span>
-            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, color: "#064e3b", margin: "0 0 0.75rem" }}>
-              {text("Strategic Advisory — diagnostic first", "Стратегічний консалтинг — спочатку діагностика")}
+            <h3 className="header-pressed" style={{ fontSize: "1.05rem", color: "var(--brass)", margin: "0 0 0.75rem" }}>
+              {text("Strategic Advisory — diagnostic first", "Стратегічний шеринг досвіду — спочатку діагностика")}
             </h3>
             <p style={{ fontSize: "0.88rem", lineHeight: 1.65, color: "#2d4a3e", margin: "0 0 1rem", flex: 1 }}>
               {text(
                 "Configuring the service catalogue is itself the diagnostic: the Institute sees its own gaps. Strategic advisory, governance facilitation, and methodology design follow only when the Institute decides it needs them — on its own terms.",
-                "Конфігурація каталогу сервісів є самою діагностикою: Інститут бачить власні прогалини. Стратегічний консалтинг, фасилітація врядування та розробка методологій слідують лише тоді, коли Інститут вирішить, що вони потрібні — на власних умовах.",
+                "Конфігурація каталогу сервісів є самою діагностикою: Інститут бачить власні прогалини. Стратегічний шеринг досвіду, фасилітація врядування та розробка методологій слідують лише тоді, коли Інститут вирішить, що вони потрібні — на власних умовах.",
               )}
             </p>
             <div style={{ paddingTop: "0.75rem", borderTop: "1px dashed rgba(11,84,76,0.1)", fontSize: "0.78rem", color: "#64748b", fontWeight: 600 }}>
@@ -230,11 +230,11 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
           </div>
 
           {/* Scope 4 — future horizon */}
-          <div style={{ background: "rgba(242,234,219,0.35)", border: "1px solid rgba(11,84,76,0.1)", borderTop: "3px solid rgba(200,144,26,0.4)", borderRadius: "10px", padding: "1.5rem", display: "flex", flexDirection: "column", opacity: 0.82 }}>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(200,144,26,0.7)", fontWeight: 800, display: "block", marginBottom: "0.4rem" }}>
+          <div className="card-hanging" style={{ borderTopColor: "rgba(200,144,26,0.5)", display: "flex", flexDirection: "column", opacity: 0.9, background: "rgba(242,234,219,0.55)" }}>
+            <span className="tech-label text-brass" style={{ display: "block", marginBottom: "0.4rem", opacity: 0.85 }}>
               {text("Scope 4 · If it resonates", "Напрям 4 · Якщо відгукується")}
             </span>
-            <h3 style={{ fontSize: "1.1rem", fontWeight: 600, color: "#064e3b", margin: "0 0 0.75rem" }}>
+            <h3 className="header-pressed" style={{ fontSize: "1.05rem", color: "var(--brass)", margin: "0 0 0.75rem", opacity: 0.9 }}>
               {text("Long-term horizon", "Довгостроковий горизонт")}
             </h3>
             <p style={{ fontSize: "0.88rem", lineHeight: 1.65, color: "#2d4a3e", margin: "0 0 1rem", flex: 1 }}>

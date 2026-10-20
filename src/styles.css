@@ -3364,8 +3364,8 @@
 .card-hanging,
 .partner-card {
   background: rgba(255, 255, 255, 0.96);
-  border: 1px solid rgba(18, 60, 58, 0.14);
-  border-radius: 10px;
+  border: 1px solid rgba(18, 60, 58, 0.22);
+  border-radius: 2px;
   box-shadow:
     0 10px 28px rgba(40, 30, 15, 0.10),
     inset 0 1px 0 rgba(255, 255, 255, 0.55);
@@ -3382,6 +3382,9 @@
   transform: translateY(-1px);
 }
 
+/* EL REFUGIO typography rule — pressed-in heading, NO outer glow.
+   Inset shadow only; sharp corners; thin gold border; brass heading color.
+   The plate sits *inside* the surface, not floating above it. */
 .header-pressed,
 .partner-card h2,
 .client-capacity-section h2 {
@@ -3390,11 +3393,14 @@
   margin: 0 0 14px;
   font-size: 18px;
   letter-spacing: 0.4px;
-  color: #0b544c;
-  background: rgba(18, 60, 58, 0.04);
-  border: 1.5px solid rgba(11, 84, 76, 0.6);
-  border-radius: 6px;
-  box-shadow: inset 0 1px 3px rgba(18, 60, 58, 0.18);
+  color: var(--brass, #c8901a);
+  background: rgba(18, 60, 58, 0.06);
+  border: 1px solid rgba(200, 144, 26, 0.55);
+  border-radius: 2px;
+  /* Inset shadow ONLY — no outer glow per EL REFUGIO spec */
+  box-shadow:
+    inset 0 1px 3px rgba(18, 60, 58, 0.28),
+    inset 0 -1px 0 rgba(200, 144, 26, 0.12);
   font-weight: 700;
   text-transform: none;
 }
@@ -4314,6 +4320,8 @@ button.partner-primary-button {
   position: relative;
   z-index: 2;
 }
+/* Pin dots on the cycle spine — animated like road markings viewed from a moving car,
+   but slow (8s sweep) so the cycle metaphor reads as continuous flow rather than distraction. */
 .cycle-tl-dot {
   width: 14px;
   height: 14px;
@@ -4325,22 +4333,70 @@ button.partner-primary-button {
   margin-top: 18px;
   z-index: 3;
   position: relative;
+  /* Subtle pulse — the pin 'lights up' then dims, staggered across nodes via animation-delay */
+  animation: cycle-pin-pulse 4.5s ease-in-out infinite;
 }
+/* Connecting line uses a slowly-scrolling stripe pattern — like road centre markings seen past the windscreen */
 .cycle-tl-line {
   width: 2px;
   flex: 1;
-  background: var(--primary);
-  opacity: 0.5;
   min-height: 30px;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      var(--primary) 0,
+      var(--primary) 6px,
+      transparent 6px,
+      transparent 14px
+    );
+  background-size: 100% 28px;
+  opacity: 0.7;
+  animation: cycle-road-sweep 8s linear infinite;
 }
 /* Last node return arrow */
 .cycle-tl-return {
   width: 2px;
   flex: 1;
-  background: var(--primary);
-  opacity: 0.5;
   min-height: 24px;
   position: relative;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      var(--primary) 0,
+      var(--primary) 6px,
+      transparent 6px,
+      transparent 14px
+    );
+  background-size: 100% 28px;
+  opacity: 0.5;
+  animation: cycle-road-sweep 8s linear infinite reverse;
+}
+@keyframes cycle-pin-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(200, 144, 26, 0.0), inset 0 0 0 0 rgba(255, 255, 255, 0);
+    transform: scale(1);
+  }
+  50% {
+    /* Subtle brass halo around the pin — no outer glow on the heading, but the pin itself can 'shine' briefly */
+    box-shadow: 0 0 0 4px rgba(200, 144, 26, 0.18);
+    transform: scale(1.08);
+  }
+}
+@keyframes cycle-road-sweep {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 28px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cycle-tl-dot,
+  .cycle-tl-line,
+  .cycle-tl-return {
+    animation: none;
+  }
+  .cycle-tl-line,
+  .cycle-tl-return {
+    background: var(--primary);
+    opacity: 0.4;
+  }
 }
 .cycle-tl-return::after {
   content: "↻";

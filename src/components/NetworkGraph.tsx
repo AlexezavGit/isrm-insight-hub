@@ -64,6 +64,7 @@ export default function NetworkGraph({
   onServiceSelect,
   onAllServicesRevealed,
   onBackgroundClick,
+  onRevealedServicesChange,
   leftPanelOpen = false,
   rightPanelOpen = false,
   locale = "en",
@@ -77,6 +78,7 @@ export default function NetworkGraph({
   onServiceSelect?: (serviceId: string | null) => void;
   onAllServicesRevealed?: () => void;
   onBackgroundClick?: () => void;
+  onRevealedServicesChange?: (count: number) => void;
   leftPanelOpen?: boolean;
   rightPanelOpen?: boolean;
   locale?: string;
@@ -132,6 +134,26 @@ export default function NetworkGraph({
       onAllServicesRevealed?.();
     }
   }, [revealedServices.size, serviceMode, onAllServicesRevealed]);
+
+  // Lift revealedServices count up to parent (for dashboard display)
+  useEffect(() => {
+    onRevealedServicesChange?.(revealedServices.size);
+  }, [revealedServices.size, onRevealedServicesChange]);
+
+  // Auto-zoom-out to fit all visible nodes when revealedServices changes.
+  // Graph must shrink as more people nodes are added so nothing crawls off-screen.
+  useEffect(() => {
+    if (!serviceMode || !fg.current) return;
+    // Small delay so the new nodes have been added to graphData before fitting
+    const handle = window.setTimeout(() => {
+      try {
+        fg.current?.zoomToFit(400, 60);
+      } catch {
+        // ignore — fg ref might not be ready on first render
+      }
+    }, 120);
+    return () => window.clearTimeout(handle);
+  }, [revealedServices, detachedServices, serviceMode]);
 
   // Color tokens aligned with FEEL Again / Bunker palette (Teal/Petrol, Gold, Orange, Cream)
   const colors = useMemo(

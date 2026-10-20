@@ -95,6 +95,8 @@ function NetworkPage() {
   const [activeServiceId, setActiveServiceId] = useState<string | null>(null);
   const [allRevealedModalOpen, setAllRevealedModalOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  // Count of revealed service nodes — lifted from NetworkGraph via onRevealedServicesChange
+  const [revealedServicesCount, setRevealedServicesCount] = useState(0);
 
   // Group formation workflow states
   const [projectGroup, setProjectGroup] = useState<string[]>([]);
@@ -200,6 +202,7 @@ function NetworkPage() {
                 }
               }}
               onAllServicesRevealed={() => setAllRevealedModalOpen(true)}
+              onRevealedServicesChange={(count) => setRevealedServicesCount(count)}
               onBackgroundClick={handleBackgroundClick}
               leftPanelOpen={searchOpen || cabinetOpen}
               rightPanelOpen={Boolean(selected || groupViewOpen)}
@@ -288,6 +291,7 @@ function NetworkPage() {
             <div className="pointer-events-auto hidden sm:flex items-center gap-px rounded border border-border bg-panel/70 frosted-panel overflow-hidden text-center">
               {dependenciesMode ? (
                 <>
+                  <MetricBadge value={revealedServicesCount} label={locale === "uk" ? "сервісів" : "services"} note="/8" />
                   <MetricBadge value={AUDIENCE.crm} label={locale === "uk" ? "у CRM" : "in CRM"} />
                   <MetricBadge value={AUDIENCE.verified} label={locale === "uk" ? "ідентифіковано" : "identified"} />
                   <MetricBadge value={AUDIENCE.liPage} label="LinkedIn" note="~page" />
@@ -310,6 +314,7 @@ function NetworkPage() {
         <div className="pointer-events-auto mt-2 flex sm:hidden gap-px rounded border border-border bg-panel/70 frosted-panel overflow-hidden text-center">
           {dependenciesMode ? (
             <>
+              <MetricBadge value={revealedServicesCount} label={locale === "uk" ? "сервісів" : "services"} note="/8" />
               <MetricBadge value={AUDIENCE.crm} label={locale === "uk" ? "у CRM" : "in CRM"} />
               <MetricBadge value={AUDIENCE.verified} label={locale === "uk" ? "ідентифіковано" : "identified"} />
               <MetricBadge value={AUDIENCE.liPage} label="LinkedIn" note="~page" />
@@ -716,6 +721,11 @@ function NetworkPage() {
             if (searchOpen) {
               setSearchOpen(false);
             } else {
+              // Returning from configurator (serviceMode) → switch back to expert network graph.
+              // Per user spec: 'Search button when returning from configurator should switch the graph
+              // to search variant, not stay as service graph.'
+              setDependenciesMode(false);
+              setActiveServiceId(null);
               setSearchOpen(true);
               setCabinetOpen(false);
               setFocus(null);

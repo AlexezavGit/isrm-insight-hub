@@ -98,8 +98,8 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
         <div>
           <h1 className="font-display text-2xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
             {text(
-              "Technologies that create Trust — the foundation of Trusted Consultancy",
-              "Технології що створюють Довіру — фундамент Trusted Consultancy",
+              "Technologies that create Trust — the foundation of Trusted Practice",
+              "Технології що створюють Довіру — фундамент Trusted Practice",
             )}
           </h1>
 

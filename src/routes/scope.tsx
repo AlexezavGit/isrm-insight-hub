@@ -76,7 +76,7 @@ function ScopePage() {
         : null,
       consultingIncluded
         ? uk
-          ? `• Стратегічний консалтинг — окреме котирування`
+          ? `• Стратегічний шеринг досвіду — окреме котирування`
           : `• Strategic Advisory — subject to separate quotation`
         : null,
       (pilotIncluded || consultingIncluded)
@@ -221,8 +221,8 @@ function ScopePage() {
               </p>
               <p>
                 {text(
-                  "In a period of devalued surface-level consulting and an oversaturation of unverified generative AI tools, the critical asset is verified expert judgement. Our shared goal is to unite deep institutional expertise with frontier technology in a Centaur model — the experienced practitioner plus supervised analytical agents.",
-                  "У період девальвації поверхневого консалтингу та засилля неперевірених генеративних ШІ-інструментів критичним активом стає верифікована експертна оцінка. Наша спільна мета — поєднати глибоку інституційну експертизу з передовими технологіями у моделі «Centaur»: досвідчений експерт + керовані аналітичні агенти.",
+                  "In a period of devalued surface-level practice and an oversaturation of unverified generative AI tools, the critical asset is verified expert judgement. Our shared goal is to unite deep institutional expertise with frontier technology in a Centaur model — the experienced practitioner plus supervised analytical agents.",
+                  "У період девальвації поверхневої практики та засилля неперевірених генеративних ШІ-інструментів критичним активом стає верифікована експертна оцінка. Наша спільна мета — поєднати глибоку інституційну експертизу з передовими технологіями у моделі «Centaur»: досвідчений експерт + керовані аналітичні агенти.",
                 )}
               </p>
               <p>
@@ -269,9 +269,25 @@ function ScopePage() {
               </p>
               <p className="font-semibold text-foreground">
                 {text(
-                  "Bridge to high-stakes analytics: this is the highest-risk, highest-reward track we can offer. We propose completing the practical MVP scope first, then returning to this strategic memorandum under separate terms.",
-                  "Міст до високоризикованої аналітики: це трек з найвищим ризиком і найбільшим потенціалом. Пропонуємо спершу завершити практичний MVP-scope, а потім повернутися до цього стратегічного меморандуму на окремих умовах.",
+                  "Engagement Cycle into Influence Field — this is the highest-risk, highest-reward track we can offer. The cycle's goal is to grow target-audience capacity from ~10k to 30-50k through a sequence of campaigns: regional, sectoral (by expertise), and narrow-specialty discussions that together form the field of expertise coverage. We propose completing the practical MVP scope first, then returning to this strategic memorandum under separate terms.",
+                  "Цикл залучення у поле впливу — це трек з найвищим ризиком і найбільшим потенціалом. Завдання циклу — зрости місткість цільової аудиторії з ~10 тис. до 30-50 тис. через послідовність кампейнів: регіональні, секторальні (за експертизою) та вузько-спеціальні обговорення, що разом формують поле охоплення експертизи. Пропонуємо спершу завершити практичний MVP-scope, а потім повернутися до цього стратегічного меморандуму на окремих умовах.",
                 )}
+              </p>
+              {/* MHPSS footnote — psychologist programme in Ukrainian chapter is the methodological hook */}
+              <p style={{ marginTop: "0.85rem", fontSize: "0.78rem", color: "var(--color-muted-foreground)", lineHeight: 1.55 }}>
+                <sup style={{ color: "var(--color-primary)", fontWeight: 700 }}>†</sup>{" "}
+                {text(
+                  "Methodological anchor: the Ukrainian chapter's programme 'Practical Mental Health Incident Management for Non-Specialists' (theisrm.org) — sets the foundation we propose to extend with analytical infrastructure for MHPSS risk modelling.",
+                  "Методологічна опора: програма українського чаптера 'Practical Mental Health Incident Management for Non-Specialists' (theisrm.org) — задає фундамент, який пропонуємо розширити аналітичною інфраструктурою для моделювання MHPSS-ризиків.",
+                )}{" "}
+                <a
+                  href="https://www.theisrm.org/practical-mental-health-incident-management-for-non-specialists"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "var(--color-primary)", textDecoration: "underline", textUnderlineOffset: "2px" }}
+                >
+                  {text("Open programme ↗", "Відкрити програму ↗")}
+                </a>
               </p>
             </div>
           </div>
@@ -295,8 +311,8 @@ function ScopePage() {
               </strong>
               <p className="text-muted-foreground leading-relaxed">
                 {text(
-                  "The presented interfaces represent the operational tip of the technological iceberg for trusted consultancy. The specialist search and CRM data are already in place as a working engine. Strategic horizon: we hold a broader hypothesis on trust architecture, accountability, and critical risk intelligence — subject to an independent memorandum following practical alignment.",
-                  "Показаний інтерфейс — це авансована надводна частина практичного застосунку для довірчого консалтингу. Пошук експертів та дані CRM уже заведені як робоче промислове ядро. Стратегічний вектор: ми маємо концептуальну гіпотезу ширшого масштабу щодо фундаментальної архітектури довіри, розподілу відповідальності та роботи з великими даними ризиків. За наявності взаємного інтересу після фіксації прикладних рішень — перейдемо до окремого стратегічного меморандуму.",
+                  "The presented interfaces represent the operational tip of the technological iceberg for trusted practice. The specialist search and CRM data are already in place as a working engine. Strategic horizon: we hold a broader hypothesis on trust architecture, accountability, and critical risk intelligence — subject to an independent memorandum following practical alignment.",
+                  "Показаний інтерфейс — це авансована надводна частина практичного застосунку для довірчої практики. Пошук експертів та дані CRM уже заведені як робоче промислове ядро. Стратегічний вектор: ми маємо концептуальну гіпотезу ширшого масштабу щодо фундаментальної архітектури довіри, розподілу відповідальності та роботи з великими даними ризиків. За наявності взаємного інтересу після фіксації прикладних рішень — перейдемо до окремого стратегічного меморандуму.",
                 )}
               </p>
             </div>
@@ -446,7 +462,7 @@ function ScopePage() {
                 <div style={{ flex: 1 }}>
                   <label className="scope-section-label" htmlFor="include-consulting">
                     <h2 id="scope-consulting-heading" className="scope-section-title">
-                      {text("Strategic Advisory & Governance", "Консалтинг і стратегія")}
+                      {text("Strategic Advisory & Governance", "Шеринг досвіду та стратегія")}
                     </h2>
                   </label>
                   <label className="scope-checkbox-label" htmlFor="include-consulting">
@@ -586,7 +602,7 @@ function ScopePage() {
 
             {/* Consulting price */}
             <div className={`scope-price-row${consultingIncluded ? " scope-price-row--selected" : ""}`}>
-              <span className="scope-price-label">{text("Strategic Advisory", "Консалтинг")}</span>
+              <span className="scope-price-label">{text("Strategic Advisory", "Шеринг досвіду")}</span>
               <span className={`scope-price-value${consultingIncluded ? " scope-price-value--active" : ""}`}>
                 {text("Subject to separate quotation", "Окреме котирування")}
               </span>
