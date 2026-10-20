@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Source+Sans+3:wght@400;600&family=Spline+Sans+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  @keyframes bpsweep { 0%{background-position:0 0,0 0} 100%{background-position:120px 120px,120px 120px} }
+</style>
+</helmet>
+
+<x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1920" height="1080" hint-size="100%,100%">
+
+  <section data-label="Title" data-speaker-notes="Open on the key art. The blueprint world: a luxury fallout shelter rendered as an engineering schematic." style="position:relative;width:100%;height:100%;display:flex;background:#123c3a;font-family:'Source Sans 3',sans-serif;overflow:hidden;background-image:linear-gradient(rgba(200,150,70,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(200,150,70,.10) 1px,transparent 1px);background-size:60px 60px;">
+    <div style="position:absolute;inset:0;background:radial-gradient(circle at 30% 40%,rgba(40,28,12,0) 0%,rgba(14,12,8,.85) 90%);pointer-events:none;"></div>
+    <div style="position:absolute;top:48px;left:56px;display:flex;align-items:center;gap:14px;z-index:3;">
+      <span style="font-family:'Spline Sans Mono',monospace;font-size:13px;letter-spacing:3px;color:#E3A22E;border:1px solid #E3A22E;padding:6px 12px;">IDENTIFICATION</span>
+      <span style="height:1px;width:160px;background:repeating-linear-gradient(90deg,#E3A22E 0,#E3A22E 8px,transparent 8px,transparent 16px);"></span>
+    </div>
+    <div style="position:relative;z-index:2;flex:0 0 46%;display:flex;align-items:center;justify-content:center;padding:80px 0 80px 70px;">
+      <img src="uploads/бункер.jpg" alt="Billionaires' Bunker key art" style="height:78%;border:1px solid rgba(200,150,70,.4);box-shadow:0 30px 80px rgba(0,0,0,.55);"/>
+    </div>
+    <div style="position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 80px;">
+      <div style="font-family:'Spline Sans Mono',monospace;font-size:15px;letter-spacing:6px;color:#b98f55;margin-bottom:28px;">KEY ART · CONCEPT DECK</div>
+      <h1 style="font-family:'Archivo',sans-serif;font-weight:900;font-size:108px;line-height:.9;letter-spacing:-2px;color:#E3A22E;margin:0;text-transform:uppercase;">Billionaires'<br>Bunker</h1>
+      <div style="height:2px;width:120px;background:#E3A22E;margin:36px 0 28px;"></div>
+      <p style="font-family:'Source Sans 3',sans-serif;font-size:24px;line-height:1.5;color:#E6D8C4;max-width:520px;margin:0;">A visual language built from engineering blueprints — where ultra-wealth retreats underground and every comfort is drafted to spec.</p>
+    </div>
+    <div style="position:absolute;bottom:40px;right:56px;font-family:'Spline Sans Mono',monospace;font-size:12px;letter-spacing:2px;color:#b98f55;z-index:3;">SHEET 01 / GENERAL ARRANGEMENT</div>
+  </section>
+
+  <section data-label="Concept" data-speaker-notes="The one-line idea behind the design system." style="position:relative;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;background:#123c3a;font-family:'Source Sans 3',sans-serif;padding:0 140px;overflow:hidden;background-image:linear-gradient(rgba(200,150,70,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(200,150,70,.07) 1px,transparent 1px);background-size:80px 80px;">
+    <div style="font-family:'Spline Sans Mono',monospace;font-size:14px;letter-spacing:5px;color:#b98f55;margin-bottom:40px;">01 — THE CONCEPT</div>
+    <h2 style="font-family:'Archivo',sans-serif;font-weight:800;font-size:76px;line-height:1.04;letter-spacing:-1.5px;color:#F4ECDD;margin:0;max-width:1300px;">Treat the bunker like a <span style="color:#E3A22E;">technical drawing</span> — precise lines, callout labels, and vivid orange against petrol teal.</h2>
+    <p style="font-size:23px;line-height:1.6;color:#AE9C82;max-width:880px;margin:48px 0 0;">Every layout reads as a redacted schematic: measured grids, dotted leader lines, monospaced annotations and crosshair markers — the apparatus of safety, styled as luxury.</p>
+    <div style="position:absolute;top:60px;right:90px;width:160px;height:160px;border:1px dashed rgba(227,162,46,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+      <div style="width:1px;height:160px;background:rgba(227,162,46,.5);position:absolute;"></div>
+      <div style="height:1px;width:160px;background:rgba(227,162,46,.5);position:absolute;"></div>
+    </div>
+  </section>
+
+  <section data-label="Color" data-speaker-notes="The palette: petrol teal substrate with vivid orange as the complementary hero, brass + cream for luxury." style="position:relative;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;background:#123c3a;font-family:'Source Sans 3',sans-serif;padding:0 140px;overflow:hidden;">
+    <div style="font-family:'Spline Sans Mono',monospace;font-size:14px;letter-spacing:5px;color:#b98f55;margin-bottom:18px;">02 — COLOR</div>
+    <h2 style="font-family:'Archivo',sans-serif;font-weight:800;font-size:60px;letter-spacing:-1px;color:#F4ECDD;margin:0 0 56px;">Teal × orange — the bunker’s pair</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:18px;">
+      <div style="flex:2 1 320px;min-width:200px;height:280px;background:#123c3a;border:1px solid rgba(110,140,156,.4);display:flex;flex-direction:column;justify-content:flex-end;padding:26px;">
+        <div style="font-family:'Spline Sans Mono',monospace;color:#cfe3df;font-size:15px;letter-spacing:2px;font-weight:600;">PETROL TEAL</div>
+        <div style="font-family:'Spline Sans Mono',monospace;color:#cfe3df;opacity:.7;font-size:14px;">#123C3A</div>
+      </div>
+      <div style="flex:1 1 200px;min-width:200px;height:280px;background:#0e302e;border:none;display:flex;flex-direction:column;justify-content:flex-end;padding:26px;">
+        <div style="font-family:'Spline Sans Mono',monospace;color:#9fc0b9;font-size:15px;letter-spacing:2px;font-weight:600;">PANEL</div>
+        <div style="font-family:'Spline Sans Mono',monospace;color:#9fc0b9;opacity:.7;font-size:14px;">#0E302E</div>
+      </div>
+      <div style="flex:1 1 200px;min-width:200px;height:280px;background:#E3A22E;border:none;display:flex;flex-direction:column;justify-content:flex-end;padding:26px;">
+        <div style="font-family:'Spline Sans Mono',monospace;color:#123c3a;font-size:15px;letter-spacing:2px;font-weight:600;">BRASS</div>
+        <div style="font-family:'Spline Sans Mono',monospace;color:#123c3a;opacity:.7;font-size:14px;">#E3A22E</div>
+      </div>
+      <div style="flex:1 1 200px;min-width:200px;height:280px;background:#E8741E;border:none;display:flex;flex-direction:column;justify-content:flex-end;padding:26px;">
+        <div style="font-family:'Spline Sans Mono',monospace;color:#1f140a;font-size:15px;letter-spacing:2px;font-weight:600;">VIVID ORANGE</div>
+        <div style="font-family:'Spline Sans Mono',monospace;color:#1f140a;opacity:.7;font-size:14px;">#E8741E</div>
+      </div>
+      <div style="flex:1 1 200px;min-width:200px;height:280px;background:#6E8C9C;border:none;display:flex;flex-direction:column;justify-content:flex-end;padding:26px;">
+        <div style="font-family:'Spline Sans Mono',monospace;color:#10242b;font-size:15px;letter-spacing:2px;font-weight:600;">STEEL BLUE</div>
+        <div style="font-family:'Spline Sans Mono',monospace;color:#10242b;opacity:.7;font-size:14px;">#6E8C9C</div>
+      </div>
+      <div style="flex:1 1 200px;min-width:200px;height:280px;background:#EFE6D2;border:none;display:flex;flex-direction:column;justify-content:flex-end;padding:26px;">
+        <div style="font-family:'Spline Sans Mono',monospace;color:#3a342a;font-size:15px;letter-spacing:2px;font-weight:600;">CREAM</div>
+        <div style="font-family:'Spline Sans Mono',monospace;color:#3a342a;opacity:.7;font-size:14px;">#EFE6D2</div>
+      </div>
+      <div style="flex:1 1 200px;min-width:200px;height:280px;background:#E50914;border:none;display:flex;flex-direction:column;justify-content:flex-end;padding:26px;">
+        <div style="font-family:'Spline Sans Mono',monospace;color:#F4ECDD;font-size:15px;letter-spacing:2px;font-weight:600;">SIGNAL RED</div>
+        <div style="font-family:'Spline Sans Mono',monospace;color:#F4ECDD;opacity:.7;font-size:14px;">#E50914</div>
+      </div>
+    </div>
+    <p style="font-size:21px;color:#AE9C82;margin:44px 0 0;max-width:900px;">Petrol teal is the substrate; vivid orange is the complementary hero (jumpsuits against the walls). Brass carries luxury, cream the soft interiors, steel the cooler scenes — signal red stays rare, for alerts only.</p>
+  </section>
+
+  <section data-label="Type" data-speaker-notes="Type system: heavy display for the title, mono for annotation, humanist sans for reading." style="position:relative;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;background:#0e302e;font-family:'Source Sans 3',sans-serif;padding:0 140px;overflow:hidden;background-image:linear-gradient(rgba(244,236,221,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(244,236,221,.05) 1px,transparent 1px);background-size:64px 64px;">
+    <div style="font-family:'Spline Sans Mono',monospace;font-size:14px;letter-spacing:5px;color:#E3A22E;margin-bottom:40px;">03 — TYPOGRAPHY</div>
+    <div style="display:flex;flex-direction:column;gap:34px;">
+      <div style="border-left:2px solid #E3A22E;padding-left:28px;">
+        <div style="font-family:'Archivo',sans-serif;font-weight:900;font-size:64px;line-height:.95;color:#E3A22E;text-transform:uppercase;letter-spacing:-1px;">Archivo Black</div>
+        <div style="font-family:'Spline Sans Mono',monospace;font-size:14px;color:#b98f55;margin-top:8px;">DISPLAY · titles, key art</div>
+      </div>
+      <div style="border-left:2px solid rgba(244,236,221,.4);padding-left:28px;">
+        <div style="font-family:'Spline Sans Mono',monospace;font-weight:600;font-size:40px;color:#F4ECDD;letter-spacing:1px;">Spline Sans Mono — A-417 · LVL B2</div>
+        <div style="font-family:'Spline Sans Mono',monospace;font-size:14px;color:#b98f55;margin-top:8px;">ANNOTATION · labels, callouts, specs</div>
+      </div>
+      <div style="border-left:2px solid rgba(244,236,221,.4);padding-left:28px;">
+        <div style="font-family:'Source Sans 3',sans-serif;font-size:32px;color:#E6D8C4;line-height:1.5;max-width:900px;">Source Sans 3 carries body copy — clear, neutral, and legible against the dark plate.</div>
+        <div style="font-family:'Spline Sans Mono',monospace;font-size:14px;color:#b98f55;margin-top:10px;">BODY · reading text</div>
+      </div>
+    </div>
+  </section>
+
+  <section data-label="Motifs" data-speaker-notes="The recurring graphic devices that make any layout feel like a blueprint." style="position:relative;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;background:#123c3a;font-family:'Source Sans 3',sans-serif;padding:0 140px;overflow:hidden;">
+    <div style="font-family:'Spline Sans Mono',monospace;font-size:14px;letter-spacing:5px;color:#b98f55;margin-bottom:18px;">04 — GRAPHIC DEVICES</div>
+    <h2 style="font-family:'Archivo',sans-serif;font-weight:800;font-size:60px;letter-spacing:-1px;color:#F4ECDD;margin:0 0 56px;">The blueprint kit</h2>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px;">
+      <div style="border:1px solid rgba(200,150,70,.35);padding:34px;height:220px;display:flex;flex-direction:column;justify-content:space-between;">
+        <span style="height:1px;width:100%;background:repeating-linear-gradient(90deg,#E3A22E 0,#E3A22E 8px,transparent 8px,transparent 16px);"></span>
+        <div><div style="font-family:'Archivo',sans-serif;font-weight:800;font-size:26px;color:#E3A22E;">Leader lines</div><div style="font-family:'Spline Sans Mono',monospace;font-size:14px;color:#AE9C82;margin-top:6px;">dashed gold connectors to labels</div></div>
+      </div>
+      <div style="border:1px solid rgba(200,150,70,.35);padding:34px;height:220px;display:flex;flex-direction:column;justify-content:space-between;position:relative;">
+        <div style="width:54px;height:54px;border:1px dashed #E3A22E;border-radius:50%;position:relative;"><div style="position:absolute;top:50%;left:-12px;right:-12px;height:1px;background:#E3A22E;"></div><div style="position:absolute;left:50%;top:-12px;bottom:-12px;width:1px;background:#E3A22E;"></div></div>
+        <div><div style="font-family:'Archivo',sans-serif;font-weight:800;font-size:26px;color:#E3A22E;">Crosshairs</div><div style="font-family:'Spline Sans Mono',monospace;font-size:14px;color:#AE9C82;margin-top:6px;">registration & focus markers</div></div>
+      </div>
+      <div style="border:1px solid rgba(200,150,70,.35);padding:34px;height:220px;display:flex;flex-direction:column;justify-content:space-between;background-image:linear-gradient(rgba(200,150,70,.25) 1px,transparent 1px),linear-gradient(90deg,rgba(200,150,70,.25) 1px,transparent 1px);background-size:22px 22px;">
+        <div></div>
+        <div><div style="font-family:'Archivo',sans-serif;font-weight:800;font-size:26px;color:#E3A22E;">Measured grid</div><div style="font-family:'Spline Sans Mono',monospace;font-size:14px;color:#AE9C82;margin-top:6px;">everything snaps to the plate</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section data-label="Close" data-speaker-notes="Closing plate — reuse the title lockup as a sign-off." style="position:relative;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#123c3a;font-family:'Source Sans 3',sans-serif;overflow:hidden;background-image:linear-gradient(rgba(200,150,70,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(200,150,70,.10) 1px,transparent 1px);background-size:60px 60px;">
+    <div style="position:absolute;top:48px;left:56px;font-family:'Spline Sans Mono',monospace;font-size:12px;letter-spacing:2px;color:#b98f55;">SHEET 06 / END OF SET</div>
+    <span style="height:2px;width:90px;background:#E3A22E;margin-bottom:36px;"></span>
+    <h1 style="font-family:'Archivo',sans-serif;font-weight:900;font-size:96px;line-height:.9;letter-spacing:-2px;color:#E3A22E;margin:0;text-transform:uppercase;text-align:center;">Billionaires'<br>Bunker</h1>
+    <p style="font-family:'Spline Sans Mono',monospace;font-size:16px;letter-spacing:4px;color:#b98f55;margin-top:36px;">DRAFTED TO SPEC · PETROL TEAL × VIVID ORANGE · BRASS · CREAM</p>
+  </section>
+
+</x-import>
+</x-dc>
+</body>
+</html>

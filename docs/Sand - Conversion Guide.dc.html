@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Oswald:wght@500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    @keyframes cgGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  </style>
+</helmet>
+
+<div style="min-height:100vh;background:#E9DEC9;background-image:linear-gradient(rgba(18,60,58,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(18,60,58,.045) 1px,transparent 1px);background-size:26px 26px;font-family:'Source Sans 3',sans-serif;color:#13302C;padding:0 0 100px;">
+
+  <!-- header -->
+  <div style="max-width:980px;margin:0 auto;padding:64px 40px 0;">
+    <div style="font-family:'Spline Sans Mono',monospace;font-size:12px;letter-spacing:5px;color:#B5481A;text-transform:uppercase;">FEEL Again · MHPSS · AI HANDOFF</div>
+    <div style="display:inline-block;border:2.5px solid #123C3A;border-radius:14px;padding:16px 26px;margin-top:20px;background:rgba(242,234,219,.4);">
+      <div style="font-family:'Oswald',sans-serif;font-weight:700;font-size:52px;line-height:.92;color:#123C3A;text-transform:uppercase;letter-spacing:.5px;">Інструкція для AI<br>конверсії артефактів</div>
+    </div>
+    <p style="font-size:18px;line-height:1.6;color:rgba(19,48,44,.78);max-width:680px;margin:24px 0 0;">Передайте цей файл разом із завданням «приведи цей артефакт до дизайн-системи FEEL Again». Нижче — жорсткі правила палітри, семантики, типографіки та поверхонь. Дотримання обовʼязкове.</p>
+  </div>
+
+  <!-- 0 · prime directive -->
+  <div style="max-width:980px;margin:48px auto 0;padding:0 40px;">
+    <div style="background:#123C3A;border-radius:6px;padding:28px 32px;color:#F2EADB;position:relative;overflow:hidden;">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 50% 80% at 85% 50%,rgba(232,116,30,.18),transparent 60%);"></div>
+      <div style="font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:3px;color:#E8741E;position:relative;">PRIME DIRECTIVE</div>
+      <div style="font-family:'Oswald',sans-serif;font-weight:600;font-size:30px;color:#FCE9B0;margin-top:10px;text-transform:uppercase;position:relative;">Колір = сенс, не декор</div>
+      <p style="font-size:16px;line-height:1.6;color:rgba(242,234,219,.9);max-width:760px;margin:10px 0 0;position:relative;">Кожен колір несе значення. Ніколи не призначайте колір «бо гарно». Поверхня позначає <b>тип сторінки та роль користувача</b>; акцент позначає <b>стан</b> (спокій / тиск / тривога / головне). Шрифти й кнопки в усій екосистемі — <b>однакові</b>, щоб їх легко впізнавати; різниться лише поверхня.</p>
+    </div>
+  </div>
+
+  <!-- 1 · palette -->
+  <div style="max-width:980px;margin:56px auto 0;padding:0 40px;">
+    <div style="font-family:'Oswald',sans-serif;font-weight:600;font-size:13px;letter-spacing:4px;color:#B5481A;text-transform:uppercase;border-bottom:2px solid rgba(18,60,58,.18);padding-bottom:10px;">01 · Палітра та семантика</div>
+
+    <!-- TEAL -->
+    <div style="display:flex;gap:18px;margin-top:24px;align-items:flex-start;">
+      <div style="flex-shrink:0;width:160px;">
+        <div style="display:flex;border-radius:4px;overflow:hidden;height:54px;">
+          <div style="flex:1;background:#0B2422;"></div><div style="flex:1;background:#0E302E;"></div><div style="flex:1;background:#123C3A;"></div><div style="flex:1;background:#1C4F52;"></div><div style="flex:1;background:#2A6E78;"></div><div style="flex:1;background:#3E91A2;"></div>
+        </div>
+        <div style="font-family:'Spline Sans Mono',monospace;font-size:9px;color:rgba(19,48,44,.55);margin-top:5px;">0B2422 → 3E91A2</div>
+      </div>
+      <div style="flex:1;">
+        <div style="font-family:'Oswald',sans-serif;font-weight:600;font-size:20px;color:#1C4F52;text-transform:uppercase;">Teal / Petrol — спроможність</div>
+        <p style="font-size:14px;line-height:1.5;color:rgba(19,48,44,.75);margin:4px 0 0;">Ресурси, благородство, впевненість, сталість. Домінанта (~55%). Темна тема й сині поверхні. <b>Тон глибокий і приглушений</b> — як у Bunker; уникайте надто світлого блакитного.</p>
+      </div>
+    </div>
+
+    <!-- ORANGE -->
+    <div style="display:flex;gap:18px;margin-top:20px;align-items:flex-start;">
+      <div style="flex-shrink:0;width:160px;">
+        <div style="display:flex;border-radius:4px;overflow:hidden;height:54px;">
+          <div style="flex:1;background:#8A3410;"></div><div style="flex:1;background:#B5481A;"></div><div style="flex:1;background:#E8741E;"></div><div style="flex:1;background:#F08A2E;"></div>
+        </div>
+        <div style="font-family:'Spline Sans Mono',monospace;font-size:9px;color:rgba(19,48,44,.55);margin-top:5px;">8A3410 → F08A2E</div>
+      </div>
+      <div style="flex:1;">
+        <div style="font-family:'Oswald',sans-serif;font-weight:600;font-size:20px;color:#B5481A;text-transform:uppercase;">Orange — операційність</div>
+        <p style="font-size:14px;line-height:1.5;color:rgba(19,48,44,.75);margin:4px 0 0;">Рух, потреба, тиск, загроза, подвійність (~25%). Існує лише у звʼязці з teal — це його сенс. <b>Orange без teal не буває.</b></p>
+      </div>
+    </div>
+
+    <!-- GOLD -->
+    <div style="display:flex;gap:18px;margin-top:20px;align-items:flex-start;">
+      <div style="flex-shrink:0;width:160px;">
+        <div style="display:flex;border-radius:4px;overflow:hidden;height:54px;">
+          <div style="flex:1;background:#C8901A;"></div><div style="flex:1;background:#E3A22E;"></div><div style="flex:1;background:#EBB13A;"></div><div style="flex:1;background:#FCE9B0;"></div>
+        </div>
+        <div style="font-family:'Spline Sans Mono',monospace;font-size:9px;color:rgba(19,48,44,.55);margin-top:5px;">C8901A → FCE9B0</div>
+      </div>
+      <div style="flex:1;">
+        <div style="font-family:'Oswald',sans-serif;font-weight:600;font-size:20px;color:#C8901A;text-transform:uppercase;">Gold — головне</div>
+        <p style="font-size:14px;line-height:1.5;color:rgba(19,48,44,.75);margin:4px 0 0;">Колір, що <b>поглинає всі інші, навіть світло</b>. Тільки для головного: підсумок, ROI, очищення, статус-кво, фасад що відмітає тривоги. Теплий орендж-золотий (як заставка з пазлами). Рідко, але владно.</p>
+      </div>
+    </div>
+
+    <!-- YELLOW alert (NEW) -->
+    <div style="display:flex;gap:18px;margin-top:20px;align-items:flex-start;">
+      <div style="flex-shrink:0;width:160px;">
+        <div style="display:flex;border-radius:4px;overflow:hidden;height:54px;">
+          <div style="flex:1;background:#D9A92A;"></div><div style="flex:1;background:#E8C24A;"></div><div style="flex:1;background:#F2D55E;"></div>
+        </div>
+        <div style="font-family:'Spline Sans Mono',monospace;font-size:9px;color:rgba(19,48,44,.55);margin-top:5px;">тривога ≠ gold</div>
+      </div>
+      <div style="flex:1;">
+        <div style="font-family:'Oswald',sans-serif;font-weight:600;font-size:20px;color:#A8841A;text-transform:uppercase;">Yellow — тривога / відхилення</div>
+        <p style="font-size:14px;line-height:1.5;color:rgba(19,48,44,.75);margin:4px 0 0;">Чистий жовтий читається як <b>тривога й відхилення від плану</b> — НЕ як «головне». Не плутати з gold. Не призначати ролі/користувачу.</p>
+      </div>
+    </div>
+
+    <!-- RED + sand -->
+    <div style="display:flex;gap:18px;margin-top:20px;">
+      <div style="flex:1;display:flex;gap:12px;align-items:center;">
+        <div style="width:54px;height:54px;background:#E50914;border-radius:4px;flex-shrink:0;"></div>
+        <div><div style="font-family:'Oswald',sans-serif;font-weight:600;font-size:17px;color:#B00710;text-transform:uppercase;">Signal red</div><div style="font-size:13px;color:rgba(19,48,44,.7);">Критичні алерти. &lt;2%.</div></div>
+      </div>
+      <div style="flex:1;display:flex;gap:12px;align-items:center;">
+        <div style="width:54px;height:54px;background:linear-gradient(135deg,#C9B591,#F2EADB);border-radius:4px;flex-shrink:0;border:1px solid rgba(18,60,58,.1);"></div>
+        <div><div style="font-family:'Oswald',sans-serif;font-weight:600;font-size:17px;color:#8A7A4A;text-transform:uppercase;">Cream / sand</div><div style="font-size:13px;color:rgba(19,48,44,.7);">Світла тема — оповідь, спокій.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 · gradient meaning -->
+  <div style="max-width:980px;margin:56px auto 0;padding:0 40px;">
+    <div style="font-family:'Oswald',sans-serif;font-weight:600;font-size:13px;letter-spacing:4px;color:#B5481A;text-transform:uppercase;border-bottom:2px solid rgba(18,60,58,.18);padding-bottom:10px;">02 · Градієнт = потужність і стик</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px;">
+      <div style="background:#fff;border-radius:6px;padding:20px;box-shadow:0 2px 10px rgba(40,30,15,.08);">
+        <div style="height:40px;border-radius:4px;background:linear-gradient(90deg,#1C4F52,#E8741E);margin-bottom:12px;"></div>
+        <div style="font-family:'Oswald',sans-serif;font-weight:600;font-size:16px;color:#13302C;text-transform:uppercase;">Стик інтересів = пожежа</div>
+        <p style="font-size:13px;line-height:1.5;color:rgba(19,48,44,.7);margin:4px 0 0;">Teal→orange у лоб — розрив (GAP) між потребою і спроможністю. Привертає увагу.</p>
+      </div>
+      <div style="background:#fff;border-radius:6px;padding:20px;box-shadow:0 2px 10px rgba(40,30,15,.08);">
+        <div style="height:40px;border-radius:4px;background:linear-gradient(90deg,#1C4F52,#3E91A2,#C8901A);margin-bottom:12px;"></div>
+        <div style="font-family:'Oswald',sans-serif;font-weight:600;font-size:16px;color:#13302C;text-transform:uppercase;">Обʼєднання зусиль</div>
+        <p style="font-size:13px;line-height:1.5;color:rgba(19,48,44,.7);margin:4px 0 0;">Плавний перехід teal→gold — синергія, спільний результат. Використовувати свідомо.</p>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:14px 18px;background:rgba(229,9,20,.06);border-left:3px solid #E50914;border-radius:0 4px 4px 0;">
+      <p style="font-size:13px;line-height:1.5;color:rgba(19,48,44,.8);margin:0;"><b>Правило:</b> градієнт — інструмент сенсу (потужність / стик / обʼєднання), а не фон сторінки. Монокольорові частини діаграм лишаються монокольоровими; градієнт — лише там, де є що показати.</p>
+    </div>
+  </div>
+
+  <!-- 3 · type -->
+  <div style="max-width:980px;margin:56px auto 0;padding:0 40px;">
+    <div style="font-family:'Oswald',sans-serif;font-weight:600;font-size:13px;letter-spacing:4px;color:#B5481A;text-transform:uppercase;border-bottom:2px solid rgba(18,60,58,.18);padding-bottom:10px;">03 · Типографіка</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px;">
+      <div style="background:#fff;border-radius:6px;padding:22px;box-shadow:0 2px 10px rgba(40,30,15,.08);">
+        <div style="font-family:'Oswald',sans-serif;font-weight:700;font-size:36px;color:#123C3A;text-transform:uppercase;line-height:.95;">Заголовки</div>
+        <div style="font-family:'Spline Sans Mono',monospace;font-size:11px;color:rgba(19,48,44,.5);margin-top:8px;">OSWALD / ARCHIVO — подовжені, високі літери. Завжди в плашці з кантом, що починається з однієї літери й обходить текст.</div>
+      </div>
+      <div style="background:#fff;border-radius:6px;padding:22px;box-shadow:0 2px 10px rgba(40,30,15,.08);">
+        <div style="display:flex;gap:14px;align-items:baseline;">
+          <div style="font-family:'Archivo',sans-serif;font-weight:300;font-size:38px;color:#1C4F52;">3.9M</div>
+          <div style="font-family:'Spline Sans Mono',monospace;font-size:15px;color:#13302C;">A-417 · DLI-02</div>
+        </div>
+        <div style="font-family:'Spline Sans Mono',monospace;font-size:11px;color:rgba(19,48,44,.5);margin-top:8px;">ЦИФРИ — легке накреслення (300–400), не жирні. Лейбли — Spline Mono. Тіло — Source Sans 3 (≥16px, яскравість ≥90%).</div>
+      </div>
+    </div>
+    <ul style="font-size:14px;line-height:1.7;color:rgba(19,48,44,.8);margin:18px 0 0;padding-left:22px;">
+      <li>Колір заголовка прив'язаний до кольору поверхні (як у Bunker): на teal — gold/cream; на sand — petrol; на orange — cream.</li>
+      <li>Другорядні (не головні) заголовки можна робити двоколірними/градієнтними для виділення ефекту — головні назви ні.</li>
+      <li>Жодного рукописного шрифту. Жодних emoji поза прапором 🇺🇦 у футері.</li>
+    </ul>
+  </div>
+
+  <!-- 4 · surfaces -->
+  <div style="max-width:980px;margin:56px auto 0;padding:0 40px;">
+    <div style="font-family:'Oswald',sans-serif;font-weight:600;font-size:13px;letter-spacing:4px;color:#B5481A;text-transform:uppercase;border-bottom:2px solid rgba(18,60,58,.18);padding-bottom:10px;">04 · Поверхні та сітка</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px;">
+      <div style="border-radius:6px;overflow:hidden;box-shadow:0 2px 10px rgba(40,30,15,.08);">
+        <div style="height:70px;background:#E9DEC9;background-image:linear-gradient(rgba(18,60,58,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(18,60,58,.06) 1px,transparent 1px);background-size:18px 18px;"></div>
+        <div style="background:#fff;padding:14px;"><div style="font-family:'Oswald',sans-serif;font-weight:600;font-size:15px;color:#13302C;text-transform:uppercase;">Світла (default)</div><div style="font-size:12px;color:rgba(19,48,44,.65);">оповідні сторінки</div></div>
+      </div>
+      <div style="border-radius:6px;overflow:hidden;box-shadow:0 2px 10px rgba(40,30,15,.08);">
+        <div style="height:70px;background:#0E302E;"></div>
+        <div style="background:#fff;padding:14px;"><div style="font-family:'Oswald',sans-serif;font-weight:600;font-size:15px;color:#13302C;text-transform:uppercase;">Темна (immersive)</div><div style="font-size:12px;color:rgba(19,48,44,.65);">дашборд, кабінети</div></div>
+      </div>
+      <div style="border-radius:6px;overflow:hidden;box-shadow:0 2px 10px rgba(40,30,15,.08);">
+        <div style="height:70px;background:#0E302E;background-image:repeating-linear-gradient(45deg,rgba(232,116,30,.14) 0 1px,transparent 1px 20px),repeating-linear-gradient(-45deg,rgba(232,116,30,.14) 0 1px,transparent 1px 20px);"></div>
+        <div style="background:#fff;padding:14px;"><div style="font-family:'Oswald',sans-serif;font-weight:600;font-size:15px;color:#13302C;text-transform:uppercase;">Сітка / пазл</div><div style="font-size:12px;color:rgba(19,48,44,.65);">функціональні стор.</div></div>
+      </div>
+    </div>
+    <p style="font-size:14px;line-height:1.6;color:rgba(19,48,44,.8);margin:16px 0 0;">Сітка зʼявляється на функціональних сторінках (реєстрація → кабінети) — відрізняє «дію» від «оповіді». Насічка: прямокутна, ромбова (45°) або <b>пазлова</b> (ледь помітна) на сторінках, де ставиться діагноз / розкривається проблема — гуманітарно-клінічний пазл.</p>
+  </div>
+
+  <!-- 5 · conversion checklist -->
+  <div style="max-width:980px;margin:56px auto 0;padding:0 40px;">
+    <div style="font-family:'Oswald',sans-serif;font-weight:600;font-size:13px;letter-spacing:4px;color:#B5481A;text-transform:uppercase;border-bottom:2px solid rgba(18,60,58,.18);padding-bottom:10px;">05 · Чек-ліст конверсії артефакту</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px;">
+      <div>
+        <div style="font-family:'Oswald',sans-serif;font-weight:600;font-size:16px;color:#1C5050;text-transform:uppercase;margin-bottom:10px;">✔ Робити</div>
+        <ul style="font-size:14px;line-height:1.7;color:rgba(19,48,44,.82);margin:0;padding-left:20px;">
+          <li>Перемалювати поверхні під тип сторінки (світла оповідь / темна дія).</li>
+          <li>Призначити акценти за станом (teal спокій, orange тиск, red критично).</li>
+          <li>Кнопки й шрифти — <b>єдині</b> по всій екосистемі.</li>
+          <li>Заголовки — у плашках з кантом, колір під поверхню.</li>
+          <li>Цифри — легке накреслення; лейбли — mono.</li>
+          <li>Сітка на функціональних сторінках.</li>
+          <li>Логотипи партнерів — нормалізувати: один тон, рівна оптична висота, рівні відступи.</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-family:'Oswald',sans-serif;font-weight:600;font-size:16px;color:#B00710;text-transform:uppercase;margin-bottom:10px;">✘ Не робити</div>
+        <ul style="font-size:14px;line-height:1.7;color:rgba(19,48,44,.82);margin:0;padding-left:20px;">
+          <li>Не призначати колір кнопок/шрифтів за роллю — лише поверхню.</li>
+          <li>Не плутати yellow (тривога) з gold (головне).</li>
+          <li>Не лити градієнт як фон сторінки.</li>
+          <li>Не використовувати надто світлий блакитний.</li>
+          <li>Жодних крапок-у-крузі, дешевих іконок, рукописних шрифтів.</li>
+          <li>Не центрувати різнокольорові логотипи різного розміру.</li>
+          <li>Не зміщувати літери логотипа по горизонталі довільно.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- footer note -->
+  <div style="max-width:980px;margin:56px auto 0;padding:0 40px;">
+    <div style="background:#123C3A;border-radius:6px;padding:22px 28px;color:rgba(242,234,219,.85);font-family:'Spline Sans Mono',monospace;font-size:12px;line-height:1.7;">
+      Джерело правди: «FEEL Again - Design System Canvas.dc.html». Після конверсії — самоперевірка за критеріями вище; виправляти доти, доки все не відповідає. Лише тоді передавати на утвердження.
+    </div>
+  </div>
+
+</div>
+
+</x-dc>
+</body>
+</html>
