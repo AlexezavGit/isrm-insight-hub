@@ -29,6 +29,10 @@ import { CO_DESIGN_SESSIONS, PROPOSAL_FUNCTIONS } from "@/lib/proposal-data";
 
 const PartnerGraph = lazy(() => import("@/components/PartnerGraph"));
 
+// localStorage key for saving per-service draft forms. Each service's draft is
+// stored as a separate entry under this key, keyed by the service title.
+const SERVICE_DRAFTS_KEY = "isrm-service-drafts-v1";
+
 type Composer = "task" | "invite" | "alert" | null;
 type ServiceFrameField =
   "userRole" | "need" | "behavior" | "outcome" | "dataIntegration" | "acceptance";
@@ -689,7 +693,7 @@ function ServiceConfigurationFrame({
           <Button type="button" variant="ghost" onClick={onClose}>
             {uk ? "Закрити" : "Close"}
           </Button>
-          <Button type="submit">{uk ? "Зберегти локальну чернетку" : "Save local draft"}</Button>
+          <Button type="submit">{uk ? "Додати до сервісів" : "Add to services"}</Button>
         </div>
       </form>
     </div>,

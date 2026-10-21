@@ -141,7 +141,9 @@ export default function NetworkGraph({
   // Check if all 8 services have been revealed
   const allServicesRevealedReported = useRef(false);
   useEffect(() => {
-    if (serviceMode && revealedServices.size >= NETWORK_SERVICES.length && !allServicesRevealedReported.current) {
+    // Check if all 9 nodes revealed (8 services + hub:mvp at center)
+    // Per user spec: '9 кліків бо центральний теж рахується'
+    if (serviceMode && revealedServices.size >= NETWORK_SERVICES.length + 1 && !allServicesRevealedReported.current) {
       allServicesRevealedReported.current = true;
       onAllServicesRevealed?.();
     }
@@ -236,8 +238,14 @@ export default function NetworkGraph({
     const verified = experts.filter((e) => e.verified);
     const map = new Map<string, Expert[]>();
 
-    // Core advisory founders for central MVP
-    map.set("hub:mvp", verified.slice(0, 4));
+    // MVP at center is the foundational service — search/interaction tool that
+    // every member uses. Per user spec: 'MVP — це сервіс, який за ідеєю охоплює всіх.'
+    // MVP click illuminates the entire people graph at 30% brightness (different
+    // behavior from service clicks which attach specific expert pools). So MVP's
+    // own expert pool is irrelevant — its 'connection' is conceptual, not via a
+    // specific subset. We still keep ~12 in the pool for visual fallback in case
+    // the illuminate-all behaviour is rendered through the same node-emerge path.
+    map.set("hub:mvp", verified.slice(0, 12));
 
     NETWORK_SERVICES.forEach((svc, idx) => {
       const count = svc.assumedExpertCount || 6;
@@ -745,7 +753,7 @@ export default function NetworkGraph({
               const isCurrentlyConnected = !!n.lastConnectedSvc && revealedServices.has(n.lastConnectedSvc);
               // Detached = was connected, now unclicked from that service but shadow edges remain
               const isDetached = !isCurrentlyConnected && !!n.lastConnectedSvc && detachedServices.has(n.lastConnectedSvc);
-              const allEightActive = revealedServices.size >= 8;
+              const allEightActive = revealedServices.size >= 9;
 
               // Staggered emerge animation: alpha ramps from 0 → 1 over 600ms after revealedAt.
               // 'Tennis-ball floating up' metaphor — slow, smooth, per-node delay 220ms.

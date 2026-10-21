@@ -97,6 +97,13 @@ function NetworkPage() {
   const [mounted, setMounted] = useState(false);
   // Count of revealed service nodes — lifted from NetworkGraph via onRevealedServicesChange
   const [revealedServicesCount, setRevealedServicesCount] = useState(0);
+  // Reusable 'Under development' modal — replaces native alert() calls (which were white-themed).
+  // Dark theme + blur backdrop per user spec.
+  const [underDevAlert, setUnderDevAlert] = useState<{ open: boolean; message: string }>({
+    open: false,
+    message: "",
+  });
+  const showUnderDev = (msg: string) => setUnderDevAlert({ open: true, message: msg });
 
   // Group formation workflow states
   const [projectGroup, setProjectGroup] = useState<string[]>([]);
@@ -432,9 +439,9 @@ function NetworkPage() {
                   <Button
                     variant="outline"
                     onClick={() => {
-                      alert(
+                      showUnderDev(
                         locale === "uk"
-                          ? "Детальне досьє на стадії розробки (Under development)."
+                          ? "Детальне досьє на стадії розробки."
                           : "Detailed dossier is currently under development.",
                       );
                     }}
@@ -502,9 +509,9 @@ function NetworkPage() {
                                 className="h-7 w-7 text-primary hover:text-primary-foreground"
                                 title={locale === "uk" ? "Повне досьє" : "Full dossier"}
                                 onClick={() => {
-                                  alert(
+                                  showUnderDev(
                                     locale === "uk"
-                                      ? "Повне досьє на стадії розробки (Under development)."
+                                      ? "Повне досьє на стадії розробки."
                                       : "Full dossier is currently under development.",
                                   );
                                 }}
@@ -609,11 +616,11 @@ function NetworkPage() {
 
                   <div className="pt-2 flex flex-col gap-2">
                     <Button
-                      className="w-full bg-primary text-primary-foreground font-semibold py-2.5 shadow-md"
+                      className="w-full border border-brass/60 text-brass hover:bg-brass/10 bg-transparent font-semibold py-2.5 shadow-md"
                       onClick={() => {
-                        alert(
+                        showUnderDev(
                           locale === "uk"
-                            ? "Збереження проєкту на стадії розробки (Under development)."
+                            ? "Збереження проєкту на стадії розробки."
                             : "Project saving is currently under development.",
                         );
                       }}
@@ -779,31 +786,74 @@ function NetworkPage() {
         }}
       />
 
-      {/* ── ALL 8 SERVICES REVEALED INVITATION MODAL ── */}
+      {/* ── ALL 9 SERVICES REVEALED INVITATION MODAL (8 services + central MVP) ── */}
       {allRevealedModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 frosted-panel">
           <div className="w-full max-w-lg rounded-xl border border-[rgba(200,144,26,0.4)] bg-[#082422]/95 p-6 shadow-2xl frosted-panel">
             <p className="tech-label text-primary mb-1">
               {locale === "uk" ? "3 · Погодження та ліміти" : "3 · Scope & Limits"}
             </p>
             <h3 className="font-display text-xl font-semibold text-foreground">
-              {locale === "uk" ? "Ви сягнули загальної кількості пропонованих сервісів (8 з 8)" : "You reached the total number of proposed services (8 of 8)"}
+              {locale === "uk"
+                ? "Ви сягнули загальної кількості пропонованих сервісів (9 з 9 — 8 сервісів + MVP ядро)"
+                : "You reached the total number of proposed services (9 of 9 — 8 services + MVP core)"}
             </h3>
             <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
               {locale === "uk"
-                ? "Всі операції мережі взаємопов'язані. Ви можете повернутися до конфігурації або перейти до погодження обсягів робіт та бюджетів."
-                : "All 8 network operations are fully interconnected. You can return to configuration or proceed to agreeing on scope and budget limits."}
+                ? "Всі операції мережі взаємопов'язані. Щоб продовжити роботу з графом — закрийте це вікно і натисніть 'Конфігуратор' у верхньому меню."
+                : "All network operations are interconnected. To continue working with the graph — close this dialog and click 'Configurator' in the top menu."}
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
-              <Button asChild variant="outline">
+              <Button asChild variant="outline" className="border-brass/50 text-brass hover:bg-brass/10">
                 <Link to="/scope" onClick={() => setAllRevealedModalOpen(false)}>
                   {locale === "uk" ? "Перейти до погодження" : "Proceed to scope & limits"}
                 </Link>
               </Button>
-              <Button asChild className="bg-primary text-primary-foreground font-semibold shadow-lg">
-                <Link to="/scope" onClick={() => setAllRevealedModalOpen(false)}>
-                  {locale === "uk" ? "Додати / модифікувати сервіси · Погодження обсягів" : "Add / modify services · Scope & limits"}
-                </Link>
+              <Button asChild className="border border-brass/60 text-brass hover:bg-brass/10 bg-transparent shadow-md">
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setAllRevealedModalOpen(false);
+                    setCabinetOpen(true);
+                    setDependenciesMode(true);
+                  }}
+                >
+                  {locale === "uk" ? "Додати інший сервіс" : "Add another service"}
+                </a>
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* ── REUSABLE 'UNDER DEVELOPMENT' MODAL (dark theme + blur backdrop) ── */}
+      {underDevAlert.open && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 p-4 frosted-panel"
+          onClick={() => setUnderDevAlert({ open: false, message: "" })}
+        >
+          <div
+            className="w-full max-w-md rounded-xl border border-[rgba(200,144,26,0.45)] bg-[#082422]/95 p-6 shadow-2xl frosted-panel"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className="tech-label text-brass mb-2">
+              {locale === "uk" ? "Стан функції" : "Feature status"}
+            </p>
+            <h3 className="font-display text-lg font-semibold text-foreground leading-snug">
+              {underDevAlert.message}
+            </h3>
+            <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+              {locale === "uk"
+                ? "Цей елемент планується до розробки в наступних ітераціях. Слідкуйте за оновленнями."
+                : "This element is planned for development in subsequent iterations. Stay tuned for updates."}
+            </p>
+            <div className="mt-5 flex justify-end">
+              <Button
+                variant="outline"
+                className="border-brass/50 text-brass hover:bg-brass/10"
+                onClick={() => setUnderDevAlert({ open: false, message: "" })}
+              >
+                {locale === "uk" ? "Зрозуміло" : "Got it"}
               </Button>
             </div>
           </div>
