@@ -872,7 +872,7 @@ function NetworkPage() {
                 className="text-muted-foreground hover:text-foreground"
                 onClick={() => setUnderDevAlert({ open: false, message: "", context: "default" })}
               >
-                {locale === "uk" ? "До затвердження завдань" : "Until task approval"}
+                {locale === "uk" ? "до конфігуратора" : "to configurator"}
               </Button>
             </div>
           </div>

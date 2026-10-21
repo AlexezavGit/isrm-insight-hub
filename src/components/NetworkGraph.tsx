@@ -822,7 +822,7 @@ export default function NetworkGraph({
                 return;
               }
 
-              const r = isCurrentlyConnected ? 6.5 : 3;
+              const isFlashing = illuminateAll || revealedServices.size > 0; const r = isCurrentlyConnected ? 6.5 : (isFlashing ? 6.5 : 3);
 
               ctx.beginPath();
               ctx.arc(n.x, n.y, r, 0, 2 * Math.PI);
