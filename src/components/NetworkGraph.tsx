@@ -656,8 +656,8 @@ export default function NetworkGraph({
             // MVP can be toggled on/off freely (it's not subject to MVP-LOCK
             // because it doesn't attach experts — only adjusts global brightness).
             if (n.id === "hub:mvp") {
-              setIlluminateAll(!illuminateAll);
-              if(!illuminateAll){const v=experts.filter(e=>e.verified);const n=Date.now();setRevealedAt(p=>{const m=new Map(p);v.forEach((e,i)=>m.set(e.code,n+(i*13)%500));return m;});}
+              setIlluminateAll(true);
+              const v=experts.filter(e=>e.verified);const n=Date.now();setRevealedAt(p=>{const m=new Map(p);v.forEach((e,i)=>m.set(e.code,n+(i*13)%500));return m;});
               return;
             }
 
@@ -826,7 +826,8 @@ export default function NetworkGraph({
 
               ctx.beginPath();
               ctx.arc(n.x, n.y, r, 0, 2 * Math.PI);
-              ctx.fillStyle = isCurrentlyConnected ? colors.gold : (e?.verified ? colors.success : colors.muted);
+              const useGold = isCurrentlyConnected || (isFlashing && nodeAlpha > 0.2);
+              ctx.fillStyle = useGold ? colors.gold : (e?.verified ? colors.success : colors.muted);
               ctx.fill();
 
               // NO white border on nodes per user spec — прибрати білий кант на вузлах
