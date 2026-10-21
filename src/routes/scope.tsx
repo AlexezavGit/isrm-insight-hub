@@ -641,6 +641,7 @@ function ScopePage() {
             </p>
           </div>
         </article>
+        </div>
           </div>
 
 
@@ -854,6 +855,7 @@ function ScopePage() {
             {CLIENT_PRICING_STATUS[uk ? "uk" : "en"]}
           </p>
         </footer>
+        </aside>
       </div>
     </main>
   );
