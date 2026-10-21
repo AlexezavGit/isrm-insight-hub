@@ -576,6 +576,63 @@ function ScopePage() {
                 )}
               </div>
             </article>
+
+        {/* Section 05: Battery of questions for proposal preparation */}
+        <article className="scope-section scope-section--active" style={{ marginTop: '1rem' }}>
+          <div className="scope-section-header">
+            <span className="scope-section-number">05</span>
+            <div style={{ flex: 1 }}>
+              <h2 className="scope-section-title">
+                {text("Battery of Questions for Proposal Preparation", "Питання для підготовки пропозиції")}
+              </h2>
+              <span className="text-xs text-muted-foreground block mt-0.5">
+                {text("Questions that need answers during proposal creation and calculations", "Питання, на які потрібно мати відповідь під час створення пропозиції та розрахунків")}
+              </span>
+            </div>
+          </div>
+          <p className="scope-section-desc">
+            {text("Integration with ISRM site sections — what to connect with:", "Інтеграція з розділами сайту ISRM — з чим з'єднувати:")}
+          </p>
+          <ul className="scope-feature-list">
+            {(uk ? [
+              '<a href="https://www.theisrm.org/about-us/" target="_blank">About Us</a> — місія та контекст інституту',
+              '<a href="https://www.theisrm.org/membership/" target="_blank">Membership</a> — рівні та тарифи членства',
+              '<a href="https://www.theisrm.org/international-chapters/" target="_blank">International Chapters</a> — український чаптер особлива увага',
+              '<a href="https://www.theisrm.org/training-programmes/" target="_blank">Training Programmes</a> — навчальні програми',
+              '<a href="https://www.theisrm.org/ai-in-risk-management/" target="_blank">AI in Risk Management</a> — напрям ШІ у ризик-менеджменті',
+              '<a href="https://www.theisrm.org/strategic-risk-case-competition-2026/" target="_blank">Strategic Risk Case Competition 2026</a> — конкурс кейсів',
+              '<a href="https://www.theisrm.org/crisis-response-journal/" target="_blank">Crisis Response Journal</a> — журнал',
+              '<a href="https://www.theisrm.org/practical-mental-health-incident-management-for-non-specialists/" target="_blank">MHPSS Programme</a> — психологічна стійкість (UA chapter)',
+              '<a href="https://www.isrmcorp.com/corporate-partners/" target="_blank">Corporate Partners</a> — партнери',
+              '<a href="https://www.isrmcorp.com/academic-partners/" target="_blank">Academic Partners</a> — академічні партнери',
+            ] : [
+              '<a href="https://www.theisrm.org/about-us/" target="_blank">About Us</a> — mission and context',
+              '<a href="https://www.theisrm.org/membership/" target="_blank">Membership</a> — tiers and fees',
+              '<a href="https://www.theisrm.org/international-chapters/" target="_blank">International Chapters</a> — Ukrainian chapter special attention',
+              '<a href="https://www.theisrm.org/training-programmes/" target="_blank">Training Programmes</a> — educational programmes',
+              '<a href="https://www.theisrm.org/ai-in-risk-management/" target="_blank">AI in Risk Management</a> — AI in risk management',
+              '<a href="https://www.theisrm.org/strategic-risk-case-competition-2026/" target="_blank">Case Competition 2026</a>',
+              '<a href="https://www.theisrm.org/crisis-response-journal/" target="_blank">Crisis Response Journal</a>',
+              '<a href="https://www.theisrm.org/practical-mental-health-incident-management-for-non-specialists/" target="_blank">MHPSS Programme</a> (UA chapter)',
+              '<a href="https://www.isrmcorp.com/corporate-partners/" target="_blank">Corporate Partners</a>',
+              '<a href="https://www.isrmcorp.com/academic-partners/" target="_blank">Academic Partners</a>',
+            ]).map((item, i) => (
+              <li key={i} dangerouslySetInnerHTML={{ __html: item }} />
+            ))}
+          </ul>
+          <div style={{ marginTop: '0.75rem', padding: '0.7rem 0.85rem', borderRadius: '8px',
+            border: '1px solid rgba(220,80,60,0.4)',
+            background: 'color-mix(in oklab, var(--color-destructive) 6%, transparent)',
+            fontSize: '0.85rem', lineHeight: 1.55 }}>
+            <p style={{ margin: 0, fontWeight: 700, fontSize: '0.72rem', textTransform: 'uppercase',
+              letterSpacing: '0.08em', color: 'var(--color-destructive)' }}>
+              {text("Footnote — fallback option", "Сноска — запасний варіант")}
+            </p>
+            <p style={{ margin: '0.4rem 0 0', color: 'var(--color-foreground)', fontSize: '0.82rem' }}>
+              {text("If the standard stages do not fit, the client may take the existing tool as-is, upload their own expert and consultant data, and we determine the creation budget. AI OSINT integration can be added, or the client continues verifying and collecting data independently.", "Якщо стандартні етапи не підходять, замовник може взяти готовий інструмент як є, сам завантажити дані про експертів та консультантів, і ми визначимо бюджет створення. Можливе додавання інтеграції з AI OSINT, або самостійна перевірка та довантаження даних.")}
+            </p>
+          </div>
+        </article>
           </div>
 
           {/* RIGHT: price panel */}

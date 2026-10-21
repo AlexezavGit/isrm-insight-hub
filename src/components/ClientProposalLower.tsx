@@ -253,6 +253,52 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
       </section>
 
 
+
+      {/* ── Contributors block (not footer) ── */}
+      <section className="mt-12" aria-labelledby="contributors-heading">
+        <div className="partner-section-heading" style={{ margin: '3rem 0 2rem' }}>
+          <span>★</span>
+          <div>
+            <h2 id="contributors-heading">
+              {text("Contributors", "Команда")}
+            </h2>
+            <p>{text("Experts engaged for this proposal", "Експерти, залучені до підготовки пропозиції")}</p>
+          </div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
+          <div className="card-hanging" style={{ padding: '1.5rem' }}>
+            <h3 className="header-pressed" style={{ fontSize: '1rem', margin: '0 0 0.5rem' }}>
+              <a href="https://www.linkedin.com/in/alexeyzvolinskiy/" target="_blank" rel="noopener noreferrer"
+                 style={{ color: 'var(--brass, #c8901a)', textDecoration: 'none' }}>
+                {text("Alexey Zvolinskiy", "Олексій Зволинський")}
+              </a>
+            </h3>
+            <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: '#2d4a3e', margin: 0 }}>
+              {text("Organisational development in non-governmental organisations; human capital market restructuring.", "Організаційний розвиток у недержавних організаціях; реструктуризація ринків людського капіталу.")}
+            </p>
+          </div>
+          <div className="card-hanging" style={{ padding: '1.5rem' }}>
+            <h3 className="header-pressed" style={{ fontSize: '1rem', margin: '0 0 0.5rem' }}>
+              <a href="https://www.linkedin.com/in/arsen-nizelsky-59aba428/" target="_blank" rel="noopener noreferrer"
+                 style={{ color: 'var(--brass, #c8901a)', textDecoration: 'none' }}>
+                {text("Arsen Nizelsky", "Арсен Нізельський")}
+              </a>
+            </h3>
+            <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: '#2d4a3e', margin: 0 }}>
+              {text("Personal data protection and GDPR compliance.", "Захист персональних даних та відповідність GDPR.")}
+            </p>
+          </div>
+          <div className="card-hanging" style={{ padding: '1.5rem' }}>
+            <h3 className="header-pressed" style={{ fontSize: '1rem', margin: '0 0 0.5rem' }}>
+              {text("Technology & OSINT", "Технології та OSINT")}
+            </h3>
+            <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: '#2d4a3e', margin: 0 }}>
+              {text("Application architecture and framework design with integrative technology and OSINT specialists.", "Конструювання застосунку та фреймворку з експертами з інтегративних технологічних рішень та OSINT.")}
+            </p>
+          </div>
+        </div>
+      </section>
+
       <EntryFrame locale={locale} />
 
       {/* ── Footer ── */}
