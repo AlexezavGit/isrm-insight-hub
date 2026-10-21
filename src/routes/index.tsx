@@ -372,7 +372,7 @@ function NetworkPage() {
 
           <div className="mt-5 pt-2">
             <Button
-              className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold py-2.5 shadow-md"
+              className="w-full flex items-center justify-center gap-2 border border-brass/60 text-brass hover:bg-brass/10 bg-transparent font-semibold py-2.5 shadow-md"
               onClick={() => setSearchOpen(false)}
             >
               <Search className="h-4 w-4" />
@@ -423,7 +423,7 @@ function NetworkPage() {
               {/* Action Buttons for Mini-Dossier */}
               <div className="mt-5 flex flex-col gap-2.5">
                 <Button
-                  className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold shadow-md py-2.5"
+                  className="w-full flex items-center justify-center gap-2 border border-brass/60 text-brass hover:bg-brass/10 bg-transparent font-semibold shadow-md py-2.5"
                   onClick={() => {
                     if (!projectGroup.includes(selected.code)) {
                       setProjectGroup([...projectGroup, selected.code]);
@@ -536,7 +536,7 @@ function NetworkPage() {
 
                   <div className="pt-2 flex flex-col gap-2">
                     <Button
-                      className="w-full bg-primary text-primary-foreground font-semibold py-2.5 shadow-md"
+                      className="w-full border border-brass/60 text-brass hover:bg-brass/10 bg-transparent font-semibold py-2.5 shadow-md"
                       disabled={projectGroup.length === 0}
                       onClick={() => setProjectFormOpen(true)}
                     >

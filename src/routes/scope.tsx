@@ -724,7 +724,7 @@ function ScopePage() {
               <Button
                 onClick={handleConfirmAndSend}
                 aria-describedby={showError ? "budget-error" : undefined}
-                className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold min-h-[50px] h-auto py-3 px-4 whitespace-normal text-center leading-snug shadow-md"
+                className="w-full flex items-center justify-center gap-2 border border-brass/60 text-brass hover:bg-brass/10 bg-transparent font-semibold min-h-[50px] h-auto py-3 px-4 whitespace-normal text-center leading-snug shadow-md"
                 style={{ fontSize: "1rem", opacity: sendAttempted && !canSend ? 0.75 : 1 }}
               >
                 <Send className="h-4 w-4 shrink-0" />

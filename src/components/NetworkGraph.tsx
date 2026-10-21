@@ -91,6 +91,9 @@ export default function NetworkGraph({
   // Set of service node IDs that have sprouted their person nodes
   const [revealedServices, setRevealedServices] = useState<Set<string>>(() => new Set());
   const [currentActiveService, setCurrentActiveService] = useState<string | null>(null);
+  // MVP click illuminates ALL people nodes at 30% brightness (per user spec).
+  // Different from service clicks which attach specific expert pools.
+  const [illuminateAll, setIlluminateAll] = useState(false);
   // Services that were revealed but are now unclicked — their edges persist as
   // 'shadow' edges with a 'Втрачено: [label]' negative label, signalling what the
   // Institute would lose by toggling that service off. Cleared on re-click.
@@ -170,14 +173,19 @@ export default function NetworkGraph({
   }, [revealedServices, detachedServices, serviceMode]);
 
   // Color tokens aligned with FEEL Again / Bunker palette (Teal/Petrol, Gold, Orange, Cream)
+  // Plus brass for service labels (per user spec — different colors for different label types)
   const colors = useMemo(
     () => ({
       petrol: "#0b2422",
       petrolLight: "#3e91a2",
       gold: "#c8901a",
       goldLight: "#fce9b0",
+      brass: "#c8901a", // brass = gold (ISRM palette)
       orange: "#f08a2e",
-      fg: "#f8fafc",
+      fg: "#f8fafc", // cream white (for people labels)
+      peopleLabel: "#f8fafc", // people labels — cream
+      serviceLabel: "#c8901a", // service labels — brass
+      edgeLabel: "#fce9b0", // edge labels — gold-light (different from people + service)
       muted: "#94a3b8",
       border: "#334155",
       success: "#10b981",
@@ -239,13 +247,14 @@ export default function NetworkGraph({
     const map = new Map<string, Expert[]>();
 
     // MVP at center is the foundational service — search/interaction tool that
-    // every member uses. Per user spec: 'MVP — це сервіс, який за ідеєю охоплює всіх.'
-    // MVP click illuminates the entire people graph at 30% brightness (different
-    // behavior from service clicks which attach specific expert pools). So MVP's
-    // own expert pool is irrelevant — its 'connection' is conceptual, not via a
-    // specific subset. We still keep ~12 in the pool for visual fallback in case
-    // the illuminate-all behaviour is rendered through the same node-emerge path.
-    map.set("hub:mvp", verified.slice(0, 12));
+    // every member uses. Per user spec: 'MVP — це сервіс, який за ідеєю охоплює
+    // всіх' — MVP click ILLUMINATES THE ENTIRE people graph at 30% brightness,
+    // NOT attaching a specific subset. The 'illuminateAll' state is tracked
+    // separately and rendered in nodeCanvasObject (people dim up from ambient
+    // 0.18 to ~0.50 alpha). So MVP has NO entry in serviceExpertMap — its
+    // behavior is special-cased in onNodeClick + render.
+    // (Setting empty array as sentinel so the 'hub:mvp' id is recognized.)
+    map.set("hub:mvp", []);
 
     NETWORK_SERVICES.forEach((svc, idx) => {
       const count = svc.assumedExpertCount || 6;
@@ -606,8 +615,9 @@ export default function NetworkGraph({
           ctx.strokeStyle = isLost ? "rgba(220, 80, 60, 0.75)" : "rgba(200, 144, 26, 0.75)";
           ctx.stroke();
 
-          // High-contrast text: white for connected, warm red-tinted for lost
-          ctx.fillStyle = isLost ? "#fbc0b0" : "#ffffff";
+          // Edge label text — different color from people + service labels per user spec.
+          // Active edges: gold-light (warm). Lost edges: warm red-tinted (already different).
+          ctx.fillStyle = isLost ? "#fbc0b0" : colors.edgeLabel;
           ctx.fillText(l.label, mx, my);
           ctx.restore();
         }}
@@ -617,51 +627,13 @@ export default function NetworkGraph({
           if (!n) return;
 
           if (serviceMode) {
-            // Central MVP node: MVP LOCK — once revealed, cannot be unclicked
-            // until ALL 8 surrounding services are unclicked. This enforces the
-            // 'foundation' metaphor: the core stands while services stand around it.
+            // Central MVP node: ILLUMINATE ALL people nodes at 30% brightness.
+            // Per user spec: 'MVP — це сервіс, який за ідеєю охоплює всіх' — MVP
+            // doesn't attach a specific subset; it illuminates the entire graph.
+            // MVP can be toggled on/off freely (it's not subject to MVP-LOCK
+            // because it doesn't attach experts — only adjusts global brightness).
             if (n.id === "hub:mvp") {
-              if (revealedServices.has("hub:mvp")) {
-                const anyServiceActive = NETWORK_SERVICES.some((s) => revealedServices.has(s.id));
-                if (anyServiceActive) {
-                  // Block unclick — MVP is the foundation, can't be removed while services stand.
-                  // No alert (per user preference 'no parrot-style notifications'); the click just no-ops.
-                  return;
-                }
-                // All services unclicked — safe to unclick MVP too, also clear any detached shadow edges from MVP
-                setRevealedServices((prev) => {
-                  const next = new Set(prev);
-                  next.delete("hub:mvp");
-                  return next;
-                });
-                setDetachedServices((prev) => {
-                  const next = new Set(prev);
-                  next.delete("hub:mvp");
-                  return next;
-                });
-              } else {
-                // Reveal MVP — attach the 4 core advisory founders with staggered timestamps
-                const now = Date.now();
-                const coreExperts = serviceExpertMap.get("hub:mvp") ?? [];
-                setRevealedServices((prev) => {
-                  const next = new Set(prev);
-                  next.add("hub:mvp");
-                  return next;
-                });
-                // If MVP was previously detached (shadow edges), clear those — gold edges return
-                setDetachedServices((prev) => {
-                  const next = new Set(prev);
-                  next.delete("hub:mvp");
-                  return next;
-                });
-                setRevealedAt((prev) => {
-                  const next = new Map(prev);
-                  coreExperts.forEach((exp, idx) => {
-                    next.set(exp.code, now + idx * 220);
-                  });
-                  return next;
-                });
-              }
+              setIlluminateAll((prev) => !prev);
               return;
             }
 
@@ -775,15 +747,15 @@ export default function NetworkGraph({
               //  - isCurrentlyConnected: full opacity, but staggered emerge animation
               //  - isDetached: alpha 0 (node invisible, only shadow edge visible)
               //  - ambient (not connected nor detached): dim underlay at 0.18 alpha
-              //    (was 0.12 — increased slightly so the living network is more visible
-              //    as an underlay without obstructing the services ring view per user spec)
+              //  - illuminateAll (MVP clicked): ambient people brighten to 0.50 (30% boost)
+              //    per user spec — MVP illuminates the entire people graph at 30% brightness
               let nodeAlpha: number;
               if (isCurrentlyConnected) {
                 nodeAlpha = emergeAlpha * (allEightActive ? 0.75 : 1);
               } else if (isDetached) {
                 nodeAlpha = 0; // invisible — only shadow edge remains
               } else {
-                nodeAlpha = 0.18; // ambient underlay
+                nodeAlpha = illuminateAll ? 0.5 : 0.18; // ambient underlay OR MVP-illuminated
               }
               ctx.globalAlpha = nodeAlpha;
 
@@ -799,16 +771,20 @@ export default function NetworkGraph({
               ctx.fillStyle = isCurrentlyConnected ? colors.gold : (e?.verified ? colors.success : colors.muted);
               ctx.fill();
 
-              // Crisp border
-              ctx.lineWidth = (isCurrentlyConnected ? 2 : 1) / scale;
-              ctx.strokeStyle = isCurrentlyConnected ? "#ffffff" : "rgba(255,255,255,0.3)";
-              ctx.stroke();
+              // NO white border on nodes per user spec — прибрати білий кант на вузлах
+              // Only subtle border for connected nodes (brass color, not white)
+              if (isCurrentlyConnected) {
+                ctx.lineWidth = 1.5 / scale;
+                ctx.strokeStyle = colors.gold; // brass border instead of white
+                ctx.stroke();
+              }
 
-              // If connected or active/hover: show expert name label on the OUTSIDE
-              if ((isCurrentlyConnected || n.id === active) && e) {
+              // If connected or active/hover OR illuminateAll: show expert name label on the OUTSIDE
+              // People label color: cream (not white), font: Space Grotesk 600, smaller size
+              if ((isCurrentlyConnected || n.id === active || illuminateAll) && e) {
                 const fSize = Math.max(10.5 / scale, 6);
-                ctx.font = `600 ${fSize}px Space Grotesk, sans-serif`;
-                ctx.fillStyle = colors.fg;
+                ctx.font = `500 ${fSize}px Space Grotesk, sans-serif`;
+                ctx.fillStyle = colors.fg; // cream color (was already #f8fafc)
                 ctx.textAlign = "center";
                 ctx.fillText(e.displayName, n.x, n.y + r + 10 / scale);
               }
@@ -861,13 +837,15 @@ export default function NetworkGraph({
               ctx.stroke();
             }
 
-            // Labels for service and MVP nodes
+            // Labels for service and MVP nodes — service labels: brass color, larger font
+            // Different color from people labels (cream) and edge labels (white-on-dark)
             const labelSize = isHub
-              ? Math.max(12 / scale, 7.5)
-              : Math.max(10.5 / scale, 6.5);
+              ? Math.max(13 / scale, 8.5)  // MVP: largest
+              : Math.max(11.5 / scale, 7.5); // Services: medium
 
+            // Service labels: Oswald-like weight 700, brass color (NOT white)
             ctx.font = `700 ${labelSize}px Space Grotesk, sans-serif`;
-            ctx.fillStyle = isActive ? colors.goldLight : colors.fg;
+            ctx.fillStyle = isActive ? colors.goldLight : colors.brass || colors.gold;
             ctx.textAlign = "center";
             ctx.fillText(
               n.label.length > 36 ? n.label.slice(0, 34) + "…" : n.label,
@@ -890,10 +868,8 @@ export default function NetworkGraph({
             ctx.fillStyle = e?.verified ? colors.success : colors.muted;
             ctx.fill();
 
-            ctx.lineWidth = 1.5 / scale;
-            ctx.strokeStyle = "#ffffff";
-            ctx.stroke();
-
+            // NO white border on nodes (per user spec — прибрати білий кант на вузлах)
+            // Only brass border on focus/hover
             if (n.id === focus || (e && e.code === focus)) {
               ctx.lineWidth = 2.5 / scale;
               ctx.strokeStyle = colors.gold;

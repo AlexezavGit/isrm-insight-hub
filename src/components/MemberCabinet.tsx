@@ -237,7 +237,7 @@ export function MemberCabinet({
             <div className="pt-2 flex flex-col gap-2">
               <Button
                 variant="default"
-                className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold shadow-md"
+                className="w-full flex items-center justify-center gap-2 border border-brass/60 text-brass hover:bg-brass/10 bg-transparent font-semibold shadow-md"
                 onClick={() => {
                   onOpenDependencies(service.id);
                   setDetailsOpen(false);
