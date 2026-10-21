@@ -87,6 +87,9 @@ export default function NetworkGraph({
   const wrap = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ w: 800, h: 600 });
   const [hover, setHover] = useState<string | null>(null);
+  // Hovered link (edge) for showing edge label only on hover per user spec:
+  // 'написи имен та ребра з'являлися тільки при наведенні'
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
 
   // Set of service node IDs that have sprouted their person nodes
   const [revealedServices, setRevealedServices] = useState<Set<string>>(() => new Set());
@@ -141,16 +144,22 @@ export default function NetworkGraph({
     }
   }, [activeServiceId]);
 
-  // Check if all 8 services have been revealed
+  // Check if all 9 nodes revealed (8 services + MVP illuminateAll)
+  // Per user spec: '9 кліків бо центральний теж рахується'
+  // MVP click toggles 'illuminateAll' (not added to revealedServices).
+  // So modal triggers when 8 services are revealed AND illuminateAll is true.
   const allServicesRevealedReported = useRef(false);
   useEffect(() => {
-    // Check if all 9 nodes revealed (8 services + hub:mvp at center)
-    // Per user spec: '9 кліків бо центральний теж рахується'
-    if (serviceMode && revealedServices.size >= NETWORK_SERVICES.length + 1 && !allServicesRevealedReported.current) {
+    if (
+      serviceMode &&
+      revealedServices.size >= NETWORK_SERVICES.length &&
+      illuminateAll &&
+      !allServicesRevealedReported.current
+    ) {
       allServicesRevealedReported.current = true;
       onAllServicesRevealed?.();
     }
-  }, [revealedServices.size, serviceMode, onAllServicesRevealed]);
+  }, [revealedServices.size, serviceMode, illuminateAll, onAllServicesRevealed]);
 
   // Lift revealedServices count up to parent (for dashboard display)
   useEffect(() => {
@@ -577,6 +586,13 @@ export default function NetworkGraph({
           return undefined;
         }}
         linkCanvasObject={(l: any, ctx, scale) => {
+          // Per user spec: 'написи имен та ребра з'являлися тільки при наведенні'
+          // Edge labels only show on hover. Hidden otherwise — reduces visual mess.
+          const srcId = typeof l.source === "object" ? l.source.id : l.source;
+          const tgtId = typeof l.target === "object" ? l.target.id : l.target;
+          const linkKey = `${srcId}->${tgtId}`;
+          if (hoveredLink !== linkKey) return;
+
           if (!l.label) return;
           const source = l.source as GNode;
           const target = l.target as GNode;
@@ -585,14 +601,15 @@ export default function NetworkGraph({
           const my = (source.y + target.y) / 2;
 
           ctx.save();
-          const fontSize = Math.max(9.5 / scale, 6);
+          // Smaller font for hover-only labels
+          const fontSize = Math.max(11 / scale, 7);
           ctx.font = `600 ${fontSize}px Space Grotesk, system-ui, sans-serif`;
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
 
           const textWidth = ctx.measureText(l.label).width;
-          const px = 7 / scale;
-          const py = 3.5 / scale;
+          const px = 8 / scale;
+          const py = 4 / scale;
           const w = textWidth + px * 2;
           const h = fontSize + py * 2;
           const x = mx - w / 2;
@@ -622,6 +639,16 @@ export default function NetworkGraph({
           ctx.restore();
         }}
         linkCanvasObjectMode={() => "after"}
+        onLinkHover={(link: any) => {
+          // Track hovered link for showing edge label only on hover per user spec
+          if (!link) {
+            setHoveredLink(null);
+            return;
+          }
+          const srcId = typeof link.source === "object" ? link.source.id : link.source;
+          const tgtId = typeof link.target === "object" ? link.target.id : link.target;
+          setHoveredLink(`${srcId}->${tgtId}`);
+        }}
         onNodeHover={(n: any) => setHover(n?.id ?? null)}
         onNodeClick={(n: any) => {
           if (!n) return;
@@ -727,35 +754,69 @@ export default function NetworkGraph({
               const isDetached = !isCurrentlyConnected && !!n.lastConnectedSvc && detachedServices.has(n.lastConnectedSvc);
               const allEightActive = revealedServices.size >= 9;
 
-              // Staggered emerge animation: alpha ramps from 0 → 1 over 600ms after revealedAt.
-              // 'Tennis-ball floating up' metaphor — slow, smooth, per-node delay 220ms.
+              // Flash illumination effect:
+              // When illuminateAll (MVP clicked) OR service is selected, the WHOLE people graph
+              // does a flash animation: ambient (30%) → 100% → settles at 50% (per user spec).
+              // Multiple sequences fire simultaneously across the field.
+              // After flash, names + edge labels only show on hover.
               const revealTime = e ? revealedAt.get(e.code) : undefined;
               const now = Date.now();
+
+              // Flash phase: 0 = pre-flash (still ambient), 1 = peak flash, 2 = settled (50%)
+              let flashAlpha = 1;
+              let isFlashing = false;
+              if (revealTime !== undefined) {
+                const elapsed = now - revealTime;
+                if (elapsed < 0) {
+                  flashAlpha = 0; // not yet (staggered delay)
+                  isFlashing = false;
+                } else if (elapsed < 300) {
+                  // Phase 1: ambient → 100% (rapid rise)
+                  const t = elapsed / 300;
+                  flashAlpha = t;
+                  isFlashing = true;
+                } else if (elapsed < 900) {
+                  // Phase 2: 100% → 50% (settle)
+                  const t = (elapsed - 300) / 600;
+                  flashAlpha = 1 - 0.5 * t; // 1.0 → 0.5
+                  isFlashing = true;
+                } else {
+                  // Phase 3: settled at 50%
+                  flashAlpha = 0.5;
+                  isFlashing = false;
+                }
+              }
+
+              // Staggered emerge for directly-connected experts (service clicks):
+              // These use the original emerge logic (ramp 0 → 1 over 600ms)
               let emergeAlpha = 1;
               if (revealTime !== undefined) {
                 const elapsed = now - revealTime;
                 if (elapsed < 0) {
-                  emergeAlpha = 0; // not yet appeared (waiting for staggered delay)
+                  emergeAlpha = 0;
                 } else if (elapsed < 600) {
-                  // Easing: ease-out cubic, alpha 0 → 1
                   const t = elapsed / 600;
                   emergeAlpha = 1 - Math.pow(1 - t, 3);
                 }
               }
 
-              // Visibility logic:
-              //  - isCurrentlyConnected: full opacity, but staggered emerge animation
-              //  - isDetached: alpha 0 (node invisible, only shadow edge visible)
-              //  - ambient (not connected nor detached): dim underlay at 0.18 alpha
-              //  - illuminateAll (MVP clicked): ambient people brighten to 0.50 (30% boost)
-              //    per user spec — MVP illuminates the entire people graph at 30% brightness
+              // Visibility logic with flash effect:
+              //  - isCurrentlyConnected: full opacity with staggered emerge animation
+              //  - isDetached: alpha 0 (node invisible, only shadow edge)
+              //  - ambient + illuminateAll: flash from 0.18 → 1.0 → 0.5 (MVP effect)
+              //  - ambient + service selected: flash from 0.18 → 1.0 → 0.5 (any service click)
+              //  - ambient + no selection: dim underlay at 0.18
               let nodeAlpha: number;
               if (isCurrentlyConnected) {
                 nodeAlpha = emergeAlpha * (allEightActive ? 0.75 : 1);
               } else if (isDetached) {
-                nodeAlpha = 0; // invisible — only shadow edge remains
+                nodeAlpha = 0;
+              } else if (illuminateAll || revealedServices.size > 0) {
+                // Flash effect: ambient (0.18) → peak (1.0) → settled (0.5)
+                // For ambient people when MVP illuminated OR any service selected
+                nodeAlpha = revealTime !== undefined ? 0.18 * flashAlpha : 0.5;
               } else {
-                nodeAlpha = illuminateAll ? 0.5 : 0.18; // ambient underlay OR MVP-illuminated
+                nodeAlpha = 0.18;
               }
               ctx.globalAlpha = nodeAlpha;
 
@@ -772,19 +833,20 @@ export default function NetworkGraph({
               ctx.fill();
 
               // NO white border on nodes per user spec — прибрати білий кант на вузлах
-              // Only subtle border for connected nodes (brass color, not white)
+              // Only subtle brass border for connected nodes
               if (isCurrentlyConnected) {
                 ctx.lineWidth = 1.5 / scale;
-                ctx.strokeStyle = colors.gold; // brass border instead of white
+                ctx.strokeStyle = colors.gold;
                 ctx.stroke();
               }
 
-              // If connected or active/hover OR illuminateAll: show expert name label on the OUTSIDE
-              // People label color: cream (not white), font: Space Grotesk 600, smaller size
-              if ((isCurrentlyConnected || n.id === active || illuminateAll) && e) {
+              // Per user spec: 'Підписи на нодах людей у стані сервіс графу не повинні
+              // з'являтися тільки самі ноди' + 'написи имен та ребра з'являлися тільки
+              // при наведенні'. So people labels in serviceMode ONLY show on hover.
+              if (n.id === active && e) {
                 const fSize = Math.max(10.5 / scale, 6);
                 ctx.font = `500 ${fSize}px Space Grotesk, sans-serif`;
-                ctx.fillStyle = colors.fg; // cream color (was already #f8fafc)
+                ctx.fillStyle = colors.fg;
                 ctx.textAlign = "center";
                 ctx.fillText(e.displayName, n.x, n.y + r + 10 / scale);
               }

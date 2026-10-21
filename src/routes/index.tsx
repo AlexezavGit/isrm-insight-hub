@@ -467,7 +467,7 @@ function NetworkPage() {
             <div className="space-y-4">
               <div className="border-b border-border pb-3">
                 <p className="tech-label text-primary">
-                  {locale === "uk" ? "Проєктна група" : "Project Group"} · {projectGroup.length} {locale === "uk" ? "експертів" : "experts"}
+                  {locale === "uk" ? "Відібрана група" : "Selected Group"} · {projectGroup.length} {locale === "uk" ? "експертів" : "experts"}
                 </p>
                 <h2 className="font-display text-xl font-semibold text-foreground mt-0.5">
                   {projectFormOpen
@@ -795,8 +795,8 @@ function NetworkPage() {
             </p>
             <h3 className="font-display text-xl font-semibold text-foreground">
               {locale === "uk"
-                ? "Ви сягнули загальної кількості пропонованих сервісів (9 з 9 — 8 сервісів + MVP ядро)"
-                : "You reached the total number of proposed services (9 of 9 — 8 services + MVP core)"}
+                ? "Ви сягнули загальної кількості пропонованих операцій (8 сервісів + MVP)"
+                : "You reached the total number of proposed operations (8 services + MVP)"}
             </h3>
             <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
               {locale === "uk"

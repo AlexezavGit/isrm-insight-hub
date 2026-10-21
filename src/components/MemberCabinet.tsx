@@ -117,6 +117,11 @@ export function MemberCabinet({
   const [active, setActive] = useState(0);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [serviceFrameOpen, setServiceFrameOpen] = useState(false);
+  // When serviceFrameOpen triggered via prominent 'Describe service' block,
+  // the dialog title shows 'Шаблон опису' (Template description) instead of
+  // the preset service name like 'MVP Застосунок'. Per user spec:
+  // 'у вікні назва Шаблон опису а не MVP і це буде єдиним шаблоном'.
+  const [serviceFrameCustom, setServiceFrameCustom] = useState(false);
 
   const copy =
     locale === "en"
@@ -164,15 +169,18 @@ export function MemberCabinet({
 
         {/* Describe service or functionality — primary CTA, high contrast (per user spec) */}
         <button
-          onClick={() => setServiceFrameOpen(true)}
+          onClick={() => {
+            setServiceFrameCustom(true);
+            setServiceFrameOpen(true);
+          }}
           className="group mt-4 flex items-start gap-3 rounded-lg border-2 border-brass bg-brass/10 p-4 text-left transition-all cursor-pointer hover:bg-brass/20 hover:border-brass/80 shadow-md"
         >
           <FileText className="h-5 w-5 text-brass shrink-0 mt-0.5" />
           <div className="min-w-0 flex-1">
-            <h3 className="font-display text-sm font-bold text-brass group-hover:text-brass/90 transition-colors">
+            <h3 className="font-display text-sm font-bold text-foreground group-hover:text-foreground/90 transition-colors">
               {locale === "uk" ? "Описати сервіс або функціональність" : "Describe service or functionality"}
             </h3>
-            <p className="text-xs text-brass/80 mt-1 line-clamp-2">
+            <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
               {locale === "uk"
                 ? "Додайте власний опис сервісу або процесу для вашої організації"
                 : "Add your own description of a service or process for your organisation"}
@@ -287,12 +295,34 @@ export function MemberCabinet({
 
       {serviceFrameOpen && (
         <ServiceConfigurationFrame
-          serviceTitle={service.title[language]}
-          purpose={service.purpose[language]}
-          role={service.role[language]}
+          // When opened via prominent 'Describe service' block (serviceFrameCustom=true),
+          // title is 'Шаблон опису' / 'Template description' — NOT a preset service name.
+          // Per user spec: 'у вікні назва Шаблон опису а не MVP і це буде єдиним шаблоном'.
+          serviceTitle={
+            serviceFrameCustom
+              ? (locale === "uk" ? "Шаблон опису" : "Template description")
+              : service.title[language]
+          }
+          purpose={
+            serviceFrameCustom
+              ? (locale === "uk"
+                  ? "Шаблон для опису функціональності, сервісу або супроводжуваного процесу"
+                  : "Template for describing functionality, service, or accompanying process")
+              : service.purpose[language]
+          }
+          role={
+            serviceFrameCustom
+              ? (locale === "uk"
+                  ? "Опишіть етапи процесу та участь за потреби"
+                  : "Describe process steps and participation as needed")
+              : service.role[language]
+          }
           questions={{ need: "", behavior: "" }}
           locale={locale}
-          onClose={() => setServiceFrameOpen(false)}
+          onClose={() => {
+            setServiceFrameOpen(false);
+            setServiceFrameCustom(false);
+          }}
         />
       )}
     </>
