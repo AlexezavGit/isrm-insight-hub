@@ -634,7 +634,8 @@ function NetworkPage() {
         </aside>
       )}
 
-      {/* ── GRAPH LEGEND BUTTON & FLOATING CARD ── */}
+      {/* ── GRAPH LEGEND BUTTON & FLOATING CARD ── ─ hidden when search/cabinet panels are open (otherwise overlaps) ─ */}
+      {!searchOpen && !cabinetOpen && (
       <div className="fixed bottom-24 left-4 z-40 hidden sm:block">
         <button
           onClick={() => setLegendOpen(!legendOpen)}
@@ -698,6 +699,7 @@ function NetworkPage() {
           </div>
         )}
       </div>
+      )}
 
       {/* ── BOTTOM DOCK: 4 Steps (0 Briefing, 1 Search, 2 Configure, 3 Scope & Limits) ── */}
       <nav className="fixed bottom-[calc(env(safe-area-inset-bottom)+0.75rem)] left-1/2 z-50 flex max-w-[calc(100vw-1rem)] -translate-x-1/2 items-center gap-1 rounded border border-border bg-panel/95 p-1.5 shadow-2xl frosted-panel">

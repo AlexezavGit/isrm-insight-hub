@@ -97,26 +97,38 @@ export default function NetworkGraph({
   const [detachedServices, setDetachedServices] = useState<Set<string>>(() => new Set());
   // Per-expert reveal timestamps for staggered emerge animation (200ms between siblings)
   const [revealedAt, setRevealedAt] = useState<Map<string, number>>(() => new Map());
-  // Animation tick — bumped every 100ms via interval so nodeCanvasObject can read
-  // fresh Date.now() deltas and animate globalAlpha + position smoothly.
+  // Animation tick — bumped every 80ms via interval ONLY in serviceMode, so
+  // nodeCanvasObject can read fresh Date.now() deltas and animate globalAlpha.
+  // IMPORTANT: animTick is NOT in the `data` useMemo deps — that would recompute
+  // nodes every 80ms, recreating node objects, restarting force simulation →
+  // nodes 'fly around like flies' bug. The animation tick triggers React
+  // re-render (which triggers canvas re-render) WITHOUT touching graph data.
   const [animTick, setAnimTick] = useState(0);
 
   useEffect(() => {
+    // Only run animation loop when serviceMode is active (staggered emerge)
+    if (!serviceMode) return;
     let active = true;
     let stopped = false;
     let raf: number;
     const loop = () => {
-      if (!active) return;
+      if (!active || stopped) return;
       setAnimTick((t) => (t + 1) % 1_000_000);
-      if (!stopped) raf = window.setTimeout(loop, 80);
+      raf = window.setTimeout(loop, 80);
     };
     raf = window.setTimeout(loop, 80);
+    // Auto-stop after 8 seconds of inactivity — emerge animations are 600ms per node
+    // max ~2.5s for 8 staggered nodes; 8s gives ample margin then stops to save CPU
+    const stopTimer = window.setTimeout(() => {
+      stopped = true;
+    }, 8000);
     return () => {
       active = false;
       stopped = true;
       window.clearTimeout(raf);
+      window.clearTimeout(stopTimer);
     };
-  }, []);
+  }, [serviceMode]);
 
   // Sync external activeServiceId with internal state
   useEffect(() => {
@@ -444,7 +456,10 @@ export default function NetworkGraph({
     });
 
     void allEverAttached; // reserved for future telemetry hooks
-    void animTick; // force re-render subscription
+    // NOTE: animTick is intentionally NOT in the deps array below — including it
+    // would recompute nodes every 80ms, recreating node objects, restarting force
+    // simulation → 'nodes fly around like flies' bug. Canvas still re-renders on
+    // animTick state change because the parent component re-renders.
 
     return { nodes, links };
   }, [
@@ -456,7 +471,6 @@ export default function NetworkGraph({
     revealedServices,
     detachedServices,
     serviceExpertMap,
-    animTick,
   ]);
 
   const active = focus || hover;
