@@ -254,70 +254,92 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
 
 
 
-      {/* ── Contributors block (not footer) ── */}
+      {/* ── Project Group (not "team") — per user spec: 'не називати командою' ── */}
       <section className="mt-12" aria-labelledby="contributors-heading">
         <div className="partner-section-heading" style={{ margin: '3rem 0 2rem' }}>
           <span>★</span>
           <div>
             <h2 id="contributors-heading">
-              {text("Contributors", "Команда")}
+              {text("Project Group", "Проектна група")}
             </h2>
-            <p>{text("Experts engaged for this proposal", "Експерти, залучені до підготовки пропозиції")}</p>
+            <p>{text("Specialists engaged for this proposal", "Фахівці, залучені до підготовки пропозиції")}</p>
           </div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
-          <div className="card-hanging" style={{ padding: '1.5rem' }}>
-            <h3 className="header-pressed" style={{ fontSize: '1rem', margin: '0 0 0.5rem' }}>
-              <a href="https://www.linkedin.com/in/alexeyzvolinskiy/" target="_blank" rel="noopener noreferrer"
-                 style={{ color: 'var(--brass, #c8901a)', textDecoration: 'none' }}>
+        {/* All 5 cards in one row on wide screens */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: '0.75rem' }}>
+          {/* 1. Frishberg — Supervisor + logo */}
+          <div className="card-hanging" style={{ padding: '1.25rem', borderLeft: '4px solid #c8901a', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <img src="https://frishberg.com/wp-content/uploads/2023/07/logo.jpg" alt="Frishberg" style={{ height: '40px', width: 'auto', marginBottom: '0.6rem', objectFit: 'contain' }} />
+            <p style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#c8901a', fontWeight: 800, marginBottom: '0.3rem' }}>
+              {text("Supervisor", "Супервайзер")}
+            </p>
+            <h3 style={{ fontSize: '0.9rem', fontWeight: 700, color: '#064e3b', margin: '0 0 0.4rem', textAlign: 'center' }}>
+              {text("Alex Frishberg", "Алекс Фрішберг")}
+            </h3>
+            <p style={{ fontSize: '0.78rem', lineHeight: 1.5, color: '#2d4a3e', margin: 0, textAlign: 'center' }}>
+              {text("Proposal submitted on his behalf.", "Пропозиція подається від його імені.")}
+            </p>
+          </div>
+          {/* 2. Filimonov — Head & OSINT */}
+          <div className="card-hanging" style={{ padding: '1.25rem', borderLeft: '4px solid #c8901a' }}>
+            <p style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#c8901a', fontWeight: 800, marginBottom: '0.3rem' }}>
+              {text("Head & OSINT", "Керівник та OSINT")}
+            </p>
+            <h3 style={{ fontSize: '0.9rem', fontWeight: 700, color: '#064e3b', margin: '0 0 0.4rem' }}>
+              {text("Dmitriy Filimonov", "Дмитро Филімонов")}
+            </h3>
+            <p style={{ fontSize: '0.78rem', lineHeight: 1.5, color: '#2d4a3e', margin: 0 }}>
+              {text("Client communication, discovery, coordination.", "Комунікація із замовником, діскавері, координація.")}
+            </p>
+          </div>
+          {/* 3. Zvolinskiy — Management Consultant */}
+          <div className="card-hanging" style={{ padding: '1.25rem' }}>
+            <p style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#c8901a', fontWeight: 800, marginBottom: '0.3rem' }}>
+              {text("Management Consultant", "Менеджмент консультант")}
+            </p>
+            <h3 style={{ fontSize: '0.9rem', fontWeight: 700, margin: '0 0 0.4rem' }}>
+              <a href="https://www.linkedin.com/in/alexeyzvolinskiy/" target="_blank" rel="noopener noreferrer" style={{ color: '#064e3b', textDecoration: 'none' }}>
                 {text("Alexey Zvolinskiy", "Олексій Зволинський")}
               </a>
             </h3>
-            <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: '#2d4a3e', margin: 0 }}>
-              {text("Organisational development in non-governmental organisations; human capital market restructuring.", "Організаційний розвиток у недержавних організаціях; реструктуризація ринків людського капіталу.")}
+            <p style={{ fontSize: '0.78rem', lineHeight: 1.5, color: '#2d4a3e', margin: 0 }}>
+              {text("Strategy & organisational development in NGOs; human capital market restructuring.", "Стратегія та організаційний розвиток у недержавних організаціях; реструктуризація ринків людського капіталу.")}
             </p>
           </div>
-          <div className="card-hanging" style={{ padding: '1.5rem' }}>
-            <h3 className="header-pressed" style={{ fontSize: '1rem', margin: '0 0 0.5rem' }}>
-              <a href="https://www.linkedin.com/in/arsen-nizelsky-59aba428/" target="_blank" rel="noopener noreferrer"
-                 style={{ color: 'var(--brass, #c8901a)', textDecoration: 'none' }}>
+          {/* 4. Nizelsky — Legal Advisor */}
+          <div className="card-hanging" style={{ padding: '1.25rem' }}>
+            <p style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#c8901a', fontWeight: 800, marginBottom: '0.3rem' }}>
+              {text("Legal Advisor", "Юридичний радник")}
+            </p>
+            <h3 style={{ fontSize: '0.9rem', fontWeight: 700, margin: '0 0 0.4rem' }}>
+              <a href="https://www.linkedin.com/in/arsen-nizelsky-59aba428/" target="_blank" rel="noopener noreferrer" style={{ color: '#064e3b', textDecoration: 'none' }}>
                 {text("Arsen Nizelsky", "Арсен Нізельський")}
               </a>
             </h3>
-            <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: '#2d4a3e', margin: 0 }}>
+            <p style={{ fontSize: '0.78rem', lineHeight: 1.5, color: '#2d4a3e', margin: 0 }}>
               {text("Personal data protection and GDPR compliance.", "Захист персональних даних та відповідність GDPR.")}
             </p>
           </div>
-          <div className="card-hanging" style={{ padding: '1.5rem', borderLeft: '4px solid #c8901a' }}>
-            <p style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#c8901a', fontWeight: 800, marginBottom: '0.4rem' }}>
-              {text("Supervisor", "Супервайзер")}
+          {/* 5. Technology & OSINT */}
+          <div className="card-hanging" style={{ padding: '1.25rem' }}>
+            <p style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#c8901a', fontWeight: 800, marginBottom: '0.3rem' }}>
+              {text("Integrative Tech", "Інтегративні технології")}
             </p>
-            <h3 className="header-pressed" style={{ fontSize: '1rem', margin: '0 0 0.5rem' }}>
-              {text("Alex Frishberg", "Алекс Фрішберг")}
-            </h3>
-            <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: '#2d4a3e', margin: 0 }}>
-              {text("Project supervisor. The proposal is submitted on his behalf.", "Супервайзер проєкту. Пропозиція подається від його імені.")}
-            </p>
-          </div>
-          <div className="card-hanging" style={{ padding: '1.5rem', borderLeft: '4px solid #c8901a' }}>
-            <p style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#c8901a', fontWeight: 800, marginBottom: '0.4rem' }}>
-              {text("Project Lead & OSINT", "Керівник та OSINT")}
-            </p>
-            <h3 className="header-pressed" style={{ fontSize: '1rem', margin: '0 0 0.5rem' }}>
-              {text("Dmitriy Filimonov", "Дмитро Филімонов")}
-            </h3>
-            <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: '#2d4a3e', margin: 0 }}>
-              {text("Project lead and OSINT specialist. Client communication, discovery, and coordination.", "Керівник проєкту та фахівець з OSINT. Комунікація із замовником, діскавері та координація.")}
-            </p>
-          </div>
-          <div className="card-hanging" style={{ padding: '1.5rem' }}>
-            <h3 className="header-pressed" style={{ fontSize: '1rem', margin: '0 0 0.5rem' }}>
+            <h3 style={{ fontSize: '0.9rem', fontWeight: 700, color: '#064e3b', margin: '0 0 0.4rem' }}>
               {text("Technology & OSINT", "Технології та OSINT")}
             </h3>
-            <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: '#2d4a3e', margin: 0 }}>
-              {text("Application architecture and framework design with integrative technology and OSINT specialists.", "Конструювання застосунку та фреймворку з експертами з інтегративних технологічних рішень та OSINT.")}
+            <p style={{ fontSize: '0.78rem', lineHeight: 1.5, color: '#2d4a3e', margin: 0 }}>
+              {text("Application architecture and framework design with integrative technology specialists.", "Архітектура застосунку та фреймворку з експертами з інтегративних технологічних рішень.")}
             </p>
           </div>
+        </div>
+        {/* MHPSS footnote — HIGH CONTRAST (not light/muted), per user spec */}
+        <div style={{ marginTop: '1rem', padding: '0.75rem 1rem', borderRadius: '4px', border: '1px solid rgba(200,144,26,0.4)', background: 'rgba(200,144,26,0.08)', fontSize: '0.82rem', lineHeight: 1.55, color: '#13302c' }}>
+          <sup style={{ color: '#c8901a', fontWeight: 700 }}>†</sup>{" "}
+          {text("The project group has a mutual interest in participating in the MHPSS dashboard development (dashboard.feelagain.me), having noted the Institute\u2019s interest in this topic — particularly the \u2018Practical Mental Health Incident Management for Non-Specialists\u2019 programme in the Ukrainian chapter.", "Проектна група має взаємний інтерес до участі в розробці дашборду MHPSS (dashboard.feelagain.me), бачачи інтерес Інституту до цієї теми — зокрема програму «Practical Mental Health Incident Management for Non-Specialists» в українському чаптері.")}{" "}
+          <a href="https://www.theisrm.org/practical-mental-health-incident-management-for-non-specialists" target="_blank" rel="noopener noreferrer" style={{ color: '#c8901a', textDecoration: 'underline' }}>
+            {text("Open programme ↗", "Відкрити програму ↗")}
+          </a>
         </div>
       </section>
 

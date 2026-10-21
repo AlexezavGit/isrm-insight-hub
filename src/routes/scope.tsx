@@ -421,8 +421,8 @@ function ScopePage() {
                   borderRadius: "8px",
                   border: `1px solid ${pilotIncluded ? "rgba(16,185,129,0.4)" : "rgba(220,80,60,0.4)"}`,
                   background: pilotIncluded
-                    ? "color-mix(in oklab, var(--color-success) 8%, transparent)"
-                    : "color-mix(in oklab, var(--color-destructive) 6%, transparent)",
+                    ? "rgba(200,144,26,0.06)"
+                    : "rgba(200,144,26,0.08)",
                   fontSize: "0.85rem",
                   lineHeight: 1.55,
                 }}
@@ -504,8 +504,8 @@ function ScopePage() {
                   borderRadius: "8px",
                   border: `1px solid ${consultingIncluded ? "rgba(16,185,129,0.4)" : "rgba(220,80,60,0.4)"}`,
                   background: consultingIncluded
-                    ? "color-mix(in oklab, var(--color-success) 8%, transparent)"
-                    : "color-mix(in oklab, var(--color-destructive) 6%, transparent)",
+                    ? "rgba(200,144,26,0.06)"
+                    : "rgba(200,144,26,0.08)",
                   fontSize: "0.85rem",
                   lineHeight: 1.55,
                 }}
@@ -626,7 +626,7 @@ function ScopePage() {
           </ul>
           <div style={{ marginTop: '0.75rem', padding: '0.7rem 0.85rem', borderRadius: '8px',
             border: '1px solid rgba(220,80,60,0.4)',
-            background: 'color-mix(in oklab, var(--color-destructive) 6%, transparent)',
+            background: 'rgba(200,144,26,0.08)',
             fontSize: '0.85rem', lineHeight: 1.55 }}>
             <p style={{ margin: 0, fontWeight: 700, fontSize: '0.72rem', textTransform: 'uppercase',
               letterSpacing: '0.08em', color: 'var(--color-destructive)' }}>
