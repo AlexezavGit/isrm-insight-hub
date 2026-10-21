@@ -578,13 +578,10 @@ function ScopePage() {
             </article>
 
         {/* Section 05: Practical questions for proposal preparation */}
-        <details style={{ marginTop: "1rem" }}>
-        <summary style={{ cursor: "pointer", padding: "0.75rem", fontWeight: 700, color: "#0b544c" }}>
-          {text("Practical Questions for Proposal Preparation", "Питання для підготовки пропозиції")}
-        </summary>
-        <p style={{ fontSize: "0.8rem", color: "#566762", padding: "0 0.75rem 0.5rem" }}>
-          {text("Questions that need additional answers for proposal development. Answers in any acceptable format.", "Питання, на які потрібно буде отримати відповіді додатково для розробки пропозиції. Відповіді в будь якому прийнятному форматі.")}
-        </p>
+        <div style={{ marginTop: "1rem" }}>
+          <p style={{ fontSize: "0.8rem", color: "#566762", marginBottom: "0.5rem" }}>
+            {text("Questions that need additional answers for proposal development. Answers in any acceptable format.", "Питання, на які потрібно буде отримати відповіді додатково для розробки пропозиції. Відповіді в будь якому прийнятному форматі.")}
+          </p>
         <article className="scope-section scope-section--active">
           <div className="scope-section-header">
             <span className="scope-section-number">05</span>
