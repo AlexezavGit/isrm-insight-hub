@@ -65,6 +65,7 @@ export default function NetworkGraph({
   onAllServicesRevealed,
   onBackgroundClick,
   onRevealedServicesChange,
+  onConnectedPeopleCountChange,
   leftPanelOpen = false,
   rightPanelOpen = false,
   locale = "en",
@@ -79,6 +80,7 @@ export default function NetworkGraph({
   onAllServicesRevealed?: () => void;
   onBackgroundClick?: () => void;
   onRevealedServicesChange?: (count: number) => void;
+  onConnectedPeopleCountChange?: (count: number) => void;
   leftPanelOpen?: boolean;
   rightPanelOpen?: boolean;
   locale?: string;
@@ -160,6 +162,12 @@ export default function NetworkGraph({
   // Lift revealedServices count up to parent (for dashboard display)
   useEffect(() => {
     onRevealedServicesChange?.(revealedServices.size);
+  // Count unique people connected across all revealed services
+  const _connectedPeople = new Set<string>();
+  revealedServices.forEach((svcId) => {
+    (serviceExpertMap.get(svcId) ?? []).forEach((e) => _connectedPeople.add(e.code));
+  });
+  onConnectedPeopleCountChange?.(_connectedPeople.size);
   }, [revealedServices.size, onRevealedServicesChange]);
 
   // Auto-zoom-out to fit all visible nodes when revealedServices changes.

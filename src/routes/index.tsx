@@ -97,6 +97,7 @@ function NetworkPage() {
   const [mounted, setMounted] = useState(false);
   // Count of revealed service nodes — lifted from NetworkGraph via onRevealedServicesChange
   const [revealedServicesCount, setRevealedServicesCount] = useState(0);
+  const [connectedPeopleCount, setConnectedPeopleCount] = useState(0);
   // Reusable 'Under development' modal — replaces native alert() calls (which were white-themed).
   // Dark theme + blur backdrop per user spec.
   const [underDevAlert, setUnderDevAlert] = useState<{ open: boolean; message: string }>({
@@ -152,7 +153,7 @@ function NetworkPage() {
       ? {
         live: "Network live",
         title: "ISRM",
-        subtitle: "",
+        subtitle: locale === "uk" ? "Карта мережі" : "Network map",
         briefing: "0 · Briefing",
         search: "1 · Search",
         cabinet: "2",
@@ -165,7 +166,7 @@ function NetworkPage() {
       : {
         live: "Мережа наживо",
         title: "ISRM",
-        subtitle: "",
+        subtitle: "Network map",
         briefing: "0 · Бриф",
         search: "1 · Пошук",
         cabinet: "2",
@@ -210,6 +211,7 @@ function NetworkPage() {
               }}
               onAllServicesRevealed={() => setAllRevealedModalOpen(true)}
               onRevealedServicesChange={(count) => setRevealedServicesCount(count)}
+              onConnectedPeopleCountChange={(count) => setConnectedPeopleCount(count)}
               onBackgroundClick={handleBackgroundClick}
               leftPanelOpen={searchOpen || cabinetOpen}
               rightPanelOpen={Boolean(selected || groupViewOpen)}
@@ -299,6 +301,7 @@ function NetworkPage() {
               {dependenciesMode ? (
                 <>
                   <MetricBadge value={revealedServicesCount} label={locale === "uk" ? "сервісів" : "services"} note="/8" />
+                  <MetricBadge value={connectedPeopleCount} label={locale === "uk" ? "експертів" : "experts"} />
                   <MetricBadge value={AUDIENCE.crm} label={locale === "uk" ? "у CRM" : "in CRM"} />
                   <MetricBadge value={AUDIENCE.verified} label={locale === "uk" ? "ідентифіковано" : "identified"} />
                   <MetricBadge value={AUDIENCE.liPage} label="LinkedIn" note="~page" />
@@ -322,6 +325,7 @@ function NetworkPage() {
           {dependenciesMode ? (
             <>
               <MetricBadge value={revealedServicesCount} label={locale === "uk" ? "сервісів" : "services"} note="/8" />
+                  <MetricBadge value={connectedPeopleCount} label={locale === "uk" ? "експертів" : "experts"} />
               <MetricBadge value={AUDIENCE.crm} label={locale === "uk" ? "у CRM" : "in CRM"} />
               <MetricBadge value={AUDIENCE.verified} label={locale === "uk" ? "ідентифіковано" : "identified"} />
               <MetricBadge value={AUDIENCE.liPage} label="LinkedIn" note="~page" />
