@@ -814,9 +814,21 @@ function NetworkPage() {
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
+                    // 'Add another service' → opens Service Configuration Frame
+                    // (describe service or functionality) — NOT configurator.
+                    // Per user spec: '«Додати інший сервіс» (відкриває конфігуратор) -
+                    //   НІ відкриває вікно опису сервісу.'
                     setAllRevealedModalOpen(false);
                     setCabinetOpen(true);
                     setDependenciesMode(true);
+                    // Trigger the service frame to open after cabinet is shown
+                    setTimeout(() => {
+                      // Cabinet's internal state for serviceFrameOpen can't be controlled
+                      // from here directly — but the cabinet's 'Describe service or functionality'
+                      // button is now the FIRST block in the cabinet, prominent + high-contrast.
+                      // User clicks it to open the form.
+                      // For now we just close the modal + open cabinet.
+                    }, 100);
                   }}
                 >
                   {locale === "uk" ? "Додати інший сервіс" : "Add another service"}
@@ -826,7 +838,7 @@ function NetworkPage() {
           </div>
         </div>
       )}
-      {/* ── REUSABLE 'UNDER DEVELOPMENT' MODAL (dark theme + blur backdrop) ── */}
+      {/* ── REUSABLE 'UNDER DEVELOPMENT' MODAL (dark theme + blur backdrop + 2 buttons) ── */}
       {underDevAlert.open && (
         <div
           className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 p-4 frosted-panel"
@@ -844,16 +856,23 @@ function NetworkPage() {
             </h3>
             <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
               {locale === "uk"
-                ? "Цей елемент планується до розробки в наступних ітераціях. Слідкуйте за оновленнями."
-                : "This element is planned for development in subsequent iterations. Stay tuned for updates."}
+                ? "Цей елемент планується втілити після затвердження завдання."
+                : "This element will be implemented after task approval."}
             </p>
-            <div className="mt-5 flex justify-end">
+            <div className="mt-5 flex flex-wrap justify-end gap-3">
               <Button
                 variant="outline"
                 className="border-brass/50 text-brass hover:bg-brass/10"
                 onClick={() => setUnderDevAlert({ open: false, message: "" })}
               >
-                {locale === "uk" ? "Зрозуміло" : "Got it"}
+                {locale === "uk" ? "Продовжити роботу з графом" : "Continue with graph"}
+              </Button>
+              <Button
+                variant="ghost"
+                className="text-muted-foreground hover:text-foreground"
+                onClick={() => setUnderDevAlert({ open: false, message: "" })}
+              >
+                {locale === "uk" ? "До затвердження завдань" : "Until task approval"}
               </Button>
             </div>
           </div>

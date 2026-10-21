@@ -9,6 +9,7 @@ import {
   CalendarDays,
   ChevronRight,
   FileSearch,
+  FileText,
   GitBranch,
   Handshake,
   Library,
@@ -149,7 +150,11 @@ export function MemberCabinet({
       <aside className="fixed left-0 bottom-0 pb-28 top-16 z-30 w-[78vw] max-w-[400px] sm:w-[400px] border-r border-[rgba(200,144,26,0.3)] bg-[#082422]/92 p-4 sm:p-5 shadow-[0_12px_40px_rgba(0,0,0,0.65)] frosted-panel overflow-y-auto">
         <header className="flex items-center justify-between pb-3.5 border-b border-border">
           <div>
-            <p className="tech-label text-primary">{locale === "uk" ? "2" : "2"}</p>
+            <p className="tech-label text-primary flex items-center gap-2">
+              <span className="font-display font-semibold">2</span>
+              <span className="opacity-60">·</span>
+              <span>{locale === "uk" ? "Конфігуратор" : "Configurator"}</span>
+            </p>
             <h2 className="font-display text-lg sm:text-xl font-semibold mt-0.5 text-foreground">{copy.title}</h2>
           </div>
           <Button variant="ghost" size="icon" onClick={onClose} aria-label={copy.close}>
@@ -157,8 +162,32 @@ export function MemberCabinet({
           </Button>
         </header>
 
-        {/* Services vertical listing */}
-        <div className="mt-4 flex flex-col gap-2.5">
+        {/* Describe service or functionality — primary CTA, high contrast (per user spec) */}
+        <button
+          onClick={() => setServiceFrameOpen(true)}
+          className="group mt-4 flex items-start gap-3 rounded-lg border-2 border-brass bg-brass/10 p-4 text-left transition-all cursor-pointer hover:bg-brass/20 hover:border-brass/80 shadow-md"
+        >
+          <FileText className="h-5 w-5 text-brass shrink-0 mt-0.5" />
+          <div className="min-w-0 flex-1">
+            <h3 className="font-display text-sm font-bold text-brass group-hover:text-brass/90 transition-colors">
+              {locale === "uk" ? "Описати сервіс або функціональність" : "Describe service or functionality"}
+            </h3>
+            <p className="text-xs text-brass/80 mt-1 line-clamp-2">
+              {locale === "uk"
+                ? "Додайте власний опис сервісу або процесу для вашої організації"
+                : "Add your own description of a service or process for your organisation"}
+            </p>
+          </div>
+          <ChevronRight className="h-4 w-4 text-brass group-hover:translate-x-0.5 transition-transform shrink-0 mt-1" />
+        </button>
+
+        {/* 'обрати передвстановлені сервіси:' label */}
+        <p className="mt-5 mb-2 tech-label text-muted-foreground text-xs">
+          {locale === "uk" ? "Обрати передвстановлені сервіси:" : "Select preset services:"}
+        </p>
+
+        {/* Services vertical listing — numbers REMOVED from cards (moved to dashboard per user spec) */}
+        <div className="flex flex-col gap-2.5">
           {NETWORK_SERVICES.map((item, i) => {
             const isSelected = active === i && detailsOpen;
             return (
@@ -185,11 +214,8 @@ export function MemberCabinet({
                   <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
                     {item.short[language]}
                   </p>
-                  <div className="mt-2 flex items-center gap-1.5">
-                    <span className="text-[10px] font-mono rounded bg-primary/10 text-primary px-1.5 py-0.5 border border-primary/20">
-                      {item.metrics[language].split("·")[0]?.trim()}
-                    </span>
-                  </div>
+                  {/* Numbers removed per user spec: 'В блоках цифри скільки кого де
+                      прибрати, вони повинні відображатись в дашборді' */}
                 </div>
               </button>
             );
