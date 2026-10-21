@@ -578,7 +578,14 @@ function ScopePage() {
             </article>
 
         {/* Section 05: Practical questions for proposal preparation */}
-        <article className="scope-section scope-section--active" style={{ marginTop: '1rem' }}>
+        <details style={{ marginTop: "1rem" }}>
+        <summary style={{ cursor: "pointer", padding: "0.75rem", fontWeight: 700, color: "#0b544c" }}>
+          {text("Practical Questions for Proposal Preparation", "Питання для підготовки пропозиції")}
+        </summary>
+        <p style={{ fontSize: "0.8rem", color: "#566762", padding: "0 0.75rem 0.5rem" }}>
+          {text("Questions that need additional answers for proposal development. Answers in any acceptable format.", "Питання, на які потрібно буде отримати відповіді додатково для розробки пропозиції. Відповіді в будь якому прийнятному форматі.")}
+        </p>
+        <article className="scope-section scope-section--active">
           <div className="scope-section-header">
             <span className="scope-section-number">05</span>
             <div style={{ flex: 1 }}>
@@ -638,6 +645,23 @@ function ScopePage() {
           </div>
         </article>
           </div>
+
+
+        {/* MHPSS mutual interest — per user spec: checkbox on /scope */}
+        <div style={{ marginTop: '1rem', padding: '0.85rem 1rem', borderRadius: '8px',
+          border: '1px solid rgba(200,144,26,0.4)', background: 'rgba(200,144,26,0.06)' }}>
+          <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', cursor: 'pointer' }}>
+            <input type="checkbox" style={{ width: '1.1rem', height: '1.1rem', marginTop: '0.15rem', accentColor: '#c8901a' }} />
+            <div>
+              <p style={{ fontWeight: 700, fontSize: '0.82rem', color: '#13302c', margin: 0 }}>
+                {text("MHPSS Risk Assessment Partnership", "Партнерство з оцінки ризиків MHPSS")}
+              </p>
+              <p style={{ fontSize: '0.82rem', lineHeight: 1.55, color: '#13302c', margin: '0.3rem 0 0' }}>
+                {text("The project group has a mutual interest in ISRM participating in risk assessment for the MHPSS sector with preparation of a public dashboard at dashboard.feelagain.me. Please indicate interest in participation.", "Проектна група має взаємний інтерес до участі ISRM в проведенні оцінки ризиків для сектору MHPSS з підготовкою публічного дашборду dashboard.feelagain.me. Просимо повідомити про зацікавленість в участі.")}
+              </p>
+            </div>
+          </label>
+        </div>
 
           {/* RIGHT: price panel */}
           <aside className="scope-price-panel" aria-label={text("Indicative budget", "Індикативний бюджет")}>

@@ -269,7 +269,7 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: '0.75rem' }}>
           {/* 1. Frishberg — Supervisor + logo */}
           <div className="card-hanging" style={{ padding: '1.25rem', borderLeft: '4px solid #c8901a', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <img src="https://frishberg.com/wp-content/uploads/2023/07/logo.jpg" alt="Frishberg" style={{ height: '40px', width: 'auto', marginBottom: '0.6rem', objectFit: 'contain' }} />
+            
             <p style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#c8901a', fontWeight: 800, marginBottom: '0.3rem' }}>
               {text("Supervisor", "Супервайзер")}
             </p>
@@ -321,17 +321,7 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
             </p>
           </div>
           {/* 5. Technology & OSINT */}
-          <div className="card-hanging" style={{ padding: '1.25rem' }}>
-            <p style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#c8901a', fontWeight: 800, marginBottom: '0.3rem' }}>
-              {text("Integrative Tech", "Інтегративні технології")}
-            </p>
-            <h3 style={{ fontSize: '0.9rem', fontWeight: 700, color: '#064e3b', margin: '0 0 0.4rem' }}>
-              {text("Technology & OSINT", "Технології та OSINT")}
-            </h3>
-            <p style={{ fontSize: '0.78rem', lineHeight: 1.5, color: '#2d4a3e', margin: 0 }}>
-              {text("Application architecture and framework design with integrative technology specialists.", "Архітектура застосунку та фреймворку з експертами з інтегративних технологічних рішень.")}
-            </p>
-          </div>
+
         </div>
         {/* MHPSS footnote — HIGH CONTRAST (not light/muted), per user spec */}
         <div style={{ marginTop: '1rem', padding: '0.75rem 1rem', borderRadius: '4px', border: '1px solid rgba(200,144,26,0.4)', background: 'rgba(200,144,26,0.08)', fontSize: '0.82rem', lineHeight: 1.55, color: '#13302c' }}>
@@ -341,12 +331,19 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
             {text("Open programme ↗", "Відкрити програму ↗")}
           </a>
         </div>
+        {/* Technology & OSINT footnote */}
+        <div style={{ marginTop: '0.5rem', padding: '0.6rem 0.85rem', fontSize: '0.78rem', lineHeight: 1.5, color: '#566762' }}>
+          {text("Several sessions conducted with various development teams on construction and integration. After core preparation, most components can be integrative — project management, calendars, etc. — with capability to add integrations (Asana, Google, Jira, and others).", "Проведено декілька сесій із різними командами розробників із конструювання та інтеграції. Після підготовки ядра, більша частина може бути інтегративною — проектний менеджмент, календарі, тощо — з можливістю додавання інтеграцій (Asana, Google, Jira та інших).")}
+        </div>
       </section>
 
       <EntryFrame locale={locale} />
 
       {/* ── Footer ── */}
       <footer className="partner-footer">
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: "0.75rem" }}>
+          <img src="https://frishberg.com/wp-content/uploads/2023/07/logo.jpg" alt="Frishberg" style={{ height: "48px", width: "auto", objectFit: "contain" }} />
+        </div>
         <div className="cta-bottom" style={{ display: "flex", flexWrap: "wrap", gap: "1rem", justifyContent: "center", alignItems: "center" }}>
           <Button asChild variant="default" className="button-outline text-base px-8 py-5 shadow-lg">
             <Link to="/scope">{text("Proceed to agreement →", "перейти до погодження →")}</Link>
