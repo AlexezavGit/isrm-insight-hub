@@ -811,7 +811,7 @@ export default function NetworkGraph({
               } else if (illuminateAll || revealedServices.size > 0) {
                 // Flash effect: ambient (0.18) → peak (1.0) → settled (0.5)
                 // For ambient people when MVP illuminated OR any service selected
-                nodeAlpha = revealTime !== undefined ? 0.18 * flashAlpha : 0.5;
+                if (revealTime !== undefined) { const e2 = now - revealTime; if (e2 < 0) nodeAlpha = 0.18; else if (e2 < 300) nodeAlpha = 0.18 + 0.82 * (e2 / 300); else if (e2 < 900) nodeAlpha = 1.0 - 0.3 * ((e2 - 300) / 600); else nodeAlpha = 0.7; } else nodeAlpha = 0.18;
               } else {
                 nodeAlpha = 0.18;
               }
@@ -826,8 +826,7 @@ export default function NetworkGraph({
 
               ctx.beginPath();
               ctx.arc(n.x, n.y, r, 0, 2 * Math.PI);
-              const useGold = isCurrentlyConnected || (isFlashing && nodeAlpha > 0.2);
-              ctx.fillStyle = useGold ? colors.gold : (e?.verified ? colors.success : colors.muted);
+              ctx.fillStyle = (isCurrentlyConnected || illuminateAll) ? colors.gold : (e?.verified ? colors.success : colors.muted);
               ctx.fill();
 
               // NO white border on nodes per user spec — прибрати білий кант на вузлах
