@@ -577,90 +577,12 @@ function ScopePage() {
               </div>
             </article>
 
-        {/* Section 05: Practical questions for proposal preparation */}
-        <div style={{ marginTop: "1rem" }}>
-          <p style={{ fontSize: "0.8rem", color: "#566762", marginBottom: "0.5rem" }}>
-            {text("Questions that need additional answers for proposal development. Answers in any acceptable format.", "Питання, на які потрібно буде отримати відповіді додатково для розробки пропозиції. Відповіді в будь якому прийнятному форматі.")}
-          </p>
-        <article className="scope-section scope-section--active">
-          <div className="scope-section-header">
-            <span className="scope-section-number">05</span>
-            <div style={{ flex: 1 }}>
-              <h2 className="scope-section-title">
-                {text("Practical Questions for Proposal Preparation", "Практичні питання для підготовки пропозиції")}
-              </h2>
-              <span className="text-xs text-muted-foreground block mt-0.5">
-                {text("End-point questions in plain language — to understand the current technical landscape", "Практичні питання простою мовою — для розуміння поточного технічного ландшафту")}
-              </span>
-            </div>
-          </div>
-          <p className="scope-section-desc">
-            {text("These are practical questions about how things work now — not what to connect to, but how the current processes are organised.", "Це практичні питання про те, як все працює зараз — не до чого стикуватись, а як організовані поточні процеси.")}
-          </p>
-          <ul className="scope-feature-list">
-            {(uk ? [
-              'Як зараз організовано білінг членства — вручну, напівавтоматично, чи повністю автоматизовано?',
-              'Чи потребує процес поновлення членства людського втручання, чи він автоматизований від початку до кінця?',
-              'Коли учасник реєструється на навчальну програму — рахунок генерується автоматично?',
-              'Перевірка оплати автоматизована, чи хтось вручну перевіряє?',
-              'Де зараз зберігаються дані про членів — у CRM, таблиці, чи кількох системах?',
-              'Хто має доступ до контактних даних членів, і чи логується доступ?',
-              'Чи відповідає поточна обробка даних вимогам GDPR, чи є прогалини?',
-              'Як обробляються реєстрації на події — є онлайн-форма, чи через email?',
-              'Після конференції чи події — чи додаються учасники автоматично до воронки членства?',
-              'Чи є існуючий API або інтеграційний шар, чи це треба побудувати?',
-              'Як зараз організовано комунікацію з фоловерами — через які канали?',
-              'Чи є система розсилки, і чи автоматизована вона?',
-            ] : [
-              'How is membership billing currently organised — manual, semi-automated, or fully automated?',
-              'Does the membership renewal process require human intervention, or is it end-to-end automated?',
-              'When a member registers for a training programme, is the invoice generated automatically?',
-              'Is payment verification automated, or does someone manually check?',
-              'Where does member data currently live — in a CRM, a spreadsheet, or multiple systems?',
-              'Who has access to member contact information, and is access logged?',
-              'Is the current data handling GDPR-compliant, or are there gaps?',
-              'How are event registrations processed — is there an online form, or is it email-based?',
-              'After a conference or event, are attendees automatically added to the membership pipeline?',
-              'Is there an existing API or integration layer, or would this need to be built?',
-              'How is communication with followers currently organised — through which channels?',
-              'Is there a mailing system, and is it automated?',
-            ]).map((q, i) => (
-              <li key={i}>{q}</li>
-            ))}
-          </ul>
-          <div style={{ marginTop: '0.75rem', padding: '0.7rem 0.85rem', borderRadius: '8px',
-            border: '1px solid rgba(220,80,60,0.4)',
-            background: 'rgba(200,144,26,0.08)',
-            fontSize: '0.85rem', lineHeight: 1.55 }}>
-            <p style={{ margin: 0, fontWeight: 700, fontSize: '0.72rem', textTransform: 'uppercase',
-              letterSpacing: '0.08em', color: 'var(--color-destructive)' }}>
-              {text("Footnote — fallback option", "Сноска — запасний варіант")}
-            </p>
-            <p style={{ margin: '0.4rem 0 0', color: 'var(--color-foreground)', fontSize: '0.82rem' }}>
-              {text("If the standard stages do not fit, the client may take the existing tool as-is, upload their own expert and consultant data, and we determine the creation budget. AI OSINT integration can be added, or the client continues verifying and collecting data independently.", "Якщо стандартні етапи не підходять, замовник може взяти готовий інструмент як є, сам завантажити дані про експертів та консультантів, і ми визначимо бюджет створення. Можливе додавання інтеграції з AI OSINT, або самостійна перевірка та довантаження даних.")}
-            </p>
-          </div>
-        </article>
-        </div>
+        
+        
           </div>
 
 
-        {/* MHPSS mutual interest — per user spec: checkbox on /scope */}
-        <div style={{ marginTop: '1rem', padding: '0.85rem 1rem', borderRadius: '8px',
-          border: '1px solid rgba(200,144,26,0.4)', background: 'rgba(200,144,26,0.06)' }}>
-          <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', cursor: 'pointer' }}>
-            <input type="checkbox" style={{ width: '1.1rem', height: '1.1rem', marginTop: '0.15rem', accentColor: '#c8901a' }} />
-            <div>
-              <p style={{ fontWeight: 700, fontSize: '0.82rem', color: '#13302c', margin: 0 }}>
-                {text("MHPSS Risk Assessment Partnership", "Партнерство з оцінки ризиків MHPSS")}
-              </p>
-              <p style={{ fontSize: '0.82rem', lineHeight: 1.55, color: '#13302c', margin: '0.3rem 0 0' }}>
-                {text("The project group has a mutual interest in ISRM participating in risk assessment for the MHPSS sector with preparation of a public dashboard at dashboard.feelagain.me. Please indicate interest in participation.", "Проектна група має взаємний інтерес до участі ISRM в проведенні оцінки ризиків для сектору MHPSS з підготовкою публічного дашборду dashboard.feelagain.me. Просимо повідомити про зацікавленість в участі.")}
-              </p>
-            </div>
-          </label>
-        </div>
-
+        
           {/* RIGHT: price panel */}
           <aside className="scope-price-panel" aria-label={text("Indicative budget", "Індикативний бюджет")}>
             <p className="tech-label text-primary" style={{ marginBottom: "1rem" }}>

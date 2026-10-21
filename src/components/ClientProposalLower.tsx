@@ -260,15 +260,15 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
           <span>★</span>
           <div>
             <h2 id="contributors-heading">
-              {text("Project Group", "Проектна група")}
+              {text("Working Group for Proposal Preparation", "Учасники робочої групи підготовки пропозиції")}
             </h2>
-            <p>{text("Specialists engaged for this proposal", "Фахівці, залучені до підготовки пропозиції")}</p>
+            <p>{text("Experts engaged for this proposal", "Експерти, залучені до підготовки пропозиції")}</p>
           </div>
         </div>
         {/* All 5 cards in one row on wide screens */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: '0.75rem' }}>
           {/* 1. Frishberg — Supervisor + logo */}
-          <div className="card-hanging" style={{ padding: '1.25rem', borderLeft: '4px solid #c8901a', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div className="card-hanging" style={{ padding: '1.25rem', borderLeft: '4px solid #c8901a', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
             
             <p style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#c8901a', fontWeight: 800, marginBottom: '0.3rem' }}>
               {text("Supervisor", "Супервайзер")}
@@ -277,7 +277,7 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
               {text("Alex Frishberg", "Алекс Фрішберг")}
             </h3>
             <p style={{ fontSize: '0.78rem', lineHeight: 1.5, color: '#2d4a3e', margin: 0, textAlign: 'center' }}>
-              {text("Proposal submitted on his behalf.", "Пропозиція подається від його імені.")}
+              {text("", "")}
             </p>
           </div>
           {/* 2. Filimonov — Head & OSINT */}
@@ -324,14 +324,7 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
 
         </div>
         {/* MHPSS footnote — HIGH CONTRAST (not light/muted), per user spec */}
-        <div style={{ marginTop: '1rem', padding: '0.75rem 1rem', borderRadius: '4px', border: '1px solid rgba(200,144,26,0.4)', background: 'rgba(200,144,26,0.08)', fontSize: '0.82rem', lineHeight: 1.55, color: '#13302c' }}>
-          <sup style={{ color: '#c8901a', fontWeight: 700 }}>†</sup>{" "}
-          {text("The project group has a mutual interest in participating in the MHPSS dashboard development (dashboard.feelagain.me), having noted the Institute\u2019s interest in this topic — particularly the \u2018Practical Mental Health Incident Management for Non-Specialists\u2019 programme in the Ukrainian chapter.", "Проектна група має взаємний інтерес до участі в розробці дашборду MHPSS (dashboard.feelagain.me), бачачи інтерес Інституту до цієї теми — зокрема програму «Practical Mental Health Incident Management for Non-Specialists» в українському чаптері.")}{" "}
-          <a href="https://www.theisrm.org/practical-mental-health-incident-management-for-non-specialists" target="_blank" rel="noopener noreferrer" style={{ color: '#c8901a', textDecoration: 'underline' }}>
-            {text("Open programme ↗", "Відкрити програму ↗")}
-          </a>
-        </div>
-        {/* Technology & OSINT footnote */}
+                {/* Technology & OSINT footnote */}
         <div style={{ marginTop: '0.5rem', padding: '0.6rem 0.85rem', fontSize: '0.78rem', lineHeight: 1.5, color: '#566762' }}>
           {text("Several sessions conducted with various development teams on construction and integration. After core preparation, most components can be integrative — project management, calendars, etc. — with capability to add integrations (Asana, Google, Jira, and others).", "Проведено декілька сесій із різними командами розробників із конструювання та інтеграції. Після підготовки ядра, більша частина може бути інтегративною — проектний менеджмент, календарі, тощо — з можливістю додавання інтеграцій (Asana, Google, Jira та інших).")}
         </div>
@@ -340,12 +333,15 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
       <EntryFrame locale={locale} />
 
       {/* ── Footer ── */}
-      <footer className="partner-footer">
+      <footer className="partner-footer" style={{ background: "#ffffff", padding: "1.5rem", borderRadius: "8px", marginTop: "2rem" }}>
         <div style={{ display: "flex", justifyContent: "center", marginBottom: "0.75rem" }}>
           <img src="https://frishberg.com/wp-content/uploads/2023/07/logo.jpg" alt="Frishberg" style={{ height: "48px", width: "auto", objectFit: "contain" }} />
         </div>
+        <p style={{ textAlign: "center", fontSize: "0.72rem", color: "#94a3b8", margin: "0.5rem 0 0" }}>
+          © 2026 Frishberg & Partners. All rights reserved.
+        </p>
         <div className="cta-bottom" style={{ display: "flex", flexWrap: "wrap", gap: "1rem", justifyContent: "center", alignItems: "center" }}>
-          <Button asChild variant="default" className="button-outline text-base px-8 py-5 shadow-lg">
+          <Button asChild variant="default" className="button-outline text-base px-8 py-5 shadow-lg" style={{ borderRadius: "2px" }}>
             <Link to="/scope">{text("Proceed to agreement →", "перейти до погодження →")}</Link>
           </Button>
         </div>
