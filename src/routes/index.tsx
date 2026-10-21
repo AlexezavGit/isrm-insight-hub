@@ -870,7 +870,14 @@ function NetworkPage() {
               <Button
                 variant="ghost"
                 className="text-muted-foreground hover:text-foreground"
-                onClick={() => setUnderDevAlert({ open: false, message: "", context: "default" })}
+                onClick={() => {
+                  setUnderDevAlert({ open: false, message: "", context: "default" });
+                  setCabinetOpen(true);
+                  setDependenciesMode(true);
+                  setSearchOpen(false);
+                  setFocus(null);
+                  setGroupViewOpen(false);
+                }}
               >
                 {locale === "uk" ? "до конфігуратора" : "to configurator"}
               </Button>
