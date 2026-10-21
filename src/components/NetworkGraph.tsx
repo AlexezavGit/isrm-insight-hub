@@ -125,15 +125,11 @@ export default function NetworkGraph({
     raf = window.setTimeout(loop, 80);
     // Auto-stop after 8 seconds of inactivity — emerge animations are 600ms per node
     // max ~2.5s for 8 staggered nodes; 8s gives ample margin then stops to save CPU
-    const stopTimer = window.setTimeout(() => {
-      stopped = true;
-    }, 8000);
     return () => {
       active = false;
       stopped = true;
       window.clearTimeout(raf);
-      window.clearTimeout(stopTimer);
-    };
+      };
   }, [serviceMode]);
 
   // Sync external activeServiceId with internal state
@@ -555,7 +551,7 @@ export default function NetworkGraph({
         nodeRelSize={1}
         linkColor={(l: any) => {
           if (serviceMode) {
-            if (l.kind === "service-expert") return colors.gold;
+            if (l.kind === "service-expert") return "rgba(200, 144, 26, 0.7)";
             if (l.kind === "service-expert-lost") {
               // Shadow edge — desaturated red/gray, semi-transparent
               return "rgba(220, 80, 60, 0.55)";
@@ -572,8 +568,8 @@ export default function NetworkGraph({
         }}
         linkWidth={(l: any) => {
           if (serviceMode) {
-            if (l.kind === "service-expert") return 2.2;
-            if (l.kind === "service-expert-lost") return 1.4;
+            if (l.kind === "service-expert") return 0.8;
+            if (l.kind === "service-expert-lost") return 0.7;
             if (l.kind === "mvp") return 1.8;
             if (l.kind === "ring") return 1.5;
             return 0.3;
@@ -660,7 +656,8 @@ export default function NetworkGraph({
             // MVP can be toggled on/off freely (it's not subject to MVP-LOCK
             // because it doesn't attach experts — only adjusts global brightness).
             if (n.id === "hub:mvp") {
-              setIlluminateAll((prev) => !prev);
+              setIlluminateAll(!illuminateAll);
+              if(!illuminateAll){const v=experts.filter(e=>e.verified);const n=Date.now();setRevealedAt(p=>{const m=new Map(p);v.forEach((e,i)=>m.set(e.code,n+(i*13)%500));return m;});}
               return;
             }
 

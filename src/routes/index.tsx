@@ -842,7 +842,7 @@ function NetworkPage() {
       {underDevAlert.open && (
         <div
           className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 p-4 frosted-panel"
-          onClick={() => setUnderDevAlert({ open: false, message: "" })}
+          onClick={() => setUnderDevAlert({ open: false, message: "", context: "default" })}
         >
           <div
             className="w-full max-w-md rounded-xl border border-[rgba(200,144,26,0.45)] bg-[#082422]/95 p-6 shadow-2xl frosted-panel"
@@ -856,21 +856,21 @@ function NetworkPage() {
             </h3>
             <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
               {locale === "uk"
-                ? "Цей елемент планується втілити після затвердження завдання."
-                : "This element will be implemented after task approval."}
+                ? "Цей елемент планується втілити після затвердження ТЗ."
+                : "This element will be implemented after TOR approval."}
             </p>
             <div className="mt-5 flex flex-wrap justify-end gap-3">
               <Button
                 variant="outline"
                 className="border-brass/50 text-brass hover:bg-brass/10"
-                onClick={() => setUnderDevAlert({ open: false, message: "" })}
+                onClick={() => setUnderDevAlert({ open: false, message: "", context: "default" })}
               >
                 {locale === "uk" ? "Продовжити роботу з графом" : "Continue with graph"}
               </Button>
               <Button
                 variant="ghost"
                 className="text-muted-foreground hover:text-foreground"
-                onClick={() => setUnderDevAlert({ open: false, message: "" })}
+                onClick={() => setUnderDevAlert({ open: false, message: "", context: "default" })}
               >
                 {locale === "uk" ? "До затвердження завдань" : "Until task approval"}
               </Button>
