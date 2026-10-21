@@ -856,6 +856,7 @@ function ScopePage() {
           </p>
         </footer>
         </aside>
+        </div>
       </div>
     </main>
   );
