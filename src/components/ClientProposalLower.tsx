@@ -288,6 +288,28 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
               {text("Personal data protection and GDPR compliance.", "Захист персональних даних та відповідність GDPR.")}
             </p>
           </div>
+          <div className="card-hanging" style={{ padding: '1.5rem', borderLeft: '4px solid #c8901a' }}>
+            <p style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#c8901a', fontWeight: 800, marginBottom: '0.4rem' }}>
+              {text("Supervisor", "Супервайзер")}
+            </p>
+            <h3 className="header-pressed" style={{ fontSize: '1rem', margin: '0 0 0.5rem' }}>
+              {text("Alex Frishberg", "Алекс Фрішберг")}
+            </h3>
+            <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: '#2d4a3e', margin: 0 }}>
+              {text("Project supervisor. The proposal is submitted on his behalf.", "Супервайзер проєкту. Пропозиція подається від його імені.")}
+            </p>
+          </div>
+          <div className="card-hanging" style={{ padding: '1.5rem', borderLeft: '4px solid #c8901a' }}>
+            <p style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#c8901a', fontWeight: 800, marginBottom: '0.4rem' }}>
+              {text("Project Lead & OSINT", "Керівник та OSINT")}
+            </p>
+            <h3 className="header-pressed" style={{ fontSize: '1rem', margin: '0 0 0.5rem' }}>
+              {text("Dmitriy Filimonov", "Дмитро Филімонов")}
+            </h3>
+            <p style={{ fontSize: '0.85rem', lineHeight: 1.6, color: '#2d4a3e', margin: 0 }}>
+              {text("Project lead and OSINT specialist. Client communication, discovery, and coordination.", "Керівник проєкту та фахівець з OSINT. Комунікація із замовником, діскавері та координація.")}
+            </p>
+          </div>
           <div className="card-hanging" style={{ padding: '1.5rem' }}>
             <h3 className="header-pressed" style={{ fontSize: '1rem', margin: '0 0 0.5rem' }}>
               {text("Technology & OSINT", "Технології та OSINT")}
