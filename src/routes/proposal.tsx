@@ -16,7 +16,10 @@ export const Route = createFileRoute("/proposal")({
         content:
           "Технології що створюють Довіру — фундамент Trusted Consultancy. Концепція цифрового хабу мережі експертів ISRM.",
       },
-      { property: "og:title", content: "Технології що створюють Довіру — фундамент Trusted Consultancy" },
+      {
+        property: "og:title",
+        content: "Технології що створюють Довіру — фундамент Trusted Consultancy",
+      },
       {
         property: "og:description",
         content: "Explore the expert workflow, pilot outcomes and indicative package ranges.",

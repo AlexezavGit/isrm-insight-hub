@@ -1,122 +1,38 @@
 import { ArrowLeft, GitBranch, Search } from "lucide-react";
-import { IsrmLogo } from "@/components/IsrmLogo";
-import { Button } from "@/components/ui/button";
-import type { DependencyEdge } from "@/data/client-proposal-data";
-
-type Props = {
-  text: (en: string, ua: string) => string;
-  uk: boolean;
-  setLocale: (next: "en" | "uk") => void;
-  dependencyEdges: DependencyEdge[];
-};
-
-export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Props) {
-  return (
-    <>
-      {/* ── Верхній колонтитул (Top running header / Toolbar) ──────────── */}
-      <div
-        className="partner-topbar"
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "1rem",
-          padding: "1rem 0 1.25rem",
-          marginBottom: "1.75rem",
-          borderBottom: "1px solid color-mix(in oklab, var(--brass, #c8901a) 25%, var(--border))",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
-          <div aria-label="ISRM" style={{ display: "flex", flexDirection: "column", gap: "0.15rem" }}>
-            <IsrmLogo className="h-9 w-auto" />
-            
-          </div>
-
-        </div>
-
-        <div style={{ display: "flex", alignItems: "center", gap: "0.85rem" }}>
-          <a
-            href="/partner"
-            style={{
-              fontSize: "0.85rem",
-              fontWeight: 500,
-              padding: "0.2rem 0.45rem",
-              borderRadius: "2px",
-              border: "none",
-              background: "transparent",
-              color: "rgba(10, 46, 36, 0.25)",
-              textDecoration: "none",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.2rem",
-              transition: "opacity 0.3s",
-              letterSpacing: "0.03em",
-            }}
-            title={text("Internal access", "Внутрішній доступ")}
-            onMouseOver={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(10,46,36,0.6)"; }}
-            onMouseOut={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(10,46,36,0.25)"; }}
-          >
-            <span>⚙</span>
-          </a>
-          <div className="partner-locale-switch" role="group" aria-label={text("Page language", "Мова сторінки")}>
-            <button type="button" aria-pressed={!uk} className={!uk ? "is-active" : ""} onClick={() => setLocale("en")}>
-              EN
-            </button>
-            <button type="button" aria-pressed={uk} className={uk ? "is-active" : ""} onClick={() => setLocale("uk")}>
-              UA
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <header className="partner-header" style={{ display: "block", padding: "0 0 2rem" }}>
-        <div>
-          
-          <address
-              style={{
-                fontSize: "0.85rem",
-                lineHeight: 1.35,
-                color: "color-mix(in oklab, var(--brass, #c8901a) 80%, var(--foreground, #13302c))",
-                fontStyle: "normal",
-                margin: 0,
-                fontFamily: "var(--font-mono)",
-                letterSpacing: "0.02em",
-              }}
-            >
-              {text(
-                "Dr David Rubens D.SyRM, CSyP, F.ISRM",
-                "Dr David Rubens D.SyRM, CSyP, F.ISRM",
-              )}
-              <br />
-              <span style={{ opacity: 0.85 }}>
-                {text("Executive Director of the ISRM — for the Strategic Board", "Executive Director of the ISRM — for the Strategic Board")}
-              </span>
-            </address>
-
-          <h1 className="font-display text-2xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
-            {text(
-              "Technologies that create Trust — the foundation of Trusted Practice",
-              "Технології що створюють Довіру — фундамент Trusted Practice",
-            )}
-          </h1>
-
-          {/* Executive context — Trust as foundation */}
-          <div
-            style={{
-              maxWidth: 860,
-              marginTop: "1.5rem",
-              padding: "1.25rem 0",
-              borderTop: "1px solid rgba(200,144,26,0.3)",
-              borderBottom: "1px solid rgba(200,144,26,0.3)",
-            }}
-          >
-            <p style={{ fontSize: "1.05rem", lineHeight: 1.75, color: "#0a2e24", margin: 0, fontWeight: 500 }}>
-              {text(
-                "Trust is not a static certificate — it is the operational infrastructure of professional advisory. In an era where direct unassisted trust between individuals is undermined by total information noise, we rely on a verified operational loop: people → trust → technology / AI → trust → people. The decisive advantage belongs to verified practitioners with transparent analytical evidence on board. This proposal outlines the foundational digital instrument enabling the Institute (ISRM — the Institute of Strategic Risk Management, member portal at theisrm.org and corporate site at isrmcorp.com) to convene, mobilise, and evidence trusted expertise across its network.",
-                "Довіра — це не статичний сертифікат, а фундаментальна інфраструктура фахового консалтингу. В епоху, коли прямий зв'язок «люди – довіра – люди» знецінюється тотальним інформаційним шумом, ми спираємося на замкнений операційний цикл: люди → довіра → технології / ШІ → довіра → люди. Вирішальна перевага належить колегіальному тандему верифікованих експертів із прозорим аналітичним інструментарієм на борту. Ця пропозиція описує базовий цифровий інструмент, що дозволяє Інституту (ISRM — Institute of Strategic Risk Management; членський портал theisrm.org та корпоративний сайт isrmcorp.com) збирати, мобілізувати та доказово підтверджувати експертизу в масштабах усієї мережі.",
-              )}
+          {/* Executive Cover Letter — 5 points */}
+          <div style={{ maxWidth: 860, marginTop: '1.5rem' }}>
+            {/* 1. Acknowledgment */}
+            <p style={{ fontSize: '1.05rem', lineHeight: 1.75, color: '#0a2e24', margin: '0 0 1.5rem', fontWeight: 500 }}>
+              {text("We acknowledge the leadership of the Institute of Strategic Risk Management in setting standards for security, resilience, and crisis management across Britain, Europe, and the world. We are particularly grateful for the opening of the Ukrainian chapter and the Institute's attention to questions of mental wellbeing — a theme that resonates deeply with the current national context.", "Визнаємо лідерську роль Інституту стратегічного управління ризиками (ISRM) у формуванні стандартів безпеки, резільєнтності та антикризового управління в Британії, Європі та світі. Особливо вдячні за відкриття українського чаптеру та увагу Інституту до питань ментального добробуту — тема, що глибоко резонує з поточним національним контекстом.")}
             </p>
+
+            {/* 2. Context — AI as competition */}
+            <p style={{ fontSize: '1.05rem', lineHeight: 1.75, color: '#0a2e24', margin: '0 0 1.5rem' }}>
+              {text("In an age where AI can answer any question faster and more conveniently than a human, the temptation is to treat AI as competition for the expert position. But if the game is framed as human-versus-AI, the human has already lost. The real opportunity lies elsewhere.", "У епоху, коли ШІ може відповісти на будь-яке питання швидше і зручніше за людину, виникає спокуса сприймати ШІ як конкуренцію за експертну позицію. Але якщо гра рамується як людина проти ШІ — людина вже програла. Справжня можливість лежить інде.")}
+            </p>
+
+            {/* 3. Hypothesis 1 */}
+            <div style={{ borderLeft: '4px solid #c8901a', paddingLeft: '1rem', margin: '0 0 1.5rem' }}>
+              <p style={{ fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#c8901a', margin: '0 0 0.5rem' }}>
+                {text("Hypothesis 1", "Гіпотеза 1")}
+              </p>
+              <p style={{ fontSize: '1.05rem', lineHeight: 1.75, color: '#0a2e24', margin: 0 }}>
+                {text("If we take AI 'on board' — not as competitor but as instrument — the critical asset and competitive advantage remains professional expertise verified by AI that people now trust. Trust is not a static certificate; it is the operational infrastructure of professional practice. The sequence becomes: people \u2192 trust in AI + expertise & experience \u2192 trust \u2192 people. The advantage belongs to the tandem of verified experts with transparent analytical tools on board.", "Якщо взяти ШІ 'на озброєння' — не як конкурента, а як інструмент — критичним активом і конкурентною перевагою залишається професійна експертиза, верифікована ШІ, якому тепер довіряють люди. Довіра — це не статичний сертифікат, а операційна інфраструктура професійної практики. Послідовність: люди \u2192 довіра до ШІ + експертизи та досвіду \u2192 довіра \u2192 люди. Перевага належить тандему верифікованих експертів із прозорим аналітичним інструментарієм на борту.")}
+              </p>
+              <p style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0b544c', margin: '0.75rem 0 0', fontStyle: 'italic' }}>
+                {text("Who would question the credibility of a seasoned practitioner whose expertise is AI-verified?", "Хто б поставив під сумнів достовірність досвідченого практика, чия експертиза верифікована ШІ?")}
+              </p>
+            </div>
+
+            {/* 4. Hypothesis 2 */}
+            <div style={{ borderLeft: '4px solid #2a6e78', paddingLeft: '1rem', margin: '0 0 1.5rem' }}>
+              <p style={{ fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#2a6e78', margin: '0 0 0.5rem' }}>
+                {text("Hypothesis 2", "Гіпотеза 2")}
+              </p>
+              <p style={{ fontSize: '1.05rem', lineHeight: 1.75, color: '#0a2e24', margin: 0 }}>
+                {text("Confidence in expertise and successful application of solutions is a non-negotiable value for clients of any rank — it affects reputation, trust, and fee size. And it begins within the horizontal connections of a professional community.", "Впевненість в експертизі та успішному застосуванні рішень — неприложна цінність для клієнтів будь-якого рангу. Вона впливає на репутацію, довіру та розмір гонорару. І починається з горизонтальних зв'язків професійного ком'юніті.")}
+              </p>
+            </div>
           </div>
 
           <div
