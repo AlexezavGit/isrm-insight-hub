@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Інтерактивна мапа мережевої експертизи — ISRM</title>
+<style>
+  :root {
+    --ink: #13302c;
+    --ink-soft: #566762;
+    --teal-deep: #0b2422;
+    --teal: #123c3a;
+    --teal-light: #2a6e78;
+    --brass: #c8901a;
+    --brass-pale: #fce9b0;
+    --cream: #f2eadb;
+    --sand: #e9dec9;
+    --red: #e50914;
+    --border: rgba(19, 48, 44, 0.18);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--sand); color: var(--ink); font-family: "Lato", "Source Sans 3", ui-sans-serif, system-ui, sans-serif; line-height: 1.6; }
+  body { min-height: 100vh; display: flex; flex-direction: column; }
+
+  /* Header */
+  header {
+    background: var(--teal-deep);
+    color: var(--cream);
+    padding: 2rem 1rem 1.5rem;
+    border-bottom: 4px solid var(--brass);
+  }
+  .header-inner { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
+  .logo-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .logo-placeholder {
+    width: 48px; height: 48px; background: var(--brass); color: var(--teal-deep);
+    border-radius: 6px; display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 1.1rem; letter-spacing: 0.05em;
+  }
+  h1 { font-family: "Montserrat", "Space Grotesk", ui-sans-serif, system-ui, sans-serif; font-size: clamp(1.6rem, 4vw, 2.4rem); margin: 0; letter-spacing: -0.02em; }
+  .subtitle { font-size: 0.95rem; color: var(--brass-pale); font-family: "IBM Plex Mono", ui-monospace, monospace; letter-spacing: 0.08em; }
+
+  main { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; flex: 1; }
+
+  /* Block 1 — Intro */
+  .intro {
+    background: var(--cream);
+    border-left: 5px solid var(--brass);
+    padding: 1.5rem 2rem;
+    margin-bottom: 2.5rem;
+    font-size: 1.05rem;
+  }
+  .intro strong { color: var(--teal-deep); }
+
+  /* Block 2 — Challenge vs Answer + Trust Triangle */
+  .block2 { margin-bottom: 2.5rem; }
+  .block2 h2 { font-family: "Montserrat", sans-serif; font-size: 1.4rem; margin-bottom: 1rem; color: var(--teal-deep); border-bottom: 2px solid var(--brass); display: inline-block; padding-bottom: 0.3rem; }
+  .challenge-answer { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+  @media (max-width: 768px) { .challenge-answer { grid-template-columns: 1fr; } }
+  .card { border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; background: #fff; }
+  .card h3 { margin: 0 0 1rem; font-size: 1.1rem; }
+  .challenge h3 { color: var(--red); }
+  .answer h3 { color: var(--teal); }
+  ul { margin: 0; padding-left: 1.2rem; }
+  li { margin-bottom: 0.5rem; color: var(--ink-soft); }
+
+  .trust-triangle-wrap { max-width: 700px; margin: 0 auto; text-align: center; }
+  .trust-triangle-wrap h3 { font-family: "Montserrat", sans-serif; font-size: 1.2rem; color: var(--teal-deep); margin-bottom: 0.5rem; }
+  svg.trust-triangle { width: 100%; max-width: 560px; height: auto; display: block; margin: 1rem auto; }
+  .tri-label { font-family: "IBM Plex Mono", monospace; font-size: 0.85rem; fill: var(--ink); font-weight: 700; }
+  .tri-edge-label { font-family: "IBM Plex Mono", monospace; font-size: 0.8rem; fill: var(--brass); font-weight: 700; }
+  .tri-note { font-size: 0.85rem; color: var(--ink-soft); margin-top: 1rem; font-style: italic; }
+
+  /* Block 3 — Slogan */
+  .slogan { text-align: center; margin: 3rem 0; padding: 2rem 1rem; background: var(--teal); color: var(--cream); border-radius: 12px; }
+  .slogan big { font-family: "Montserrat", sans-serif; font-size: 1.5rem; font-weight: 700; display: block; margin-bottom: 0.5rem; }
+  .slogan p { margin: 0; font-size: 1rem; color: var(--brass-pale); }
+
+  /* Inverted Pyramid */
+  .pyramid-wrap { margin: 2.5rem 0; }
+  .pyramid-wrap h2 { font-family: "Montserrat", sans-serif; font-size: 1.4rem; margin-bottom: 1.5rem; color: var(--teal-deep); text-align: center; }
+  .pyramid { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .pyramid-level {
+    width: 100%;
+    max-width: 900px;
+    padding: 2rem 2.5rem;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    position: relative;
+    background: #fff;
+  }
+  /* Inverted: top is widest, bottom narrowest — we simulate via padding/content width */
+  .pyramid-level.top { border-bottom: none; border-top: 6px solid var(--teal); }
+  .pyramid-level.middle { border-bottom: none; border-top: none; border-top: 6px solid var(--brass); }
+  .pyramid-level.base { border-bottom: 6px solid var(--teal-light); border-top: none; max-width: 560px; }
+
+  .pyramid-level h3 { font-family: "Montserrat", sans-serif; font-size: 1.15rem; margin: 0 0 0.75rem; color: var(--ink); }
+  .py-label { font: 700 0.7rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: 0.1em; color: var(--brass); display: block; margin-bottom: 0.5rem; }
+  .py-desc { font-size: 0.95rem; color: var(--ink-soft); margin-bottom: 1.25rem; }
+  .py-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  @media (max-width: 768px) { .py-columns { grid-template-columns: 1fr; } }
+  .py-col h4 { font-size: 0.9rem; margin: 0 0 0.5rem; color: var(--teal-deep); text-transform: uppercase; letter-spacing: 0.05em; font-family: "IBM Plex Mono", monospace; }
+  .py-col p { margin: 0; font-size: 0.9rem; color: var(--ink-soft); }
+  .py-tag { display: inline-block; margin-top: 1rem; font: 600 0.75rem "IBM Plex Mono", monospace; padding: 0.4rem 0.8rem; background: color-mix(in oklab, var(--brass) 12%, transparent); border: 1px dashed var(--brass); color: var(--brass); border-radius: 4px; }
+
+  .lighthouse {
+    text-align: center;
+    font-size: 2.5rem;
+    margin: -10px 0 1rem;
+    opacity: 0.6;
+  }
+
+  /* Block 7 — CTA */
+  .cta { margin: 3rem 0; text-align: center; }
+  .cta-card { border: 2px solid var(--brass); border-radius: 12px; padding: 2.5rem 2rem; background: var(--cream); display: inline-block; }
+  .cta-card h2 { font-family: "Montserrat", sans-serif; font-size: 1.5rem; margin: 0 0 1rem; color: var(--ink); }
+  .cta-card p { margin: 0 0 1.5rem; color: var(--ink-soft); max-width: 700px; margin-left: auto; margin-right: auto; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--teal-deep); color: #fff; text-decoration: none;
+    padding: 0.9rem 1.8rem; border-radius: 6px; font-weight: 700; font-size: 1rem;
+    transition: background 0.2s;
+  }
+  .btn:hover { background: var(--brass); color: var(--teal-deep); }
+  .btn svg { width: 20px; height: 20px; fill: currentColor; }
+
+  /* Block 8 — Contributors + App Map */
+  .block8 { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .block8 h2 { font-family: "Montserrat", sans-serif; font-size: 1.3rem; margin-bottom: 1rem; color: var(--teal-deep); }
+  .contributors { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; justify-content: center; }
+  .contrib-card {
+    border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; background: #fff;
+    min-width: 150px; text-align: center;
+  }
+  .contrib-card .role { font: 700 0.65rem "IBM Plex Mono", monospace; text-transform: uppercase; color: var(--brass); margin-bottom: 0.25rem; display: block; }
+  .contrib-card .name { font-weight: 700; color: var(--ink); margin-bottom: 0.25rem; }
+  .contrib-card .bio { font-size: 0.8rem; color: var(--ink-soft); }
+
+  .app-map { border: 1px solid var(--border); border-radius: 10px; background: #fff; padding: 1.5rem; }
+  .app-map h3 { font-family: "Montserrat", sans-serif; margin: 0 0 1rem; color: var(--ink); font-size: 1.1rem; }
+  .map-nodes { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+  .map-node {
+    border: 2px solid var(--teal); border-radius: 8px; padding: 1rem 1.5rem; background: var(--cream);
+    cursor: pointer; transition: all 0.2s; text-align: center; min-width: 140px;
+  }
+  .map-node:hover { background: var(--brass-pale); border-color: var(--brass); transform: translateY(-2px); }
+  .map-node .step { font: 700 0.7rem "IBM Plex Mono", monospace; text-transform: uppercase; color: var(--teal-deep); display: block; margin-bottom: 0.3rem; }
+  .map-node .label { font-weight: 700; color: var(--ink); font-size: 0.95rem; }
+
+  footer { background: var(--teal-deep); color: var(--cream); padding: 2rem 1rem; text-align: center; font-size: 0.8rem; border-top: 4px solid var(--brass); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-row">
+      <div class="logo-placeholder">ISRM</div>
+      <div>
+        <h1>Інтерактивна мапа мережевої експертизи</h1>
+        <div class="subtitle">Executive Summary · Довірений консалтинг у епоху ШІ</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Block 1 -->
+  <section class="intro">
+    <strong>Ця пропозиція — інтерактивний воркфлоу, а не чергова таблиця:</strong> робоча поверхня для збору мережевої експертизи, формування проєктних груп, унаочнення потенціалу та лідерства думок — з верифікацією фактів за допомогою ШІ.
+  </section>
+
+  {/* Block 2 */}
+  <section class="block2">
+    <h2>Виклик та відповідь</h2>
+    <div class="challenge-answer">
+      <div class="card challenge">
+        <h3>Виклик</h3>
+        <ul>
+          <li>Криза довіри людей до людей. ШІ досягає експертної позиції — неможливо пройти повз будь-яке питання.</li>
+          <li>ШІ завжди поряд — швидше, зручніше, частіше влучно.</li>
+          <li>Якщо сприймати ШІ як конкуренцію за експертну позицію, гра програна.</li>
+        </ul>
+      </div>
+      <div class="card answer">
+        <h3>Відповідь</h3>
+        <ul>
+          <li>Зробити ШІ тренованим інструментом експертів і консультантів.</li>
+          <li>Зібрати мережеву експертизу, щоб підтвердити актуальність разом з ШІ та trenувати моделі.</li>
+          <li>Забезпечити доступ експертів ISRM для конкурентної переваги з приєднанням довіри.</li>
+          <li>Модернізувати горизонтальні зв'язки та відносини за допомогою ШІ та технологічного інструментарію.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="trust-triangle-wrap">
+      <h3>Трикутник довіри</h3>
+      <svg class="trust-triangle" viewBox="0 0 560 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Трикутник довіри: клієнт, експерт, ШІ">
+        <defs>
+          <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#c8901a" />
+          </marker>
+        </defs>
+        <!-- Triangle edges -->
+        <path d="M 90 120 Q 280 120 470 120" stroke="#c8901a" fill="none" stroke-width="2" marker-end="url(#arr)" />
+        <path d="M 470 120 Q 520 200 280 280" stroke="#c8901a" fill="none" stroke-width="2" marker-end="url(#arr)" />
+        <path d="M 280 280 Q 90 200 90 120" stroke="#c8901a" fill="none" stroke-width="2" marker-end="url(#arr)" />
+        <!-- Nodes -->
+        <circle cx="90" cy="120" r="18" fill="#0b2422" stroke="#c8901a" stroke-width="2" />
+        <text x="90" y="125" text-anchor="middle" class="tri-label" fill="#fff">Клієнт</text>
+        <circle cx="470" cy="120" r="18" fill="#123c3a" stroke="#c8901a" stroke-width="2" />
+        <text x="470" y="125" text-anchor="middle" class="tri-label" fill="#fff">Експерт</text>
+        <circle cx="280" cy="60" r="18" fill="#c8901a" stroke="#0b2422" stroke-width="2" />
+        <text x="280" y="65" text-anchor="middle" class="tri-label" fill="#13302c">ШІ</text>
+        <!-- Edge labels -->
+        <text x="280" y="105" text-anchor="middle" class="tri-edge-label">довіра + експертиза</text>
+        <text x="510" y="190" text-anchor="middle" class="tri-edge-label">довіра</text>
+        <text x="280" y="298" text-anchor="middle" class="tri-edge-label">експертиза</text>
+      </svg>
+      <p class="tri-note">Клієнт і експерт зв'язані двома ребрами (довіра, експертиза). Довіра між ними сгасає і перемагнічується до ШІ. Від експерта до ШІ з'являється ребро експертизи — напругає, наростає в товщині і яскравості, як енергія, яка тече. ШІ стає перед експертом, усі вистралюються в лінію — звязок відновлено. Експертиза і довіра циркулюють через ШІ до експерта і до клієнта.</p>
+    </div>
+  </section>
+
+  {/* Block 3 */}
+  <section class="slogan">
+    <big>Досвідчений експерт + керовані аналітичні агенти ШІ = еволюція довіри</big>
+    <p>Хто б поставив під сумнів достовірність досвідченого практика, чия експертиза верифікована ШІ? Тільки інший — але у нього немає емоційної сили.</p>
+  </section>
+
+  {/* Inverted Pyramid — Blocks 4, 5, 6 */}
+  <section class="pyramid-wrap">
+    <h2>Пір аміда-маяк воркфлоу</h2>
+    <div class="pyramid">
+
+      {/* Level 1 — Top (wide): Base MVP */}
+      <div class="pyramid-level top">
+        <span class="py-label">Основа — фундамент</span>
+        <h3>Базовий інтерактивний воркфлоу (MVP)</h3>
+        <p class="py-desc">Це не чергова таблиця — це цифровий додаток для мапування доступної експертизи та її носіїв, з вбудованим ШІ OSINT та базовими сервісними можливостями.</p>
+        <div class="py-columns">
+          <div class="py-col">
+            <h4>Демонстрація</h4>
+            <p>Пошук та відбір експертизи чи конкретних консультантів та конфігуратор сервісів, які потребують розробки: запити професійної підтримки, запрошення до обговорень, ініціювання R&D та проведення досліджень, надання коментарів або експертних висновків для публікацій.</p>
+          </div>
+          <div class="py-col">
+            <h4>Очікуваний результат</h4>
+            <p>Створення рейків для забезпечення горизонтальних зв'язків та запуску групової динаміки. Підготовка поля доступу до технологій та інструментів ШІ — розширення поверхні для збору мережевої експертизи.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Level 2 — Middle: Acquisition */}
+      <div class="pyramid-level middle">
+        <span class="py-label">Середина — цикл залучення</span>
+        <h3>Воркфлоу Циклу еквізішену-рекрутингу членів асоціації / користувачів послуг ISRM</h3>
+        <p class="py-desc">Втілення цифрового супроводу, програмування повторюваного циклу залучення — еквізішену через активності в чаптерах та секторах експертизи, на принципах взаємної цифрової Довіри.</p>
+        <div class="py-columns">
+          <div class="py-col">
+            <h4>Демонстрація</h4>
+            <p>Пошук — конфігуратор сервісів та показ залежностей для взаємодії до конкретних учасників. Для промислового використання: розробка сервісної частини, наповнення АДЖЕНДИ, заливка даних про фоловерів, комунікаційна кампанія (інтеграція з HubSpot та іншими інструментами).</p>
+          </div>
+          <div class="py-col">
+            <h4>Очікуваний результат</h4>
+            <p>Охоплення цільової аудиторії, потік контенту відкритих аналітичних звітів із залученням цільової аудиторії для нарощування капасити, визначення прийнятної групової динаміки. Широкий оплачуваний доступ до експертизи та конвертація фахових дискусій у платне членство.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Level 3 — Bottom (narrow): Network expertise accumulation / Lighthouse */}
+      <div class="pyramid-level base">
+        <div class="lighthouse">🕯️</div>
+        <span class="py-label">Вершин — маяк експертизи</span>
+        <h3>Воркфлоу Циклу накопичення, трансформації та розповсюдження мережевої експертизи</h3>
+        <p class="py-desc">Не черговий банк знань — це побудова постійно оновлюваного потоку даних, його трансформація до навчальних програм та матеріалів публікацій. Поверхня для збору мережевої експертизи та групової взаємодії.</p>
+        <div class="py-columns">
+          <div class="py-col" style="grid-column: 1 / -1;">
+            <h4>Очікуваний результат</h4>
+            <p>Унаочнення потенціалу та лідерства думок з верифікованими фактами за допомогою ШІ. Створення передумов для формування проєктних груп та перехрестних продажів послуг з рефералом ISRM. Перманентне оновлення мережевої експертизи та актуалізація за допомогою ШІ.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  {/* Block 7 — CTA */}
+  <section class="cta">
+    <div class="cta-card">
+      <h2>Демонстрація спроможності</h2>
+      <p>Інтерактивний прототип для роботи з оцифрованими даними про частину мережі ISRM, який розкриває внутрішні залежності та інсайти.</p>
+      <a href="#" class="btn">Кнопка до демонстрації мережі <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+  </section>
+
+  {/* Block 8 — Contributors + App Map */}
+  <section class="block8">
+    <h2>Виконавці та mapa застосунку</h2>
+    <div class="contributors">
+      <div class="contrib-card">
+        <span class="role">Організаційний розвиток, людський капітал</span>
+        <span class="name">Олексій Зволинський</span>
+        <span class="bio">Організаційний розвиток, реструктуризація НВО, ринки людського капіталу.</span>
+      </div>
+      <div class="contrib-card">
+        <span class="role">Захист персональних даних, GDPR</span>
+        <span class="name">Арсен Нізельський</span>
+        <span class="bio">Захист персональних даних та відповідність GDPR.</span>
+      </div>
+    </div>
+
+    <div class="app-map">
+      <h3>Карта застосунку (ноди клікабельні)</h3>
+      <div class="map-nodes">
+        <div class="map-node">
+          <span class="step">Крок 1</span>
+          <span class="label">Executive Summary</span>
+        </div>
+        <div class="map-node">
+          <span class="step">Крок 2</span>
+          <span class="label">Демонстрація та конфігуратор</span>
+        </div>
+        <div class="map-node">
+          <span class="step">Крок 3</span>
+          <span class="label">Погодження обсягу робіт</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  © 2026 ISRM Insight Hub — автономний стенд концепції. Не є частиною живого коду додатку.
+</footer>
+
+</body>
+</html>
