@@ -100,11 +100,13 @@ function NetworkPage() {
   const [connectedPeopleCount, setConnectedPeopleCount] = useState(0);
   // Reusable 'Under development' modal — replaces native alert() calls (which were white-themed).
   // Dark theme + blur backdrop per user spec.
-  const [underDevAlert, setUnderDevAlert] = useState<{ open: boolean; message: string }>({
+  const [underDevAlert, setUnderDevAlert] = useState<{ open: boolean; message: string; context: "dossier" | "project" | "default" }>({
     open: false,
     message: "",
+    context: "default",
   });
-  const showUnderDev = (msg: string) => setUnderDevAlert({ open: true, message: msg });
+  const showUnderDev = (msg: string, context: "dossier" | "project" | "default" = "default") =>
+    setUnderDevAlert({ open: true, message: msg, context });
 
   // Group formation workflow states
   const [projectGroup, setProjectGroup] = useState<string[]>([]);
@@ -447,6 +449,7 @@ function NetworkPage() {
                         locale === "uk"
                           ? "Детальне досьє на стадії розробки."
                           : "Detailed dossier is currently under development.",
+                        "dossier",
                       );
                     }}
                   >
@@ -517,6 +520,7 @@ function NetworkPage() {
                                     locale === "uk"
                                       ? "Повне досьє на стадії розробки."
                                       : "Full dossier is currently under development.",
+                                    "dossier",
                                   );
                                 }}
                               >
@@ -546,16 +550,7 @@ function NetworkPage() {
                     >
                       {locale === "uk" ? "Зберегти групу до проєкту" : "Save group to project"}
                     </Button>
-                    <div className="grid grid-cols-2 gap-2">
-                      <Button
-                        variant="outline"
-                        onClick={() => {
-                          setFocus(null);
-                          setGroupViewOpen(false);
-                        }}
-                      >
-                        {locale === "uk" ? "До графа" : "To graph"}
-                      </Button>
+                    <div className="grid grid-cols-1 gap-2">
                       <Button
                         variant="secondary"
                         onClick={() => {
@@ -626,6 +621,7 @@ function NetworkPage() {
                           locale === "uk"
                             ? "Збереження проєкту на стадії розробки."
                             : "Project saving is currently under development.",
+                          "project",
                         );
                       }}
                     >
