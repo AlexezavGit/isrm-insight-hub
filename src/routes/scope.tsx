@@ -323,222 +323,128 @@ function ScopePage() {
         <div className="scope-layout">
           {/* LEFT: scope sections */}
           <div className="scope-sections">
-            {/* Section 01 — MVP (always included, checked + disabled checkbox) */}
-            <article className="scope-section scope-section--active" aria-labelledby="scope-mvp-heading">
+            {/* Section 01: Feasibility — 30% */}
+            <article className="scope-section scope-section--active" aria-labelledby="scope-feasibility-heading">
               <div className="scope-section-header">
                 <span className="scope-section-number">01</span>
                 <div style={{ flex: 1 }}>
-                  <h2 id="scope-mvp-heading" className="scope-section-title">
-                    {text("Application MVP", "MVP застосунку")}
+                  <h2 id="scope-feasibility-heading" className="scope-section-title">
+                    {text("Feasibility", "Фізібіліті")}
                   </h2>
-                  <label className="scope-checkbox-label" style={{ cursor: "not-allowed", opacity: 0.9 }}>
+                  <label className="scope-checkbox-label" style={{ cursor: 'not-allowed', opacity: 0.9 }}>
                     <input type="checkbox" checked={true} disabled={true} className="scope-checkbox accent-primary" />
-                    <span className="font-semibold text-primary">{text("Included (core)", "Включено (основа)")}</span>
+                    <span className="font-semibold text-primary">{text("Included (core) — 30%", "Включено (основа) — 30%")}</span>
                   </label>
                 </div>
               </div>
               <p className="scope-section-desc">
-                {text(
-                  "Specialist search, collegiate panel selection, project assignment, credential verification, and attributable evidence logging. The foundational standalone platform.",
-                  "Пошук експертів, відбір групи, призначення до проєкту, перевірка профілю та запис доказів. Перший самостійно корисний продукт.",
-                )}
+                {text("Creation and approval of detailed TOR and Proposal, with period and budget estimation. Formalisation of relations with Agreement signing.", "Створення та затвердження детального ТЗ та Пропозиції, з оцінкою періоду та бюджету. Формалізація відносин з підписанням Угоди.")}
               </p>
               <ul className="scope-feature-list">
-                {(uk
-                  ? [
-                      "Пошук і фільтрування експертів",
-                      "Відбір групи за метою",
-                      "Перегляд профілю й доказів",
-                      "Облік цілей і задач проєкту",
-                      "Підготовка першого контакту",
-                    ]
-                  : [
-                      "Specialist search and capability filtering",
-                      "Mandate-based expert panel selection",
-                      "Profile review and evidence validation",
-                      "Project objectives and deliverable tracking",
-                      "First collegiate contact preparation",
-                    ]
-                ).map((f) => (
-                  <li key={f}>{f}</li>
-                ))}
+                {(uk ? [
+                  "Детальне технічне завдання та комерційна пропозиція",
+                  "Погодження періоду реалізації та бюджетної стелі",
+                  "Підписання Угоди — перший платіж 30%",
+                ] : [
+                  "Detailed TOR and commercial proposal",
+                  "Agreement on implementation period and budget ceiling",
+                  "Agreement signing — first payment 30%",
+                ]).map((f, i) => <li key={i}>{f}</li>)}
               </ul>
             </article>
 
-            {/* Section 02 — Engagement cycle (opt-in) */}
-            <article className={`scope-section${pilotIncluded ? " scope-section--active" : ""}`} aria-labelledby="scope-pilot-heading">
+            {/* Section 02: Integration and Testing — 50% */}
+            <article className={`scope-section${pilotIncluded ? " scope-section--active" : ""}`} aria-labelledby="scope-integration-heading">
               <div className="scope-section-header">
                 <span className="scope-section-number">02</span>
                 <div style={{ flex: 1 }}>
                   <label className="scope-section-label" htmlFor="include-pilot">
-                    <h2 id="scope-pilot-heading" className="scope-section-title">
-                      {text("Expert Engagement Cycle", "Цикл залучення експертів")}
+                    <h2 id="scope-integration-heading" className="scope-section-title">
+                      {text("Integration and Testing", "Інтеграція та тестування")}
                     </h2>
                   </label>
                   <label className="scope-checkbox-label" htmlFor="include-pilot">
-                    <input
-                      id="include-pilot"
-                      type="checkbox"
-                      checked={pilotIncluded}
-                      onChange={(e) => setPilotIncluded(e.target.checked)}
-                      className="scope-checkbox"
-                    />
-                    <span>{text("Include in scope", "Включити до scope")}</span>
+                    <input id="include-pilot" type="checkbox" checked={pilotIncluded} onChange={(e) => setPilotIncluded(e.target.checked)} className="scope-checkbox" />
+                    <span>{text("Include — 50%", "Включити — 50%")}</span>
                   </label>
                 </div>
               </div>
               <p className="scope-section-desc">
-                {text(
-                  "Collegiate recruitment campaigns, Trust & Influence Index co-design, structured inquiry panels, and a published synthesis report. Commissioned following MVP acceptance.",
-                  "Кампанії залучення, спільне проєктування Trust & Influence Index, структуровані робочі групи та звіт. Опційно після прийняття MVP.",
-                )}
+                {text("Transfer of software for use by the agreed ISRM user circle for testing — collection of feedback, integration with existing ISRM digital systems.", "Передача програмного забезпечення для використання погодженим колом користувачів ISRM для тестування — збір зауважень, інтеграція з наявними цифровими системами ISRM.")}
               </p>
               <ul className="scope-feature-list">
-                {(uk
-                  ? [
-                      "Кампанії залучення експертів",
-                      "Спільне проєктування Trust & Influence Index",
-                      "Тематичні робочі групи",
-                      "Опитувальник спільноти",
-                      "Публікації та звіт",
-                    ]
-                  : [
-                      "Collegiate recruitment campaigns",
-                      "Trust & Influence Index co-design",
-                      "Agenda-based working panels",
-                      "Fellowship community questionnaire",
-                      "Monographs and annual synthesis report",
-                    ]
-                ).map((f) => (
-                  <li key={f}>{f}</li>
-                ))}
+                {(uk ? [
+                  "Тестування погодженим колом користувачів ISRM",
+                  "Усунення зауважень, розгляд нових пропозицій",
+                  "Другий платіж 50%",
+                ] : [
+                  "Testing by agreed ISRM user circle",
+                  "Bug fixing, review of new proposals",
+                  "Second payment 50%",
+                ]).map((f, i) => <li key={i}>{f}</li>)}
               </ul>
-              {/* Two-state signal: what you get vs what you lose */}
-              <div
-                style={{
-                  marginTop: "0.85rem",
-                  padding: "0.7rem 0.85rem",
-                  borderRadius: "8px",
-                  border: `1px solid ${pilotIncluded ? "rgba(16,185,129,0.4)" : "rgba(220,80,60,0.4)"}`,
-                  background: pilotIncluded
-                    ? "rgba(200,144,26,0.06)"
-                    : "rgba(200,144,26,0.08)",
-                  fontSize: "0.85rem",
-                  lineHeight: 1.55,
-                }}
-              >
-                <p
-                  style={{
-                    margin: 0,
-                    fontWeight: 700,
-                    fontSize: "0.72rem",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                    color: pilotIncluded ? "var(--color-success)" : "var(--color-destructive)",
-                  }}
-                >
-                  {pilotIncluded
-                    ? text("Функціональність — what you get", "Функціональність — що отримуєте")
-                    : text("Втрачається — what you lose", "Втрачається — що йде")}
-                </p>
-                <p style={{ margin: "0.4rem 0 0", color: "var(--color-foreground)" }}>
-                  {pilotIncluded
-                    ? text(
-                        "Engagement campaigns bring new fellows into the network; TII co-design establishes the methodology; working panels produce published synthesis and monographs. The Institute gains measurable recruitment, methodology assets, and thought leadership.",
-                        "Кампанії залучення приносять нових членів у мережу; спільне проєктування TII формує методологію; робочі групи публікують синтез-звіти та монографії. Інститут отримує вимірюване залучення, методологічні активи та лідерство думок.",
-                      )
-                    : text(
-                        "Without this cycle, the Institute keeps the MVP but loses the recruitment funnel, the TII methodology co-design, the published synthesis, and the annual monograph line-up — the network stays at the MVP size without organic growth.",
-                        "Без цього циклу Інститут зберігає MVP, але втрачає воронку залучення, спільне проєктування TII, публікацію синтез-звіту та щорічні монографії — мережа лишаються на рівні MVP без органічного зростання.",
-                      )}
-                </p>
-              </div>
             </article>
 
-            {/* Section 03 — Consulting (opt-in) */}
-            <article className={`scope-section${consultingIncluded ? " scope-section--active" : ""}`} aria-labelledby="scope-consulting-heading">
+            {/* Section 03: Deploy and Operations — 20% */}
+            <article className={`scope-section${consultingIncluded ? " scope-section--active" : ""}`} aria-labelledby="scope-deploy-heading">
               <div className="scope-section-header">
                 <span className="scope-section-number">03</span>
                 <div style={{ flex: 1 }}>
                   <label className="scope-section-label" htmlFor="include-consulting">
-                    <h2 id="scope-consulting-heading" className="scope-section-title">
-                      {text("Strategic Advisory & Governance", "Шеринг досвіду та стратегія")}
+                    <h2 id="scope-deploy-heading" className="scope-section-title">
+                      {text("Deploy and Operations", "Розгортання та операції")}
                     </h2>
                   </label>
                   <label className="scope-checkbox-label" htmlFor="include-consulting">
-                    <input
-                      id="include-consulting"
-                      type="checkbox"
-                      checked={consultingIncluded}
-                      onChange={(e) => setConsultingIncluded(e.target.checked)}
-                      className="scope-checkbox"
-                    />
-                    <span>{text("Include in scope", "Включити до scope")}</span>
+                    <input id="include-consulting" type="checkbox" checked={consultingIncluded} onChange={(e) => setConsultingIncluded(e.target.checked)} className="scope-checkbox" />
+                    <span>{text("Include — 20%", "Включити — 20%")}</span>
                   </label>
                 </div>
               </div>
               <p className="scope-section-desc">
-                {text(
-                  "Strategic advisory sessions, Board governance briefings, capability gap analysis, and bespoke methodology formulation. Individually quoted — distinct from software development.",
-                  "Стратегічні сесії, підготовка борду, аналіз прогалин в експертизі та спільне проєктування рамки Trust & Influence Index. Окрема ціна — не включена у розробку.",
-                )}
+                {text("Fine tuning tailor-made for ISRM user profile and patterns. Opening general registration. Transfer of code or licence.", "Fine tuning tailor-made під профіль та патерн користувачів ISRM. Відкриття загальної реєстрації. Передача коду або ліцензії.")}
               </p>
               <ul className="scope-feature-list">
-                {(uk
-                  ? ["Аналіз прогалин в експертизі", "Фасилітація рішень борду", "Спільне проєктування рамки Trust & Influence Index"]
-                  : ["Institutional expertise gap analysis", "Council and Board governance facilitation", "Trust & Influence Index framework co-design"]
-                ).map((f) => (
-                  <li key={f}>{f}</li>
-                ))}
+                {(uk ? [
+                  "Fine tuning під конкретний профіль користувачів",
+                  "Відкриття загальної реєстрації та/або нового ТЗ",
+                  "Третій платіж 20%",
+                ] : [
+                  "Fine tuning for specific user profile",
+                  "Opening general registration and/or new TOR",
+                  "Third payment 20%",
+                ]).map((f, i) => <li key={i}>{f}</li>)}
               </ul>
-              {consultingIncluded && (
-                <p className="partner-muted" style={{ marginTop: "0.75rem", fontSize: "0.875rem" }}>
-                  {CLIENT_CONSULTING_OPTION[uk ? "uk" : "en"]}
-                </p>
-              )}
-              {/* Two-state signal: what you get vs what you lose */}
-              <div
-                style={{
-                  marginTop: "0.85rem",
-                  padding: "0.7rem 0.85rem",
-                  borderRadius: "8px",
-                  border: `1px solid ${consultingIncluded ? "rgba(16,185,129,0.4)" : "rgba(220,80,60,0.4)"}`,
-                  background: consultingIncluded
-                    ? "rgba(200,144,26,0.06)"
-                    : "rgba(200,144,26,0.08)",
-                  fontSize: "0.85rem",
-                  lineHeight: 1.55,
-                }}
-              >
-                <p
-                  style={{
-                    margin: 0,
-                    fontWeight: 700,
-                    fontSize: "0.72rem",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                    color: consultingIncluded ? "var(--color-success)" : "var(--color-destructive)",
-                  }}
-                >
-                  {consultingIncluded
-                    ? text("Функціональність — what you get", "Функціональність — що отримуєте")
-                    : text("Втрачається — what you lose", "Втрачається — що йде")}
-                </p>
-                <p style={{ margin: "0.4rem 0 0", color: "var(--color-foreground)" }}>
-                  {consultingIncluded
-                    ? text(
-                        "Strategic advisory sessions, Board governance briefings, expertise gap analysis, and TII framework co-design. The Institute gets senior counsel on priorities, governance, and methodology formulation.",
-                        "Стратегічні сесії, підготовка борду, аналіз прогалин в експертизі та спільне проєктування рамки TII. Інститут отримує старшу консультацію щодо пріоритетів, врядування та формування методології.",
-                      )
-                    : text(
-                        "Without advisory, the Institute self-directs the MVP rollout — losing access to senior counsel on governance facilitation, expertise gap analysis, and TII framework co-design. Decisions are made without external methodological review.",
-                        "Без консультацій Інститут самостійно веде розгортання MVP — втрачаючи доступ до старшої консультації з фасилітації врядування, аналізу прогалин в експертизі та спільного проєктування TII. Рішення приймаються без зовнішньої методологічної перевірки.",
-                      )}
-                </p>
-              </div>
             </article>
 
-            {/* Section 04: Custom Notes / Additional Requirements */}
+            {/* Possible formats of continuation */}
+            <div style={{ marginTop: '1.5rem', padding: '1rem 1.25rem', borderRadius: '2px', border: '1px solid rgba(200,144,26,0.25)', background: 'rgba(200,144,26,0.04)' }}>
+              <p style={{ fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#c8901a', margin: '0 0 0.5rem' }}>
+                {text("Possible formats of continuation (can start at any time)", "Можливі формати продовження (можуть починатись у будь який момент)")}
+              </p>
+              <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.88rem', lineHeight: 1.7, color: '#0a2e24' }}>
+                <li>{text("Acquisition & Recruitment Cycle support — driver of capacity development and professional succession.", "Супровід Циклу еквізішену-рекрутингу — драйвер розвитку капасіті та професійної наступності.")}</li>
+                <li>{text("Network Expertise Cycle support — its impact on ISRM customer acquisition and paid membership.", "Супровід Циклу накопичення мережевої експертизи — вплив на еквізішен клієнтів та оплачуване членство.")}</li>
+              </ul>
+            </div>
+
+            {/* 4th variant footnote */}
+            <div style={{ marginTop: '0.75rem', padding: '0.6rem 0.85rem', fontSize: '0.78rem', lineHeight: 1.5, color: '#566762' }}>
+              <sup style={{ color: '#c8901a', fontWeight: 700 }}>†</sup>{" "}
+              {text("Fallback: if the standard stages do not fit, the client may take the existing tool as-is, upload their own data, and we determine the creation budget. AI OSINT integration can be added.", "Запасний варіант: якщо стандартні етапи не підходять, замовник може взяти готовий інструмент як є, сам завантажити дані, і ми визначимо бюджет створення. Можливе додавання інтеграції з AI OSINT.")}
+            </div>
+
+            {/* Signature */}
+            <div style={{ marginTop: '2rem', padding: '1rem 1.5rem', borderTop: '2px solid #c8901a', borderBottom: '1px solid rgba(11,84,76,0.15)' }}>
+              <p style={{ fontSize: '0.95rem', color: '#0a2e24', margin: 0, fontStyle: 'italic' }}>
+                {text("I agree to proceed on the above basis.", "Погоджую на продовження на вищезазначеній основі.")}
+              </p>
+              <p style={{ fontSize: '0.95rem', color: '#0a2e24', margin: '0.5rem 0 0', fontWeight: 600 }}>
+                {text("David Rubens, Executive Director, ISRM", "Девід Рубенс, Executive Director, ISRM")}
+              </p>
+            </div>
+
+{/* Section 04: Custom Notes / Additional Requirements */}
             <article className="scope-section scope-section--active" style={{ marginTop: "1rem" }}>
               <div className="scope-section-header">
                 <span className="scope-section-number">04</span>
