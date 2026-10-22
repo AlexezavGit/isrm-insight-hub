@@ -277,9 +277,7 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
               {text("Alex Frishberg", "Алекс Фрішберг")}
             </h3>
             <p style={{ fontSize: '0.78rem', lineHeight: 1.5, color: '#2d4a3e', margin: 0, textAlign: 'center' }}>
-              {text("Coordination & value solution framework.", "Координація та value solution framework.")
-            </p>
-            <p style={{ fontSize: "0.78rem", lineHeight: 1.5, color: "#2d4a3e", margin: 0, textAlign: "right" }}>}
+              {text("Coordination & value solution framework.", "Координація та value solution framework.")}
             </p>
           </div>
           {/* 2. Filimonov — Head & OSINT */}
