@@ -277,7 +277,7 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
               {text("Alex Frishberg", "Алекс Фрішберг")}
             </h3>
             <p style={{ fontSize: '0.78rem', lineHeight: 1.5, color: '#2d4a3e', margin: 0, textAlign: 'center' }}>
-              {text("", "")}
+              {text("Coordination & value solution framework.", "Координація та value solution framework.")}
             </p>
           </div>
           {/* 2. Filimonov — Head & OSINT */}
@@ -289,7 +289,7 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
               {text("Dmitriy Filimonov", "Дмитро Филімонов")}
             </h3>
             <p style={{ fontSize: '0.78rem', lineHeight: 1.5, color: '#2d4a3e', margin: 0 }}>
-              {text("Client communication, discovery, coordination.", "Комунікація із замовником, діскавері, координація.")}
+              {text("External communications and campaigns, research, OSINT tooling.", "Зовнішні комунікації та кампанії, дослідження, OSINT інструментарій.")}
             </p>
           </div>
           {/* 3. Zvolinskiy — Management Consultant */}
@@ -303,7 +303,7 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
               </a>
             </h3>
             <p style={{ fontSize: '0.78rem', lineHeight: 1.5, color: '#2d4a3e', margin: 0 }}>
-              {text("Strategy & organisational development in NGOs; human capital market restructuring.", "Стратегія та організаційний розвиток у недержавних організаціях; реструктуризація ринків людського капіталу.")}
+              {text("Organisational development, human capital restructuring.", "Організаційний розвиток, реструктуризація людського капіталу.")}
             </p>
           </div>
           {/* 4. Nizelsky — Legal Advisor */}
@@ -333,18 +333,21 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
       <EntryFrame locale={locale} />
 
       {/* ── Footer ── */}
-      <footer className="partner-footer" style={{ background: "#ffffff", position: "sticky", bottom: 0, width: "100%", zIndex: 10, padding: "1.5rem", borderRadius: "8px", marginTop: "2rem" }}>
+            {/* CTA block — before footer */}
+      <div className="mt-8 mb-4" style={{ display: "flex", justifyContent: "center" }}>
+        <Button asChild variant="default" className="button-outline text-base px-8 py-5 shadow-lg" style={{ borderRadius: "2px" }}>
+          <Link to="/scope">{text("Proceed to agreement →", "перейти до погодження →")}</Link>
+        </Button>
+      </div>
+
+      <footer className="partner-footer" style={{ background: "#ffffff", position: "relative", width: "100%", padding: "1rem 1.5rem", borderRadius: "8px", marginTop: "2rem" }}>
         <div style={{ display: "flex", justifyContent: "center", marginBottom: "0.75rem" }}>
           <img src="https://frishberg.com/wp-content/uploads/2023/07/logo.jpg" alt="Frishberg" style={{ height: "48px", width: "auto", objectFit: "contain" }} />
         </div>
         <p style={{ textAlign: "center", fontSize: "0.72rem", color: "#94a3b8", margin: "0.5rem 0 0" }}>
           © 2026 Frishberg & Partners. All rights reserved.
         </p>
-        <div className="cta-bottom" style={{ display: "flex", flexWrap: "wrap", gap: "1rem", justifyContent: "center", alignItems: "center" }}>
-          <Button asChild variant="default" className="button-outline text-base px-8 py-5 shadow-lg" style={{ borderRadius: "2px", fontSize: "0.95rem" }} style={{ borderRadius: "2px" }}>
-            <Link to="/scope">{text("Proceed to agreement →", "перейти до погодження →")}</Link>
-          </Button>
-        </div>
+        
 
       </footer>
     </>

@@ -39,10 +39,10 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
           <a
             href="/partner"
             style={{
-              fontSize: "0.62rem",
+              fontSize: "0.85rem",
               fontWeight: 500,
               padding: "0.2rem 0.45rem",
-              borderRadius: "4px",
+              borderRadius: "2px",
               border: "none",
               background: "transparent",
               color: "rgba(10, 46, 36, 0.25)",
@@ -75,7 +75,7 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
           
           <address
               style={{
-                fontSize: "0.62rem",
+                fontSize: "0.85rem",
                 lineHeight: 1.35,
                 color: "color-mix(in oklab, var(--brass, #c8901a) 80%, var(--foreground, #13302c))",
                 fontStyle: "normal",
@@ -90,7 +90,7 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
               )}
               <br />
               <span style={{ opacity: 0.85 }}>
-                {text("Executive Director of the ISRM", "Executive Director of the ISRM")}
+                {text("Executive Director of the ISRM — for the Strategic Board", "Executive Director of the ISRM — for the Strategic Board")}
               </span>
             </address>
 
