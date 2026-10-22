@@ -273,6 +273,48 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
         </div>
       </section>
 
+
+      {/* Closing statement + MHPSS interest */}
+      <section style={{ marginTop: '3rem', marginBottom: '1rem', padding: '1.5rem', borderRadius: '2px', border: '1px solid rgba(200,144,26,0.3)', background: 'rgba(200,144,26,0.04)' }}>
+        <p style={{ fontSize: '1rem', lineHeight: 1.75, color: '#0a2e24', margin: '0 0 1rem' }}>
+          {text("We view the possibility of realising this non-trivial task with high interest. The demonstration presented here is evidence of that.", "З високої зацікавленості дивимось на можливість реалізації цієї нетривіальної задачі. Надана демонстрація свідчить про це.")}
+        </p>
+        <p style={{ fontSize: '1rem', lineHeight: 1.75, color: '#0a2e24', margin: '0 0 1rem', fontWeight: 500 }}>
+          {text("We acknowledge the leadership of the Institute of Strategic Risk Management in setting standards for security, resilience, and crisis management in Britain, Europe, and the world. We express particular gratitude for the opening of the Ukrainian chapter and your attention to questions important for Ukrainians and the country.", "Визнаємо лідерську роль Інституту стратегічного управління ризиками у формуванні стандартів безпеки, резільєнтності та антикризового управління в Британії, Європі та світі. Висловлюємо особливу подяку за відкриття українського чаптеру та вашу увагу до важливих питань для українців та країни.")}
+        </p>
+        <p style={{ fontSize: '1rem', lineHeight: 1.75, color: '#0a2e24', margin: '0 0 1rem' }}>
+          {text("We have a mutual interest in the potential participation of ISRM experts in risk analysis for the mental wellbeing sector in Ukraine — the backbone of resilience and post-war recovery — with the preparation of a public dashboard.", "Маємо зустрічну зацікавленість щодо потенційної участі експертів ISRM в аналізі ризиків сектору ментального добробуту в Україні — стрижня резільєнтності та повоєнного відновлення країни, з підготовкою публічного дашборду.")}
+          {" "}
+          <a href="https://dashboard.feelagain.me" target="_blank" rel="noopener noreferrer" style={{ color: '#c8901a', textDecoration: 'underline' }}>dashboard.feelagain.me</a>
+          {" | "}
+          <a href="https://www.theisrm.org/practical-mental-health-incident-management-for-non-specialists" target="_blank" rel="noopener noreferrer" style={{ color: '#c8901a', textDecoration: 'underline' }}>
+            {text("MHPSS programme ↗", "Програма MHPSS ↗")}
+          </a>
+        </p>
+        <p style={{ fontSize: '0.95rem', lineHeight: 1.65, color: '#0a2e24', margin: '0 0 1rem' }}>
+          {text("We hope that the complementarity of approaches and attention to mental wellbeing will allow us to perform a publicly valuable exercise for the benefit of Ukrainians, gaining expert positions together.", "Маємо надію, що комплементарність підходів та увага до ментального добробуту дозволить виконати публічно ціннісну вправу на користь українців з надбанням експертних позицій разом.")}
+        </p>
+
+        {/* Checkbox — stored in localStorage, flows to /scope email */}
+        <div style={{ marginTop: '1rem', padding: '0.85rem 1rem', borderRadius: '4px', border: '1.5px solid #c8901a', background: 'rgba(200,144,26,0.08)' }}>
+          <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', cursor: 'pointer' }}>
+            <input type="checkbox" id="dashboard-interest" style={{ width: '1.2rem', height: '1.2rem', marginTop: '0.1rem', accentColor: '#c8901a' }}
+              onChange={(e) => {
+                try { localStorage.setItem('isrm-dashboard-interest', e.target.checked ? 'interested' : 'not-interested'); } catch(err) {}
+              }}
+            />
+            <div>
+              <p style={{ fontWeight: 700, fontSize: '0.95rem', color: '#13302c', margin: 0 }}>
+                {text("Please tick if you would like to receive materials for review.", "Просимо зробити відмітку, якщо бажаєте отримати матеріали для ознайомлення.")}
+              </p>
+              <p style={{ fontSize: '0.82rem', color: '#566762', margin: '0.3rem 0 0' }}>
+                {text("Dashboard: interesting — will be included in the agreement email.", "Дашборд: цікаво — буде включено в лист погодження.")}
+              </p>
+            </div>
+          </label>
+        </div>
+      </section>
+
       <EntryFrame locale={locale} />
 
       {/* ── Footer ── */}

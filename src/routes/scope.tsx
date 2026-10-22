@@ -121,7 +121,18 @@ function ScopePage() {
         : `ISRM Scope & Budget Confirmation — ${pilotIncluded ? "MVP + Expert Cycle" : "Application MVP"}`
     );
 
-    const body = encodeURIComponent(
+    
+      // Dashboard interest from /proposal checkbox
+      const dashboardInterest = typeof localStorage !== 'undefined'
+        ? localStorage.getItem('isrm-dashboard-interest')
+        : null;
+      const dashboardLine = dashboardInterest
+        ? uk
+          ? `\nДашборд MHPSS: ${dashboardInterest === 'interested' ? 'цікаво' : 'не цікаво'}\n`
+          : `\nMHPSS Dashboard: ${dashboardInterest}\n`
+        : '';
+
+const body = encodeURIComponent(
       uk
         ? `Доброго дня,\n\n${preambleText}\n` +
             `──── ОБРАНИЙ ОБСЯГ ────\n${scopeLines}\n\n` +
