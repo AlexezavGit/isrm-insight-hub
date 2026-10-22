@@ -283,7 +283,7 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
           {/* 2. Filimonov — Head & OSINT */}
           <div className="card-hanging" style={{ padding: '1.25rem', borderLeft: '4px solid #c8901a' }}>
             <p style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#c8901a', fontWeight: 800, marginBottom: '0.3rem' }}>
-              {text("Head & OSINT", "Керівник та OSINT")}
+              {text("OSINT & Communications", "OSINT та комунікації")}
             </p>
             <h3 style={{ fontSize: '0.9rem', fontWeight: 700, color: '#064e3b', margin: '0 0 0.4rem' }}>
               {text("Dmitriy Filimonov", "Дмитро Филімонов")}
@@ -333,7 +333,7 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
       <EntryFrame locale={locale} />
 
       {/* ── Footer ── */}
-      <footer className="partner-footer" style={{ background: "#ffffff", padding: "1.5rem", borderRadius: "8px", marginTop: "2rem" }}>
+      <footer className="partner-footer" style={{ background: "#ffffff", position: "sticky", bottom: 0, width: "100%", zIndex: 10, padding: "1.5rem", borderRadius: "8px", marginTop: "2rem" }}>
         <div style={{ display: "flex", justifyContent: "center", marginBottom: "0.75rem" }}>
           <img src="https://frishberg.com/wp-content/uploads/2023/07/logo.jpg" alt="Frishberg" style={{ height: "48px", width: "auto", objectFit: "contain" }} />
         </div>
@@ -341,7 +341,7 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
           © 2026 Frishberg & Partners. All rights reserved.
         </p>
         <div className="cta-bottom" style={{ display: "flex", flexWrap: "wrap", gap: "1rem", justifyContent: "center", alignItems: "center" }}>
-          <Button asChild variant="default" className="button-outline text-base px-8 py-5 shadow-lg" style={{ borderRadius: "2px" }}>
+          <Button asChild variant="default" className="button-outline text-base px-8 py-5 shadow-lg" style={{ borderRadius: "2px", fontSize: "0.95rem" }} style={{ borderRadius: "2px" }}>
             <Link to="/scope">{text("Proceed to agreement →", "перейти до погодження →")}</Link>
           </Button>
         </div>

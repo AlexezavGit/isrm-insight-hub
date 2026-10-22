@@ -30,33 +30,9 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
         <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
           <div aria-label="ISRM" style={{ display: "flex", flexDirection: "column", gap: "0.15rem" }}>
             <IsrmLogo className="h-9 w-auto" />
-            <address
-              style={{
-                fontSize: "0.62rem",
-                lineHeight: 1.35,
-                color: "color-mix(in oklab, var(--brass, #c8901a) 80%, var(--foreground, #13302c))",
-                fontStyle: "normal",
-                margin: 0,
-                fontFamily: "var(--font-mono)",
-                letterSpacing: "0.02em",
-              }}
-            >
-              {text(
-                "Dr David Rubens D.SyRM, CSyP, F.ISRM",
-                "Dr David Rubens D.SyRM, CSyP, F.ISRM",
-              )}
-              <br />
-              <span style={{ opacity: 0.85 }}>
-                {text("Executive Director of the ISRM", "Executive Director of the ISRM")}
-              </span>
-            </address>
+            
           </div>
-          <Button asChild variant="ghost" className="partner-back" style={{ padding: "0.25rem 0.5rem", height: "auto", alignSelf: "center" }}>
-            <a href="/?network=true" style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", fontSize: "0.85rem" }}>
-              <ArrowLeft aria-hidden="true" style={{ width: 14, height: 14 }} />
-              <span>{text("Return to network graph", "До графа")}</span>
-            </a>
-          </Button>
+
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "0.85rem" }}>
@@ -96,6 +72,28 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
 
       <header className="partner-header" style={{ display: "block", padding: "0 0 2rem" }}>
         <div>
+          
+          <address
+              style={{
+                fontSize: "0.62rem",
+                lineHeight: 1.35,
+                color: "color-mix(in oklab, var(--brass, #c8901a) 80%, var(--foreground, #13302c))",
+                fontStyle: "normal",
+                margin: 0,
+                fontFamily: "var(--font-mono)",
+                letterSpacing: "0.02em",
+              }}
+            >
+              {text(
+                "Dr David Rubens D.SyRM, CSyP, F.ISRM",
+                "Dr David Rubens D.SyRM, CSyP, F.ISRM",
+              )}
+              <br />
+              <span style={{ opacity: 0.85 }}>
+                {text("Executive Director of the ISRM", "Executive Director of the ISRM")}
+              </span>
+            </address>
+
           <h1 className="font-display text-2xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
             {text(
               "Technologies that create Trust — the foundation of Trusted Practice",
