@@ -1,15 +1,28 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowLeft, FileDown, Send } from "lucide-react";
+import { ArrowLeft, ExternalLink, FileDown, Mail, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { IsrmLogo } from "@/components/IsrmLogo";
+import {
+  CLIENT_OFFER_PACKAGES,
+  CLIENT_CONSULTING_OPTION,
+  CLIENT_PRICING_STATUS,
+} from "@/lib/client-proposal-data";
+import { CLIENT_OFFER_COMBINED_ESTIMATE } from "@/lib/proposal-data";
+import { MARKET_BENCHMARKS } from "@/lib/proposal-data";
 import { useI18n } from "@/lib/i18n";
+
+import { NETWORK_SERVICES } from "@/lib/services-data";
 
 export const Route = createFileRoute("/scope")({
   head: () => ({
     meta: [
       { title: "ISRM — Scope & Budget" },
-      { name: "description", content: "ISRM — прийнятний напрям та загальний обсяг робіт цифрового додатку, погодження цільових лімітів бюджету проєкту." },
+      {
+        name: "description",
+        content:
+          "Review ISRM project scope and indicative budget. Select the sections that apply and indicate your budget position.",
+      },
       { property: "og:title", content: "ISRM — Scope & Budget" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -18,93 +31,133 @@ export const Route = createFileRoute("/scope")({
   component: ScopePage,
 });
 
-type RefinementKey = "osint" | "groups" | "projects" | "other";
-
-const REFINEMENT_LABELS: Record<RefinementKey, { uk: string; en: string }> = {
-  osint: { uk: "Інтеграція ШІ OSINT", en: "AI OSINT integration" },
-  groups: { uk: "Відбір груп", en: "Group selection" },
-  projects: { uk: "Створення проектів", en: "Project creation" },
-  other: { uk: "Інше (опишіть нижче)", en: "Other (describe below)" },
-};
-
 function ScopePage() {
   const { locale, setLocale } = useI18n();
-  const [refinements, setRefinements] = useState<Record<RefinementKey, boolean>>({ osint: false, groups: false, projects: false, other: false });
-  const [otherText, setOtherText] = useState("");
-  const [mhpssInterest, setMhpssInterest] = useState(false);
-  const [sendAttempted, setSendAttempted] = useState(false);
+  const [budgetInput, setBudgetInput] = useState("");
+  const [budgetChoice, setBudgetChoice] = useState<"approve" | "limit" | null>(null);
+  const [pilotIncluded, setPilotIncluded] = useState(false);
+  const [consultingIncluded, setConsultingIncluded] = useState(false);
+  const [customNotes, setCustomNotes] = useState("");
   const uk = locale === "uk";
   const text = (en: string, ua: string) => (uk ? ua : en);
-  const anyRefinement = refinements.osint || refinements.groups || refinements.projects || refinements.other;
-  const canSend = true;
+  const [sendAttempted, setSendAttempted] = useState(false);
+  const canSend = budgetChoice !== null && (budgetChoice !== "limit" || budgetInput.trim() !== "");
   const showError = sendAttempted && !canSend;
+
+  const money = (value: number) =>
+    new Intl.NumberFormat(uk ? "uk-UA" : "en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0,
+    }).format(value);
+
+  const mvpPrice = CLIENT_OFFER_PACKAGES[0];
+  const pilotPrice = CLIENT_OFFER_PACKAGES[1];
 
   const handleConfirmAndSend = () => {
     setSendAttempted(true);
     if (!canSend) return;
 
-    let serviceDraftsBlock = "";
-    try {
-      const stored = window.localStorage.getItem("isrm-service-drafts-v1");
-      if (stored) {
-        const parsed = JSON.parse(stored) as Record<string, unknown>;
-        const titles = Object.keys(parsed);
-        if (titles.length > 0) {
-          const lines = titles.map((title) => {
-            const draft = parsed[title] as Record<string, string>;
-            const fields = [
-              `    Тип запиту: ${draft.requestType === "add" ? "Додати сервіс" : "Пропозиція змін"}`,
-              draft.userRole ? `    Роль: ${draft.userRole}` : null,
-              draft.need ? `    Потреба: ${draft.need}` : null,
-              draft.behavior ? `    Поведінка: ${draft.behavior}` : null,
-              draft.outcome ? `    Результат: ${draft.outcome}` : null,
-              draft.dataIntegration ? `    Інтеграція: ${draft.dataIntegration}` : null,
-              draft.acceptance ? `    Прийняття: ${draft.acceptance}` : null,
-              draft.needDecision ? `    Рішення: ${draft.needDecision}` : null,
-              draft.savedAt ? `    Збережено: ${draft.savedAt}` : null,
-            ].filter(Boolean).join("\n");
-            return `  ▸ ${title}\n${fields}`;
-          });
-          serviceDraftsBlock = (uk ? "──── ЧЕРНЕТКИ ОПИСІВ СЕРВІСІВ (з MemberCabinet) ────\n" : "──── SERVICE DRAFTS (from MemberCabinet) ────\n") + lines.join("\n\n") + "\n\n";
-        }
-      }
-    } catch { /* ignore */ }
+    const mvpHigh = mvpPrice?.estimate.high.total ?? 0;
+    const pilotHigh = pilotPrice?.estimate.high.total ?? 0;
+    const combinedHigh = CLIENT_OFFER_COMBINED_ESTIMATE.high.total;
+
+    const fmt = (n: number) =>
+      new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
+
+    const scopeLines = [
+      uk
+        ? `• MVP застосунку — до ${fmt(mvpHigh)} (включено)`
+        : `• Application MVP — up to ${fmt(mvpHigh)} (included)`,
+      pilotIncluded
+        ? uk
+          ? `• Цикл залучення експертів — до ${fmt(pilotHigh)}`
+          : `• Expert Engagement Cycle — up to ${fmt(pilotHigh)}`
+        : null,
+      consultingIncluded
+        ? uk
+          ? `• Стратегічний шеринг досвіду — окреме котирування`
+          : `• Strategic Advisory — subject to separate quotation`
+        : null,
+      (pilotIncluded || consultingIncluded)
+        ? uk
+          ? `  ────────────────────────────────\n  Разом (верхня межа): до ${fmt(pilotIncluded ? combinedHigh : mvpHigh)}`
+          : `  ────────────────────────────────\n  Total ceiling: up to ${fmt(pilotIncluded ? combinedHigh : mvpHigh)}`
+        : null,
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    const budgetText =
+      budgetChoice === "approve"
+        ? uk
+          ? "Погоджено індикативний діапазон"
+          : "Indicative range approved"
+        : budgetChoice === "limit" && budgetInput
+        ? uk
+          ? `Бюджетна стеля: ${budgetInput}`
+          : `Budget ceiling: ${budgetInput}`
+        : "";
+
+    const servicesList = NETWORK_SERVICES.map((s, idx) => {
+      const title = s.title[uk ? "uk" : "en"];
+      const short = s.short[uk ? "uk" : "en"];
+      return `  ${idx + 1}. ${title} — ${short}`;
+    }).join("\n");
 
     const preambleText = uk
-      ? `ПРЕАМБУЛА\n\nЦей документ окреслює прийнятний напрям та загальний обсяг робіт, функціональність цифрового додатку, та погодження цільових лімітів бюджету проєкту з "Розвитку безпеки професійних комунікацій та Зміцненню довіри до носіїв мережевої експертизи" в зоні впливу ISRM.\n\nПроект у своєму розвитку може бути дотичним до верифікації використовуваних даних, досліджень, розвитку мережевої експертизи, зовнішніх та внутрішніх горизонтальних каналів професійної комунікації та взаємодії професійної спільноти.\n\nКожний з етапів проекту передбачає створення програмного коду, або надання доступу до цифрових сервісів.\nЕтапність визначає послідовність консультацій та розробки цифрового застосунку, з активним використанням ШІ, для забезпечення перевірки повноти та об\'єктивності даних, що використовуються ISRM та її членами у своїй роботі, автоматизації рутинних адміністративних операцій, проведенні досліджень, пошуку інсайтів та визначенні ефективних практик у межах мережевої експертизи інститута.\n\nБЛОК РОЗРАХУНКУ ГОНОРАРУ\n\nЕтапи мають самодостатні результати, передбачають погодження кількості та спеціалізації підключених ШІ агентів для обробки даних, проведення комплаєнсу, забезпечення повноти та достовірності інформації:\n\n1. ФІЗІБІЛІТІ\nСтворення та затвердження детального ТЗ та Пропозиції з урахуванням затвердженої функціональності, пропозицій та запитів, описаних у цьому документі, з оцінкою періоду та бюджету.\n- формалізація відносин з підписанням Угоди,\n- очікуваний платіж у розмірі 30% від погодженого бюджету.\n\n2. INITIAL DEPLOY AND INTEGRATION\nПередача у використання програмного забезпечення, або забезпечення доступу до цифрового сервісу для погодженого ISRM кола користувачів для тестування — збору зауважень та пропозицій з уніфікації сервісів, інтеграції з наявними цифровими системами та сервісами ISRM для своїх членів та на зовні.\n- прийняття робіт / зобов\'язань усунути зауваження та розглянути нові пропозиції, що до сервісів, або програмного коду, у разі наявності,\n- оплата 50% від погодженого бюджету.\n\nМоже починатись у будь-який момент без залежності від завершення попереднього етапу.\n- аналіз патернів, пошук рішень та можливостей розвитку функціональності для супроводу Циклу еквізішена-рекрутинга членів асоціації та/або користувачів послуг ISRM — драйверу розвитку капасіті та побудови професійного наслідування. З проведенням кампейну у соціальних мережах (короткий опис у брифі та у конфігураторі — поставити лінк).\n\n3. DEPLOY AND OPERATIONS\nВтілення fine-tuning tailor-made під конкретний профіль та патерн користувачів ISRM, відкриття загального входу та реєстрації, та/або погодження нового ТЗ на розширення функціональності, та/або прийняття рішень про продовження / припинення відносин та їх подальшого формату.\n- передача програмного коду, або ліцензії на використання цифрових сервісів за етапом 1,\n- оплата 20% від погодженого бюджету.\n\nМоже починатись у будь-який момент без залежності від завершення попереднього етапу.\n- аналіз патернів та можливостей розвитку функціональності для супроводу Циклу накопичення, трансформації та розповсюдження мережевої експертизи, її впливу на ISRM customer acquisition та оплачуваного членства; розмір гонорарів / рефералс ISRM, завдяки передачі клієнтських запитів; обсяги запитів на навчання; обсяги оріджинейшену сервісів, що можуть бути надані ISRM своїм членам, або разом з ними назовні; на професійні статуси, ренкінги, репутацію та довіру.\n`
-      : `PREAMBLE\n\nThis document outlines the acceptable direction and general scope of work, the functionality of the digital application, and the agreement of target budget limits for the project "Development of Professional Communication Security and Strengthening Trust in the Carriers of Network Expertise" within the ISRM sphere of influence.\n\nThe project in its development may be adjacent to the verification of used data, research, the development of network expertise, and external and internal horizontal channels of professional communication and interaction of the professional community.\n\nEach of the project\'s stages involves the creation of software code, or the provision of access to digital services.\nThe staging determines the sequence of consultations and development of the digital application, with active use of AI, to ensure the verification of completeness and objectivity of data used by ISRM and its members in their work, automation of routine administrative operations, research, insight search, and identification of effective practices within the institute\'s network expertise.\n\nHONORARIUM CALCULATION BLOCK\n\nThe stages have self-sufficient results, providing for the agreement of the quantity and specialization of connected AI agents for data processing, compliance, ensuring completeness and reliability of information:\n\n1. FEASIBILITY\nCreation and approval of detailed TOR and Proposal, taking into account the approved functionality, proposals, and requests described in this document, with an estimate of period and budget.\n- formalization of relations with the signing of the Agreement,\n- expected payment of 30% of the agreed budget.\n\n2. INITIAL DEPLOY AND INTEGRATION\nTransfer for use of software, or provision of access to a digital service for the agreed ISRM circle of users for testing — collection of comments and proposals for service unification, integration with existing digital systems and services of ISRM for its members and externally.\n- acceptance of work / obligations to fix comments and review new proposals regarding services, or software code, if any,\n- payment of 50% of the agreed budget.\n\nMay begin at any time without dependence on completion of the previous stage.\n- analysis of patterns, search for solutions and opportunities for developing functionality to support the Cycle of acquisition-recruitment of association members and/or ISRM service users — the driver of capacity development and professional succession building. With a campaign in social networks (brief description in the brief and in the configurator — link).\n\n3. DEPLOY AND OPERATIONS\nImplementation of fine-tuning tailor-made for the specific profile and pattern of ISRM users, opening of general login and registration, and/or agreement of new TOR for expanding functionality, and/or making decisions on the continuation / termination of relations and their further format.\n- transfer of software code, or license to use digital services under stage 1,\n- payment of 20% of the agreed budget.\n\nMay begin at any time without dependence on completion of the previous stage.\n- analysis of patterns and opportunities for developing functionality to support the Cycle of accumulation, transformation, and distribution of network expertise, its impact on ISRM customer acquisition and paid membership; the size of ISRM honoraria / referrals, thanks to the transfer of client requests; volumes of training requests; volumes of origination of services that can be provided by ISRM to its members, or together with them externally; on professional statuses, rankings, reputation, and trust.\n`;
+      ? `Цей документ є підтвердженою конфігурацією та аналітичним обґрунтуванням для підготовки індивідуального (tailor-made) технічного та комерційного рішення щодо розгортання програмного забезпечення цифрового хабу мережі ISRM. Документ є прямим наслідком вивчення, структурування та погодження архітектури функціональних блоків, програмний код та інфраструктура яких забезпечують:\n— Затверджений функціональний периметр: [перелік обраних сервісів з конфігуратора];\n— Спеціальні вимоги та адаптації: [коментарі, додаткові модулі та індивідуальні сервіси замовника];\n— Граничні параметри реалізації: [погоджена бюджетна стеля або індикативний діапазон строків і навантаження].\nЗафіксована конфігурація слугує базою для випуску специфікації робіт (SOW) та календарного плану розгортання.\n`
+      : `This document is the confirmed configuration and analytical rationale for preparing a tailor-made technical and commercial decision on deploying the ISRM network digital hub software. It is the direct result of reviewing, structuring, and aligning the architecture of functional blocks whose code and infrastructure deliver:\n— Approved functional perimeter: [list of selected services from the configurator];\n— Special requirements and adaptations: [comments, additional modules and bespoke services from the client];\n— Boundary parameters of implementation: [agreed budget ceiling or indicative range of timelines and load].\nThe fixed configuration serves as the basis for issuing the Statement of Work (SOW) and the deployment schedule.\n`;
 
-    const refinementLines = (Object.keys(refinements) as RefinementKey[])
-      .filter((k) => refinements[k])
-      .map((k) => {
-        const label = REFINEMENT_LABELS[k][uk ? "uk" : "en"];
-        if (k === "other" && otherText.trim()) return `  [x] ${label}: ${otherText.trim()}`;
-        return `  [x] ${label}`;
-      });
-    const refinementBlock = refinementLines.length > 0
-      ? (uk ? "──── ПОЗНАЧЕНО ДОПРАЦЮВАННЯ ────\n" : "──── MARKED REFINEMENTS ────\n") + refinementLines.join("\n") + "\n\n"
+    const notesBlock = customNotes.trim()
+      ? uk
+        ? `──── КОМЕНТАРІ ТА ДОДАТКОВА ФУНКЦІОНАЛЬНІСТЬ ────\n${customNotes.trim()}\n\n`
+        : `──── ADDITIONAL NOTES & SERVICES ────\n${customNotes.trim()}\n\n`
       : "";
 
-    const mhpssBlock = mhpssInterest
-      ? (uk ? "──── MHPSS — ВЗАЄМНИЙ ІНТЕРЕС ────\nБажаємо отримати матеріали для ознайомлення з програмою Practical Mental Health Incident Management for Non-Specialists (theisrm.org).\n\n" : "──── MHPSS — MUTUAL INTEREST ────\nWould like to receive review materials for the Practical Mental Health Incident Management for Non-Specialists programme (theisrm.org).\n\n")
-      : "";
+    const subject = encodeURIComponent(
+      uk
+        ? `ISRM Погодження обсягів та бюджету — ${pilotIncluded ? "MVP + Цикл залучення" : "MVP Застосунку"}`
+        : `ISRM Scope & Budget Confirmation — ${pilotIncluded ? "MVP + Expert Cycle" : "Application MVP"}`
+    );
 
-    const closingText = uk
-      ? `Цей документ слугуватиме обґрунтуванням для підготовки ТЗ та пропозиції.\n\nВизнаючи лідерську роль Інституту стратегічного управління ризиками (ISRM) у формуванні стандартів безпеки, резільєнтності та антикризового управління в Україні та Європі, висловлюємо особливу подяку за відкриття українського чаптеру ISRM — це рішення має історичне значення для професійної спільноти, що працює в умовах високого ризику та невизначеності.\n\nЗапрошуємо Інститут та асоціацію до фахової експертизи та взаємної інтеграції у запуску відкритого дашборду даних ментального здоров\'я (dashboard.feelagain.me). Програма українського чаптера Practical Mental Health Incident Management for Non-Specialists задає методологічний фундамент, який пропонуємо розширити аналітичною інфраструктурою для MHPSS-моделювання ризиків.\n\nЗ високою зацікавленістю смотрим на можливість реалізації цієї не тривіальної задачі, що сполучає глибоку інституційну експертизу з керованими аналітичними агентами, та формує цифрову інфраструктуру довіри для професійної спільноти ISRM.\n\nЗ повагою,\nДмитро Філімонов\nFrishberg & Partners\n`
-      : `This document will serve as justification for the preparation of TOR and proposal.\n\nAcknowledging the leadership of the Institute of Strategic Risk Management (ISRM) in setting standards for security, resilience, and crisis management across Ukraine and Europe, we express special gratitude for the opening of the ISRM Ukrainian chapter — this decision has historical significance for the professional community working in conditions of high risk and uncertainty.\n\nWe invite the Institute and the association to professional review and mutual integration in launching an open mental health data dashboard (dashboard.feelagain.me). The Ukrainian chapter\'s programme Practical Mental Health Incident Management for Non-Specialists sets the methodological foundation we propose to extend with analytical infrastructure for MHPSS risk modelling.\n\nWe look with high interest at the possibility of realizing this non-trivial task, which connects deep institutional expertise with managed analytical agents, and forms a digital infrastructure of trust for the ISRM professional community.\n\nKind regards,\nDmytro Filimonov\nFrishberg & Partners\n`;
+    
+      // Dashboard interest from /proposal checkbox
+      const dashboardInterest = typeof localStorage !== 'undefined'
+        ? localStorage.getItem('isrm-dashboard-interest')
+        : null;
+      const dashboardLine = dashboardInterest
+        ? uk
+          ? `\nДашборд MHPSS: ${dashboardInterest === 'interested' ? 'цікаво' : 'не цікаво'}\n`
+          : `\nMHPSS Dashboard: ${dashboardInterest}\n`
+        : '';
 
-    const signatureLine = uk
-      ? `\n─────────────────────────────────────\nПогоджую: ____________________________\nDr David Rubens, Executive Director, ISRM\nДата: ________________________________\n`
-      : `\n─────────────────────────────────────\nAgreed: ____________________________\nDr David Rubens, Executive Director, ISRM\nDate: _______________________________\n`;
+const body = encodeURIComponent(
+      uk
+        ? `Доброго дня,\n\n${preambleText}\n` +
+            `──── ОБРАНИЙ ОБСЯГ ────\n${scopeLines}\n\n` +
+            `──── ПЕРЕЛІК СЕРВІСІВ (АРХІТЕКТУРА МЕРЕЖІ) ────\n${servicesList}\n\n` +
+            notesBlock +
+            `──── ПОГОДЖЕННЯ ЛІМІТІВ (ПОЗИЦІЯ ЩОДО БЮДЖЕТУ) ────\n${budgetText}\n\n` +
+            `─────────────────────────────────────────────────\n` +
+            `Модель взаємодії: цикл «люди → довіра → технології/ШІ → довіра → люди». Органічна конвертація фахової спільноти.\n` +
+            `Стратегічний вектор: після фіксації прикладних рішень готові перейти до меморандуму щодо фундаментальних ризиків та архітектури довіри.\n\n` +
+            `З повагою,\n`
+        : `Hello,\n\n${preambleText}\n` +
+            `──── SELECTED SCOPE ────\n${scopeLines}\n\n` +
+            `──── SERVICES LISTING (NETWORK ARCHITECTURE) ────\n${servicesList}\n\n` +
+            notesBlock +
+            `──── BUDGET POSITION & CEILING ────\n${budgetText}\n\n` +
+            `Kind regards,\n`
+    );
 
-    const subject = encodeURIComponent(uk ? "ISRM — Погодження напрямку та етапів" : "ISRM — Direction & Stages Confirmation");
-    const body = encodeURIComponent(`Доброго дня,\n\n${preambleText}\n${refinementBlock}${mhpssBlock}${serviceDraftsBlock}${closingText}${signatureLine}`);
     window.location.href = `mailto:alexezav@gmail.com,dmitrfilim@gmail.com?subject=${subject}&body=${body}`;
   };
 
   return (
     <main className="partner-review client-proposal client-offer">
       <div className="partner-shell">
+        {/* ── Header ────────────────────────────────────────────────── */}
         <header className="partner-header">
           <div>
             <div className="mb-3" aria-label="ISRM">
@@ -116,146 +169,519 @@ function ScopePage() {
                 {text("Return to network graph", "До графа")}
               </a>
             </Button>
-            <p className="partner-eyebrow">{text("ISRM · Scope & Stages", "ISRM · Напрям та етапи")}</p>
-            <h1>{text("Acceptable Direction, Scope of Work and Honorarium Stages", "Прийнятний напрям, обсяг робіт та етапи гонорару")}</h1>
-            <p className="partner-lede">{text("This document outlines the acceptable direction and general scope of work, the functionality of the digital application, and the agreement of target budget limits for the project.", "Цей документ окреслює прийнятний напрям та загальний обсяг робіт, функціональність цифрового додатку, та погодження цільових лімітів бюджету проєкту.")}</p>
+            <p className="partner-eyebrow">{text("ISRM · Programme Scope & Budget", "ISRM · Обсяг і бюджет")}</p>
+            <h1>{text("Deliverables, Programme Scope and Indicative Investment", "Що буде побудовано — і скільки це коштує")}</h1>
+          {/* Acknowledgment */}
+          <div style={{ marginTop:"1.5rem",padding:"1rem 1.25rem",borderLeft:"4px solid #c8901a",background:"rgba(200,144,26,0.06)",borderRadius:"0 4px 4px 0" }}>
+            <p style={{ fontSize:"1rem",lineHeight:1.7,color:"#13302c",margin:0 }}>
+              {text("We acknowledge the leadership of the Institute of Strategic Risk Management in setting standards for security, resilience, and crisis management across Britain, Europe, and the world. We are particularly grateful for the opening of the Ukrainian chapter.", "Viznaemo liderstvo Institutu strategicnogo upravlinnya rizikami (ISRM) u formuvanni standartiv bezpeki, rezilyentnosti ta antikrizovogo upravlinnya v Britaniyi, Evropi ta sviti. Osoblivo vdyachni za vidkrittya ukrainskogo chapteru.")}
+            </p>
+          </div>
+
+            <p className="partner-lede">
+              {text(
+                "The core Application MVP is established as the essential baseline. Please select any complementary components required, and indicate your institutional budget position.",
+                "MVP включено за замовчуванням. Позначте опційні розділи, які відповідають вашим потребам, потім вкажіть свою позицію щодо бюджету.",
+              )}
+            </p>
           </div>
           <div className="partner-header-status">
             <div className="partner-locale-switch" role="group" aria-label={text("Page language", "Мова сторінки")}>
-              <button type="button" aria-pressed={!uk} className={!uk ? "is-active" : ""} onClick={() => setLocale("en")}>EN</button>
-              <button type="button" aria-pressed={uk} className={uk ? "is-active" : ""} onClick={() => setLocale("uk")}>UA</button>
+              <button type="button" aria-pressed={!uk} className={!uk ? "is-active" : ""} onClick={() => setLocale("en")}>
+                EN
+              </button>
+              <button type="button" aria-pressed={uk} className={uk ? "is-active" : ""} onClick={() => setLocale("uk")}>
+                UA
+              </button>
             </div>
-            <span className="partner-badge">{text("Basis for TOR & Proposal", "База для ТЗ та пропозиції")}</span>
+            <span className="partner-badge">{text("Indicative · not a formal tender", "Індикативно · не оферта")}</span>
           </div>
         </header>
 
-        <section className="mb-6 p-5 sm:p-6 rounded-xl border border-primary/20 bg-card/60 backdrop-blur-md shadow-sm">
+        {/* ── Strategic Preamble & Rationale ────────────────────────────── */}
+        <section
+          className="mb-8 p-5 sm:p-6 rounded-xl border border-primary/20 bg-card/60 backdrop-blur-md shadow-sm"
+          aria-labelledby="scope-preamble-heading"
+        >
           <div className="flex items-center gap-2 mb-2">
             <span className="h-2 w-2 rounded-full bg-primary" aria-hidden="true" />
-            <p className="text-xs uppercase tracking-wider font-semibold text-primary">{text("Preamble", "Преамбула")}</p>
+            <p className="text-xs uppercase tracking-wider font-semibold text-primary">
+              {text("Strategic Memorandum & Lifecycle Rationale", "Підтверджена конфігурація та довгострокова модель")}
+            </p>
           </div>
-          <p className="text-sm sm:text-base text-foreground leading-relaxed mb-3 font-semibold">{text('This document outlines the acceptable direction and general scope of work, the functionality of the digital application, and the agreement of target budget limits for the project "Development of Professional Communication Security and Strengthening Trust in the Carriers of Network Expertise" within the ISRM sphere of influence.', 'Цей документ окреслює прийнятний напрям та загальний обсяг робіт, функціональність цифрового додатку, та погодження цільових лімітів бюджету проєкту з "Розвитку безпеки професійних комунікацій та Зміцненню довіри до носіїв мережевої експертизи" в зоні впливу ISRM.')}</p>
-          <p className="text-sm text-muted-foreground leading-relaxed mb-3">{text("The project in its development may be adjacent to the verification of used data, research, the development of network expertise, and external and internal horizontal channels of professional communication and interaction of the professional community.", "Проект у своєму розвитку може бути дотичним до верифікації використовуваних даних, досліджень, розвитку мережевої експертизи, зовнішніх та внутрішніх горизонтальних каналів професійної комунікації та взаємодії професійної спільноти.")}</p>
-          <p className="text-sm text-muted-foreground leading-relaxed mb-3">{text("Each of the project's stages involves the creation of software code, or the provision of access to digital services.", "Кожний з етапів проекту передбачає створення програмного коду, або надання доступу до цифрових сервісів.")}</p>
-          <p className="text-sm text-muted-foreground leading-relaxed">{text("The staging determines the sequence of consultations and development of the digital application, with active use of AI, to ensure the verification of completeness and objectivity of data used by ISRM and its members in their work, automation of routine administrative operations, research, insight search, and identification of effective practices within the institute's network expertise.", "Етапність визначає послідовність консультацій та розробки цифрового застосунку, з активним використанням ШІ, для забезпечення перевірки повноти та об'єктивності даних, що використовуються ISRM та її членами у своїй роботі, автоматизації рутинних адміністративних операцій, проведенні досліджень, пошуку інсайтів та визначенні ефективних практик у межах мережевої експертизи інститута.")}</p>
+          <h2 id="scope-preamble-heading" className="text-lg sm:text-xl font-bold text-foreground">
+            {text(
+              "Foundational Rationale for a Tailor-Made Software Proposal",
+              "Підтверджена конфігурація та обґрунтування тейлор-мейд рішення",
+            )}
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+            {text(
+              "This document is the confirmed configuration and analytical rationale for preparing a tailor-made technical and commercial decision on deploying the ISRM network digital hub software. It is the direct result of reviewing, structuring, and aligning the architecture of functional blocks whose code and infrastructure deliver: the approved functional perimeter (list of selected services from the configurator); special requirements and adaptations (comments, additional modules and bespoke services from the client); boundary parameters of implementation (agreed budget ceiling or indicative range of timelines and load). The fixed configuration serves as the basis for issuing the Statement of Work (SOW) and the deployment schedule.",
+              "Цей документ є підтвердженою конфігурацією та аналітичним обґрунтуванням для підготовки індивідуального (tailor-made) технічного та комерційного рішення щодо розгортання програмного забезпечення цифрового хабу мережі ISRM. Документ є прямим наслідком вивчення, структурування та погодження архітектури функціональних блоків, програмний код та інфраструктура яких забезпечують: затверджений функціональний периметр (перелік обраних сервісів з конфігуратора); спеціальні вимоги та адаптації (коментарі, додаткові модулі та індивідуальні сервіси замовника); граничні параметри реалізації (погоджена бюджетна стеля або індикативний діапазон строків і навантаження). Зафіксована конфігурація слугує базою для випуску специфікації робіт (SOW) та календарного плану розгортання.",
+            )}
+          </p>
+
+          {/* ── Level 2 · Executive Cover Letter ───────────────────────── */}
+          <div className="mt-5 p-4 sm:p-5 rounded-lg border border-brass/30 bg-brass/5">
+            <p className="text-xs uppercase tracking-wider font-semibold text-brass mb-2">
+              {text("Level 2 · Executive Cover Letter", "Рівень 2 · Супровідний офіційний лист")}
+            </p>
+            <h3 className="text-base sm:text-lg font-bold text-foreground mb-2">
+              {text("Partner Positioning & Expert Dialogue", "Партнерське позиціонування та експертний діалог")}
+            </h3>
+            <div className="text-sm text-muted-foreground leading-relaxed space-y-2">
+              <p>
+                {text(
+                  "We acknowledge the leadership of the Institute of Strategic Risk Management in setting standards for security, resilience, and crisis management across Ukraine and Europe. This document is an invitation to professional exchange, not a sales pitch.",
+                  "Визнаємо лідерську роль Інституту стратегічного управління ризиками (ISRM) у формуванні стандартів безпеки, резільєнтності та антикризового управління в Україні та Європі. Цей документ — запрошення до фахового обміну, а не комерційна пропозиція.",
+                )}
+              </p>
+              <p>
+                {text(
+                  "In a period of devalued surface-level practice and an oversaturation of unverified generative AI tools, the critical asset is verified expert judgement. Our shared goal is to unite deep institutional expertise with frontier technology in a Centaur model — the experienced practitioner plus supervised analytical agents.",
+                  "У період девальвації поверхневої практики та засилля неперевірених генеративних ШІ-інструментів критичним активом стає верифікована експертна оцінка. Наша спільна мета — поєднати глибоку інституційну експертизу з передовими технологіями у моделі «Centaur»: досвідчений експерт + керовані аналітичні агенти.",
+                )}
+              </p>
+              <p>
+                {text(
+                  "We do not speak in abstractions — we hand over a ready, working infrastructure: a digitised contact network (178 CRM records, 45 verified), a transparent funnel converting professional discussions into paid membership, and an open analytical reporting layer.",
+                  "Ми не говоримо абстракціями — передаємо готову чинну інфраструктуру: оцифровану мережу контактів (178 записів CRM, 45 верифіковано), прозору воронку конвертації фахових дискусій у платне членство, та відкритий шар аналітичної звітності.",
+                )}
+              </p>
+              <p className="font-semibold text-foreground">
+                {text(
+                  "We approach ISRM colleagues as first-line reviewers and partners — and ask the Board for a professional assessment of the proposed configuration.",
+                  "Звертаємося до колег по ISRM як до рецензентів та партнерів першого ешелону — і просимо Правління дати професійну оцінку запропонованої конфігурації.",
+                )}
+              </p>
+            </div>
+          </div>
+
+          {/* ── Level 3 · Strategic Manifesto — Mental Health & Resilience ── */}
+          <div className="mt-4 p-4 sm:p-5 rounded-lg border border-primary/30 bg-primary/5">
+            <p className="text-xs uppercase tracking-wider font-semibold text-primary mb-2">
+              {text("Level 3 · Strategic Synergy & High-Risk Analytics", "Рівень 3 · Стратегічна синергія та високі ризики")}
+            </p>
+            <h3 className="text-base sm:text-lg font-bold text-foreground mb-2">
+              {text("Mental Health, Resilience & Post-War Recovery", "Ментальне здоров'я, стійкість та повоєнне відновлення")}
+            </h3>
+            <div className="text-sm text-muted-foreground leading-relaxed space-y-2">
+              <p>
+                {text(
+                  "We invite the Institute and the Association to professional review and mutual integration in launching an open mental-health data dashboard (dashboard.feelagain.me). The Ukrainian chapter's programme Practical Mental Health Incident Management for Non-Specialists (theisrm.org/practical-mental-health-incident-management-for-non-specialists) sets the methodological foundation we propose to extend with analytical infrastructure.",
+                  "Запрошуємо Інститут та асоціацію до фахової експертизи та взаємної інтеграції у запуску відкритого дашборду даних ментального здоров'я (dashboard.feelagain.me). Програма українського чаптера Practical Mental Health Incident Management for Non-Specialists (theisrm.org/practical-mental-health-incident-management-for-non-specialists) задає методологічний фундамент, який пропонуємо розширити аналітичною інфраструктурою.",
+                )}
+              </p>
+              <p>
+                {text(
+                  "The sector of psychological resilience and recovery is not a purely medical topic — it is the bedrock of national resilience, workforce capacity, and post-war recovery security. The price of an analytical error here is measured not in sampling bias but in the threat of budgetary collapse of the social protection system.",
+                  "Сектор психологічної стійкості та відновлення — це не суто медична тема, а фундамент національної резільєнтності, кадрового потенціалу та безпеки повоєнного відновлення. Ціна аналітичної помилки тут вимірюється не похибкою вибірки, а загрозою бюджетного колапсу системи соціального захисту.",
+                )}
+              </p>
+              <p>
+                {text(
+                  "The risk-modelling practices developed for feelagain and the Institute's crisis-management experience reinforce one another. We propose a joint analytical line-up where the Institute acts as the methodological guarantor before international donors and stakeholders.",
+                  "Практики моделювання ризиків, розроблені для feelagain, та досвід ISRM у crisis management підсилюють одне одного. Пропонуємо спільний аналітичний лайн-ап, де інститут виступає експертним гарантом методології перед міжнародними донорами та стейкхолдерами.",
+                )}
+              </p>
+              <p className="font-semibold text-foreground">
+                {text(
+                  "Engagement Cycle into Influence Field — this is the highest-risk, highest-reward track we can offer. The cycle's goal is to grow target-audience capacity from ~10k to 30-50k through a sequence of campaigns: regional, sectoral (by expertise), and narrow-specialty discussions that together form the field of expertise coverage. We propose completing the practical MVP scope first, then returning to this strategic memorandum under separate terms.",
+                  "Цикл залучення у поле впливу — це трек з найвищим ризиком і найбільшим потенціалом. Завдання циклу — зрости місткість цільової аудиторії з ~10 тис. до 30-50 тис. через послідовність кампейнів: регіональні, секторальні (за експертизою) та вузько-спеціальні обговорення, що разом формують поле охоплення експертизи. Пропонуємо спершу завершити практичний MVP-scope, а потім повернутися до цього стратегічного меморандуму на окремих умовах.",
+                )}
+              </p>
+              {/* MHPSS footnote — psychologist programme in Ukrainian chapter is the methodological hook */}
+              <p style={{ marginTop: "0.85rem", fontSize: "0.78rem", color: "var(--color-muted-foreground)", lineHeight: 1.55 }}>
+                <sup style={{ color: "var(--color-primary)", fontWeight: 700 }}>†</sup>{" "}
+                {text(
+                  "Methodological anchor: the Ukrainian chapter's programme 'Practical Mental Health Incident Management for Non-Specialists' (theisrm.org) — sets the foundation we propose to extend with analytical infrastructure for MHPSS risk modelling.",
+                  "Методологічна опора: програма українського чаптера 'Practical Mental Health Incident Management for Non-Specialists' (theisrm.org) — задає фундамент, який пропонуємо розширити аналітичною інфраструктурою для моделювання MHPSS-ризиків.",
+                )}{" "}
+                <a
+                  href="https://www.theisrm.org/practical-mental-health-incident-management-for-non-specialists"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "var(--color-primary)", textDecoration: "underline", textUnderlineOffset: "2px" }}
+                >
+                  {text("Open programme ↗", "Відкрити програму ↗")}
+                </a>
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+            <div className="p-3.5 rounded-lg border border-border/50 bg-background/50">
+              <strong className="block text-foreground font-semibold mb-1">
+                {text("Lifecycle Value & Acquisition Economics", "Цикл взаємодії та економіка залучення")}
+              </strong>
+              <p className="text-muted-foreground leading-relaxed">
+                {text(
+                  "We operate through a verified loop: people → trust → technology / AI → trust → people (direct unassisted trust is no longer effective in an era of information noise). Instead of costly and low-converting attempts to sell lifelong memberships, open professional working groups reduce new partner acquisition cost to a near-zero minimum, building sustainable organic reach across Ukraine, Europe, the UK, and US chapters.",
+                  "Ми використовуємо замкнений цикл: люди → довіра → технології / ШІ → довіра → люди (бо напряму «люди – довіра – люди» в епоху інформаційного шуму та знецінення контенту більше не працює). Замість дорогої та малоефективної моделі продажу пожиттєвого членства, відкриті фахові робочі групи знижують вартість залучення нових платних партнерів (CAC) до смішного мінімуму, масштабуючи мережу в Україні, Європі, Великій Британії та США.",
+                )}
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-lg border border-border/50 bg-background/50">
+              <strong className="block text-foreground font-semibold mb-1">
+                {text("Practical Engine & Strategic Horizon", "Прикладне ядро та стратегічний вектор")}
+              </strong>
+              <p className="text-muted-foreground leading-relaxed">
+                {text(
+                  "The presented interfaces represent the operational tip of the technological iceberg for trusted practice. The specialist search and CRM data are already in place as a working engine. Strategic horizon: we hold a broader hypothesis on trust architecture, accountability, and critical risk intelligence — subject to an independent memorandum following practical alignment.",
+                  "Показаний інтерфейс — це авансована надводна частина практичного застосунку для довірчої практики. Пошук експертів та дані CRM уже заведені як робоче промислове ядро. Стратегічний вектор: ми маємо концептуальну гіпотезу ширшого масштабу щодо фундаментальної архітектури довіри, розподілу відповідальності та роботи з великими даними ризиків. За наявності взаємного інтересу після фіксації прикладних рішень — перейдемо до окремого стратегічного меморандуму.",
+                )}
+              </p>
+            </div>
+          </div>
         </section>
 
-        <section className="mb-6 p-5 sm:p-6 rounded-xl border border-brass/30 bg-brass/5 backdrop-blur-md shadow-sm">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="h-2 w-2 rounded-full bg-brass" aria-hidden="true" />
-            <p className="text-xs uppercase tracking-wider font-semibold text-brass">{text("Honorarium Calculation Block", "Блок розрахунку гонорару")}</p>
+        {/* ── Main two-column layout: sections left, price right ─────── */}
+        <div className="scope-layout">
+          {/* LEFT: scope sections */}
+          <div className="scope-sections">
+            {/* Section 01: Feasibility — 30% */}
+            <article className="scope-section scope-section--active" aria-labelledby="scope-feasibility-heading">
+              <div className="scope-section-header">
+                <span className="scope-section-number">01</span>
+                <div style={{ flex: 1 }}>
+                  <h2 id="scope-feasibility-heading" className="scope-section-title">
+                    {text("Feasibility", "Фізібіліті")}
+                  </h2>
+                  <label className="scope-checkbox-label" style={{ cursor: 'not-allowed', opacity: 0.9 }}>
+                    <input type="checkbox" checked={true} disabled={true} className="scope-checkbox accent-primary" />
+                    <span className="font-semibold text-primary">{text("Included (core) — 30%", "Включено (основа) — 30%")}</span>
+                  </label>
+                </div>
+              </div>
+              <p className="scope-section-desc">
+                {text("Creation and approval of detailed TOR and Proposal, with period and budget estimation. Formalisation of relations with Agreement signing.", "Створення та затвердження детального ТЗ та Пропозиції, з оцінкою періоду та бюджету. Формалізація відносин з підписанням Угоди.")}
+              </p>
+              <ul className="scope-feature-list">
+                {(uk ? [
+                  "Детальне технічне завдання та комерційна пропозиція",
+                  "Погодження періоду реалізації та бюджетної стелі",
+                  "Підписання Угоди — перший платіж 30%",
+                ] : [
+                  "Detailed TOR and commercial proposal",
+                  "Agreement on implementation period and budget ceiling",
+                  "Agreement signing — first payment 30%",
+                ]).map((f, i) => <li key={i}>{f}</li>)}
+              </ul>
+            </article>
+
+            {/* Section 02: Integration and Testing — 50% */}
+            <article className={`scope-section${pilotIncluded ? " scope-section--active" : ""}`} aria-labelledby="scope-integration-heading">
+              <div className="scope-section-header">
+                <span className="scope-section-number">02</span>
+                <div style={{ flex: 1 }}>
+                  <label className="scope-section-label" htmlFor="include-pilot">
+                    <h2 id="scope-integration-heading" className="scope-section-title">
+                      {text("Integration and Testing", "Інтеграція та тестування")}
+                    </h2>
+                  </label>
+                  <label className="scope-checkbox-label" htmlFor="include-pilot">
+                    <input id="include-pilot" type="checkbox" checked={pilotIncluded} onChange={(e) => setPilotIncluded(e.target.checked)} className="scope-checkbox" />
+                    <span>{text("Include — 50%", "Включити — 50%")}</span>
+                  </label>
+                </div>
+              </div>
+              <p className="scope-section-desc">
+                {text("Transfer of software for use by the agreed ISRM user circle for testing — collection of feedback, integration with existing ISRM digital systems.", "Передача програмного забезпечення для використання погодженим колом користувачів ISRM для тестування — збір зауважень, інтеграція з наявними цифровими системами ISRM.")}
+              </p>
+              <ul className="scope-feature-list">
+                {(uk ? [
+                  "Тестування погодженим колом користувачів ISRM",
+                  "Усунення зауважень, розгляд нових пропозицій",
+                  "Другий платіж 50%",
+                ] : [
+                  "Testing by agreed ISRM user circle",
+                  "Bug fixing, review of new proposals",
+                  "Second payment 50%",
+                ]).map((f, i) => <li key={i}>{f}</li>)}
+              </ul>
+            </article>
+
+            {/* Section 03: Deploy and Operations — 20% */}
+            <article className={`scope-section${consultingIncluded ? " scope-section--active" : ""}`} aria-labelledby="scope-deploy-heading">
+              <div className="scope-section-header">
+                <span className="scope-section-number">03</span>
+                <div style={{ flex: 1 }}>
+                  <label className="scope-section-label" htmlFor="include-consulting">
+                    <h2 id="scope-deploy-heading" className="scope-section-title">
+                      {text("Deploy and Operations", "Розгортання та операції")}
+                    </h2>
+                  </label>
+                  <label className="scope-checkbox-label" htmlFor="include-consulting">
+                    <input id="include-consulting" type="checkbox" checked={consultingIncluded} onChange={(e) => setConsultingIncluded(e.target.checked)} className="scope-checkbox" />
+                    <span>{text("Include — 20%", "Включити — 20%")}</span>
+                  </label>
+                </div>
+              </div>
+              <p className="scope-section-desc">
+                {text("Fine tuning tailor-made for ISRM user profile and patterns. Opening general registration. Transfer of code or licence.", "Fine tuning tailor-made під профіль та патерн користувачів ISRM. Відкриття загальної реєстрації. Передача коду або ліцензії.")}
+              </p>
+              <ul className="scope-feature-list">
+                {(uk ? [
+                  "Fine tuning під конкретний профіль користувачів",
+                  "Відкриття загальної реєстрації та/або нового ТЗ",
+                  "Третій платіж 20%",
+                ] : [
+                  "Fine tuning for specific user profile",
+                  "Opening general registration and/or new TOR",
+                  "Third payment 20%",
+                ]).map((f, i) => <li key={i}>{f}</li>)}
+              </ul>
+            </article>
+
+            {/* Possible formats of continuation */}
+            <div style={{ marginTop: '1.5rem', padding: '1rem 1.25rem', borderRadius: '2px', border: '1px solid rgba(200,144,26,0.25)', background: 'rgba(200,144,26,0.04)' }}>
+              <p style={{ fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#c8901a', margin: '0 0 0.5rem' }}>
+                {text("Possible formats of continuation (can start at any time)", "Можливі формати продовження (можуть починатись у будь який момент)")}
+              </p>
+              <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.88rem', lineHeight: 1.7, color: '#0a2e24' }}>
+                <li>{text("Acquisition & Recruitment Cycle support — driver of capacity development and professional succession.", "Супровід Циклу еквізішену-рекрутингу — драйвер розвитку капасіті та професійної наступності.")}</li>
+                <li>{text("Network Expertise Cycle support — its impact on ISRM customer acquisition and paid membership.", "Супровід Циклу накопичення мережевої експертизи — вплив на еквізішен клієнтів та оплачуване членство.")}</li>
+              </ul>
+            </div>
+
+            {/* 4th variant footnote */}
+            <div style={{ marginTop: '0.75rem', padding: '0.6rem 0.85rem', fontSize: '0.78rem', lineHeight: 1.5, color: '#566762' }}>
+              <sup style={{ color: '#c8901a', fontWeight: 700 }}>†</sup>{" "}
+              {text("Fallback: if the standard stages do not fit, the client may take the existing tool as-is, upload their own data, and we determine the creation budget. AI OSINT integration can be added.", "Запасний варіант: якщо стандартні етапи не підходять, замовник може взяти готовий інструмент як є, сам завантажити дані, і ми визначимо бюджет створення. Можливе додавання інтеграції з AI OSINT.")}
+            </div>
+
+            {/* Signature */}
+            <div style={{ marginTop: '2rem', padding: '1rem 1.5rem', borderTop: '2px solid #c8901a', borderBottom: '1px solid rgba(11,84,76,0.15)' }}>
+              <p style={{ fontSize: '0.95rem', color: '#0a2e24', margin: 0, fontStyle: 'italic' }}>
+                {text("I agree to proceed on the above basis.", "Погоджую на продовження на вищезазначеній основі.")}
+              </p>
+              <p style={{ fontSize: '0.95rem', color: '#0a2e24', margin: '0.5rem 0 0', fontWeight: 600 }}>
+                {text("David Rubens, Executive Director, ISRM", "Девід Рубенс, Executive Director, ISRM")}
+              </p>
+            </div>
+
+{/* Section 04: Custom Notes / Additional Requirements */}
+            <article className="scope-section scope-section--active" style={{ marginTop: "1rem" }}>
+              <div className="scope-section-header">
+                <span className="scope-section-number">04</span>
+                <div style={{ flex: 1 }}>
+                  <h2 className="scope-section-title">
+                    {text("Custom Notes & Functional Adaptations", "Коментарі та додаткова функціональність")}
+                  </h2>
+                  <span className="text-xs text-muted-foreground block mt-0.5">
+                    {text("Tailor-made requirements, comments, and project specifics", "Тейлор-мейд побажання, додаткові модулі та коментарі")}
+                  </span>
+                </div>
+              </div>
+              <p className="scope-section-desc">
+                {text(
+                  "Specify any custom integrations, data slices, or specific requirements for your expert group in Ukraine, Europe, the UK, or the US.",
+                  "Вкажіть особливі побажання, додаткові сервіси або коментарі для вашої робочої групи в Україні, Європі, Великій Британії чи США.",
+                )}
+              </p>
+              <div className="mt-3">
+                <textarea
+                  value={customNotes}
+                  onChange={(e) => setCustomNotes(e.target.value)}
+                  placeholder={text(
+                    "e.g. Additional data filtering by region, custom verification criteria, direct integration with our community channels...",
+                    "наприклад: додаткові регіональні зрізи, інтеграція з ком'юніті-каналами, специфічні критерії валідації..."
+                  )}
+                  rows={4}
+                  className="w-full p-3 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-primary print:hidden"
+                />
+                {customNotes.trim() && (
+                  <div className="hidden print:block p-3 rounded border border-neutral-300 text-xs whitespace-pre-wrap text-black">
+                    <strong>{text("Additional notes:", "Додаткові коментарі:")}</strong>
+                    <p className="mt-1">{customNotes}</p>
+                  </div>
+                )}
+              </div>
+            </article>
+
+        
+        
           </div>
-          <p className="text-sm text-foreground leading-relaxed mb-5">{text("The stages have self-sufficient results, providing for the agreement of the quantity and specialization of connected AI agents for data processing, compliance, ensuring completeness and reliability of information:", "Етапи мають самодостатні результати, передбачають погодження кількості та спеціалізації підключених ШІ агентів для обробки даних, проведення комплаєнсу, забезпечення повноти та достовірності інформації:")}</p>
 
-          <article className="mb-5 p-4 sm:p-5 rounded-lg border border-border bg-card/80">
-            <div className="flex items-baseline gap-3 mb-2">
-              <span className="text-2xl font-bold text-brass">1</span>
-              <h2 className="text-base sm:text-lg font-bold text-foreground">{text("Feasibility", "Фізібіліті")}</h2>
-              <span className="ml-auto text-sm font-semibold text-primary">{text("30% of agreed budget", "30% від погодженого бюджету")}</span>
-            </div>
-            <p className="text-sm text-muted-foreground leading-relaxed mb-3">{text("Creation and approval of detailed TOR and Proposal, taking into account the approved functionality, proposals, and requests described in this document, with an estimate of period and budget.", "Створення та затвердження детального ТЗ та Пропозиції з урахуванням затвердженої функціональності, пропозицій та запитів, описаних у цьому документі, з оцінкою періоду та бюджету.")}</p>
-            <ul className="text-sm text-foreground space-y-1.5 mb-2">
-              <li className="flex gap-2"><span className="text-brass mt-0.5">—</span><span>{text("formalization of relations with the signing of the Agreement", "формалізація відносин з підписанням Угоди,")}</span></li>
-              <li className="flex gap-2"><span className="text-brass mt-0.5">—</span><span>{text("expected payment of 30% of the agreed budget", "очікуваний платіж у розмірі 30% від погодженого бюджету")}</span></li>
-            </ul>
-          </article>
 
-          <article className="mb-5 p-4 sm:p-5 rounded-lg border border-border bg-card/80">
-            <div className="flex items-baseline gap-3 mb-2">
-              <span className="text-2xl font-bold text-brass">2</span>
-              <h2 className="text-base sm:text-lg font-bold text-foreground">{text("Initial deploy and integration", "Initial deploy and integration")}</h2>
-              <span className="ml-auto text-sm font-semibold text-primary">{text("50% of agreed budget", "50% від погодженого бюджету")}</span>
-            </div>
-            <p className="text-sm text-muted-foreground leading-relaxed mb-3">{text("Transfer for use of software, or provision of access to a digital service for the agreed ISRM circle of users for testing — collection of comments and proposals for service unification, integration with existing digital systems and services of ISRM for its members and externally.", "Передача у використання програмного забезпечення, або забезпечення доступу до цифрового сервісу для погодженого ISRM кола користувачів для тестування — збору зауважень та пропозицій з уніфікації сервісів, інтеграції з наявними цифровими системами та сервісами ISRM для своїх членів та на зовні.")}</p>
-            <ul className="text-sm text-foreground space-y-1.5 mb-3">
-              <li className="flex gap-2"><span className="text-brass mt-0.5">—</span><span>{text("acceptance of work / obligations to fix comments and review new proposals regarding services, or software code, if any", "прийняття робіт / зобов'язань усунути зауваження та розглянути нові пропозиції, що до сервісів, або програмного коду, у разі наявності,")}</span></li>
-              <li className="flex gap-2"><span className="text-brass mt-0.5">—</span><span>{text("payment of 50% of the agreed budget", "оплата 50% від погодженого бюджету")}</span></li>
-            </ul>
-            <p className="text-xs sm:text-sm text-primary italic mb-2">{text("May begin at any time without dependence on completion of the previous stage.", "Може починатись у будь-який момент без залежності від завершення попереднього етапу.")}</p>
-            <div className="p-3 rounded border border-brass/30 bg-brass/5">
-              <p className="text-sm text-foreground leading-relaxed"><span className="font-semibold text-brass">★</span>{" "}{text("Analysis of patterns, search for solutions and opportunities for developing functionality to support the Cycle of acquisition-recruitment of association members and/or ISRM service users — the driver of capacity development and professional succession building. With a campaign in social networks (brief description in the brief and in the configurator — link).", "Аналіз патернів, пошук рішень та можливостей розвитку функціональності для супроводу Циклу еквізішена-рекрутинга членів асоціації та/або користувачів послуг ISRM — драйверу розвитку капасіті та побудови професійного наслідування. З проведенням кампейну у соціальних мережах (короткий опис у брифі та у конфігураторі — поставити лінк).")}</p>
-            </div>
-          </article>
+        
+          {/* RIGHT: price panel */}
+          <aside className="scope-price-panel" aria-label={text("Indicative budget", "Індикативний бюджет")}>
+            <p className="tech-label text-primary" style={{ marginBottom: "1rem" }}>
+              {text("Indicative budget ceiling", "Індикативна верхня межа")}
+            </p>
 
-          <article className="p-4 sm:p-5 rounded-lg border border-border bg-card/80">
-            <div className="flex items-baseline gap-3 mb-2">
-              <span className="text-2xl font-bold text-brass">3</span>
-              <h2 className="text-base sm:text-lg font-bold text-foreground">{text("deploy and operations", "deploy and operations")}</h2>
-              <span className="ml-auto text-sm font-semibold text-primary">{text("20% of agreed budget", "20% від погодженого бюджету")}</span>
+            {/* MVP price */}
+            <div className="scope-price-row scope-price-row--mvp">
+              <span className="scope-price-label">{text("Application MVP", "MVP")}</span>
+              <span className="scope-price-value scope-price-value--active">
+                {mvpPrice ? text("Up to", "До") + " " + money(mvpPrice.estimate.high.total) : "—"}
+              </span>
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed mb-3">{text("Implementation of fine-tuning tailor-made for the specific profile and pattern of ISRM users, opening of general login and registration, and/or agreement of new TOR for expanding functionality, and/or making decisions on the continuation / termination of relations and their further format.", "Втілення fine-tuning tailor-made під конкретний профіль та патерн користувачів ISRM, відкриття загального входу та реєстрації, та/або погодження нового ТЗ на розширення функціональності, та/або прийняття рішень про продовження / припинення відносин та їх подальшого формату.")}</p>
-            <ul className="text-sm text-foreground space-y-1.5 mb-3">
-              <li className="flex gap-2"><span className="text-brass mt-0.5">—</span><span>{text("transfer of software code, or license to use digital services under stage 1", "передача програмного коду, або ліцензії на використання цифрових сервісів за етапом 1,")}</span></li>
-              <li className="flex gap-2"><span className="text-brass mt-0.5">—</span><span>{text("payment of 20% of the agreed budget", "оплата 20% від погодженого бюджету")}</span></li>
-            </ul>
-            <p className="text-xs sm:text-sm text-primary italic mb-2">{text("May begin at any time without dependence on completion of the previous stage.", "Може починатись у будь-який момент без залежності від завершення попереднього етапу.")}</p>
-            <div className="p-3 rounded border border-brass/30 bg-brass/5">
-              <p className="text-sm text-foreground leading-relaxed"><span className="font-semibold text-brass">★</span>{" "}{text("Analysis of patterns and opportunities for developing functionality to support the Cycle of accumulation, transformation, and distribution of network expertise, its impact on ISRM customer acquisition and paid membership; the size of ISRM honoraria / referrals, thanks to the transfer of client requests; volumes of training requests; volumes of origination of services that can be provided by ISRM to its members, or together with them externally; on professional statuses, rankings, reputation, and trust.", "Аналіз патернів та можливостей розвитку функціональності для супроводу Циклу накопичення, трансформації та розповсюдження мережевої експертизи, її впливу на ISRM customer acquisition та оплачуваного членства; розмір гонорарів / рефералс ISRM, завдяки передачі клієнтських запитів; обсяги запитів на навчання; обсяги оріджинейшену сервісів, що можуть бути надані ISRM своїм членам, або разом з ними назовні; на професійні статуси, ренкінги, репутацію та довіру.")}</p>
-            </div>
-          </article>
-        </section>
 
-        <section className="mb-6 p-5 sm:p-6 rounded-xl border border-primary/30 bg-primary/5 backdrop-blur-md shadow-sm">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="h-2 w-2 rounded-full bg-primary" aria-hidden="true" />
-            <p className="text-xs uppercase tracking-wider font-semibold text-primary">{text("Refinement Request", "Запит доопрацювання")}</p>
-          </div>
-          <p className="text-sm text-foreground leading-relaxed mb-4">{text("In case the functionality you saw in the demo is already sufficient, indicate what degree of refinement is needed — we will separate it from the total scope and propose exactly that variant with relevant calculations.", "У разі якщо вже достатньо тієї функціональності, що побачили в демонстрації, повідомте, який ступінь доопрацювання потрібна — ми відокремимо від загального обсягу робіт та запропонуємо саме такий варіант та надамо відповідні розрахунки.")}</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {(Object.keys(REFINEMENT_LABELS) as RefinementKey[]).map((key) => (
-              <label key={key} className="flex items-start gap-3 p-3 rounded-lg border border-border bg-card/80 cursor-pointer hover:border-primary/40 transition-colors">
-                <input type="checkbox" checked={refinements[key]} onChange={(e) => setRefinements((prev) => ({ ...prev, [key]: e.target.checked }))} className="mt-1 h-4 w-4 accent-primary shrink-0" />
-                <span className="text-sm text-foreground leading-snug">{REFINEMENT_LABELS[key][uk ? "uk" : "en"]}</span>
+            {/* Pilot price */}
+            <div className={`scope-price-row${pilotIncluded ? " scope-price-row--selected" : ""}`}>
+              <span className="scope-price-label">{text("Engagement Cycle", "Цикл залучення")}</span>
+              <span className={`scope-price-value${pilotIncluded ? " scope-price-value--active" : ""}`}>
+                {pilotPrice ? text("Up to", "До") + " " + money(pilotPrice.estimate.high.total) : "—"}
+              </span>
+            </div>
+
+            {/* Consulting price */}
+            <div className={`scope-price-row${consultingIncluded ? " scope-price-row--selected" : ""}`}>
+              <span className="scope-price-label">{text("Strategic Advisory", "Шеринг досвіду")}</span>
+              <span className={`scope-price-value${consultingIncluded ? " scope-price-value--active" : ""}`}>
+                {text("Subject to separate quotation", "Окреме котирування")}
+              </span>
+            </div>
+
+            {/* Total */}
+            {(pilotIncluded || consultingIncluded) && (
+              <div
+                className="scope-price-row scope-price-row--selected"
+                style={{ borderTop: "2px solid var(--color-border)", marginTop: "0.25rem", paddingTop: "0.75rem" }}
+              >
+                <span className="scope-price-label" style={{ fontWeight: 600, color: "var(--color-foreground)" }}>
+                  {text("Total (MVP + selected)", "Разом (MVP + обране)")}
+                </span>
+                <span className="scope-price-value scope-price-value--active">
+                  {pilotIncluded
+                    ? text("Up to", "До") + " " + money(CLIENT_OFFER_COMBINED_ESTIMATE.high.total)
+                    : text("Up to", "До") + " " + money(mvpPrice?.estimate.high.total ?? 0)}
+                </span>
+              </div>
+            )}
+            <div className="scope-price-divider" aria-hidden="true" />
+
+            <p className="partner-muted" style={{ fontSize: "0.78rem", lineHeight: "1.5", marginBottom: "1.5rem" }}>
+              {text(
+                "Upper bound planning scenarios only. Rate inputs unverified. Hosting, AI/API and legal costs excluded.",
+                "Лише верхня межа планувального сценарію. Ставки не перевірені. Хостинг, AI/API та юридичні витрати виключені.",
+              )}
+            </p>
+
+            {/* Budget position */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginBottom: "1.25rem" }}>
+              <p style={{ fontWeight: 600, fontSize: "0.95rem" }}>
+                {text("Your budget position:", "Ваша позиція щодо бюджету:")}
+              </p>
+              <label style={{ display: "flex", alignItems: "center", gap: "0.6rem", cursor: "pointer", fontSize: "0.95rem" }}>
+                <input
+                  type="radio"
+                  name="budget-pos"
+                  value="approve"
+                  checked={budgetChoice === "approve"}
+                  onChange={() => setBudgetChoice("approve")}
+                  style={{ width: "1.1rem", height: "1.1rem", accentColor: "var(--color-primary)" }}
+                />
+                <span>{text("This range works for me", "Цей діапазон мені підходить")}</span>
               </label>
-            ))}
-          </div>
-          {refinements.other && (
-            <div className="mt-3">
-              <textarea value={otherText} onChange={(e) => setOtherText(e.target.value)} placeholder={text("Describe the refinement you need...", "Опишіть доопрацювання, яке потребується...")} rows={3} className="w-full p-3 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-primary" />
+              <label style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem", cursor: "pointer", fontSize: "0.95rem" }}>
+                <input
+                  type="radio"
+                  name="budget-pos"
+                  value="limit"
+                  checked={budgetChoice === "limit"}
+                  onChange={() => setBudgetChoice("limit")}
+                  style={{ width: "1.1rem", height: "1.1rem", accentColor: "var(--color-primary)", marginTop: "0.2rem" }}
+                />
+                <div style={{ flex: 1 }}>
+                  <span>{text("Set a budget ceiling:", "Визначити бюджетну стелю:")}</span>
+                  {budgetChoice === "limit" && (
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      placeholder={text("e.g. $40,000", "напр. $40 000")}
+                      value={budgetInput}
+                      onChange={(e) => setBudgetInput(e.target.value)}
+                      aria-label={text("Budget ceiling", "Бюджетна стеля")}
+                      style={{
+                        display: "block",
+                        width: "100%",
+                        marginTop: "0.5rem",
+                        padding: "0.5rem 0.75rem",
+                        fontSize: "1rem",
+                        border: "1.5px solid var(--color-border)",
+                        borderRadius: "6px",
+                        background: "var(--color-background)",
+                        color: "var(--color-foreground)",
+                        outline: "none",
+                      }}
+                      autoFocus
+                    />
+                  )}
+                </div>
+              </label>
             </div>
-          )}
-          {anyRefinement && (
-            <div className="mt-4 p-3 rounded border border-primary/40 bg-primary/10" role="note">
-              <p className="text-xs sm:text-sm text-foreground leading-relaxed">{text("If you have chosen any variant above MVP and all necessary refinements are included in the budget — nothing needs to wait. Checkbox marks remove all price proposals (we will provide a custom calculation separately).", "Якщо ви обрали будь-який з варіантів вище MVP та всі необхідні доопрацювання входять до бюджету — нічого не потрібно чекати. Відмітки чек-боксів знімають усі цінові пропозиції (ми надамо окремий індивідуальний розрахунок).")}</p>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+              {/* Save PDF Button */}
+              <Button
+                variant="outline"
+                onClick={() => window.print()}
+                className="w-full flex items-center justify-center gap-2"
+                style={{ fontSize: "0.95rem", padding: "0.75rem 1rem" }}
+              >
+                <FileDown className="h-4 w-4 text-primary" />
+                {text("Save as PDF", "Зберегти в PDF")}
+              </Button>
+
+              {/* Confirm & Send Button via direct Mailto */}
+              {showError && (
+                <p
+                  id="budget-error"
+                  role="alert"
+                  style={{
+                    fontSize: "0.82rem",
+                    color: "#c0392b",
+                    textAlign: "center",
+                    marginBottom: "0.25rem",
+                  }}
+                >
+                  {text(
+                    budgetChoice === "limit" && !budgetInput.trim()
+                      ? "Please enter a budget ceiling amount."
+                      : "Please select a budget position before sending.",
+                    budgetChoice === "limit" && !budgetInput.trim()
+                      ? "Будь ласка, вкажіть суму бюджетної стелі."
+                      : "Будь ласка, вкажіть вашу позицію щодо бюджету.",
+                  )}
+                </p>
+              )}
+              <Button
+                onClick={handleConfirmAndSend}
+                aria-describedby={showError ? "budget-error" : undefined}
+                className="w-full flex items-center justify-center gap-2 border border-brass/60 text-brass hover:bg-brass/10 bg-transparent font-semibold min-h-[50px] h-auto py-3 px-4 whitespace-normal text-center leading-snug shadow-md"
+                style={{ fontSize: "1rem", opacity: sendAttempted && !canSend ? 0.75 : 1 }}
+              >
+                <Send className="h-4 w-4 shrink-0" />
+                <span>{text("Confirm & Send Email", "Підтвердити та відіслати email")}</span>
+              </Button>
             </div>
-          )}
-        </section>
 
-        <section className="mb-6 p-5 sm:p-6 rounded-xl border border-primary/40 bg-card/60 backdrop-blur-md shadow-sm">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="h-2 w-2 rounded-full bg-primary" aria-hidden="true" />
-            <p className="text-xs uppercase tracking-wider font-semibold text-primary">{text("Strategic Synergy — MHPSS", "Стратегічна синергія — MHPSS")}</p>
-          </div>
-          <p className="text-sm text-foreground leading-relaxed mb-3">{text("We invite the Institute and the association to professional review and mutual integration in launching an open mental health data dashboard (dashboard.feelagain.me). The Ukrainian chapter's programme Practical Mental Health Incident Management for Non-Specialists sets the methodological foundation we propose to extend with analytical infrastructure for MHPSS risk modelling.", "Запрошуємо Інститут та асоціацію до фахової експертизи та взаємної інтеграції у запуску відкритого дашборду даних ментального здоров'я (dashboard.feelagain.me). Програма українського чаптера Practical Mental Health Incident Management for Non-Specialists задає методологічний фундамент, який пропонуємо розширити аналітичною інфраструктурою для MHPSS-моделювання ризиків.")}</p>
-          <label className="flex items-start gap-3 p-3 rounded-lg border border-primary/40 bg-primary/5 cursor-pointer hover:bg-primary/10 transition-colors">
-            <input type="checkbox" checked={mhpssInterest} onChange={(e) => setMhpssInterest(e.target.checked)} className="mt-1 h-4 w-4 accent-primary shrink-0" />
-            <span className="text-sm text-foreground leading-snug">{text("Please mark if you would like to receive materials for review of the Practical Mental Health Incident Management for Non-Specialists programme.", "Просимо зробити відмітку, якщо бажаєте отримати матеріали для ознайомлення з програмою Practical Mental Health Incident Management for Non-Specialists.")}</span>
-          </label>
-        </section>
+            <p className="text-[11px] text-muted-foreground mt-2 text-center">
+              {text(
+                "Opens your default email client addressed to alexezav@gmail.com and dmitrfilim@gmail.com. Scope and budget details are pre-filled in the message body.",
+                "Відкриває ваш поштовий клієнт з листом на alexezav@gmail.com та dmitrfilim@gmail.com. Обсяги та бюджет вже заповнені у тілі листа.",
+              )}
+            </p>
 
-        <section className="mb-6 p-5 sm:p-6 rounded-xl border border-border bg-card/60 backdrop-blur-md shadow-sm">
-          <p className="text-sm sm:text-base text-foreground leading-relaxed mb-4 font-semibold">{text("This document will serve as justification for the preparation of TOR and proposal.", "Цей документ слугуватиме обґрунтуванням для підготовки ТЗ та пропозиції.")}</p>
-          <div className="text-sm text-muted-foreground leading-relaxed space-y-3">
-            <p>{text("Acknowledging the leadership of the Institute of Strategic Risk Management (ISRM) in setting standards for security, resilience, and crisis management across Ukraine and Europe, we express special gratitude for the opening of the ISRM Ukrainian chapter — this decision has historical significance for the professional community working in conditions of high risk and uncertainty.", "Визнаючи лідерську роль Інституту стратегічного управління ризиками (ISRM) у формуванні стандартів безпеки, резільєнтності та антикризового управління в Україні та Європі, висловлюємо особливу подяку за відкриття українського чаптеру ISRM — це рішення має історичне значення для професійної спільноти, що працює в умовах високого ризику та невизначеності.")}</p>
-            <p>{text("We look with high interest at the possibility of realizing this non-trivial task, which connects deep institutional expertise with managed analytical agents, and forms a digital infrastructure of trust for the ISRM professional community.", "З високою зацікавленістю смотрим на можливість реалізації цієї не тривіальної задачі, що сполучає глибоку інституційну експертизу з керованими аналітичними агентами, та формує цифрову інфраструктуру довіри для професійної спільноти ISRM.")}</p>
-          </div>
-          <div className="mt-6 pt-4 border-t border-border">
-            <p className="text-sm text-muted-foreground leading-relaxed mb-3">{text("Agreed:", "Погоджую:")}</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-              <div>
-                <div className="border-b border-foreground/40 h-8 mb-1" />
-                <p className="text-foreground font-semibold">Dr David Rubens</p>
-                <p className="text-muted-foreground">Executive Director, ISRM</p>
-              </div>
-              <div>
-                <div className="border-b border-foreground/40 h-8 mb-1" />
-                <p className="text-muted-foreground">{text("Date", "Дата")}</p>
-              </div>
-            </div>
-            <p className="mt-4 text-xs text-muted-foreground">{text("Frishberg & Partners — on behalf of the working group", "Frishberg & Partners — від імені робочої групи")}</p>
-          </div>
-        </section>
+            <nav className="client-price-sources" style={{ marginTop: "1rem" }} aria-label={text("Rate sources", "Джерела ставок")}>
+              <span>{text("Rate sources:", "Джерела ставок:")}</span>
+              {MARKET_BENCHMARKS.sources
+                .filter(({ label }) => label.startsWith("Clutch"))
+                .map((s) => (
+                  <a href={s.url} key={s.label} target="_blank" rel="noreferrer">
+                    {s.label} <ExternalLink aria-hidden="true" />
+                  </a>
+                ))}
+            </nav>
+          </aside>
+        </div>
 
+        {/* ── Footer ───────────────────────────────────────────────── */}
         <footer className="partner-footer">
           <div className="cta-bottom">
             <Button asChild variant="outline" className="button-outline">
@@ -265,17 +691,15 @@ function ScopePage() {
               </Link>
             </Button>
           </div>
-          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <Button variant="outline" onClick={() => window.print()} className="w-full flex items-center justify-center gap-2" style={{ fontSize: "0.95rem", padding: "0.75rem 1rem" }}>
-              <FileDown className="h-4 w-4 text-primary" />
-              {text("Save as PDF", "Зберегти в PDF")}
-            </Button>
-            <Button onClick={handleConfirmAndSend} className="w-full flex items-center justify-center gap-2 border border-brass/60 text-brass hover:bg-brass/10 bg-transparent font-semibold min-h-[50px] h-auto py-3 px-4 whitespace-normal text-center leading-snug shadow-md" style={{ fontSize: "1rem", opacity: sendAttempted && !canSend ? 0.75 : 1 }}>
-              <Send className="h-4 w-4 shrink-0" />
-              <span>{text("Confirm & Send Email", "Підтвердити та відіслати email")}</span>
-            </Button>
-          </div>
-          <p className="text-[11px] text-muted-foreground mt-3 text-center">{text("Opens your default email client addressed to alexezav@gmail.com and dmitrfilim@gmail.com. The full preamble, three honorarium stages, marked refinements, MHPSS interest, and any saved MemberCabinet service drafts are pre-filled in the message body.", "Відкриває ваш поштовий клієнт з листом на alexezav@gmail.com та dmitrfilim@gmail.com. У тілі листа — повна преамбула, три етапи гонорару, позначені доопрацювання, інтерес MHPSS, та всі збережені чернетки описів сервісів з MemberCabinet.")}</p>
+          <p className="partner-footer-route-notice" role="note">
+            {text(
+              "Indicative ranges are planning references. First payment is at least 30% of the agreed total.",
+              "Індикативні діапазони — планувальні орієнтири. Перший платіж — не менше 30% від погодженої суми.",
+            )}
+          </p>
+          <p className="partner-muted" style={{ fontSize: "0.78rem", marginTop: "0.5rem" }}>
+            {CLIENT_PRICING_STATUS[uk ? "uk" : "en"]}
+          </p>
         </footer>
       </div>
     </main>
