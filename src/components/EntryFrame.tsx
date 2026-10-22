@@ -12,14 +12,14 @@ const copy = {
     heading: "See the expert network in action",
     subheading:
       "The network graph is live. Use it to search for expertise, review profiles, and see which capabilities your association can activate.",
-    cta: "Open the expert network",
+    cta: "ISRM Network Map",
     ariaLabel: "Next step: open the expert network",
   },
   uk: {
     heading: "Подивіться на мережу експертів у дії",
     subheading:
       "Граф мережі — живий. Використовуйте його для пошуку експертизи, перегляду профілів і визначення можливостей асоціації.",
-    cta: "Відкрити мережу експертів",
+    cta: "Мапа мережі ISRM",
     ariaLabel: "Наступний крок: відкрити мережу експертів",
   },
 } as const;

@@ -277,7 +277,9 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
               {text("Alex Frishberg", "Алекс Фрішберг")}
             </h3>
             <p style={{ fontSize: '0.78rem', lineHeight: 1.5, color: '#2d4a3e', margin: 0, textAlign: 'center' }}>
-              {text("Coordination & value solution framework.", "Координація та value solution framework.")}
+              {text("Coordination & value solution framework.", "Координація та value solution framework.")
+            </p>
+            <p style={{ fontSize: "0.78rem", lineHeight: 1.5, color: "#2d4a3e", margin: 0, textAlign: "right" }}>}
             </p>
           </div>
           {/* 2. Filimonov — Head & OSINT */}
@@ -335,12 +337,12 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
       {/* ── Footer ── */}
             {/* CTA block — before footer */}
       <div className="mt-8 mb-4" style={{ display: "flex", justifyContent: "center" }}>
-        <Button asChild variant="default" className="button-outline text-base px-8 py-5 shadow-lg" style={{ borderRadius: "2px" }}>
+        <Button asChild variant="default" className="button-outline px-8 py-5 shadow-lg" style={{ fontSize: "0.95rem", borderRadius: "2px" }} style={{ borderRadius: "2px" }}>
           <Link to="/scope">{text("Proceed to agreement →", "перейти до погодження →")}</Link>
         </Button>
       </div>
 
-      <footer className="partner-footer" style={{ background: "#ffffff", position: "relative", width: "100%", padding: "1rem 1.5rem", borderRadius: "8px", marginTop: "2rem" }}>
+      <footer className="partner-footer" style={{ background: "#ffffff", position: "relative", marginBottom: "0", paddingBottom: "0.5rem", width: "100%", padding: "0.5rem 1.5rem", borderRadius: "8px", marginTop: "2rem" }}>
         <div style={{ display: "flex", justifyContent: "center", marginBottom: "0.75rem" }}>
           <img src="https://frishberg.com/wp-content/uploads/2023/07/logo.jpg" alt="Frishberg" style={{ height: "48px", width: "auto", objectFit: "contain" }} />
         </div>
