@@ -160,6 +160,13 @@ function ScopePage() {
             </Button>
             <p className="partner-eyebrow">{text("ISRM · Programme Scope & Budget", "ISRM · Обсяг і бюджет")}</p>
             <h1>{text("Deliverables, Programme Scope and Indicative Investment", "Що буде побудовано — і скільки це коштує")}</h1>
+          {/* Acknowledgment */}
+          <div style={{ marginTop:"1.5rem",padding:"1rem 1.25rem",borderLeft:"4px solid #c8901a",background:"rgba(200,144,26,0.06)",borderRadius:"0 4px 4px 0" }}>
+            <p style={{ fontSize:"1rem",lineHeight:1.7,color:"#13302c",margin:0 }}>
+              {text("We acknowledge the leadership of the Institute of Strategic Risk Management in setting standards for security, resilience, and crisis management across Britain, Europe, and the world. We are particularly grateful for the opening of the Ukrainian chapter.", "Viznaemo liderstvo Institutu strategicnogo upravlinnya rizikami (ISRM) u formuvanni standartiv bezpeki, rezilyentnosti ta antikrizovogo upravlinnya v Britaniyi, Evropi ta sviti. Osoblivo vdyachni za vidkrittya ukrainskogo chapteru.")}
+            </p>
+          </div>
+
             <p className="partner-lede">
               {text(
                 "The core Application MVP is established as the essential baseline. Please select any complementary components required, and indicate your institutional budget position.",

@@ -150,84 +150,48 @@ export function ClientProposalLower({ locale, text, uk }: Props) {
         </p>
       </section>
 
-      {/* Section 03: Value Solution Framework — 3 Workflows */}
+      {/*       {/* Section 03: Value Solution Framework */}
       <section aria-labelledby="vsf-heading" style={{ marginTop: '4.5rem' }}>
         <div className="partner-section-heading" style={{ margin: '3.5rem 0 2.5rem' }}>
           <span>03</span>
           <div>
-            <h2 id="vsf-heading">
-              {text("Value Solution Framework — 3 Workflows", "Value Solution Framework — 3 воркфлоу")}
-            </h2>
+            <h2 id="vsf-heading">{text("Value Solution Framework — 3 Workflows", "Value Solution Framework — 3 vorKflou")}</h2>
             <p className="partner-body" style={{ marginTop: '0.75rem', lineHeight: '1.7', fontSize: '1.05rem', color: '#132a22' }}>
-              {text("Three interconnected workflows that together form the technological arm for experts and consultants of the ISRM network.", "Три взаємопов\u2019язані воркфлоу, що разом формують технологічне плече для експертів та консультантів мережі ISRM.")}
+              {text("Three interconnected workflows forming the technological arm for ISRM experts and consultants.", "Tri vazmopovyazani vorKflou, scho formuyut tehnologichne pleche dlya ekspertiv ta konsultantiv merezhi ISRM.")}
             </p>
           </div>
         </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.25rem', marginBottom: '3rem' }}>
-
-          {/* Workflow 1: MVP */}
-          <div className="card-hanging" style={{ borderTopColor: '#064e3b', display: 'flex', flexDirection: 'column' }}>
-            <span className="tech-label text-brass" style={{ display: 'block', marginBottom: '0.4rem' }}>
-              {text("Workflow 1", "Воркфлоу 1")}
-            </span>
-            <h3 className="header-pressed" style={{ fontSize: '1.05rem', margin: '0 0 0.75rem' }}>
-              {text("MVP — Interactive Expertise Map", "MVP — Інтерактивна карта експертизи")}
-            </h3>
-            <p style={{ fontSize: '0.88rem', lineHeight: 1.65, color: '#2d4a3e', margin: '0 0 1rem', flex: 1 }}>
-              {text("A digital application for mapping available expertise and its carriers, with built-in AI OSINT and core service capabilities: search and selection of expertise or specific consultants, requests for professional support, invitations to discussions, R&D initiation, expert commentary for publications, and interaction in the professional community.", "Цифровий додаток для мапування доступної експертизи та її носіїв, з вбудованим ШІ OSINT та базовими сервісними можливостями: пошук та відбір експертизи чи конкретних консультантів, запити професійної підтримки, запрошення до обговорень, ініціювання R&D, експертні коментарі для публікацій, взаємодія у професійному ком\u2019юніті.")}
-            </p>
-            <div style={{ paddingTop: '0.75rem', borderTop: '1px dashed rgba(11,84,76,0.15)', fontSize: '0.78rem', color: '#064e3b', fontWeight: 700 }}>
-              {text("Expected: rails for horizontal connections and group dynamics.", "Очікуваний результат: рейки для горизонтальних зв\u2019язків та групової динаміки.")}
-            </div>
-          </div>
-
-          {/* Workflow 2: Acquisition Cycle */}
-          <div className="card-hanging" style={{ borderTopColor: '#c8901a', display: 'flex', flexDirection: 'column' }}>
-            <span className="tech-label text-brass" style={{ display: 'block', marginBottom: '0.4rem' }}>
-              {text("Workflow 2", "Воркфлоу 2")}
-            </span>
-            <h3 className="header-pressed" style={{ fontSize: '1.05rem', margin: '0 0 0.75rem' }}>
-              {text("Acquisition & Recruitment Cycle", "Цикл еквізішену та рекрутингу")}
-            </h3>
-            <p style={{ fontSize: '0.88rem', lineHeight: 1.65, color: '#2d4a3e', margin: '0 0 1rem', flex: 1 }}>
-              {text("Not a one-off campaign but the embodiment of digital support for a self-reproducing engagement cycle — acquisition through activities in chapters and expertise sectors, on principles of mutual digital trust.", "Не разова кампанія, а втілення цифрового супроводу самовідтворюваного циклу залучення — еквізішен через активності в чаптерах та секторах експертизи, на принципах взаємної цифрової довіри.")}
-            </p>
-            <div style={{ paddingTop: '0.75rem', borderTop: '1px dashed rgba(11,84,76,0.15)', fontSize: '0.78rem', color: '#c8901a', fontWeight: 600 }}>
-              {text("Expected: target audience reach, content flow, capacity growth.", "Очікуваний результат: охоплення ЦА, потік контенту, зростання капасіті.")}
-            </div>
-          </div>
-
-          {/* Workflow 3: Network Expertise */}
-          <div className="card-hanging" style={{ borderTopColor: '#064e3b', display: 'flex', flexDirection: 'column' }}>
-            <span className="tech-label text-brass" style={{ display: 'block', marginBottom: '0.4rem' }}>
-              {text("Workflow 3", "Воркфлоу 3")}
-            </span>
-            <h3 className="header-pressed" style={{ fontSize: '1.05rem', margin: '0 0 0.75rem' }}>
-              {text("Network Expertise Accumulation", "Накопичення мережевої експертизи")}
-            </h3>
-            <p style={{ fontSize: '0.88rem', lineHeight: 1.65, color: '#2d4a3e', margin: '0 0 1rem', flex: 1 }}>
-              {text("Not another knowledge bank but a constantly updated data flow, transformed into training programmes and publication materials — a surface for collecting network expertise and group interaction.", "Не черговий банк знань, а постійно оновлюваний потік даних, трансформований у навчальні програми та матеріали публікацій — поверхня для збору мережевої експертизи та групової взаємодії.")}
-            </p>
-            <div style={{ paddingTop: '0.75rem', borderTop: '1px dashed rgba(11,84,76,0.15)', fontSize: '0.78rem', color: '#064e3b', fontWeight: 700 }}>
-              {text("Expected: paid access to expertise, thought leadership, project groups.", "Очікуваний результат: оплачуваний доступ до експертизи, лідерство думок, проєктні групи.")}
-            </div>
-          </div>
-
+        <div style={{ textAlign: 'center', padding: '1rem 0 2rem', fontSize: '1.15rem', fontWeight: 700, color: '#0b544c', fontStyle: 'italic' }}>
+          {text("Experienced expert + managed AI analytical agents = evolution of trust", "Dosvidcheniy ekspert + kerovani analitichni agenti ShI = evolyutsiya doviry")}
         </div>
-
-        {/* Proposed directions */}
-        <div style={{ padding: '1.25rem 1.5rem', borderRadius: '2px', border: '1px solid rgba(200,144,26,0.3)', background: 'rgba(200,144,26,0.06)', marginBottom: '2rem' }}>
-          <p style={{ fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#c8901a', margin: '0 0 0.75rem' }}>
-            {text("Proposed Directions", "Пропоновані напрями")}
-          </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <div className="card-hanging" style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr 1fr', gap: '1rem', padding: '1.25rem', borderTop: '4px solid #064e3b' }}>
+            <div><p className="tech-label text-muted-foreground" style={{ marginBottom: '0.5rem' }}>{text("Demo", "Demonstratsiya")}</p><ul style={{ fontSize: '0.78rem', color: '#566762', lineHeight: 1.6, margin: 0, paddingLeft: '1rem' }}><li>{text("Expertise search", "Posshuk ekspertizy")}</li><li>{text("Service configurator", "Konfigurator servisiv")}</li><li>{text("Professional support", "Zap profpidtrymky")}</li><li>{text("R&D initiation", "R&D")}</li></ul></div>
+            <div style={{ textAlign: 'center' }}><span className="tech-label text-brass">{text("Workflow 1 — Foundation", "VorKflou 1 — Fundament")}</span><h3 className="header-pressed" style={{ fontSize: '1rem', margin: '0.5rem 0' }}>{text("MVP — Interactive Expertise Map", "MVP — Interaktyvna mapa ekspertyzy")}</h3><p style={{ fontSize: '0.85rem', color: '#2d4a3e', lineHeight: 1.55, margin: 0 }}>{text("Digital application for mapping expertise, with built-in AI OSINT.", "TSifrovij dodatok dlya mapuvannya ekspertyzy, z vbudovanim ShI OSINT.")}</p></div>
+            <div><p className="tech-label text-brass" style={{ marginBottom: '0.5rem' }}>{text("Expected", "Ochikuvaniy rezultat")}</p><ul style={{ fontSize: '0.78rem', color: '#566762', lineHeight: 1.6, margin: 0, paddingLeft: '1rem' }}><li>{text("Rails for horizontal connections", "Reyki dlya goryzontalnyh zvyazkiv")}</li><li>{text("Group dynamics launch", "Zapusk grupovoi dynamiky")}</li><li>{text("AI tool access", "Poverhnya dostupu do ShI")}</li></ul></div>
+          </div>
+          <div className="card-hanging" style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr 1fr', gap: '1rem', padding: '1.25rem', borderTop: '4px solid #c8901a' }}>
+            <div><p className="tech-label text-muted-foreground" style={{ marginBottom: '0.5rem' }}>{text("Demo", "Demonstratsiya")}</p><p style={{ fontSize: '0.82rem', color: '#566762' }}>{text("Search + configurator + dependencies.", "POSHUK + konfigurator + zalezhnosti.")}</p></div>
+            <div style={{ textAlign: 'center' }}><span className="tech-label text-brass">{text("Workflow 2", "VorKflou 2")}</span><h3 className="header-pressed" style={{ fontSize: '1rem', margin: '0.5rem 0' }}>{text("Acquisition & Recruitment Cycle", "Tsikl ekvizishenu ta rekrutynhu")}</h3><p style={{ fontSize: '0.85rem', color: '#2d4a3e', lineHeight: 1.55, margin: 0 }}>{text("Self-reproducing engagement cycle through chapters, on principles of mutual digital trust.", "Samovidtvoryuvaniy tsikl zalyuchennya cherez chapteri ta sektory ekspertyzy.")}</p></div>
+            <div><p className="tech-label text-brass" style={{ marginBottom: '0.5rem' }}>{text("Expected", "Ochikuvaniy rezultat")}</p><ul style={{ fontSize: '0.78rem', color: '#566762', lineHeight: 1.6, margin: 0, paddingLeft: '1rem' }}><li>{text("Target audience reach", "Ohoplennya TsA")}</li><li>{text("Content flow", "Potik kontentu")}</li><li>{text("Capacity growth", "Zrostannya kapasiti")}</li></ul></div>
+          </div>
+          <div className="card-hanging" style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr 1fr', gap: '1rem', padding: '1.25rem', borderTop: '4px solid #064e3b' }}>
+            <div><p className="tech-label text-muted-foreground" style={{ marginBottom: '0.5rem' }}>{text("Demo", "Demonstratsiya")}</p><p style={{ fontSize: '0.82rem', color: '#566762' }}>{text("Search + configurator with dependencies.", "POSHUK + konfigurator z zalezhnostyamy.")}</p></div>
+            <div style={{ textAlign: 'center' }}><span className="tech-label text-brass">{text("Workflow 3", "VorKflou 3")}</span><h3 className="header-pressed" style={{ fontSize: '1rem', margin: '0.5rem 0' }}>{text("Network Expertise Accumulation", "Nakopychennya merezhevoyi ekspertyzy")}</h3><p style={{ fontSize: '0.85rem', color: '#2d4a3e', lineHeight: 1.55, margin: 0 }}>{text("Not a knowledge bank — constantly updated data flow, transformed into training and publications.", "Ne bank znan, a potik danyh, transformovaniy u navchalni programy.")}</p></div>
+            <div><p className="tech-label text-brass" style={{ marginBottom: '0.5rem' }}>{text("Expected", "Ochikuvaniy rezultat")}</p><ul style={{ fontSize: '0.78rem', color: '#566762', lineHeight: 1.6, margin: 0, paddingLeft: '1rem' }}><li>{text("Thought leadership", "Liderstvo dumok")}</li><li>{text("Project groups + cross-sales", "Proektni gruppy")}</li><li>{text("Paid access to expertise", "Oplachuvaniy dostup")}</li></ul></div>
+          </div>
+        </div>
+        <div style={{ padding: '1.25rem 1.5rem', borderRadius: '2px', border: '1px solid rgba(200,144,26,0.3)', background: 'rgba(200,144,26,0.06)', marginTop: '1.5rem' }}>
+          <p style={{ fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#c8901a', margin: '0 0 0.75rem' }}>{text("Proposed Directions", "Proponovani napryamy")}</p>
           <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.92rem', lineHeight: 1.7, color: '#0a2e24' }}>
-            <li>{text("Modernise horizontal connections and relationships using technological tooling.", "Модернізувати горизонтальні зв\u2019язки та відносини з використанням технологічного інструментарію.")}</li>
-            <li>{text("Unite deep institutional and business network expertise with AI verification.", "Об\u2019єднати глибоку інституційну та бізнесову мережеву експертизу з перевіркою штучного інтелекту.")}</li>
-            <li>{text("Renovate positions in digital communication channels: experienced expert + managed AI analytical agents = evolution of trust.", "Реновувати позиції у цифрових каналах комунікації: досвідчений експерт + керовані аналітичні агенти ШІ = еволюція довіри.")}</li>
+            <li>{text("Modernise horizontal connections using AI.", "Modernizuvaty goryzontalni zvyazky z ShI.")}</li>
+            <li>{text("Unite deep expertise with AI verification.", "Ob'yednaty ekspertyzu z verifikatsiyeyu ShI.")}</li>
+            <li>{text("Renovate communications: expert + AI = evolution of trust.", "Renuvatuvaty komunukatsiyi: ekspert + ShI = evolyutsiya doviry.")}</li>
           </ul>
         </div>
       </section>
+
+
 
 
 

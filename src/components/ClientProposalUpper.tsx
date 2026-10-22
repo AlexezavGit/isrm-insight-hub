@@ -103,9 +103,6 @@ export function ClientProposalUpper({ text, uk, setLocale, dependencyEdges }: Pr
 
           {/* Executive Cover Letter */}
           <div style={{ maxWidth: 860, marginTop: '1.5rem' }}>
-            <p style={{ fontSize: '1.05rem', lineHeight: 1.75, color: '#0a2e24', margin: '0 0 1.5rem', fontWeight: 500 }}>
-              {text("We acknowledge the leadership of the Institute of Strategic Risk Management in setting standards for security, resilience, and crisis management across Britain, Europe, and the world. We are particularly grateful for the opening of the Ukrainian chapter and the Institute's attention to questions of mental wellbeing.", "Визнаємо лідерську роль Інституту стратегічного управління ризиками (ISRM) у формуванні стандартів безпеки, резільєнтності та антикризового управління в Британії, Європі та світі. Особливо вдячні за відкриття українського чаптеру та увагу Інституту до питань ментального добробуту.")}
-            </p>
             <p style={{ fontSize: '1.05rem', lineHeight: 1.75, color: '#0a2e24', margin: '0 0 1.5rem' }}>
               {text("In an age where AI can answer any question faster and more conveniently than a human, the temptation is to treat AI as competition for the expert position. But if the game is framed as human-versus-AI, the human has already lost. The real opportunity lies elsewhere.", "У епоху, коли ШІ може відповісти на будь-яке питання швидше і зручніше за людину, виникає спокуса сприймати ШІ як конкуренцію за експертну позицію. Але якщо гра рамується як людина проти ШІ — людина вже програла. Справжня можливість лежить інде.")}
             </p>
