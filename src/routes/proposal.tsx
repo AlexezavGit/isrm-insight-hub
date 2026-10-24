@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, GitBranch, Search } from "lucide-react";
+import { GitBranch, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PROPOSAL_FUNCTIONS } from "@/lib/proposal-data";
 import { useI18n } from "@/lib/i18n";
@@ -14,16 +14,16 @@ export const Route = createFileRoute("/proposal")({
   },
   head: () => ({
     meta: [
-      { title: "ISRM — Client proposal" },
+      { title: "ISRM — Executive briefing" },
       {
         name: "description",
         content:
-          "A concise client proposal for the ISRM expert-network MVP and optional expert-community cycle.",
+          "An executive briefing for ISRM on AI-assisted open-source research, accountable human review and trusted professional knowledge.",
       },
-      { property: "og:title", content: "ISRM — Client proposal" },
+      { property: "og:title", content: "ISRM — Executive briefing" },
       {
         property: "og:description",
-        content: "Explore the expert workflow, pilot outcomes and indicative package ranges.",
+        content: "A response to David Rubens: scaling research through AI assistance and the expertise of the ISRM community.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -50,12 +50,12 @@ function ClientProposal() {
         <header className="partner-header">
           <div>
             <p className="partner-eyebrow">
-              {text("ISRM · Client proposal", "ISRM · Пропозиція замовнику")}
+              {text("ISRM · Executive briefing", "ISRM · Бриф для правління")}
             </p>
             <h1>
               {text(
-                "From a sorted sheet to a working expert workflow",
-                "Від упорядкованої таблиці — до робочого процесу з експертами",
+                "Safer professional communication. Trusted network expertise.",
+                "Безпечніша професійна комунікація. Достовірна мережева експертиза.",
               )}
             </h1>
 
@@ -93,26 +93,26 @@ function ClientProposal() {
           <article className="partner-card client-offer-hero">
             <p className="partner-kicker">
               {text(
-                "Two paths forward for the association",
-                "Два шляхи для асоціації",
+                "In response to Dr David Rubens and the ISRM Strategic Board",
+                "Відповідь д-ру Девіду Рубенсу та Стратегічному правлінню ISRM",
               )}
             </p>
             <h2 id="client-offer-heading" className="client-offer-hero-headline">
               {text(
-                "We can keep identifying experts one request at a time. Or we can build a tool for systematic work — and change how the network operates.",
-                "Ми можемо продовжувати ідентифікувати людей по запиту. Або можемо створити інструмент системної роботи — і змінити спосіб, яким мережа діє.",
+                "What would it take to extend the Ukraine analysis to ISRM’s 11,000+ LinkedIn contacts?",
+                "Що потрібно, щоб поширити українське дослідження на понад 11 000 контактів ISRM у LinkedIn?",
               )}
             </h2>
             <p className="partner-body">
               {text(
-                "Today the association has 178 identified contacts, 45 with verified profiles, and a LinkedIn community of nearly 12,000 people. That is a network. What it lacks is a surface for systematic engagement: finding the right expertise, forming project groups, tracking contributions and making the network's capacity visible — across cross-sell, over-sell, member development and thought leadership.",
-                "Сьогодні асоціація має 178 ідентифікованих контактів, 45 із верифікованими профілями та LinkedIn-спільноту майже у 12 000 осіб. Це мережа. Чого не вистачає — поверхні для системної роботи: знаходити потрібну експертизу, формувати проєктні групи, відстежувати внески й робити видимим потенціал мережі — через крос-селл, овер-селл, розвиток членів і thought leadership.",
+                "The Ukraine exercise reviewed 178 community records, including deeper public-source research on 45 verified profiles. David’s question is how this could serve a much larger network. Repeating that work manually for every contact would be costly and difficult to keep current. We suggest a reusable research tool: investigate when there is a professional need, then retain the evidence for authorised reuse.",
+                "Українське дослідження охопило 178 записів спільноти, зокрема поглиблене дослідження відкритих джерел для 45 верифікованих профілів. Питання Девіда — як використати цей підхід для значно ширшої мережі. Повторювати всю роботу вручну для кожного контакту було б дорого, а дані швидко застарівали б. Пропонуємо інструмент багаторазового використання: досліджувати за професійною потребою й зберігати докази для дозволеного повторного використання.",
               )}
             </p>
             <p className="partner-body" style={{ marginTop: "0.75rem" }}>
               {text(
-                "The Trust & Influence Index (TII) is the proposed framework for doing this with attribution and evidence — not guesswork. It is co-designed with the client, not imposed as a sector standard.",
-                "Trust & Influence Index (TII) — це запропонована рамка для системної роботи з атрибуцією та доказами, а не здогадками. Вона розробляється спільно із замовником, а не нав'язується як галузевий стандарт.",
+                "AI-assisted open-source intelligence (OSINT) can gather and organise evidence. A named human reviewer must check the sources, context and conclusions before information is relied upon or shared. ISRM’s chapter network could provide the relevant expertise, subject to participation, capacity and agreed responsibilities. This briefing opens that discussion; it is not yet a formal offer.",
+                "Дослідження відкритих джерел (OSINT) за допомогою ШІ може збирати й упорядковувати докази. Визначений фахівець має перевірити джерела, контекст і висновки, перш ніж дані використовуватимуть або поширюватимуть. Мережа чаптерів ISRM може надати потрібну експертизу — за умови участі, спроможності та погоджених відповідальностей. Цей бриф відкриває обговорення; він ще не є офіційною пропозицією.",
               )}
             </p>
             <div className="client-offer-actions">
@@ -121,16 +121,16 @@ function ClientProposal() {
           </article>
 
           <section className="client-preview-section" aria-labelledby="client-preview-heading" style={{ marginTop: "3rem" }}>
-            <div className="partner-section-heading">
+            <div className="partner-section-heading my-16">
               <span>01</span>
               <div>
                 <h2 id="client-preview-heading">
-                  {text("See the work, not a mock promise", "Побачити роботу, а не обіцянку")}
+                  {text("A digital research capability, built around professional judgement", "Цифровий інструмент дослідження, що спирається на професійне судження")}
                 </h2>
                 <p>
                   {text(
-                    "These interface thumbnails describe prototype paths. The current demo is not a production service or an authenticated client portal.",
-                    "Мініатюри показують сценарії прототипу. Поточне демо не є production-сервісом чи автентифікованим кабінетом замовника.",
+                    "Research on demand → evidence and source records → accountable human review → authorised reuse. The existing search and graph demonstrate the starting point; AI research and the review process still need to be implemented.",
+                    "Професійний запит → докази та джерела → відповідальна перевірка людиною → дозволене повторне використання. Наявні пошук і граф демонструють початкову основу; ШІ-дослідження та процедуру перевірки ще потрібно реалізувати.",
                   )}
                 </p>
               </div>
@@ -193,11 +193,11 @@ function ClientProposal() {
                       </div>
                     ))}
                 </div>
-                <h3>{text("Service functions", "Сервісні функції")}</h3>
+                <h3>{text("AI research & human review", "ШІ-дослідження та людська перевірка")}</h3>
                 <p className="partner-muted">
                   {text(
-                    "Review service options and record an addition/change request; this does not configure a live service.",
-                    "Переглянути варіанти сервісів і залишити запит на додавання/зміну; це не налаштовує активний сервіс.",
+                    "Proposed: collect relevant public evidence, record sources and dates, and submit conclusions to a responsible expert. AI output is a research aid, not proof of a person’s competence or integrity.",
+                    "Пропонуємо: збирати релевантні відкриті дані, фіксувати джерела й дати та передавати висновки відповідальному експерту. Висновок ШІ — допомога в дослідженні, а не доказ компетентності чи доброчесності людини.",
                   )}
                 </p>
                 <section className="partner-value-unlocks" aria-label={text("Value revealed through service functions", "Цінність, розкрита через сервісні функції")}>
@@ -231,233 +231,63 @@ function ClientProposal() {
                     </div>
                   ))}
                 </div>
-                <h3>{text("Dependencies", "Залежності")}</h3>
-                <p className="partner-muted">
-                  {text(
-                    "Inspect which functions depend on other functions before selecting pilot scope.",
-                    "Перевірити, які функції залежать одна від одної, перш ніж погоджувати обсяг пілота.",
-                  )}
-                </p>
-                <section className="partner-value-unlocks" aria-label={text("Value revealed through dependencies", "Цінність, розкрита через залежності")}>
+                <h3>{text("Shared professional value", "Спільна професійна цінність")}</h3>
+                <p className="partner-muted">{text("A proposed foundation for horizontal cooperation — not a guaranteed commercial return.", "Запропонована основа горизонтальної співпраці — не гарантія комерційного результату.")}</p>
+                <section className="partner-value-unlocks">
                   <ul>
-                    <li>
-                      {text(
-                        "Cross-sell to existing expert-network members from a single selected function",
-                        "Крос-селл до наявних членів експертної мережі від однієї обраної функції",
-                      )}
-                    </li>
-                    <li>
-                      {text(
-                        "Over-sell: increase average client portfolio size by exposing adjacent functions through dependency traversal",
-                        "Овер-селл: збільшення клієнтського портфоліо через суміжні функції, які відкриваються при виборі",
-                      )}
-                    </li>
-                    <li>
-                      {text(
-                        "Member capacity expansion: communities and working groups revealed as downstream opportunities",
-                        "Розширення капасіті членів: спільноти та робочі групи як downstream opportunities",
-                      )}
-                    </li>
-                    <li>
-                      {text(
-                        "Network expertise accumulation: shared evidence review and knowledge capture",
-                        "Накопичення мережевої експертизи: спільний перегляд доказів і фіксація знань",
-                      )}
-                    </li>
-                    <li>
-                      {text(
-                        "Free current publications from working-group outputs",
-                        "Безоплатні та актуальні публікації з результатів робочих груп",
-                      )}
-                    </li>
-                    <li>
-                      {text(
-                        "Publicity development: media-tracked mentions and conference-readiness assessment",
-                        "Розвиток паблісіті: відстеження згадок у медіа й оцінка готовності до конференції",
-                      )}
-                    </li>
+                    <li>{text("Review facts with colleagues who understand the sector and context", "Перевіряти факти з колегами, які розуміють сектор і контекст")}</li>
+                    <li>{text("Retain reviewed evidence for authorised reuse", "Зберігати перевірені докази для дозволеного повторного використання")}</li>
+                    <li>{text("Find complementary expertise for project groups and referrals", "Знаходити взаємодоповнювальну експертизу для проєктних груп і рекомендацій")}</li>
+                    <li>{text("Turn agreed findings into training, case studies and publications", "Перетворювати погоджені висновки на навчання, кейси та публікації")}</li>
+                    <li>{text("Connect chapter discussions with research and conference agendas", "Пов’язувати обговорення чаптерів із дослідженнями та програмами конференцій")}</li>
+                    <li>{text("Make contributions visible without treating participation as endorsement", "Робити внески видимими, не прирівнюючи участь до схвалення")}</li>
                   </ul>
-                  <p className="partner-value-unlocks-caption">
-                    {text(
-                      "Each line is a downstream opportunity revealed through dependency traversal — none of these capabilities were visible without the application service. They are planning references, not guaranteed commercial outcomes.",
-                      "Кожен рядок — це downstream opportunity, яку розкриває залежність; жодна з цих можливостей не була видимою без сервісу застосунку. Це планувальні орієнтири, а не гарантовані комерційні результати.",
-                    )}
-                  </p>
                 </section>
               </article>
             </div>
           </section>
 
-          <section aria-labelledby="client-engagement-heading" style={{ marginTop: "4rem" }}>
-            <div className="partner-section-heading">
+          <section aria-labelledby="client-engagement-heading">
+            <div className="partner-section-heading my-16">
               <span>02</span>
               <div>
-                <h2 id="client-engagement-heading">
-                  {text(
-                    "The expert engagement cycle — how the network grows itself",
-                    "Цикл залучення експертів — як мережа розвивається сама",
-                  )}
-                </h2>
-                <p>
-                  {text(
-                    "This is a cycle, not a sequence. Each element feeds the next and returns to the beginning. The MVP application is the surface that makes the cycle visible and measurable.",
-                    "Це цикл, а не послідовність. Кожен елемент живить наступний і повертається до початку. Застосунок MVP — поверхня, яка робить цикл видимим і вимірюваним.",
-                  )}
-                </p>
+                <h2 id="client-engagement-heading">{text("Two paths for further development", "Два напрями подальшого розвитку")}</h2>
+                <p>{text("Start with reliable information and safer communication. Wider services can follow when ISRM identifies a useful purpose, willing participants and a sustainable operating model.", "Почати з достовірної інформації та безпечнішої комунікації. Ширші сервіси розвивати тоді, коли ISRM визначить корисну мету, охочих учасників і сталу модель роботи.")}</p>
               </div>
             </div>
-
-            {/* Cycle diagram */}
-            {/* Vertical timeline: left = action, right = revenue */}
-            <div className="cycle-timeline" aria-label={text("Expert engagement cycle", "Цикл залучення експертів")}>
-              {([
-                {
-                  id: "members",
-                  icon: "👥",
-                  action: {
-                    en: "Engage active members. Form the working agenda around their expertise gaps, active projects and sector priorities.",
-                    uk: "Залучайте активних членів. Формуйте робочу адженду навколо їхніх прогалин, активних проєктів і секторних пріоритетів.",
-                  },
-                  revenue: null,
-                  funnel: { value: "178", note: { en: "CRM contacts · 45 identified", uk: "CRM-контакти · 45 ідентифіковано" } },
-                },
-                {
-                  id: "discussions",
-                  icon: "💬",
-                  action: {
-                    en: "Run structured expert discussions and working groups. Invite LinkedIn followers and course alumni as observers — with consent.",
-                    uk: "Проводьте структуровані обговорення та робочі групи. Запрошуйте фоловерів LinkedIn та слухачів курсів як спостерігачів — зі згодою.",
-                  },
-                  revenue: null,
-                  funnel: { value: "~2% of 11.7k", note: { en: "→ ~234 engaged per campaign*", uk: "→ ~234 залучено за кампанію*" } },
-                },
-                {
-                  id: "reports",
-                  icon: "📄",
-                  action: {
-                    en: "Produce analytical reports and a case library from working-group outputs. Attributable evidence of expertise — not marketing copy.",
-                    uk: "Готуйте аналітичні звіти та бібліотеку кейсів із результатів робочих груп. Атрибутовані докази — не маркетинговий текст.",
-                  },
-                  revenue: {
-                    en: "Cross-sell: members discover adjacent expertise and services through the reports.",
-                    uk: "Крос-селл: члени відкривають суміжну експертизу та сервіси через звіти.",
-                  },
-                  funnel: null,
-                },
-                {
-                  id: "expertise",
-                  icon: "🧠",
-                  action: {
-                    en: "Build the network expertise map — TII. Verified competencies, active projects, contribution records. The network becomes navigable.",
-                    uk: "Формуйте карту мережевої експертизи — TII. Верифіковані компетенції, активні проєкти, записи внесків. Мережа стає навігованою.",
-                  },
-                  revenue: {
-                    en: "Over-sell: deeper engagement with existing members reveals higher-value services and project opportunities.",
-                    uk: "Овер-селл: глибше залучення наявних членів відкриває послуги вищої цінності та проєктні можливості.",
-                  },
-                  funnel: null,
-                },
-                {
-                  id: "membership",
-                  icon: "✅",
-                  action: {
-                    en: "Followers who participated in discussions and read the reports apply for membership. Convert through demonstrated value.",
-                    uk: "Фоловери, які брали участь в обговореннях і читали звіти, подають заявки на членство. Конверсія через продемонстровану цінність.",
-                  },
-                  revenue: {
-                    en: "Paid memberships.",
-                    uk: "Оплачувані членства.",
-                  },
-                  funnel: { value: "~30%", note: { en: "→ ~70 new members per cycle*", uk: "→ ~70 нових членів за цикл*" } },
-                },
-                {
-                  id: "warroom",
-                  icon: "🗺️",
-                  action: {
-                    en: "The War Room map shows active members, ongoing projects and deployed expertise in real time. Coordinators see capacity and gaps at a glance.",
-                    uk: "Карта War Room показує активних членів, поточні проєкти та задіяну експертизу в реальному часі. Координатори бачать потенціал і прогалини з першого погляду.",
-                  },
-                  revenue: null,
-                  funnel: null,
-                },
-                {
-                  id: "conference",
-                  icon: "🎤",
-                  action: {
-                    en: "Annual conference + almanac: recommendations for practice development, stakeholder risk guidance, professional and regulatory agenda. New followers discover the network here.",
-                    uk: "Щорічна конференція + альманах: рекомендації з розвитку практики, поради стейкхолдерам щодо ризиків, профільна та регуляторна адженда. Тут мережу знаходять нові фоловери.",
-                  },
-                  revenue: {
-                    en: "Paid conference tickets. Almanac distribution. New followers enter the cycle.",
-                    uk: "Оплачувані квитки на конференцію. Розповсюдження альманаху. Нові фоловери входять у цикл.",
-                  },
-                  funnel: { value: "8.7k", note: { en: "LinkedIn Page followers · new visibility each cycle", uk: "підписники LinkedIn Page · нова видимість кожного циклу" } },
-                },
-              ] as const).map((node, i, arr) => (
-                <div key={node.id} className="cycle-timeline-row">
-                  {/* Left: action only (no funnel) */}
-                  <div className="cycle-tl-left">
-                    <div className="cycle-tl-card cycle-tl-card--action">
-                      <span className="cycle-tl-icon" aria-hidden="true">{node.icon}</span>
-                      <p>{node.action[uk ? "uk" : "en"]}</p>
-                    </div>
-                  </div>
-
-                  {/* Centre: timeline spine */}
-                  <div className="cycle-tl-spine">
-                    <div className="cycle-tl-dot" aria-hidden="true" />
-                    {i < arr.length - 1 && <div className="cycle-tl-line" aria-hidden="true" />}
-                    {i === arr.length - 1 && <div className="cycle-tl-return" aria-hidden="true" />}
-                  </div>
-
-                  {/* Right: revenue + funnel (audience numbers as outcome) */}
-                  <div className="cycle-tl-right">
-                    {(node.revenue || node.funnel) ? (
-                      <div className="cycle-tl-card cycle-tl-card--revenue">
-                        {node.revenue && (
-                          <>
-                            <span className="cycle-tl-revenue-label" aria-hidden="true">
-                              {text("Revenue opportunity", "Можливість доходу")}
-                            </span>
-                            <p>{node.revenue[uk ? "uk" : "en"]}</p>
-                          </>
-                        )}
-                        {node.funnel && (
-                          <div className="cycle-tl-funnel" style={{ marginTop: node.revenue ? "0.5rem" : 0 }}>
-                            <strong>{node.funnel.value}</strong>
-                            <span>{node.funnel.note[uk ? "uk" : "en"]}</span>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="cycle-tl-empty" aria-hidden="true" />
-                    )}
-                  </div>
-                </div>
-              ))}
+            <div className="client-pilot-grid">
+              <article className="partner-card client-pilot-step">
+                <h3>{text("Member & service-user engagement", "Залучення членів і користувачів послуг")}</h3>
+                <p className="partner-body">{text("Chapter and sector priorities → expert discussions → useful, reviewed content → interested participants → membership or service enquiries. Invitations, event support and communications could make this a repeatable cycle.", "Пріоритети чаптерів і секторів → експертні обговорення → корисний перевірений контент → зацікавлені учасники → запити на членство чи послуги. Запрошення, супровід подій і комунікація можуть зробити цей цикл повторюваним.")}</p>
+                <p className="partner-muted">{text("Measure actual participation and enquiries first. No membership, revenue or conversion outcome is promised.", "Спочатку вимірювати реальну участь і запити. Членства, дохід чи рівень конверсії не гарантуються.")}</p>
+              </article>
+              <article className="partner-card client-pilot-step">
+                <h3>{text("Network knowledge: capture, develop, share", "Мережева експертиза: накопичувати, розвивати, поширювати")}</h3>
+                <p className="partner-body">{text("Professional request → research and peer review → an attributable report or case → training, publications and authorised reuse. Shared knowledge can support project teams, internal consultation and referrals, subject to consent and agreed rights.", "Професійний запит → дослідження та експертна перевірка → звіт або кейс із визначеним авторством → навчання, публікації та дозволене повторне використання. Спільні знання можуть підтримати проєктні групи, внутрішні консультації та рекомендації — за згодою й погодженими правами.")}</p>
+                <p className="partner-muted">{text("Potential links with ISRM’s existing work — not proposed replacements:", "Можливі зв’язки з наявною роботою ISRM — не її заміна:")}</p>
+                <nav className="client-price-sources" aria-label={text("ISRM knowledge resources", "Ресурси знань ISRM")}>
+                  <a href="https://www.theisrm.org/global-risk-review/" target="_blank" rel="noreferrer">Global Risk Review</a>
+                  <a href="https://www.theisrm.org/public-library/" target="_blank" rel="noreferrer">Public Library</a>
+                  <a href="https://www.theisrm.org/strategic-risk-case-competition-2026/" target="_blank" rel="noreferrer">Strategic Risk Case Competition</a>
+                </nav>
+              </article>
             </div>
-            <p className="partner-muted" style={{ fontSize: "0.78rem", marginTop: "0.75rem" }}>
-              * {text(
-                "Conversion references: Higher Logic Association Community Report, LinkedIn B2B engagement data, ASAE 2026 member onboarding case. Planning references only — not ISRM forecasts.",
-                "Орієнтири конверсії: Higher Logic Association Community Report, LinkedIn B2B engagement data, кейс ASAE 2026. Планувальні орієнтири — не прогнози для ISRM.",
-              )}
-            </p>
           </section>
 
           <section aria-labelledby="client-consulting-heading" style={{ marginTop: "4rem" }}>
-            <div className="partner-section-heading">
+            <div className="partner-section-heading my-16">
               <span>03</span>
               <div>
                 <h2 id="client-consulting-heading">
                   {text(
-                    "Consulting & strategy — before and alongside the application",
-                    "Консалтинг і стратегія — до і паралельно з розробкою",
+                    "Agree the purpose, evidence rules and responsibilities",
+                    "Погодити мету, правила доказів та відповідальність",
                   )}
                 </h2>
                 <p>
                   {text(
-                    "Defining the right expertise priorities, preparing the board and co-designing the TII framework requires a dedicated consulting workstream — separate from development cost.",
-                    "Визначення правильних пріоритетів, підготовка борду та спільне проєктування рамки TII потребують окремого консалтингового напряму — незалежно від вартості розробки.",
+                    "The first discussion should define what information ISRM needs, who may use it and who is accountable for its review. Any additional strategic work will be scoped separately; the same work must not be charged twice.",
+                    "Перше обговорення має визначити, які дані потрібні ISRM, хто має право їх використовувати та хто відповідає за перевірку. Додаткову стратегічну роботу погоджуватимемо окремо; одна й та сама робота не повинна оплачуватися двічі.",
                   )}
                 </p>
               </div>
@@ -472,17 +302,17 @@ function ClientProposal() {
                   ),
                 },
                 {
-                  title: text("Board preparation", "Підготовка борду"),
+                  title: text("Review responsibilities", "Відповідальність за перевірку"),
                   detail: text(
-                    "Strategic sessions that turn diagnostic findings into clear decisions — with named owners and concrete next steps.",
-                    "Стратегічні сесії, що перетворюють результати діагностики на чіткі рішення — з відповідальними та конкретними наступними кроками.",
+                    "Agree reviewer expertise, source quality, update intervals, access permissions and a route to correct or challenge findings. AI assistance does not replace professional accountability.",
+                    "Погодити компетенції перевіряльників, якість джерел, строки оновлення, права доступу та порядок виправлення або оскарження висновків. Допомога ШІ не замінює професійної відповідальності.",
                   ),
                 },
                 {
-                  title: text("TII framework co-design", "Спільне проєктування рамки TII"),
+                  title: text("Trust & Influence: a research question", "Trust & Influence: питання для дослідження"),
                   detail: text(
-                    "Define evidence classes, review protocol, governance and correction path with the client — before any score is calculated or any label is applied to a person.",
-                    "Визначте класи доказів, протокол перевірки, врядування та шлях виправлення разом із клієнтом — до того як обчислювати будь-який бал або присвоювати будь-яку мітку.",
+                    "Explore whether publications, cases, solution quality, research, professional interaction and recommendations can support an evidence-based picture of expertise. Any Trust & Influence Index must be co-designed and validated before scoring or ranking people.",
+                    "Дослідити, чи можуть публікації, кейси, якість рішень, дослідження, професійна взаємодія та рекомендації формувати доказове уявлення про експертизу. Будь-який Trust & Influence Index потрібно спільно розробити й перевірити до оцінювання чи ранжування людей.",
                   ),
                 },
               ].map((step) => (
@@ -499,32 +329,23 @@ function ClientProposal() {
             <div className="cta-bottom">
               <Button asChild variant="default" className="button-outline">
                 <Link to="/scope">
-                  {text("See scope & budget →", "Переглянути обсяг і ціну →")}
+                  {text("Discuss scope & budget limits", "Обговорити обсяг і ліміти бюджету")}
                 </Link>
               </Button>
             </div>
             <div className="partner-footer-actions">
               <span>
                 {text(
-                  "Full project context, scope boundaries, estimation limits and source links are in the project description.",
-                  "Повний контекст проєкту, межі scope, обмеження оцінювання та посилання на джерела — в описі проєкту.",
+                  "Next: review the demonstration, describe the functions you would find useful, then indicate your preferred scope and budget limit. We will prepare a detailed specification, timetable and formal offer for a further approval round.",
+                  "Далі: переглянути демонстрацію, описати корисні для вас функції та вказати бажаний обсяг і ліміт бюджету. Після цього підготуємо детальне технічне завдання, строки й офіційну пропозицію для наступного раунду погодження.",
                 )}
               </span>
             </div>
             <p className="partner-footer-route-notice" role="note">
               {text(
-                "This proposal is a browser-local preview, not transmitted, not approved. Indicative ranges are planning references pending preliminary scope and budget-ceiling approval; the first payment is at least 30% of the agreed total and is due on package delivery/acceptance.",
-                "Ця пропозиція — локальний браузерний preview, не передана, не погоджена. Індикативні діапазони — планувальні орієнтири, що чекають на попереднє погодження scope та верхньої межі бюджету; перший платіж становить не менше 30% від погодженої суми й здійснюється в момент здачі/приймання пакета.",
+                "This is an executive briefing and interactive demonstration, not a production service or a binding offer. AI research is not yet connected. Personal data remains subject to access limits, permitted use and human review. No work is commissioned or invoiced through this page.",
+                "Це бриф для правління та інтерактивна демонстрація, а не промисловий сервіс чи зобов’язувальна оферта. ШІ-дослідження ще не підключене. Персональні дані підлягають обмеженням доступу, дозволеному використанню та людській перевірці. Ця сторінка не замовляє роботи й не виставляє рахунків.",
               )}
-            </p>
-            <p style={{ marginTop: "1.5rem", textAlign: "center" }}>
-              <Link
-                to="/partner"
-                style={{ fontSize: "0.7rem", color: "var(--color-muted-foreground)", opacity: 0.4, textDecoration: "none", fontFamily: "var(--font-mono)" }}
-                aria-label="Service configurator — partner access only"
-              >
-                {text("service configurator", "конфігуратор сервісу")}
-              </Link>
             </p>
           </footer>
         </section>
