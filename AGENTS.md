@@ -14,3 +14,4 @@
 - Agent integrations (MCP): public, anonymised tools at /mcp — decided by user.
 - App shell architecture: the network graph is the persistent home surface; Search and member Cabinet are overlays controlled from bottom navigation, while the proposal route remains a separate navigation destination.
 - Demo operational workflows remain browser-local mock state until shared authenticated storage is explicitly commissioned — prevents implying production persistence.
+- Keep briefing delivery milestones in a shared, tested browser-safe module, distinct from legacy pricing assumptions, so narrative updates cannot silently change estimate calculations.
