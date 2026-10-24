@@ -11,6 +11,7 @@
 - [x] Verify desktop and mobile layouts, interactions, and current build status.
 
 ## Current requests
+- [ ] Prioritise revised narrative on /proposal and /scope using the newly uploaded logical-framework briefs; defer graph and sign-in work.
 - [ ] Add Google sign-in without automatically granting private network access; clarify profile storage.
 - [ ] Update proposal entry copy, official ISRM logo, section spacing, conversion assumptions/sources, and Trust and Influence strategy.
 - [ ] Implement mobile-first search/configurator/dossier overlays and close-on-background behavior.

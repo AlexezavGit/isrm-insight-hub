@@ -12,14 +12,14 @@ const copy = {
     heading: "See the expert network in action",
     subheading:
       "The network graph is live. Use it to search for expertise, review profiles, and see which capabilities your association can activate.",
-    cta: "ISRM Network Map",
+    cta: "Open the expert network",
     ariaLabel: "Next step: open the expert network",
   },
   uk: {
     heading: "Подивіться на мережу експертів у дії",
     subheading:
       "Граф мережі — живий. Використовуйте його для пошуку експертизи, перегляду профілів і визначення можливостей асоціації.",
-    cta: "Мапа мережі ISRM",
+    cta: "Відкрити мережу експертів",
     ariaLabel: "Наступний крок: відкрити мережу експертів",
   },
 } as const;
@@ -75,15 +75,7 @@ export function EntryFrame({ locale }: EntryFrameProps) {
       <h2>{t.heading}</h2>
       <p>{t.subheading}</p>
       <Button asChild size="lg" className="entry-frame-cta">
-        <Link
-          to="/"
-          search={{ network: "true" }}
-          onClick={() => {
-            if (typeof sessionStorage !== "undefined") {
-              sessionStorage.setItem("isrm-allow-graph", "1");
-            }
-          }}
-        >
+        <Link to="/" search={{ panel: "search" }}>
           {t.cta}
           <ArrowRight aria-hidden="true" className="ml-1" />
         </Link>

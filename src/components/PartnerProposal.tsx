@@ -20,7 +20,6 @@ import { Button } from "@/components/ui/button";
 import type { PartnerGraphLink, PartnerGraphNode } from "@/components/PartnerGraph";
 import { getPartnerPreview } from "@/lib/network.functions";
 import { useI18n } from "@/lib/i18n";
-import { IsrmLogo } from "@/components/IsrmLogo";
 import {
   CLIENT_PACKAGES,
   CLIENT_PAYMENT_TERMS,
@@ -572,7 +571,7 @@ export default function PartnerProposal() {
       : "Partner route: review roles and boundaries → search and configuration → review the cost model and decisions. Partner rates and estimates are entered separately; unknown values remain TBD.",
     description: uk ? "Опис і межі" : "Description and boundaries",
     experts: uk ? "Пошук експертів" : "Expert search",
-    configurator: uk ? "Налаштування" : "Settings",
+    configurator: uk ? "Конфігуратор" : "Configurator",
     workspace: uk ? "Пошук і конфігурація" : "Search and configuration",
     pilot: uk ? "Функції пілота" : "Pilot functions",
     order: uk ? "Кошторис і рішення" : "Cost model and decisions",
@@ -632,9 +631,6 @@ export default function PartnerProposal() {
       <div className="partner-shell">
         <header className="partner-header">
           <div>
-            <div className="mb-3" aria-label="ISRM">
-              <IsrmLogo className="h-9 w-auto" showSubtitle={true} />
-            </div>
             <Button variant="ghost" className="partner-back" onClick={() => setView("description")}>
               <ArrowLeft aria-hidden="true" />
               {i18n.back}
@@ -1124,7 +1120,7 @@ export default function PartnerProposal() {
                     className="partner-primary-button"
                     onClick={() => setWorkspaceMode("configurator")}
                   >
-                    {uk ? "Перейти до налаштувань" : "Continue to settings"}
+                    {uk ? "Перейти до конфігуратора" : "Continue to configurator"}
                     <ArrowRight size={16} />
                   </Button>
                 </div>

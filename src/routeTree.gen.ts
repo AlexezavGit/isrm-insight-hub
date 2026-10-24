@@ -16,9 +16,7 @@ import { Route as McpRouteImport } from './routes/mcp'
 import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as PartnerFinanceRouteImport } from './routes/partner-finance'
 import { Route as ProposalRouteImport } from './routes/proposal'
-import { Route as ProposalV2RouteImport } from './routes/proposal-v2'
 import { Route as ScopeRouteImport } from './routes/scope'
-import { Route as SpecRouteImport } from './routes/spec'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as ExpertsCodeRouteImport } from './routes/experts.$code'
 
@@ -57,19 +55,9 @@ const ProposalRoute = ProposalRouteImport.update({
   path: '/proposal',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProposalV2Route = ProposalV2RouteImport.update({
-  id: '/proposal-v2',
-  path: '/proposal-v2',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ScopeRoute = ScopeRouteImport.update({
   id: '/scope',
   path: '/scope',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SpecRoute = SpecRouteImport.update({
-  id: '/spec',
-  path: '/spec',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Char91DotwellKnownChar93OauthProtectedResourceRoute =
@@ -92,9 +80,7 @@ export interface FileRoutesByFullPath {
   '/partner': typeof PartnerRoute
   '/partner-finance': typeof PartnerFinanceRoute
   '/proposal': typeof ProposalRoute
-  '/proposal-v2': typeof ProposalV2Route
   '/scope': typeof ScopeRoute
-  '/spec': typeof SpecRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/experts/$code': typeof ExpertsCodeRoute
 }
@@ -106,9 +92,7 @@ export interface FileRoutesByTo {
   '/partner': typeof PartnerRoute
   '/partner-finance': typeof PartnerFinanceRoute
   '/proposal': typeof ProposalRoute
-  '/proposal-v2': typeof ProposalV2Route
   '/scope': typeof ScopeRoute
-  '/spec': typeof SpecRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/experts/$code': typeof ExpertsCodeRoute
 }
@@ -121,9 +105,7 @@ export interface FileRoutesById {
   '/partner': typeof PartnerRoute
   '/partner-finance': typeof PartnerFinanceRoute
   '/proposal': typeof ProposalRoute
-  '/proposal-v2': typeof ProposalV2Route
   '/scope': typeof ScopeRoute
-  '/spec': typeof SpecRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/experts/$code': typeof ExpertsCodeRoute
 }
@@ -137,9 +119,7 @@ export interface FileRouteTypes {
     | '/partner'
     | '/partner-finance'
     | '/proposal'
-    | '/proposal-v2'
     | '/scope'
-    | '/spec'
     | '/.well-known/oauth-protected-resource'
     | '/experts/$code'
   fileRoutesByTo: FileRoutesByTo
@@ -151,9 +131,7 @@ export interface FileRouteTypes {
     | '/partner'
     | '/partner-finance'
     | '/proposal'
-    | '/proposal-v2'
     | '/scope'
-    | '/spec'
     | '/.well-known/oauth-protected-resource'
     | '/experts/$code'
   id:
@@ -165,9 +143,7 @@ export interface FileRouteTypes {
     | '/partner'
     | '/partner-finance'
     | '/proposal'
-    | '/proposal-v2'
     | '/scope'
-    | '/spec'
     | '/.well-known/oauth-protected-resource'
     | '/experts/$code'
   fileRoutesById: FileRoutesById
@@ -180,9 +156,7 @@ export interface RootRouteChildren {
   PartnerRoute: typeof PartnerRoute
   PartnerFinanceRoute: typeof PartnerFinanceRoute
   ProposalRoute: typeof ProposalRoute
-  ProposalV2Route: typeof ProposalV2Route
   ScopeRoute: typeof ScopeRoute
-  SpecRoute: typeof SpecRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ExpertsCodeRoute: typeof ExpertsCodeRoute
 }
@@ -238,25 +212,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProposalRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/proposal-v2': {
-      id: '/proposal-v2'
-      path: '/proposal-v2'
-      fullPath: '/proposal-v2'
-      preLoaderRoute: typeof ProposalV2RouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/scope': {
       id: '/scope'
       path: '/scope'
       fullPath: '/scope'
       preLoaderRoute: typeof ScopeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/spec': {
-      id: '/spec'
-      path: '/spec'
-      fullPath: '/spec'
-      preLoaderRoute: typeof SpecRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/.well-known/oauth-protected-resource': {
@@ -284,9 +244,7 @@ const rootRouteChildren: RootRouteChildren = {
   PartnerRoute: PartnerRoute,
   PartnerFinanceRoute: PartnerFinanceRoute,
   ProposalRoute: ProposalRoute,
-  ProposalV2Route: ProposalV2Route,
   ScopeRoute: ScopeRoute,
-  SpecRoute: SpecRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   ExpertsCodeRoute: ExpertsCodeRoute,

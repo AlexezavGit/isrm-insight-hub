@@ -169,13 +169,6 @@
     right bottom;
 }
 
-/* Frosted glass utility — canonical blur(16px) for all floating panels on the home graph and partner-review surfaces.
-   Standardised per ISRM DS directive (deuteranopia-safe high contrast + consistent feel). */
-@utility frosted-panel {
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
 .partner-review {
   --background: #e9dec9;
   --foreground: #13302c;
@@ -447,8 +440,6 @@
   align-items: flex-start;
   gap: 15px;
   padding: 16px 0 6px;
-  margin-top: 4rem;
-  margin-bottom: 4rem;
 }
 .partner-section-heading > span {
   display: grid;
@@ -1361,26 +1352,19 @@
 
 .client-offer .partner-card h2,
 .client-offer .partner-card h3,
-.client-offer .partner-capacity-card h2,
-.client-preview-card h3 {
+.client-offer .partner-capacity-card h2 {
   font-family: var(--isrm-montserrat), "Space Grotesk", system-ui, sans-serif;
   font-weight: 700;
   font-size: 20px;
   letter-spacing: -0.2px;
-  color: var(--isrm-heading, #0f3d32);
-  margin: 14px 0;
-  padding: 10px 16px;
+  color: var(--isrm-heading);
+  margin: 0 0 14px;
+  padding: 8px 16px;
   background: rgba(18, 60, 58, 0.05);
   border: 1.5px solid rgba(11, 84, 76, 0.55);
   border-radius: 6px;
   box-shadow: inset 0 1px 3px rgba(18, 60, 58, 0.18);
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  width: 100% !important;
-  box-sizing: border-box;
-  min-height: 52px;
+  display: inline-block;
 }
 
 .client-offer .button-raised,
@@ -1693,7 +1677,8 @@
   min-width: 0;
 }
 .client-preview-card h3 {
-  /* Inherits styled full-width plaque */
+  margin: 15px 0 5px;
+  font: 600 1.1rem/1.25 var(--font-display);
 }
 .client-preview-card p {
   margin-bottom: 0;
@@ -3364,8 +3349,8 @@
 .card-hanging,
 .partner-card {
   background: rgba(255, 255, 255, 0.96);
-  border: 1px solid rgba(18, 60, 58, 0.22);
-  border-radius: 2px;
+  border: 1px solid rgba(18, 60, 58, 0.14);
+  border-radius: 10px;
   box-shadow:
     0 10px 28px rgba(40, 30, 15, 0.10),
     inset 0 1px 0 rgba(255, 255, 255, 0.55);
@@ -3382,9 +3367,6 @@
   transform: translateY(-1px);
 }
 
-/* EL REFUGIO typography rule — pressed-in heading, NO outer glow.
-   Inset shadow only; sharp corners; thin gold border; brass heading color.
-   The plate sits *inside* the surface, not floating above it. */
 .header-pressed,
 .partner-card h2,
 .client-capacity-section h2 {
@@ -3393,14 +3375,11 @@
   margin: 0 0 14px;
   font-size: 18px;
   letter-spacing: 0.4px;
-  color: var(--brass, #c8901a);
-  background: rgba(18, 60, 58, 0.06);
-  border: 1px solid rgba(200, 144, 26, 0.55);
-  border-radius: 2px;
-  /* Inset shadow ONLY — no outer glow per EL REFUGIO spec */
-  box-shadow:
-    inset 0 1px 3px rgba(18, 60, 58, 0.28),
-    inset 0 -1px 0 rgba(200, 144, 26, 0.12);
+  color: #0b544c;
+  background: rgba(18, 60, 58, 0.04);
+  border: 1.5px solid rgba(11, 84, 76, 0.6);
+  border-radius: 6px;
+  box-shadow: inset 0 1px 3px rgba(18, 60, 58, 0.18);
   font-weight: 700;
   text-transform: none;
 }
@@ -4301,12 +4280,11 @@ button.partner-primary-button {
   padding-left: 0;
 }
 
-.cycle-timeline-row,
-.cycle-tl-row {
+.cycle-timeline-row {
   display: grid;
-  grid-template-columns: 1fr 24px 1fr;
+  grid-template-columns: 1fr 2px 1fr;
   grid-template-rows: auto;
-  gap: 0 0.85rem;
+  gap: 0 0.75rem;
   align-items: stretch;
   min-height: 100px;
   position: relative;
@@ -4320,8 +4298,6 @@ button.partner-primary-button {
   position: relative;
   z-index: 2;
 }
-/* Pin dots on the cycle spine — animated like road markings viewed from a moving car,
-   but slow (8s sweep) so the cycle metaphor reads as continuous flow rather than distraction. */
 .cycle-tl-dot {
   width: 14px;
   height: 14px;
@@ -4333,70 +4309,22 @@ button.partner-primary-button {
   margin-top: 18px;
   z-index: 3;
   position: relative;
-  /* Subtle pulse — the pin 'lights up' then dims, staggered across nodes via animation-delay */
-  animation: cycle-pin-pulse 4.5s ease-in-out infinite;
 }
-/* Connecting line uses a slowly-scrolling stripe pattern — like road centre markings seen past the windscreen */
 .cycle-tl-line {
   width: 2px;
   flex: 1;
+  background: var(--primary);
+  opacity: 0.5;
   min-height: 30px;
-  background:
-    repeating-linear-gradient(
-      180deg,
-      var(--primary) 0,
-      var(--primary) 6px,
-      transparent 6px,
-      transparent 14px
-    );
-  background-size: 100% 28px;
-  opacity: 0.7;
-  animation: cycle-road-sweep 8s linear infinite;
 }
 /* Last node return arrow */
 .cycle-tl-return {
   width: 2px;
   flex: 1;
+  background: var(--primary);
+  opacity: 0.5;
   min-height: 24px;
   position: relative;
-  background:
-    repeating-linear-gradient(
-      180deg,
-      var(--primary) 0,
-      var(--primary) 6px,
-      transparent 6px,
-      transparent 14px
-    );
-  background-size: 100% 28px;
-  opacity: 0.5;
-  animation: cycle-road-sweep 8s linear infinite reverse;
-}
-@keyframes cycle-pin-pulse {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(200, 144, 26, 0.0), inset 0 0 0 0 rgba(255, 255, 255, 0);
-    transform: scale(1);
-  }
-  50% {
-    /* Subtle brass halo around the pin — no outer glow on the heading, but the pin itself can 'shine' briefly */
-    box-shadow: 0 0 0 4px rgba(200, 144, 26, 0.18);
-    transform: scale(1.08);
-  }
-}
-@keyframes cycle-road-sweep {
-  0%   { background-position: 0 0; }
-  100% { background-position: 0 28px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .cycle-tl-dot,
-  .cycle-tl-line,
-  .cycle-tl-return {
-    animation: none;
-  }
-  .cycle-tl-line,
-  .cycle-tl-return {
-    background: var(--primary);
-    opacity: 0.4;
-  }
 }
 .cycle-tl-return::after {
   content: "↻";
@@ -4504,8 +4432,7 @@ button.partner-primary-button {
 
 /* Mobile: single column */
 @media (max-width: 599px) {
-  .cycle-timeline-row,
-  .cycle-tl-row {
+  .cycle-timeline-row {
     grid-template-columns: 20px 1fr;
     grid-template-rows: auto auto;
   }
@@ -4541,27 +4468,3 @@ button.partner-primary-button {
   color: var(--muted-foreground);
   margin: 0;
 }
-
-/* ── Print / PDF styles ─────────────────────────────────────────── */
-@media print {
-  nav, .partner-header-status, .partner-back, .cta-bottom, .client-price-sources, button {
-    display: none !important;
-  }
-  body, main, .partner-shell {
-    background: #ffffff !important;
-    color: #000000 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    box-shadow: none !important;
-  }
-  .scope-layout {
-    display: block !important;
-  }
-  .scope-section, .scope-price-panel {
-    border: 1px solid #ccc !important;
-    page-break-inside: avoid !important;
-    margin-bottom: 1.5rem !important;
-    background: #ffffff !important;
-  }
-}
-

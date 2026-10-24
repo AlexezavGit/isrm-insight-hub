@@ -9,7 +9,6 @@ import {
   CalendarDays,
   ChevronRight,
   FileSearch,
-  FileText,
   GitBranch,
   Handshake,
   Library,
@@ -29,10 +28,6 @@ import type { PartnerGraphLink, PartnerGraphNode } from "@/components/PartnerGra
 import { CO_DESIGN_SESSIONS, PROPOSAL_FUNCTIONS } from "@/lib/proposal-data";
 
 const PartnerGraph = lazy(() => import("@/components/PartnerGraph"));
-
-// localStorage key for saving per-service draft forms. Each service's draft is
-// stored as a separate entry under this key, keyed by the service title.
-const SERVICE_DRAFTS_KEY = "isrm-service-drafts-v1";
 
 type Composer = "task" | "invite" | "alert" | null;
 type ServiceFrameField =
@@ -102,230 +97,328 @@ const SERVICE_FRAME_FIELDS: {
     },
   ];
 
-import { NETWORK_SERVICES, type ServiceItem } from "@/lib/services-data";
+const SERVICE_DRAFTS_KEY = "isrm-service-deck-drafts-v1";
+
+const SERVICES = [
+  {
+    icon: BriefcaseBusiness,
+    title: { en: "MVP Application", uk: "MVP Застосунок" },
+    purpose: {
+      en: "The core working application: find the right expertise, form project groups, track goals and contributions, prepare first contact. Everything else builds on this.",
+      uk: "Основний робочий застосунок: знайти потрібну експертизу, сформувати проєктні групи, відстежувати цілі й внески, підготувати перший контакт. Все інше будується на цьому.",
+    },
+    role: {
+      en: "Expert search and filtering · Purpose-based group selection · Profile and evidence review · Project goal and task tracking · First contact preparation",
+      uk: "Пошук і фільтрування експертів · Відбір групи за метою · Перегляд профілю й доказів · Облік цілей і задач · Підготовка першого контакту",
+    },
+    questions: { en: { need: "", behavior: "" }, uk: { need: "", behavior: "" } },
+    stage: 1,
+  },
+  {
+    icon: Users,
+    title: { en: "Active Members", uk: "Активні члени" },
+    purpose: {
+      en: "Engage existing members systematically. Their expertise, network connections and active projects form the starting base of the cycle.",
+      uk: "Системно залучайте наявних членів. Їхня експертиза, зв'язки та активні проєкти формують стартову базу циклу.",
+    },
+    role: {
+      en: "Maintain profiles, contribute expertise, connect to project requests.",
+      uk: "Підтримуйте профілі, долучайте експертизу, реагуйте на запити.",
+    },
+    questions: { en: { need: "", behavior: "" }, uk: { need: "", behavior: "" } },
+    stage: 1,
+  },
+  {
+    icon: Activity,
+    title: { en: "Expert Agenda", uk: "Адженда обговорень" },
+    purpose: {
+      en: "Co-create a current agenda of topics — regulatory, strategic, operational. The agenda is what makes followers want to engage and members want to contribute.",
+      uk: "Спільно формуйте актуальну адженду тем — регуляторних, стратегічних, операційних. Адженда приваблює фоловерів і мотивує членів до внесків.",
+    },
+    role: {
+      en: "Propose topics, vote on priorities, assign working group leads.",
+      uk: "Пропонуйте теми, голосуйте за пріоритети, призначайте лідерів робочих груп.",
+    },
+    questions: { en: { need: "", behavior: "" }, uk: { need: "", behavior: "" } },
+    stage: 2,
+  },
+  {
+    icon: MessageSquareText,
+    title: { en: "Discussions", uk: "Обговорення" },
+    purpose: {
+      en: "Structured working groups and expert roundtables. Capture decisions, evidence and outputs — participation is not endorsement.",
+      uk: "Структуровані робочі групи та круглі столи. Фіксуйте рішення, докази й результати — участь не є схваленням.",
+    },
+    role: {
+      en: "Contribute evidence, moderate a session, or prepare a synthesis for review.",
+      uk: "Надавайте докази, модеруйте сесію або готуйте узагальнення для перевірки.",
+    },
+    questions: { en: { need: "", behavior: "" }, uk: { need: "", behavior: "" } },
+    stage: 2,
+  },
+  {
+    icon: Library,
+    title: { en: "Reports + Cases", uk: "Звіти та кейси" },
+    purpose: {
+      en: "Working groups produce attributable outputs: evidence-based reports, case studies of completed member projects, sector briefs. The intellectual capital of the network.",
+      uk: "Робочі групи дають атрибутовані результати: звіти з доказами, кейси виконаних проєктів членів, секторні брифи. Інтелектуальний капітал мережі.",
+    },
+    role: {
+      en: "Author, review or validate a report. Attach to a project record.",
+      uk: "Створюйте, рецензуйте або валідуйте звіт. Прив'язуйте до запису проєкту.",
+    },
+    questions: { en: { need: "", behavior: "" }, uk: { need: "", behavior: "" } },
+    stage: 3,
+  },
+  {
+    icon: ShieldCheck,
+    title: { en: "Network Expertise / TII", uk: "Мережева експертиза / TII" },
+    purpose: {
+      en: "Reports and cases build a structured map of the network's real capabilities. The Trust & Influence Index gives this map attribution, dates and evidence — not a ranking, but a record.",
+      uk: "Звіти та кейси формують структуровану карту реальних можливостей мережі. Trust & Influence Index надає цій карті атрибуцію, дати й докази — не рейтинг, а запис.",
+    },
+    role: {
+      en: "Co-design TII evidence rules. Review and correct your own record.",
+      uk: "Беріть участь у спільному проєктуванні правил TII. Переглядайте та виправляйте свій запис.",
+    },
+    questions: { en: { need: "", behavior: "" }, uk: { need: "", behavior: "" } },
+    stage: 3,
+  },
+  {
+    icon: Star,
+    title: { en: "New Memberships", uk: "Нові членства" },
+    purpose: {
+      en: "Followers who participated in discussions and read the reports convert to paid members — through demonstrated value, not a cold pitch.",
+      uk: "Фоловери, які брали участь в обговореннях і читали звіти, стають платними членами — через продемонстровану цінність, а не холодний питч.",
+    },
+    role: {
+      en: "Refer candidates. Review and accept membership applications.",
+      uk: "Рекомендуйте кандидатів. Переглядайте та приймайте заявки.",
+    },
+    questions: { en: { need: "", behavior: "" }, uk: { need: "", behavior: "" } },
+    stage: 3,
+  },
+  {
+    icon: Megaphone,
+    title: { en: "War Room", uk: "War Room" },
+    purpose: {
+      en: "An operational map of active members, ongoing projects and deployed expertise in real time. Coordinators see capacity, gaps and what is being delivered.",
+      uk: "Операційна карта активних членів, поточних проєктів і задіяної в мережі експертизи в реальному часі. Координатори бачать потенціал, прогалини й що виконується.",
+    },
+    role: {
+      en: "Monitor project status. Assign resources to critical requests.",
+      uk: "Контролюйте статус проєктів. Призначайте ресурси на критичні запити.",
+    },
+    questions: { en: { need: "", behavior: "" }, uk: { need: "", behavior: "" } },
+    stage: 4,
+  },
+  {
+    icon: Newspaper,
+    title: { en: "Conference + Almanac", uk: "Конференція + Альманах" },
+    purpose: {
+      en: "Annual output: a paid professional conference and the association almanac — recommendations for practice development, stakeholder risk guidance, professional and regulatory agenda. New followers discover the network here.",
+      uk: "Річний результат: платна фахова конференція та альманах асоціації — рекомендації з розвитку практики, поради стейкхолдерам щодо ризиків, профільна та регуляторна адженда. Тут мережу знаходять нові фоловери.",
+    },
+    role: {
+      en: "Present, contribute to or sponsor the conference. Co-author the almanac.",
+      uk: "Виступайте, долучайтеся або спонсоруйте конференцію. Беріть участь у створенні альманаху.",
+    },
+    questions: { en: { need: "", behavior: "" }, uk: { need: "", behavior: "" } },
+    stage: 4,
+  },
+] as const;
 
 export function MemberCabinet({
   open,
   onClose,
-  onOpenDependencies,
+  onFindExpert,
 }: {
   open: boolean;
   onClose: () => void;
-  onOpenDependencies: (serviceId: string) => void;
+  onFindExpert: () => void;
 }) {
   const { locale } = useI18n();
+  const [composer, setComposer] = useState<Composer>(null);
+  const [sent, setSent] = useState(false);
   const [active, setActive] = useState(0);
-  const [detailsOpen, setDetailsOpen] = useState(false);
   const [serviceFrameOpen, setServiceFrameOpen] = useState(false);
-  // When serviceFrameOpen triggered via prominent 'Describe service' block,
-  // the dialog title shows 'Шаблон опису' (Template description) instead of
-  // the preset service name like 'MVP Застосунок'. Per user spec:
-  // 'у вікні назва Шаблон опису а не MVP і це буде єдиним шаблоном'.
-  const [serviceFrameCustom, setServiceFrameCustom] = useState(false);
-
+  const [dependenciesOpen, setDependenciesOpen] = useState(false);
+  const serviceDeckRef = useRef<HTMLDivElement>(null);
   const copy =
     locale === "en"
       ? {
-          title: "Customisable network services",
-          purpose: "What it provides",
-          role: "Workflow & steps",
-          explore: "Suggest an addition or change",
-          requestNote: "This opens a local request draft; it does not change a live service.",
-          dependencies: "Dependencies",
-          close: "Close",
-        }
+        eyebrow: "Member cabinet · demo profile",
+        title: "Customisable network services",
+        member: "Verified member",
+        directory: "Expert directory",
+        projects: "Active projects",
+        stage: "Circle",
+        circlesIntro:
+          "The circles separate consulting, the application MVP, functionality needed for the pilot, and all remaining functionality.",
+        purpose: "What it provides",
+        role: "Your participation",
+        explore: "Suggest an addition or change",
+        requestNote: "This opens a local request draft; it does not change a live service.",
+        fullProposal: "Open proposal: scope & indicative prices",
+        actions: ["Create project task", "Invite to network", "Send targeted alert"],
+        sent: "Demo message recorded in this browser.",
+        close: "Close cabinet",
+      }
       : {
-          title: "Операції та сервіси мережі",
-          purpose: "Що надає",
-          role: "Етапи процесу та участь",
-          explore: "Запропонувати додавання або зміну",
-          requestNote: "Відкриває локальну чернетку запиту, а не змінює активний сервіс.",
-          dependencies: "Залежності",
-          close: "Закрити",
-        };
-
+        eyebrow: "Кабінет учасника · демо-профіль",
+        title: "Операції та сервіси мережі",
+        member: "Верифікований учасник",
+        directory: "Реєстр експертів",
+        projects: "Активні проєкти",
+        stage: "Коло",
+        circlesIntro:
+          "Кола розділяють консалтинг, MVP застосунку, функціональність для пілота та всі інші функції.",
+        purpose: "Що надає",
+        role: "Ваша участь",
+        explore: "Запропонувати додавання або зміну",
+        requestNote: "Відкриває локальну чернетку запиту, а не змінює активний сервіс.",
+        fullProposal: "Відкрити пропозицію: обсяг і ціни",
+        actions: ["Створити проєктну задачу", "Запросити до мережі", "Надіслати цільовий alert"],
+        sent: "Демо-повідомлення збережено в цьому браузері.",
+        close: "Закрити кабінет",
+      };
   const language = locale === "uk" ? "uk" : "en";
-  const service = NETWORK_SERVICES[active] ?? NETWORK_SERVICES[0];
-
+  const service = SERVICES[active] ?? SERVICES[0];
+  const stages = useMemo(
+    () =>
+      locale === "en"
+        ? ["Consulting", "Application MVP", "Pilot functionality", "All remaining functionality"]
+        : ["Консалтинг", "MVP застосунку", "Функції пілота", "Усі інші функції"],
+    [locale],
+  );
+  useEffect(() => {
+    serviceDeckRef.current
+      ?.querySelector<HTMLElement>(`[data-service-index="${active}"]`)
+      ?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+  }, [active]);
   if (!open) return null;
-
   return (
-    <>
-      {/* ── LEFT DRAWER: Configurator Panel (Vertical Listing) ── */}
-      <aside className="fixed left-0 bottom-0 pb-28 top-16 z-30 w-[78vw] max-w-[400px] sm:w-[400px] border-r border-[rgba(200,144,26,0.3)] bg-[#082422]/92 p-4 sm:p-5 shadow-[0_12px_40px_rgba(0,0,0,0.65)] frosted-panel overflow-y-auto">
-        <header className="flex items-center justify-between pb-3.5 border-b border-border">
-          <div>
-            <p className="tech-label text-primary flex items-center gap-2">
-              <span className="font-display font-semibold">2</span>
-              <span className="opacity-60">·</span>
-              <span>{locale === "uk" ? "Конфігуратор" : "Configurator"}</span>
-            </p>
-            <h2 className="font-display text-lg sm:text-xl font-semibold mt-0.5 text-foreground">{copy.title}</h2>
-          </div>
-          <Button variant="ghost" size="icon" onClick={onClose} aria-label={copy.close}>
-            <X className="h-5 w-5" />
-          </Button>
-        </header>
-
-        {/* Describe service or functionality — primary CTA, high contrast (per user spec) */}
-        <button
-          onClick={() => {
-            setServiceFrameCustom(true);
-            setServiceFrameOpen(true);
-          }}
-          className="group mt-4 flex items-start gap-3 rounded-lg border-2 border-brass bg-brass/10 p-4 text-left transition-all cursor-pointer hover:bg-brass/20 hover:border-brass/80 shadow-md"
-        >
-          <FileText className="h-5 w-5 text-brass shrink-0 mt-0.5" />
-          <div className="min-w-0 flex-1">
-            <h3 className="font-display text-sm font-bold text-foreground group-hover:text-foreground/90 transition-colors">
-              {locale === "uk" ? "Описати сервіс або функціональність" : "Describe service or functionality"}
-            </h3>
-            <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
-              {locale === "uk"
-                ? "Додайте власний опис сервісу або процесу для вашої організації"
-                : "Add your own description of a service or process for your organisation"}
-            </p>
-          </div>
-          <ChevronRight className="h-4 w-4 text-brass group-hover:translate-x-0.5 transition-transform shrink-0 mt-1" />
-        </button>
-
-        {/* 'обрати передвстановлені сервіси:' label */}
-        <p className="mt-5 mb-2 tech-label text-muted-foreground text-xs">
-          {locale === "uk" ? "Обрати передвстановлені сервіси:" : "Select preset services:"}
-        </p>
-
-        {/* Services vertical listing — numbers REMOVED from cards (moved to dashboard per user spec) */}
-        <div className="flex flex-col gap-2.5">
-          {NETWORK_SERVICES.map((item, i) => {
-            const isSelected = active === i && detailsOpen;
-            return (
-              <button
-                key={item.id}
-                onClick={() => {
-                  setActive(i);
-                  setDetailsOpen(true);
-                }}
-                className={`group flex items-start gap-3 rounded-lg border p-3 text-left transition-all cursor-pointer ${
-                  isSelected
-                    ? "border-primary bg-primary/10 shadow-sm"
-                    : "border-border bg-card/65 hover:border-primary/50 hover:bg-card/90"
-                }`}
-              >
-                <item.icon className="h-4.5 w-4.5 text-primary shrink-0 mt-0.5" />
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center justify-between gap-2">
-                    <h3 className="font-display text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
-                      {item.title[language]}
-                    </h3>
-                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-transform group-hover:translate-x-0.5" />
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
-                    {item.short[language]}
-                  </p>
-                  {/* Numbers removed per user spec: 'В блоках цифри скільки кого де
-                      прибрати, вони повинні відображатись в дашборді' */}
-                </div>
-              </button>
-            );
-          })}
+    <aside className="fixed bottom-[5rem] right-0 z-40 w-full overflow-y-auto overscroll-contain border border-border rounded-t-lg bg-panel/95 pb-4 backdrop-blur-2xl max-h-[calc(50svh-5rem)] sm:bottom-0 sm:inset-y-0 sm:top-16 sm:max-h-none sm:w-1/2 sm:max-w-[480px] sm:rounded-none sm:border-l sm:border-t-0">
+      <header className="sticky top-0 z-10 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 border-b border-border bg-panel/90 p-5 backdrop-blur-xl">
+        <div className="min-w-0">
+          <h2 className="truncate font-display text-xl sm:text-2xl">{copy.title}</h2>
         </div>
-      </aside>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onClose}
+          aria-label={copy.close}
+          title={copy.close}
+        >
+          <X />
+        </Button>
+      </header>
 
-      {/* ── RIGHT DRAWER: Service Description Frame ── */}
-      {detailsOpen && (
-        <aside className="fixed right-0 bottom-0 pb-28 top-16 z-35 w-[78vw] max-w-[460px] sm:w-[460px] border-l border-[rgba(200,144,26,0.3)] bg-[#082422]/92 p-5 shadow-[0_12px_40px_rgba(0,0,0,0.65)] frosted-panel overflow-y-auto">
-          <header className="flex items-center justify-between pb-3.5 border-b border-border">
-            <div className="flex items-center gap-2.5 min-w-0">
-              <service.icon className="h-5 w-5 text-primary shrink-0" />
-              <h2 className="font-display text-lg sm:text-xl font-semibold truncate text-foreground">
-                {service.title[language]}
-              </h2>
-            </div>
-            <Button variant="ghost" size="icon" onClick={() => setDetailsOpen(false)} aria-label="Close details">
-              <X className="h-5 w-5" />
-            </Button>
-          </header>
+      <div className="space-y-7 p-4 sm:p-5">
 
-          <div className="mt-4 space-y-4 text-sm">
-            <div>
-              <h4 className="tech-label text-primary">{copy.purpose}</h4>
-              <p className="mt-1.5 text-xs sm:text-sm leading-relaxed text-foreground/90">
-                {service.purpose[language]}
+
+
+
+        <section>
+          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3">
+            <div className="min-w-0">
+              <p className="tech-label text-primary">
+                Service deck · {active + 1}/{SERVICES.length}
               </p>
-            </div>
 
-            <div className="rounded-lg border border-border bg-card/60 p-3.5">
-              <h4 className="tech-label text-muted-foreground">{copy.role}</h4>
-              <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
-                {service.role[language]}
-              </p>
             </div>
-
-            <div className="rounded-lg border border-primary/20 bg-primary/5 p-3.5">
-              <h4 className="tech-label text-primary">{locale === "uk" ? "Потенціал та конверсія" : "Capacity & conversion"}</h4>
-              <p className="mt-1 font-mono text-xs text-primary font-medium">
-                {service.metrics[language]}
-              </p>
-            </div>
-
-            <div className="pt-2 flex flex-col gap-2">
+            <div className="flex gap-1">
               <Button
-                variant="default"
-                className="w-full flex items-center justify-center gap-2 border border-brass/60 text-brass hover:bg-brass/10 bg-transparent font-semibold shadow-md"
-                onClick={() => {
-                  onOpenDependencies(service.id);
-                  setDetailsOpen(false);
-                }}
-              >
-                <GitBranch className="h-4 w-4" />
-                {locale === "uk" ? "Залежності (відкрити граф сервісу)" : "Dependencies (open service graph)"}
-              </Button>
-
-              <Button
+                size="icon"
                 variant="outline"
-                className="w-full flex items-center justify-center gap-2"
-                onClick={() => setServiceFrameOpen(true)}
+                onClick={() => setActive((active - 1 + SERVICES.length) % SERVICES.length)}
+                aria-label="Previous"
               >
-                {copy.explore}
+                ←
+              </Button>
+              <Button
+                size="icon"
+                variant="outline"
+                onClick={() => setActive((active + 1) % SERVICES.length)}
+                aria-label="Next"
+              >
+                →
               </Button>
             </div>
           </div>
-        </aside>
-      )}
 
-      {serviceFrameOpen && (
-        <ServiceConfigurationFrame
-          // When opened via prominent 'Describe service' block (serviceFrameCustom=true),
-          // title is 'Шаблон опису' / 'Template description' — NOT a preset service name.
-          // Per user spec: 'у вікні назва Шаблон опису а не MVP і це буде єдиним шаблоном'.
-          serviceTitle={
-            serviceFrameCustom
-              ? (locale === "uk" ? "Шаблон опису" : "Template description")
-              : service.title[language]
-          }
-          purpose={
-            serviceFrameCustom
-              ? (locale === "uk"
-                  ? "Шаблон для опису функціональності, сервісу або супроводжуваного процесу"
-                  : "Template for describing functionality, service, or accompanying process")
-              : service.purpose[language]
-          }
-          role={
-            serviceFrameCustom
-              ? (locale === "uk"
-                  ? "Опишіть етапи процесу та участь за потреби"
-                  : "Describe process steps and participation as needed")
-              : service.role[language]
-          }
-          questions={{ need: "", behavior: "" }}
-          locale={locale}
-          onClose={() => {
-            setServiceFrameOpen(false);
-            setServiceFrameCustom(false);
+              <div ref={serviceDeckRef} className="mt-4 flex snap-x gap-3 overflow-x-auto pb-3">
+                {SERVICES.map((item, i) => (
+                  <button
+                    key={item.title.en}
+                    data-service-index={i}
+                    onClick={() => setActive(i)}
+                    className={`h-auto w-40 shrink-0 snap-start rounded border p-3 text-left transition-colors flex items-center gap-2 ${i === active ? "border-primary bg-primary/10" : "border-border bg-card/65 hover:border-brass/60"}`}
+                  >
+                    <item.icon className="h-4 w-4 text-primary shrink-0" />
+                    <p className="text-xs font-semibold leading-tight">{item.title[language]}</p>
+                    
+                  </button>
+                ))}
+              </div>
+              <article
+                key={service.title.en}
+                className="service-deck-content blueprint-corners rounded border border-border bg-card/70 p-5"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <service.icon className="h-6 w-6 text-primary" />
+                  
+                </div>
+                <h3 className="mt-5 font-display text-2xl">{service.title[language]}</h3>
+                <dl className="mt-5 space-y-4 text-sm">
+                  <div>
+                    <dt className="tech-label text-muted-foreground">{copy.purpose}</dt>
+                    <dd className="mt-1 leading-relaxed">{service.purpose[language]}</dd>
+                  </div>
+                  <div>
+                    <dt className="tech-label text-muted-foreground">{copy.role}</dt>
+                    <dd className="mt-1 leading-relaxed">{service.role[language]}</dd>
+                  </div>
+                </dl>
+                <Button
+                  variant="outline"
+                  className="mt-5"
+                  onClick={() => setServiceFrameOpen(true)}
+                >
+                  {copy.explore}
+                  <ChevronRight aria-hidden="true" />
+                </Button>
+                <p className="mt-3 text-xs text-muted-foreground">
+                  {copy.requestNote}
+                </p>
+              </article>
+        </section>
+
+      </div>
+      {composer && (
+        <ComposerModal
+          kind={composer}
+          sent={sent}
+          onSent={() => setSent(true)}
+          onClose={() => setComposer(null)}
+          onFindExpert={() => {
+            setComposer(null);
+            onFindExpert();
           }}
+          message={copy.sent}
         />
       )}
-    </>
+      {serviceFrameOpen && (
+        <ServiceConfigurationFrame
+          serviceTitle={service.title[language]}
+          purpose={service.purpose[language]}
+          role={service.role[language]}
+          questions={service.questions[language]}
+          locale={locale}
+          onClose={() => setServiceFrameOpen(false)}
+        />
+      )}
+    </aside>
   );
 }
 
@@ -612,7 +705,7 @@ function ServiceConfigurationFrame({
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
             <p className="tech-label text-primary">
-              {uk ? "Шаблон опису функціональності, сервісу, супроводжуваного процесу" : "Functionality, service, accompanying process description template"}
+              {uk ? "Сервіси мережі · запит на зміну" : "Network services · change request"}
             </p>
             <h2 id={headingId} className="mt-1 text-pretty font-display text-2xl sm:text-3xl">
               {serviceTitle}
@@ -749,7 +842,7 @@ function ServiceConfigurationFrame({
           <Button type="button" variant="ghost" onClick={onClose}>
             {uk ? "Закрити" : "Close"}
           </Button>
-          <Button type="submit">{uk ? "Додати до сервісів" : "Add to services"}</Button>
+          <Button type="submit">{uk ? "Зберегти локальну чернетку" : "Save local draft"}</Button>
         </div>
       </form>
     </div>,

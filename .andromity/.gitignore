@@ -1,7 +1,0 @@
-# Ignore transient session and cron runtime logs
-cron_runs/
-handoffs/
-*.tmp
-*.lock
-*.log
-__pycache__/
