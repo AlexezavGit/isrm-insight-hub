@@ -6864,16 +6864,16 @@ body,
   overflow: hidden;
 }
 .briefing-network-cluster {
-  animation: network-from-periphery 30s cubic-bezier(0.2, 0.5, 0.4, 1) both;
+  animation: network-from-periphery 100s linear both;
 }
 .briefing-network-cluster line {
   stroke: currentColor;
   stroke-width: 0.6;
-  opacity: 0.22;
+  opacity: 0.6;
 }
 .briefing-network-cluster circle {
   fill: var(--ds-gold);
-  opacity: 0.45;
+  opacity: 0.85;
 }
 .briefing-network-cluster .briefing-network-hub {
   fill: var(--ds-deep);
@@ -7969,5 +7969,103 @@ body,
   }
   .briefing-path-0 li {
     padding-block: 0.4rem;
+  }
+}
+
+/* An enlarged network settles inward, remaining visible beneath the milk-glass surface. */
+.briefing-network-assembly {
+  transform-origin: 720px 450px;
+  animation: network-settle-inward 100s linear both;
+}
+@keyframes network-settle-inward {
+  from {
+    transform: scale(2.4);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+.client-briefing .client-slide-surface {
+  background: color-mix(in oklab, var(--ds-paper) 80%, transparent);
+  backdrop-filter: blur(1.3px);
+  -webkit-backdrop-filter: blur(1.3px);
+}
+.briefing-peripheral-network.is-still .briefing-network-assembly {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .briefing-network-assembly {
+    animation: none;
+  }
+}
+
+/* Staggered index tabs and layered edges, informed by physical filing cabinets. */
+.scope-card-cabinet .scope-file-deck {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 1.5rem 1rem 1rem;
+  border: 1px solid var(--scope-card-line);
+  border-radius: 8px 8px 3px 3px;
+  background: color-mix(in oklab, var(--ds-blue) 9%, var(--ds-paper));
+  box-shadow: inset 0 3px 9px oklch(0.12 0.02 230 / 0.16);
+}
+.scope-card-cabinet .scope-file-card:nth-child(n) {
+  margin: 0;
+  transform: rotate(-0.3deg);
+  padding-bottom: 1.1rem;
+}
+.scope-card-cabinet .scope-file-card:nth-child(even) {
+  transform: rotate(0.3deg);
+}
+.scope-card-cabinet .scope-file-card + .scope-file-card {
+  margin-top: -0.7rem;
+}
+.scope-card-cabinet .scope-file-tab {
+  width: 72%;
+  min-height: 49px;
+}
+.scope-card-cabinet .scope-file-card:nth-child(3n + 2) .scope-file-tab {
+  margin-left: 13%;
+}
+.scope-card-cabinet .scope-file-card:nth-child(3n) .scope-file-tab {
+  margin-left: 26%;
+}
+.scope-card-cabinet .scope-file-body {
+  position: relative;
+  min-height: 0;
+  padding: 0.9rem 1.1rem 1.25rem;
+  border-radius: 4px;
+  border-bottom-width: 3px;
+  box-shadow:
+    0 3px 0 color-mix(in oklab, var(--ds-paper) 80%, var(--ds-blue)),
+    0 6px 0 var(--ds-paper),
+    0 7px 0 var(--scope-card-line),
+    0 10px 13px oklch(0.12 0.02 230 / 0.14);
+}
+.scope-card-cabinet .scope-file-body > p {
+  margin-block: 0.4rem 0.6rem;
+}
+.scope-card-cabinet .scope-workflow-body {
+  border-bottom-width: 3px;
+  box-shadow:
+    0 4px 0 var(--ds-paper),
+    0 5px 0 var(--scope-card-line),
+    0 8px 0 var(--ds-paper),
+    0 9px 0 var(--scope-card-line),
+    0 14px 22px oklch(0.12 0.02 230 / 0.13);
+}
+@media (max-width: 600px) {
+  .scope-card-cabinet .scope-file-deck {
+    padding-inline: 0.45rem;
+  }
+  .scope-card-cabinet .scope-file-tab {
+    width: 92%;
+  }
+  .scope-card-cabinet .scope-file-card:nth-child(3n + 2) .scope-file-tab {
+    margin-left: 4%;
+  }
+  .scope-card-cabinet .scope-file-card:nth-child(3n) .scope-file-tab {
+    margin-left: 8%;
   }
 }
