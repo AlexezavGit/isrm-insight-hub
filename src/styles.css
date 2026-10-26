@@ -8603,3 +8603,20 @@ body,
     justify-content: center;
   }
 }
+
+/* The scope destination belongs to the same material family as the dock. */
+.client-network-page .client-network-dock > .is-primary {
+  background: linear-gradient(135deg, oklch(1 0 0 / 0.07), transparent 65%);
+  color: var(--ds-paper);
+  border: 1px solid color-mix(in oklab, var(--ds-paper) 40%, transparent);
+  border-top: 2px solid var(--ds-gold);
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.15),
+    3px 0 5px oklch(0.05 0.02 230 / 0.24);
+}
+.client-network-page .client-network-dock > .is-primary svg {
+  color: var(--ds-gold);
+}
+.client-network-page .client-network-dock > .is-primary:hover {
+  background: oklch(1 0 0 / 0.1);
+}
