@@ -71,12 +71,12 @@ function ScopePage() {
           {t("A basis for our next conversation", "Основа наступної розмови")}
         </p>
         <h1>
-          {t("Your priorities. A scope we can discuss.", "Ваші пріоритети. Обсяг для обговорення.")}
+          {t("Your priorities. Our next step together.", "Ваші пріоритети. Наш наступний крок.")}
         </h1>
         <p className="client-lede">
           {t(
-            "Review the functions you would find useful. Add a budget boundary if you have one. We will use this to prepare a detailed specification, timetable and offer.",
-            "Перегляньте потрібні функції. Додайте бюджетне обмеження, якщо воно є. Це стане основою детального ТЗ, строків і пропозиції.",
+            "Choose the core capabilities and optional workflows that fit your priorities. Confirm an indicative budget direction or describe your constraints. Together, these form the basis for a tailored specification, delivery timetable and formal proposal.",
+            "Оберіть можливості ядра й опційні workflow під ваші пріоритети. Визначте прийнятний бюджетний орієнтир або опишіть обмеження. Разом це стане основою детального ТЗ, строків виконання й формальної пропозиції.",
           )}
         </p>
         <section className="client-scope-card">

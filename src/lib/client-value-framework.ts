@@ -66,8 +66,8 @@ export const ENGAGEMENT_CYCLE: { id: string; title: Copy; action: Copy; opportun
     id: "members",
     title: { en: "Members & priorities", uk: "Члени та пріоритети" },
     action: {
-      en: "Shape chapter and sector agendas around expertise gaps, active projects and professional needs.",
-      uk: "Формувати адженду чаптерів і секторів навколо прогалин експертизи, активних проєктів і професійних потреб.",
+      en: "Start with the existing questionnaire across the 35 chapters: establish needs, expertise gaps and willingness to participate. Shape the next agenda from the responses.",
+      uk: "Почати з наявного опитувальника для 35 чаптерів: визначити потреби, прогалини експертизи й готовність долучитися. За відповідями сформувати наступну адженду.",
     },
     opportunities: {
       en: "Internal consultations · alumni participation & resources",

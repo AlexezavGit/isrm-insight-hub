@@ -62,8 +62,9 @@ export default function NetworkGraph({
   const [size, setSize] = useState({ w: 800, h: 600 });
   const [hover, setHover] = useState<string | null>(null);
   useEffect(() => {
-    if (motionPaused) fg.current?.pauseAnimation();
-    else fg.current?.resumeAnimation();
+    // Draw the settled layout even for reduced motion; cooldownTicks stops physics.
+    // Pausing before the first frame leaves a blank canvas.
+    fg.current?.resumeAnimation();
   }, [motionPaused]);
   // Set of service node IDs that have been clicked to reveal their experts
   const [revealedServices, setRevealedServices] = useState<Set<string>>(new Set());
@@ -312,6 +313,7 @@ export default function NetworkGraph({
         height={size.h}
         graphData={data}
         backgroundColor="rgba(0,0,0,0)"
+        warmupTicks={motionPaused ? 180 : 0}
         cooldownTicks={motionPaused ? 1 : serviceMode ? 40 : 180}
         onEngineStop={() => !focus && fg.current?.zoomToFit(motionPaused ? 0 : 400, 60)}
         nodeRelSize={1}

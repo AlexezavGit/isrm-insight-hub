@@ -75,8 +75,8 @@ export function ExpertisePyramid({
       {!compact && (
         <figcaption>
           {locale === "uk"
-            ? "Основа підтримує два опційні workflow. Це рівні цінності, а не обов’язкова черговість замовлення. Подальша перспектива — AI-помічник консультантів і, можливо, AI-консультант для ринку; це окреме рішення."
-            : "The foundation supports two optional workflows. These are value layers, not a mandatory purchasing sequence. A future AI assistant for consultants, and perhaps a market-facing AI consultant, would be a separate decision."}
+            ? "Основа підтримує два незалежні опційні workflow. Подальший розвиток може вивести ISRM на передову відповідальної практики AI: помічник консультантів, далі — спеціалізовані моделі на дозволеній експертизі. Навчання моделей і потенційний вихід на ринок — окремі рішення."
+            : "The foundation supports two independent optional workflows. Further development could put ISRM at the forefront of responsible AI practice: a consultants’ assistant, then specialist models trained on permissioned expertise. Model training and a potential market offering are separate decisions."}
         </figcaption>
       )}
     </figure>
