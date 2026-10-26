@@ -12,27 +12,27 @@ export type BriefingSlide = {
 };
 export const BRIEFING_SLIDES: BriefingSlide[] = [
   {
-    label: { en: "A professional perspective", uk: "Професійна дружня порада" },
+    label: { en: "Professional scale", uk: "Масштаб професійної мережі" },
     title: {
-      en: "11,000 contacts. Where is the lasting value?",
-      uk: "11 тисяч контактів. Де тривала цінність?",
+      en: "Scale works through a professional network.",
+      uk: "Масштаб працює через професійну мережу.",
     },
     body: {
-      en: "David, researching the entire LinkedIn audience would mean paying for AI research and thousands of human checks before knowing what they will return. The contact count alone tells us little about paid membership, conference attendance or client demand.",
-      uk: "Девіде, дослідити всю LinkedIn-аудиторію означає оплатити AI-дослідження й тисячі людських перевірок ще до розуміння віддачі. Кількість контактів сама по собі мало говорить про платне членство, відвідування конференцій чи клієнтський попит.",
+      en: "A broad enquiry is less precise than a targeted one. Scale becomes useful when professionals stand behind their judgements and work to shared policies. ISRM could provide that professional centre; technology helps the network extend its reach.",
+      uk: "Масовий запит менш точний, ніж точковий. Масштаб стає перевагою, коли його забезпечують професіонали, готові відповідати репутацією за висновки й діяти за спільними політиками. ISRM може стати таким професійним ядром.",
     },
     principle: {
-      en: "Start with a useful question. Invest where the answer matters.",
-      uk: "Почнімо з корисного питання. Інвестуймо там, де відповідь має значення.",
+      en: "The network offers reach that is costly for a single source.",
+      uk: "Мережа дає охоплення, якого одному джерелу досягати дорого.",
     },
     note: {
       en: "11,000+ LinkedIn contacts is the audience cited in your enquiry. Conversion and return need testing; they are not assumed.",
       uk: "Понад 11 000 LinkedIn-контактів — аудиторія з вашого запиту. Конверсію та віддачу потрібно перевірити; ми не припускаємо їх наперед.",
     },
     steps: [
-      { en: "11,000+ contacts", uk: "11 000+ контактів" },
-      { en: "A specific need", uk: "Конкретна потреба" },
-      { en: "Targeted research", uk: "Цільове дослідження" },
+      { en: "Professional confidence", uk: "Професійна впевненість" },
+      { en: "Shared policies", uk: "Спільні політики" },
+      { en: "Network reach", uk: "Мережеве охоплення" },
     ],
     layers: { sector: true, theme: false, hub: false, researchQueue: true },
   },
@@ -40,12 +40,12 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
     label: { en: "Value Solution Framework", uk: "Value Solution Framework" },
     title: { en: "AI prepares. Professionals verify.", uk: "AI готує. Професіонали перевіряють." },
     body: {
-      en: "Professional review starts before an AI enquiry: define the question, evidence and responsibility. The reviewer puts their name behind the judgement about another person’s expertise. AI helps gather and challenge evidence; a professional decides what can responsibly be relied upon, shared or revisited.",
-      uk: "Професійна перевірка починається до AI-запиту: визначаємо питання, докази й відповідальність. Фахівець підписується під судженням про чужу експертизу. AI допомагає зібрати й критично перевірити матеріал; людина вирішує, що обґрунтовано використовувати, поширювати та переглядати.",
+      en: "Professional judgement frames the question and the evidence required. AI assists the enquiry; a named professional reviews the conclusion and takes responsibility for how another person’s expertise is represented.",
+      uk: "Професійне судження задає питання й вимоги до доказів. AI допомагає досліджувати; фахівець перевіряє висновок і відповідає за те, як представлено чужу експертизу.",
     },
     principle: {
-      en: "A professional name behind a considered judgement.",
-      uk: "За виваженим судженням — ім’я та репутація фахівця.",
+      en: "Stand behind the judgement. Keep it open to review.",
+      uk: "За судженням — ім’я й репутація. Висновок відкритий до перегляду.",
     },
     note: {
       en: "Retain the source, date, reviewer, access rules and correction route. AI OSINT is proposed; it is not connected in this demonstration.",
@@ -66,8 +66,8 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
       uk: "Мапуємо експертизу. Поєднуємо спроможності.",
     },
     body: {
-      en: "Professional opportunities often travel by word of mouth. A shared chapter dashboard could make relevant expertise, needs and introductions easier to find, while preserving the judgement behind each recommendation. Members contribute to a network that can connect colleagues, develop ideas and create professional opportunities.",
-      uk: "Професійні можливості часто передаються з уст в уста. Спільний дашборд чаптерів може зробити експертизу, потреби й знайомства доступнішими, зберігши судження за кожною рекомендацією. Члени розвивають мережу, яка поєднує колег, формує нові ідеї та відкриває професійні можливості.",
+      en: "Professional opportunities often travel by word of mouth. A shared chapter dashboard could connect expertise, needs and introductions across the network, supporting collaboration and relevant opportunities beyond each person’s immediate contacts.",
+      uk: "Професійні можливості часто передаються з уст в уста. Спільний дашборд чаптерів може поєднати експертизу, потреби й знайомства — та розширити взаємодію за межі особистого кола контактів.",
     },
     principle: {
       en: "Engage the 35 chapters through the existing questionnaire.",
@@ -91,8 +91,8 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
       uk: "Цифрове плече розвитку. Виграють усі.",
     },
     body: {
-      en: "When convincing content can outpace reliable evidence, members, clients and ISRM share an interest in better-founded decisions. The application, AI OSINT and professional expertise form a continuing capability: a fishing rod for the network, with value beyond each individual enquiry.",
-      uk: "Коли переконливий контент випереджає достовірні докази, члени, клієнти та ISRM однаково зацікавлені в обґрунтованих рішеннях. Застосунок, AI OSINT і професійна експертиза утворюють постійну спроможність — вудку для мережі, корисну далеко за межами окремого запиту.",
+      en: "Members gain useful tools and professional opportunities. Clients gain better-supported decisions. ISRM gains stronger connections and reusable expertise. The application, AI OSINT and the professional network form a continuing capability: a fishing rod for future enquiries.",
+      uk: "Члени отримують інструменти й можливості. Клієнти — краще обґрунтовані рішення. ISRM — розвиток зв’язків і повторно використовуваної експертизи. Застосунок, AI OSINT і професіонали утворюють постійну спроможність — вудку для наступних запитів.",
     },
     principle: {
       en: "Trust → reputation → professional value.",
@@ -120,12 +120,12 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
       uk: "Розвиток безпеки професійних комунікацій та зміцнення довіри до носіїв мережевої експертизи в зоні впливу ISRM.",
     },
     body: {
-      en: "Within professional-to-professional relationships, this combination may already offer a useful, multifaceted direction. It could begin with support for colleagues’ everyday judgement, and reveal further possibilities through practice.",
-      uk: "У межах professional-to-professional ця комбінація вже зараз може виявитися корисним і багатогранним напрямом. Почати можна з підтримки щоденних професійних суджень колег; подальші можливості покаже практика.",
+      en: "Within professional-to-professional relationships, expertise + AI may offer a useful, multifaceted direction. An exploratory thought that could be interesting to discuss.",
+      uk: "У professional-to-professional експертиза + AI можуть стати корисним і багатогранним напрямом. Гіпотеза, яку було б цікаво обговорити.",
     },
     principle: {
-      en: "Perhaps there is a conversation worth continuing.",
-      uk: "Можливо, ця розмова матиме продовження.",
+      en: "Perhaps a conversation to continue.",
+      uk: "Можливо, привід продовжити розмову.",
     },
     note: {
       en: "An exploratory thought beyond the original enquiry; no model, ranking or additional programme is proposed for approval here.",
@@ -145,8 +145,8 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
       uk: "Дослідімо. Визначмо пріоритети. Узгодьмо напрям.",
     },
     body: {
-      en: "Explore the supplied sample in the graph. Choose the core capabilities and optional workflows that would be useful, or describe your own scenario. Review the scope and indicative budget; we can then prepare a tailored specification, timetable and formal proposal.",
-      uk: "Перегляньте передану вибірку в графі. Оберіть корисні можливості ядра й опційні workflow або опишіть власний сценарій. Перевірте обсяг та індикативний бюджет — далі підготуємо ТЗ, строки й формальну пропозицію під ваші пріоритети.",
+      en: "Explore the supplied sample. Choose useful capabilities and workflows, or describe your own scenario. Review the scope and indicative budget; together we can shape a detailed specification, timetable and formal proposal.",
+      uk: "Перегляньте передану вибірку. Оберіть можливості та workflow або опишіть свій сценарій. Перевірте обсяг і бюджетний орієнтир — далі разом сформуємо ТЗ, строки й детальну пропозицію.",
     },
     principle: {
       en: "An informed next conversation, with a concrete starting point.",

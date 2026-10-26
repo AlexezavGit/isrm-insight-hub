@@ -47,55 +47,55 @@ const SERVICE_FRAME_FIELDS: {
   helpUk: string;
   rows: number;
 }[] = [
-    {
-      id: "userRole",
-      en: "Who needs this service, and in what role?",
-      uk: "Кому потрібен цей сервіс і в якій ролі?",
-      helpEn: "Name the user group and the situation in which they would use it.",
-      helpUk: "Вкажіть групу користувачів і ситуацію, у якій вони скористаються сервісом.",
-      rows: 2,
-    },
-    {
-      id: "need",
-      en: "What gap or problem should it address?",
-      uk: "Яку потребу або проблему він має закрити?",
-      helpEn: "Describe what is difficult or missing today, not a proposed feature list.",
-      helpUk: "Опишіть, чого зараз бракує або що не працює, а не перелік бажаних функцій.",
-      rows: 3,
-    },
-    {
-      id: "behavior",
-      en: "What should the service let people do?",
-      uk: "Що саме людина має мати змогу зробити?",
-      helpEn: "Compare the alternatives you have in mind, or describe another preferred flow.",
-      helpUk: "Порівняйте варіанти, які розглядаєте, або опишіть бажаний процес інакше.",
-      rows: 4,
-    },
-    {
-      id: "outcome",
-      en: "What useful result should it produce?",
-      uk: "Який корисний результат він має дати?",
-      helpEn: "Describe an observable output or decision that would show the service helped.",
-      helpUk: "Опишіть видимий результат або рішення, за яким можна оцінити користь сервісу.",
-      rows: 2,
-    },
-    {
-      id: "dataIntegration",
-      en: "What information or system connection is required?",
-      uk: "Які дані або інтеграція потрібні?",
-      helpEn: "Identify the source, access boundary and any system it must work with.",
-      helpUk: "Назвіть джерело, межі доступу та системи, з якими потрібно взаємодіяти.",
-      rows: 3,
-    },
-    {
-      id: "acceptance",
-      en: "How will you decide the change is complete?",
-      uk: "Як визначити, що зміну виконано?",
-      helpEn: "State a checkable acceptance condition; avoid a general goal such as “better”.",
-      helpUk: "Задайте перевірювану умову приймання, а не загальну мету на кшталт «краще».",
-      rows: 2,
-    },
-  ];
+  {
+    id: "userRole",
+    en: "Who needs this service, and in what role?",
+    uk: "Кому потрібен цей сервіс і в якій ролі?",
+    helpEn: "Name the user group and the situation in which they would use it.",
+    helpUk: "Вкажіть групу користувачів і ситуацію, у якій вони скористаються сервісом.",
+    rows: 2,
+  },
+  {
+    id: "need",
+    en: "What gap or problem should it address?",
+    uk: "Яку потребу або проблему він має закрити?",
+    helpEn: "Describe what is difficult or missing today, not a proposed feature list.",
+    helpUk: "Опишіть, чого зараз бракує або що не працює, а не перелік бажаних функцій.",
+    rows: 3,
+  },
+  {
+    id: "behavior",
+    en: "What should the service let people do?",
+    uk: "Що саме людина має мати змогу зробити?",
+    helpEn: "Compare the alternatives you have in mind, or describe another preferred flow.",
+    helpUk: "Порівняйте варіанти, які розглядаєте, або опишіть бажаний процес інакше.",
+    rows: 4,
+  },
+  {
+    id: "outcome",
+    en: "What useful result should it produce?",
+    uk: "Який корисний результат він має дати?",
+    helpEn: "Describe an observable output or decision that would show the service helped.",
+    helpUk: "Опишіть видимий результат або рішення, за яким можна оцінити користь сервісу.",
+    rows: 2,
+  },
+  {
+    id: "dataIntegration",
+    en: "What information or system connection is required?",
+    uk: "Які дані або інтеграція потрібні?",
+    helpEn: "Identify the source, access boundary and any system it must work with.",
+    helpUk: "Назвіть джерело, межі доступу та системи, з якими потрібно взаємодіяти.",
+    rows: 3,
+  },
+  {
+    id: "acceptance",
+    en: "How will you decide the change is complete?",
+    uk: "Як визначити, що зміну виконано?",
+    helpEn: "State a checkable acceptance condition; avoid a general goal such as “better”.",
+    helpUk: "Задайте перевірювану умову приймання, а не загальну мету на кшталт «краще».",
+    rows: 2,
+  },
+];
 
 const SERVICE_DRAFTS_KEY = "isrm-service-deck-drafts-v1";
 
@@ -104,12 +104,12 @@ const SERVICES = [
     icon: BriefcaseBusiness,
     title: { en: "MVP Application", uk: "MVP Застосунок" },
     purpose: {
-      en: "The core working application: find the right expertise, form project groups, track goals and contributions, prepare first contact. Everything else builds on this.",
-      uk: "Основний робочий застосунок: знайти потрібну експертизу, сформувати проєктні групи, відстежувати цілі й внески, підготувати перший контакт. Все інше будується на цьому.",
+      en: "The core working application: find the right expertise, form project groups, retain working lists and prepare first contact. Everything else builds on this.",
+      uk: "Основний робочий застосунок: знайти потрібну експертизу, сформувати проєктні групи, зберегти робочі списки й підготувати перший контакт. Все інше будується на цьому.",
     },
     role: {
-      en: "Expert search and filtering · Purpose-based group selection · Profile and evidence review · Project goal and task tracking · First contact preparation",
-      uk: "Пошук і фільтрування експертів · Відбір групи за метою · Перегляд профілю й доказів · Облік цілей і задач · Підготовка першого контакту",
+      en: "Expert search and filtering · Purpose-based group selection · Profile and evidence review · Working lists and contact routes · First contact preparation",
+      uk: "Пошук і фільтрування експертів · Відбір групи за метою · Перегляд профілю й доказів · Робочі списки та маршрути контакту · Підготовка першого контакту",
     },
     questions: { en: { need: "", behavior: "" }, uk: { need: "", behavior: "" } },
     stage: 1,
@@ -247,41 +247,41 @@ export function MemberCabinet({
   const copy =
     locale === "en"
       ? {
-        eyebrow: "Member cabinet · demo profile",
-        title: "Customisable network services",
-        member: "Verified member",
-        directory: "Expert directory",
-        projects: "Active projects",
-        stage: "Circle",
-        circlesIntro:
-          "The circles separate consulting, the application MVP, functionality needed for the pilot, and all remaining functionality.",
-        purpose: "What it provides",
-        role: "Your participation",
-        explore: "Suggest an addition or change",
-        requestNote: "This opens a local request draft; it does not change a live service.",
-        fullProposal: "Open proposal: scope & indicative prices",
-        actions: ["Create project task", "Invite to network", "Send targeted alert"],
-        sent: "Demo message recorded in this browser.",
-        close: "Close cabinet",
-      }
+          eyebrow: "Member cabinet · demo profile",
+          title: "Customisable network services",
+          member: "Verified member",
+          directory: "Expert directory",
+          projects: "Active projects",
+          stage: "Circle",
+          circlesIntro:
+            "The circles separate consulting, the application MVP, functionality needed for the pilot, and all remaining functionality.",
+          purpose: "What it provides",
+          role: "Your participation",
+          explore: "Suggest an addition or change",
+          requestNote: "This opens a local request draft; it does not change a live service.",
+          fullProposal: "Open proposal: scope & indicative prices",
+          actions: ["Create project task", "Invite to network", "Send targeted alert"],
+          sent: "Demo message recorded in this browser.",
+          close: "Close cabinet",
+        }
       : {
-        eyebrow: "Кабінет учасника · демо-профіль",
-        title: "Операції та сервіси мережі",
-        member: "Верифікований учасник",
-        directory: "Реєстр експертів",
-        projects: "Активні проєкти",
-        stage: "Коло",
-        circlesIntro:
-          "Кола розділяють консалтинг, MVP застосунку, функціональність для пілота та всі інші функції.",
-        purpose: "Що надає",
-        role: "Ваша участь",
-        explore: "Запропонувати додавання або зміну",
-        requestNote: "Відкриває локальну чернетку запиту, а не змінює активний сервіс.",
-        fullProposal: "Відкрити пропозицію: обсяг і ціни",
-        actions: ["Створити проєктну задачу", "Запросити до мережі", "Надіслати цільовий alert"],
-        sent: "Демо-повідомлення збережено в цьому браузері.",
-        close: "Закрити кабінет",
-      };
+          eyebrow: "Кабінет учасника · демо-профіль",
+          title: "Операції та сервіси мережі",
+          member: "Верифікований учасник",
+          directory: "Реєстр експертів",
+          projects: "Активні проєкти",
+          stage: "Коло",
+          circlesIntro:
+            "Кола розділяють консалтинг, MVP застосунку, функціональність для пілота та всі інші функції.",
+          purpose: "Що надає",
+          role: "Ваша участь",
+          explore: "Запропонувати додавання або зміну",
+          requestNote: "Відкриває локальну чернетку запиту, а не змінює активний сервіс.",
+          fullProposal: "Відкрити пропозицію: обсяг і ціни",
+          actions: ["Створити проєктну задачу", "Запросити до мережі", "Надіслати цільовий alert"],
+          sent: "Демо-повідомлення збережено в цьому браузері.",
+          close: "Закрити кабінет",
+        };
   const language = locale === "uk" ? "uk" : "en";
   const service = SERVICES[active] ?? SERVICES[0];
   const stages = useMemo(
@@ -315,17 +315,12 @@ export function MemberCabinet({
       </header>
 
       <div className="space-y-7 p-4 sm:p-5">
-
-
-
-
         <section>
           <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3">
             <div className="min-w-0">
               <p className="tech-label text-primary">
                 Service deck · {active + 1}/{SERVICES.length}
               </p>
-
             </div>
             <div className="flex gap-1">
               <Button
@@ -347,53 +342,44 @@ export function MemberCabinet({
             </div>
           </div>
 
-              <div ref={serviceDeckRef} className="mt-4 flex snap-x gap-3 overflow-x-auto pb-3">
-                {SERVICES.map((item, i) => (
-                  <button
-                    key={item.title.en}
-                    data-service-index={i}
-                    onClick={() => setActive(i)}
-                    className={`h-auto w-40 shrink-0 snap-start rounded border p-3 text-left transition-colors flex items-center gap-2 ${i === active ? "border-primary bg-primary/10" : "border-border bg-card/65 hover:border-brass/60"}`}
-                  >
-                    <item.icon className="h-4 w-4 text-primary shrink-0" />
-                    <p className="text-xs font-semibold leading-tight">{item.title[language]}</p>
-                    
-                  </button>
-                ))}
-              </div>
-              <article
-                key={service.title.en}
-                className="service-deck-content blueprint-corners rounded border border-border bg-card/70 p-5"
+          <div ref={serviceDeckRef} className="mt-4 flex snap-x gap-3 overflow-x-auto pb-3">
+            {SERVICES.map((item, i) => (
+              <button
+                key={item.title.en}
+                data-service-index={i}
+                onClick={() => setActive(i)}
+                className={`h-auto w-40 shrink-0 snap-start rounded border p-3 text-left transition-colors flex items-center gap-2 ${i === active ? "border-primary bg-primary/10" : "border-border bg-card/65 hover:border-brass/60"}`}
               >
-                <div className="flex items-start justify-between gap-4">
-                  <service.icon className="h-6 w-6 text-primary" />
-                  
-                </div>
-                <h3 className="mt-5 font-display text-2xl">{service.title[language]}</h3>
-                <dl className="mt-5 space-y-4 text-sm">
-                  <div>
-                    <dt className="tech-label text-muted-foreground">{copy.purpose}</dt>
-                    <dd className="mt-1 leading-relaxed">{service.purpose[language]}</dd>
-                  </div>
-                  <div>
-                    <dt className="tech-label text-muted-foreground">{copy.role}</dt>
-                    <dd className="mt-1 leading-relaxed">{service.role[language]}</dd>
-                  </div>
-                </dl>
-                <Button
-                  variant="outline"
-                  className="mt-5"
-                  onClick={() => setServiceFrameOpen(true)}
-                >
-                  {copy.explore}
-                  <ChevronRight aria-hidden="true" />
-                </Button>
-                <p className="mt-3 text-xs text-muted-foreground">
-                  {copy.requestNote}
-                </p>
-              </article>
+                <item.icon className="h-4 w-4 text-primary shrink-0" />
+                <p className="text-xs font-semibold leading-tight">{item.title[language]}</p>
+              </button>
+            ))}
+          </div>
+          <article
+            key={service.title.en}
+            className="service-deck-content blueprint-corners rounded border border-border bg-card/70 p-5"
+          >
+            <div className="flex items-start justify-between gap-4">
+              <service.icon className="h-6 w-6 text-primary" />
+            </div>
+            <h3 className="mt-5 font-display text-2xl">{service.title[language]}</h3>
+            <dl className="mt-5 space-y-4 text-sm">
+              <div>
+                <dt className="tech-label text-muted-foreground">{copy.purpose}</dt>
+                <dd className="mt-1 leading-relaxed">{service.purpose[language]}</dd>
+              </div>
+              <div>
+                <dt className="tech-label text-muted-foreground">{copy.role}</dt>
+                <dd className="mt-1 leading-relaxed">{service.role[language]}</dd>
+              </div>
+            </dl>
+            <Button variant="outline" className="mt-5" onClick={() => setServiceFrameOpen(true)}>
+              {copy.explore}
+              <ChevronRight aria-hidden="true" />
+            </Button>
+            <p className="mt-3 text-xs text-muted-foreground">{copy.requestNote}</p>
+          </article>
         </section>
-
       </div>
       {composer && (
         <ComposerModal
@@ -634,8 +620,8 @@ function ServiceConfigurationFrame({
         requestType: restored["requestType"] === "add" ? "add" : "change",
         needDecision:
           restored["needDecision"] === "needed" ||
-            restored["needDecision"] === "not-needed" ||
-            restored["needDecision"] === "unsure"
+          restored["needDecision"] === "not-needed" ||
+          restored["needDecision"] === "unsure"
             ? (restored["needDecision"] as "needed" | "not-needed" | "unsure")
             : "unsure",
       }));

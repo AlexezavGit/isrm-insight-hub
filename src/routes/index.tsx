@@ -172,7 +172,7 @@ function NetworkPage() {
               experts={graphExperts}
               layers={layers}
               focus={focus}
-              serviceMode={cabinetOpen || dependenciesMode}
+              serviceMode={dependenciesMode}
               showExpertsOnServices={dependenciesMode}
               locale={locale}
               onVisibleCount={setVisibleCount}

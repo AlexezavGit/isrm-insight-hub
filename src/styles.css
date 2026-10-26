@@ -7078,3 +7078,865 @@ body,
     gap: 0.2rem;
   }
 }
+
+/* Scope as a working card cabinet, with one compact, readable calculator. */
+.scope-card-cabinet {
+  --scope-orange: oklch(0.54 0.155 40);
+  --scope-card-line: color-mix(in oklab, var(--ds-blue) 34%, var(--ds-paper));
+}
+.scope-card-cabinet .client-scope-grid {
+  grid-template-columns: minmax(0, 1fr) 330px;
+  align-items: start;
+  gap: 2rem;
+}
+.scope-card-cabinet .client-scope-budget {
+  align-self: start;
+  max-height: calc(100svh - 2rem);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 1.3rem;
+  background: color-mix(in oklab, var(--ds-paper) 93%, var(--ds-blue));
+  border-color: var(--scope-card-line);
+  border-radius: 18px 18px 3px 3px;
+}
+.scope-card-cabinet .client-scope-budget h2 {
+  font-size: 1.4rem;
+  line-height: 1.2;
+  margin: 0.6rem 0 1rem;
+}
+.scope-card-cabinet .client-price-receipt {
+  max-height: 48svh;
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+.scope-card-cabinet .client-price-receipt > p {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.8rem;
+  align-items: center;
+  min-height: 56px;
+  margin: 0;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--scope-card-line);
+  font-size: 0.86rem;
+  line-height: 1.4;
+}
+.scope-card-cabinet .client-price-receipt > p strong {
+  color: var(--scope-orange);
+  font-size: 1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.scope-card-cabinet .client-price-receipt > .client-price-total {
+  color: var(--client-ink);
+  border-top: 2px solid var(--scope-orange);
+  border-bottom: 2px solid var(--scope-orange);
+  font-weight: 700;
+  font-size: 1rem;
+}
+.scope-card-cabinet .client-price-total strong {
+  font-size: 1.35rem;
+  letter-spacing: -0.035em;
+}
+.scope-quote-value {
+  display: inline-block;
+  animation: scope-total-update 0.35s ease-out;
+}
+@keyframes scope-total-update {
+  from {
+    transform: translateY(4px);
+    opacity: 0.35;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.scope-receipt-note {
+  font-size: 0.77rem;
+  line-height: 1.5;
+  margin: 1rem 0;
+  color: var(--client-subtle);
+}
+.scope-receipt-next {
+  width: 100%;
+}
+.scope-deck-section {
+  margin: 0 0 2.5rem;
+  padding: 0.7rem 0;
+}
+.scope-deck-section > h2 {
+  font-size: 1.6rem;
+  line-height: 1.2;
+  margin: 0.4rem 0 0.9rem;
+}
+.scope-deck-hint {
+  font:
+    0.66rem/1.5 "IBM Plex Mono",
+    monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--client-subtle);
+  margin: 0.6rem 0 1rem;
+}
+.scope-file-deck {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.4rem 1.2rem;
+  padding: 1.1rem 0.5rem 0.8rem;
+  margin-bottom: 1rem;
+}
+.scope-file-card {
+  position: relative;
+  min-width: 0;
+  transform-origin: 50% 20%;
+}
+.scope-file-card:nth-child(odd) {
+  transform: rotate(-0.8deg) translateX(-3px);
+}
+.scope-file-card:nth-child(even) {
+  transform: rotate(0.7deg) translateX(3px);
+  margin-top: 16px;
+}
+.scope-file-card:nth-child(n + 3) {
+  margin-top: -9px;
+}
+.scope-file-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 95%;
+  min-height: 57px;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--scope-card-line);
+  border-bottom: 0;
+  border-radius: 16px 16px 0 0;
+  background: var(--ds-paper);
+  position: relative;
+  z-index: 1;
+  color: var(--ds-blue);
+  font-weight: 600;
+  font-size: 0.91rem;
+  line-height: 1.25;
+  cursor: pointer;
+}
+.scope-file-tab input,
+.scope-workflow-tab input {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+  accent-color: var(--scope-orange);
+}
+.scope-file-tab input:disabled {
+  opacity: 0.8;
+  cursor: default;
+}
+.scope-file-body {
+  min-height: 190px;
+  padding: 1rem 0.9rem;
+  border: 1px solid var(--scope-card-line);
+  border-radius: 0 4px 4px 4px;
+  background: var(--ds-paper);
+  box-shadow: 2px 4px 7px oklch(0.2 0.02 230 / 0.09);
+}
+.scope-file-body > p {
+  font-size: 0.91rem;
+  line-height: 1.55;
+  margin: 0.55rem 0 0.8rem;
+}
+.scope-file-number {
+  font:
+    0.63rem "IBM Plex Mono",
+    monospace;
+  letter-spacing: 0.1em;
+  color: var(--client-subtle);
+}
+.scope-file-body small {
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--client-subtle);
+  display: block;
+}
+.scope-file-selection {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  margin-top: 0.8rem;
+}
+.scope-file-card.is-selected .scope-file-tab {
+  border-top: 3px solid var(--ds-blue);
+  padding-top: calc(0.65rem - 2px);
+}
+.scope-file-card:has(input:focus-visible) {
+  outline: 2px solid var(--ds-blue);
+  outline-offset: 4px;
+  z-index: 4;
+}
+.scope-workflow-card {
+  margin: 2rem 0.2rem 2.6rem;
+  position: relative;
+}
+.scope-workflow-tab {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  gap: 0.7rem;
+  align-items: center;
+  width: 96%;
+  min-height: 65px;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--scope-card-line);
+  border-bottom: 0;
+  border-radius: 18px 18px 0 0;
+  background: var(--ds-paper);
+  color: var(--ds-blue);
+  cursor: pointer;
+}
+.scope-workflow-tab strong {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.scope-workflow-tab > span {
+  font:
+    0.65rem "IBM Plex Mono",
+    monospace;
+}
+.scope-workflow-body {
+  padding: 1.3rem;
+  border: 1px solid var(--scope-card-line);
+  border-radius: 0 4px 4px 4px;
+  background: var(--ds-paper);
+  box-shadow: 3px 5px 12px oklch(0.2 0.02 230 / 0.07);
+}
+.scope-workflow-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 0 1rem;
+}
+.scope-workflow-card.is-selected .scope-workflow-tab {
+  border-top: 3px solid var(--ds-blue);
+  padding-top: calc(0.8rem - 2px);
+}
+.scope-outcome-deck {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem 0.7rem;
+  margin: 1rem 0 1.5rem;
+  padding: 0.5rem 0;
+}
+.scope-outcome-deck li {
+  position: relative;
+  min-width: 0;
+  padding: 0.9rem 0.8rem;
+  min-height: 82px;
+  border: 1px solid var(--scope-card-line);
+  border-radius: 14px 14px 3px 3px;
+  background: var(--ds-paper);
+  box-shadow: 2px 3px 5px oklch(0.2 0.02 230 / 0.07);
+}
+.scope-outcome-deck li:nth-child(odd) {
+  transform: rotate(-1deg);
+}
+.scope-outcome-deck li:nth-child(even) {
+  transform: rotate(0.8deg);
+  margin-left: -5px;
+}
+.scope-outcome-deck li span {
+  display: block;
+  font:
+    0.61rem "IBM Plex Mono",
+    monospace;
+  color: var(--client-subtle);
+  margin-bottom: 0.4rem;
+}
+.scope-outcome-deck li strong {
+  display: block;
+  font-size: 0.87rem;
+  line-height: 1.4;
+  font-weight: 600;
+}
+.scope-workflow-orbit {
+  margin: 1.7rem 0 1.4rem;
+  color: var(--ds-blue);
+}
+.workflow-orbit-map {
+  position: relative;
+  min-height: 410px;
+}
+.workflow-orbit-map > svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  stroke-width: 1;
+  opacity: 0.55;
+  pointer-events: none;
+}
+.workflow-orbit-map .orbit-inner-links {
+  stroke-dasharray: 2 6;
+  opacity: 0.35;
+}
+.workflow-orbit-map > ol {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(115px, auto));
+  gap: 0.7rem 0.6rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.workflow-orbit-node {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  text-align: center;
+  padding: 0.65rem 0.3rem;
+  background: var(--ds-paper);
+}
+.workflow-orbit-node strong {
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.workflow-orbit-node small {
+  font-size: 0.73rem;
+  color: var(--client-subtle);
+  line-height: 1.4;
+}
+.orbit-node-number {
+  font:
+    0.61rem "IBM Plex Mono",
+    monospace;
+  opacity: 0.6;
+}
+.orbit-node-0 {
+  grid-column: 2;
+  grid-row: 1;
+}
+.orbit-node-1 {
+  grid-column: 3;
+  grid-row: 2;
+}
+.orbit-node-2 {
+  grid-column: 3;
+  grid-row: 3;
+}
+.orbit-node-3 {
+  grid-column: 1;
+  grid-row: 3;
+}
+.orbit-node-4 {
+  grid-column: 1;
+  grid-row: 2;
+}
+.workflow-orbit-hub {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 100px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.6rem;
+  text-align: center;
+  color: var(--ds-blue);
+}
+.workflow-orbit-hub > span {
+  font:
+    0.65rem/1.5 "IBM Plex Mono",
+    monospace;
+}
+.scope-workflow-orbit figcaption {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--client-subtle);
+  border-top: 1px solid var(--scope-card-line, var(--client-line));
+  padding-top: 0.8rem;
+}
+.scope-workflow-orbit.is-compact .workflow-orbit-map {
+  min-height: 320px;
+}
+.scope-workflow-orbit.is-compact .workflow-orbit-map > ol {
+  grid-template-rows: repeat(3, 90px);
+}
+.scope-next-iteration {
+  border-style: dashed;
+}
+.scope-response-section {
+  margin-top: 2rem;
+  padding: 2rem;
+  scroll-margin-top: 1rem;
+}
+.scope-response-section form {
+  margin-top: 1.5rem;
+}
+.scope-response-section fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 1.4rem;
+}
+.scope-response-section legend {
+  grid-column: 1/-1;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.scope-response-section .client-radio-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  grid-column: 1/-1;
+}
+.scope-response-section fieldset > label:not(.client-radio-label) {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.scope-response-section fieldset > label:has(textarea),
+.scope-response-section .client-budget-inputs {
+  grid-column: 1/-1;
+}
+.scope-response-section :is(input:not([type="radio"]):not([type="checkbox"]), textarea, select) {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--scope-card-line);
+  border-radius: 10px 10px 2px 2px;
+  padding: 0.65rem 0.8rem;
+  background: color-mix(in oklab, var(--ds-paper) 95%, white);
+  color: var(--client-ink);
+}
+.scope-response-section :is(input[type="radio"], input[type="checkbox"]) {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--scope-orange);
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+.scope-response-section .client-export-actions {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  padding: 0.6rem 0.2rem;
+  margin: 1.4rem 0;
+}
+.scope-card-cabinet .scope-action-cards .scope-action-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  min-width: 0;
+  width: calc(100% + 4px);
+  min-height: 92px;
+  padding: 1rem 0.8rem;
+  border: 1px solid var(--ds-blue);
+  border-top-width: 2px;
+  border-radius: 17px 17px 2px 2px;
+  background: transparent;
+  color: var(--ds-blue);
+  font-size: 0.94rem;
+  line-height: 1.25;
+  font-weight: 600;
+  box-shadow: 3px 4px 7px oklch(0.2 0.02 230 / 0.09);
+}
+.scope-action-card:nth-child(1) {
+  transform: rotate(-1deg);
+}
+.scope-action-card:nth-child(2) {
+  transform: rotate(0.6deg);
+}
+.scope-action-card:nth-child(3) {
+  transform: rotate(-0.6deg);
+}
+.scope-action-card:nth-child(4) {
+  transform: rotate(1deg);
+}
+.scope-action-card:hover,
+.scope-action-card:focus-visible {
+  position: relative;
+  z-index: 2;
+}
+.scope-card-cabinet .client-note {
+  color: var(--client-subtle);
+}
+.scope-card-cabinet input:focus-visible,
+.scope-card-cabinet button:focus-visible,
+.scope-card-cabinet a:focus-visible {
+  outline: 2px solid var(--ds-blue);
+  outline-offset: 3px;
+}
+.lighthouse-composition > svg {
+  height: 270px;
+  stroke-width: 1.15;
+}
+.lighthouse-composition .lighthouse-lamp {
+  fill: color-mix(in oklab, var(--ds-gold) 18%, transparent);
+}
+@media (max-width: 1000px) {
+  .scope-card-cabinet .client-scope-grid {
+    grid-template-columns: minmax(0, 1fr) 290px;
+    gap: 1.1rem;
+  }
+  .scope-file-deck {
+    grid-template-columns: 1fr;
+    padding-inline: 0.5rem;
+  }
+  .scope-file-card:nth-child(n) {
+    margin: 0;
+    transform: rotate(-0.5deg);
+  }
+  .scope-file-card:nth-child(even) {
+    transform: rotate(0.5deg) translateX(5px);
+    margin-top: -5px;
+  }
+}
+@media (max-width: 760px) {
+  .scope-card-cabinet .client-scope-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .scope-card-cabinet .client-scope-grid > div {
+    min-width: 0;
+    width: 100%;
+  }
+  .scope-card-cabinet .client-scope-budget {
+    position: static;
+    width: 100%;
+    max-height: none;
+    overflow: visible;
+    padding: 1.2rem;
+  }
+  .scope-card-cabinet .client-price-receipt {
+    max-height: none;
+    overflow: visible;
+  }
+  .scope-file-body {
+    min-height: 0;
+  }
+  .scope-file-card:nth-child(even) {
+    transform: rotate(0.5deg) translateX(2px);
+  }
+  .scope-workflow-body {
+    padding: 1rem;
+  }
+  .scope-workflow-tab {
+    padding: 0.75rem;
+    gap: 0.5rem;
+  }
+  .scope-workflow-tab strong {
+    font-size: 0.96rem;
+  }
+  .scope-workflow-tab > span {
+    font-size: 0.55rem;
+  }
+  .workflow-orbit-map {
+    min-height: 310px;
+  }
+  .workflow-orbit-map > ol {
+    grid-template-rows: repeat(3, 92px);
+    gap: 0.6rem 0.3rem;
+  }
+  .workflow-orbit-node {
+    gap: 0.35rem;
+    padding: 0.35rem 0.1rem;
+  }
+  .workflow-orbit-node strong {
+    font-size: 0.76rem;
+  }
+  .workflow-orbit-node small {
+    display: none;
+  }
+  .workflow-orbit-hub {
+    max-width: 76px;
+  }
+  .workflow-orbit-hub > span {
+    font-size: 0.53rem;
+  }
+  .scope-outcome-deck {
+    gap: 0.8rem 0.4rem;
+  }
+  .scope-outcome-deck li {
+    padding: 0.8rem 0.65rem;
+  }
+  .scope-outcome-deck li strong {
+    font-size: 0.8rem;
+  }
+  .scope-response-section {
+    padding: 1.2rem;
+  }
+  .scope-response-section fieldset {
+    grid-template-columns: 1fr;
+  }
+  .scope-response-section fieldset > label {
+    grid-column: 1;
+  }
+  .scope-response-section .client-export-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 0.8rem;
+  }
+  .scope-card-cabinet .scope-action-cards .scope-action-card {
+    min-height: 86px;
+    font-size: 0.85rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scope-quote-value {
+    animation: none;
+  }
+}
+@media print {
+  .scope-card-cabinet .client-scope-shell {
+    display: none;
+  }
+  .scope-card-cabinet .client-print-summary {
+    display: block;
+  }
+}
+/* Explicit header contrast prevents generic tab inheritance from hiding controls. */
+.client-scope .client-topbar,
+.client-briefing .client-topbar {
+  color: var(--ds-paper);
+}
+.client-scope .client-topbar button,
+.client-briefing .client-topbar button {
+  color: var(--ds-paper);
+  background: transparent;
+  border-color: color-mix(in oklab, var(--ds-paper) 55%, transparent);
+}
+.client-scope .client-topbar button[aria-pressed="true"],
+.client-briefing .client-topbar button[aria-pressed="true"] {
+  color: var(--ds-gold);
+  border-color: var(--ds-gold);
+}
+.scope-card-cabinet {
+  --ds-paper: oklch(0.92671 0.0283 86.647);
+  --scope-vivid-orange: oklch(0.68249 0.16854 50.563);
+  --scope-orange: oklch(0.54165 0.15239 40.59);
+}
+.scope-card-cabinet .client-price-receipt > p strong {
+  font-size: 1.2rem;
+}
+.scope-card-cabinet .client-price-total strong {
+  font-size: 1.45rem;
+}
+.scope-card-cabinet .client-price-receipt > .client-price-total {
+  border-color: var(--scope-vivid-orange);
+}
+.scope-mobile-total {
+  display: none;
+}
+@media (max-width: 760px) {
+  .scope-mobile-total {
+    position: fixed;
+    z-index: 40;
+    bottom: max(10px, env(safe-area-inset-bottom));
+    left: 12px;
+    right: 12px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto 18px;
+    gap: 0.7rem;
+    align-items: center;
+    min-height: 58px;
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--ds-blue);
+    border-top: 3px solid var(--scope-vivid-orange);
+    border-radius: 16px 16px 3px 3px;
+    background: color-mix(in oklab, var(--ds-paper) 96%, transparent);
+    color: var(--ds-blue);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 3px 18px oklch(0.1 0.02 230 / 0.15);
+    text-decoration: none;
+  }
+  .scope-mobile-total > span {
+    font-size: 0.72rem;
+    line-height: 1.3;
+  }
+  .scope-mobile-total > strong {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--scope-orange);
+    font-variant-numeric: tabular-nums;
+  }
+  .scope-mobile-total > svg {
+    transform: rotate(90deg);
+  }
+  .scope-card-cabinet .client-scope-shell {
+    padding-bottom: 90px;
+  }
+  .client-scope .client-topbar-actions {
+    max-width: 75%;
+  }
+}
+@media print {
+  .scope-mobile-total {
+    display: none;
+  }
+}
+/* Read the slide at a glance; context stays available without forcing a scroll. */
+.briefing-slide-context {
+  position: absolute;
+  right: 1.3rem;
+  bottom: 86px;
+  z-index: 8;
+  color: var(--ds-blue);
+}
+.briefing-slide-context summary {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  font-size: 0.7rem;
+  min-height: 30px;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--client-line);
+  border-radius: 10px 10px 2px 2px;
+  background: var(--ds-paper);
+  list-style: none;
+}
+.briefing-slide-context summary::-webkit-details-marker {
+  display: none;
+}
+.briefing-slide-context > p {
+  position: absolute;
+  right: 0;
+  bottom: 34px;
+  width: min(430px, calc(100vw - 4rem));
+  max-height: 45svh;
+  overflow: auto;
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid var(--ds-blue);
+  border-radius: 12px 12px 2px 2px;
+  background: var(--ds-paper);
+  color: var(--client-ink);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  box-shadow: 0 8px 24px oklch(0.1 0.02 230 / 0.2);
+}
+.client-slide-content .client-value-lighthouse .lighthouse-composition > svg {
+  height: 210px;
+}
+.client-slide-content .client-value-lighthouse + .briefing-visual-caption {
+  font-size: 0.65rem;
+}
+.briefing-project-name ~ .client-slide-body {
+  max-width: none;
+}
+@media (min-width: 761px) and (max-height: 740px) {
+  .client-slide-content {
+    padding: 0.6rem 2rem 1.5rem;
+  }
+  .client-slide-body {
+    font-size: 1.02rem;
+    line-height: 1.45;
+  }
+  .briefing-principle {
+    font-size: 1.05rem;
+    line-height: 1.35;
+    margin: 0.8rem 0 0;
+  }
+  .review-cycle-map {
+    height: 185px;
+  }
+  .client-slide-content .client-value-lighthouse .lighthouse-composition > svg {
+    height: 170px;
+  }
+  .briefing-chapter-dashboard {
+    padding: 0.6rem 0.8rem;
+  }
+  .briefing-chapter-dashboard > header strong {
+    font-size: 2.2rem;
+  }
+  .chapter-dotmap {
+    gap: 3px;
+    margin: 0.45rem 0;
+  }
+  .chapter-dotmap i {
+    height: 4px;
+  }
+  .chapter-dashboard-fields {
+    padding-block: 0.5rem;
+  }
+  .chapter-dashboard-outcomes {
+    margin-top: 0.5rem;
+  }
+  .briefing-chapter-dashboard figcaption {
+    margin-top: 0.5rem;
+  }
+  .briefing-hypothesis {
+    padding: 0;
+  }
+  .hypothesis-pair {
+    gap: 0.5rem;
+  }
+  .hypothesis-pair strong {
+    font-size: 0.9rem;
+  }
+  .hypothesis-result {
+    margin: 0.6rem 0;
+    padding: 0.55rem 0;
+    font-size: 0.9rem;
+  }
+  .briefing-integrations {
+    margin-top: 0.6rem;
+  }
+  .briefing-integrations svg {
+    width: 18px;
+    height: 18px;
+  }
+  .briefing-integrations span {
+    font-size: 0.65rem;
+  }
+  .briefing-hypothesis figcaption {
+    font-size: 0.6rem;
+  }
+  .briefing-project-name {
+    font-size: 0.95rem;
+    line-height: 1.3;
+  }
+  .briefing-project-name ~ .client-slide-body {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+}
+.client-large-text .client-slide-content {
+  align-items: safe center;
+}
+@media (max-width: 760px) {
+  .briefing-slide-context {
+    right: 1.1rem;
+    bottom: 130px;
+  }
+  .briefing-slide-context summary {
+    font-size: 0.6rem;
+    min-height: 26px;
+  }
+  .client-slide-content {
+    padding-bottom: 2.5rem;
+  }
+  .review-cycle-map {
+    height: 205px;
+  }
+  .client-slide-content .client-value-lighthouse .lighthouse-composition > svg {
+    height: 190px;
+  }
+}
+@media (max-height: 560px) and (min-width: 600px) {
+  .briefing-slide-context {
+    bottom: 66px;
+  }
+}

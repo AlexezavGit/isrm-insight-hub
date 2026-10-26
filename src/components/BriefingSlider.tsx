@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Info } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { useAccess } from "@/lib/access";
 import { ClientAccessibility } from "./ClientAccessibility";
@@ -96,7 +96,6 @@ export function BriefingSlider() {
             )}
             <p className="client-slide-body">{current.body[locale]}</p>
             <p className="briefing-principle">{current.principle[locale]}</p>
-            <p className="client-slide-note">{current.note[locale]}</p>
           </div>
           <BriefingVisual index={slide} slide={current} locale={locale} />
         </div>
@@ -122,14 +121,24 @@ export function BriefingSlider() {
                 </button>
               ))}
             </div>
-            <button
-              className="client-icon-button"
-              disabled={slide === BRIEFING_SLIDES.length - 1}
-              onClick={() => setSlide((s) => s + 1)}
-              aria-label={uk ? "Наступний слайд" : "Next slide"}
-            >
-              <ArrowRight />
-            </button>
+            {slide === BRIEFING_SLIDES.length - 1 ? (
+              <Link
+                to="/"
+                search={{ view: "map" }}
+                className="client-icon-button"
+                aria-label={uk ? "Відкрити граф" : "Open the network graph"}
+              >
+                <ArrowRight />
+              </Link>
+            ) : (
+              <button
+                className="client-icon-button"
+                onClick={() => setSlide((s) => s + 1)}
+                aria-label={uk ? "Наступний слайд" : "Next slide"}
+              >
+                <ArrowRight />
+              </button>
+            )}
           </div>
           <div className="client-inline-actions">
             <Link to="/scope" className="client-text-button">
@@ -141,12 +150,19 @@ export function BriefingSlider() {
             </Link>
           </div>
         </footer>
+        <details className="briefing-slide-context">
+          <summary>
+            <Info size={15} aria-hidden="true" />
+            <span>{uk ? "Пояснення" : "Context"}</span>
+          </summary>
+          <p>{current.note[locale]}</p>
+        </details>
       </section>
       <div className="client-backdrop-caption">
         <p>
           {uk
-            ? "Брифінг для обговорення · Передана вибірка · Тематичні зв’язки"
-            : "Executive discussion · Supplied sample · Thematic relationships"}
+            ? "Демонстрація · Передана вибірка · AI OSINT ще не підключено"
+            : "Demonstration · Supplied sample · AI OSINT not yet connected"}
         </p>
         <DataUseNotice />
       </div>

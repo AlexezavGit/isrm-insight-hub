@@ -28,12 +28,12 @@ export const CORE_CAPABILITIES: { id: string; title: Copy; outcomes: Copy[] }[] 
     },
     outcomes: [
       {
-        en: "Form a multidisciplinary group with a clear purpose, tasks and expected outputs.",
-        uk: "Формувати міждисциплінарну групу з чіткою метою, задачами й очікуваними результатами.",
+        en: "Form a multidisciplinary group around a defined professional need.",
+        uk: "Формувати міждисциплінарну групу навколо визначеної професійної потреби.",
       },
       {
-        en: "See accepted tasks and the work completed by each expert and group.",
-        uk: "Бачити прийняті задачі та результати кожного експерта й групи.",
+        en: "Keep the group’s purpose, relevant expertise and contact route together.",
+        uk: "Зберігати разом мету групи, релевантну експертизу та маршрут контакту.",
       },
       {
         en: "Address the relevant group, retain attributable work and prepare a structured enquiry.",

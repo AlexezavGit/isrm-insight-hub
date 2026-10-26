@@ -222,8 +222,8 @@ export function BriefingVisual({
       </ol>
       <figcaption>
         {uk
-          ? "Від охоплення — до рішення, яке варте інвестиції."
-          : "From audience reach to a decision worth investing in."}
+          ? "Від професійного ядра — до мережевого охоплення."
+          : "From a professional centre to network-wide reach."}
       </figcaption>
     </figure>
   );

@@ -1,16 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { CoreServiceDeck, WorkflowDeck } from "@/components/ScopeCardDecks";
 import { DataUseNotice } from "@/components/DataUseNotice";
 import { useState } from "react";
 import { ArrowLeft, Download, Mail, Printer, Copy } from "lucide-react";
 import { useClientDraft } from "@/components/ClientDraftProvider";
-import { CoreCapabilities, WorkflowValue } from "@/components/ClientValueFramework";
+import { CoreCapabilities } from "@/components/ClientValueFramework";
 import { ClientAccessibility } from "@/components/ClientAccessibility";
 import { AccessControl } from "@/components/AppShell";
 import { useI18n } from "@/lib/i18n";
 import { CLIENT_SERVICES, CLIENT_WORKFLOWS } from "@/lib/client-catalog";
 import { CLIENT_APPROVED_PRICES, clientQuote } from "@/lib/client-pricing";
 import { BRIEFING_MILESTONES } from "@/lib/briefing-milestones";
-import { buildClientSummary, emailHref, selectedServiceIds } from "@/lib/client-draft";
+import { buildClientSummary, emailHref } from "@/lib/client-draft";
 export const Route = createFileRoute("/scope")({
   head: () => ({
     meta: [
@@ -30,7 +31,6 @@ function ScopePage() {
   const uk = locale === "uk";
   const t = (en: string, ua: string) => (uk ? ua : en);
   const [notice, setNotice] = useState("");
-  const ids = selectedServiceIds(draft);
   const quote = clientQuote(draft);
   const money = (value: number | null) =>
     value === null
@@ -53,7 +53,7 @@ function ScopePage() {
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
   return (
-    <main className="client-scope">
+    <main className="client-scope scope-card-cabinet">
       <header className="client-topbar">
         <Link to="/proposal" className="client-wordmark">
           ISRM <span>INSIGHT HUB</span>
@@ -104,136 +104,8 @@ function ScopePage() {
         <CoreCapabilities locale={locale} />
         <div className="client-scope-grid">
           <div>
-            <section className="client-scope-card">
-              <h2>{t("Which route fits your needs?", "Який варіант вам підходить?")}</h2>
-              {(
-                [
-                  [
-                    "full",
-                    t("Tailored network application", "Застосунок для роботи з мережею"),
-                    t(
-                      "Core capabilities with the services and workflows selected below.",
-                      "Базові можливості з обраними нижче сервісами та workflow.",
-                    ),
-                  ],
-                  [
-                    "graph",
-                    t("Start with graph & search", "Почати з графа та пошуку"),
-                    t(
-                      "A smaller standalone scope using the existing foundation; optional additions can be discussed.",
-                      "Менший самодостатній обсяг на наявній основі; доповнення можна обговорити окремо.",
-                    ),
-                  ],
-                ] as const
-              ).map(([mode, title, detail]) => (
-                <label className="client-route-choice" key={mode}>
-                  <input
-                    type="radio"
-                    name="route"
-                    checked={draft.mode === mode}
-                    disabled={!ready}
-                    onChange={() => update({ mode })}
-                  />
-                  <span>
-                    <strong>{title}</strong>
-                    <span>{detail}</span>
-                  </span>
-                </label>
-              ))}
-              <p className="client-note">
-                {t(
-                  "Changing to a simpler route clears service and workflow selections. Your written requests remain available but are excluded from that route until you return to the application.",
-                  "Перехід до простішого варіанта скидає вибрані сервіси та workflow. Власні описи зберігаються, але не входять до цього варіанта до повернення до застосунку.",
-                )}
-              </p>
-            </section>
-            {draft.mode === "graph" && (
-              <section className="client-scope-card">
-                <h2>
-                  {t(
-                    "Optional additions to graph & search",
-                    "Опційні доповнення до графа й пошуку",
-                  )}
-                </h2>
-                {CLIENT_SERVICES.filter((s) =>
-                  ["groups", "contact", "research", "integration"].includes(s.id),
-                ).map((s) => (
-                  <label className="client-route-choice" key={s.id}>
-                    <input
-                      type="checkbox"
-                      checked={draft.serviceIds.includes(s.id)}
-                      disabled={!ready}
-                      onChange={(e) =>
-                        update({
-                          serviceIds: e.target.checked
-                            ? [...draft.serviceIds, s.id]
-                            : draft.serviceIds.filter((id) => id !== s.id),
-                        })
-                      }
-                    />
-                    <span>
-                      <strong>{s.title[locale]}</strong>
-                      <span>{money(CLIENT_APPROVED_PRICES.addons[s.id] ?? null)}</span>
-                    </span>
-                  </label>
-                ))}
-              </section>
-            )}
-            <section className="client-scope-card">
-              <h2>{t("Selected services", "Обрані сервіси")}</h2>
-              <ul className="client-scope-service-list">
-                {CLIENT_SERVICES.filter((s) => ids.includes(s.id)).map((s) => (
-                  <li key={s.id}>
-                    <strong>{s.title[locale]}</strong>
-                    <p>{s.detail[locale]}</p>
-                    <span className="client-status">{s.status[locale]}</span>
-                  </li>
-                ))}
-              </ul>
-              <Link to="/" search={{ stage: "configuration" }} className="client-text-button">
-                {t("Change services", "Змінити сервіси")} →
-              </Link>
-            </section>
-            <section className="client-scope-card">
-              <h2>{t("Optional workflows", "Опційні workflow")}</h2>
-              {CLIENT_WORKFLOWS.map((w) => (
-                <article key={w.id}>
-                  <label className="client-route-choice">
-                    <input
-                      type="checkbox"
-                      checked={draft.workflowIds.includes(w.id)}
-                      disabled={!ready || draft.mode !== "full"}
-                      onChange={(e) =>
-                        update({
-                          workflowIds: e.target.checked
-                            ? [...draft.workflowIds, w.id]
-                            : draft.workflowIds.filter((id) => id !== w.id),
-                        })
-                      }
-                    />
-                    <strong>{w.title[locale]}</strong>
-                  </label>
-                  <p className="client-price-tag">
-                    {t("Indicative addition:", "Індикативне доповнення:")}{" "}
-                    {money(CLIENT_APPROVED_PRICES[w.id])}
-                  </p>
-                  <p>{w.detail[locale]}</p>
-                  <WorkflowValue workflow={w.id} locale={locale} />
-                  <ul className="client-output-tags">
-                    {w.outputs[locale].map((o) => (
-                      <li key={o}>{o}</li>
-                    ))}
-                  </ul>
-                </article>
-              ))}
-              <Link
-                to="/"
-                search={{ stage: "configuration", preset: "engagement" }}
-                className="client-text-button"
-              >
-                {t("Review workflows", "Переглянути workflow")} →
-              </Link>
-            </section>
+            <CoreServiceDeck locale={locale} draft={draft} ready={ready} update={update} />
+            <WorkflowDeck locale={locale} draft={draft} ready={ready} update={update} />
             <section className="client-scope-card">
               <h2>
                 {t("Your descriptions", "Ваші описи")} ({draft.requests.length})
@@ -285,15 +157,62 @@ function ScopePage() {
               )}
             </section>
             <section className="client-scope-card">
-              <h2>{t("Demonstration shortlist", "Демонстраційна група")}</h2>
-              <p>{draft.groupName || t("No group name", "Назву не задано")}</p>
-              <p>
-                {draft.shortlist.join(", ") || t("No profiles selected.", "Профілі не обрані.")}
-              </p>
+              <h2>{t("Which route fits your needs?", "Який варіант вам підходить?")}</h2>
+              {(
+                [
+                  [
+                    "full",
+                    t("Tailored network application", "Застосунок для роботи з мережею"),
+                    t(
+                      "Core capabilities with the services and workflows selected below.",
+                      "Базові можливості з обраними нижче сервісами та workflow.",
+                    ),
+                  ],
+                  [
+                    "graph",
+                    t("Start with graph & search", "Почати з графа та пошуку"),
+                    t(
+                      "A smaller standalone scope using the existing foundation; optional additions can be discussed.",
+                      "Менший самодостатній обсяг на наявній основі; доповнення можна обговорити окремо.",
+                    ),
+                  ],
+                ] as const
+              ).map(([mode, title, detail]) => (
+                <label className="client-route-choice" key={mode}>
+                  <input
+                    type="radio"
+                    name="route"
+                    checked={draft.mode === mode}
+                    disabled={!ready}
+                    onChange={() => update({ mode })}
+                  />
+                  <span>
+                    <strong>{title}</strong>
+                    <span>{detail}</span>
+                  </span>
+                </label>
+              ))}
               <p className="client-note">
                 {t(
-                  "Supplied ISRM records for private board review; no people have been invited or assigned.",
-                  "Передані записи ISRM для закритого перегляду правлінням; людей не запрошено чи призначено.",
+                  "Changing to a simpler route clears service and workflow selections. Your written requests remain available but are excluded from that route until you return to the application.",
+                  "Перехід до простішого варіанта скидає вибрані сервіси та workflow. Власні описи зберігаються, але не входять до цього варіанта до повернення до застосунку.",
+                )}
+              </p>
+            </section>
+            <section className="client-scope-card scope-next-iteration">
+              <p className="client-eyebrow">
+                {t("Possible second iteration", "Можлива друга ітерація")}
+              </p>
+              <h2>
+                {t(
+                  "Connect the tools that already do the job",
+                  "Підключити інструменти, які вже виконують цю роботу",
+                )}
+              </h2>
+              <p>
+                {t(
+                  "Project planning, time management, task progress and operational reporting can connect to an existing management system. Discovery, licences and integration would have a separate scope and budget; they are outside this core estimate.",
+                  "Планування проєктів, тайм-менеджмент, контроль задач та операційну звітність можна підключити через наявну систему управління. Обстеження, ліцензії й інтеграція матимуть окремий обсяг та бюджет; до поточної оцінки ядра вони не входять.",
                 )}
               </p>
             </section>
@@ -318,10 +237,10 @@ function ScopePage() {
               </p>
             </section>
           </div>
-          <aside className="client-scope-budget">
+          <aside id="scope-budget-panel" className="client-scope-budget">
             <p className="client-eyebrow">{t("Budget discussion", "Обговорення бюджету")}</p>
             <h2>{t("Indicative budget ceiling", "Індикативна межа бюджету")}</h2>
-            <div className="client-price-receipt">
+            <div className="client-price-receipt" aria-live="polite" aria-atomic="true">
               <p>
                 <span>
                   {draft.mode === "graph"
@@ -360,225 +279,225 @@ function ScopePage() {
               )}
               <p className="client-price-total">
                 <span>{t("Total", "Разом")}</span>
-                <strong>{money(quote)}</strong>
+                <strong className="scope-quote-value" key={String(quote)}>
+                  {money(quote)}
+                </strong>
               </p>
             </div>
-            <div className="client-notice">
+            <p className="scope-receipt-note">
               {t(
-                "Indicative prices cover the stated scope. Custom requirements and unpriced integrations are estimated separately before agreement.",
-                "Індикативні ціни охоплюють зазначений обсяг. Власні вимоги та інтеграції без ціни оцінюємо окремо до укладення угоди.",
-              )}
-            </div>
-            <p>
-              {t(
-                "Development, professional work, rights to reuse existing assets, integrations and recurring hosting/AI costs will be shown separately. Scope, permitted data, integrations and delivery model determine the estimate and timetable.",
-                "Розробка, професійна робота, права на наявні активи, інтеграції та регулярні витрати на хостинг/ШІ будуть показані окремо. Оцінка та строки залежать від обсягу, дозволених даних, інтеграцій і моделі передачі.",
+                "Indicative amounts. Custom requests and unpriced integrations are estimated separately. Hosting, AI/API usage and recurring operations are outside these amounts.",
+                "Індикативні суми. Власні вимоги й інтеграції без ціни оцінюються окремо. Хостинг, AI/API та постійна операційна робота до цих сум не входять.",
               )}
             </p>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (!validLimit) {
-                  setNotice(t("Enter a positive budget ceiling.", "Вкажіть додатну межу бюджету."));
-                  return;
-                }
-                const href = emailHref(draft, locale);
-                if (href.length > 7000) {
-                  download();
-                  window.location.href =
-                    "mailto:alexezav@gmail.com,dmitrfilim@gmail.com?subject=" +
-                    encodeURIComponent("ISRM · Scope discussion") +
-                    "&body=" +
-                    encodeURIComponent(
-                      t(
-                        "Please find my scope request in the file I will attach to this email.",
-                        "Мій запит щодо обсягу — у файлі, який я додам до цього листа.",
-                      ),
-                    );
-                  setNotice(
-                    t(
-                      "The complete request was downloaded. Attach ISRM-scope-request.txt to the email, review it and press Send. Nothing has been sent automatically.",
-                      "Повний запит завантажено. Додайте ISRM-scope-request.txt до листа, перевірте та натисніть «Надіслати». Автоматично нічого не надіслано.",
-                    ),
-                  );
-                  return;
-                }
-                window.location.href = href;
-                setNotice(
-                  t(
-                    "Email draft opened. Please review it and press Send in your email application. Delivery has not been confirmed here.",
-                    "Відкрито чернетку листа. Перевірте її та натисніть «Надіслати» у поштовому застосунку. Доставку тут не підтверджено.",
-                  ),
-                );
-              }}
-            >
-              <fieldset disabled={!ready}>
-                <legend>{t("Your budget position", "Ваша бюджетна позиція")}</legend>
-                <label className="client-radio-label">
-                  <input
-                    type="radio"
-                    name="budget"
-                    checked={draft.budgetPosition === "approve"}
-                    disabled={quote === null}
-                    onChange={() => update({ budgetPosition: "approve" })}
-                  />
-                  {t("This indicative budget is acceptable", "Цей індикативний бюджет прийнятний")}
-                </label>
-                <label className="client-radio-label">
-                  <input
-                    type="radio"
-                    name="budget"
-                    checked={draft.budgetPosition === "discuss"}
-                    onChange={() => update({ budgetPosition: "discuss" })}
-                  />
-                  {t("Discuss a suitable budget", "Обговорити відповідний бюджет")}
-                </label>
-                <label className="client-radio-label">
-                  <input
-                    type="radio"
-                    name="budget"
-                    checked={draft.budgetPosition === "limit"}
-                    onChange={() => update({ budgetPosition: "limit" })}
-                  />
-                  {t("I have a budget ceiling", "Маю бюджетне обмеження")}
-                </label>
-                {draft.budgetPosition === "limit" && (
-                  <div className="client-budget-inputs">
-                    <label>
-                      {t("Currency", "Валюта")}
-                      <select
-                        value={draft.currency}
-                        onChange={(e) =>
-                          update({ currency: e.target.value as "GBP" | "USD" | "EUR" })
-                        }
-                      >
-                        {["GBP", "USD", "EUR"].map((c) => (
-                          <option key={c}>{c}</option>
-                        ))}
-                      </select>
-                    </label>
-                    <label>
-                      {t("Ceiling", "Межа")}
-                      <input
-                        required
-                        type="number"
-                        min="0.01"
-                        step="any"
-                        value={draft.budgetCeiling}
-                        onChange={(e) => update({ budgetCeiling: e.target.value })}
-                      />
-                    </label>
-                  </div>
-                )}
-                <label>
-                  {t("Your name", "Ваше ім’я")}
-                  <input
-                    autoComplete="name"
-                    value={draft.name}
-                    onChange={(e) => update({ name: e.target.value })}
-                  />
-                </label>
-                <label>
-                  {t("Email for a reply", "Email для відповіді")}
-                  <input
-                    type="email"
-                    autoComplete="email"
-                    value={draft.email}
-                    onChange={(e) => update({ email: e.target.value })}
-                  />
-                </label>
-                <label>
-                  {t("Notes, systems or constraints", "Примітки, системи чи обмеження")}
-                  <textarea
-                    rows={4}
-                    value={draft.notes}
-                    onChange={(e) => update({ notes: e.target.value })}
-                  />
-                </label>
-                <button className="client-button" type="submit">
-                  <Mail size={18} />
-                  {t("Prepare an email", "Підготувати лист")}
-                </button>
-              </fieldset>
-            </form>
-            <p className="client-note">
-              {t(
-                "This opens your email application; it does not send automatically. For long requests, copy the complete text below or attach the downloaded file.",
-                "Відкривається ваш поштовий застосунок; автоматичного надсилання немає. Довгий запит скопіюйте нижче або додайте завантажений файл.",
-              )}
-            </p>
-            <p className="client-note client-recipient">
-              alexezav@gmail.com · dmitrfilim@gmail.com
-            </p>
-            <div className="client-export-actions">
-              <button onClick={() => window.print()}>
-                <Printer size={17} />
-                {t("Print / PDF", "Друк / PDF")}
-              </button>
-              <button onClick={download}>
-                <Download size={17} />
-                {t("Download full text", "Завантажити текст")}
-              </button>
-              <button
-                onClick={async () => {
-                  try {
-                    await navigator.clipboard.writeText(summary);
-                    setNotice(
-                      t(
-                        "Full summary copied. It has not been sent.",
-                        "Повний підсумок скопійовано. Його не надіслано.",
-                      ),
-                    );
-                  } catch {
-                    setNotice(
-                      t(
-                        "Copy is unavailable. Select the complete text below or download it.",
-                        "Копіювання недоступне. Виділіть повний текст нижче або завантажте його.",
-                      ),
-                    );
-                  }
-                }}
-              >
-                <Copy size={17} />
-                {t("Copy", "Копіювати")}
-              </button>
-            </div>
-            {notice && (
-              <p className="client-notice" role="status">
-                {notice}
-              </p>
-            )}
-            <label className="client-route-choice">
-              <input
-                type="checkbox"
-                checked={draft.oneOffResearch}
-                disabled={!ready}
-                onChange={(e) => update({ oneOffResearch: e.target.checked })}
-              />
-              <span>
-                {t(
-                  "I would also like research on individual requests",
-                  "Також бажаю отримувати дані за разовими замовленнями",
-                )}
-              </span>
-            </label>
-            <p className="client-note">
-              {t(
-                "Your contact details and choices are stored only in this browser until you send them yourself. This is a request for discussion, not an order or acceptance of a price.",
-                "Контактні дані й вибір зберігаються лише в цьому браузері до вашого надсилання. Це запит на обговорення, а не замовлення чи погодження ціни.",
-              )}
-            </p>
+            <a className="client-button scope-receipt-next" href="#scope-response-section">
+              {t("Review & respond", "Перевірити й відповісти")}
+            </a>
           </aside>
         </div>
-        <section className="client-summary-section">
-          <h2>{t("Complete request", "Повний запит")}</h2>
+        <section id="scope-response-section" className="client-scope-card scope-response-section">
+          <p className="client-eyebrow">{t("Your next step", "Ваш наступний крок")}</p>
+          <h2>
+            {t("A concrete basis for our next conversation", "Предметна основа наступної розмови")}
+          </h2>
+          <form
+            id="scope-response"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (!validLimit) {
+                setNotice(t("Enter a positive budget ceiling.", "Вкажіть додатну межу бюджету."));
+                return;
+              }
+              const href = emailHref(draft, locale);
+              if (href.length > 7000) {
+                download();
+                window.location.href =
+                  "mailto:alexezav@gmail.com,dmitrfilim@gmail.com?subject=" +
+                  encodeURIComponent("ISRM · Scope discussion") +
+                  "&body=" +
+                  encodeURIComponent(
+                    t(
+                      "Please find my scope request in the file I will attach to this email.",
+                      "Мій запит щодо обсягу — у файлі, який я додам до цього листа.",
+                    ),
+                  );
+                setNotice(
+                  t(
+                    "The complete request was downloaded. Attach ISRM-scope-request.txt to the email, review it and press Send. Nothing has been sent automatically.",
+                    "Повний запит завантажено. Додайте ISRM-scope-request.txt до листа, перевірте та натисніть «Надіслати». Автоматично нічого не надіслано.",
+                  ),
+                );
+                return;
+              }
+              window.location.href = href;
+              setNotice(
+                t(
+                  "Email draft opened. Please review it and press Send in your email application. Delivery has not been confirmed here.",
+                  "Відкрито чернетку листа. Перевірте її та натисніть «Надіслати» у поштовому застосунку. Доставку тут не підтверджено.",
+                ),
+              );
+            }}
+          >
+            <fieldset disabled={!ready}>
+              <legend>{t("Your budget position", "Ваша бюджетна позиція")}</legend>
+              <label className="client-radio-label">
+                <input
+                  type="radio"
+                  name="budget"
+                  checked={draft.budgetPosition === "approve"}
+                  disabled={quote === null}
+                  onChange={() => update({ budgetPosition: "approve" })}
+                />
+                {t("This indicative budget is acceptable", "Цей індикативний бюджет прийнятний")}
+              </label>
+              <label className="client-radio-label">
+                <input
+                  type="radio"
+                  name="budget"
+                  checked={draft.budgetPosition === "discuss"}
+                  onChange={() => update({ budgetPosition: "discuss" })}
+                />
+                {t("Discuss a suitable budget", "Обговорити відповідний бюджет")}
+              </label>
+              <label className="client-radio-label">
+                <input
+                  type="radio"
+                  name="budget"
+                  checked={draft.budgetPosition === "limit"}
+                  onChange={() => update({ budgetPosition: "limit" })}
+                />
+                {t("I have a budget ceiling", "Маю бюджетне обмеження")}
+              </label>
+              {draft.budgetPosition === "limit" && (
+                <div className="client-budget-inputs">
+                  <label>
+                    {t("Currency", "Валюта")}
+                    <select
+                      value={draft.currency}
+                      onChange={(e) =>
+                        update({ currency: e.target.value as "GBP" | "USD" | "EUR" })
+                      }
+                    >
+                      {["GBP", "USD", "EUR"].map((c) => (
+                        <option key={c}>{c}</option>
+                      ))}
+                    </select>
+                  </label>
+                  <label>
+                    {t("Ceiling", "Межа")}
+                    <input
+                      required
+                      type="number"
+                      min="0.01"
+                      step="any"
+                      value={draft.budgetCeiling}
+                      onChange={(e) => update({ budgetCeiling: e.target.value })}
+                    />
+                  </label>
+                </div>
+              )}
+              <label>
+                {t("Your name", "Ваше ім’я")}
+                <input
+                  autoComplete="name"
+                  value={draft.name}
+                  onChange={(e) => update({ name: e.target.value })}
+                />
+              </label>
+              <label>
+                {t("Email for a reply", "Email для відповіді")}
+                <input
+                  type="email"
+                  autoComplete="email"
+                  value={draft.email}
+                  onChange={(e) => update({ email: e.target.value })}
+                />
+              </label>
+              <label>
+                {t("Notes, systems or constraints", "Примітки, системи чи обмеження")}
+                <textarea
+                  rows={4}
+                  value={draft.notes}
+                  onChange={(e) => update({ notes: e.target.value })}
+                />
+              </label>
+            </fieldset>
+          </form>
           <p className="client-note">
             {t(
-              "This same text is used for download, email and print.",
-              "Цей самий текст використовується для завантаження, листа та друку.",
+              "Email opens a draft for your review. It does not send automatically. The same request is used for email, PDF, download and copy.",
+              "Відкривається чернетка листа для вашої перевірки. Автоматичного надсилання немає. Лист, PDF, завантаження й копіювання використовують той самий запит.",
             )}
           </p>
-          <pre className="client-summary">{summary}</pre>
+          <p className="client-note client-recipient">alexezav@gmail.com · dmitrfilim@gmail.com</p>
+          <div className="client-export-actions scope-action-cards">
+            <button
+              className="scope-action-card"
+              form="scope-response"
+              type="submit"
+              disabled={!ready}
+            >
+              <Mail size={20} />
+              <span>{t("Prepare an email", "Підготувати лист")}</span>
+            </button>
+            <button className="scope-action-card" onClick={() => window.print()}>
+              <Printer size={17} />
+              {t("Print / PDF", "Друк / PDF")}
+            </button>
+            <button className="scope-action-card" onClick={download}>
+              <Download size={17} />
+              {t("Download full text", "Завантажити текст")}
+            </button>
+            <button
+              className="scope-action-card"
+              onClick={async () => {
+                try {
+                  await navigator.clipboard.writeText(summary);
+                  setNotice(
+                    t(
+                      "Full summary copied. It has not been sent.",
+                      "Повний підсумок скопійовано. Його не надіслано.",
+                    ),
+                  );
+                } catch {
+                  setNotice(
+                    t(
+                      "Copy is unavailable. Download the request instead.",
+                      "Копіювання недоступне. Завантажте запит окремою дією.",
+                    ),
+                  );
+                }
+              }}
+            >
+              <Copy size={17} />
+              {t("Copy", "Копіювати")}
+            </button>
+          </div>
+          {notice && (
+            <p className="client-notice" role="status">
+              {notice}
+            </p>
+          )}
+          <label className="client-route-choice">
+            <input
+              type="checkbox"
+              checked={draft.oneOffResearch}
+              disabled={!ready}
+              onChange={(e) => update({ oneOffResearch: e.target.checked })}
+            />
+            <span>
+              {t(
+                "I would also like research on individual requests",
+                "Також бажаю отримувати дані за разовими замовленнями",
+              )}
+            </span>
+          </label>
+          <p className="client-note">
+            {t(
+              "Your contact details and choices are stored only in this browser until you send them yourself. This is a request for discussion, not an order or acceptance of a price.",
+              "Контактні дані й вибір зберігаються лише в цьому браузері до вашого надсилання. Це запит на обговорення, а не замовлення чи погодження ціни.",
+            )}
+          </p>{" "}
         </section>
         <footer className="client-scope-footer">
           <Link to="/proposal">{t("Back to the briefing", "До брифінгу")}</Link>
@@ -590,6 +509,11 @@ function ScopePage() {
           </p>
         </footer>
       </div>
+      <a className="scope-mobile-total" href="#scope-budget-panel">
+        <span>{t("Your indicative total", "Ваш індикативний підсумок")}</span>
+        <strong>{money(quote)}</strong>
+        <ArrowLeft size={17} aria-hidden="true" />
+      </a>
       <article className="client-print-summary">
         <pre>{summary}</pre>
       </article>

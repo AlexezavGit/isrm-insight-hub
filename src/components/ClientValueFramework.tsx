@@ -1,4 +1,5 @@
-import { CORE_CAPABILITIES, ENGAGEMENT_CYCLE, VALUE_PYRAMID } from "@/lib/client-value-framework";
+import { WorkflowOrbit } from "./WorkflowOrbit";
+import { CORE_CAPABILITIES, VALUE_PYRAMID } from "@/lib/client-value-framework";
 import type { ClientLocale, WorkflowId } from "@/lib/client-catalog";
 
 export function CoreCapabilities({
@@ -61,12 +62,20 @@ export function ExpertisePyramid({
       }
     >
       <div className="lighthouse-composition">
-        <svg viewBox="0 0 150 240" fill="none" aria-hidden="true">
-          <path className="lighthouse-rays" d="M59 44 5 19M59 51 0 51M92 44 145 19M92 51 150 51" />
-          <path d="m51 35 24-20 25 20H51Zm4 1h40v35H55V36Zm-7 36h55v9H48v-9ZM58 82 41 218m52-136 17 136M48 146h54M43 191h65M28 219h95v12H28v-12Z" />
-          <path className="lighthouse-lamp" d="M67 45h16v15H67zM61 65h28M67 37v27m17-27v27" />
-          <path d="M66 218v-21a10 10 0 0 1 20 0v21M66 121h18M67 116v10m15-10v10" />
-          <path className="lighthouse-water" d="M5 237h140M20 231h112" />
+        <svg viewBox="0 0 180 280" fill="none" aria-hidden="true">
+          <path
+            className="lighthouse-rays"
+            d="M68 53 8 30M68 61 0 61M111 53 173 30M111 61 180 61"
+          />
+          <path d="M64 42a26 13 0 0 1 52 0H64Zm4 1h44v38H68V43Z" />
+          <ellipse cx="90" cy="84" rx="31" ry="5" />
+          <path d="M60 83v9h60v-9M67 91c-2 66-10 112-18 153m64-153c2 66 10 112 18 153M49 244q41 8 82 0M39 254q51 11 102 0" />
+          <path className="lighthouse-lamp" d="M79 49h22v24H79zM90 49v24" />
+          <path d="M82 245v-23a8 8 0 0 1 16 0v23M85 123h10v14H85zM83 167h14v16H83z" />
+          <path
+            className="lighthouse-water"
+            d="M9 268q18-5 36 0t36 0 36 0 36 0M28 276q18-4 36 0t36 0 36 0"
+          />
         </svg>
         <ol>
           {VALUE_PYRAMID.map((level, index) => (
@@ -101,32 +110,5 @@ export function WorkflowValue({
   locale: ClientLocale;
   compact?: boolean;
 }) {
-  if (workflow === "expertise") return <ExpertisePyramid locale={locale} compact={compact} />;
-  return (
-    <figure className={`client-engagement-cycle ${compact ? "is-compact" : ""}`}>
-      <figcaption>
-        {locale === "uk"
-          ? "Цикл залучення експертів — як мережа розвивається сама"
-          : "The expert engagement cycle — how the network develops"}
-      </figcaption>
-      <ol>
-        {ENGAGEMENT_CYCLE.map((step, index) => (
-          <li key={step.id}>
-            <span className="client-cycle-number">{index + 1}</span>
-            <div>
-              <strong>{step.title[locale]}</strong>
-              {!compact && <p>{step.action[locale]}</p>}
-              <p className="client-cycle-opportunity">{step.opportunities[locale]}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
-      <p className="client-cycle-return">
-        ↻{" "}
-        {locale === "uk"
-          ? "Результати й нові потреби повертаються в адженду наступного циклу."
-          : "Findings and new needs shape the agenda for the next cycle."}
-      </p>
-    </figure>
-  );
+  return <WorkflowOrbit workflow={workflow} locale={locale} compact={compact} />;
 }

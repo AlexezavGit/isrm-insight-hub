@@ -78,10 +78,13 @@ export type ServiceId = (typeof CLIENT_SERVICES)[number]["id"];
 export const CLIENT_WORKFLOWS = [
   {
     id: "engagement",
-    title: { en: "Continuous engagement & opportunities", uk: "Постійне залучення та можливості" },
+    title: {
+      en: "Audience engagement & conversion cycle",
+      uk: "Цикл залучення та конверсії аудиторій",
+    },
     detail: {
-      en: "An ongoing cycle: relevant professional topics → useful interactions → understood needs → appropriate opportunities → feedback into the next cycle.",
-      uk: "Перманентний цикл: релевантні професійні теми → корисна взаємодія → розуміння потреб → відповідні можливості → зворотний зв’язок у наступний цикл.",
+      en: "A continuing pathway from followers and professional audiences in ISRM’s sphere of influence to relevant participation: paid membership, client services, learning, partnerships, candidate development and future leadership. Each interaction informs the next cycle.",
+      uk: "Постійний шлях від фоловерів і цільових аудиторій у зоні впливу ISRM до доречної участі: оплачуваного членства, клієнтських послуг, навчання, партнерства, розвитку кандидатів і майбутнього лідерства. Кожна взаємодія уточнює наступний цикл.",
     },
     serviceIds: ["groups", "contact", "integration", "publishing"] as ServiceId[],
     outputs: {
@@ -93,6 +96,7 @@ export const CLIENT_WORKFLOWS = [
         "Cross-selling & expanded engagements",
         "Client enquiries to colleagues & referrals",
         "Conference attendance",
+        "Candidates & future leadership",
       ],
       uk: [
         "Запити на навчання",
@@ -102,18 +106,19 @@ export const CLIENT_WORKFLOWS = [
         "Крос-селл та розширення замовлень",
         "Запити клієнтів у поле колег і реферали",
         "Відвідування конференцій",
+        "Кандидати та наступність лідерства",
       ],
     },
   },
   {
     id: "expertise",
     title: {
-      en: "Network expertise into shared capability",
-      uk: "Мережева експертиза у спільну спроможність",
+      en: "Expertise-to-products cycle",
+      uk: "Цикл трансформації експертизи у продукти",
     },
     detail: {
-      en: "Professional experience → source-backed findings → human review → reusable knowledge → learning, publications and client work. Over time, this could inform an AI assistant for consultants and perhaps a market-facing AI consultant, subject to rights, validation and a separate decision.",
-      uk: "Професійний досвід → висновки з джерелами → людська перевірка → повторно використовувані знання → навчання, публікації та клієнтська робота. Згодом це може стати основою AI-помічника консультантів і, можливо, AI-консультанта для ринку — за умови прав на дані, валідації та окремого рішення.",
+      en: "A managed flow of data and professional experience: review, synthesis and transformation into useful products for members and agreed external audiences. Workflows make participation manageable and preserve attribution. Experience from applying these products can renew the shared expertise and strengthen professional reputation.",
+      uk: "Керований потік даних і професійного досвіду: перевірка, синтез і трансформація в корисні продукти для членів та погоджених зовнішніх аудиторій. Workflow впорядковує участь і зберігає авторство. Досвід застосування продуктів може оновлювати спільну експертизу та зміцнювати професійну репутацію.",
     },
     serviceIds: ["groups", "research", "review", "evidence", "publishing"] as ServiceId[],
     outputs: {
