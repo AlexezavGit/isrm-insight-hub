@@ -74,16 +74,36 @@ function ScopePage() {
             </p>
             <h1>
               {t(
-                "Your priorities. Our next step together.",
-                "Ваші пріоритети. Наш наступний крок.",
+                "A project to develop safer professional communication and strengthen trust in network expertise across ISRM’s sphere of influence.",
+                "Проєкт із розвитку безпеки професійних комунікацій та зміцнення довіри до носіїв мережевої експертизи в зоні впливу ISRM.",
               )}
             </h1>
           </div>
         </header>
+        <p className="scope-project-subtitle">
+          {t(
+            "Agreement on digital application capabilities, stages and limits",
+            "Погодження функціональності цифрового додатку, етапів та лімітів",
+          )}
+        </p>
+        <section className="scope-trust-mandate">
+          <p className="scope-trust-slogan">
+            {t(
+              "Trust is a mandate in trusted consultancy.",
+              "Довіра — це мандат для сектору trusted consultancy.",
+            )}
+          </p>
+          <p>
+            {t(
+              "That mandate can change with the outcomes of interaction and the evidence that supports or challenges it. Timely, well-grounded information underpins professional judgement.",
+              "Цей мандат може змінюватися залежно від результатів взаємодії та даних, що підтверджують або спростовують підстави для довіри. Своєчасна поінформованість і перевірені дані — основа професійного судження.",
+            )}
+          </p>
+        </section>
         <p className="client-lede">
           {t(
-            "Choose the core capabilities and optional workflows that fit your priorities. Confirm an indicative budget direction or describe your constraints. Together, these form the basis for a tailored specification, delivery timetable and formal proposal.",
-            "Оберіть можливості ядра й опційні workflow під ваші пріоритети. Визначте прийнятний бюджетний орієнтир або опишіть обмеження. Разом це стане основою детального ТЗ, строків виконання й формальної пропозиції.",
+            "The project combines data verification, research and the development of network expertise with safer professional communication and the automation of agreed routine operations. AI assists research, completeness checks and the identification of insights and effective practices; professional review remains essential. AI-generated misinformation makes the provenance and verification of evidence increasingly valuable.",
+            "Проєкт поєднує перевірку даних, дослідження й розвиток мережевої експертизи з безпечнішою професійною комунікацією та автоматизацією погоджених рутинних операцій. ШІ допомагає досліджувати, перевіряти повноту даних, знаходити інсайти й ефективні практики; професійна перевірка висновків залишається необхідною. Поширення згенерованої ШІ дезінформації посилює значення походження й верифікації доказів.",
           )}
         </p>
         <DataUseNotice context="scope" />
@@ -93,7 +113,11 @@ function ScopePage() {
             <WorkflowDeck locale={locale} draft={draft} ready={ready} update={update} />
             <section className="client-scope-card">
               <h2>
-                {t("Your descriptions", "Ваші описи")} ({draft.requests.length})
+                {t(
+                  "Client-described service capabilities and workflows",
+                  "Описані замовником сервісні функціональності та workflow",
+                )}{" "}
+                ({draft.requests.length})
               </h2>
               <label className="client-route-choice">
                 <input
@@ -167,6 +191,11 @@ function ScopePage() {
                     <div>
                       <h3>{step.title[locale]}</h3>
                       <p>{step.detail[locale]}</p>
+                      <ul>
+                        {step.results[locale].map((result) => (
+                          <li key={result}>{result}</li>
+                        ))}
+                      </ul>
                     </div>
                   </li>
                 ))}

@@ -129,6 +129,29 @@ export function WorkflowDeck({ locale, draft, ready, update }: Props) {
           </header>
           <div className="scope-workflow-body">
             <p className="scope-workflow-description">{w.detail[locale]}</p>
+            {w.id === "engagement" ? (
+              <p>
+                {uk
+                  ? "Передбачає розробку й проведення погодженої медіакампанії в соціальних мережах для залучення майбутніх членів асоціації та користувачів послуг ISRM. Аудиторії, канали, матеріали, бюджет розміщення й відповідальність уточнюються на етапі ТЗ."
+                  : "Includes the development and delivery of an agreed social media campaign for prospective members and users of ISRM services. Audiences, channels, content, media spend and responsibilities are defined in the specification."}
+              </p>
+            ) : (
+              <p>
+                {uk
+                  ? "Накопичення, трансформація й поширення експертизи можуть підтримувати залучення клієнтів і платне членство, навчальні запити, реферали та спільні послуги. Вплив на професійну репутацію, довіру й гонорари оцінюється за результатами практики; автоматичне підвищення статусу чи рейтингу не передбачається."
+                  : "Accumulating, transforming and sharing expertise can support client acquisition, paid membership, learning enquiries, referrals and joint services. Effects on professional reputation, trust and fees are assessed through outcomes; no automatic status or ranking improvement is implied."}
+              </p>
+            )}
+            <p className="scope-deck-hint">
+              {uk ? "Функціональні сервіси" : "Functional services"}
+            </p>
+            <ul className="scope-workflow-services">
+              {w.serviceIds.map((id) => (
+                <li key={id}>
+                  {CLIENT_SERVICES.find((service) => service.id === id)?.title[locale] ?? id}
+                </li>
+              ))}
+            </ul>
             {draft.mode !== "full" && (
               <p className="client-note">
                 {uk
