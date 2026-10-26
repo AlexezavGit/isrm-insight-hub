@@ -52,7 +52,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       {showGlobal && (
         <div className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-end p-3 sm:p-4">
           <div className="pointer-events-auto">
-            <LanguageSwitcher />
+            <AccessControl />
           </div>
         </div>
       )}
@@ -108,7 +108,7 @@ export function AccessControl() {
         {level === "guest" ? (
           <Button onClick={() => setOpen(true)} size="sm">
             <LogIn />
-            Sign in
+            {locale === "uk" ? "Увійти в кабінет" : "Member sign in"}
           </Button>
         ) : (
           <Button
@@ -118,7 +118,7 @@ export function AccessControl() {
             className="border-primary/60 bg-primary/10 text-primary"
           >
             {level === "coordinator" ? <ShieldCheck /> : <LogOut />}
-            <span className="hidden sm:inline">Sign out</span>
+            <span className="hidden sm:inline">{locale === "uk" ? "Вийти" : "Sign out"}</span>
           </Button>
         )}
       </div>
@@ -156,6 +156,10 @@ function UnlockDialog({ onClose }: { onClose: () => void }) {
     >
       <form
         onSubmit={submit}
+        role="dialog"
+        aria-modal="true"
+        aria-label={t("revealFull")}
+        onKeyDown={(e) => { if (e.key === "Escape") onClose(); }}
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-md rounded-lg border border-border bg-card p-6 shadow-2xl"
       >
@@ -166,6 +170,9 @@ function UnlockDialog({ onClose }: { onClose: () => void }) {
         <p className="mt-2 text-sm text-muted-foreground">{t("accessHelp")}</p>
         <input
           autoFocus
+          type="password"
+          autoComplete="current-password"
+          aria-label={t("accessPassword")}
           value={val}
           onChange={(e) => setVal(e.target.value)}
           className="mt-5 w-full rounded border border-input bg-background px-3 py-2.5 font-mono text-sm outline-none focus:border-primary"

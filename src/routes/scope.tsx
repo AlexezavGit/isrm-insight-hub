@@ -4,7 +4,7 @@ import { ArrowLeft, Download, Mail, Printer, Copy } from "lucide-react";
 import { useClientDraft } from "@/components/ClientDraftProvider";
 import { CoreCapabilities, WorkflowValue } from "@/components/ClientValueFramework";
 import { ClientAccessibility } from "@/components/ClientAccessibility";
-import { LanguageSwitcher } from "@/components/AppShell";
+import { AccessControl } from "@/components/AppShell";
 import { useI18n } from "@/lib/i18n";
 import { CLIENT_SERVICES, CLIENT_WORKFLOWS } from "@/lib/client-catalog";
 import { CLIENT_APPROVED_PRICES, clientQuote } from "@/lib/client-pricing";
@@ -59,7 +59,7 @@ function ScopePage() {
         </Link>
         <div className="client-topbar-actions">
           <ClientAccessibility />
-          <LanguageSwitcher />
+          <AccessControl />
         </div>
       </header>
       <div className="client-scope-shell">

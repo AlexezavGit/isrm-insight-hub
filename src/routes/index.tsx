@@ -6,7 +6,7 @@ import { applyFilters, FilterBar, useFilters, EMPTY } from "@/lib/filters";
 import { VerifyBadge } from "@/components/AppShell";
 import { ClientConfiguration } from "@/components/ClientConfiguration";
 import { ClientAccessibility } from "@/components/ClientAccessibility";
-import { LanguageSwitcher } from "@/components/AppShell";
+import { AccessControl } from "@/components/AppShell";
 import { useClientDraft } from "@/components/ClientDraftProvider";
 import {
   Dialog,
@@ -276,7 +276,7 @@ function NetworkPage() {
           <div className="pointer-events-auto shrink-0">
             <div className="pointer-events-auto flex flex-wrap justify-end gap-2">
               <ClientAccessibility />
-              <LanguageSwitcher />
+              <AccessControl />
             </div>
           </div>
         </div>

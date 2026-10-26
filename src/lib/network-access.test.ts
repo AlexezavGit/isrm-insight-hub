@@ -2,8 +2,21 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { resolveAccess, buildExperts } from "./experts.server";
 
-test("private network denies guest data and names/codes never grant board access", () => {
-  assert.deepEqual(buildExperts("guest"), []);
+test("public network exposes only anonymous profiles and codes never grant board access", () => {
+  const anonymous = buildExperts("guest");
+  const privateProfiles = buildExperts("referral");
+  assert.ok(anonymous.length > 0);
+  assert.equal(anonymous.length, privateProfiles.length);
+  assert.ok(anonymous.some((r, i) => r.displayName !== privateProfiles[i].displayName));
+  for (const r of anonymous) {
+    for (const key of ["organization", "role", "phone", "linkedin", "source", "sensitivity"] as const)
+      assert.equal(r[key], undefined);
+    assert.equal(r.evidence, "");
+    assert.equal(r.contribution, "");
+    assert.equal(r.potentialRole, "");
+    assert.equal(r.caseTheme, undefined);
+    assert.equal(r.internationalRelevance, undefined);
+  }
   assert.equal(resolveAccess("").level, "guest");
   assert.equal(resolveAccess("EXP-004").level, "guest");
   assert.equal(resolveAccess("not-a-password").level, "guest");

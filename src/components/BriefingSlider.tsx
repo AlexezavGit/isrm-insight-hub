@@ -5,6 +5,7 @@ import { useI18n } from "@/lib/i18n";
 import { useAccess } from "@/lib/access";
 import { ExpertisePyramid } from "./ClientValueFramework";
 import { ClientAccessibility } from "./ClientAccessibility";
+import { AccessControl } from "./AppShell";
 import { CLIENT_WORKFLOWS } from "@/lib/client-catalog";
 const NetworkGraph = lazy(() => import("./NetworkGraph"));
 const slides = [
@@ -128,7 +129,7 @@ const slides = [
   },
 ] as const;
 export function BriefingSlider() {
-  const { locale, setLocale } = useI18n();
+  const { locale } = useI18n();
   const uk = locale === "uk";
   const [slide, setSlide] = useState(0);
   const [mounted, setMounted] = useState(false);
@@ -162,13 +163,7 @@ export function BriefingSlider() {
         </Link>
         <div className="client-topbar-actions">
           <ClientAccessibility />
-          <div className="client-language" role="group" aria-label={uk ? "Мова" : "Language"}>
-            {(["en", "uk"] as const).map((l) => (
-              <button key={l} aria-pressed={locale === l} onClick={() => setLocale(l)}>
-                {l === "uk" ? "UA" : "EN"}
-              </button>
-            ))}
-          </div>
+          <AccessControl />
         </div>
       </header>
       <section

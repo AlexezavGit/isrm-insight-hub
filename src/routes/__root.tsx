@@ -12,7 +12,6 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { AccessProvider } from "../lib/access";
 import { I18nProvider } from "../lib/i18n";
-import { BoardAccessGate } from "../components/BoardAccessGate";
 import { ClientDraftProvider } from "../components/ClientDraftProvider";
 import { AppShell } from "../components/AppShell";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -133,9 +132,7 @@ function RootComponent() {
         <I18nProvider>
           <ClientDraftProvider>
             <AppShell>
-              <BoardAccessGate>
-                <Outlet />
-              </BoardAccessGate>
+              <Outlet />
             </AppShell>
           </ClientDraftProvider>
         </I18nProvider>

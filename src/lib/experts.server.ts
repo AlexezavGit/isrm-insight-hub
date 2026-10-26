@@ -22,7 +22,6 @@ function ukraineCategory(t: string) {
 }
 
 export function buildExperts(level: AccessLevel): Expert[] {
-  if (level === "guest") return [];
   return (raw as Raw[]).map((r) => {
     const ed = r.expertise_details;
     const vd = r.verified_details || {};
@@ -48,6 +47,14 @@ export function buildExperts(level: AccessLevel): Expert[] {
       potentialRole: ed.potential_role,
       caseTheme: vd.case_study_theme,
       internationalRelevance: vd.international_relevance,
+    };
+    if (level === "guest") return {
+      ...base,
+      evidence: "",
+      contribution: "",
+      potentialRole: "",
+      caseTheme: undefined,
+      internationalRelevance: undefined,
     };
     return {
       ...base,
