@@ -8331,3 +8331,88 @@ body,
     bottom: 64px;
   }
 }
+
+/* Mobile navigation: eight joined, equally sized translucent index tabs. */
+@media (max-width: 760px) {
+  .client-briefing .client-slide-surface .client-slide-footer {
+    padding-inline: 1.1rem;
+  }
+  .client-briefing .client-slide-navigation {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    width: 100%;
+    gap: 0;
+    align-items: stretch;
+    isolation: isolate;
+  }
+  .client-briefing .client-slide-dots {
+    display: contents;
+  }
+  .client-briefing .client-slide-navigation > .client-icon-button,
+  .client-briefing .client-slide-dots > button {
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    height: 44px;
+    min-height: 44px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid color-mix(in oklab, var(--ds-blue) 32%, transparent);
+    border-bottom: 4px solid color-mix(in oklab, var(--ds-blue) 38%, var(--ds-paper));
+    border-radius: 11px 11px 3px 3px;
+    background: linear-gradient(
+      135deg,
+      oklch(1 0 0 / 0.5),
+      oklch(1 0 0 / 0.12) 42%,
+      oklch(0.8 0.025 190 / 0.14) 70%,
+      oklch(1 0 0 / 0.35)
+    );
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow:
+      inset 1px 1px 0 oklch(1 0 0 / 0.85),
+      inset -1px -2px 2px oklch(0.2 0.025 220 / 0.18),
+      1px 2px 2px oklch(0.12 0.02 230 / 0.16);
+    color: var(--ds-blue);
+    font-size: 0.9rem;
+    font-variant-numeric: tabular-nums;
+    text-decoration: none;
+  }
+  .client-briefing .client-slide-dots > button + button {
+    margin: 0;
+  }
+  .client-briefing .client-slide-navigation .client-icon-button svg {
+    width: 20px;
+    height: 20px;
+  }
+  .client-briefing .client-slide-dots > button[aria-current] {
+    z-index: 2;
+    font-weight: 800;
+    border-top: 3px solid var(--ds-blue);
+    border-bottom-color: var(--ds-blue);
+    background: linear-gradient(
+      135deg,
+      oklch(1 0 0 / 0.75),
+      color-mix(in oklab, var(--ds-gold) 20%, transparent)
+    );
+    box-shadow:
+      inset 1px 1px 0 oklch(1 0 0 / 0.9),
+      inset -1px -2px 2px oklch(0.2 0.025 220 / 0.2),
+      0 2px 3px oklch(0.12 0.02 230 / 0.22);
+  }
+  .client-briefing .client-slide-navigation :is(button, a):focus-visible {
+    z-index: 4;
+    outline: 2px solid var(--ds-blue);
+    outline-offset: 2px;
+  }
+  .client-high-contrast .client-briefing .client-slide-navigation :is(button, a) {
+    background: var(--ds-paper);
+    border-color: var(--ds-blue);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
