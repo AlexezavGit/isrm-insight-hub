@@ -95,8 +95,8 @@ function ScopePage() {
           </p>
           <p>
             {t(
-              "That mandate can change with the outcomes of interaction and the evidence that supports or challenges it. Timely, well-grounded information underpins professional judgement.",
-              "Цей мандат може змінюватися залежно від результатів взаємодії та даних, що підтверджують або спростовують підстави для довіри. Своєчасна поінформованість і перевірені дані — основа професійного судження.",
+              "That mandate can change with the outcomes of interaction and the evidence that supports or challenges it. Timely awareness and verified information underpin trusted consultancy.",
+              "Цей мандат може змінюватися залежно від результатів взаємодії та даних, що підтверджують або спростовують підстави для довіри. Своєчасна поінформованість і перевірені дані — основа trusted consultancy.",
             )}
           </p>
         </section>

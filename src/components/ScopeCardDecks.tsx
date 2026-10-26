@@ -46,6 +46,11 @@ export function CoreServiceDeck({ locale, draft, ready, update }: Props) {
       <h2 id="scope-core-title">
         {uk ? "Сервісна функціональність ядра" : "Core service capabilities"}
       </h2>
+      <p className="scope-core-description">
+        {uk
+          ? "Плановане ядро горизонтальної взаємодії всередині та за межами ISRM: завантаження й нормалізація даних, міні-резюме та повні досьє, налаштовувані поля й типи зв’язків, граф за погодженими зрізами, концентраторами й мультиплікаторами зв’язків. Пошук, додавання та редагування інформації, формування long lists і груп, селекція, дедуплікація та поліпшення даних. Інтеграція з AI OSINT із збереженням джерел і людською перевіркою висновків; погоджені підключення до комунікаційних застосунків, баз мережевої експертизи, дистанційного навчання та наявних систем управління проєктами. Конкретні конектори, права доступу й обсяги обробки визначаються в ТЗ та оцінюються окремими роботами; власна PM-система не передбачається за замовчуванням. Це обсяг майбутнього рішення: демонстрація не реалізує всі перелічені можливості."
+          : "The planned foundation for horizontal collaboration within and beyond ISRM: data import and normalisation, mini-profiles and full dossiers, configurable fields and relationship types, and graph views across agreed dimensions, connection hubs and multipliers. Search, information updates, long lists and groups, selection, deduplication and data improvement. AI OSINT integration retains sources and human review; agreed connections link communication tools, expertise repositories, learning platforms and existing project-management systems. Specific connectors, access rights and processing volumes are defined and estimated as explicit work packages; a bespoke PM system is not assumed. This describes the future solution; the demonstration does not implement every capability."}
+      </p>
       <CoreCapabilities locale={locale} />
       <p className="client-note">
         {uk
@@ -140,6 +145,13 @@ export function WorkflowDeck({ locale, draft, ready, update }: Props) {
                 {uk
                   ? "Накопичення, трансформація й поширення експертизи можуть підтримувати залучення клієнтів і платне членство, навчальні запити, реферали та спільні послуги. Вплив на професійну репутацію, довіру й гонорари оцінюється за результатами практики; автоматичне підвищення статусу чи рейтингу не передбачається."
                   : "Accumulating, transforming and sharing expertise can support client acquisition, paid membership, learning enquiries, referrals and joint services. Effects on professional reputation, trust and fees are assessed through outcomes; no automatic status or ranking improvement is implied."}
+              </p>
+            )}
+            {w.id === "engagement" && (
+              <p className="client-note">
+                {uk
+                  ? "Ще не оцінено й не включено до наведеного числового орієнтира: стратегія, креатив, підготовка та проведення кампанії, модерація, аналіз результатів і медіарозміщення. Гонорар виконавців та прямі витрати погоджуються окремо."
+                  : "Not yet estimated or included in the numerical indication: campaign strategy, creative work, preparation and delivery, moderation, results analysis and media spend. Delivery fees and direct expenses require separate agreement."}
               </p>
             )}
             <p className="scope-deck-hint">
