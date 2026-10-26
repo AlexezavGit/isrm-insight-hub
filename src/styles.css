@@ -8416,3 +8416,63 @@ body,
     -webkit-backdrop-filter: none;
   }
 }
+
+/* Confine the briefing to the actual mobile viewport, including Safari toolbar changes. */
+@media (max-width: 760px) {
+  html:has(.client-briefing),
+  body:has(.client-briefing) {
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior-y: none;
+  }
+  .client-briefing {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100svh;
+    height: 100dvh;
+    max-height: 100dvh;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding-bottom: max(0.45rem, env(safe-area-inset-bottom));
+  }
+  .client-briefing .client-topbar {
+    min-height: 56px;
+    flex-shrink: 0;
+  }
+  .client-briefing .client-slide-surface {
+    min-height: 0;
+    flex: 1 1 0;
+    margin-block: 0;
+  }
+  .client-briefing .client-slide-content {
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior-y: contain;
+  }
+  .client-briefing .is-final-slide {
+    grid-template-rows: 112px minmax(0, 1fr) 64px;
+  }
+  .client-briefing .is-final-slide .client-slide-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .client-briefing .is-final-slide .briefing-slide-context {
+    bottom: 72px;
+  }
+  .client-briefing .client-slide-navigation > .client-icon-button,
+  .client-briefing .client-slide-dots > button {
+    margin: 0;
+    min-width: 0;
+    width: 100%;
+    height: 44px;
+    min-height: 44px;
+  }
+  .client-briefing .client-backdrop-caption {
+    min-height: 0;
+    margin: 0;
+    flex-shrink: 0;
+  }
+}

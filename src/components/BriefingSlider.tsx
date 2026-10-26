@@ -132,37 +132,28 @@ export function BriefingSlider() {
           <BriefingVisual index={slide} slide={current} locale={locale} />
         </div>
         <footer className="client-slide-footer">
-          <div className="client-slide-navigation">
-            <button
-              className="client-icon-button"
-              disabled={slide === 0}
-              onClick={() => setSlide((s) => s - 1)}
-              aria-label={uk ? "Попередній слайд" : "Previous slide"}
-            >
-              <ArrowLeft />
-            </button>
-            <div className="client-slide-dots">
-              {BRIEFING_SLIDES.map((s, i) => (
-                <button
-                  key={s.label.en}
-                  aria-label={`${uk ? "Слайд" : "Slide"} ${i + 1}`}
-                  aria-current={slide === i ? "step" : undefined}
-                  onClick={() => setSlide(i)}
-                >
-                  {i + 1}
-                </button>
-              ))}
-            </div>
-            {slide === BRIEFING_SLIDES.length - 1 ? (
-              <Link
-                to="/"
-                search={{ view: "map" }}
+          {!lastSlide && (
+            <div className="client-slide-navigation">
+              <button
                 className="client-icon-button"
-                aria-label={uk ? "Відкрити граф" : "Open the network graph"}
+                disabled={slide === 0}
+                onClick={() => setSlide((s) => s - 1)}
+                aria-label={uk ? "Попередній слайд" : "Previous slide"}
               >
-                <ArrowRight />
-              </Link>
-            ) : (
+                <ArrowLeft />
+              </button>
+              <div className="client-slide-dots">
+                {BRIEFING_SLIDES.map((s, i) => (
+                  <button
+                    key={s.label.en}
+                    aria-label={`${uk ? "Слайд" : "Slide"} ${i + 1}`}
+                    aria-current={slide === i ? "step" : undefined}
+                    onClick={() => setSlide(i)}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+              </div>
               <button
                 className="client-icon-button"
                 onClick={() => setSlide((s) => s + 1)}
@@ -170,8 +161,8 @@ export function BriefingSlider() {
               >
                 <ArrowRight />
               </button>
-            )}
-          </div>
+            </div>
+          )}
           {lastSlide && (
             <div className="client-inline-actions briefing-final-actions">
               <Link to="/scope" className="client-text-button briefing-final-action">
