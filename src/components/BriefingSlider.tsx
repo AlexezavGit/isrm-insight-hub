@@ -16,6 +16,8 @@ export function BriefingSlider() {
   const [mounted, setMounted] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(true);
   const content = useRef<HTMLDivElement>(null);
+  const swipeStart = useRef<{ x: number; y: number; time: number } | null>(null);
+  const lastSlide = slide === BRIEFING_SLIDES.length - 1;
   const { data } = useAccess();
   const current = BRIEFING_SLIDES[slide]!;
   useEffect(() => {
@@ -50,7 +52,37 @@ export function BriefingSlider() {
         </div>
       </header>
       <section
-        className="client-slide-surface"
+        className={`client-slide-surface ${lastSlide ? "is-final-slide" : "is-reading-slide"}`}
+        onTouchStart={(e) => {
+          swipeStart.current = null;
+          if (
+            e.touches.length !== 1 ||
+            (e.target as HTMLElement).closest(
+              "a, button, input, textarea, select, summary, details, [contenteditable=true]",
+            )
+          )
+            return;
+          const touch = e.touches[0]!;
+          swipeStart.current = { x: touch.clientX, y: touch.clientY, time: Date.now() };
+        }}
+        onTouchCancel={() => {
+          swipeStart.current = null;
+        }}
+        onTouchEnd={(e) => {
+          const start = swipeStart.current;
+          swipeStart.current = null;
+          if (!start || e.touches.length || e.changedTouches.length !== 1) return;
+          const end = e.changedTouches[0]!,
+            dx = end.clientX - start.x,
+            dy = end.clientY - start.y;
+          if (
+            Math.abs(dx) < 48 ||
+            Math.abs(dx) < Math.abs(dy) * 1.4 ||
+            Date.now() - start.time > 1000
+          )
+            return;
+          setSlide((s) => Math.max(0, Math.min(BRIEFING_SLIDES.length - 1, s + (dx < 0 ? 1 : -1))));
+        }}
         aria-roledescription={uk ? "Презентація" : "carousel"}
         aria-label={
           uk
@@ -140,15 +172,20 @@ export function BriefingSlider() {
               </button>
             )}
           </div>
-          <div className="client-inline-actions">
-            <Link to="/scope" className="client-text-button">
-              {uk ? "Обсяг і бюджет" : "Scope & budget"}
-            </Link>
-            <Link to="/" search={{ view: "map" }} className="client-button">
-              {uk ? "Дослідити інструмент" : "Explore the tool"}
-              <ArrowRight size={18} />
-            </Link>
-          </div>
+          {lastSlide && (
+            <div className="client-inline-actions briefing-final-actions">
+              <Link to="/scope" className="client-text-button briefing-final-action">
+                {uk ? "Обсяг і бюджет" : "Scope & budget"}
+              </Link>
+              <Link
+                to="/"
+                search={{ view: "map" }}
+                className="client-button briefing-final-action briefing-explore-action"
+              >
+                {uk ? "Дослідити інструмент" : "Explore the tool"}
+              </Link>
+            </div>
+          )}
         </footer>
         <details className="briefing-slide-context">
           <summary>
