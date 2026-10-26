@@ -1,18 +1,26 @@
+import { useDismissibleDetails } from "./useDismissibleDetails";
 import { useI18n } from "@/lib/i18n";
 /** Layered demonstration information; not a claim of legal approval or a live operational policy. */
 export function DataUseNotice({
   context = "network",
+  compact = false,
 }: {
   context?: "network" | "scope" | "profile";
+  compact?: boolean;
 }) {
   const { locale } = useI18n();
   const uk = locale === "uk";
+  const hint = useDismissibleDetails();
   return (
-    <details className={`client-data-notice client-data-notice-${context}`}>
+    <details ref={hint} className={`client-data-notice client-data-notice-${context}`}>
       <summary>
-        {uk
-          ? "Дані, доступ і професійна відповідальність"
-          : "Data, access & professional responsibility"}
+        {compact
+          ? uk
+            ? "Дані й OSINT"
+            : "Data & OSINT"
+          : uk
+            ? "Дані, доступ і професійна відповідальність"
+            : "Data, access & professional responsibility"}
       </summary>
       <p>
         {uk

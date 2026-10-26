@@ -8,6 +8,7 @@ import { AccessControl } from "./AppShell";
 import { BriefingVisual } from "./BriefingVisual";
 import { BRIEFING_SLIDES } from "@/lib/briefing-slides";
 import { BriefingNetworkBackdrop } from "./BriefingNetworkBackdrop";
+import { useDismissibleDetails } from "./useDismissibleDetails";
 import { DataUseNotice } from "./DataUseNotice";
 export function BriefingSlider() {
   const { locale } = useI18n();
@@ -20,6 +21,7 @@ export function BriefingSlider() {
   const lastSlide = slide === BRIEFING_SLIDES.length - 1;
   const { data } = useAccess();
   const current = BRIEFING_SLIDES[slide]!;
+  const hint = useDismissibleDetails();
   useEffect(() => {
     setMounted(true);
     const query = matchMedia("(prefers-reduced-motion: reduce)");
@@ -178,21 +180,21 @@ export function BriefingSlider() {
             </div>
           )}
         </footer>
-        <details className="briefing-slide-context">
+        <details key={slide} ref={hint} className="briefing-slide-context">
           <summary>
             <Info size={15} aria-hidden="true" />
             <span>{uk ? "Пояснення" : "Context"}</span>
           </summary>
-          <p>{current.note[locale]}</p>
+          <p>
+            <strong>{uk ? "OSINT очікує на підключення." : "OSINT connection pending."}</strong>
+            <br />
+            {current.note[locale]}
+          </p>
         </details>
       </section>
       <div className="client-backdrop-caption">
-        <p>
-          {uk
-            ? "Демонстрація · Передана вибірка · AI OSINT ще не підключено"
-            : "Demonstration · Supplied sample · AI OSINT not yet connected"}
-        </p>
-        <DataUseNotice />
+        <p>{uk ? "Демонстрація · Передана вибірка" : "Demonstration · Supplied sample"}</p>
+        <DataUseNotice key={slide} compact />
       </div>
     </main>
   );

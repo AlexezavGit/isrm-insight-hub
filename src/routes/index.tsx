@@ -1,6 +1,6 @@
 import { DataUseNotice } from "@/components/DataUseNotice";
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
-import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { FileText, Search, SlidersHorizontal, UserRound, X, Presentation } from "lucide-react";
 import { useAccess } from "@/lib/access";
 import { applyFilters, FilterBar, useFilters, EMPTY } from "@/lib/filters";
@@ -76,6 +76,22 @@ function NetworkPage() {
   const [activeService, setActiveService] = useState<string | null>(null);
   const [exploredServices, setExploredServices] = useState<ServiceId[]>([]);
   const [visibleCount, setVisibleCount] = useState(0);
+  const networkHeader = useRef<HTMLElement>(null);
+  const networkRoot = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const header = networkHeader.current,
+      root = networkRoot.current;
+    if (!header || !root) return;
+    const measure = () =>
+      root.style.setProperty(
+        "--network-top-inset",
+        `${header.getBoundingClientRect().height + 10}px`,
+      );
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, []);
   const [groupOpen, setGroupOpen] = useState(false);
   const { panel, stage, preset } = Route.useSearch();
   const [f, setF] = useFilters();
@@ -158,7 +174,10 @@ function NetworkPage() {
         };
 
   return (
-    <main className="relative h-[100svh] min-h-0 overflow-hidden">
+    <main
+      ref={networkRoot}
+      className="client-network-page relative h-[100svh] min-h-0 overflow-hidden"
+    >
       <section
         className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--color-card),transparent_68%)] transition-[left,right] duration-300"
         style={{
@@ -253,8 +272,11 @@ function NetworkPage() {
         )}
       </section>
 
-      <header className="pointer-events-none absolute inset-x-0 top-0 z-30 p-3 sm:p-4">
-        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
+      <header
+        ref={networkHeader}
+        className="client-network-header pointer-events-none absolute inset-x-0 top-0 z-30 p-3 sm:p-4"
+      >
+        <div className="client-network-header-row grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
           <div className="min-w-0 flex flex-wrap items-center gap-2">
             <div className="inline-flex items-center gap-2 rounded border border-border bg-panel/70 px-3 py-1.5 backdrop-blur-xl">
               <span className="h-2 w-2 animate-pulse rounded-full bg-success" />
@@ -275,7 +297,7 @@ function NetworkPage() {
             </div>
           </div>
           <div className="pointer-events-auto shrink-0">
-            <div className="pointer-events-auto flex flex-wrap justify-end gap-2">
+            <div className="client-network-header-actions pointer-events-auto flex flex-wrap justify-end gap-2">
               <ClientAccessibility />
               <AccessControl />
             </div>
@@ -412,15 +434,9 @@ function NetworkPage() {
         <span>● {locale === "uk" ? "Профіль" : "Profile"}</span>
         <span>○ {locale === "uk" ? "Тема / сектор" : "Theme / sector"}</span>
         <span>□ {locale === "uk" ? "Хаб" : "Hub"}</span>
-        <span>
-          —{" "}
-          {locale === "uk"
-            ? "Тематична відповідність; не особиста рекомендація"
-            : "Thematic match; not a personal endorsement"}
-        </span>
       </div>
       <div className="client-network-data-notice">
-        <DataUseNotice />
+        <DataUseNotice compact />
       </div>
       <nav
         className="client-network-dock"
@@ -467,17 +483,6 @@ function NetworkPage() {
         >
           <FileText size={21} />
           <span>Workflows</span>
-        </button>
-        <button
-          onClick={() => {
-            setGroupOpen(true);
-            setFocus(null);
-          }}
-        >
-          <UserRound size={21} />
-          <span>
-            {locale === "uk" ? "Група" : "Group"} ({draft.shortlist.length})
-          </span>
         </button>
         <Link to="/scope" className="is-primary">
           <FileText size={21} />

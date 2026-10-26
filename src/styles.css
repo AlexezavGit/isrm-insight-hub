@@ -8476,3 +8476,130 @@ body,
     flex-shrink: 0;
   }
 }
+
+/* Hints remain inside the viewport and never cover the controls above the graph. */
+.briefing-slide-context[open] {
+  position: fixed;
+  left: max(1rem, env(safe-area-inset-left));
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(84px, calc(env(safe-area-inset-bottom) + 70px));
+  width: auto;
+  max-width: 560px;
+  margin-left: auto;
+  max-height: 60dvh;
+  overflow: auto;
+  padding: 1rem;
+  background: var(--ds-paper);
+  border: 1px solid var(--ds-blue);
+  border-radius: 14px 14px 3px 3px;
+  box-shadow: 0 10px 35px oklch(0.1 0.02 230 / 0.3);
+}
+.briefing-slide-context[open] > p {
+  position: static;
+  width: auto;
+  max-height: none;
+  overflow: visible;
+  box-shadow: none;
+  border: 0;
+  padding: 0.75rem 0 0;
+}
+.client-network-page .client-config-panel {
+  top: var(--network-top-inset, 90px);
+  bottom: calc(104px + env(safe-area-inset-bottom));
+  max-height: none;
+  background: var(--ds-paper);
+  color: var(--ds-ink);
+  --client-ink: var(--ds-ink);
+  --client-subtle: var(--ds-blue);
+  --client-line: color-mix(in oklab, var(--ds-blue) 30%, transparent);
+}
+.client-config-panel .scope-workflow-orbit {
+  color: var(--ds-blue);
+}
+.client-network-page .client-network-data-notice {
+  top: auto;
+  left: auto;
+  right: 1rem;
+  bottom: calc(106px + env(safe-area-inset-bottom));
+  max-width: 135px;
+  text-align: right;
+}
+.client-network-page .client-graph-legend {
+  bottom: calc(106px + env(safe-area-inset-bottom));
+  max-width: calc(100vw - 165px);
+}
+@media (max-width: 760px) {
+  .client-network-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+  }
+  .client-network-header-row > div:first-child {
+    flex: 0 1 90px;
+  }
+  .client-network-header-row > div:first-child > div:first-child {
+    padding: 0.4rem;
+  }
+  .client-network-header-row .tech-label {
+    font-size: 0.6rem;
+  }
+  .client-network-header-actions {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.2rem;
+    align-items: center;
+  }
+  .client-network-header .client-accessibility button {
+    height: 34px;
+    min-height: 34px;
+    padding: 0.3rem;
+    font-size: 0.65rem;
+  }
+  .client-network-header .client-member-signin > span {
+    display: none;
+  }
+  .client-network-header .client-member-signin {
+    width: 34px;
+    min-width: 34px;
+    height: 34px;
+    padding: 0.3rem;
+  }
+  .client-network-page .client-config-panel {
+    bottom: calc(110px + env(safe-area-inset-bottom));
+  }
+  .client-network-page .client-config-panel .client-panel-footer {
+    position: static;
+    background: var(--ds-paper);
+  }
+  .client-network-page .client-network-dock {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    bottom: max(0.5rem, env(safe-area-inset-bottom));
+  }
+  .client-network-page .client-network-dock > :is(button, a) {
+    min-width: 0;
+    font-size: 0.68rem;
+  }
+  .client-network-page .client-graph-legend {
+    font-size: 0.55rem;
+  }
+}
+@media (max-width: 760px) {
+  .client-topbar .client-topbar-actions button,
+  .client-network-header .client-network-header-actions button {
+    height: 34px;
+    min-height: 34px;
+    box-sizing: border-box;
+  }
+  .client-topbar-actions > div:not(.client-accessibility),
+  .client-network-header-actions > div:not(.client-accessibility) {
+    padding: 0;
+    border: 0;
+    height: 34px;
+    align-items: stretch;
+  }
+  .client-topbar .client-wordmark {
+    min-height: 34px;
+    justify-content: center;
+  }
+}
