@@ -8069,3 +8069,198 @@ body,
     margin-left: 8%;
   }
 }
+
+/* Three independent scope blocks; each decision meets its amount on one rule. */
+.scope-card-cabinet .scope-linear-layout {
+  display: block;
+}
+.scope-card-cabinet .scope-page-title {
+  margin: 1.2rem 0 1.5rem;
+  border: 1px solid var(--scope-card-line);
+  border-radius: 18px 18px 3px 3px;
+  padding: 0.9rem;
+}
+.scope-card-cabinet .scope-page-title > div {
+  width: 100%;
+}
+.scope-card-cabinet .scope-workflow-tab {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.scope-card-cabinet .scope-workflow-tab h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  line-height: 1.25;
+}
+.scope-block-decision {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+  min-height: 72px;
+  border-top: 2px solid var(--scope-orange);
+  border-bottom: 1px solid var(--scope-card-line);
+  margin-top: 1.5rem;
+  padding: 0.75rem 0;
+}
+.scope-block-decision .client-text-button {
+  justify-self: start;
+  margin: 0;
+}
+.scope-block-choice {
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  min-height: 44px;
+  cursor: pointer;
+}
+.scope-block-choice input {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  accent-color: var(--scope-orange);
+}
+.scope-block-price {
+  text-align: right;
+  font-size: 1.35rem;
+  color: var(--scope-orange);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.scope-card-cabinet .scope-linear-layout > .client-scope-budget {
+  position: static;
+  margin-top: 2rem;
+  max-height: none;
+  overflow: visible;
+}
+.scope-card-cabinet .scope-linear-layout .client-price-receipt {
+  max-height: none;
+  overflow: visible;
+}
+@media (max-width: 600px) {
+  .scope-block-decision {
+    gap: 0.5rem;
+  }
+  .scope-block-price {
+    font-size: 1.2rem;
+  }
+  .scope-card-cabinet .scope-workflow-tab h2 {
+    font-size: 1.1rem;
+  }
+  .scope-card-cabinet .scope-page-title {
+    padding: 0.5rem;
+  }
+}
+
+.client-three-levels {
+  margin: 0;
+  color: var(--ds-blue);
+  width: 100%;
+}
+.client-three-levels > ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+}
+.value-structure-level {
+  position: relative;
+  isolation: isolate;
+  padding: 0.85rem 1.4rem;
+  text-align: center;
+}
+.value-structure-level::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: color-mix(in oklab, var(--ds-blue) 12%, var(--ds-paper));
+  clip-path: polygon(9% 0, 91% 0, 100% 100%, 0 100%);
+}
+.value-structure-level::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: var(--ds-gold);
+}
+.value-structure-level.level-0 {
+  width: 70%;
+}
+.value-structure-level.level-1 {
+  width: 85%;
+}
+.value-structure-level.level-2 {
+  width: 100%;
+}
+.value-structure-level.level-2::before {
+  background: var(--ds-blue);
+}
+.value-structure-level.level-2 {
+  color: var(--ds-paper);
+}
+.value-structure-level > span {
+  display: block;
+  font:
+    0.6rem/1.4 "IBM Plex Mono",
+    monospace;
+  margin-bottom: 0.35rem;
+}
+.value-structure-level > strong {
+  display: block;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+.client-three-levels figcaption {
+  margin-top: 0.8rem;
+  text-align: center;
+  font-size: 0.73rem;
+  line-height: 1.4;
+}
+@media (max-width: 760px) {
+  .client-scope .client-topbar,
+  .client-briefing .client-topbar {
+    flex-wrap: nowrap;
+    gap: 0.35rem;
+  }
+  .client-scope .client-topbar-actions,
+  .client-briefing .client-topbar-actions {
+    max-width: none;
+    min-width: 0;
+    flex-wrap: nowrap;
+    gap: 0.2rem;
+  }
+  .client-accessibility {
+    flex-wrap: nowrap;
+    gap: 0.15rem;
+  }
+  .client-accessibility button {
+    white-space: nowrap;
+  }
+  .value-structure-level {
+    padding: 0.6rem 0.7rem;
+  }
+  .value-structure-level > strong {
+    font-size: 0.87rem;
+  }
+}
+@media (max-width: 480px) {
+  .client-topbar .client-member-signin > span {
+    display: none;
+  }
+  .client-topbar .client-member-signin {
+    width: 34px;
+    min-width: 34px;
+    padding-inline: 0.4rem;
+  }
+  .client-topbar-actions > div {
+    flex-shrink: 0;
+  }
+  .client-topbar-actions .client-accessibility {
+    flex-shrink: 1;
+  }
+}

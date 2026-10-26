@@ -4,7 +4,6 @@ import { DataUseNotice } from "@/components/DataUseNotice";
 import { useState } from "react";
 import { ArrowLeft, Download, Mail, Printer, Copy } from "lucide-react";
 import { useClientDraft } from "@/components/ClientDraftProvider";
-import { CoreCapabilities } from "@/components/ClientValueFramework";
 import { ClientAccessibility } from "@/components/ClientAccessibility";
 import { AccessControl } from "@/components/AppShell";
 import { useI18n } from "@/lib/i18n";
@@ -68,41 +67,27 @@ function ScopePage() {
           <ArrowLeft size={18} />
           {t("Back to the network", "До мережі")}
         </Link>
-        <p className="client-eyebrow">
-          {t("A basis for our next conversation", "Основа наступної розмови")}
-        </p>
-        <h1>
-          {t("Your priorities. Our next step together.", "Ваші пріоритети. Наш наступний крок.")}
-        </h1>
+        <header className="client-slide-topline scope-page-title">
+          <div>
+            <p className="client-eyebrow">
+              {t("A basis for our next conversation", "Основа наступної розмови")}
+            </p>
+            <h1>
+              {t(
+                "Your priorities. Our next step together.",
+                "Ваші пріоритети. Наш наступний крок.",
+              )}
+            </h1>
+          </div>
+        </header>
         <p className="client-lede">
           {t(
             "Choose the core capabilities and optional workflows that fit your priorities. Confirm an indicative budget direction or describe your constraints. Together, these form the basis for a tailored specification, delivery timetable and formal proposal.",
             "Оберіть можливості ядра й опційні workflow під ваші пріоритети. Визначте прийнятний бюджетний орієнтир або опишіть обмеження. Разом це стане основою детального ТЗ, строків виконання й формальної пропозиції.",
           )}
         </p>
-        <section className="client-scope-card">
-          <p className="client-eyebrow">
-            {t(
-              "Core application · three delivery stages",
-              "Базовий застосунок · три етапи виконання",
-            )}
-          </p>
-          <h2>
-            {t(
-              "Safer professional communication and trusted network expertise",
-              "Безпечніша професійна комунікація та довіра до мережевої експертизи",
-            )}
-          </h2>
-          <p>
-            {t(
-              "The core application imports and improves data, supports configurable profile fields, mini-profiles and dossiers, maps relationships, enables search and working lists, and connects AI-assisted open-source research with accountable human review and agreed ISRM systems.",
-              "Ядро завантажує й покращує дані, підтримує налаштовувані поля, міні-профілі та досьє, мапує зв’язки, забезпечує пошук і робочі списки та поєднує AI OSINT з відповідальною людською перевіркою й погодженими системами ISRM.",
-            )}
-          </p>
-        </section>
         <DataUseNotice context="scope" />
-        <CoreCapabilities locale={locale} />
-        <div className="client-scope-grid">
+        <div className="client-scope-grid scope-linear-layout">
           <div>
             <CoreServiceDeck locale={locale} draft={draft} ready={ready} update={update} />
             <WorkflowDeck locale={locale} draft={draft} ready={ready} update={update} />
@@ -156,49 +141,6 @@ function ScopePage() {
                 </p>
               )}
             </section>
-            <section className="client-scope-card">
-              <h2>{t("Which route fits your needs?", "Який варіант вам підходить?")}</h2>
-              {(
-                [
-                  [
-                    "full",
-                    t("Tailored network application", "Застосунок для роботи з мережею"),
-                    t(
-                      "Core capabilities with the services and workflows selected below.",
-                      "Базові можливості з обраними нижче сервісами та workflow.",
-                    ),
-                  ],
-                  [
-                    "graph",
-                    t("Start with graph & search", "Почати з графа та пошуку"),
-                    t(
-                      "A smaller standalone scope using the existing foundation; optional additions can be discussed.",
-                      "Менший самодостатній обсяг на наявній основі; доповнення можна обговорити окремо.",
-                    ),
-                  ],
-                ] as const
-              ).map(([mode, title, detail]) => (
-                <label className="client-route-choice" key={mode}>
-                  <input
-                    type="radio"
-                    name="route"
-                    checked={draft.mode === mode}
-                    disabled={!ready}
-                    onChange={() => update({ mode })}
-                  />
-                  <span>
-                    <strong>{title}</strong>
-                    <span>{detail}</span>
-                  </span>
-                </label>
-              ))}
-              <p className="client-note">
-                {t(
-                  "Changing to a simpler route clears service and workflow selections. Your written requests remain available but are excluded from that route until you return to the application.",
-                  "Перехід до простішого варіанта скидає вибрані сервіси та workflow. Власні описи зберігаються, але не входять до цього варіанта до повернення до застосунку.",
-                )}
-              </p>
-            </section>
             <section className="client-scope-card scope-next-iteration">
               <p className="client-eyebrow">
                 {t("Possible second iteration", "Можлива друга ітерація")}
@@ -233,6 +175,67 @@ function ScopePage() {
                 {t(
                   "Proposed payment shares, subject to the final agreement. They are delivery stages, not separate feature packages.",
                   "Частки платежів пропонуються для остаточної угоди. Це етапи виконання, а не окремі функціональні пакети.",
+                )}
+              </p>
+            </section>
+            <section className="client-scope-card scope-fallback">
+              <p className="client-eyebrow">
+                {t("A smaller starting point", "Менший стартовий обсяг")}
+              </p>
+              <h2>{t("Graph & search", "Граф і пошук")}</h2>
+              <p>
+                {t(
+                  "A standalone route on the existing foundation: explore the supplied sample, search and prepare a working shortlist. Additional capabilities can be discussed separately.",
+                  "Самостійний варіант на наявній основі: перегляд переданої вибірки, пошук і підготовка робочого списку. Додаткові можливості можна обговорити окремо.",
+                )}
+              </p>
+              <footer className="scope-block-decision">
+                <Link to="/" search={{ view: "map" }} className="client-text-button">
+                  {t("Explore the graph", "Переглянути граф")}
+                </Link>
+                <strong className="scope-block-price">{money(CLIENT_APPROVED_PRICES.graph)}</strong>
+              </footer>
+            </section>
+            <section className="client-scope-card">
+              <h2>{t("Which route fits your needs?", "Який варіант вам підходить?")}</h2>
+              {(
+                [
+                  [
+                    "full",
+                    t("Tailored network application", "Застосунок для роботи з мережею"),
+                    t(
+                      "Core capabilities with the services and workflows selected above.",
+                      "Базові можливості з обраними вище сервісами та workflow.",
+                    ),
+                  ],
+                  [
+                    "graph",
+                    t("Start with graph & search", "Почати з графа та пошуку"),
+                    t(
+                      "A smaller standalone scope using the existing foundation; optional additions can be discussed.",
+                      "Менший самодостатній обсяг на наявній основі; доповнення можна обговорити окремо.",
+                    ),
+                  ],
+                ] as const
+              ).map(([mode, title, detail]) => (
+                <label className="client-route-choice" key={mode}>
+                  <input
+                    type="radio"
+                    name="route"
+                    checked={draft.mode === mode}
+                    disabled={!ready}
+                    onChange={() => update({ mode })}
+                  />
+                  <span>
+                    <strong>{title}</strong>
+                    <span>{detail}</span>
+                  </span>
+                </label>
+              ))}
+              <p className="client-note">
+                {t(
+                  "Changing to a simpler route clears service and workflow selections. Your written requests remain available but are excluded from that route until you return to the application.",
+                  "Перехід до простішого варіанта скидає вибрані сервіси та workflow. Власні описи зберігаються, але не входять до цього варіанта до повернення до застосунку.",
                 )}
               </p>
             </section>

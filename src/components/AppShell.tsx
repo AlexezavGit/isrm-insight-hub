@@ -106,9 +106,15 @@ export function AccessControl() {
           </Button>
         ))}
         {level === "guest" ? (
-          <Button onClick={() => setOpen(true)} size="sm">
+          <Button
+            onClick={() => setOpen(true)}
+            size="sm"
+            className="client-member-signin"
+            aria-label={locale === "uk" ? "Увійти в кабінет" : "Member sign in"}
+            title={locale === "uk" ? "Увійти в кабінет" : "Member sign in"}
+          >
             <LogIn />
-            {locale === "uk" ? "Увійти в кабінет" : "Member sign in"}
+            <span>{locale === "uk" ? "Увійти в кабінет" : "Member sign in"}</span>
           </Button>
         ) : (
           <Button
@@ -159,7 +165,9 @@ function UnlockDialog({ onClose }: { onClose: () => void }) {
         role="dialog"
         aria-modal="true"
         aria-label={t("revealFull")}
-        onKeyDown={(e) => { if (e.key === "Escape") onClose(); }}
+        onKeyDown={(e) => {
+          if (e.key === "Escape") onClose();
+        }}
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-md rounded-lg border border-border bg-card p-6 shadow-2xl"
       >

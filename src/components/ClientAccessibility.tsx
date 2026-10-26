@@ -28,8 +28,14 @@ export function ClientAccessibility() {
       role="group"
       aria-label={locale === "uk" ? "Доступність" : "Accessibility"}
     >
-      <button type="button" aria-pressed={large} onClick={() => setLarge(!large)}>
-        {locale === "uk" ? "Аа · Більший текст" : "Aa · Larger text"}
+      <button
+        type="button"
+        aria-label={locale === "uk" ? "Збільшити текст" : "Larger text"}
+        title={locale === "uk" ? "Збільшити текст" : "Larger text"}
+        aria-pressed={large}
+        onClick={() => setLarge(!large)}
+      >
+        <span aria-hidden="true">А-а</span>
       </button>
       <button type="button" aria-pressed={contrast} onClick={() => setContrast(!contrast)}>
         {locale === "uk" ? "Контраст" : "Contrast"}
