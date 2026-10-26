@@ -5,6 +5,7 @@ import { useRouterState } from "@tanstack/react-router";
 import { useAccess } from "@/lib/access";
 import { checkAccess } from "@/lib/network.functions";
 import { useI18n } from "@/lib/i18n";
+import { useClientDraft } from "./ClientDraftProvider";
 import { Button } from "@/components/ui/button";
 
 /** Standalone language toggle — renders EN / UK buttons. */
@@ -38,12 +39,13 @@ export function LanguageSwitcher() {
  * we only render the floating global switcher on all other routes.
  */
 export function AppShell({ children }: { children: ReactNode }) {
+  const { error, reset, draft, backup } = useClientDraft();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   // Pages with their own language switcher in their own header
   const PAGES_WITH_OWN_SWITCHER = ["/", "/proposal", "/partner", "/partner-finance", "/scope"];
-  const showGlobal = !PAGES_WITH_OWN_SWITCHER.some((pg) => pathname === pg || pathname.startsWith(pg + "/"));
-
-
+  const showGlobal = !PAGES_WITH_OWN_SWITCHER.some(
+    (pg) => pathname === pg || pathname.startsWith(pg + "/"),
+  );
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -52,6 +54,30 @@ export function AppShell({ children }: { children: ReactNode }) {
           <div className="pointer-events-auto">
             <LanguageSwitcher />
           </div>
+        </div>
+      )}
+      {error && (
+        <div className="client-storage-error" role="alert">
+          <p>{error}</p>
+          <button
+            onClick={() => {
+              const blob = new Blob(
+                [JSON.stringify({ retained: backup, currentDraft: draft }, null, 2)],
+                {
+                  type: "text/plain",
+                },
+              );
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = url;
+              a.download = "ISRM-stored-draft.txt";
+              a.click();
+              setTimeout(() => URL.revokeObjectURL(url), 1000);
+            }}
+          >
+            Download stored draft
+          </button>
+          <button onClick={reset}>Start a new draft</button>
         </div>
       )}
       {children}

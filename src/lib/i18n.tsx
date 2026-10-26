@@ -100,8 +100,8 @@ const dictionary: Dictionary = {
   safeRequest: { uk: "Безпечний запит контакту", en: "Secure contact request" },
   sendCoordinator: { uk: "Надіслати координатору", en: "Send to coordinator" },
   requestSent: {
-    uk: "Запит передано координатору. Він зв'яжеться з експертом та поверне відповідь.",
-    en: "The request was sent to the coordinator, who will contact the expert and follow up.",
+    uk: "Локальну демонстраційну чернетку збережено. Повідомлення координатору не надіслано.",
+    en: "Local demonstration draft saved. No message has been sent to a coordinator.",
   },
   contactConsent: {
     uk: "Контакт встановлюється лише через координатора ISRM — експерт дає згоду до розкриття даних.",

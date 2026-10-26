@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Expert } from "./types";
 import { useI18n } from "./i18n";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,34 @@ export const EMPTY: Filters = {
 };
 
 export function useFilters() {
-  return useState<Filters>(EMPTY);
+  const [filters, setFilters] = useState<Filters>(EMPTY);
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem("isrm-demo-filters");
+      if (raw) {
+        const value = JSON.parse(raw);
+        if (
+          value &&
+          ["q", "sector", "country", "theme", "role"].every((k) => typeof value[k] === "string") &&
+          ["all", "verified", "queue"].includes(value.verified)
+        )
+          setFilters(value);
+      }
+    } catch {
+      /* Filtering remains available without storage. */
+    }
+    setLoaded(true);
+  }, []);
+  useEffect(() => {
+    if (loaded)
+      try {
+        sessionStorage.setItem("isrm-demo-filters", JSON.stringify(filters));
+      } catch {
+        /* Session-only preference. */
+      }
+  }, [filters, loaded]);
+  return [filters, setFilters] as const;
 }
 
 export function applyFilters(list: Expert[], f: Filters) {

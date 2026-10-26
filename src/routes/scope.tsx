@@ -1,391 +1,596 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowLeft, ExternalLink, ShieldCheck } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  CLIENT_OFFER_PACKAGES,
-  CLIENT_CONSULTING_OPTION,
-  CLIENT_PRICING_STATUS,
-} from "@/lib/client-proposal-data";
-import { CLIENT_OFFER_COMBINED_ESTIMATE } from "@/lib/proposal-data";
-import { MARKET_BENCHMARKS } from "@/lib/proposal-data";
+import { ArrowLeft, Download, Mail, Printer, Copy } from "lucide-react";
+import { useClientDraft } from "@/components/ClientDraftProvider";
+import { CoreCapabilities, WorkflowValue } from "@/components/ClientValueFramework";
+import { ClientAccessibility } from "@/components/ClientAccessibility";
+import { LanguageSwitcher } from "@/components/AppShell";
 import { useI18n } from "@/lib/i18n";
-import { ContactDialog } from "@/components/ContactDialog";
-
+import { CLIENT_SERVICES, CLIENT_WORKFLOWS } from "@/lib/client-catalog";
+import { CLIENT_APPROVED_PRICES, clientQuote } from "@/lib/client-pricing";
+import { BRIEFING_MILESTONES } from "@/lib/briefing-milestones";
+import { buildClientSummary, emailHref, selectedServiceIds } from "@/lib/client-draft";
 export const Route = createFileRoute("/scope")({
   head: () => ({
     meta: [
-      { title: "ISRM — Scope & Budget" },
+      { title: "ISRM · Scope & budget discussion" },
       {
         name: "description",
         content:
-          "Review ISRM project scope and indicative budget. Select the sections that apply and indicate your budget position.",
+          "Review your selected services, workflows, custom needs and budget position before requesting a detailed proposal.",
       },
-      { property: "og:title", content: "ISRM — Scope & Budget" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: ScopePage,
 });
-
-// The three scope sections
-const SCOPE_SECTIONS = [
-  {
-    id: "mvp",
-    number: "01",
-    title: { en: "Application MVP", uk: "MVP застосунку" },
-    included: true, // always on
-    description: {
-      en: "Expert search, group selection, project assignment, profile review and evidence record. The first useful standalone product — not a demo.",
-      uk: "Пошук експертів, відбір групи, призначення до проєкту, перевірка профілю та запис доказів. Перший самостійно корисний продукт — не демо.",
-    },
-    features: {
-      en: ["Expert search and filtering", "Purpose-based group selection", "Profile and evidence review", "Project goal and task tracking", "First contact preparation"],
-      uk: ["Пошук і фільтрування експертів", "Відбір групи за метою", "Перегляд профілю й доказів", "Облік цілей і задач проєкту", "Підготовка першого контакту"],
-    },
-    packageIndex: 0,
-  },
-  {
-    id: "pilot",
-    number: "02",
-    title: { en: "Expert engagement cycle", uk: "Цикл залучення експертів" },
-    included: false, // opt-in
-    description: {
-      en: "Recruitment campaigns, TII co-design, structured working groups and a findings report. Optional after the MVP is accepted — requires a separate decision.",
-      uk: "Кампанії залучення, спільне проєктування TII, структуровані робочі групи та звіт. Опційно після прийняття MVP — потребує окремого рішення.",
-    },
-    features: {
-      en: ["Expert recruitment campaigns", "Trust & Influence Index co-design", "Agenda-based working groups", "Community questionnaire", "Publications and findings report"],
-      uk: ["Кампанії залучення експертів", "Спільне проєктування TII", "Тематичні робочі групи", "Опитувальник спільноти", "Публікації та звіт"],
-    },
-    packageIndex: 1,
-  },
-  {
-    id: "consulting",
-    number: "03",
-    title: { en: "Consulting & strategy", uk: "Консалтинг і стратегія" },
-    included: false, // opt-in
-    description: {
-      en: "Strategic sessions to define expertise priorities, prepare the board for decisions and co-design the TII framework. A separate engagement — not bundled into development.",
-      uk: "Стратегічні сесії для визначення пріоритетів експертизи, підготовки борду до рішень і спільного проєктування рамки TII. Окрема залученість — не включена у вартість розробки.",
-    },
-    features: {
-      en: ["Expertise gap analysis", "Board decision facilitation", "TII framework co-design"],
-      uk: ["Аналіз прогалин в експертизі", "Фасилітація рішень борду", "Спільне проєктування рамки TII"],
-    },
-    packageIndex: null, // consulting is separately priced
-  },
-] as const;
-
 function ScopePage() {
-  const { locale, setLocale } = useI18n();
-  const [contactOpen, setContactOpen] = useState(false);
-  const [budgetInput, setBudgetInput] = useState("");
-  const [budgetChoice, setBudgetChoice] = useState<"approve" | "limit" | null>(null);
-  // Which optional sections are checked
-  const [pilotIncluded, setPilotIncluded] = useState(false);
-  const [consultingIncluded, setConsultingIncluded] = useState(false);
+  const { draft, update, ready } = useClientDraft();
+  const { locale } = useI18n();
   const uk = locale === "uk";
-  const text = (en: string, ua: string) => (uk ? ua : en);
-
-  const money = (value: number) =>
-    new Intl.NumberFormat(uk ? "uk-UA" : "en-US", {
-      style: "currency",
-      currency: "USD",
-      maximumFractionDigits: 0,
-    }).format(value);
-
-  // Price visibility: MVP always shown (high contrast), others gain contrast when checked
-  const mvpPrice = CLIENT_OFFER_PACKAGES[0];
-  const pilotPrice = CLIENT_OFFER_PACKAGES[1];
-
+  const t = (en: string, ua: string) => (uk ? ua : en);
+  const [notice, setNotice] = useState("");
+  const ids = selectedServiceIds(draft);
+  const quote = clientQuote(draft);
+  const money = (value: number | null) =>
+    value === null
+      ? t("Pending approval", "Очікує погодження")
+      : new Intl.NumberFormat(locale === "uk" ? "uk-UA" : "en-GB", {
+          style: "currency",
+          currency: CLIENT_APPROVED_PRICES.currency,
+          maximumFractionDigits: 0,
+        }).format(value);
+  const summary = buildClientSummary(draft, locale);
+  const validLimit =
+    draft.budgetPosition !== "limit" ||
+    (Number(draft.budgetCeiling) > 0 && Number.isFinite(Number(draft.budgetCeiling)));
+  const download = () => {
+    const url = URL.createObjectURL(new Blob([summary], { type: "text/plain;charset=utf-8" }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "ISRM-scope-request.txt";
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
   return (
-    <main className="partner-review client-proposal client-offer">
-      <div className="partner-shell">
-        {/* ── Header ────────────────────────────────────────────────── */}
-        <header className="partner-header">
+    <main className="client-scope">
+      <header className="client-topbar">
+        <Link to="/proposal" className="client-wordmark">
+          ISRM <span>INSIGHT HUB</span>
+        </Link>
+        <div className="client-topbar-actions">
+          <ClientAccessibility />
+          <LanguageSwitcher />
+        </div>
+      </header>
+      <div className="client-scope-shell">
+        <Link className="client-back-link" to="/" search={{ view: "map" }}>
+          <ArrowLeft size={18} />
+          {t("Back to the network", "До мережі")}
+        </Link>
+        <p className="client-eyebrow">
+          {t("A basis for our next conversation", "Основа наступної розмови")}
+        </p>
+        <h1>
+          {t("Your priorities. A scope we can discuss.", "Ваші пріоритети. Обсяг для обговорення.")}
+        </h1>
+        <p className="client-lede">
+          {t(
+            "Review the functions you would find useful. Add a budget boundary if you have one. We will use this to prepare a detailed specification, timetable and offer.",
+            "Перегляньте потрібні функції. Додайте бюджетне обмеження, якщо воно є. Це стане основою детального ТЗ, строків і пропозиції.",
+          )}
+        </p>
+        <section className="client-scope-card">
+          <p className="client-eyebrow">
+            {t(
+              "Core application · three delivery stages",
+              "Базовий застосунок · три етапи виконання",
+            )}
+          </p>
+          <h2>
+            {t(
+              "Safer professional communication and trusted network expertise",
+              "Безпечніша професійна комунікація та довіра до мережевої експертизи",
+            )}
+          </h2>
+          <p>
+            {t(
+              "The core application imports and improves data, supports configurable profile fields, mini-profiles and dossiers, maps relationships, enables search and working lists, and connects AI-assisted open-source research with accountable human review and agreed ISRM systems.",
+              "Ядро завантажує й покращує дані, підтримує налаштовувані поля, міні-профілі та досьє, мапує зв’язки, забезпечує пошук і робочі списки та поєднує AI OSINT з відповідальною людською перевіркою й погодженими системами ISRM.",
+            )}
+          </p>
+        </section>
+        <CoreCapabilities locale={locale} />
+        <div className="client-scope-grid">
           <div>
-            <Button asChild variant="ghost" className="partner-back">
-              <Link to="/proposal">
-                <ArrowLeft aria-hidden="true" />
-                {text("Back to the expert network", "До мережі експертів")}
-              </Link>
-            </Button>
-            <p className="partner-eyebrow">{text("ISRM · Scope & Budget", "ISRM · Обсяг і бюджет")}</p>
-            <h1>{text("What will be built — and what it costs", "Що буде побудовано — і скільки це коштує")}</h1>
-            <p className="partner-lede">
-              {text(
-                "The MVP is included by default. Check the optional sections that fit your needs, then indicate your budget position.",
-                "MVP включено за замовчуванням. Позначте опційні розділи, які відповідають вашим потребам, потім вкажіть свою позицію щодо бюджету.",
-              )}
-            </p>
-          </div>
-          <div className="partner-header-status">
-            <div className="partner-locale-switch" role="group" aria-label={text("Page language", "Мова сторінки")}>
-              <button type="button" aria-pressed={!uk} className={!uk ? "is-active" : ""} onClick={() => setLocale("en")}>EN</button>
-              <button type="button" aria-pressed={uk} className={uk ? "is-active" : ""} onClick={() => setLocale("uk")}>UA</button>
-            </div>
-            <span className="partner-badge">{text("Indicative · not a quote", "Індикативно · не оферта")}</span>
-          </div>
-        </header>
-
-        {/* ── Main two-column layout: sections left, price right ─────── */}
-        <div className="scope-layout">
-
-          {/* LEFT: scope sections */}
-          <div className="scope-sections">
-
-            {/* Section 01 — MVP (always included, no checkbox) */}
-            <article className="scope-section scope-section--active" aria-labelledby="scope-mvp-heading">
-              <div className="scope-section-header">
-                <span className="scope-section-number">01</span>
-                <div>
-                  <h2 id="scope-mvp-heading" className="scope-section-title">
-                    {text("Application MVP", "MVP застосунку")}
-                  </h2>
-                  <span className="scope-section-badge scope-section-badge--included">
-                    {text("Included", "Включено")}
+            <section className="client-scope-card">
+              <h2>{t("Which route fits your needs?", "Який варіант вам підходить?")}</h2>
+              {(
+                [
+                  [
+                    "full",
+                    t("Tailored network application", "Застосунок для роботи з мережею"),
+                    t(
+                      "Core capabilities with the services and workflows selected below.",
+                      "Базові можливості з обраними нижче сервісами та workflow.",
+                    ),
+                  ],
+                  [
+                    "graph",
+                    t("Start with graph & search", "Почати з графа та пошуку"),
+                    t(
+                      "A smaller standalone scope using the existing foundation; optional additions can be discussed.",
+                      "Менший самодостатній обсяг на наявній основі; доповнення можна обговорити окремо.",
+                    ),
+                  ],
+                ] as const
+              ).map(([mode, title, detail]) => (
+                <label className="client-route-choice" key={mode}>
+                  <input
+                    type="radio"
+                    name="route"
+                    checked={draft.mode === mode}
+                    disabled={!ready}
+                    onChange={() => update({ mode })}
+                  />
+                  <span>
+                    <strong>{title}</strong>
+                    <span>{detail}</span>
                   </span>
-                </div>
-              </div>
-              <p className="scope-section-desc">
-                {text(
-                  "Expert search, group selection, project assignment, profile review and evidence record. The first useful standalone product.",
-                  "Пошук експертів, відбір групи, призначення до проєкту, перевірка профілю та запис доказів. Перший самостійно корисний продукт.",
+                </label>
+              ))}
+              <p className="client-note">
+                {t(
+                  "Changing to a simpler route clears service and workflow selections. Your written requests remain available but are excluded from that route until you return to the application.",
+                  "Перехід до простішого варіанта скидає вибрані сервіси та workflow. Власні описи зберігаються, але не входять до цього варіанта до повернення до застосунку.",
                 )}
               </p>
-              <ul className="scope-feature-list">
-                {(uk
-                  ? ["Пошук і фільтрування експертів", "Відбір групи за метою", "Перегляд профілю й доказів", "Облік цілей і задач проєкту", "Підготовка першого контакту"]
-                  : ["Expert search and filtering", "Purpose-based group selection", "Profile and evidence review", "Project goal and task tracking", "First contact preparation"]
-                ).map((f) => <li key={f}>{f}</li>)}
-              </ul>
-            </article>
-
-            {/* Section 02 — Engagement cycle (opt-in) */}
-            <article
-              className={`scope-section${pilotIncluded ? " scope-section--active" : ""}`}
-              aria-labelledby="scope-pilot-heading"
-            >
-              <div className="scope-section-header">
-                <span className="scope-section-number">02</span>
-                <div style={{ flex: 1 }}>
-                  <label className="scope-section-label" htmlFor="include-pilot">
-                    <h2 id="scope-pilot-heading" className="scope-section-title">
-                      {text("Expert engagement cycle", "Цикл залучення експертів")}
-                    </h2>
-                  </label>
-                  <label className="scope-checkbox-label" htmlFor="include-pilot">
+            </section>
+            {draft.mode === "graph" && (
+              <section className="client-scope-card">
+                <h2>
+                  {t(
+                    "Optional additions to graph & search",
+                    "Опційні доповнення до графа й пошуку",
+                  )}
+                </h2>
+                {CLIENT_SERVICES.filter((s) =>
+                  ["groups", "contact", "research", "integration"].includes(s.id),
+                ).map((s) => (
+                  <label className="client-route-choice" key={s.id}>
                     <input
-                      id="include-pilot"
                       type="checkbox"
-                      checked={pilotIncluded}
-                      onChange={(e) => setPilotIncluded(e.target.checked)}
-                      className="scope-checkbox"
+                      checked={draft.serviceIds.includes(s.id)}
+                      disabled={!ready}
+                      onChange={(e) =>
+                        update({
+                          serviceIds: e.target.checked
+                            ? [...draft.serviceIds, s.id]
+                            : draft.serviceIds.filter((id) => id !== s.id),
+                        })
+                      }
                     />
-                    <span>{text("Include in scope", "Включити до scope")}</span>
+                    <span>
+                      <strong>{s.title[locale]}</strong>
+                      <span>{money(CLIENT_APPROVED_PRICES.addons[s.id] ?? null)}</span>
+                    </span>
                   </label>
-                </div>
-              </div>
-              <p className="scope-section-desc">
-                {text(
-                  "Recruitment campaigns, TII co-design, structured working groups and a findings report. Optional after the MVP is accepted.",
-                  "Кампанії залучення, спільне проєктування TII, структуровані робочі групи та звіт. Опційно після прийняття MVP.",
-                )}
-              </p>
-              <ul className="scope-feature-list">
-                {(uk
-                  ? ["Кампанії залучення експертів", "Спільне проєктування TII", "Тематичні робочі групи", "Опитувальник спільноти", "Публікації та звіт"]
-                  : ["Expert recruitment campaigns", "Trust & Influence Index co-design", "Agenda-based working groups", "Community questionnaire", "Publications and findings report"]
-                ).map((f) => <li key={f}>{f}</li>)}
+                ))}
+              </section>
+            )}
+            <section className="client-scope-card">
+              <h2>{t("Selected services", "Обрані сервіси")}</h2>
+              <ul className="client-scope-service-list">
+                {CLIENT_SERVICES.filter((s) => ids.includes(s.id)).map((s) => (
+                  <li key={s.id}>
+                    <strong>{s.title[locale]}</strong>
+                    <p>{s.detail[locale]}</p>
+                    <span className="client-status">{s.status[locale]}</span>
+                  </li>
+                ))}
               </ul>
-            </article>
-
-            {/* Section 03 — Consulting (opt-in, single checkbox → immediate price) */}
-            <article
-              className={`scope-section${consultingIncluded ? " scope-section--active" : ""}`}
-              aria-labelledby="scope-consulting-heading"
-            >
-              <div className="scope-section-header">
-                <span className="scope-section-number">03</span>
-                <div style={{ flex: 1 }}>
-                  <label className="scope-section-label" htmlFor="include-consulting">
-                    <h2 id="scope-consulting-heading" className="scope-section-title">
-                      {text("Consulting & strategy", "Консалтинг і стратегія")}
-                    </h2>
-                  </label>
-                  <label className="scope-checkbox-label" htmlFor="include-consulting">
+              <Link to="/" search={{ stage: "configuration" }} className="client-text-button">
+                {t("Change services", "Змінити сервіси")} →
+              </Link>
+            </section>
+            <section className="client-scope-card">
+              <h2>{t("Optional workflows", "Опційні workflow")}</h2>
+              {CLIENT_WORKFLOWS.map((w) => (
+                <article key={w.id}>
+                  <label className="client-route-choice">
                     <input
-                      id="include-consulting"
                       type="checkbox"
-                      checked={consultingIncluded}
-                      onChange={(e) => setConsultingIncluded(e.target.checked)}
-                      className="scope-checkbox"
+                      checked={draft.workflowIds.includes(w.id)}
+                      disabled={!ready || draft.mode !== "full"}
+                      onChange={(e) =>
+                        update({
+                          workflowIds: e.target.checked
+                            ? [...draft.workflowIds, w.id]
+                            : draft.workflowIds.filter((id) => id !== w.id),
+                        })
+                      }
                     />
-                    <span>{text("Include in scope", "Включити до scope")}</span>
+                    <strong>{w.title[locale]}</strong>
                   </label>
-                </div>
-              </div>
-              <p className="scope-section-desc">
-                {text(
-                  "Strategic sessions, board preparation, expertise gap analysis and TII framework co-design. Separately priced — not bundled into development.",
-                  "Стратегічні сесії, підготовка борду, аналіз прогалин в експертизі та спільне проєктування рамки TII. Окрема ціна — не включена у розробку.",
-                )}
-              </p>
-              <ul className="scope-feature-list">
-                {(uk
-                  ? ["Аналіз прогалин в експертизі", "Фасилітація рішень борду", "Спільне проєктування рамки TII"]
-                  : ["Expertise gap analysis", "Board decision facilitation", "TII framework co-design"]
-                ).map((f) => <li key={f}>{f}</li>)}
-              </ul>
-              {consultingIncluded && (
-                <p className="partner-muted" style={{ marginTop: "0.75rem", fontSize: "0.875rem" }}>
-                  {CLIENT_CONSULTING_OPTION[uk ? "uk" : "en"]}
+                  <p className="client-price-tag">
+                    {t("Indicative addition:", "Індикативне доповнення:")}{" "}
+                    {money(CLIENT_APPROVED_PRICES[w.id])}
+                  </p>
+                  <p>{w.detail[locale]}</p>
+                  <WorkflowValue workflow={w.id} locale={locale} />
+                  <ul className="client-output-tags">
+                    {w.outputs[locale].map((o) => (
+                      <li key={o}>{o}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+              <Link
+                to="/"
+                search={{ stage: "configuration", preset: "engagement" }}
+                className="client-text-button"
+              >
+                {t("Review workflows", "Переглянути workflow")} →
+              </Link>
+            </section>
+            <section className="client-scope-card">
+              <h2>
+                {t("Your descriptions", "Ваші описи")} ({draft.requests.length})
+              </h2>
+              <label className="client-route-choice">
+                <input
+                  type="checkbox"
+                  checked={draft.customIncluded && draft.mode === "full"}
+                  disabled={!ready || draft.mode !== "full" || !draft.requests.length}
+                  onChange={(e) => update({ customIncluded: e.target.checked })}
+                />
+                <span>
+                  {t(
+                    "Include the described functions and workflows in the estimate",
+                    "Включити описані функції та workflow до оцінки",
+                  )}
+                </span>
+              </label>
+              {draft.mode !== "full" && draft.requests.length > 0 && (
+                <p className="client-notice">
+                  {t(
+                    "Retained for reference; excluded from the selected simpler route.",
+                    "Збережено для довідки; не входить до обраного спрощеного варіанта.",
+                  )}
                 </p>
               )}
-            </article>
+              {draft.requests.length ? (
+                draft.requests.map((r) => (
+                  <article key={r.id}>
+                    <h3>{r.title}</h3>
+                    <p className="client-prewrap">{r.description}</p>
+                    <button
+                      className="client-text-button"
+                      onClick={() =>
+                        update({ requests: draft.requests.filter((x) => x.id !== r.id) })
+                      }
+                    >
+                      {t("Remove", "Видалити")}
+                    </button>
+                  </article>
+                ))
+              ) : (
+                <p>
+                  {t(
+                    "No additional requests yet. You can describe a service or a complete workflow in the configuration panel.",
+                    "Додаткових запитів поки немає. Можна описати сервіс або повний workflow у панелі конфігурації.",
+                  )}
+                </p>
+              )}
+            </section>
+            <section className="client-scope-card">
+              <h2>{t("Demonstration shortlist", "Демонстраційна група")}</h2>
+              <p>{draft.groupName || t("No group name", "Назву не задано")}</p>
+              <p>
+                {draft.shortlist.join(", ") || t("No profiles selected.", "Профілі не обрані.")}
+              </p>
+              <p className="client-note">
+                {t(
+                  "Supplied ISRM records for private board review; no people have been invited or assigned.",
+                  "Передані записи ISRM для закритого перегляду правлінням; людей не запрошено чи призначено.",
+                )}
+              </p>
+            </section>
+            <section className="client-scope-card">
+              <h2>{t("Proposed delivery stages", "Запропоновані етапи виконання")}</h2>
+              <ol className="client-milestones">
+                {BRIEFING_MILESTONES.map((step) => (
+                  <li key={step.id}>
+                    <span>{Math.round(step.fraction * 100)}%</span>
+                    <div>
+                      <h3>{step.title[locale]}</h3>
+                      <p>{step.detail[locale]}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+              <p className="client-note">
+                {t(
+                  "Proposed payment shares, subject to the final agreement. They are delivery stages, not separate feature packages.",
+                  "Частки платежів пропонуються для остаточної угоди. Це етапи виконання, а не окремі функціональні пакети.",
+                )}
+              </p>
+            </section>
           </div>
-
-          {/* RIGHT: price panel */}
-          <aside className="scope-price-panel" aria-label={text("Indicative budget", "Індикативний бюджет")}>
-            <p className="tech-label text-primary" style={{ marginBottom: "1rem" }}>
-              {text("Indicative budget ceiling", "Індикативна верхня межа")}
-            </p>
-
-            {/* MVP price — always high contrast */}
-            <div className={`scope-price-row scope-price-row--mvp`}>
-              <span className="scope-price-label">{text("MVP", "MVP")}</span>
-              <span className="scope-price-value scope-price-value--active">
-                {mvpPrice ? text("Up to", "До") + " " + money(mvpPrice.estimate.high.total) : "—"}
-              </span>
-            </div>
-
-            {/* Pilot price — gains contrast when checked */}
-            <div className={`scope-price-row${pilotIncluded ? " scope-price-row--selected" : ""}`}>
-              <span className="scope-price-label">{text("Engagement cycle", "Цикл залучення")}</span>
-              <span className={`scope-price-value${pilotIncluded ? " scope-price-value--active" : ""}`}>
-                {pilotPrice ? text("Up to", "До") + " " + money(pilotPrice.estimate.high.total) : "—"}
-              </span>
-            </div>
-
-            {/* Consulting price — gains contrast when checked */}
-            <div className={`scope-price-row${consultingIncluded ? " scope-price-row--selected" : ""}`}>
-              <span className="scope-price-label">{text("Consulting", "Консалтинг")}</span>
-              <span className={`scope-price-value${consultingIncluded ? " scope-price-value--active" : ""}`}>
-                {text("Separately quoted", "Окреме котирування")}
-              </span>
-            </div>
-
-            {/* Total — shown when at least one optional section selected */}
-            {(pilotIncluded || consultingIncluded) && (
-              <div className="scope-price-row scope-price-row--selected" style={{ borderTop: "2px solid var(--color-border)", marginTop: "0.25rem", paddingTop: "0.75rem" }}>
-                <span className="scope-price-label" style={{ fontWeight: 600, color: "var(--color-foreground)" }}>
-                  {text("Total (MVP + selected)", "Разом (MVP + обране)")}
+          <aside className="client-scope-budget">
+            <p className="client-eyebrow">{t("Budget discussion", "Обговорення бюджету")}</p>
+            <h2>{t("Indicative budget ceiling", "Індикативна межа бюджету")}</h2>
+            <div className="client-price-receipt">
+              <p>
+                <span>
+                  {draft.mode === "graph"
+                    ? t("Graph & search", "Граф і пошук")
+                    : t("Core application", "Базовий застосунок")}
                 </span>
-                <span className="scope-price-value scope-price-value--active">
-                  {pilotIncluded
-                    ? text("Up to", "До") + " " + money(CLIENT_OFFER_COMBINED_ESTIMATE.high.total)
-                    : text("Up to", "До") + " " + money(mvpPrice?.estimate.high.total ?? 0)}
-                </span>
-              </div>
-            )}
-            <div className="scope-price-divider" aria-hidden="true" />
-
-            <p className="partner-muted" style={{ fontSize: "0.78rem", lineHeight: "1.5", marginBottom: "1.5rem" }}>
-              {text(
-                "Upper bound planning scenarios only. Rate inputs unverified. Hosting, AI/API and legal costs excluded.",
-                "Лише верхня межа планувального сценарію. Ставки не перевірені. Хостинг, AI/API та юридичні витрати виключені.",
+                <strong>
+                  {money(
+                    draft.mode === "graph"
+                      ? CLIENT_APPROVED_PRICES.graph
+                      : CLIENT_APPROVED_PRICES.base,
+                  )}
+                </strong>
+              </p>
+              {draft.mode === "full" &&
+                CLIENT_WORKFLOWS.filter((w) => draft.workflowIds.includes(w.id)).map((w) => (
+                  <p key={w.id}>
+                    <span>{w.title[locale]}</span>
+                    <strong>{money(CLIENT_APPROVED_PRICES[w.id])}</strong>
+                  </p>
+                ))}
+              {draft.mode === "graph" &&
+                draft.serviceIds.map((id) => (
+                  <p key={id}>
+                    <span>{CLIENT_SERVICES.find((s) => s.id === id)?.title[locale]}</span>
+                    <strong>{money(CLIENT_APPROVED_PRICES.addons[id] ?? null)}</strong>
+                  </p>
+                ))}
+              {draft.customIncluded && draft.requests.length > 0 && draft.mode === "full" && (
+                <p>
+                  <span>
+                    {t("Custom descriptions", "Власні описи")} · {draft.requests.length}
+                  </span>
+                  <strong>{t("To estimate", "До оцінки")}</strong>
+                </p>
+              )}
+              <p className="client-price-total">
+                <span>{t("Total", "Разом")}</span>
+                <strong>{money(quote)}</strong>
+              </p>
+            </div>
+            <div className="client-notice">
+              {t(
+                "Indicative prices cover the stated scope. Custom requirements and unpriced integrations are estimated separately before agreement.",
+                "Індикативні ціни охоплюють зазначений обсяг. Власні вимоги та інтеграції без ціни оцінюємо окремо до укладення угоди.",
+              )}
+            </div>
+            <p>
+              {t(
+                "Development, professional work, rights to reuse existing assets, integrations and recurring hosting/AI costs will be shown separately. Scope, permitted data, integrations and delivery model determine the estimate and timetable.",
+                "Розробка, професійна робота, права на наявні активи, інтеграції та регулярні витрати на хостинг/ШІ будуть показані окремо. Оцінка та строки залежать від обсягу, дозволених даних, інтеграцій і моделі передачі.",
               )}
             </p>
-
-            {/* Budget position */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginBottom: "1.25rem" }}>
-              <p style={{ fontWeight: 600, fontSize: "0.95rem" }}>
-                {text("Your budget position:", "Ваша позиція щодо бюджету:")}
-              </p>
-              <label style={{ display: "flex", alignItems: "center", gap: "0.6rem", cursor: "pointer", fontSize: "0.95rem" }}>
-                <input type="radio" name="budget-pos" value="approve" checked={budgetChoice === "approve"} onChange={() => setBudgetChoice("approve")}
-                  style={{ width: "1.1rem", height: "1.1rem", accentColor: "var(--color-primary)" }} />
-                <span>{text("This range works for me", "Цей діапазон мені підходить")}</span>
-              </label>
-              <label style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem", cursor: "pointer", fontSize: "0.95rem" }}>
-                <input type="radio" name="budget-pos" value="limit" checked={budgetChoice === "limit"} onChange={() => setBudgetChoice("limit")}
-                  style={{ width: "1.1rem", height: "1.1rem", accentColor: "var(--color-primary)", marginTop: "0.2rem" }} />
-                <div style={{ flex: 1 }}>
-                  <span>{text("Set a budget ceiling:", "Визначити бюджетну стелю:")}</span>
-                  {budgetChoice === "limit" && (
-                    <input
-                      type="text" inputMode="numeric"
-                      placeholder={text("e.g. $40,000", "напр. $40 000")}
-                      value={budgetInput} onChange={(e) => setBudgetInput(e.target.value)}
-                      aria-label={text("Budget ceiling", "Бюджетна стеля")}
-                      style={{ display: "block", width: "100%", marginTop: "0.5rem", padding: "0.5rem 0.75rem", fontSize: "1rem",
-                        border: "1.5px solid var(--color-border)", borderRadius: "6px",
-                        background: "var(--color-background)", color: "var(--color-foreground)", outline: "none" }}
-                      autoFocus
-                    />
-                  )}
-                </div>
-              </label>
-            </div>
-
-            <Button
-              onClick={() => setContactOpen(true)}
-              disabled={!budgetChoice}
-              style={{ width: "100%", fontSize: "1rem", padding: "0.8rem 1rem" }}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (!validLimit) {
+                  setNotice(t("Enter a positive budget ceiling.", "Вкажіть додатну межу бюджету."));
+                  return;
+                }
+                const href = emailHref(draft, locale);
+                if (href.length > 7000) {
+                  download();
+                  window.location.href =
+                    "mailto:alexezav@gmail.com,dmitrfilim@gmail.com?subject=" +
+                    encodeURIComponent("ISRM · Scope discussion") +
+                    "&body=" +
+                    encodeURIComponent(
+                      t(
+                        "Please find my scope request in the file I will attach to this email.",
+                        "Мій запит щодо обсягу — у файлі, який я додам до цього листа.",
+                      ),
+                    );
+                  setNotice(
+                    t(
+                      "The complete request was downloaded. Attach ISRM-scope-request.txt to the email, review it and press Send. Nothing has been sent automatically.",
+                      "Повний запит завантажено. Додайте ISRM-scope-request.txt до листа, перевірте та натисніть «Надіслати». Автоматично нічого не надіслано.",
+                    ),
+                  );
+                  return;
+                }
+                window.location.href = href;
+                setNotice(
+                  t(
+                    "Email draft opened. Please review it and press Send in your email application. Delivery has not been confirmed here.",
+                    "Відкрито чернетку листа. Перевірте її та натисніть «Надіслати» у поштовому застосунку. Доставку тут не підтверджено.",
+                  ),
+                );
+              }}
             >
-              {budgetChoice === "approve"
-                ? text("Confirm & Send", "Підтвердити та відіслати")
-                : budgetChoice === "limit"
-                ? text("Confirm & Send", "Підтвердити та відіслати")
-                : text("Select a budget position above", "Оберіть позицію вище")}
-            </Button>
-
-            <nav className="client-price-sources" style={{ marginTop: "1rem" }} aria-label={text("Rate sources", "Джерела ставок")}>
-              <span>{text("Rate sources:", "Джерела ставок:")}</span>
-              {MARKET_BENCHMARKS.sources.filter(({ label }) => label.startsWith("Clutch")).map((s) => (
-                <a href={s.url} key={s.label} target="_blank" rel="noreferrer">{s.label} <ExternalLink aria-hidden="true" /></a>
-              ))}
-            </nav>
+              <fieldset disabled={!ready}>
+                <legend>{t("Your budget position", "Ваша бюджетна позиція")}</legend>
+                <label className="client-radio-label">
+                  <input
+                    type="radio"
+                    name="budget"
+                    checked={draft.budgetPosition === "approve"}
+                    disabled={quote === null}
+                    onChange={() => update({ budgetPosition: "approve" })}
+                  />
+                  {t("This indicative budget is acceptable", "Цей індикативний бюджет прийнятний")}
+                </label>
+                <label className="client-radio-label">
+                  <input
+                    type="radio"
+                    name="budget"
+                    checked={draft.budgetPosition === "discuss"}
+                    onChange={() => update({ budgetPosition: "discuss" })}
+                  />
+                  {t("Discuss a suitable budget", "Обговорити відповідний бюджет")}
+                </label>
+                <label className="client-radio-label">
+                  <input
+                    type="radio"
+                    name="budget"
+                    checked={draft.budgetPosition === "limit"}
+                    onChange={() => update({ budgetPosition: "limit" })}
+                  />
+                  {t("I have a budget ceiling", "Маю бюджетне обмеження")}
+                </label>
+                {draft.budgetPosition === "limit" && (
+                  <div className="client-budget-inputs">
+                    <label>
+                      {t("Currency", "Валюта")}
+                      <select
+                        value={draft.currency}
+                        onChange={(e) =>
+                          update({ currency: e.target.value as "GBP" | "USD" | "EUR" })
+                        }
+                      >
+                        {["GBP", "USD", "EUR"].map((c) => (
+                          <option key={c}>{c}</option>
+                        ))}
+                      </select>
+                    </label>
+                    <label>
+                      {t("Ceiling", "Межа")}
+                      <input
+                        required
+                        type="number"
+                        min="0.01"
+                        step="any"
+                        value={draft.budgetCeiling}
+                        onChange={(e) => update({ budgetCeiling: e.target.value })}
+                      />
+                    </label>
+                  </div>
+                )}
+                <label>
+                  {t("Your name", "Ваше ім’я")}
+                  <input
+                    autoComplete="name"
+                    value={draft.name}
+                    onChange={(e) => update({ name: e.target.value })}
+                  />
+                </label>
+                <label>
+                  {t("Email for a reply", "Email для відповіді")}
+                  <input
+                    type="email"
+                    autoComplete="email"
+                    value={draft.email}
+                    onChange={(e) => update({ email: e.target.value })}
+                  />
+                </label>
+                <label>
+                  {t("Notes, systems or constraints", "Примітки, системи чи обмеження")}
+                  <textarea
+                    rows={4}
+                    value={draft.notes}
+                    onChange={(e) => update({ notes: e.target.value })}
+                  />
+                </label>
+                <button className="client-button" type="submit">
+                  <Mail size={18} />
+                  {t("Prepare an email", "Підготувати лист")}
+                </button>
+              </fieldset>
+            </form>
+            <p className="client-note">
+              {t(
+                "This opens your email application; it does not send automatically. For long requests, copy the complete text below or attach the downloaded file.",
+                "Відкривається ваш поштовий застосунок; автоматичного надсилання немає. Довгий запит скопіюйте нижче або додайте завантажений файл.",
+              )}
+            </p>
+            <p className="client-note client-recipient">
+              alexezav@gmail.com · dmitrfilim@gmail.com
+            </p>
+            <div className="client-export-actions">
+              <button onClick={() => window.print()}>
+                <Printer size={17} />
+                {t("Print / PDF", "Друк / PDF")}
+              </button>
+              <button onClick={download}>
+                <Download size={17} />
+                {t("Download full text", "Завантажити текст")}
+              </button>
+              <button
+                onClick={async () => {
+                  try {
+                    await navigator.clipboard.writeText(summary);
+                    setNotice(
+                      t(
+                        "Full summary copied. It has not been sent.",
+                        "Повний підсумок скопійовано. Його не надіслано.",
+                      ),
+                    );
+                  } catch {
+                    setNotice(
+                      t(
+                        "Copy is unavailable. Select the complete text below or download it.",
+                        "Копіювання недоступне. Виділіть повний текст нижче або завантажте його.",
+                      ),
+                    );
+                  }
+                }}
+              >
+                <Copy size={17} />
+                {t("Copy", "Копіювати")}
+              </button>
+            </div>
+            {notice && (
+              <p className="client-notice" role="status">
+                {notice}
+              </p>
+            )}
+            <label className="client-route-choice">
+              <input
+                type="checkbox"
+                checked={draft.oneOffResearch}
+                disabled={!ready}
+                onChange={(e) => update({ oneOffResearch: e.target.checked })}
+              />
+              <span>
+                {t(
+                  "I would also like research on individual requests",
+                  "Також бажаю отримувати дані за разовими замовленнями",
+                )}
+              </span>
+            </label>
+            <p className="client-note">
+              {t(
+                "Your contact details and choices are stored only in this browser until you send them yourself. This is a request for discussion, not an order or acceptance of a price.",
+                "Контактні дані й вибір зберігаються лише в цьому браузері до вашого надсилання. Це запит на обговорення, а не замовлення чи погодження ціни.",
+              )}
+            </p>
           </aside>
         </div>
-
-        {/* ── Footer ───────────────────────────────────────────────── */}
-        <footer className="partner-footer">
-          <div className="cta-bottom">
-            <Button asChild variant="outline" className="button-outline">
-              <Link to="/proposal">{text("Back to the expert network", "До мережі експертів")}</Link>
-            </Button>
-          </div>
-          <p className="partner-footer-route-notice" role="note">
-            {text(
-              "Indicative ranges are planning references. First payment is at least 30% of the agreed total.",
-              "Індикативні діапазони — планувальні орієнтири. Перший платіж — не менше 30% від погодженої суми.",
+        <section className="client-summary-section">
+          <h2>{t("Complete request", "Повний запит")}</h2>
+          <p className="client-note">
+            {t(
+              "This same text is used for download, email and print.",
+              "Цей самий текст використовується для завантаження, листа та друку.",
             )}
           </p>
-          <p className="partner-muted" style={{ fontSize: "0.78rem", marginTop: "0.5rem" }}>
-            {CLIENT_PRICING_STATUS[uk ? "uk" : "en"]}
+          <pre className="client-summary">{summary}</pre>
+        </section>
+        <footer className="client-scope-footer">
+          <Link to="/proposal">{t("Back to the briefing", "До брифінгу")}</Link>
+          <p>
+            {t(
+              "Demonstration and discussion material · not a binding offer",
+              "Демонстрація та матеріал для обговорення · не зобов’язувальна оферта",
+            )}
           </p>
         </footer>
-
-        <ContactDialog
-          open={contactOpen}
-          onOpenChange={setContactOpen}
-          locale={locale}
-          budgetNote={
-            budgetChoice === "approve"
-              ? text("Budget: approved as presented", "Бюджет: погоджено як представлено") +
-                (pilotIncluded ? text(" + engagement cycle", " + цикл залучення") : "") +
-                (consultingIncluded ? text(" + consulting", " + консалтинг") : "")
-              : budgetChoice === "limit" && budgetInput
-              ? `${text("Budget ceiling:", "Бюджетна стеля:")} ${budgetInput}` +
-                (pilotIncluded ? text(" + engagement cycle", " + цикл залучення") : "") +
-                (consultingIncluded ? text(" + consulting", " + консалтинг") : "")
-              : undefined
-          }
-        />
       </div>
+      <article className="client-print-summary">
+        <pre>{summary}</pre>
+      </article>
     </main>
   );
 }

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import ForceGraph2D from "react-force-graph-2d";
 import type { Expert } from "@/lib/types";
+import { CLIENT_SERVICES } from "@/lib/client-catalog";
 import { PROPOSAL_FUNCTIONS } from "@/lib/proposal-data";
 
 type Kind = "expert" | "sector" | "theme" | "hub";
@@ -38,6 +39,10 @@ export default function NetworkGraph({
   serviceMode = false,
   showExpertsOnServices = false,
   locale = "en",
+  motionPaused = false,
+  activeServiceIds,
+  onServiceSelect,
+  onVisibleCount,
 }: {
   experts: Expert[];
   layers: GraphLayers;
@@ -46,12 +51,20 @@ export default function NetworkGraph({
   serviceMode?: boolean;
   showExpertsOnServices?: boolean;
   locale?: string;
+  motionPaused?: boolean;
+  activeServiceIds?: string[];
+  onServiceSelect?: (id: string) => void;
+  onVisibleCount?: (count: number) => void;
 }) {
   // locale prop used directly for labels
   const wrap = useRef<HTMLDivElement>(null);
   const fg = useRef<any>(null);
   const [size, setSize] = useState({ w: 800, h: 600 });
   const [hover, setHover] = useState<string | null>(null);
+  useEffect(() => {
+    if (motionPaused) fg.current?.pauseAnimation();
+    else fg.current?.resumeAnimation();
+  }, [motionPaused]);
   // Set of service node IDs that have been clicked to reveal their experts
   const [revealedServices, setRevealedServices] = useState<Set<string>>(new Set());
   const colors = useMemo(
@@ -81,33 +94,41 @@ export default function NetworkGraph({
     if (!showExpertsOnServices) setRevealedServices(new Set());
     else {
       // When deps mode turns ON: pre-reveal ALL services immediately
-      setRevealedServices(new Set([
-        "svc:members", "svc:agenda", "svc:discussions", "svc:reports",
-        "svc:expertise", "svc:membership", "svc:warroom", "svc:conference"
-      ]));
+      setRevealedServices(
+        new Set([
+          "svc:members",
+          "svc:agenda",
+          "svc:discussions",
+          "svc:reports",
+          "svc:expertise",
+          "svc:membership",
+          "svc:warroom",
+          "svc:conference",
+        ]),
+      );
     }
   }, [showExpertsOnServices]);
-
-
 
   // Service graph: two orbital rings around central hub
   const serviceData = useMemo(() => {
     const nodes: GNode[] = [];
     const links: GLink[] = [];
     // Central node: MVP application (single hub)
-    nodes.push({ id: "hub:mvp", kind: "hub", label: locale === "uk" ? "MVP Застосунок" : "MVP Application", size: 8, fx: 0, fy: 0 } as GNode & { fx: number; fy: number });
+    nodes.push({
+      id: "hub:mvp",
+      kind: "hub",
+      label: locale === "uk" ? "Базовий застосунок" : "Core application",
+      size: 8,
+      fx: 0,
+      fy: 0,
+    } as GNode & { fx: number; fy: number });
     // Engagement cycle services — ordered as the cycle on proposal page
     // These correspond to the pilot-group PROPOSAL_FUNCTIONS + key engagement steps
-    const cycleServices = [
-      { id: "svc:members",    label: locale === "uk" ? "Активні члени"          : "Active Members",         kind: "sector" as const },
-      { id: "svc:agenda",     label: locale === "uk" ? "Адженда обговорень"       : "Expert Agenda",          kind: "sector" as const },
-      { id: "svc:discussions",label: locale === "uk" ? "Обговорення"              : "Discussions",            kind: "theme" as const },
-      { id: "svc:reports",    label: locale === "uk" ? "Звіти та кейси"           : "Reports + Cases",        kind: "theme" as const },
-      { id: "svc:expertise",  label: locale === "uk" ? "Мережева експертиза / TII": "Network Expertise / TII",kind: "theme" as const },
-      { id: "svc:membership", label: locale === "uk" ? "Нові членства"            : "New Memberships",        kind: "sector" as const },
-      { id: "svc:warroom",    label: locale === "uk" ? "War Room"                 : "War Room",               kind: "sector" as const },
-      { id: "svc:conference", label: locale === "uk" ? "Конференція + Альманах"   : "Conference + Almanac",   kind: "sector" as const },
-    ];
+    const cycleServices = CLIENT_SERVICES.map((service, i) => ({
+      id: `svc:${service.id}`,
+      label: service.title[locale === "uk" ? "uk" : "en"],
+      kind: (i % 2 === 0 ? "sector" : "theme") as "sector" | "theme",
+    }));
     // Place cycle nodes with initial positions in a circle
     const R = 180; // radius of the service ring
     cycleServices.forEach((svc, i) => {
@@ -135,7 +156,7 @@ export default function NetworkGraph({
       });
     }
     return { nodes, links };
-  }, []);
+  }, [locale]);
 
   const data = useMemo(() => {
     if (serviceMode) {
@@ -143,30 +164,38 @@ export default function NetworkGraph({
       // Build merged graph: pinned service ring + expert nodes for revealed services
       const nodes = [...serviceData.nodes];
       const links = [...serviceData.links];
+      // Sector-based relevance only, not participation, consent or endorsement.
       const svcSectors: Record<string, string[]> = {
-        "svc:members":    ["Business / advisory", "Humanitarian / NGO"],
-        "svc:agenda":     ["Academia / research", "Security / risk / resilience"],
-        "svc:discussions":["Academia / research", "Humanitarian / NGO"],
-        "svc:reports":    ["Academia / research", "Business / advisory"],
-        "svc:expertise":  ["Security / risk / resilience", "Business / advisory"],
-        "svc:membership": ["Humanitarian / NGO", "Business / advisory"],
-        "svc:warroom":    ["Security / risk / resilience"],
-        "svc:conference": ["Academia / research", "Business / advisory", "Humanitarian / NGO"],
+        "svc:research": ["Academia", "research", "risk"],
+        "svc:review": ["risk", "advisory", "research"],
+        "svc:evidence": ["Academia", "research", "advisory"],
+        "svc:publishing": ["Academia", "research", "Business"],
+        "svc:contact": ["advisory", "Business", "Humanitarian"],
       };
-      revealedServices.forEach((svcId) => {
-        const sectors = svcSectors[svcId] ?? [];
+      (activeServiceIds
+        ? new Set(activeServiceIds.map((id) => `svc:${id}`))
+        : revealedServices
+      ).forEach((svcId) => {
+        const sectors = svcSectors[svcId] ?? ["risk", "Business", "Academia", "Humanitarian"];
         experts
           .filter((e) => e.verified && sectors.some((s) => e.sector?.includes(s)))
-          .slice(0, 4)
           .forEach((e) => {
             if (!nodes.find((n) => n.id === e.code)) {
-              nodes.push({ id: e.code, kind: "expert" as const, label: e.displayName, expert: e, size: 1 });
+              nodes.push({
+                id: e.code,
+                kind: "expert" as const,
+                label: e.displayName,
+                expert: e,
+                size: 1,
+              });
             }
-            if (!links.some((l) => {
-              const s = typeof l.source === "string" ? l.source : (l.source as GNode).id;
-              const t = typeof l.target === "string" ? l.target : (l.target as GNode).id;
-              return s === e.code && t === svcId;
-            })) {
+            if (
+              !links.some((l) => {
+                const s = typeof l.source === "string" ? l.source : (l.source as GNode).id;
+                const t = typeof l.target === "string" ? l.target : (l.target as GNode).id;
+                return s === e.code && t === svcId;
+              })
+            ) {
               links.push({ source: e.code, target: svcId, kind: "dependency" });
             }
           });
@@ -213,7 +242,20 @@ export default function NetworkGraph({
         links.push({ source: codes[0]!, target: codes[i]!, kind: "peer" });
     });
     return { nodes, links };
-  }, [experts, layers, locale, serviceMode, serviceData]);
+  }, [
+    experts,
+    layers,
+    locale,
+    serviceMode,
+    serviceData,
+    activeServiceIds,
+    revealedServices,
+    showExpertsOnServices,
+  ]);
+
+  useEffect(() => {
+    onVisibleCount?.(data.nodes.filter((n) => n.kind === "expert").length);
+  }, [data, onVisibleCount]);
 
   const neighbors = useMemo(() => {
     const m = new Map<string, Set<string>>();
@@ -270,15 +312,15 @@ export default function NetworkGraph({
         height={size.h}
         graphData={data}
         backgroundColor="rgba(0,0,0,0)"
-        cooldownTicks={serviceMode ? 40 : 180}
-        onEngineStop={() => !focus && fg.current?.zoomToFit(400, 60)}
+        cooldownTicks={motionPaused ? 1 : serviceMode ? 40 : 180}
+        onEngineStop={() => !focus && fg.current?.zoomToFit(motionPaused ? 0 : 400, 60)}
         nodeRelSize={1}
         linkColor={(l: any) => {
           const s = l.source.id,
             t = l.target.id;
-          if (l.kind === "mvp" || l.kind === "mvp-ring") return colors.primary + "cc";
-          if (l.kind === "pilot" || l.kind === "pilot-ring") return colors.c2 + "cc";
-          if (l.kind === "dependency") return colors.success + "99";
+          if (l.kind === "mvp" || l.kind === "mvp-ring") return colors.primary;
+          if (l.kind === "pilot" || l.kind === "pilot-ring") return colors.c2;
+          if (l.kind === "dependency") return colors.success;
 
           if (activeSet)
             return activeSet.has(s) && activeSet.has(t) ? colors.primary : "rgba(120,120,130,0.05)";
@@ -293,22 +335,22 @@ export default function NetworkGraph({
           // Draw edge label showing the dependency value
           const source = l.source as GNode;
           const target = l.target as GNode;
-          if (source?.x == null || source?.y == null || target?.x == null || target?.y == null) return;
+          if (source?.x == null || source?.y == null || target?.x == null || target?.y == null)
+            return;
           const mx = (source.x + target.x) / 2;
           const my = (source.y + target.y) / 2;
-          const labels: Record<string, string> = {
-            "svc:membership": locale === "uk" ? "нове членство" : "new member",
-            "svc:conference": locale === "uk" ? "конференція" : "conference",
-            "svc:reports":    locale === "uk" ? "публікація"   : "publication",
-            "svc:expertise":  locale === "uk" ? "TII"          : "TII",
-            "svc:discussions":locale === "uk" ? "обговорення"  : "discussion",
-          };
+          const labels: Record<string, string> = Object.fromEntries(
+            CLIENT_SERVICES.map((service) => [
+              `svc:${service.id}`,
+              locale === "uk" ? "тематичний збіг" : "thematic match",
+            ]),
+          );
           const targetId = typeof target.id === "string" ? target.id : "";
           const lbl = labels[targetId];
           if (!lbl) return;
           ctx.save();
           ctx.font = `500 ${Math.max(7 / scale, 4)}px Space Grotesk`;
-          ctx.fillStyle = colors.success + "cc";
+          ctx.fillStyle = colors.success;
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
           ctx.fillText(lbl, mx, my);
@@ -317,6 +359,10 @@ export default function NetworkGraph({
         linkCanvasObjectMode={() => "after"}
         onNodeHover={(n: any) => setHover(n?.id ?? null)}
         onNodeClick={(n: any) => {
+          if (typeof n.id === "string" && n.id.startsWith("svc:") && onServiceSelect) {
+            onServiceSelect(n.id.slice(4));
+            return;
+          }
           // In deps mode: clicking a service node toggles its expert connections
           if (showExpertsOnServices && typeof n.id === "string" && n.id.startsWith("svc:")) {
             setRevealedServices((prev) => {
@@ -344,8 +390,15 @@ export default function NetworkGraph({
             const e: Expert = n.expert;
             ctx.beginPath();
             ctx.arc(n.x, n.y, r, 0, 2 * Math.PI);
-            ctx.fillStyle = e.verified ? colors.success : colors.muted;
-            ctx.fill();
+            if (e.verified) {
+              ctx.fillStyle = colors.success;
+              ctx.fill();
+            } else {
+              ctx.strokeStyle = colors.muted;
+              ctx.setLineDash([2 / scale, 2 / scale]);
+              ctx.stroke();
+              ctx.setLineDash([]);
+            }
             if (n.id === focus) {
               ctx.lineWidth = 1.5 / scale;
               ctx.strokeStyle = colors.primary;
@@ -371,7 +424,8 @@ export default function NetworkGraph({
             ctx.strokeStyle = col;
             ctx.stroke();
             // Always show labels for service/hub nodes; hide small cluster nodes at low zoom
-            const isServiceNode = typeof n.id === "string" && (n.id.startsWith("svc:") || n.id.startsWith("hub:"));
+            const isServiceNode =
+              typeof n.id === "string" && (n.id.startsWith("svc:") || n.id.startsWith("hub:"));
             if (!isServiceNode && n.size < 4 && scale < 1.6 && n.id !== active) {
               ctx.globalAlpha = 1;
               return;
