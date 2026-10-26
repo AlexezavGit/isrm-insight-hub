@@ -183,6 +183,10 @@ ${step.acceptance[locale]}`,
         ? "Також цікавлять разові дослідження на замовлення."
         : "Also interested in research on individual requests."
       : "",
+    "\n" + (uk ? "ДАНІ ТА ВІДПОВІДАЛЬНІСТЬ" : "DATA & RESPONSIBILITY"),
+    uk
+      ? "Демонстраційна вибірка та тематичні зв’язки не є акредитацією, рекомендацією ISRM чи оцінкою репутації. AI OSINT ще не підключено. Операційне використання даних потребує визначених цілей, правової підстави, відповідальних, строків зберігання та порядку реалізації прав."
+      : "The demonstration sample and thematic matches are not accreditation, an ISRM endorsement or a reputation assessment. AI OSINT is not connected. Operational data use requires defined purposes, lawful basis, responsibilities, retention periods and a rights process.",
     "\n" + (uk ? "ПРИМІТКИ" : "NOTES"),
     d.notes,
   ].join("\n");

@@ -1,3 +1,4 @@
+import { DataUseNotice } from "@/components/DataUseNotice";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowLeft, Lock, Send } from "lucide-react";
@@ -217,6 +218,7 @@ function Dossier() {
             </Button>
           )}
           <p className="text-xs text-muted-foreground">{t("contactConsent")}</p>
+          <DataUseNotice context="profile" />
         </aside>
       </div>
     </main>

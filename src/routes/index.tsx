@@ -1,3 +1,4 @@
+import { DataUseNotice } from "@/components/DataUseNotice";
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { FileText, Search, SlidersHorizontal, UserRound, X, Presentation } from "lucide-react";
@@ -417,6 +418,9 @@ function NetworkPage() {
             ? "Тематична відповідність; не особиста рекомендація"
             : "Thematic match; not a personal endorsement"}
         </span>
+      </div>
+      <div className="client-network-data-notice">
+        <DataUseNotice />
       </div>
       <nav
         className="client-network-dock"

@@ -2,6 +2,7 @@ import type { Copy } from "./client-catalog";
 import type { GraphLayers } from "@/components/NetworkGraph";
 export type BriefingSlide = {
   label: Copy;
+  projectName?: Copy;
   title: Copy;
   body: Copy;
   note: Copy;
@@ -39,18 +40,21 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
     label: { en: "Value Solution Framework", uk: "Value Solution Framework" },
     title: { en: "AI prepares. Professionals verify.", uk: "AI готує. Професіонали перевіряють." },
     body: {
-      en: "Manual research at scale creates a costly bottleneck. Unreviewed AI findings create a credibility risk: one material error can undermine the service. Combine AI-assisted research with accountable expert review, and retain evidence for permitted reuse.",
-      uk: "Ручне дослідження в масштабі створює дороге вузьке місце. Неперевірені AI-висновки створюють ризик для довіри: одна суттєва помилка може підірвати весь сервіс. Поєднаймо AI-дослідження з відповідальною експертною перевіркою та збереженням доказів для дозволеного повторного використання.",
+      en: "Professional review starts before an AI enquiry: define the question, evidence and responsibility. The reviewer puts their name behind the judgement about another person’s expertise. AI helps gather and challenge evidence; a professional decides what can responsibly be relied upon, shared or revisited.",
+      uk: "Професійна перевірка починається до AI-запиту: визначаємо питання, докази й відповідальність. Фахівець підписується під судженням про чужу експертизу. AI допомагає зібрати й критично перевірити матеріал; людина вирішує, що обґрунтовано використовувати, поширювати та переглядати.",
     },
-    principle: { en: "Trust with digital controls.", uk: "Довіра з цифровим контролем." },
+    principle: {
+      en: "A professional name behind a considered judgement.",
+      uk: "За виваженим судженням — ім’я та репутація фахівця.",
+    },
     note: {
       en: "Retain the source, date, reviewer, access rules and correction route. AI OSINT is proposed; it is not connected in this demonstration.",
       uk: "Зберігаємо джерело, дату, відповідального, правила доступу й шлях виправлення. AI OSINT запропоновано; у демонстрації його ще не підключено.",
     },
     steps: [
+      { en: "Professional review", uk: "Професійне судження" },
       { en: "Source evidence", uk: "Джерела й докази" },
-      { en: "AI research", uk: "AI-дослідження" },
-      { en: "Professional review", uk: "Перевірка фахівцем" },
+      { en: "AI-assisted checks", uk: "Перевірки з AI" },
       { en: "Controlled reuse", uk: "Контрольоване використання" },
     ],
     layers: { sector: false, theme: true, hub: false, researchQueue: true },
@@ -62,8 +66,8 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
       uk: "Мапуємо експертизу. Поєднуємо спроможності.",
     },
     body: {
-      en: "ISRM gains a map of expertise and the infrastructure for horizontal connections. Members gain relevant colleagues, evidence and professional opportunities. Together, these support multidisciplinary groups, client referrals and continuing engagement across chapters.",
-      uk: "ISRM отримує мапу експертизи та інфраструктуру горизонтальних зв’язків. Члени — доступ до релевантних колег, доказів і професійних можливостей. Разом це підтримує міждисциплінарні групи, клієнтські реферали та постійну взаємодію між чаптерами.",
+      en: "Professional opportunities often travel by word of mouth. A shared chapter dashboard could make relevant expertise, needs and introductions easier to find, while preserving the judgement behind each recommendation. Members contribute to a network that can connect colleagues, develop ideas and create professional opportunities.",
+      uk: "Професійні можливості часто передаються з уст в уста. Спільний дашборд чаптерів може зробити експертизу, потреби й знайомства доступнішими, зберігши судження за кожною рекомендацією. Члени розвивають мережу, яка поєднує колег, формує нові ідеї та відкриває професійні можливості.",
     },
     principle: {
       en: "Engage the 35 chapters through the existing questionnaire.",
@@ -106,27 +110,31 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
     layers: { sector: true, theme: true, hub: true, researchQueue: true },
   },
   {
-    label: { en: "The innovation horizon", uk: "Горизонт інновацій" },
+    label: { en: "A possibility to discuss", uk: "Можливий напрям для розмови" },
     title: {
-      en: "Network expertise. The next frontier for AI.",
-      uk: "Мережева експертиза. Новий горизонт AI.",
+      en: "Expertise + AI. A direction worth exploring?",
+      uk: "Експертиза + AI. Напрям, вартий розмови?",
+    },
+    projectName: {
+      en: "Safer professional communication and stronger trust in network expertise across ISRM’s sphere of influence.",
+      uk: "Розвиток безпеки професійних комунікацій та зміцнення довіри до носіїв мережевої експертизи в зоні впливу ISRM.",
     },
     body: {
-      en: "Professional intelligence and AI, close to a source of practices and standards, can do more than OSINT checks. ISRM could help make responsible AI part of best practice: from a consultants’ assistant to specialist models trained on permissioned expertise, and potentially a wider market.",
-      uk: "Професійний інтелект та AI біля джерела практик і стандартів здатні на більше, ніж OSINT-перевірки. ISRM може допомогти зробити відповідальне використання AI частиною best practice: від помічника консультантів до спеціалізованих моделей на дозволеній експертизі й потенційного виходу на ринок.",
+      en: "Within professional-to-professional relationships, this combination may already offer a useful, multifaceted direction. It could begin with support for colleagues’ everyday judgement, and reveal further possibilities through practice.",
+      uk: "У межах professional-to-professional ця комбінація вже зараз може виявитися корисним і багатогранним напрямом. Почати можна з підтримки щоденних професійних суджень колег; подальші можливості покаже практика.",
     },
     principle: {
-      en: "Build on expertise. Connect to the tools people already use.",
-      uk: "Розвиваємо експертизу. Поєднуємо з інструментами, якими вже користуються.",
+      en: "Perhaps there is a conversation worth continuing.",
+      uk: "Можливо, ця розмова матиме продовження.",
     },
     note: {
-      en: "Development horizon, not the current deliverable. Model training and integrations require their own agreed scope, permissions and evaluation.",
-      uk: "Горизонт розвитку, а не поточний результат замовлення. Навчання моделей та інтеграції потребують окремого обсягу, дозволів і оцінювання.",
+      en: "An exploratory thought beyond the original enquiry; no model, ranking or additional programme is proposed for approval here.",
+      uk: "Гіпотеза поза початковим запитом; погодження моделі, рейтингу чи додаткової програми тут не пропонується.",
     },
     steps: [
-      { en: "Reviewed expertise", uk: "Перевірена експертиза" },
-      { en: "Consultants’ assistant", uk: "Помічник консультантів" },
-      { en: "Specialist models", uk: "Спеціалізовані моделі" },
+      { en: "Professional expertise", uk: "Професійна експертиза" },
+      { en: "AI assistance", uk: "Підтримка AI" },
+      { en: "Considered judgement", uk: "Виважене судження" },
     ],
     layers: { sector: false, theme: true, hub: true, researchQueue: true },
   },

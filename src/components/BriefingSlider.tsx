@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
@@ -7,7 +7,8 @@ import { ClientAccessibility } from "./ClientAccessibility";
 import { AccessControl } from "./AppShell";
 import { BriefingVisual } from "./BriefingVisual";
 import { BRIEFING_SLIDES } from "@/lib/briefing-slides";
-const NetworkGraph = lazy(() => import("./NetworkGraph"));
+import { BriefingNetworkBackdrop } from "./BriefingNetworkBackdrop";
+import { DataUseNotice } from "./DataUseNotice";
 export function BriefingSlider() {
   const { locale } = useI18n();
   const uk = locale === "uk";
@@ -32,16 +33,11 @@ export function BriefingSlider() {
     <main className="client-briefing">
       <div className="client-briefing-graph" aria-hidden="true">
         {mounted && (
-          <Suspense fallback={null}>
-            <NetworkGraph
-              experts={data?.experts ?? []}
-              layers={current.layers}
-              focus={null}
-              onFocus={() => {}}
-              locale={locale}
-              motionPaused={reducedMotion}
-            />
-          </Suspense>
+          <BriefingNetworkBackdrop
+            experts={data?.experts ?? []}
+            slide={slide}
+            reducedMotion={reducedMotion}
+          />
         )}
       </div>
       <header className="client-topbar">
@@ -95,6 +91,9 @@ export function BriefingSlider() {
           aria-labelledby="briefing-title"
         >
           <div className="briefing-copy" aria-live="polite" aria-atomic="true">
+            {current.projectName && (
+              <p className="briefing-project-name">{current.projectName[locale]}</p>
+            )}
             <p className="client-slide-body">{current.body[locale]}</p>
             <p className="briefing-principle">{current.principle[locale]}</p>
             <p className="client-slide-note">{current.note[locale]}</p>
@@ -149,7 +148,7 @@ export function BriefingSlider() {
             ? "Брифінг для обговорення · Передана вибірка · Тематичні зв’язки"
             : "Executive discussion · Supplied sample · Thematic relationships"}
         </p>
-        <span>{uk ? "Імена — через кабінет" : "Names available after sign-in"}</span>
+        <DataUseNotice />
       </div>
     </main>
   );

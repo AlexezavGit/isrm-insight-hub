@@ -50,33 +50,43 @@ export function ExpertisePyramid({
   locale: ClientLocale;
   compact?: boolean;
 }) {
+  const uk = locale === "uk";
   return (
     <figure
-      className={`client-value-pyramid ${compact ? "is-compact" : ""}`}
+      className={`client-value-lighthouse ${compact ? "is-compact" : ""}`}
       aria-label={
-        locale === "uk"
-          ? "Піраміда цінності: експертиза на вершині"
-          : "Value pyramid: expertise at the top"
+        uk
+          ? "Маяк цінності: експертиза задає напрям"
+          : "A value lighthouse: expertise sets the direction"
       }
     >
-      <ol>
-        {VALUE_PYRAMID.map((level, index) => (
-          <li key={level.id} className={`pyramid-level pyramid-level-${index}`}>
-            <span className="pyramid-level-label">
-              {locale === "uk"
-                ? ["Вершина", "Розвиток", "Основа"][index]
-                : ["Value", "Growth", "Foundation"][index]}
-            </span>
-            <strong>{level.title[locale]}</strong>
-            {!compact && <p>{level.detail[locale]}</p>}
-          </li>
-        ))}
-      </ol>
+      <div className="lighthouse-composition">
+        <svg viewBox="0 0 150 240" fill="none" aria-hidden="true">
+          <path className="lighthouse-rays" d="M59 44 5 19M59 51 0 51M92 44 145 19M92 51 150 51" />
+          <path d="m51 35 24-20 25 20H51Zm4 1h40v35H55V36Zm-7 36h55v9H48v-9ZM58 82 41 218m52-136 17 136M48 146h54M43 191h65M28 219h95v12H28v-12Z" />
+          <path className="lighthouse-lamp" d="M67 45h16v15H67zM61 65h28M67 37v27m17-27v27" />
+          <path d="M66 218v-21a10 10 0 0 1 20 0v21M66 121h18M67 116v10m15-10v10" />
+          <path className="lighthouse-water" d="M5 237h140M20 231h112" />
+        </svg>
+        <ol>
+          {VALUE_PYRAMID.map((level, index) => (
+            <li key={level.id}>
+              <span>
+                {uk
+                  ? ["Напрям", "Взаємодія", "Основа"][index]
+                  : ["Direction", "Connection", "Foundation"][index]}
+              </span>
+              <strong>{level.title[locale]}</strong>
+              {!compact && <p>{level.detail[locale]}</p>}
+            </li>
+          ))}
+        </ol>
+      </div>
       {!compact && (
         <figcaption>
-          {locale === "uk"
-            ? "Основа підтримує два незалежні опційні workflow. Подальший розвиток може вивести ISRM на передову відповідальної практики AI: помічник консультантів, далі — спеціалізовані моделі на дозволеній експертизі. Навчання моделей і потенційний вихід на ринок — окремі рішення."
-            : "The foundation supports two independent optional workflows. Further development could put ISRM at the forefront of responsible AI practice: a consultants’ assistant, then specialist models trained on permissioned expertise. Model training and a potential market offering are separate decisions."}
+          {uk
+            ? "Ядро підтримує два незалежні опційні workflow. Експертиза + AI можуть відкрити подальший напрям професійної взаємодії; його доречність, права й обсяг визначатимуться окремо."
+            : "The core supports two independent optional workflows. Expertise + AI may open a further direction for professional collaboration; its relevance, permissions and scope would be considered separately."}
         </figcaption>
       )}
     </figure>

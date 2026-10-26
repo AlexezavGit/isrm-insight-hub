@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { DataUseNotice } from "@/components/DataUseNotice";
 import { useState } from "react";
 import { ArrowLeft, Download, Mail, Printer, Copy } from "lucide-react";
 import { useClientDraft } from "@/components/ClientDraftProvider";
@@ -99,6 +100,7 @@ function ScopePage() {
             )}
           </p>
         </section>
+        <DataUseNotice context="scope" />
         <CoreCapabilities locale={locale} />
         <div className="client-scope-grid">
           <div>
