@@ -1,6 +1,5 @@
 import {
   ArrowDown,
-  CalendarDays,
   Database,
   FileSearch,
   Handshake,
@@ -9,8 +8,8 @@ import {
   ShieldCheck,
   Users,
   BookOpen,
-  Plug,
 } from "lucide-react";
+import { WorkflowOrbit } from "./WorkflowOrbit";
 import { ExpertisePyramid } from "./ClientValueFramework";
 import type { BriefingSlide } from "@/lib/briefing-slides";
 import type { ClientLocale } from "@/lib/client-catalog";
@@ -26,57 +25,6 @@ export function BriefingVisual({
 }) {
   const uk = locale === "uk";
   if (index === 1)
-    return (
-      <figure
-        className="briefing-visual briefing-review-cycle"
-        aria-label={
-          uk
-            ? "Цикл відповідального професійного судження"
-            : "The accountable professional judgement cycle"
-        }
-      >
-        <div className="review-cycle-map">
-          <svg viewBox="0 0 320 270" aria-hidden="true" fill="none">
-            <defs>
-              <marker
-                id="review-arrow"
-                markerWidth="7"
-                markerHeight="7"
-                refX="5"
-                refY="3"
-                orient="auto"
-              >
-                <path d="M0 0 6 3 0 6" />
-              </marker>
-            </defs>
-            <path
-              d="M175 40Q275 45 277 119M278 151Q276 235 181 237M143 237Q44 233 43 151M43 118Q43 42 139 40"
-              markerEnd="url(#review-arrow)"
-            />
-          </svg>
-          <ol>
-            {slide.steps.map((s, i) => {
-              const Icon = [ShieldCheck, FileSearch, Database, Users][i]!;
-              return (
-                <li key={s.en} className={`review-cycle-node review-cycle-node-${i}`}>
-                  <Icon size={21} aria-hidden="true" />
-                  <strong>{s[locale]}</strong>
-                </li>
-              );
-            })}
-          </ol>
-          <p className="review-cycle-centre">
-            {uk ? "Відповідальність за судження" : "Own the judgement"}
-          </p>
-        </div>
-        <figcaption>
-          {uk
-            ? "Професійна відповідальність задає питання, вимоги до доказів і повторний перегляд."
-            : "Professional accountability frames the question, evidence requirements and the next review."}
-        </figcaption>
-      </figure>
-    );
-  if (index === 2)
     return (
       <figure className="briefing-visual briefing-chapter-dashboard">
         <header>
@@ -120,6 +68,17 @@ export function BriefingVisual({
         </figcaption>
       </figure>
     );
+  if (index === 2)
+    return (
+      <div className="briefing-visual briefing-engagement">
+        <WorkflowOrbit workflow="engagement" compact locale={locale} />
+        <p className="briefing-visual-caption">
+          {uk
+            ? "Навчання · членство · партнерства · послуги · реферали · конференції"
+            : "Learning · membership · partnerships · services · referrals · conferences"}
+        </p>
+      </div>
+    );
   if (index === 3)
     return (
       <div className="briefing-visual">
@@ -130,44 +89,6 @@ export function BriefingVisual({
             : "One core + two independent optional workflows"}
         </p>
       </div>
-    );
-  if (index === 4)
-    return (
-      <figure className="briefing-visual briefing-hypothesis">
-        <div className="hypothesis-pair">
-          <div>
-            <Users size={30} aria-hidden="true" />
-            <strong>{slide.steps[0]![locale]}</strong>
-          </div>
-          <span aria-hidden="true">+</span>
-          <div>
-            <Layers3 size={30} aria-hidden="true" />
-            <strong>{slide.steps[1]![locale]}</strong>
-          </div>
-        </div>
-        <div className="hypothesis-result">
-          <ShieldCheck size={20} aria-hidden="true" />
-          <span>{slide.steps[2]![locale]}</span>
-        </div>
-        <figcaption>
-          {uk
-            ? "Professional → professional · можливі підключення"
-            : "Professional → professional · possible connections"}
-        </figcaption>
-        <div className="briefing-integrations">
-          {[
-            { Icon: Database, en: "CRM & data", uk: "CRM і дані" },
-            { Icon: BookOpen, en: "Knowledge", uk: "Знання" },
-            { Icon: CalendarDays, en: "Events", uk: "Події" },
-            { Icon: Plug, en: "APIs", uk: "API" },
-          ].map(({ Icon, en, uk: ua }) => (
-            <div key={en}>
-              <Icon aria-hidden="true" />
-              <span>{uk ? ua : en}</span>
-            </div>
-          ))}
-        </div>
-      </figure>
     );
   if (index === 5)
     return (
@@ -205,7 +126,10 @@ export function BriefingVisual({
     <figure className="briefing-visual briefing-path briefing-path-0">
       <ol>
         {slide.steps.map((s, i) => {
-          const Icon = [Users, FileSearch, ShieldCheck][i]!;
+          const Icon =
+            index === 0
+              ? [Users, FileSearch, Database, ShieldCheck][i]!
+              : [FileSearch, BookOpen, Layers3][i]!;
           return (
             <li key={s.en}>
               <span className="briefing-path-icon">
@@ -215,15 +139,21 @@ export function BriefingVisual({
                 <small>0{i + 1}</small>
                 <strong>{s[locale]}</strong>
               </div>
-              {i < 2 && <ArrowDown className="briefing-path-arrow" size={16} aria-hidden="true" />}
+              {i < slide.steps.length - 1 && (
+                <ArrowDown className="briefing-path-arrow" size={16} aria-hidden="true" />
+              )}
             </li>
           );
         })}
       </ol>
       <figcaption>
         {uk
-          ? "Від професійного ядра — до мережевого охоплення."
-          : "From a professional centre to network-wide reach."}
+          ? index === 0
+            ? "AI прискорює дослідження. Фахівець перевіряє висновки."
+            : "Можливий напрям · залежить від якості, прав на дані й довіри."
+          : index === 0
+            ? "AI accelerates research. A professional verifies conclusions."
+            : "A possible direction · dependent on quality, data rights and trust."}
       </figcaption>
     </figure>
   );

@@ -12,155 +12,259 @@ export type BriefingSlide = {
 };
 export const BRIEFING_SLIDES: BriefingSlide[] = [
   {
-    label: { en: "Professional scale", uk: "Масштаб професійної мережі" },
+    label: {
+      en: "The bottleneck",
+      uk: "Вузьке місце",
+    },
     title: {
-      en: "Scale works through a professional network.",
-      uk: "Масштаб працює через професійну мережу.",
+      en: "From 11,000 contacts to the answers you need.",
+      uk: "Від 11 тисяч контактів — до потрібних відповідей.",
     },
     body: {
-      en: "A broad enquiry is less precise than a targeted one. Scale becomes useful when professionals stand behind their judgements and work to shared policies. ISRM could provide that professional centre; technology helps the network extend its reach.",
-      uk: "Масовий запит менш точний, ніж точковий. Масштаб стає перевагою, коли його забезпечують професіонали, готові відповідати репутацією за висновки й діяти за спільними політиками. ISRM може стати таким професійним ядром.",
+      en: "Checking every contact by hand creates a bottleneck. AI-assisted OSINT can prepare the research, but a professional must verify the evidence and conclusions: an error can put reputations at risk.",
+      uk: "Суцільна ручна перевірка створює вузьке місце. AI OSINT може підготувати дослідження, але докази й висновки обов’язково перевіряє фахівець: помилка загрожує репутації.",
     },
     principle: {
-      en: "The network offers reach that is costly for a single source.",
-      uk: "Мережа дає охоплення, якого одному джерелу досягати дорого.",
+      en: "A contact base is a starting point, not a forecast of demand.",
+      uk: "База контактів — початок роботи, а не прогноз попиту.",
     },
     note: {
-      en: "11,000+ LinkedIn contacts is the audience cited in your enquiry. Conversion and return need testing; they are not assumed.",
-      uk: "Понад 11 000 LinkedIn-контактів — аудиторія з вашого запиту. Конверсію та віддачу потрібно перевірити; ми не припускаємо їх наперед.",
+      en: "11,000+ contacts is the audience cited in your enquiry. LinkedIn contacts do not automatically become paying members or clients. Test relevance, response and conversion on a focused sample before scaling. AI OSINT is proposed and is not connected in this demo.",
+      uk: "Понад 11 000 контактів — аудиторія з вашого запиту. Контакти LinkedIn не стають платними членами чи клієнтами автоматично. Спершу перевіряємо релевантність, відгук і конверсію на цільовій вибірці. AI OSINT запропоновано; у демо його ще не підключено.",
     },
     steps: [
-      { en: "Professional confidence", uk: "Професійна впевненість" },
-      { en: "Shared policies", uk: "Спільні політики" },
-      { en: "Network reach", uk: "Мережеве охоплення" },
+      {
+        en: "Contact base",
+        uk: "Масив контактів",
+      },
+      {
+        en: "Focused enquiries",
+        uk: "Цільові запити",
+      },
+      {
+        en: "AI research",
+        uk: "AI-дослідження",
+      },
+      {
+        en: "Professional verification",
+        uk: "Перевірка фахівцем",
+      },
     ],
-    layers: { sector: true, theme: false, hub: false, researchQueue: true },
+    layers: {
+      sector: true,
+      theme: false,
+      hub: false,
+      researchQueue: true,
+    },
   },
   {
-    label: { en: "Value Solution Framework", uk: "Value Solution Framework" },
-    title: { en: "AI prepares. Professionals verify.", uk: "AI готує. Професіонали перевіряють." },
+    label: {
+      en: "A network solution",
+      uk: "Рішення для мережі",
+    },
+    title: {
+      en: "35 chapters. A potential network of expertise.",
+      uk: "35 чаптерів. Потенційна мережа експертизи.",
+    },
     body: {
-      en: "Professional judgement frames the question and the evidence required. AI assists the enquiry; a named professional reviews the conclusion and takes responsibility for how another person’s expertise is represented.",
-      uk: "Професійне судження задає питання й вимоги до доказів. AI допомагає досліджувати; фахівець перевіряє висновок і відповідає за те, як представлено чужу експертизу.",
+      en: "ISRM can connect professional judgement at a scale one source cannot easily offer. A shared application, AI-assisted research and accountable review could give each chapter a useful tool for reliable information and controlled exchange.",
+      uk: "ISRM може поєднати професійне судження в масштабі, недоступному одному джерелу. Спільний застосунок, AI-дослідження та відповідальна перевірка можуть дати кожному чаптеру інструмент достовірних даних і контрольованого обміну.",
     },
     principle: {
-      en: "Stand behind the judgement. Keep it open to review.",
-      uk: "За судженням — ім’я й репутація. Висновок відкритий до перегляду.",
+      en: "Technology extends reach. Named professionals stand behind the judgement.",
+      uk: "Технології розширюють охоплення. За судженням — ім’я й репутація.",
     },
     note: {
-      en: "Retain the source, date, reviewer, access rules and correction route. AI OSINT is proposed; it is not connected in this demonstration.",
-      uk: "Зберігаємо джерело, дату, відповідального, правила доступу й шлях виправлення. AI OSINT запропоновано; у демонстрації його ще не підключено.",
+      en: "Start with the existing questionnaire: needs, willingness to participate and review capacity across 35 chapters. Shared policies, source evidence, dates, access controls and correction routes underpin the proposed service. Secure shared storage and AI OSINT require implementation; the current demo is browser-local. Review does not guarantee accuracy or confer accreditation.",
+      uk: "Починаємо з наявного опитувальника: потреби, готовність долучитися й ресурс перевірки 35 чаптерів. Основа сервісу — спільні політики, джерела, дати, контроль доступу й виправлення. Захищене спільне сховище та AI OSINT потребують реалізації; поточне демо працює локально в браузері. Перевірка не гарантує безпомилковості й не є акредитацією.",
     },
     steps: [
-      { en: "Professional review", uk: "Професійне судження" },
-      { en: "Source evidence", uk: "Джерела й докази" },
-      { en: "AI-assisted checks", uk: "Перевірки з AI" },
-      { en: "Controlled reuse", uk: "Контрольоване використання" },
+      {
+        en: "Shared policies",
+        uk: "Спільні політики",
+      },
+      {
+        en: "Source evidence",
+        uk: "Джерела й докази",
+      },
+      {
+        en: "Professional accountability",
+        uk: "Професійна відповідальність",
+      },
     ],
-    layers: { sector: false, theme: true, hub: false, researchQueue: true },
+    layers: {
+      sector: true,
+      theme: true,
+      hub: true,
+      researchQueue: true,
+    },
   },
   {
-    label: { en: "ISRM + its members", uk: "ISRM + члени асоціації" },
+    label: {
+      en: "Engagement cycle",
+      uk: "Цикл залучення",
+    },
     title: {
-      en: "Map expertise. Make collaboration possible.",
-      uk: "Мапуємо експертизу. Поєднуємо спроможності.",
+      en: "Each interaction opens another possibility.",
+      uk: "Кожна взаємодія створює наступну можливість.",
     },
     body: {
-      en: "Professional opportunities often travel by word of mouth. A shared chapter dashboard could connect expertise, needs and introductions across the network, supporting collaboration and relevant opportunities beyond each person’s immediate contacts.",
-      uk: "Професійні можливості часто передаються з уст в уста. Спільний дашборд чаптерів може поєднати експертизу, потреби й знайомства — та розширити взаємодію за межі особистого кола контактів.",
+      en: "A useful interaction can lead to learning, paid membership, a partnership, a service enquiry, a referral or a conference. A connected workflow helps people find a relevant next step and brings value back to the network.",
+      uk: "Корисна взаємодія може привести до навчання, платного членства, партнерства, послуги, клієнтського запиту, рефералу чи конференції. Цілісний workflow допомагає знайти доречний наступний крок і повертає цінність у мережу.",
     },
     principle: {
-      en: "Engage the 35 chapters through the existing questionnaire.",
-      uk: "Залучаємо 35 чаптерів через наявний опитувальник.",
+      en: "Relevant opportunities for people. A repeatable cycle for ISRM.",
+      uk: "Людям — доречні можливості. ISRM — відтворюваний цикл.",
     },
     note: {
-      en: "First establish needs, willingness to participate and review capacity. An ongoing cycle connects these with learning, membership, partnerships and conferences.",
-      uk: "Спочатку визначаємо потреби, готовність долучитися й ресурс перевірки. Постійний цикл пов’язує їх із навчанням, членством, партнерствами та конференціями.",
+      en: "Different audiences need different routes: prospective members, clients, students, partners, alumni and future leaders. Participation and conversion are outcomes to measure, not promises. The chapter dashboard can connect needs, expertise and introductions beyond word of mouth.",
+      uk: "Різним аудиторіям потрібні різні маршрути: майбутнім членам, клієнтам, студентам, партнерам, alumni та наступникам. Участь і конверсія — результати для вимірювання, а не обіцянки. Дашборд чаптерів може поєднати потреби, експертизу й знайомства поза особистим колом контактів.",
     },
     steps: [
-      { en: "35 chapters · listen", uk: "35 чаптерів · почути" },
-      { en: "Expertise · connect", uk: "Експертиза · поєднати" },
-      { en: "Opportunities · act", uk: "Можливості · діяти" },
+      {
+        en: "Useful interaction",
+        uk: "Корисна взаємодія",
+      },
+      {
+        en: "Relevant next step",
+        uk: "Доречний наступний крок",
+      },
+      {
+        en: "Value for the network",
+        uk: "Цінність для мережі",
+      },
     ],
-    layers: { sector: true, theme: false, hub: true, researchQueue: true },
+    layers: {
+      sector: true,
+      theme: false,
+      hub: true,
+      researchQueue: true,
+    },
   },
   {
-    label: { en: "Shared value", uk: "Взаємна користь" },
+    label: {
+      en: "Digital capability",
+      uk: "Цифрова спроможність",
+    },
     title: {
-      en: "A digital capability. A win for everyone.",
-      uk: "Цифрове плече розвитку. Виграють усі.",
+      en: "A digital arm for ISRM’s development.",
+      uk: "Цифрове плече розвитку ISRM.",
     },
     body: {
-      en: "Members gain useful tools and professional opportunities. Clients gain better-supported decisions. ISRM gains stronger connections and reusable expertise. The application, AI OSINT and the professional network form a continuing capability: a fishing rod for future enquiries.",
-      uk: "Члени отримують інструменти й можливості. Клієнти — краще обґрунтовані рішення. ISRM — розвиток зв’язків і повторно використовуваної експертизи. Застосунок, AI OSINT і професіонали утворюють постійну спроможність — вудку для наступних запитів.",
+      en: "The application, AI OSINT and professional community address an operational need. Together they could build an enduring capability: members gain useful tools, clients gain better-supported answers, and ISRM gains stronger services and connections.",
+      uk: "Застосунок, AI OSINT і професійна спільнота відповідають на операційну потребу. Разом вони можуть утворити постійну спроможність: інструменти для членів, краще обґрунтовані відповіді для клієнтів, сильніші сервіси й зв’язки для ISRM.",
     },
     principle: {
-      en: "Trust → reputation → professional value.",
-      uk: "Довіра → репутація → гонорар.",
+      en: "A capability for future enquiries — with room to develop.",
+      uk: "Спроможність для наступних запитів — із простором для розвитку.",
     },
     note: {
-      en: "Members: useful tools and opportunities. Clients: better-supported decisions. ISRM: stronger services, connections and reusable expertise.",
-      uk: "Членам — інструменти й можливості. Клієнтам — краще обґрунтовані рішення. ISRM — розвиток сервісів, зв’язків і повторно використовуваної експертизи.",
+      en: "Bringing professional intelligence and technology together opens possibilities beyond individual checks. Development still depends on participation, evidence quality, governance and resources. Existing CRM, learning and project systems can be integrated; project planning and reporting belong to a separately scoped second iteration.",
+      uk: "Поєднання професійного інтелекту й технологій відкриває можливості за межами окремих перевірок. Розвиток залежить від участі, якості доказів, правил і ресурсів. Можлива інтеграція з наявними CRM, навчальними та проєктними системами; планування й звітність — окремо погоджена друга ітерація.",
     },
     steps: [
-      { en: "Members", uk: "Члени" },
-      { en: "Clients", uk: "Клієнти" },
-      { en: "ISRM", uk: "ISRM" },
+      {
+        en: "Members",
+        uk: "Члени",
+      },
+      {
+        en: "Clients",
+        uk: "Клієнти",
+      },
+      {
+        en: "ISRM",
+        uk: "ISRM",
+      },
     ],
-    layers: { sector: true, theme: true, hub: true, researchQueue: true },
+    layers: {
+      sector: true,
+      theme: true,
+      hub: true,
+      researchQueue: true,
+    },
   },
   {
-    label: { en: "A possibility to discuss", uk: "Можливий напрям для розмови" },
-    title: {
-      en: "Expertise + AI. A direction worth exploring?",
-      uk: "Експертиза + AI. Напрям, вартий розмови?",
+    label: {
+      en: "A horizon to explore",
+      uk: "Горизонт для дослідження",
     },
-    projectName: {
-      en: "Safer professional communication and stronger trust in network expertise across ISRM’s sphere of influence.",
-      uk: "Розвиток безпеки професійних комунікацій та зміцнення довіри до носіїв мережевої експертизи в зоні впливу ISRM.",
+    title: {
+      en: "From verified information to network expertise.",
+      uk: "Від перевірених даних — до мережевої експертизи.",
     },
     body: {
-      en: "Within professional-to-professional relationships, expertise + AI may offer a useful, multifaceted direction. An exploratory thought that could be interesting to discuss.",
-      uk: "У professional-to-professional експертиза + AI можуть стати корисним і багатогранним напрямом. Гіпотеза, яку було б цікаво обговорити.",
+      en: "Materials and experience could become research, professional practice and learning — and, later, AI agents that assist consultants. A hypothesis worth discussing, once secure communication and digital trust have a sound foundation.",
+      uk: "Матеріали й досвід можуть ставати дослідженнями, практиками й навчанням, а згодом — AI-агентами на допомогу консультантам. Гіпотеза, варта розмови, коли є основа безпечних комунікацій і цифрової довіри.",
     },
     principle: {
-      en: "Perhaps a conversation to continue.",
-      uk: "Можливо, привід продовжити розмову.",
+      en: "First establish trust. Then explore what expertise + AI can become.",
+      uk: "Спершу — основа довіри. Далі — можливості експертизи + AI.",
     },
     note: {
-      en: "An exploratory thought beyond the original enquiry; no model, ranking or additional programme is proposed for approval here.",
-      uk: "Гіпотеза поза початковим запитом; погодження моделі, рейтингу чи додаткової програми тут не пропонується.",
+      en: "A possible professional-to-professional direction: safer professional communication and stronger trust in network expertise across ISRM’s sphere of influence. This lies beyond the original enquiry. Any future model training would require separate agreement on rights, permitted data use, safeguards and evaluation; no training, ranking or additional programme is commissioned here.",
+      uk: "Можливий professional-to-professional напрям: розвиток безпеки професійних комунікацій та зміцнення довіри до носіїв мережевої експертизи в зоні впливу ISRM. Це поза початковим запитом. Майбутнє тренування моделей потребує окремого погодження прав, дозволеного використання даних, захисту й оцінювання; тут не замовляється тренування, рейтинг чи додаткова програма.",
     },
     steps: [
-      { en: "Professional expertise", uk: "Професійна експертиза" },
-      { en: "AI assistance", uk: "Підтримка AI" },
-      { en: "Considered judgement", uk: "Виважене судження" },
+      {
+        en: "Verified material & experience",
+        uk: "Перевірені матеріали й досвід",
+      },
+      {
+        en: "Research, practice & learning",
+        uk: "Дослідження, практики й навчання",
+      },
+      {
+        en: "Possible future AI assistants",
+        uk: "Можливі майбутні AI-помічники",
+      },
     ],
-    layers: { sector: false, theme: true, hub: true, researchQueue: true },
+    layers: {
+      sector: false,
+      theme: true,
+      hub: true,
+      researchQueue: true,
+    },
   },
   {
-    label: { en: "Our next step together", uk: "Наш наступний спільний крок" },
+    label: {
+      en: "Your next step",
+      uk: "Ваш наступний крок",
+    },
     title: {
-      en: "Explore. Define priorities. Shape the proposal.",
-      uk: "Дослідімо. Визначмо пріоритети. Узгодьмо напрям.",
+      en: "Define the scenario that fits you.",
+      uk: "Наступний крок — визначити ваш сценарій.",
     },
     body: {
-      en: "Explore the supplied sample. Choose useful capabilities and workflows, or describe your own scenario. Review the scope and indicative budget; together we can shape a detailed specification, timetable and formal proposal.",
-      uk: "Перегляньте передану вибірку. Оберіть можливості та workflow або опишіть свій сценарій. Перевірте обсяг і бюджетний орієнтир — далі разом сформуємо ТЗ, строки й детальну пропозицію.",
+      en: "Explore your familiar sample in the graph. Choose useful capabilities and workflows, clarify the scope and indicative budget, and use that starting point to shape a detailed proposal together.",
+      uk: "Перегляньте знайому вибірку в графі. Оберіть корисні можливості та workflow, уточніть обсяг і бюджетний орієнтир — на цій основі разом сформуємо детальну пропозицію.",
     },
     principle: {
-      en: "An informed next conversation, with a concrete starting point.",
-      uk: "Предметна наступна розмова з конкретною основою.",
+      en: "Start with the demonstration. Continue with a concrete scenario.",
+      uk: "Почнімо з демонстрації. Продовжимо конкретним сценарієм.",
     },
     note: {
-      en: "Core application + two independent optional workflows. Three delivery payments: 30% / 50% / 20%. This briefing does not commission work.",
-      uk: "Базовий застосунок + два незалежні опційні workflow. Три платежі за етапами: 30% / 50% / 20%. Цей брифінг не є замовленням робіт.",
+      en: "The demo uses the supplied sample; AI OSINT and shared authenticated storage are not yet connected. The briefing is an invitation to clarify needs, not a commission or a guarantee of commercial outcomes.",
+      uk: "Демонстрація використовує передану вибірку; AI OSINT і спільне авторизоване сховище ще не підключено. Брифінг — запрошення уточнити потреби, а не замовлення робіт чи гарантія комерційного результату.",
     },
     steps: [
-      { en: "Explore the network", uk: "Переглянути мережу" },
-      { en: "Scope & budget", uk: "Обсяг і бюджет" },
-      { en: "Tailored proposal", uk: "Детальна пропозиція" },
+      {
+        en: "Explore the graph",
+        uk: "Переглянути граф",
+      },
+      {
+        en: "Scope & budget",
+        uk: "Обсяг і бюджет",
+      },
+      {
+        en: "Detailed proposal",
+        uk: "Детальна пропозиція",
+      },
     ],
-    layers: { sector: true, theme: true, hub: false, researchQueue: true },
+    layers: {
+      sector: true,
+      theme: true,
+      hub: false,
+      researchQueue: true,
+    },
   },
 ];

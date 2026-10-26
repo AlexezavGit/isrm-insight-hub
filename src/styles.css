@@ -7940,3 +7940,34 @@ body,
     bottom: 66px;
   }
 }
+
+/* Keep the engagement cycle inside the fixed briefing frame. */
+.briefing-engagement .scope-workflow-orbit.is-compact .workflow-orbit-map {
+  min-height: 250px;
+}
+.briefing-engagement .scope-workflow-orbit.is-compact .workflow-orbit-map > ol {
+  grid-template-rows: repeat(3, 72px);
+}
+.briefing-engagement .workflow-orbit-node {
+  padding: 0.35rem;
+}
+.briefing-engagement .workflow-orbit-node small {
+  display: none;
+}
+.briefing-engagement .workflow-orbit-node strong {
+  font-size: 0.78rem;
+}
+@media (max-height: 740px) and (min-width: 761px) {
+  .briefing-engagement .scope-workflow-orbit.is-compact .workflow-orbit-map {
+    min-height: 210px;
+  }
+  .briefing-engagement .scope-workflow-orbit.is-compact .workflow-orbit-map > ol {
+    grid-template-rows: repeat(3, 62px);
+  }
+  .briefing-engagement .scope-workflow-orbit > figcaption {
+    display: none;
+  }
+  .briefing-path-0 li {
+    padding-block: 0.4rem;
+  }
+}
