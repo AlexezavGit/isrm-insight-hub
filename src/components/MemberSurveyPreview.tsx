@@ -74,12 +74,11 @@ export function MemberSurveyPreview({ locale }: { locale: ClientLocale }) {
             : "Saved as an additional request for discussion. Your simpler option and its price remain unchanged; the survey requires a separate estimate."}
         </p>
       )}
-      <details>
-        <summary>{uk ? "Повна вихідна чернетка" : "Full original draft"}</summary>
-        <a href="/ISRM_Community_Member_Survey_Draft.md" target="_blank" rel="noreferrer">
-          {uk ? "Переглянути повний документ" : "Read the full document"}
-        </a>
-      </details>
+      <p className="network-panel-note">
+        {uk
+          ? "Повний опитувальник погоджується окремо перед запуском."
+          : "The full questionnaire is agreed separately before launch."}
+      </p>
     </section>
   );
 }

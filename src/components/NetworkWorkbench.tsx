@@ -10,6 +10,8 @@ import {
   GitBranch,
   Plus,
   Minus,
+  Play,
+  Pause,
   Users,
   Building2,
   Layers,
@@ -46,6 +48,7 @@ export function NetworkWorkbench() {
   const root = useRef<HTMLElement>(null);
   const [wide, setWide] = useState(false);
   const [live, setLive] = useState(!route.anchor && !route.stage && !route.preset);
+  const [motionRequested, setMotionRequested] = useState(false);
   const [searchHidden, setSearchHidden] = useState(false);
   const [left, setLeft] = useState<"search" | "workflows" | "shortlist" | null>(
     route.panel === "shortlist"
@@ -115,6 +118,7 @@ export function NetworkWorkbench() {
   };
   const structure = () => {
     setLive(false);
+    setMotionRequested(false);
     if (live) {
       setAnchor(lastStructured.current.anchor);
       setMode(lastStructured.current.mode);
@@ -289,7 +293,7 @@ export function NetworkWorkbench() {
               onAnchor={chooseAnchor}
               warningService={exclude}
               disabledServiceIds={disabled}
-              motionPaused={reduced}
+              motionPaused={reduced && !motionRequested}
             />
           </Suspense>
         )}
@@ -417,18 +421,38 @@ export function NetworkWorkbench() {
                 setSearchHidden(true);
                 setMode("people");
                 setAnchor("isrm");
+                setMotionRequested(false);
                 setLive(true);
               }
             }}
           >
             {t("Live graph", "Живий граф")}
           </button>
+          {live && reduced && (
+            <button
+              className="network-motion-control"
+              aria-pressed={motionRequested}
+              aria-label={
+                motionRequested
+                  ? t("Pause graph motion", "Призупинити рух графа")
+                  : t("Animate live graph", "Увімкнути рух живого графа")
+              }
+              title={
+                motionRequested
+                  ? t("Pause graph motion", "Призупинити рух графа")
+                  : t("Animate live graph", "Увімкнути рух живого графа")
+              }
+              onClick={() => setMotionRequested((value) => !value)}
+            >
+              {motionRequested ? <Pause size={16} /> : <Play size={16} />}
+            </button>
+          )}
           <span className="network-interaction-hint">
             {live
-              ? reduced
+              ? reduced && !motionRequested
                 ? t(
-                    "Reduced motion: drag nodes manually; search restores the structured view.",
-                    "Зменшення руху: вузли можна тягнути вручну; пошук повертає структуру.",
+                    "Reduced motion: drag nodes manually or press Play; search restores the structured view.",
+                    "Зменшення руху: тягніть вузли вручну або натисніть Play; пошук повертає структуру.",
                   )
                 : t(
                     "Drag nodes to explore; a search choice returns to the structured view.",

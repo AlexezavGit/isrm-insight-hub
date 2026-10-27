@@ -9464,3 +9464,6 @@ body,
 @media (max-width:760px) {
  .network-right-heading:not(:empty) { padding-left:72px; }
 }
+
+.network-motion-control { display:grid; place-items:center; width:36px; height:36px; flex-shrink:0; border:1px solid #9db5bc66; border-radius:50%; background:transparent; color:var(--ds-paper); cursor:pointer; }
+.network-motion-control:hover,.network-motion-control[aria-pressed=true] { color:var(--ds-gold); border-color:var(--ds-gold); }
