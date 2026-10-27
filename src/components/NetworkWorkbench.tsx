@@ -559,6 +559,7 @@ export function NetworkWorkbench() {
             onClick={() => {
               close();
               setMode("people");
+              if (anchor.startsWith("svc:") || anchor.startsWith("workflow:")) setAnchor("isrm");
               setLeft(left === "search" ? null : "search");
             }}
           >
@@ -570,6 +571,10 @@ export function NetworkWorkbench() {
             onClick={() => {
               close();
               setMode("services");
+              if (!anchor.startsWith("svc:") && !anchor.startsWith("workflow:")) {
+                setAnchor("workflow:core");
+                setActive(workflowServices("core", disabled));
+              }
               setLeft(left === "workflows" ? null : "workflows");
             }}
           >
@@ -620,7 +625,13 @@ export function NetworkWorkbench() {
           </div>
         </DialogContent>
       </Dialog>
-      <Dialog open={composer} onOpenChange={setComposer}>
+      <Dialog
+        open={composer}
+        onOpenChange={(o) => {
+          setComposer(o);
+          if (!o) close();
+        }}
+      >
         <DialogContent
           className="client-request-dialog network-dialog"
           closeIcon={<Network size={19} />}
