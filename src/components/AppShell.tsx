@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { LogIn, LogOut, ShieldCheck } from "lucide-react";
+import { Lock, LockOpen } from "lucide-react";
 import { useRouterState } from "@tanstack/react-router";
 import { useAccess } from "@/lib/access";
 import { checkAccess } from "@/lib/network.functions";
@@ -42,7 +42,14 @@ export function AppShell({ children }: { children: ReactNode }) {
   const { error, reset, draft, backup } = useClientDraft();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   // Pages with their own language switcher in their own header
-  const PAGES_WITH_OWN_SWITCHER = ["/", "/proposal", "/partner", "/partner-finance", "/scope"];
+  const PAGES_WITH_OWN_SWITCHER = [
+    "/",
+    "/proposal",
+    "/partner",
+    "/partner-finance",
+    "/scope",
+    "/experts",
+  ];
   const showGlobal = !PAGES_WITH_OWN_SWITCHER.some(
     (pg) => pathname === pg || pathname.startsWith(pg + "/"),
   );
@@ -110,21 +117,21 @@ export function AccessControl({ showSignIn = true }: { showSignIn?: boolean }) {
             onClick={() => setOpen(true)}
             size="sm"
             className="client-member-signin"
-            aria-label={locale === "uk" ? "Увійти в кабінет" : "Member sign in"}
-            title={locale === "uk" ? "Увійти в кабінет" : "Member sign in"}
+            aria-label={locale === "uk" ? "Розкрити дані профілів" : "Unlock profile data"}
+            title={locale === "uk" ? "Розкрити дані профілів" : "Unlock profile data"}
           >
-            <LogIn />
-            <span>{locale === "uk" ? "Увійти в кабінет" : "Member sign in"}</span>
+            <Lock />
           </Button>
         ) : (
           <Button
             onClick={() => setCode("")}
             variant="outline"
             size="sm"
-            className="border-primary/60 bg-primary/10 text-primary"
+            className="client-member-signin"
+            aria-label={locale === "uk" ? "Приховати дані профілів" : "Lock profile data"}
+            title={locale === "uk" ? "Приховати дані профілів" : "Lock profile data"}
           >
-            {level === "coordinator" ? <ShieldCheck /> : <LogOut />}
-            <span className="hidden sm:inline">{locale === "uk" ? "Вийти" : "Sign out"}</span>
+            <LockOpen />
           </Button>
         )}
       </div>

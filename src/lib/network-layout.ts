@@ -1,6 +1,6 @@
 import type { Expert } from "./types";
 import type { NetworkModel } from "./network-model";
-import { serviceCovers } from "./network-model";
+import { serviceCovers, networkNeighborhood } from "./network-model";
 export type Point = { x: number; y: number };
 const hash = (s: string) => Array.from(s).reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
 export function assignedService(expert: Expert | undefined, active: string[], disabled: string[]) {
@@ -14,6 +14,7 @@ export function layoutNetwork(
   mode: "people" | "services",
   active: string[],
   disabled: string[],
+  anchor = "isrm",
 ): Map<string, Point> {
   const positions = new Map<string, Point>([["isrm", { x: 0, y: 0 }]]);
   const services = model.nodes.filter((n) => n.kind === "service");
@@ -56,6 +57,20 @@ export function layoutNetwork(
       }
     }),
   );
+  if (anchor !== "isrm" && model.nodes.some((n) => n.id === anchor)) {
+    const { distances } = networkNeighborhood(model, anchor, disabled);
+    for (const depth of [1, 2]) {
+      const ids = [...distances]
+        .filter(([, d]) => d === depth)
+        .map(([id]) => id)
+        .sort();
+      ids.forEach((id, i) => {
+        const a = (i / ids.length) * Math.PI * 2 - Math.PI / 2;
+        positions.set(id, { x: Math.cos(a) * depth * 110, y: Math.sin(a) * depth * 110 });
+      });
+    }
+    positions.set(anchor, { x: 0, y: 0 });
+  }
   return positions;
 }
 export function fitGraphView(

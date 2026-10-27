@@ -86,15 +86,10 @@ export function buildNetwork(experts: Expert[], layers: GraphLayers, locale: str
     const fields: [boolean | undefined, string | undefined, string, GraphKind][] = [
       [layers.sector, e.sector, "sector", "sector"],
       [layers.theme, e.ukraineCategory, "theme", "theme"],
-      [
-        layers.hub,
-        e.communityRole === "Member / participant" ? undefined : e.communityRole,
-        "role",
-        "hub",
-      ],
+      [layers.hub, e.communityRole, "role", "hub"],
       [layers.organization, e.organization, "organisation", "organisation"],
       [layers.country, e.country, "country", "hub"],
-      [layers.rank, e.identityStatus || e.communityRole, "record-status", "hub"],
+      [layers.rank, e.identityStatus, "record-status", "hub"],
       [layers.specialisation, e.primaryExpertise, "expertise", "theme"],
     ];
     for (const [enabled, value, prefix, kind] of fields)
@@ -117,13 +112,40 @@ export function relatedPeople(model: NetworkModel, ids: string[]): Set<string> {
   return people;
 }
 export function categoryNeighbors(model: NetworkModel, id: string): Set<string> {
-  const direct = new Set<string>([id]);
-  for (const l of model.links)
-    if (l.kind === "category" && (l.source === id || l.target === id)) {
-      direct.add(l.source);
-      direct.add(l.target);
+  return new Set(networkNeighborhood(model, id, [], true).distances.keys());
+}
+
+/** Two recorded steps, not a recommendation path or evidence of acquaintance. */
+export function networkNeighborhood(
+  model: NetworkModel,
+  anchor: string,
+  disabled: string[] = [],
+  categoriesOnly = false,
+) {
+  const node = model.nodes.find((n) => n.id === anchor);
+  const capability = !categoriesOnly && (node?.kind === "service" || node?.kind === "workflow");
+  const edges = model.links.filter(
+    (l) =>
+      ![l.source, l.target].some((id) => id.startsWith("svc:") && disabled.includes(id.slice(4))) &&
+      (capability ? ["coverage", "architecture"].includes(l.kind) : l.kind === "category"),
+  );
+  const distances = new Map<string, number>();
+  if (node) distances.set(anchor, 0);
+  for (let step = 0; step < 2; step++) {
+    const frontier = new Set(
+      [...distances].filter(([, depth]) => depth === step).map(([id]) => id),
+    );
+    for (const edge of edges) {
+      if (frontier.has(edge.source) && !distances.has(edge.target))
+        distances.set(edge.target, step + 1);
+      if (frontier.has(edge.target) && !distances.has(edge.source))
+        distances.set(edge.source, step + 1);
     }
-  return direct;
+  }
+  return {
+    distances,
+    links: edges.filter((l) => distances.has(l.source) && distances.has(l.target)),
+  };
 }
 
 export function workflowServices(id: string, disabled: ServiceId[]): ServiceId[] {

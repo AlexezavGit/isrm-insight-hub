@@ -9377,6 +9377,55 @@ body,
 .scope-card-cabinet .scope-fallback .client-text-button { font-size:.76rem; }
 .network-add-request { margin-bottom:1rem; border-top:3px solid #7faebf; }
 .client-briefing .client-slide-footer .briefing-final-actions .briefing-final-action,.scope-card-cabinet .scope-compact-actions .scope-action-card { height:52px; min-height:52px; max-height:52px; gap:.45rem; }
+
+/* Light dossiers retain readable forms and the shared header utilities. */
+.client-dossier :is(input,textarea),.client-request-dialog :is(input,textarea,select) { background:#faf6ed; color:#183342; border-color:#8199a8; }
+.client-dossier-page { background:var(--ds-paper); min-height:100dvh; }
+.client-dossier-page > .shared-client-header { padding-inline:clamp(1rem,3vw,3rem); }
+.client-dossier :is(input,textarea)::placeholder,.client-request-dialog :is(input,textarea)::placeholder { color:#526874; opacity:1; }
+.dossier-context-nav { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+.dossier-context-link { display:inline-flex; align-items:center; gap:.45rem; font-size:.85rem; color:var(--ds-blue); text-decoration:none; min-height:40px; }
+.dossier-context-link:hover { text-decoration:underline; text-underline-offset:4px; }
+.dossier-context-nav > a { min-height:44px; }
+.shared-client-header .client-member-signin { width:34px; padding:0; display:grid; place-items:center; }
+.network-metrics .network-shortlist-trigger { cursor:pointer; text-decoration:underline; text-underline-offset:4px; }
+.network-metrics .network-shortlist-trigger { min-width:44px; min-height:36px; }
+.network-group-name { display:grid; gap:.5rem; font-size:.85rem; margin-block:1rem; }
+.network-group-name input { width:100%; min-height:40px; border:1px solid #8199a8; padding:.5rem; border-radius:4px; }
+.network-shortlist { list-style:none; padding:0; }
+.network-shortlist li { padding:.85rem 0; border-bottom:1px solid #7895a54d; }
+.network-shortlist li p { font-size:.8rem; margin:.3rem 0; }
+.network-shortlist li > div { display:flex; flex-wrap:wrap; gap:1rem; }
+.network-context-action { display:inline-flex; align-items:center; gap:.4rem; background:transparent; border:0; box-shadow:none; color:var(--ds-blue); font-size:.8rem; min-height:36px; padding:.2rem 0; cursor:pointer; text-decoration:none; }
+.network-context-action:hover,.network-context-action:focus-visible { text-decoration:underline; text-underline-offset:4px; }
+.network-context-action:disabled { opacity:.5; cursor:default; }
+.network-paper-panel > .network-context-action { margin-right:.9rem; }
+.network-workbench .network-workflow-folder :is(.network-folder-button,.network-service-tab),.network-workbench .network-add-request { background:transparent; border:0; box-shadow:none; border-radius:0; padding:.45rem .2rem; margin:.1rem 0; min-height:42px; font-weight:500; text-underline-offset:4px; }
+.network-workbench .network-workflow-folder :is(.network-folder-button,.network-service-tab):hover,.network-workbench .network-add-request:hover { text-decoration:underline; }
+.network-workbench .network-workflow-folder > .network-folder-button { font-weight:600; }
+.network-workflow-folder::before { top:1.4rem; }
+.network-workflow-overview { font-size:.78rem; margin:.4rem 0 1rem; }
+.network-workflow-overview summary { cursor:pointer; }
+.network-workflow-overview p,.network-workflow-overview li { font-size:.8rem; }
+.network-workflow-overview h3 { margin-top:.8rem; font-size:.8rem; font-weight:600; }
+.network-node-preview { width:min(420px,calc(100% - 28px)); padding:.5rem .75rem; background:#092333dd; color:#f1eadc; border:0; border-radius:4px; box-shadow:none; }
+.network-node-preview strong { font-size:.85rem; }
+.network-node-preview p { font-size:.75rem; margin:.25rem 0; }
+.network-node-preview > div { gap:.9rem; margin-top:.25rem; }
+.network-node-preview button { border:0; background:none; color:#e9dfc7; min-height:36px; border-radius:0; padding:.2rem 0; }
+.network-node-preview button:hover,.network-node-preview button:focus-visible { text-decoration:underline; text-underline-offset:4px; }
+.network-live-control { color:#e7dbc2; background:transparent; border:0; border-bottom:1px solid #8fa8b766; padding:.4rem .2rem; min-height:38px; flex-shrink:0; font-size:.73rem; cursor:pointer; }
+.network-live-control[aria-pressed=true] { border-bottom-color:var(--ds-gold); }
+.network-workbench .network-concentrators label { min-width:0; }
+@media (max-width:760px) {
+ .network-workbench .network-concentrators label { width:auto; flex:1; }
+ .network-workbench .network-concentrators label > span { display:none; }
+ .network-workbench .network-concentrators select { min-width:0; max-width:100%; width:100%; }
+ .network-live-control { font-size:.7rem; }
+ .dossier-context-nav { display:grid; grid-template-columns:1fr 1fr; gap:.5rem; }
+ .dossier-context-nav > :nth-child(2) { grid-row:2; grid-column:1/-1; }
+ .dossier-context-nav > :nth-child(3) { grid-row:1; grid-column:2; justify-self:end; }
+}
 @media (max-width:760px) {
  .client-briefing .client-slide-footer .briefing-final-actions .briefing-final-action { font-size:.76rem; padding-inline:.3rem; }
  .client-briefing .briefing-rewind svg { display:none; }

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildNetwork, relatedPeople } from "./network-model";
+import { buildNetwork, relatedPeople, categoryNeighbors } from "./network-model";
 import type { Expert } from "./types";
 const person = (code: string, extra: Partial<Expert> = {}) =>
   ({
@@ -56,4 +56,27 @@ test("all workflow entry paths retain service exclusions", async () => {
   assert(!workflowServices("expertise", ["research"]).includes("research"));
   assert(!workflowServices("core", ["contact"]).includes("contact"));
   assert.deepEqual(workflowServices("unknown", []), []);
+});
+
+test("person exploration follows shared recorded categories without using universal service or sample edges", () => {
+  const g = buildNetwork(
+    [person("A"), person("B"), person("C", { sector: "Energy" })],
+    { sector: true, theme: false, hub: false, researchQueue: false },
+    "en",
+  );
+  const connected = categoryNeighbors(g, "A");
+  assert(connected.has("B"), "a shared recorded sector provides a two-step path");
+  assert(connected.has("sector:Risk"));
+  assert(!connected.has("C"), "shared sample provenance is not a personal connection");
+  assert(!connected.has("isrm"));
+  assert(!connected.has("svc:search"));
+});
+
+test("record status never falls back to a professional role", () => {
+  const g = buildNetwork(
+    [person("A", { identityStatus: "", communityRole: "Board" })],
+    { sector: false, theme: false, hub: false, rank: true, researchQueue: false },
+    "en",
+  );
+  assert(!g.nodes.some((n) => n.id === "record-status:Board"));
 });
