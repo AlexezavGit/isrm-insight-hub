@@ -33,17 +33,21 @@ export function NetworkWorkflowDescription({
   id,
   locale,
   onService,
+  compact = false,
 }: {
   id: string;
   locale: ClientLocale;
   onService: (id: ServiceId) => void;
+  compact?: boolean;
 }) {
   const uk = locale === "uk",
     w = CLIENT_WORKFLOWS.find((w) => w.id === id),
     ids = id === "core" ? CORE_SERVICE_IDS : (w?.serviceIds ?? []);
   return (
     <>
-      <h2>{id === "core" ? (uk ? "Ядро довіри" : "Trust core") : w?.title[locale]}</h2>
+      {!compact && (
+        <h2>{id === "core" ? (uk ? "Ядро довіри" : "Trust core") : w?.title[locale]}</h2>
+      )}
       <p>
         {id === "core"
           ? uk
@@ -61,12 +65,13 @@ export function NetworkWorkflowDescription({
           </ul>
         </>
       )}
-      <h3>{uk ? "Задіяні сервіси та залежності" : "Services and dependencies"}</h3>
-      {ids.map((id) => (
-        <button className="network-service-tab" key={id} onClick={() => onService(id)}>
-          {CLIENT_SERVICES.find((s) => s.id === id)?.title[locale]}
-        </button>
-      ))}
+      {!compact && <h3>{uk ? "Задіяні сервіси та залежності" : "Services and dependencies"}</h3>}
+      {!compact &&
+        ids.map((id) => (
+          <button className="network-service-tab" key={id} onClick={() => onService(id)}>
+            {CLIENT_SERVICES.find((s) => s.id === id)?.title[locale]}
+          </button>
+        ))}
       <details>
         <summary>
           {uk ? "Запропонований технологічний підхід" : "Proposed technology approach"}

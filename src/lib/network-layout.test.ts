@@ -70,3 +70,10 @@ test("fitting uses visible wheel and selected people, not distant invisible node
   const selected = fitGraphView(pos, ids, "svc:research", 900, 600);
   assert.equal(selected.x, pos.get("svc:research")!.x);
 });
+
+test("choosing a person rebuilds the node layout with that person at the centre", () => {
+  const positions = layoutNetwork(model, "people", [], [], "P0");
+  assert.deepEqual(positions.get("P0"), { x: 0, y: 0 });
+  assert(Math.hypot(positions.get("sector:Risk")!.x, positions.get("sector:Risk")!.y) > 80);
+  assert(Math.hypot(positions.get("P1")!.x, positions.get("P1")!.y) > 180);
+});

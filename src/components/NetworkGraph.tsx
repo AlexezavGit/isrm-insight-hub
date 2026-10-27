@@ -4,6 +4,7 @@ import type { Expert } from "@/lib/types";
 import {
   buildNetwork,
   relatedPeople,
+  networkNeighborhood,
   type GraphLayers,
   type NetworkNode,
 } from "@/lib/network-model";
@@ -18,6 +19,7 @@ export default function NetworkGraph({
   focus,
   onFocus,
   serviceMode = false,
+  live = false,
   locale = "en",
   motionPaused = false,
   activeServiceIds = [],
@@ -34,6 +36,7 @@ export default function NetworkGraph({
   focus: string | null;
   onFocus: (id: string | null) => void;
   serviceMode?: boolean;
+  live?: boolean;
   showExpertsOnServices?: boolean;
   locale?: string;
   motionPaused?: boolean;
@@ -67,41 +70,64 @@ export default function NetworkGraph({
     [model, effective],
   );
   const points = useMemo(
-    () => layoutNetwork(model, serviceMode ? "services" : "people", effective, disabledServiceIds),
-    [model, serviceMode, effective, disabledServiceIds],
+    () =>
+      layoutNetwork(
+        model,
+        serviceMode ? "services" : "people",
+        effective,
+        disabledServiceIds,
+        anchor,
+      ),
+    [model, serviceMode, effective, disabledServiceIds, anchor],
+  );
+  const neighborhood = useMemo(
+    () => (anchor !== "isrm" ? networkNeighborhood(model, anchor, disabledServiceIds) : null),
+    [model, anchor, disabledServiceIds],
+  );
+  const neighborhoodEdges = useMemo(
+    () => new Set(neighborhood?.links.map((l) => l.source + "\0" + l.target + "\0" + l.kind)),
+    [neighborhood],
   );
   const data = useMemo(
     () => ({
-      nodes: model.nodes.map((n) => {
-        const prev = cache.current.get(n.id),
-          p = points.get(n.id) ?? { x: 0, y: 0 };
-        const item = {
-          ...n,
-          x: prev?.x ?? p.x,
-          y: prev?.y ?? p.y,
-          fx: prev?.x ?? p.x,
-          fy: prev?.y ?? p.y,
-        };
-        cache.current.set(n.id, item);
-        return item;
-      }),
-      links: model.links.map((l) => ({ ...l })),
+      nodes: model.nodes
+        .filter((n) => !live || !["service", "workflow"].includes(n.kind))
+        .map((n) => {
+          const prev = cache.current.get(n.id),
+            p = points.get(n.id) ?? { x: 0, y: 0 };
+          const item: NetworkNode = {
+            ...n,
+            x: prev?.x ?? (live && !motionPaused ? p.x * 3.5 : p.x),
+            y: prev?.y ?? (live && !motionPaused ? p.y * 3.5 : p.y),
+          };
+          if (!live) {
+            item.fx = prev?.x ?? p.x;
+            item.fy = prev?.y ?? p.y;
+          }
+          cache.current.set(n.id, item);
+          return item;
+        }),
+      links: model.links
+        .filter((l) => !live || ["category", "sample"].includes(l.kind))
+        .map((l) => ({ ...l })),
     }),
-    [model, points],
+    [model, points, live, motionPaused],
   );
   const visible = useMemo(
     () =>
-      new Set(
-        model.nodes
-          .filter((n) =>
-            serviceMode
-              ? ["isrm", "service", "workflow"].includes(n.kind) ||
-                (n.kind === "expert" && covered.has(n.id))
-              : !["service", "workflow"].includes(n.kind),
-          )
-          .map((n) => n.id),
-      ),
-    [model, serviceMode, covered],
+      neighborhood
+        ? new Set(neighborhood.distances.keys())
+        : new Set(
+            model.nodes
+              .filter((n) =>
+                serviceMode
+                  ? ["isrm", "service", "workflow"].includes(n.kind) ||
+                    (n.kind === "expert" && covered.has(n.id))
+                  : !["service", "workflow"].includes(n.kind),
+              )
+              .map((n) => n.id),
+          ),
+    [model, serviceMode, covered, neighborhood],
   );
   const selectedNode = model.nodes.find((n) => n.id === preview && visible.has(n.id));
   const warningPeople = useMemo(
@@ -119,11 +145,31 @@ export default function NetworkGraph({
   }, []);
   useEffect(() => {
     onVisibleCount?.(
-      serviceMode ? covered.size : experts.filter((e) => e.verified || layers.researchQueue).length,
+      neighborhood
+        ? model.nodes.filter((n) => n.kind === "expert" && visible.has(n.id)).length
+        : serviceMode
+          ? covered.size
+          : experts.filter((e) => e.verified || layers.researchQueue).length,
     );
-  }, [serviceMode, covered, experts, layers.researchQueue, onVisibleCount]);
+  }, [
+    serviceMode,
+    covered,
+    experts,
+    layers.researchQueue,
+    onVisibleCount,
+    neighborhood,
+    model,
+    visible,
+  ]);
   useEffect(() => {
     revealStarted.current = performance.now();
+    if (live) {
+      if (motionPaused) return;
+      fg.current?.d3Force("link")?.["distance"](95)["strength"](0.035);
+      fg.current?.d3Force("charge")?.["strength"](-85);
+      fg.current?.d3ReheatSimulation();
+      return;
+    }
     let raf = 0;
     const start = performance.now(),
       duration = motionPaused ? 0 : 1100;
@@ -143,7 +189,7 @@ export default function NetworkGraph({
     };
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
-  }, [data, points, motionPaused]);
+  }, [data, points, motionPaused, live]);
   // Explicit concentrator choices and viewport changes move the camera; inspecting never does.
   useEffect(() => {
     const view = fitGraphView(points, [...visible], anchor, size.w, size.h);
@@ -151,7 +197,7 @@ export default function NetworkGraph({
     fg.current?.zoom(view.zoom, motionPaused ? 0 : 650);
     // Selection changes only surface people around the fixed wheel; they must not refit it.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [anchor, size.w, size.h, serviceMode, motionPaused]);
+  }, [anchor, size.w, size.h, serviceMode, motionPaused, live]);
   useEffect(() => {
     if (preview && !visible.has(preview)) setPreview(null);
   }, [visible, preview]);
@@ -214,9 +260,14 @@ export default function NetworkGraph({
         backgroundColor="rgba(0,0,0,0)"
         nodeLabel={() => ""}
         warmupTicks={0}
-        cooldownTicks={0}
+        cooldownTicks={live && !motionPaused ? Infinity : 0}
+        d3VelocityDecay={0.65}
+        d3AlphaDecay={0.02}
         autoPauseRedraw={false}
-        enableNodeDrag={false}
+        enableNodeDrag={live}
+        onNodeDragEnd={() => {
+          if (!motionPaused) fg.current?.d3ReheatSimulation();
+        }}
         minZoom={0.3}
         maxZoom={3}
         nodeVisibility={(n) => visible.has(n.id)}
@@ -224,6 +275,7 @@ export default function NetworkGraph({
           const s = endId(l.source),
             t = endId(l.target);
           if (!visible.has(s) || !visible.has(t)) return false;
+          if (neighborhood) return neighborhoodEdges.has(s + "\0" + t + "\0" + l.kind);
           if (l.kind === "coverage") {
             const n = model.nodes.find((n) => n.id === s);
             return serviceMode && assignedService(n?.expert, effective, disabledServiceIds) === t;
@@ -239,7 +291,7 @@ export default function NetworkGraph({
         }
         linkWidth={0.7}
         onRenderFramePre={(ctx, scale) => {
-          if (!serviceMode) return;
+          if (!serviceMode || neighborhood) return;
           ctx.save();
           ctx.beginPath();
           ctx.arc(0, 0, 180, 0, Math.PI * 2);
@@ -258,7 +310,7 @@ export default function NetworkGraph({
         onNodeHover={(n) => setHover(n?.id ?? null)}
         onNodeClick={(n) => {
           if (n.kind === "service") {
-            setPreview(null);
+            setPreview(n.id);
             onServiceSelect?.(n.id.slice(4));
           } else if (n.kind === "workflow") {
             setPreview(null);
@@ -310,7 +362,7 @@ export default function NetworkGraph({
             ctx.lineWidth = 1 / scale;
             ctx.stroke();
           }
-          if (n.kind === "isrm" || n.id === hover || n.id === preview) {
+          if (n.id === anchor || n.id === hover || n.id === preview) {
             const label = n.label.length > 35 ? n.label.slice(0, 33) + "…" : n.label;
             const detail = n.kind === "expert" ? n.expert?.primaryExpertise : undefined;
             ctx.font = `600 ${13 / scale}px "Space Grotesk",sans-serif`;
@@ -363,7 +415,7 @@ export default function NetworkGraph({
                 setPreview(null);
               }}
             >
-              {locale === "uk" ? "Центрувати тут" : "Centre here"}
+              {locale === "uk" ? "Дослідити зв’язки" : "Explore connections"}
             </button>
             <button onClick={() => setPreview(null)}>
               {locale === "uk" ? "Назад до графа" : "Back to graph"}

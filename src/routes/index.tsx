@@ -3,19 +3,23 @@ import { NetworkWorkbench } from "@/components/NetworkWorkbench";
 
 type IndexSearch = {
   view?: "map";
-  panel?: "search";
+  panel?: "search" | "shortlist";
   stage?: "configuration";
   preset?: string;
+  anchor?: string;
 };
 
 export const Route = createFileRoute("/")({
   beforeLoad: ({ search }) => {
-    if (!search.view && !search.panel && !search.stage && !search.preset)
+    if (!search.view && !search.panel && !search.stage && !search.preset && !search.anchor)
       throw redirect({ to: "/proposal" });
   },
   validateSearch: (search: Record<string, unknown>): IndexSearch => {
     const stage = search["stage"] === "configuration" ? ("configuration" as const) : undefined;
-    const panel = !stage && search["panel"] === "search" ? ("search" as const) : undefined;
+    const panel =
+      !stage && ["search", "shortlist"].includes(String(search["panel"]))
+        ? (search["panel"] as "search" | "shortlist")
+        : undefined;
     const rawPreset = search["preset"];
     const preset = typeof rawPreset === "string" ? rawPreset : undefined;
     const result: IndexSearch = {};
@@ -23,6 +27,8 @@ export const Route = createFileRoute("/")({
     if (stage) result.stage = stage;
     if (panel) result.panel = panel;
     if (preset !== undefined) result.preset = preset;
+    if (typeof search["anchor"] === "string" && search["anchor"].length <= 200)
+      result.anchor = search["anchor"];
     return result;
   },
   head: () => ({
