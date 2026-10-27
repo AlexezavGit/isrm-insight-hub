@@ -1,4 +1,5 @@
-import { CORE_CAPABILITIES, ENGAGEMENT_CYCLE, VALUE_PYRAMID } from "@/lib/client-value-framework";
+import { WorkflowOrbit } from "./WorkflowOrbit";
+import { CORE_CAPABILITIES, VALUE_PYRAMID } from "@/lib/client-value-framework";
 import type { ClientLocale, WorkflowId } from "@/lib/client-catalog";
 
 export function CoreCapabilities({
@@ -50,38 +51,42 @@ export function ExpertisePyramid({
   locale: ClientLocale;
   compact?: boolean;
 }) {
+  const uk = locale === "uk";
   return (
     <figure
-      className={`client-value-pyramid ${compact ? "is-compact" : ""}`}
+      className={`client-three-levels ${compact ? "is-compact" : ""}`}
       aria-label={
-        locale === "uk"
-          ? "Піраміда цінності: експертиза на вершині"
-          : "Value pyramid: expertise at the top"
+        uk
+          ? "Три рівні рішення: ядро та два незалежні опційні workflow"
+          : "Three levels: the core and two independent optional workflows"
       }
     >
       <ol>
         {VALUE_PYRAMID.map((level, index) => (
-          <li key={level.id} className={`pyramid-level pyramid-level-${index}`}>
-            <span className="pyramid-level-label">
-              {locale === "uk"
-                ? ["Вершина", "Розвиток", "Основа"][index]
-                : ["Value", "Growth", "Foundation"][index]}
+          <li key={level.id} className={`value-structure-level level-${index}`}>
+            <span>
+              {index === 2
+                ? uk
+                  ? "Основа"
+                  : "Foundation"
+                : uk
+                  ? "Опційний workflow"
+                  : "Optional workflow"}
             </span>
             <strong>{level.title[locale]}</strong>
             {!compact && <p>{level.detail[locale]}</p>}
           </li>
         ))}
       </ol>
-      {!compact && (
-        <figcaption>
-          {locale === "uk"
-            ? "Основа підтримує два опційні workflow. Це рівні цінності, а не обов’язкова черговість замовлення. Подальша перспектива — AI-помічник консультантів і, можливо, AI-консультант для ринку; це окреме рішення."
-            : "The foundation supports two optional workflows. These are value layers, not a mandatory purchasing sequence. A future AI assistant for consultants, and perhaps a market-facing AI consultant, would be a separate decision."}
-        </figcaption>
-      )}
+      <figcaption>
+        {uk
+          ? "Ядро — спільна основа. Кожен workflow можна обрати незалежно."
+          : "One shared foundation. Each workflow can be selected independently."}
+      </figcaption>
     </figure>
   );
 }
+
 export function WorkflowValue({
   workflow,
   locale,
@@ -91,32 +96,5 @@ export function WorkflowValue({
   locale: ClientLocale;
   compact?: boolean;
 }) {
-  if (workflow === "expertise") return <ExpertisePyramid locale={locale} compact={compact} />;
-  return (
-    <figure className={`client-engagement-cycle ${compact ? "is-compact" : ""}`}>
-      <figcaption>
-        {locale === "uk"
-          ? "Цикл залучення експертів — як мережа розвивається сама"
-          : "The expert engagement cycle — how the network develops"}
-      </figcaption>
-      <ol>
-        {ENGAGEMENT_CYCLE.map((step, index) => (
-          <li key={step.id}>
-            <span className="client-cycle-number">{index + 1}</span>
-            <div>
-              <strong>{step.title[locale]}</strong>
-              {!compact && <p>{step.action[locale]}</p>}
-              <p className="client-cycle-opportunity">{step.opportunities[locale]}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
-      <p className="client-cycle-return">
-        ↻{" "}
-        {locale === "uk"
-          ? "Результати й нові потреби повертаються в адженду наступного циклу."
-          : "Findings and new needs shape the agenda for the next cycle."}
-      </p>
-    </figure>
-  );
+  return <WorkflowOrbit workflow={workflow} locale={locale} compact={compact} />;
 }

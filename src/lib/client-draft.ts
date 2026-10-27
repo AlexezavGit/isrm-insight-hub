@@ -5,6 +5,7 @@ import {
   CORE_SERVICE_IDS,
   CLIENT_SERVICES,
   CLIENT_WORKFLOWS,
+  WORKFLOW_OUTCOME_COPY,
   type ClientLocale,
   type ServiceId,
 } from "./client-catalog";
@@ -36,6 +37,7 @@ const schema = z.object({
   groupName: z.string(),
   customIncluded: z.boolean().default(true),
   oneOffResearch: z.boolean().default(false),
+  integrationInterest: z.boolean().default(false),
   budgetPosition: z.enum(["discuss", "limit", "approve"]),
   budgetCeiling: z.string(),
   currency: z.enum(["GBP", "USD", "EUR"]),
@@ -55,7 +57,8 @@ export const emptyDraft = (): ClientDraft => ({
   groupName: "",
   customIncluded: true,
   oneOffResearch: false,
-  budgetPosition: "discuss",
+  integrationInterest: false,
+  budgetPosition: "approve",
   budgetCeiling: "",
   currency: "GBP",
   name: "",
@@ -67,13 +70,16 @@ export function updateDraft(draft: ClientDraft, changes: Partial<ClientDraft>): 
   const next = schema.parse({ ...draft, ...changes });
   if (changes.mode && changes.mode !== draft.mode) {
     next.workflowIds = [];
+    next.integrationInterest = false;
     next.serviceIds = changes.mode === "full" ? emptyDraft().serviceIds : [];
   }
   if (next.mode === "graph")
     next.serviceIds = next.serviceIds.filter((id) =>
-      ["groups", "contact", "research", "integration"].includes(id),
+      ["research"].includes(id),
     );
-  const scopeChanged = ["mode", "serviceIds", "workflowIds", "requests", "customIncluded"].some(
+  if (changes.oneOffResearch === true) next.serviceIds = next.serviceIds.filter(id=>id!=="research");
+  if (changes.serviceIds?.includes("research") && next.mode === "graph") next.oneOffResearch = false;
+  const scopeChanged = ["mode", "serviceIds", "workflowIds", "integrationInterest", "requests", "customIncluded"].some(
     (key) =>
       key in changes &&
       JSON.stringify(draft[key as keyof ClientDraft]) !==
@@ -88,7 +94,10 @@ export function selectedServiceIds(draft: ClientDraft): ServiceId[] {
     return [
       ...new Set<ServiceId>([
         "search",
-        ...draft.serviceIds,
+        "groups",
+        "review",
+        "evidence",
+        ...draft.serviceIds.filter(id => id === "research"),
         ...(draft.serviceIds.includes("research") ? ["review" as const] : []),
       ]),
     ];
@@ -97,9 +106,6 @@ export function selectedServiceIds(draft: ClientDraft): ServiceId[] {
     ...new Set<ServiceId>([
       ...CORE_SERVICE_IDS,
       ...draft.serviceIds,
-      ...CLIENT_WORKFLOWS.filter((w) => draft.workflowIds.includes(w.id)).flatMap(
-        (w) => w.serviceIds,
-      ),
     ]),
   ];
 }
@@ -113,15 +119,16 @@ export function buildClientSummary(d: ClientDraft, locale: ClientLocale): string
       ? "Не є замовленням робіт або погодженням ціни."
       : "Not an order for work or acceptance of a price.",
     `${uk ? "Контакт" : "Contact"}: ${d.name} ${d.email}`,
-    `${uk ? "Варіант" : "Route"}: ${d.mode === "graph" ? (uk ? "Граф і пошук" : "Graph & search") : d.mode === "research-only" ? (uk ? "Разові дослідження" : "Research on request") : uk ? "Застосунок за погодженим складом" : "Application with agreed scope"}`,
+    `${uk ? "Варіант" : "Route"}: ${d.mode === "graph" ? (uk ? "Застосунок як є: пошук, досьє, shortlist та OSINT-перевірка" : "Application as is: search, dossiers, shortlist and OSINT review") : d.mode === "research-only" ? (uk ? "Разові дослідження" : "Research on request") : uk ? "Застосунок за погодженим складом" : "Application with agreed scope"}`,
     "\n" + (uk ? "СЕРВІСИ" : "SERVICES"),
     ...CLIENT_SERVICES.filter((s) => services.includes(s.id)).map(
       (s) => `• ${s.title[locale]}\n  ${s.detail[locale]}`,
     ),
-    "\nWORKFLOWS",
-    ...CLIENT_WORKFLOWS.filter((w) => d.workflowIds.includes(w.id)).map(
-      (w) => `• ${w.title[locale]}\n${w.detail[locale]}\n${w.outputs[locale].join("; ")}`,
+    "\n" + (uk ? "WORKFLOWS · ПОГОДЖУЮ · ДОДАТИ ДО РОЗРАХУНКІВ У ПРОПОЗИЦІЇ" : "WORKFLOWS · APPROVE · INCLUDE IN THE PROPOSAL ESTIMATE"),
+    ...CLIENT_WORKFLOWS.filter((w) => d.mode === "full" && d.workflowIds.includes(w.id)).map(
+      (w) => `• ${w.title[locale]}\n${w.detail[locale]}\n${w.outputs[locale].map((title, i) => `${title}: ${WORKFLOW_OUTCOME_COPY[w.id][locale][i]}`).join("\n")}`,
     ),
+    ...(d.integrationInterest && d.mode === "full" ? [uk ? "Integration · наступна ітерація: погоджую опрацювання AI-консультанта та ліцензованих інтеграцій; додати до розрахунків у пропозиції." : "Integration · next iteration: scope discussion agreed for an AI consultant assistant and licensed integrations; include in the proposal estimate."] : []),
     "\n" + (uk ? "ВЛАСНІ ОПИСИ" : "CUSTOM REQUESTS"),
     ...(d.mode === "full" && d.customIncluded ? d.requests : []).map(
       (r) =>
@@ -143,21 +150,15 @@ export function buildClientSummary(d: ClientDraft, locale: ClientLocale): string
       [
         d.mode === "graph"
           ? uk
-            ? "Граф і пошук"
-            : "Graph & search"
+            ? "Застосунок як є: пошук, досьє, shortlist та OSINT-перевірка"
+            : "Application as is: search, dossiers, shortlist and OSINT review"
           : uk
             ? "Базовий застосунок"
             : "Core application",
         d.mode === "graph" ? CLIENT_APPROVED_PRICES.graph : CLIENT_APPROVED_PRICES.base,
       ],
-      ...(d.mode === "full"
-        ? CLIENT_WORKFLOWS.filter((w) => d.workflowIds.includes(w.id)).map((w) => [
-            w.title[locale],
-            CLIENT_APPROVED_PRICES[w.id],
-          ])
-        : []),
       ...(d.mode === "graph"
-        ? d.serviceIds.map((id) => [
+        ? d.serviceIds.filter(id => id === "research").map((id) => [
             CLIENT_SERVICES.find((s) => s.id === id)?.title[locale],
             CLIENT_APPROVED_PRICES.addons[id] ?? null,
           ])
@@ -170,19 +171,25 @@ export function buildClientSummary(d: ClientDraft, locale: ClientLocale): string
     uk
       ? "Суми індикативні для зазначеного обсягу. Остаточну пропозицію, строки, інтеграції та права визначає угода."
       : "Amounts are indicative for the stated scope. The final offer, timetable, integrations and rights are defined in the agreement.",
+    ...(d.mode === "full" ? [
     uk
-      ? "Запропоновані етапи: ТЗ та угода 30%; перший запуск та інтеграція 50%; налаштування та передача 20%."
-      : "Proposed milestones: specification & agreement 30%; initial deployment & integration 50%; refinement & handover 20%.",
+      ? "Попередні умови, що підлягають погодженню, тільки для ядра: ТЗ та угода 30%; перший запуск та інтеграція 50%; налаштування та передача 20%."
+      : "Provisional terms, subject to agreement, for the core only: specification & agreement 30%; initial deployment & integration 50%; refinement & handover 20%.",
     ...BRIEFING_MILESTONES.map(
       (step) => `${Math.round(step.fraction * 100)}% · ${step.title[locale]}
 ${step.detail[locale]}
 ${step.acceptance[locale]}`,
-    ),
+    )
+    ] : []),
     d.oneOffResearch
       ? uk
         ? "Також цікавлять разові дослідження на замовлення."
         : "Also interested in research on individual requests."
       : "",
+    "\n" + (uk ? "ДАНІ ТА ВІДПОВІДАЛЬНІСТЬ" : "DATA & RESPONSIBILITY"),
+    uk
+      ? "Демонстраційна вибірка та тематичні зв’язки не є акредитацією, рекомендацією ISRM чи оцінкою репутації. AI OSINT ще не підключено. Операційне використання даних потребує визначених цілей, правової підстави, відповідальних, строків зберігання та порядку реалізації прав."
+      : "The demonstration sample and thematic matches are not accreditation, an ISRM endorsement or a reputation assessment. AI OSINT is not connected. Operational data use requires defined purposes, lawful basis, responsibilities, retention periods and a rights process.",
     "\n" + (uk ? "ПРИМІТКИ" : "NOTES"),
     d.notes,
   ].join("\n");

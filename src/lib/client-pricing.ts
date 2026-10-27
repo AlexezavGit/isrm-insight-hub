@@ -9,19 +9,19 @@ export const CLIENT_APPROVED_PRICES: {
   addons: Record<string, number | null>;
 } = {
   currency: "GBP",
-  base: 26000,
-  engagement: 10000,
-  expertise: 12000,
-  graph: 7500,
-  addons: { groups: 2000, contact: 2500, research: 6000, integration: null },
+  base: 33600,
+  engagement: null,
+  expertise: null,
+  graph: 10080,
+  addons: { groups: null, contact: null, research: null, integration: null },
 };
 export function clientQuote(d: ClientDraft, prices = CLIENT_APPROVED_PRICES): number | null {
   const lines =
     d.mode === "graph"
-      ? [prices.graph, ...d.serviceIds.map((id) => prices.addons[id] ?? null)]
+      ? [prices.graph, ...d.serviceIds.filter((id) => id === "research").map((id) => prices.addons[id] ?? null)]
       : d.mode === "research-only"
         ? [null]
-        : [prices.base, ...d.workflowIds.map((id) => prices[id])];
+        : [prices.base];
   if (d.mode === "full" && d.serviceIds.includes("publishing") && d.workflowIds.length === 0)
     return null;
   if (d.mode === "full" && d.customIncluded && d.requests.length) return null;

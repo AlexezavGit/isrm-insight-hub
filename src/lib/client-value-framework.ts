@@ -28,12 +28,12 @@ export const CORE_CAPABILITIES: { id: string; title: Copy; outcomes: Copy[] }[] 
     },
     outcomes: [
       {
-        en: "Form a multidisciplinary group with a clear purpose, tasks and expected outputs.",
-        uk: "Формувати міждисциплінарну групу з чіткою метою, задачами й очікуваними результатами.",
+        en: "Form a multidisciplinary group around a defined professional need.",
+        uk: "Формувати міждисциплінарну групу навколо визначеної професійної потреби.",
       },
       {
-        en: "See accepted tasks and the work completed by each expert and group.",
-        uk: "Бачити прийняті задачі та результати кожного експерта й групи.",
+        en: "Keep the group’s purpose, relevant expertise and contact route together.",
+        uk: "Зберігати разом мету групи, релевантну експертизу та маршрут контакту.",
       },
       {
         en: "Address the relevant group, retain attributable work and prepare a structured enquiry.",
@@ -66,8 +66,8 @@ export const ENGAGEMENT_CYCLE: { id: string; title: Copy; action: Copy; opportun
     id: "members",
     title: { en: "Members & priorities", uk: "Члени та пріоритети" },
     action: {
-      en: "Shape chapter and sector agendas around expertise gaps, active projects and professional needs.",
-      uk: "Формувати адженду чаптерів і секторів навколо прогалин експертизи, активних проєктів і професійних потреб.",
+      en: "Start with the existing questionnaire across the 35 chapters: establish needs, expertise gaps and willingness to participate. Shape the next agenda from the responses.",
+      uk: "Почати з наявного опитувальника для 35 чаптерів: визначити потреби, прогалини експертизи й готовність долучитися. За відповідями сформувати наступну адженду.",
     },
     opportunities: {
       en: "Internal consultations · alumni participation & resources",
