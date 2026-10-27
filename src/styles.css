@@ -9286,3 +9286,11 @@ body,
 .client-dossier span.border { border:0; background:transparent; padding-inline:0; }
 .client-dossier .dossier-tag + .dossier-tag::before { content:'·'; margin-right:.5rem; opacity:.5; }
 .client-dossier .text-primary { color:var(--ds-blue); }
+/* Clear the legacy compact dock constraints on the two full-width graph tabs. */
+.client-network-page.network-workbench .client-network-dock.network-two-tabs > button {
+  min-width:0; max-width:none; width:100%; flex-direction:row; height:64px;
+}
+@media (max-width:760px) {
+ .client-network-page.network-workbench .client-network-dock.network-two-tabs { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .client-network-page.network-workbench .client-network-dock.network-two-tabs > button { height:62px; font-size:1rem; }
+}

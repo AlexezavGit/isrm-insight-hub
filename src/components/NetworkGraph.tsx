@@ -102,7 +102,7 @@ export default function NetworkGraph({
     f.d3Force("link")
       ?.["distance"]((l: DrawLink) =>
         l.kind === "sample"
-          ? 230
+          ? 175
           : l.kind === "coverage"
             ? 145
             : l.kind === "architecture"
@@ -115,7 +115,9 @@ export default function NetworkGraph({
             ? 0.16
             : 0.001
           : l.kind === "sample"
-            ? 0.035
+            ? serviceMode
+              ? 0.025
+              : 0.18
             : 0.3,
       );
     f.d3ReheatSimulation();
@@ -189,7 +191,15 @@ export default function NetworkGraph({
         warmupTicks={motionPaused ? 100 : 0}
         cooldownTicks={motionPaused ? 1 : 140}
         onEngineStop={() => {
-          if (anchor === "isrm") fg.current?.zoomToFit(motionPaused ? 0 : 850, 70);
+          if (anchor === "isrm") {
+            const maxX = Math.max(150, ...data.nodes.map((n) => Math.abs(n.x ?? 0) + 30));
+            const maxY = Math.max(120, ...data.nodes.map((n) => Math.abs(n.y ?? 0) + 30));
+            fg.current?.zoom(
+              Math.min((size.w - 100) / (maxX * 2), (size.h - 100) / (maxY * 2)),
+              motionPaused ? 0 : 850,
+            );
+            fg.current?.centerAt(0, 0, motionPaused ? 0 : 850);
+          }
         }}
         nodeRelSize={1}
         nodeLabel={() => ""}
