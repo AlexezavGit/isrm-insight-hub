@@ -98,9 +98,9 @@ export default function NetworkGraph({
   useEffect(() => {
     const f = fg.current;
     if (!f) return;
-    f.d3Force("charge")?["strength"]((n: NetworkNode) => (n.kind === "expert" ? -38 : -90));
+    f.d3Force("charge")?.["strength"]((n: NetworkNode) => (n.kind === "expert" ? -38 : -90));
     f.d3Force("link")
-      ?["distance"]((l: DrawLink) =>
+      ?.["distance"]((l: DrawLink) =>
         l.kind === "sample"
           ? 230
           : l.kind === "coverage"

@@ -131,7 +131,7 @@ function Dossier() {
               </h3>
               <div className="mt-2 flex flex-wrap gap-2">
                 {e.tags.map((t) => (
-                  <span key={t} className="rounded-sm border border-border px-2 py-1 text-xs">
+                  <span key={t} className="dossier-tag text-xs">
                     {t}
                   </span>
                 ))}
@@ -181,7 +181,9 @@ function Dossier() {
           </div>
           {sent ? (
             <p className="rounded border border-success/40 bg-success/10 p-4 text-sm text-success">
-              {t("requestSent")}
+              {uk
+                ? "Запит збережено в цьому браузері; його не надіслано."
+                : "Request saved in this browser; it has not been sent."}
             </p>
           ) : open ? (
             <form

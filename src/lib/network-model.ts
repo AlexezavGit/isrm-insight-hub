@@ -1,5 +1,10 @@
 import type { Expert } from "./types";
-import { CLIENT_SERVICES, CLIENT_WORKFLOWS, CORE_SERVICE_IDS, type ServiceId } from "./client-catalog";
+import {
+  CLIENT_SERVICES,
+  CLIENT_WORKFLOWS,
+  CORE_SERVICE_IDS,
+  type ServiceId,
+} from "./client-catalog";
 export type GraphKind =
   "expert" | "organisation" | "sector" | "theme" | "hub" | "service" | "workflow" | "isrm";
 export interface GraphLayers {

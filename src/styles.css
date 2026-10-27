@@ -9281,3 +9281,8 @@ body,
 @media (prefers-reduced-motion:reduce) { .network-canvas,.scroll-client-header { transition:none; } }
 .network-dialog { width:min(540px,calc(100vw - 72px)); max-height:calc(100dvh - 145px); overflow:auto; }
 .network-dialog > button:last-child { border:1px solid #7594a1; border-top:4px solid var(--ds-blue); border-radius:10px 10px 3px 3px; width:36px; height:34px; display:grid; place-items:center; background:var(--ds-paper); color:var(--ds-blue); }
+.client-dossier { max-width:none; padding-inline:max(1rem,calc((100vw - 1152px)/2)); }
+.client-dossier aside > .rounded { border:0; border-top:1px solid #a6b4b9; border-radius:0; background:transparent; box-shadow:none; padding-inline:0; }
+.client-dossier span.border { border:0; background:transparent; padding-inline:0; }
+.client-dossier .dossier-tag + .dossier-tag::before { content:'·'; margin-right:.5rem; opacity:.5; }
+.client-dossier .text-primary { color:var(--ds-blue); }
