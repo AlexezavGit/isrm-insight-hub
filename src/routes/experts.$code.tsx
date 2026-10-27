@@ -52,7 +52,7 @@ function Dossier() {
     [uk ? "Пріоритет · вихідне поле" : "Priority · source field", e.priority],
   ];
   return (
-    <main className="mx-auto max-w-6xl px-5 py-8">
+    <main className="client-dossier mx-auto max-w-6xl px-5 py-8">
       <Link
         to="/"
         search={{ view: "map" }}

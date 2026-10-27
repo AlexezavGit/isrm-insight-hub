@@ -1,15 +1,14 @@
-import { Link } from "@tanstack/react-router";
-import { ArrowRight, Check } from "lucide-react";
+import { IsrmContextLinks } from "./IsrmContextLinks";
+import { Check, ChevronDown } from "lucide-react";
 import {
   CLIENT_SERVICES,
   CLIENT_WORKFLOWS,
   CORE_SERVICE_IDS,
+  WORKFLOW_OUTCOME_COPY,
   type ClientLocale,
-  type ServiceId,
 } from "@/lib/client-catalog";
 import { CLIENT_APPROVED_PRICES } from "@/lib/client-pricing";
 import { selectedServiceIds, type ClientDraft } from "@/lib/client-draft";
-import { WorkflowValue, CoreCapabilities } from "./ClientValueFramework";
 
 type Props = {
   locale: ClientLocale;
@@ -24,7 +23,7 @@ function ScopePrice({ value, locale }: { value: number | null; locale: ClientLoc
         ? locale === "uk"
           ? "За погодженням"
           : "To agree"
-        : new Intl.NumberFormat(locale === "uk" ? "uk-UA" : "en-GB", {
+        : (locale === "uk" ? "Від " : "From ") + new Intl.NumberFormat(locale === "uk" ? "uk-UA" : "en-GB", {
             style: "currency",
             currency: CLIENT_APPROVED_PRICES.currency,
             maximumFractionDigits: 0,
@@ -32,165 +31,85 @@ function ScopePrice({ value, locale }: { value: number | null; locale: ClientLoc
     </strong>
   );
 }
-export function CoreServiceDeck({ locale, draft, ready, update }: Props) {
-  const uk = locale === "uk",
-    selected = new Set(selectedServiceIds(draft));
-  const optional: ServiceId[] = ["groups", "contact", "research", "integration"];
-  return (
-    <section className="scope-deck-section" aria-labelledby="scope-core-title">
-      <p className="scope-deck-hint">
-        {uk
-          ? "Конфігурувати набір сервісної функціональності"
-          : "Configure the service capabilities"}
-      </p>
-      <h2 id="scope-core-title">
-        {uk ? "Сервісна функціональність ядра" : "Core service capabilities"}
-      </h2>
-      <p className="scope-core-description">
-        {uk
-          ? "Плановане ядро горизонтальної взаємодії всередині та за межами ISRM: завантаження й нормалізація даних, міні-резюме та повні досьє, налаштовувані поля й типи зв’язків, граф за погодженими зрізами, концентраторами й мультиплікаторами зв’язків. Пошук, додавання та редагування інформації, формування long lists і груп, селекція, дедуплікація та поліпшення даних. Інтеграція з AI OSINT із збереженням джерел і людською перевіркою висновків; погоджені підключення до комунікаційних застосунків, баз мережевої експертизи, дистанційного навчання та наявних систем управління проєктами. Конкретні конектори, права доступу й обсяги обробки визначаються в ТЗ та оцінюються окремими роботами; власна PM-система не передбачається за замовчуванням. Це обсяг майбутнього рішення: демонстрація не реалізує всі перелічені можливості."
-          : "The planned foundation for horizontal collaboration within and beyond ISRM: data import and normalisation, mini-profiles and full dossiers, configurable fields and relationship types, and graph views across agreed dimensions, connection hubs and multipliers. Search, information updates, long lists and groups, selection, deduplication and data improvement. AI OSINT integration retains sources and human review; agreed connections link communication tools, expertise repositories, learning platforms and existing project-management systems. Specific connectors, access rights and processing volumes are defined and estimated as explicit work packages; a bespoke PM system is not assumed. This describes the future solution; the demonstration does not implement every capability."}
-      </p>
-      <CoreCapabilities locale={locale} />
-      <p className="client-note">
-        {uk
-          ? "Повний застосунок включає цей набір. Для варіанта «Граф і пошук» нижче можна обрати доступні доповнення. Суми — у ціннику."
-          : "The full application includes this set. For the graph-and-search route below, available additions can be selected here. Amounts appear in the price panel."}
-      </p>
-      <div className="scope-file-deck">
-        {CLIENT_SERVICES.filter((s) => CORE_SERVICE_IDS.includes(s.id)).map((service, index) => {
-          const included = selected.has(service.id),
-            selectable = draft.mode === "graph" && optional.includes(service.id);
-          return (
-            <article
-              className={`scope-file-card ${included ? "is-selected" : ""}`}
-              key={service.id}
-            >
-              <label className="scope-file-tab">
-                <input
-                  type="checkbox"
-                  checked={included}
-                  disabled={!ready || !selectable}
-                  onChange={(e) =>
-                    update({
-                      serviceIds: e.target.checked
-                        ? [...draft.serviceIds, service.id]
-                        : draft.serviceIds.filter((id) => id !== service.id),
-                    })
-                  }
-                />
-                <span>{service.title[locale]}</span>
-              </label>
-              <div className="scope-file-body">
-                <span className="scope-file-number">0{index + 1}</span>
-                <p>{service.detail[locale]}</p>
-                <small>{service.status[locale]}</small>
-                <span className="scope-file-selection">
-                  {included ? <Check size={15} aria-hidden="true" /> : null}
-                  {included
-                    ? uk
-                      ? "У вибраному обсязі"
-                      : "Included in your scope"
-                    : selectable
-                      ? uk
-                        ? "Можна додати"
-                        : "Available to add"
-                      : uk
-                        ? "У повному застосунку"
-                        : "Part of the full application"}
-                </span>
-              </div>
-            </article>
-          );
-        })}
+function ServiceFolder({ service, locale, included = false, index, group }: {
+  service: (typeof CLIENT_SERVICES)[number]; locale: ClientLocale; included?: boolean; index: number; group: string;
+}) {
+  return <details className={`scope-file-card scope-interactive-folder ${included ? "is-selected" : ""}`} name={group}>
+    <summary className="scope-file-tab">
+      <span>{service.title[locale]}</span><ChevronDown size={17} aria-hidden="true" />
+    </summary>
+    <div className="scope-file-body">
+      <span className="scope-file-number">{String(index + 1).padStart(2, "0")}</span>
+      <p>{service.detail[locale]}</p>
+      <small>{service.status[locale]}</small>
+      {included && <span className="scope-file-selection"><Check size={15} aria-hidden="true" />{locale === "uk" ? "У складі ядра" : "Included in the core"}</span>}
+    </div>
+  </details>;
+}
+export function CoreServiceDeck({ locale, draft }: Props) {
+  const uk = locale === "uk", selected = new Set(selectedServiceIds(draft));
+  return <section className="scope-deck-section" aria-labelledby="scope-core-title">
+    <p className="scope-deck-hint">{uk ? "Ваші пріоритети" : "Your priorities"}</p>
+    <details className="scope-large-folder" open>
+      <summary className="scope-workflow-tab"><h2 id="scope-core-title">{uk ? "Сервісна функціональність ядра" : "Core service capabilities"}</h2><ChevronDown size={20} aria-hidden="true" /></summary>
+      <div className="scope-large-folder-body">
+        <div className="scope-file-deck">
+          {CLIENT_SERVICES.filter(s => CORE_SERVICE_IDS.includes(s.id)).map((service, index) => <ServiceFolder key={service.id} service={service} index={index} locale={locale} included={draft.mode === "full" && selected.has(service.id)} group="scope-core-services" />)}
+        </div>
+        <details className="scope-context-note"><summary>{uk ? "Контекст ISRM та межі реалізації" : "ISRM context and delivery boundaries"}</summary>
+          <IsrmContextLinks context="core" locale={locale} />
+          <p>{uk ? "Описані можливості належать до погоджуваного ядра. Демонстрація показує частину функцій; обсяг даних, правила доступу та конкретні інтеграції уточнюються в ТЗ. Платні ресурси, навчальні платформи й системи управління проєктами — наступна ітерація Integration." : "These capabilities describe the core to be agreed. The demonstration shows a subset; data volumes, access rules and specific integrations are defined in the specification. Paid resources, learning platforms and project-management systems belong to the next Integration iteration."}</p>
+        </details>
+        {draft.mode === "full" && <footer className="scope-block-decision"><ScopePrice value={CLIENT_APPROVED_PRICES.base} locale={locale} /></footer>}
       </div>
-      <footer className="scope-block-decision">
-        <Link to="/" search={{ stage: "configuration" }} className="client-text-button">
-          {uk ? "Уточнити функціональність" : "Refine the capabilities"}
-          <ArrowRight size={17} />
-        </Link>
-        <ScopePrice value={CLIENT_APPROVED_PRICES.base} locale={locale} />
-      </footer>
-    </section>
-  );
+    </details>
+  </section>;
 }
 export function WorkflowDeck({ locale, draft, ready, update }: Props) {
   const uk = locale === "uk";
   return (
     <>
+      <div className="scope-workflow-timeline">
       {CLIENT_WORKFLOWS.map((w) => (
         <article
           className={`scope-deck-section scope-workflow-card ${draft.workflowIds.includes(w.id) ? "is-selected" : ""}`}
           key={w.id}
+          id={`scope-workflow-${w.id}`}
         >
           <p className="scope-deck-hint">
             {uk
               ? "Трансформувати workflow під вашу практику"
-              : "Shape this workflow around your practice"}
+              : "Consider how this would support your work"}
           </p>
-          <header className="scope-workflow-tab">
-            <h2>{w.title[locale]}</h2>
-            <span>{uk ? "Опція" : "Optional"}</span>
-          </header>
+          <details className="scope-large-folder">
+          <summary className="scope-workflow-tab">
+            <h2 className="scope-workflow-name">{w.title[locale]}</h2>
+            <ChevronDown size={20} aria-hidden="true" />
+          </summary>
           <div className="scope-workflow-body">
-            <p className="scope-workflow-description">{w.detail[locale]}</p>
-            {w.id === "engagement" ? (
-              <p>
-                {uk
-                  ? "Передбачає розробку й проведення погодженої медіакампанії в соціальних мережах для залучення майбутніх членів асоціації та користувачів послуг ISRM. Аудиторії, канали, матеріали, бюджет розміщення й відповідальність уточнюються на етапі ТЗ."
-                  : "Includes the development and delivery of an agreed social media campaign for prospective members and users of ISRM services. Audiences, channels, content, media spend and responsibilities are defined in the specification."}
-              </p>
-            ) : (
-              <p>
-                {uk
-                  ? "Накопичення, трансформація й поширення експертизи можуть підтримувати залучення клієнтів і платне членство, навчальні запити, реферали та спільні послуги. Вплив на професійну репутацію, довіру й гонорари оцінюється за результатами практики; автоматичне підвищення статусу чи рейтингу не передбачається."
-                  : "Accumulating, transforming and sharing expertise can support client acquisition, paid membership, learning enquiries, referrals and joint services. Effects on professional reputation, trust and fees are assessed through outcomes; no automatic status or ranking improvement is implied."}
-              </p>
-            )}
-            {w.id === "engagement" && (
-              <p className="client-note">
-                {uk
-                  ? "Ще не оцінено й не включено до наведеного числового орієнтира: стратегія, креатив, підготовка та проведення кампанії, модерація, аналіз результатів і медіарозміщення. Гонорар виконавців та прямі витрати погоджуються окремо."
-                  : "Not yet estimated or included in the numerical indication: campaign strategy, creative work, preparation and delivery, moderation, results analysis and media spend. Delivery fees and direct expenses require separate agreement."}
-              </p>
-            )}
-            <p className="scope-deck-hint">
-              {uk ? "Функціональні сервіси" : "Functional services"}
-            </p>
-            <ul className="scope-workflow-services">
-              {w.serviceIds.map((id) => (
-                <li key={id}>
-                  {CLIENT_SERVICES.find((service) => service.id === id)?.title[locale] ?? id}
-                </li>
-              ))}
-            </ul>
-            {draft.mode !== "full" && (
-              <p className="client-note">
-                {uk
-                  ? "Доступно у варіанті повного застосунку. Оберіть його нижче, щоб додати workflow."
-                  : "Available with the full application. Choose that route below to add this workflow."}
-              </p>
-            )}
-            <WorkflowValue workflow={w.id} locale={locale} />
-            <p className="scope-deck-hint">
-              {uk ? "Можливі вихідні потоки та продукти" : "Possible outcomes and products"}
-            </p>
             <ul className="scope-outcome-deck">
               {w.outputs[locale].map((output, i) => (
                 <li key={output}>
-                  <span>0{i + 1}</span>
-                  <strong>{output}</strong>
+                  <details className="scope-outcome-folder">
+                    <summary><span>0{i + 1}</span><strong>{output}</strong><ChevronDown size={16} aria-hidden="true" /></summary>
+                    <p>{WORKFLOW_OUTCOME_COPY[w.id][locale][i]}</p>
+                  </details>
                 </li>
               ))}
             </ul>
-            <Link
-              to="/"
-              search={{ stage: "configuration", preset: w.id }}
-              className="client-text-button"
-            >
-              {uk ? "Уточнити цей workflow" : "Refine this workflow"}
-              <ArrowRight size={17} />
-            </Link>
+            <details className="scope-interactive-folder scope-workflow-conditions">
+              <summary className="scope-file-tab"><span>{uk ? (w.id === "engagement" ? "Кампанія та умови реалізації" : "Авторство та умови використання") : (w.id === "engagement" ? "Campaign and delivery conditions" : "Attribution and usage conditions")}</span><ChevronDown size={17} aria-hidden="true" /></summary>
+              <div className="scope-file-body">
+                <p>{uk
+                  ? w.id === "engagement"
+                    ? "Ви зможете залучати цільові аудиторії через погоджену медіакампанію й спрямовувати звернення до потрібних сервісів. Стратегія, креатив, матеріали, модерація, аналіз результатів і медіарозміщення потребують оцінки для пропозиції; до поточної ціни ядра вони не включені. Аудиторії, дозволи на комунікацію та відповідальність погоджуються в ТЗ."
+                    : "Ви зможете перетворювати перевірені дані й внески колег у продукти, зберігаючи джерела, авторство та дозволи на повторне використання. Результати застосування можуть повертатися до спільної експертизи. Вплив на довіру, репутацію та гонорари оцінюється за практичними результатами."
+                  : w.id === "engagement"
+                    ? "An agreed communications campaign could help ISRM reach interested professional audiences and direct their enquiries to the appropriate services. Strategy, creative work, content, moderation, results analysis and media placement require an estimate in the proposal; they are outside the current core price. Audiences, communication permissions and responsibilities are agreed in the specification."
+                    : "ISRM and its members could develop reviewed information and colleagues’ experience into useful professional resources, retaining sources, attribution and agreed permissions. Experience from applying them can feed back into shared expertise. Effects on trust, reputation and fees are assessed through practical outcomes."}</p>
+                <IsrmContextLinks context={w.id} locale={locale} />
+              </div>
+            </details>
             <footer className="scope-block-decision">
               <label className="scope-block-choice">
                 <input
@@ -206,20 +125,16 @@ export function WorkflowDeck({ locale, draft, ready, update }: Props) {
                   }
                 />
                 <span>
-                  {draft.mode === "full" && draft.workflowIds.includes(w.id)
-                    ? uk
-                      ? "Обрано"
-                      : "Selected"
-                    : uk
-                      ? "Додати workflow"
-                      : "Add this workflow"}
+                  {uk ? "Погоджую — додати до розрахунків у пропозиції" : "Approve — include in the proposal estimate"}
                 </span>
               </label>
-              <ScopePrice value={CLIENT_APPROVED_PRICES[w.id]} locale={locale} />
+
             </footer>
           </div>
+          </details>
         </article>
       ))}
+      </div>
     </>
   );
 }

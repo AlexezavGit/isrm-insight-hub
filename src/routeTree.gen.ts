@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CoordinatorRouteImport } from './routes/coordinator'
 import { Route as DirectoryRouteImport } from './routes/directory'
+import { Route as GrafRouteImport } from './routes/graf'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as PartnerFinanceRouteImport } from './routes/partner-finance'
@@ -33,6 +34,11 @@ const CoordinatorRoute = CoordinatorRouteImport.update({
 const DirectoryRoute = DirectoryRouteImport.update({
   id: '/directory',
   path: '/directory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GrafRoute = GrafRouteImport.update({
+  id: '/graf',
+  path: '/graf',
   getParentRoute: () => rootRouteImport,
 } as any)
 const McpRoute = McpRouteImport.update({
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/coordinator': typeof CoordinatorRoute
   '/directory': typeof DirectoryRoute
+  '/graf': typeof GrafRoute
   '/mcp': typeof McpRoute
   '/partner': typeof PartnerRoute
   '/partner-finance': typeof PartnerFinanceRoute
@@ -88,6 +95,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/coordinator': typeof CoordinatorRoute
   '/directory': typeof DirectoryRoute
+  '/graf': typeof GrafRoute
   '/mcp': typeof McpRoute
   '/partner': typeof PartnerRoute
   '/partner-finance': typeof PartnerFinanceRoute
@@ -101,6 +109,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/coordinator': typeof CoordinatorRoute
   '/directory': typeof DirectoryRoute
+  '/graf': typeof GrafRoute
   '/mcp': typeof McpRoute
   '/partner': typeof PartnerRoute
   '/partner-finance': typeof PartnerFinanceRoute
@@ -115,6 +124,7 @@ export interface FileRouteTypes {
     | '/'
     | '/coordinator'
     | '/directory'
+    | '/graf'
     | '/mcp'
     | '/partner'
     | '/partner-finance'
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/'
     | '/coordinator'
     | '/directory'
+    | '/graf'
     | '/mcp'
     | '/partner'
     | '/partner-finance'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/'
     | '/coordinator'
     | '/directory'
+    | '/graf'
     | '/mcp'
     | '/partner'
     | '/partner-finance'
@@ -152,6 +164,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CoordinatorRoute: typeof CoordinatorRoute
   DirectoryRoute: typeof DirectoryRoute
+  GrafRoute: typeof GrafRoute
   McpRoute: typeof McpRoute
   PartnerRoute: typeof PartnerRoute
   PartnerFinanceRoute: typeof PartnerFinanceRoute
@@ -182,6 +195,13 @@ declare module '@tanstack/react-router' {
       path: '/directory'
       fullPath: '/directory'
       preLoaderRoute: typeof DirectoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/graf': {
+      id: '/graf'
+      path: '/graf'
+      fullPath: '/graf'
+      preLoaderRoute: typeof GrafRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mcp': {
@@ -240,6 +260,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CoordinatorRoute: CoordinatorRoute,
   DirectoryRoute: DirectoryRoute,
+  GrafRoute: GrafRoute,
   McpRoute: McpRoute,
   PartnerRoute: PartnerRoute,
   PartnerFinanceRoute: PartnerFinanceRoute,

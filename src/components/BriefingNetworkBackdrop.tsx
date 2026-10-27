@@ -61,7 +61,7 @@ export function BriefingNetworkBackdrop({
       preserveAspectRatio="xMidYMid slice"
       aria-hidden="true"
     >
-      <g key={slide} className="briefing-network-assembly">
+      <g key={`${slide}:${experts.length}`} className="briefing-network-assembly">
         {groups.map(([category, members], i) => {
           const [cx, cy] = anchors[i]!;
           return (

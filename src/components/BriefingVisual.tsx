@@ -1,3 +1,4 @@
+import { BriefingNextSteps } from "./BriefingNextSteps";
 import {
   ArrowDown,
   Database,
@@ -18,10 +19,12 @@ export function BriefingVisual({
   index,
   slide,
   locale,
+  reducedMotion = false,
 }: {
   index: number;
   slide: BriefingSlide;
   locale: ClientLocale;
+  reducedMotion?: boolean;
 }) {
   const uk = locale === "uk";
   if (index === 1)
@@ -43,10 +46,9 @@ export function BriefingVisual({
             { Icon: FileSearch, en: "Needs", uk: "Потреби" },
             { Icon: Handshake, en: "Introductions", uk: "Знайомства" },
           ].map(({ Icon, en, uk: ua }) => (
-            <div key={en}>
+            <details key={en} className="chapter-field-folder"><summary>
               <Icon size={19} aria-hidden="true" />
-              <span>{uk ? ua : en}</span>
-            </div>
+              <span>{uk ? ua : en}</span></summary><p>{uk ? ({ Expertise: "Яку експертизу чаптер готовий запропонувати колегам?", Needs: "Якої підтримки та інформації потребують члени?", Introductions: "Хто може допомогти з доречним професійним знайомством?" }[en]) : ({ Expertise: "What expertise could the chapter share with colleagues?", Needs: "What support and information do members need?", Introductions: "Who could help with a relevant professional introduction?" }[en])}</p></details>
           ))}
         </div>
         <div className="chapter-dashboard-outcomes">
@@ -90,38 +92,7 @@ export function BriefingVisual({
         </p>
       </div>
     );
-  if (index === 5)
-    return (
-      <figure
-        className="briefing-visual briefing-next-graph"
-        aria-label={uk ? "Послідовність наступних кроків" : "The next steps in sequence"}
-      >
-        <svg viewBox="0 0 420 90" fill="none" aria-hidden="true">
-          <path d="M40 44H380" />
-          <path d="m185 39 8 5-8 5m130-10 8 5-8 5" />
-          {[40, 210, 380].map((x, i) => (
-            <g key={x}>
-              <circle cx={x} cy="44" r="22" />
-              <text x={x} y="49" textAnchor="middle">
-                0{i + 1}
-              </text>
-            </g>
-          ))}
-        </svg>
-        <ol>
-          {slide.steps.map((s) => (
-            <li key={s.en}>
-              <strong>{s[locale]}</strong>
-            </li>
-          ))}
-        </ol>
-        <p>
-          {uk
-            ? "Перегляд → вибір пріоритетів → предметна пропозиція"
-            : "Explore → choose priorities → a concrete proposal"}
-        </p>
-      </figure>
-    );
+  if (index === 5) return <BriefingNextSteps locale={locale} reducedMotion={reducedMotion} />;
   return (
     <figure className="briefing-visual briefing-path briefing-path-0">
       <ol>

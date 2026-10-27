@@ -85,7 +85,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   );
 }
 
-export function AccessControl() {
+export function AccessControl({ showSignIn = true }: { showSignIn?: boolean }) {
   const { data, setCode } = useAccess();
   const { locale, setLocale } = useI18n();
   const [open, setOpen] = useState(false);
@@ -105,7 +105,7 @@ export function AccessControl() {
             {code}
           </Button>
         ))}
-        {level === "guest" ? (
+        {!showSignIn ? null : level === "guest" ? (
           <Button
             onClick={() => setOpen(true)}
             size="sm"

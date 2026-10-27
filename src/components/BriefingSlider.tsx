@@ -1,15 +1,14 @@
+import { ClientHeader } from "./ClientHeader";
+import { IsrmContextLinks } from "./IsrmContextLinks";
+import { SLIDE_CONTEXT_KEYS } from "@/lib/isrm-context";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, Info } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronsLeft } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { useAccess } from "@/lib/access";
-import { ClientAccessibility } from "./ClientAccessibility";
-import { AccessControl } from "./AppShell";
 import { BriefingVisual } from "./BriefingVisual";
 import { BRIEFING_SLIDES } from "@/lib/briefing-slides";
 import { BriefingNetworkBackdrop } from "./BriefingNetworkBackdrop";
-import { useDismissibleDetails } from "./useDismissibleDetails";
-import { DataUseNotice } from "./DataUseNotice";
 export function BriefingSlider() {
   const { locale } = useI18n();
   const uk = locale === "uk";
@@ -21,7 +20,6 @@ export function BriefingSlider() {
   const lastSlide = slide === BRIEFING_SLIDES.length - 1;
   const { data } = useAccess();
   const current = BRIEFING_SLIDES[slide]!;
-  const hint = useDismissibleDetails();
   useEffect(() => {
     setMounted(true);
     const query = matchMedia("(prefers-reduced-motion: reduce)");
@@ -44,15 +42,7 @@ export function BriefingSlider() {
           />
         )}
       </div>
-      <header className="client-topbar">
-        <Link to="/proposal" className="client-wordmark">
-          ISRM <span>INSIGHT HUB</span>
-        </Link>
-        <div className="client-topbar-actions">
-          <ClientAccessibility />
-          <AccessControl />
-        </div>
-      </header>
+      <ClientHeader signIn={false} />
       <section
         className={`client-slide-surface ${lastSlide ? "is-final-slide" : "is-reading-slide"}`}
         onTouchStart={(e) => {
@@ -106,16 +96,18 @@ export function BriefingSlider() {
       >
         <header className="client-slide-topline">
           <div>
-            <p className="client-eyebrow">{current.label[locale]}</p>
             <h1 id="briefing-title" aria-live="polite">
               {current.title[locale]}
             </h1>
           </div>
-          <span aria-label={uk ? "Поточний слайд" : "Current slide"}>
-            {String(slide + 1).padStart(2, "0")}
-            <i />
-            06
-          </span>
+          <aside className="client-title-meta">
+            <p className="client-eyebrow">{current.label[locale]}</p>
+            <span aria-label={uk ? "Поточний слайд" : "Current slide"}>
+              {String(slide + 1).padStart(2, "0")}
+              <i />
+              06
+            </span>
+          </aside>
         </header>
         <div
           className="client-slide-content"
@@ -129,9 +121,18 @@ export function BriefingSlider() {
               <p className="briefing-project-name">{current.projectName[locale]}</p>
             )}
             <p className="client-slide-body">{current.body[locale]}</p>
+            <p className="briefing-key-context">{current.insight[locale]}</p>
             <p className="briefing-principle">{current.principle[locale]}</p>
+            {SLIDE_CONTEXT_KEYS[slide] && (
+              <IsrmContextLinks context={SLIDE_CONTEXT_KEYS[slide]!} locale={locale} compact />
+            )}
           </div>
-          <BriefingVisual index={slide} slide={current} locale={locale} />
+          <BriefingVisual
+            index={slide}
+            slide={current}
+            locale={locale}
+            reducedMotion={reducedMotion}
+          />
         </div>
         <footer className="client-slide-footer">
           {!lastSlide && (
@@ -167,35 +168,29 @@ export function BriefingSlider() {
           )}
           {lastSlide && (
             <div className="client-inline-actions briefing-final-actions">
-              <Link to="/scope" className="client-text-button briefing-final-action">
-                {uk ? "Обсяг і бюджет" : "Scope & budget"}
-              </Link>
               <Link
                 to="/"
                 search={{ view: "map" }}
                 className="client-button briefing-final-action briefing-explore-action"
               >
-                {uk ? "Дослідити інструмент" : "Explore the tool"}
+                {uk ? "Спробувати застосунок" : "Try the application"}
               </Link>
+              <Link to="/scope" className="client-button briefing-final-action">
+                {uk ? "Обсяг і бюджет" : "Scope & budget"}
+              </Link>
+              <button
+                type="button"
+                className="client-button briefing-final-action briefing-rewind"
+                aria-label={uk ? "Повернутися на початок" : "Rewind to the beginning"}
+                title={uk ? "На початок" : "Rewind"}
+                onClick={() => setSlide(0)}
+              >
+                <ChevronsLeft aria-hidden="true" />
+              </button>
             </div>
           )}
         </footer>
-        <details key={slide} ref={hint} className="briefing-slide-context">
-          <summary>
-            <Info size={15} aria-hidden="true" />
-            <span>{uk ? "Пояснення" : "Context"}</span>
-          </summary>
-          <p>
-            <strong>{uk ? "OSINT очікує на підключення." : "OSINT connection pending."}</strong>
-            <br />
-            {current.note[locale]}
-          </p>
-        </details>
       </section>
-      <div className="client-backdrop-caption">
-        <p>{uk ? "Демонстрація · Передана вибірка" : "Demonstration · Supplied sample"}</p>
-        <DataUseNotice key={slide} compact />
-      </div>
     </main>
   );
 }
