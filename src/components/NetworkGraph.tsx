@@ -127,10 +127,10 @@ export default function NetworkGraph({
     f.zoomToFit(motionPaused ? 0 : 1200, 70);
   }, [anchor, motionPaused]);
   useEffect(() => {
-    if (!warningService) return;
+    if (!warningService || motionPaused) return;
     const t = setInterval(() => setTick((t) => t + 1), 300);
     return () => clearInterval(t);
-  }, [warningService]);
+  }, [warningService, motionPaused]);
   const isActive = (n: NetworkNode) =>
     !disabledServiceIds.includes(n.id.replace("svc:", "")) &&
     (layers.services !== false || !["service", "workflow"].includes(n.kind)) &&
@@ -192,7 +192,7 @@ export default function NetworkGraph({
           if (anchor === "isrm") fg.current?.zoomToFit(motionPaused ? 0 : 850, 70);
         }}
         nodeRelSize={1}
-        nodeLabel={(n) => n.label}
+        nodeLabel={() => ""}
         linkColor={(l: DrawLink) => {
           if (l.kind === "sample")
             return anchor === "isrm" ? "rgba(150,170,180,.045)" : "rgba(150,170,180,.015)";
