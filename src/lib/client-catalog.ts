@@ -26,7 +26,10 @@ export const CLIENT_SERVICES = [
       en: "You would be able to request research, receive findings with their sources and pass them to a professional reviewer. The existing AI OSINT assistant requires connection to the application; research volumes and AI/API costs are agreed separately.",
       uk: "Ви зможете замовляти дослідження, отримувати висновки разом із джерелами та передавати їх фахівцю на перевірку. Наявного ШІ OSINT-помічника потрібно підключити до застосунку; обсяг досліджень і AI/API-витрати погоджуються окремо.",
     },
-    status: { en: "Existing assistant · application connection to agree", uk: "Наявний помічник · підключення до застосунку погоджується" },
+    status: {
+      en: "Existing assistant · application connection to agree",
+      uk: "Наявний помічник · підключення до застосунку погоджується",
+    },
   },
   {
     id: "review",
@@ -65,6 +68,18 @@ export const CLIENT_SERVICES = [
     status: { en: "Scope to agree", uk: "Обсяг належить погодити" },
   },
   {
+    id: "survey",
+    title: { en: "Member survey & priorities", uk: "Опитування членів та пріоритети" },
+    detail: {
+      en: "Members and chapter leaders could identify useful expertise, current needs and preferred ways to contribute. The Board could use the findings to agree priorities and a practical starting scope.",
+      uk: "Члени й керівники чаптерів зможуть визначити потрібну експертизу, актуальні потреби та зручні способи участі. Правління — використати результати для погодження пріоритетів і практичного початкового обсягу.",
+    },
+    status: {
+      en: "Existing questionnaire draft · distribution to agree",
+      uk: "Наявна чернетка опитувальника · розсилку належить погодити",
+    },
+  },
+  {
     id: "publishing",
     title: { en: "Knowledge into professional use", uk: "Знання у професійне використання" },
     detail: {
@@ -86,7 +101,7 @@ export const CLIENT_WORKFLOWS = [
       en: "A continuing pathway from followers and professional audiences in ISRM’s sphere of influence to relevant participation: paid membership, client services, learning, partnerships, candidate development and future leadership. Each interaction informs the next cycle.",
       uk: "Постійний шлях від фоловерів і цільових аудиторій у зоні впливу ISRM до доречної участі: оплачуваного членства, клієнтських послуг, навчання, партнерства, розвитку кандидатів і майбутнього лідерства. Кожна взаємодія уточнює наступний цикл.",
     },
-    serviceIds: ["groups", "contact", "integration", "publishing"] as ServiceId[],
+    serviceIds: ["groups", "contact", "integration", "survey", "publishing"] as ServiceId[],
     outputs: {
       en: [
         "Training enquiries",

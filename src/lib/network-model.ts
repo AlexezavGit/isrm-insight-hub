@@ -45,7 +45,7 @@ const known = (s: string | undefined) =>
   !["Unclassified", "Не оцінено", "Unknown", "Ukraine-related experience"].includes(s);
 /** Coverage illustrates proposed service use; never a social recommendation or endorsement. */
 export function serviceCovers(id: string, e: Expert) {
-  if (["search", "groups", "contact", "integration"].includes(id)) return true;
+  if (["search", "groups", "contact", "integration", "survey"].includes(id)) return true;
   const text = [e.sector, e.primaryExpertise, ...(e.tags ?? [])].join(" ").toLowerCase();
   return /risk|resilien|security|advis|research|academ|humanitarian|безпек|ризик|дослідж/.test(
     text,

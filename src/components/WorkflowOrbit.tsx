@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import {
   BookOpen,
   FileCheck2,
@@ -103,7 +104,15 @@ export function WorkflowOrbit({
     >
       <div className="workflow-orbit-map">
         <svg viewBox="0 0 600 430" preserveAspectRatio="none" fill="none" aria-hidden="true">
-          <path d="M310 45C430 40 545 120 522 225S400 400 300 397 60 335 70 225 157 56 275 45" />
+          <path
+            className="orbit-cycle-track"
+            d="M310 45C430 40 545 120 522 225S400 400 300 397 60 335 70 225 157 56 275 45"
+          />
+          <path
+            className="orbit-cycle-sweep"
+            pathLength="100"
+            d="M310 45C430 40 545 120 522 225S400 400 300 397 60 335 70 225 157 56 275 45"
+          />
           <path
             className="orbit-inner-links"
             d="M300 210 300 45M300 210 525 195M300 210 445 365M300 210 145 365M300 210 70 195"
@@ -124,7 +133,11 @@ export function WorkflowOrbit({
         </div>
         <ol>
           {steps.map(({ Icon, en, uk: ua, noteEn, noteUk }, i) => (
-            <li key={en} className={`workflow-orbit-node orbit-node-${i}`}>
+            <li
+              key={en}
+              style={{ "--orbit-index": i } as CSSProperties}
+              className={`workflow-orbit-node orbit-node-${i}`}
+            >
               <span className="orbit-node-number">0{i + 1}</span>
               <Icon size={22} aria-hidden="true" />
               <strong>{uk ? ua : en}</strong>

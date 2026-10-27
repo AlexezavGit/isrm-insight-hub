@@ -135,6 +135,12 @@ function ScopePage() {
         </details>
         <div className="client-scope-grid scope-linear-layout">
           <div>
+            <p className="scope-workflow-definition">
+              {t(
+                "A workflow is an organised sequence of recurring actions: who contributes, what happens next and how the result is used. The application can support and automate the agreed steps.",
+                "Workflow — це впорядкована послідовність повторюваних дій: хто долучається, що відбувається далі та як використовується результат. Застосунок підтримує й автоматизує погоджені кроки.",
+              )}
+            </p>
             <p className="scope-delivery-intro">
               {t(
                 "Delivery follows three stages. The core and each workflow have their own self-contained results, agreed for each stage.",
@@ -161,15 +167,20 @@ function ScopePage() {
                 <label className="client-route-choice">
                   <input
                     type="checkbox"
-                    checked={draft.customIncluded && draft.mode === "full"}
-                    disabled={!ready || draft.mode !== "full" || !draft.requests.length}
+                    checked={draft.customIncluded}
+                    disabled={!ready || !draft.requests.length}
                     onChange={(e) => update({ customIncluded: e.target.checked })}
                   />
                   <span>
-                    {t(
-                      "Include the described functions and workflows in the estimate",
-                      "Включити описані функції та workflow до оцінки",
-                    )}
+                    {draft.mode === "full"
+                      ? t(
+                          "Include the described functions and workflows in the estimate",
+                          "Включити описані функції та workflow до оцінки",
+                        )
+                      : t(
+                          "Retain these additional requests for separate discussion; excluded from the simpler option and its price",
+                          "Зберегти додаткові запити для окремого обговорення; не включені до fallback та його ціни",
+                        )}
                   </span>
                 </label>
                 <label className="scope-manual-request">
@@ -238,12 +249,6 @@ function ScopePage() {
                 )}
               </div>
             </details>
-            <p className="scope-workflow-definition">
-              {t(
-                "A workflow is an organised sequence of recurring actions: who contributes, what happens next and how the result is used. The application can support and automate the agreed steps.",
-                "Workflow — це впорядкована послідовність повторюваних дій: хто долучається, що відбувається далі та як використовується результат. Застосунок підтримує й автоматизує погоджені кроки.",
-              )}
-            </p>
             <p className="scope-workflow-intro">
               {t(
                 "Work on either workflow can begin whenever you decide it is needed. Both build on the core; the starting scope and dependencies are agreed separately.",
@@ -302,13 +307,18 @@ function ScopePage() {
             </details>
           </div>
           <aside id="scope-budget-panel" className="client-scope-budget">
-            <p className="client-eyebrow">{t("Budget discussion", "Обговорення бюджету")}</p>
-            <h2>{t("Indicative budget ceiling", "Індикативна межа бюджету")}</h2>
+            <p className="client-eyebrow">
+              {t(
+                "For your proposal · not a payment request",
+                "До пропозиції · не рахунок на оплату",
+              )}
+            </p>
+            <h2>{t("Your selected scope", "Обраний обсяг")}</h2>
             <div className="client-price-receipt" aria-live="polite" aria-atomic="true">
               <p>
                 <span>
                   {draft.mode === "graph"
-                    ? t("Application as is", "Застосунок як є")
+                    ? t("Fallback · application as is", "Fallback · застосунок як є")
                     : t("Core application", "Базовий застосунок")}
                 </span>
                 <strong>
@@ -337,14 +347,23 @@ function ScopePage() {
                       <strong>{money(CLIENT_APPROVED_PRICES.addons[id] ?? null)}</strong>
                     </p>
                   ))}
-              {draft.customIncluded && draft.requests.length > 0 && draft.mode === "full" && (
+              {draft.mode === "full" && draft.integrationInterest && (
                 <p>
-                  <span>
-                    {t("Custom descriptions", "Власні описи")} · {draft.requests.length}
-                  </span>
+                  <span>{t("Further development & AI", "Подальший розвиток та ШІ")}</span>
                   <strong>{t("To estimate", "До оцінки")}</strong>
                 </p>
               )}
+              {draft.customIncluded &&
+                draft.requests.map((request) => (
+                  <p key={request.id}>
+                    <span>{request.title}</span>
+                    <strong>
+                      {draft.mode === "full"
+                        ? t("To estimate", "До оцінки")
+                        : t("Separate discussion", "Окреме обговорення")}
+                    </strong>
+                  </p>
+                ))}
               <p className="client-price-total">
                 <span>{t("Total", "Разом")}</span>
                 <strong className="scope-quote-value" key={String(quote)}>
@@ -352,81 +371,62 @@ function ScopePage() {
                 </strong>
               </p>
             </div>
-            <details className="scope-large-folder scope-page-folder scope-fallback" open>
-              <summary className="scope-workflow-tab">
-                <h2>
-                  {t("Existing application · a simpler option", "Fallback · застосунок як є")}
-                </h2>
-                <ChevronDown size={20} aria-hidden="true" />
-              </summary>
-              <div className="scope-large-folder-body">
-                <p>
-                  {t(
-                    "Should the proposed development be beyond your present requirements, the existing application remains an option:",
-                    "Якщо прийнятного варіанту не знайдено, а інструмент усе ж потрібний, можна обрати наявний застосунок:",
-                  )}
-                </p>
-                <label className="client-route-choice">
-                  <input
-                    type="checkbox"
-                    checked={draft.mode === "graph"}
-                    disabled={!ready}
-                    onChange={(e) => update({ mode: e.target.checked ? "graph" : "full" })}
-                  />
-                  <span>
-                    <strong>
-                      {t(
-                        "The application as is: search, dossier catalogue, shortlist selection and OSINT checks",
-                        "Застосунок як є: пошук, картотека досьє, відбір до shortlist та перевірка OSINT",
-                      )}
-                    </strong>
-                    <span>
-                      {t(
-                        "Replaces the core selection and all options above. OSINT checks are handled through the existing research service; an in-app AI connection is optional. Processing volume and service costs require agreement.",
-                        "Замінює вибір ядра та всі опції вище. OSINT-перевірки виконує наявний дослідницький сервіс; підключення ШІ всередині застосунку — окрема опція. Обсяг перевірок та сервісні витрати погоджуються.",
-                      )}
-                    </span>
-                  </span>
-                </label>
-                <label className="client-route-choice">
-                  <input
-                    type="checkbox"
-                    checked={draft.mode === "graph" && draft.serviceIds.includes("research")}
-                    disabled={!ready || draft.mode !== "graph"}
-                    onChange={(e) => update({ serviceIds: e.target.checked ? ["research"] : [] })}
-                  />
+            <section className="scope-fallback" aria-labelledby="scope-fallback-title">
+              <h3 id="scope-fallback-title">
+                {t("Fallback options", "Fallback · альтернативний варіант")}
+              </h3>
+              <p className="scope-receipt-note">
+                {t(
+                  "If the proposed development goes beyond your present requirements:",
+                  "Якщо розробка перевищує ваші поточні потреби:",
+                )}
+              </p>
+              <label className="client-route-choice">
+                <input
+                  type="checkbox"
+                  checked={draft.mode === "graph"}
+                  disabled={!ready}
+                  onChange={(e) => update({ mode: e.target.checked ? "graph" : "full" })}
+                />
+                <span>
                   <span>
                     {t(
-                      "Add the AI research assistant integration?",
-                      "Додати інтеграцію ШІ-асистента дослідника?",
+                      "Application as is · search, dossiers, shortlist & OSINT",
+                      "Застосунок як є · пошук, досьє, shortlist та OSINT",
                     )}
                   </span>
-                </label>
-                <label className="client-route-choice">
-                  <input
-                    type="checkbox"
-                    checked={draft.mode === "graph" && draft.oneOffResearch}
-                    disabled={!ready || draft.mode !== "graph"}
-                    onChange={(e) => update({ oneOffResearch: e.target.checked })}
-                  />
-                  <span>
+                  <small>
                     {t(
-                      "No — I would like research on individual requests",
-                      "Ні — бажаю дослідження за окремими запитами",
+                      "Replaces the core and workflow selections. OSINT uses the existing research service; volumes and fees require agreement.",
+                      "Замінює вибір ядра та workflow. OSINT виконує наявний дослідницький сервіс; обсяг і вартість погоджуються.",
                     )}
-                  </span>
-                </label>
-                <p className="client-note">
+                  </small>
+                </span>
+              </label>
+              <label className="client-route-choice">
+                <input
+                  type="checkbox"
+                  checked={draft.mode === "graph" && draft.serviceIds.includes("research")}
+                  disabled={!ready || draft.mode !== "graph"}
+                  onChange={(e) => update({ serviceIds: e.target.checked ? ["research"] : [] })}
+                />
+                <span>
                   {t(
-                    "Only the fallback and, if selected, research-assistant integration enter this estimate. The integration adds its agreed amount; the total remains unchanged if it is included at no additional charge. An unpriced connection remains pending, never zero.",
-                    "У розрахунку залишаються тільки fallback і, якщо обрано, інтеграція асистента. Інтеграція додає погоджену суму або залишає підсумок без змін, якщо входить без доплати. Непогоджена вартість не вважається нульовою.",
+                    "Add the AI research assistant integration?",
+                    "Додати інтеграцію ШІ-асистента дослідника?",
                   )}
-                </p>
-                <Link to="/" search={{ view: "map" }} className="client-text-button">
-                  {t("Explore the tool", "Дослідити інструмент")}
-                </Link>
-              </div>
-            </details>
+                </span>
+              </label>
+              <p className="scope-receipt-note">
+                {t(
+                  "Individual OSINT searches remain available without integration. Research usage and integration costs are agreed separately.",
+                  "Разові OSINT-пошуки залишаються доступними без інтеграції. Обсяг досліджень і вартість підключення погоджуються окремо.",
+                )}
+              </p>
+              <Link to="/" search={{ view: "map" }} className="client-text-button">
+                {t("Explore the tool", "Дослідити інструмент")}
+              </Link>
+            </section>
             <fieldset className="scope-budget-position" disabled={!ready}>
               <legend>{t("Your budget position", "Ваша бюджетна позиція")}</legend>
               <label className="client-radio-label">
@@ -494,9 +494,14 @@ function ScopePage() {
               </p>
             )}
             <p className="scope-receipt-note">
+              {draft.mode === "full" &&
+                t(
+                  "Core planning range £33,600–34,944. ",
+                  "Плановий діапазон ядра £33 600–34 944. ",
+                )}
               {t(
-                "Indicative starting amounts for the stated scope. The core planning range is £33,600–34,944; the final price follows scope agreement. Custom requests and unpriced integrations are estimated separately. Hosting, AI/API usage and recurring operations are additional.",
-                "Індикативні початкові суми для зазначеного обсягу. Плановий діапазон ядра — £33 600–34 944; остаточна ціна визначається після погодження обсягу. Власні вимоги й інтеграції без ціни оцінюються окремо. Хостинг, AI/API та постійна операційна робота оплачуються додатково.",
+                "Final price follows agreed scope. Unpriced requests, hosting, AI/API usage and ongoing operations are estimated separately.",
+                "Остаточна ціна залежить від погодженого обсягу. Запити без ціни, хостинг, AI/API та постійна операційна робота оцінюються окремо.",
               )}
             </p>
             <a className="client-button scope-receipt-next" href="#scope-response-section">
@@ -613,7 +618,7 @@ function ScopePage() {
                 </button>
                 <Link to="/proposal" className="scope-action-card">
                   <ArrowLeft size={19} />
-                  <span>{t("Rewind", "На початок")}</span>
+                  <span>{t("Back to start", "На початок")}</span>
                 </Link>
               </div>
               {notice && (
