@@ -19,3 +19,12 @@ No synthetic personal edges; no orphan links after filtering; retained people po
 - Existing personal data access restrictions remain. Organisation/city/verification fields are never invented.
 - Removal warnings describe proposed capabilities, not revoked live invitations or messages.
 - 35,714 is a funnel arithmetic scenario, not established economic break-even. Costs, churn and retention remain unknown.
+
+## Implementation status
+- Code implemented and stored locally, commits 789c231, 4fa838c and subsequent motion fix.
+- Graph model/draft suite: 27 passing; build passes; changed-module TypeScript and focused lint pass. Global tsc still has pre-existing PartnerGraph/PartnerProposal/partner-finance errors.
+- Fresh static reviewer found two issues: service first-click/detail/exclusion sequencing and excluded coverage restored by alternate workflow entry. Both corrected; exclusion regression test passed after failing first.
+- Desktop/mobile browser and end-to-end UI checks pending: local Mac locked; browser extension cannot access the originating session.
+- Public source candidate prepared at /tmp/isrm-public-network-sync, branch codex/network-workflow-batch, commit 1049d63; no internal partner documents included. Push automatically rejected: public source snapshot may include client-derived material without sufficiently specific public-destination authorization. Do not retry through a workaround.
+- No new Cloudflare upload made.
+- UI decisions: last two-tab instruction wins; unsupported city/recommendation/AI/compliance data not inferred; disabling demo capabilities never claims live invitations/messages cancelled; existing draft budget decisions retained, Approve default only for new draft.
