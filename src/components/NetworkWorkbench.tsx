@@ -116,6 +116,7 @@ export function NetworkWorkbench() {
     close();
     setAnchor(id);
     if (id.startsWith("svc:")) {
+      setDisabled((v) => v.filter((s) => s !== id.slice(4)));
       setMode("services");
       setActive([id.slice(4) as ServiceId]);
     } else if (id.startsWith("workflow:")) {
