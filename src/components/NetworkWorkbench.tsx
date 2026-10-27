@@ -295,35 +295,66 @@ export function NetworkWorkbench() {
         )}
       </div>
       <ClientHeader />
-      <div className="network-dashboard">
-        <Link to="/proposal" className="network-context-link">
-          <ArrowLeft size={17} />
-          <span>{t("Briefing", "Брифінг")}</span>
-        </Link>
-        <div className="network-metrics" aria-live="polite">
-          <span>
-            <strong>{visible}</strong>
-            {t("visible", "видимо")}
-          </span>
-          <span>
-            <strong>{count}</strong>
-            {mode === "services"
-              ? t("service coverage", "охоплено сервісом")
-              : t("matched", "знайдено")}
-          </span>
-          <button
-            className="network-shortlist-trigger"
-            onClick={openShortlist}
-            aria-label={t("Open shortlist", "Відкрити shortlist")}
-          >
-            <strong>{draft.shortlist.length}</strong>
-            {t("in shortlist", "у відборі")}
-          </button>
+      <div className={`network-dashboard ${persistentSearch ? "has-search-rail" : ""}`}>
+        <div className="network-panel-heading network-left-heading">
+          {(left || persistentSearch) && (
+            <>
+              <h2>
+                {left === "workflows"
+                  ? "Workflows"
+                  : left === "shortlist"
+                    ? t("Your shortlist", "Ваш shortlist")
+                    : t("Search", "Пошук")}
+              </h2>
+              {backButton}
+            </>
+          )}
         </div>
-        <Link to="/scope" className="network-context-link">
-          <span>{t("Scope & budget", "Обсяг і бюджет")}</span>
-          <ArrowRight size={17} />
-        </Link>
+        <nav
+          className="network-dashboard-navigation"
+          aria-label={t("Briefing and scope", "Брифінг та обсяг робіт")}
+        >
+          <Link to="/proposal" className="network-context-link">
+            <ArrowLeft size={17} />
+            <span>{t("Briefing", "Брифінг")}</span>
+          </Link>
+          <div className="network-metrics" aria-live="polite">
+            <span>
+              <strong>{visible}</strong>
+              {t("visible", "видимо")}
+            </span>
+            <span>
+              <strong>{count}</strong>
+              {mode === "services"
+                ? t("service coverage", "охоплено сервісом")
+                : t("matched", "знайдено")}
+            </span>
+            <button
+              className="network-shortlist-trigger"
+              onClick={openShortlist}
+              aria-label={t("Open shortlist", "Відкрити shortlist")}
+            >
+              <strong>{draft.shortlist.length}</strong>
+              {t("in shortlist", "у відборі")}
+            </button>
+          </div>
+          <Link to="/scope" className="network-context-link">
+            <span>{t("Scope & budget", "Обсяг і бюджет")}</span>
+            <ArrowRight size={17} />
+          </Link>
+        </nav>
+        <div className="network-panel-heading network-right-heading">
+          {(selected || selectedService) && (
+            <>
+              <h2>
+                {selected
+                  ? `${t("Dossier", "Досьє")} · ${selected.code}`
+                  : t("Service capability", "Сервісна функціональність")}
+              </h2>
+              {backButton}
+            </>
+          )}
+        </div>
       </div>
       {(!panelOpen || wide) && (
         <div
@@ -420,10 +451,6 @@ export function NetworkWorkbench() {
           className={`network-paper-panel network-left-panel ${persistentSearch ? "is-persistent-search" : ""}`}
           aria-label={t("Search panel", "Панель пошуку")}
         >
-          <header>
-            <h2>{t("Search", "Пошук")}</h2>
-            {backButton}
-          </header>
           <fieldset className="network-layer-switch">
             <legend>{t("Concentrators switch", "Перемикач концентраторів")}</legend>
             {(
@@ -496,10 +523,6 @@ export function NetworkWorkbench() {
           className="network-paper-panel network-left-panel"
           aria-label={t("Shortlist", "Shortlist · відібрана група")}
         >
-          <header>
-            <h2>{t("Your shortlist", "Ваш shortlist")}</h2>
-            {backButton}
-          </header>
           <label className="network-group-name">
             {t("Group name", "Назва групи")}
             <input
@@ -573,10 +596,6 @@ export function NetworkWorkbench() {
           className="network-paper-panel network-left-panel"
           aria-label={t("Workflow panel", "Панель workflow")}
         >
-          <header>
-            <h2>Workflows</h2>
-            {backButton}
-          </header>
           <p className="network-panel-note">
             {t(
               "Recurring actions, organised around a useful result. Select a folder to see its services and their potential coverage.",
@@ -685,10 +704,6 @@ export function NetworkWorkbench() {
           className="network-paper-panel network-right-panel"
           aria-label={t("Person dossier", "Досьє персони")}
         >
-          <header>
-            <span>{selected.code}</span>
-            {backButton}
-          </header>
           <h2>{selected.displayName}</h2>
           {selected.organization && (
             <p>
@@ -749,10 +764,6 @@ export function NetworkWorkbench() {
           className="network-paper-panel network-right-panel"
           aria-label={t("Service dossier", "Опис сервісу")}
         >
-          <header>
-            <span>{t("Service capability", "Сервісна функціональність")}</span>
-            {backButton}
-          </header>
           <h2>{selectedService.title[locale]}</h2>
           <p>{selectedService.detail[locale]}</p>
           <NetworkServiceDependencies id={selectedService.id} locale={locale} />

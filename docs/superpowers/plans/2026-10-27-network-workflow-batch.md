@@ -59,3 +59,10 @@ User authorised continuation inline, including the subsequent request to preserv
 - [x] Final verification: 34 tests and production build pass; focused ESLint is clean. Changed modules have no TypeScript errors. Global tsc retains the recorded pre-existing PartnerGraph/PartnerProposal/network-access.test/partner-finance failures.
 - [x] Fresh read-only review found two live-mode regressions (restoring only anchor, and automatic simulation under reduced motion). Both fixed and targeted re-review reports no remaining blockers. Browser confirmed service → Live → service restores both mode and anchor.
 - [x] Public source-only commit d1b86cc pushed to codex/network-workflow-batch. Internal documents and review images excluded. Local preview restarted independently on port5174; no Cloudflare upload.
+
+### Panel headings share the dashboard row
+
+- [x] Move Briefing / metrics / Scope into the central dashboard group. Place left/right panel names and close-all graph actions in the side slots; remove all five separate white panel header blocks.
+- [x] Keep full-height translucent panels underneath the header surfaces. Content padding follows measured dashboard height; mobile uses a compact title row and retains the exposed graph gutter.
+- [x] Browser verified shortlist, workflow tree and service description; 390×844 has document width390, and Ukrainian labels fit the central dashboard at1100px. Desktop two-panel proof saved privately in docs/review/panel-dashboard-headings-2026-10-27.jpg.
+- [x] Production build and focused ESLint pass. No new dependencies or price changes; no Cloudflare upload.
