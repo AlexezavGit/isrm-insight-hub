@@ -18,10 +18,15 @@ export const CLIENT_APPROVED_PRICES: {
 export function clientQuote(d: ClientDraft, prices = CLIENT_APPROVED_PRICES): number | null {
   const lines =
     d.mode === "graph"
-      ? [prices.graph, ...d.serviceIds.filter((id) => id === "research").map((id) => prices.addons[id] ?? null)]
+      ? [
+          prices.graph,
+          ...d.serviceIds.filter((id) => id === "research").map((id) => prices.addons[id] ?? null),
+        ]
       : d.mode === "research-only"
         ? [null]
         : [prices.base];
+  if (d.mode === "full" && d.serviceIds.includes("survey") && !d.workflowIds.includes("engagement"))
+    return null;
   if (d.mode === "full" && d.serviceIds.includes("publishing") && d.workflowIds.length === 0)
     return null;
   if (d.mode === "full" && d.customIncluded && d.requests.length) return null;

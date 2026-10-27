@@ -28,3 +28,18 @@ No synthetic personal edges; no orphan links after filtering; retained people po
 - Public source candidate prepared at /tmp/isrm-public-network-sync, branch codex/network-workflow-batch, commit 1049d63; no internal partner documents included. Push automatically rejected: public source snapshot may include client-derived material without sufficiently specific public-destination authorization. Do not retry through a workaround.
 - No new Cloudflare upload made.
 - UI decisions: last two-tab instruction wins; unsupported city/recommendation/AI/compliance data not inferred; disabling demo capabilities never claims live invitations/messages cancelled; existing draft budget decisions retained, Approve default only for new draft.
+
+## Refinement and verification · 27 October
+This status supersedes the earlier browser/public-sync limitations above.
+
+- Static service wheel with deterministic, separate people cohorts; no camera movement on inspection. Explicit concentrator choices move the camera. Shapes and colours distinguish node types; labels appear on hover/inspection.
+- Full-height translucent panels sit beneath blurred header/footer surfaces. Desktop search switches remain visible. Workflow tree opens a services-only wheel; selecting a workflow/service surfaces potential coverage and opens its description.
+- Descriptions include intended users/results, dependencies and proposed technology. Member survey has five opening questions and the unchanged source draft. Preview does not collect responses or send invitations.
+- Survey inclusion is idempotent and restores an unchecked request. Fallback retains custom requests explicitly for separate discussion, outside its selected scope/price, across email/Markdown/print sources.
+- Compact plain Fallback options with two checkboxes and individual-search footnote. Each selected workflow, integration interest and custom description has its own proposal-receipt line. Workflow definition precedes core. Existing draft preferences retained; new drafts default to Approve.
+- All graph panels have an explicit close-all/graph action; custom-description entry is visible above the workflow tree. Final briefing has three equal-width 52px actions, including Back to start; scope actions share this height.
+- Browser verified: desktop tree/core/service details; survey → scope → fallback retains survey outside £10,080 price; 390px portrait has no horizontal overflow and leaves a 72px outside-tap gutter; close-all leaves zero panels; final briefing actions measured equal width/height and Back to start returns to slide one. Enlarged-text slide-three cards do not overlap or cross the footer after layout correction.
+- Browser has prefers-reduced-motion enabled, so animation was checked in source/computed styles, not visually observed playing. It respects that preference. Desktop/mobile proof images are in docs/review and are not copied into the public branch.
+- 31 focused/model/draft tests pass. Focused lint and production build pass. Global TypeScript still reports pre-existing PartnerGraph, PartnerProposal, network-access.test and partner-finance errors; no changed-module errors in the recorded check.
+- Fresh read-only review found no remaining blockers after three request/visibility-state fixes. Browser review subsequently caught and fixed sticky panel headers intercepting folder clicks and the older compact-cycle CSS overriding row sizes.
+- Public branch codex/network-workflow-batch was subsequently explicitly authorised by the user and pushed at 38d6536. Current refinement will be synced as source only; private partner calculations/history and these review images are excluded. No new Cloudflare upload in this batch.

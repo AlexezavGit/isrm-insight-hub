@@ -181,11 +181,12 @@ export function BriefingSlider() {
               <button
                 type="button"
                 className="client-button briefing-final-action briefing-rewind"
-                aria-label={uk ? "Повернутися на початок" : "Rewind to the beginning"}
-                title={uk ? "На початок" : "Rewind"}
+                aria-label={uk ? "Повернутися на початок" : "Back to start"}
+                title={uk ? "На початок" : "Back to start"}
                 onClick={() => setSlide(0)}
               >
                 <ChevronsLeft aria-hidden="true" />
+                <span>{uk ? "На початок" : "Back to start"}</span>
               </button>
             </div>
           )}

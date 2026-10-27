@@ -7,7 +7,42 @@ import {
   selectedServiceIds,
   buildClientSummary,
   emailHref,
+  includeClientRequest,
 } from "./client-draft";
+
+test("re-including an existing survey restores it without duplicates or changing the fallback", () => {
+  const request = {
+    id: "member-survey",
+    kind: "service" as const,
+    title: "Member survey",
+    description: "Agree recipients and permissions before launch.",
+  };
+  const before = updateDraft(emptyDraft(), {
+    mode: "graph",
+    requests: [request],
+    customIncluded: false,
+  });
+  const after = includeClientRequest(before, request);
+  assert.equal(after.mode, "graph");
+  assert.equal(after.customIncluded, true);
+  assert.deepEqual(after.requests, [request]);
+  assert.equal(clientQuote(after), clientQuote(before));
+  assert.equal(after.budgetPosition, "discuss");
+  for (const locale of ["en", "uk"] as const) {
+    const summary = buildClientSummary(after, locale);
+    assert(summary.includes(request.description));
+    assert(buildClientMarkdown(after, locale).includes(request.description));
+    assert(
+      scopeDocumentSections(summary).sections.some((s) => s.lines.includes(request.description)),
+    );
+    assert.equal(new URL(emailHref(after, locale)).searchParams.get("body"), summary);
+  }
+  assert.match(
+    buildClientSummary(after, "en"),
+    /Excluded from the selected simpler option and its price/,
+  );
+  assert(!buildClientSummary(before, "en").includes(request.description));
+});
 
 test("workflow services are deduplicated and fallback removes incompatible selections", () => {
   let d = updateDraft(emptyDraft(), {
