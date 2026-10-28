@@ -9366,7 +9366,7 @@ body,
 .scope-card-cabinet .client-price-receipt { position:sticky; top:-1px; z-index:3; background:var(--ds-paper); padding:.35rem 0; max-height:40dvh; overflow:auto; }
 .scope-card-cabinet .client-price-receipt p { gap:.65rem; padding-block:.4rem; font-size:.8rem; }
 .scope-card-cabinet .client-price-receipt p > span { min-width:0; overflow-wrap:anywhere; }
-.scope-card-cabinet .client-price-receipt p > strong { flex-shrink:0; max-width:45%; text-align:right; font-size:.76rem; }
+.scope-card-cabinet .client-price-receipt p > strong { min-width:0; max-width:100%; text-align:right; font-size:.76rem; white-space:normal; overflow-wrap:anywhere; }
 .scope-card-cabinet .client-price-receipt .client-price-total > strong { font-size:1.2rem; }
 .scope-card-cabinet .client-scope-budget .scope-fallback { border-block:1px solid var(--client-line); margin:.8rem 0; padding:.6rem 0; }
 .scope-card-cabinet .scope-fallback h3 { font-size:.88rem; font-weight:600; margin:0 0 .4rem; }
@@ -9512,9 +9512,39 @@ body,
 }
 .network-survey-link { color:inherit; background:transparent; border:0; padding:.15rem .3rem; text-decoration:underline; text-underline-offset:3px; cursor:pointer; font:inherit; }
 .network-survey-link:hover,.network-survey-link:focus-visible { color:var(--ds-gold); }
-.client-price-receipt .client-price-total { display:grid; grid-template-columns:minmax(0,1fr); gap:.35rem; }
+.scope-card-cabinet .client-price-receipt > p { grid-template-columns:minmax(0,1fr) minmax(0,45%); }
+.scope-card-cabinet .client-price-receipt > .client-price-total { display:grid; grid-template-columns:minmax(0,1fr); gap:.35rem; }
 .client-price-receipt .client-price-total > span { overflow-wrap:normal; word-break:normal; }
-.client-price-receipt .client-price-total > strong { justify-self:end; max-width:100%; overflow-wrap:normal; }
+.scope-card-cabinet .client-price-receipt > .client-price-total > strong { justify-self:end; min-width:0; max-width:100%; white-space:normal; overflow-wrap:anywhere; }
+.scope-card-cabinet .scope-linear-layout > .client-scope-budget { min-width:0; }
+.scope-mobile-total > strong { min-width:0; max-width:100%; white-space:normal; overflow-wrap:anywhere; text-align:right; }
+@media(max-width:760px) { .scope-mobile-total { grid-template-columns:minmax(0,1fr) minmax(0,1.5fr) 18px; } }
+
+/* Optional, task-based guidance leaves the actual application usable. */
+.network-guide-trigger { display:inline-flex; align-items:center; gap:.25rem; }
+.network-guide-invite,.network-guide-card { position:fixed; z-index:80; color:var(--ds-blue,#123344); background:var(--ds-paper,#f3eee0); border:1px solid var(--ds-blue,#123344); border-top:4px solid var(--ds-gold,#b49b62); border-radius:14px 14px 4px 4px; box-shadow:0 8px 28px #102d4033; }
+.network-guide-invite { right:1rem; bottom:8.5rem; max-width:calc(100vw - 2rem); display:flex; align-items:center; gap:.5rem; padding:.6rem .8rem; }
+.network-guide-invite button,.network-guide-card button { background:none; border:0; color:inherit; font:inherit; cursor:pointer; padding:.3rem; text-decoration:underline; text-underline-offset:3px; }
+.network-guide-card { width:min(360px,calc(100vw - 24px)); right:1rem; bottom:8.5rem; padding:.85rem 1rem; max-height:calc(100dvh - 190px); overflow:auto; font-size:.86rem; line-height:1.5; }
+.network-guide-card.is-profile-step { right:auto; left:1rem; }
+.network-guide-progress { display:flex; align-items:center; justify-content:space-between; gap:.75rem; font-size:.73rem; }
+.network-guide-card h2 { font-size:1.06rem; line-height:1.3; margin:.5rem 0; font-weight:700; }
+.network-guide-card p { margin:.6rem 0; }
+.network-guide-card nav { display:flex; align-items:center; justify-content:space-between; gap:.75rem; margin-top:.6rem; }
+.network-guide-card button:disabled { opacity:.5; cursor:default; text-decoration:none; }
+.network-guide-card button:focus-visible,.network-guide-invite button:focus-visible { outline:2px solid currentColor; outline-offset:2px; }
+.network-guide-task { font-size:.75rem; font-weight:600; }
+.network-workbench[data-guide-step="search"] .network-refine-fields,
+.network-workbench[data-guide-step="connections"] .network-canvas,
+.network-workbench[data-guide-step="dossier"] .network-right-panel,
+.network-workbench[data-guide-step="save"] [data-guide-target="save"],
+.network-workbench[data-guide-step="shortlist"] .network-shortlist-trigger { outline:3px solid var(--ds-gold); outline-offset:-3px; }
+@media(max-width:760px) {
+ .network-guide-card,.network-guide-card.is-profile-step { left:12px; right:auto; bottom:8rem; max-height:36dvh; font-size:.8rem; padding:.6rem .8rem; }
+ .network-guide-invite { bottom:8rem; }
+ .network-workbench[data-guide-step] .network-paper-panel { padding-bottom:calc(36dvh + 8rem + 2rem); }
+}
+@media print { .network-guide-card,.network-guide-invite,.network-guide-trigger { display:none; } }
 
 /* One restrained material palette for the graph, briefing and scope. */
 :root {

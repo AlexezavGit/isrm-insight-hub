@@ -50,8 +50,10 @@ export function NetworkConcentrator({
         }
       }}
     >
-      <summary aria-label={uk ? "Обрати концентратор графа" : "Choose graph concentrator"}>
-        <span>{uk ? "Концентратор" : "Concentrator"}</span>
+      <summary
+        aria-label={uk ? "Обрати, за чим показати зв’язки" : "Choose how to view connections"}
+      >
+        <span>{uk ? "Зв’язки за" : "View connections by"}</span>
         <strong>{nodes.find((node) => node.id === value)?.label ?? "ISRM"}</strong>
       </summary>
       <div className="network-concentrator-options">
