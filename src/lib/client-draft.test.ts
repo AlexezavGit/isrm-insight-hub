@@ -300,3 +300,30 @@ test("unknown requests keep the known subtotal visible and do not masquerade as 
   assert.equal(clientQuote(d), null);
   assert.deepEqual(clientQuoteRange(d), { low: 44940, high: 46738, pending: true });
 });
+
+test("the restored requirement template retains all supplied fields in scope, Markdown and email", async () => {
+  const { serviceFrameText } = await import("./service-request-frame");
+  const description = serviceFrameText(
+    {
+      userRole: "Chapter Board",
+      need: "Find an appropriate colleague",
+      behavior: "Review then introduce",
+      outcome: "An agreed introduction",
+      dataIntegration: "Permission before contact",
+      acceptance: "The recipient confirms the next step",
+    },
+    "en",
+  );
+  const d = updateDraft(emptyDraft(), {
+    requests: [{ id: "template", kind: "workflow", title: "A chapter enquiry", description }],
+  });
+  for (const text of [
+    buildClientSummary(d, "en"),
+    buildClientMarkdown(d, "en"),
+    new URL(emailHref(d, "en")).searchParams.get("body")!,
+  ]) {
+    assert(text.includes("Chapter Board"));
+    assert(text.includes("Permission before contact"));
+    assert(text.includes("The recipient confirms the next step"));
+  }
+});

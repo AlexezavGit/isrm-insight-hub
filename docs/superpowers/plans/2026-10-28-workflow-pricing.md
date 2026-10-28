@@ -26,3 +26,12 @@ Review focus: fallback exclusivity, persisted older drafts, additive workflow pr
 - [ ] Structured people view separates expertise, sector and country radii; preserve the initially live draggable graph.
 - [ ] Restore the six-field requirement template from isrm-partner-ranges-v1 into the shared request composer.
 - [ ] Compact movable node inspection strip, expandable service descriptions and an obvious questionnaire preview before scope approval.
+
+## UX verification and completed local package
+- Search persistent/expanded state reproduced in Chrome before the fix; after the fix two successive clicks close/open correctly. Mobile390px: panel318px,72px graph gutter, document390px; second click removes the panel.
+- Structured category regression failed before layout change and passed afterwards. Expertise230, sectors310, countries390; faint guides appear only in structured overview. Person-centred distance rings and initial live simulation retain their existing behaviour.
+- Restored the six exact questions/help from the old MemberCabinet template. Browser filled role/problem/result/data/acceptance, saved to scope and verified all supplied text. Removed only the QA-created request afterwards. Canonical summary/Markdown/email test covers retention.
+- Questionnaire is visible in the graph legend and above the workflow tree. Browser opened the canonical approved eight-question Markdown in a modal, without navigating toscope or collecting answers. Survey service selection also opens the preview directly.
+- Service description is collapsible; users/outcomes/dependencies/technology disclosure starts closed.
+- Native Chrome click selected Austria; node actions strip measured38.8pxdesktop. Native pointer drag moved it180pxleft/100pxup. ArrowRight moved24px. Mobile strip75.6px high, fully inside390px document. Position resets on viewport resize. Proof: docs/review/graph-ux-refinement-2026-10-28.png.
+- Final45behavioural tests and Pages build pass. Focused lint clean. Global TypeScript retains the previously recorded partner/test errors; changed modules have no errors.

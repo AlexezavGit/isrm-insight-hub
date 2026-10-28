@@ -2,28 +2,31 @@ import { Link } from "@tanstack/react-router";
 import { useClientDraft } from "./ClientDraftProvider";
 import type { ClientLocale } from "@/lib/client-catalog";
 import { includeClientRequest } from "@/lib/client-draft";
-const questions = [
-  {
-    en: "Where would better access to colleagues or information help you most?",
-    uk: "Де кращий доступ до колег або інформації допоміг би вам найбільше?",
-  },
-  {
-    en: "What expertise, resources or practical experience could you contribute?",
-    uk: "Якою експертизою, ресурсами чи практичним досвідом ви могли б поділитися?",
-  },
-  {
-    en: "Which support would you use first: search, reviewed research, introductions, learning or a professional discussion?",
-    uk: "Чим ви скористалися б спочатку: пошуком, перевіреним дослідженням, знайомствами, навчанням чи професійною дискусією?",
-  },
-  {
-    en: "What currently makes it difficult to take part or share useful knowledge?",
-    uk: "Що зараз заважає долучатися або ділитися корисними знаннями?",
-  },
-  {
-    en: "Would you like a separate invitation to discuss your contribution or a pilot?",
-    uk: "Чи бажаєте отримати окреме запрошення обговорити свій внесок або пілот?",
-  },
-];
+import surveyDraft from "../../public/ISRM_Community_Member_Survey_Draft.md?raw";
+
+function SurveyDocument() {
+  const text = surveyDraft.slice(surveyDraft.indexOf("## Proposed introduction"));
+  return (
+    <div className="survey-document">
+      {text
+        .trim()
+        .split(/\n\n+/)
+        .map((block, index) => {
+          if (block.startsWith("### ")) return <h4 key={index}>{block.slice(4)}</h4>;
+          if (block.startsWith("## ")) return <h3 key={index}>{block.slice(3)}</h3>;
+          if (block.startsWith("- "))
+            return (
+              <ul key={index}>
+                {block.split("\n").map((line, i) => (
+                  <li key={i}>{line.replace(/^- /, "")}</li>
+                ))}
+              </ul>
+            );
+          return <p key={index}>{block.replace(/\*\*/g, "")}</p>;
+        })}
+    </div>
+  );
+}
 export function MemberSurveyPreview({ locale }: { locale: ClientLocale }) {
   const { draft, update, ready } = useClientDraft(),
     uk = locale === "uk";
@@ -31,14 +34,10 @@ export function MemberSurveyPreview({ locale }: { locale: ClientLocale }) {
     <section className="member-survey-preview">
       <p>
         {uk
-          ? "Коротка версія для першого обговорення, на основі наявної чернетки. Тут відповіді не збираються й нічого не надсилається."
-          : "A short opening version based on the existing draft. This preview collects no responses and sends nothing."}
+          ? "Погоджена англійська чернетка: 8 основних запитань, варіанти відповідей і умови запуску. Тут відповіді не збираються й нічого не надсилається."
+          : "The agreed draft questionnaire: eight opening questions, response options and launch conditions. This preview collects no responses and sends nothing."}
       </p>
-      <ol>
-        {questions.map((q) => (
-          <li key={q.en}>{q[locale]}</li>
-        ))}
-      </ol>
+      <SurveyDocument />
       <p className="network-panel-note">
         {uk
           ? "Участь добровільна. Дозволи на контакт, публічне авторство й подальшу участь погоджуються окремо. Перед запуском слід визначити відповідального та правила використання відповідей."

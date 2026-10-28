@@ -77,3 +77,23 @@ test("choosing a person rebuilds the node layout with that person at the centre"
   assert(Math.hypot(positions.get("sector:Risk")!.x, positions.get("sector:Risk")!.y) > 80);
   assert(Math.hypot(positions.get("P1")!.x, positions.get("P1")!.y) > 180);
 });
+
+test("structured people categories have separate expertise, sector and country rings", () => {
+  const g = buildNetwork(
+    people,
+    {
+      sector: true,
+      theme: false,
+      hub: false,
+      researchQueue: false,
+      specialisation: true,
+      country: true,
+    },
+    "en",
+  );
+  const points = layoutNetwork(g, "people", [], []);
+  const radius = (id: string) => Math.hypot(points.get(id)!.x, points.get(id)!.y);
+  assert(radius("expertise:Risk consulting") < radius("sector:Risk"));
+  assert(radius("sector:Risk") < radius("country:United Kingdom"));
+  assert.deepEqual(points.get("isrm"), { x: 0, y: 0 });
+});
