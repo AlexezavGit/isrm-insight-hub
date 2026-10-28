@@ -143,12 +143,12 @@ export function WorkflowOrbit({
         <svg viewBox="0 0 600 430" preserveAspectRatio="none" fill="none" aria-hidden="true">
           <path
             className="orbit-cycle-track"
-            d="M310 45C430 40 545 120 522 225S400 400 300 397 60 335 70 225 157 56 275 45"
+            d="M310 45C430 40 545 120 522 225S400 400 300 397 60 335 70 225 157 56 275 45Q292 40 310 45Z"
           />
           <path
             className="orbit-cycle-sweep"
             pathLength="100"
-            d="M310 45C430 40 545 120 522 225S400 400 300 397 60 335 70 225 157 56 275 45"
+            d="M310 45C430 40 545 120 522 225S400 400 300 397 60 335 70 225 157 56 275 45Q292 40 310 45Z"
           />
           <path
             className="orbit-inner-links"

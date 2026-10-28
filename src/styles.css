@@ -9512,3 +9512,78 @@ body,
 }
 .network-survey-link { color:inherit; background:transparent; border:0; padding:.15rem .3rem; text-decoration:underline; text-underline-offset:3px; cursor:pointer; font:inherit; }
 .network-survey-link:hover,.network-survey-link:focus-visible { color:var(--ds-gold); }
+.client-price-receipt .client-price-total { display:grid; grid-template-columns:minmax(0,1fr); gap:.35rem; }
+.client-price-receipt .client-price-total > span { overflow-wrap:normal; word-break:normal; }
+.client-price-receipt .client-price-total > strong { justify-self:end; max-width:100%; overflow-wrap:normal; }
+
+/* One restrained material palette for the graph, briefing and scope. */
+:root {
+  --client-header-glass: #0b2435c9;
+  --client-tab-active: color-mix(in oklab, var(--ds-blue) 65%, var(--ds-deep));
+}
+.client-scope .shared-client-header,
+.client-briefing .shared-client-header,
+.network-workbench .shared-client-header {
+  background: var(--client-header-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.client-briefing .shared-client-header { z-index: 45; }
+.client-motion-toggle { display: inline-flex; align-items: center; justify-content: center; }
+.client-slide-topline > div { background: var(--client-tab-active); }
+.scope-card-cabinet :is(.scope-large-folder,.scope-interactive-folder,.scope-outcome-folder)[open] > summary,
+.scope-card-cabinet button.scope-workflow-tab[aria-pressed=true],
+.chapter-field-folder[open] > summary,
+.client-briefing .client-slide-dots button[aria-current=step] {
+  background: var(--client-tab-active);
+  color: var(--ds-paper);
+  border-top-color: color-mix(in oklab, var(--ds-gold) 58%, var(--ds-blue));
+  box-shadow: inset 1px 1px 0 #fff5, inset -1px -2px 2px #06172366, 0 2px 3px #06172340;
+}
+.scope-card-cabinet :is(.scope-large-folder,.scope-interactive-folder,.scope-outcome-folder)[open] > summary:hover {
+  background: color-mix(in oklab, var(--client-tab-active) 90%, var(--ds-paper));
+}
+.scope-card-cabinet :is(.scope-large-folder,.scope-interactive-folder,.scope-outcome-folder)[open] > summary :is(h2,h3,strong,span,small,svg),
+.scope-card-cabinet .scope-workflow-card.is-selected .scope-workflow-tab h2 { color: inherit; }
+.client-high-contrast .client-slide-topline > div { background: white; }
+.client-high-contrast .scope-card-cabinet :is(.scope-large-folder,.scope-interactive-folder,.scope-outcome-folder)[open] > summary { background:#102c3c; color:white; }
+/* Coordinates, not a CSS jump, drive the four-second approach behind the paper. */
+.briefing-network-assembly { animation: none !important; transform-origin: 0 0; }
+.briefing-network-cluster { animation: none !important; }
+.client-briefing .workflow-orbit-map .orbit-cycle-sweep {
+  animation: orbit-cycle-travel 15s linear infinite !important;
+  animation-play-state: paused !important;
+  stroke: #f2e7c6;
+  stroke-width: 4;
+  stroke-dasharray: 15 85;
+  filter: drop-shadow(0 0 2px #d2b66f80);
+}
+.client-briefing.is-motion-enabled .workflow-orbit-map .orbit-cycle-sweep { animation-play-state: running !important; }
+.network-concentrator-menu { position:relative; min-width:0; width:min(330px,50vw); }
+.network-concentrator-menu > summary { cursor:pointer; list-style:none; display:flex; flex-direction:column; gap:.15rem; padding:.3rem .5rem; border-bottom:1px solid #c9d8d655; }
+.network-concentrator-menu > summary::-webkit-details-marker { display:none; }
+.network-concentrator-menu > summary > span { font-size:.6rem; letter-spacing:.08em; text-transform:uppercase; opacity:.7; }
+.network-concentrator-menu > summary > strong { font-size:.8rem; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.network-concentrator-menu > summary::after { content:'⌄'; position:absolute; right:.4rem; bottom:.25rem; }
+.network-concentrator-options { position:absolute; z-index:65; top:calc(100% + 5px); left:0; width:min(340px,calc(100vw - 28px)); max-height:min(430px,55dvh); overflow:auto; overscroll-behavior:contain; padding:.75rem; background:#112c3bf5; border:1px solid #a5bdca55; border-radius:5px; box-shadow:0 10px 35px #03101c88; backdrop-filter:blur(12px); }
+.network-concentrator-options label { display:block; font-size:.72rem; }
+.network-concentrator-options input { display:block; width:100%; margin:.35rem 0 .65rem; padding:.5rem; background:#e8e6da; color:#102c3c; border:1px solid #b4b9b4; border-radius:3px; font:inherit; }
+.network-concentrator-options button { display:block; width:100%; text-align:left; padding:.55rem .4rem; border:0; border-bottom:1px solid #a5bdca26; background:transparent; color:var(--ds-paper); cursor:pointer; font-size:.8rem; }
+.network-concentrator-options button:hover,.network-concentrator-options button:focus-visible { color:var(--ds-gold); text-decoration:underline; text-underline-offset:3px; }
+.network-concentrator-options button[aria-pressed=true] { color:var(--ds-gold); }
+.network-concentrator-options details > summary { padding:.65rem .15rem; cursor:pointer; font-size:.8rem; }
+.network-concentrator-options summary small { opacity:.6; margin-left:.4rem; }
+.network-concentrator-options ul { padding:0 0 0 .65rem; margin:0; list-style:none; }
+@media(max-width:760px) { .network-concentrator-menu { width:min(240px,48vw); } }
+@media print { .shared-client-header { backdrop-filter:none; } }
+
+.network-workbench .network-concentrator-options label { display:block; width:100%; }
+/* Expanded workflow branches keep the same slate colour as open scope folders. */
+.network-workbench .network-workflow-folder > .network-folder-button[aria-expanded=true] { color:var(--ds-paper); background:var(--client-tab-active); border-radius:4px; padding-inline:.45rem; }
+@media(max-width:480px) {
+ .shared-client-header .client-wordmark { font-size:1.05rem; gap:.35rem; }
+ .shared-client-header .client-wordmark span { font-size:.48rem; letter-spacing:.05em; padding-left:.35rem; max-width:4.8rem; }
+ .shared-client-header .client-topbar-actions { gap:.1rem; }
+ .shared-client-header .client-topbar-actions button { padding-inline:.2rem; }
+ .shared-client-header .client-motion-toggle { width:26px; flex-shrink:0; }
+}

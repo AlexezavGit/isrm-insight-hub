@@ -46,9 +46,25 @@ export function BriefingVisual({
             { Icon: FileSearch, en: "Needs", uk: "Потреби" },
             { Icon: Handshake, en: "Introductions", uk: "Знайомства" },
           ].map(({ Icon, en, uk: ua }) => (
-            <details key={en} className="chapter-field-folder"><summary>
-              <Icon size={19} aria-hidden="true" />
-              <span>{uk ? ua : en}</span></summary><p>{uk ? ({ Expertise: "Яку експертизу чаптер готовий запропонувати колегам?", Needs: "Якої підтримки та інформації потребують члени?", Introductions: "Хто може допомогти з доречним професійним знайомством?" }[en]) : ({ Expertise: "What expertise could the chapter share with colleagues?", Needs: "What support and information do members need?", Introductions: "Who could help with a relevant professional introduction?" }[en])}</p></details>
+            <details key={en} className="chapter-field-folder">
+              <summary>
+                <Icon size={19} aria-hidden="true" />
+                <span>{uk ? ua : en}</span>
+              </summary>
+              <p>
+                {uk
+                  ? {
+                      Expertise: "Яку експертизу чаптер готовий запропонувати колегам?",
+                      Needs: "Якої підтримки та інформації потребують члени?",
+                      Introductions: "Хто може допомогти з доречним професійним знайомством?",
+                    }[en]
+                  : {
+                      Expertise: "What expertise could the chapter share with colleagues?",
+                      Needs: "What support and information do members need?",
+                      Introductions: "Who could help with a relevant professional introduction?",
+                    }[en]}
+              </p>
+            </details>
           ))}
         </div>
         <div className="chapter-dashboard-outcomes">
@@ -87,8 +103,8 @@ export function BriefingVisual({
         <ExpertisePyramid locale={locale} compact />
         <p className="briefing-visual-caption">
           {uk
-            ? "Ядро + два незалежні опційні workflow"
-            : "One core + two independent optional workflows"}
+            ? "Спільне ядро та окремо погоджені напрями розвитку"
+            : "A shared foundation with separately agreed workstreams"}
         </p>
       </div>
     );

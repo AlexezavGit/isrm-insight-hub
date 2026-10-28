@@ -38,6 +38,7 @@ export function indicativePriceLabel(
     new Intl.NumberFormat(locale === "uk" ? "uk-UA" : "en-GB", {
       style: "currency",
       currency: "GBP",
+      currencyDisplay: "narrowSymbol",
       maximumFractionDigits: 0,
     }).format(value);
   return high === null || high === low ? format(low) : `${format(low)}–${format(high)}`;

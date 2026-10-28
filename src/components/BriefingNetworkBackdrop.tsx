@@ -1,4 +1,5 @@
-import { useMemo, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { briefingApproach, expansionProgress, briefingGroups } from "@/lib/network-presentation";
 import type { Expert } from "@/lib/types";
 
 const anchors = [
@@ -25,35 +26,22 @@ export function BriefingNetworkBackdrop({
   slide: number;
   reducedMotion: boolean;
 }) {
-  const groups = useMemo(() => {
-    const field =
-      (
-        [
-          "sector",
-          "ukraineCategory",
-          "communityRole",
-          "sector",
-          "communityRole",
-          "ukraineCategory",
-        ] as const
-      )[slide] ?? "sector";
-    const map = new Map<string, Expert[]>();
-    experts.forEach((e) => {
-      const category = e[field];
-      if (
-        !category ||
-        [
-          "Unclassified",
-          "Не оцінено",
-          "Ukraine-related experience",
-          "Member / participant",
-        ].includes(category)
-      )
-        return;
-      map.set(category, [...(map.get(category) ?? []), e]);
-    });
-    return [...map.entries()].sort((a, b) => b[1].length - a[1].length).slice(0, 8);
-  }, [experts, slide]);
+  const [elapsed, setElapsed] = useState(reducedMotion ? 4000 : 0);
+  const progress = useRef(reducedMotion ? 4000 : 0);
+  useEffect(() => {
+    if (reducedMotion || progress.current >= 4000) return;
+    let raf = 0;
+    const start = performance.now() - progress.current;
+    const frame = (now: number) => {
+      progress.current = Math.min(4000, now - start);
+      setElapsed(progress.current);
+      if (progress.current < 4000) raf = requestAnimationFrame(frame);
+    };
+    raf = requestAnimationFrame(frame);
+    return () => cancelAnimationFrame(raf);
+  }, [reducedMotion]);
+  const approach = briefingApproach(elapsed);
+  const groups = useMemo(() => briefingGroups(experts, slide), [experts, slide]);
   return (
     <svg
       className={`briefing-peripheral-network ${reducedMotion ? "is-still" : ""}`}
@@ -61,24 +49,18 @@ export function BriefingNetworkBackdrop({
       preserveAspectRatio="xMidYMid slice"
       aria-hidden="true"
     >
-      <g key={`${slide}:${experts.length}`} className="briefing-network-assembly">
+      <g
+        className="briefing-network-assembly"
+        transform={`translate(720 450) scale(${approach.scale}) translate(-720 -450)`}
+      >
         {groups.map(([category, members], i) => {
-          const [cx, cy] = anchors[i]!;
+          const [cx, cy] = anchors[(i + slide) % anchors.length]!;
           return (
-            <g
-              key={`${slide}:${category}`}
-              className="briefing-network-cluster"
-              style={
-                {
-                  "--arrival-x": `${cx < 720 ? -180 : 180}px`,
-                  "--arrival-y": `${cy < 450 ? -80 : 80}px`,
-                } as CSSProperties
-              }
-            >
+            <g key={`${slide}:${category}`} className="briefing-network-cluster">
               {members.map((e) => {
                 const seed = hash(e.code + category),
                   a = (seed % 628) / 100,
-                  r = 55 + (seed % 125),
+                  r = (55 + (seed % 125)) * (0.3 + 0.7 * expansionProgress(elapsed, i * 30)),
                   x = cx + Math.cos(a) * r,
                   y = cy + Math.sin(a) * r;
                 return (

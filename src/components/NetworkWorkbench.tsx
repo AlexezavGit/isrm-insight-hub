@@ -1,3 +1,4 @@
+import { NetworkConcentrator } from "./NetworkConcentrator";
 import { NetworkServiceDependencies, NetworkWorkflowDescription } from "./NetworkDescriptions";
 import {
   SERVICE_FRAME_FIELDS,
@@ -54,7 +55,7 @@ export function NetworkWorkbench() {
   const root = useRef<HTMLElement>(null);
   const [wide, setWide] = useState(false);
   const [live, setLive] = useState(!route.anchor && !route.stage && !route.preset);
-  const [motionRequested, setMotionRequested] = useState(false);
+  const [motionRequested, setMotionRequested] = useState(true);
   const [searchHidden, setSearchHidden] = useState(false);
   const [left, setLeft] = useState<"search" | "workflows" | "shortlist" | null>(
     route.panel === "shortlist"
@@ -98,8 +99,7 @@ export function NetworkWorkbench() {
   const [mailing, setMailing] = useState(false),
     [survey, setSurvey] = useState(false),
     [mounted, setMounted] = useState(false),
-    [visible, setVisible] = useState(0),
-    [reduced, setReduced] = useState(false);
+    [visible, setVisible] = useState(0);
   const all = useMemo(() => data?.experts ?? [], [data]),
     filtered = useMemo(() => applyFilters(all, f), [all, f]);
   const shown = useMemo(
@@ -139,7 +139,6 @@ export function NetworkWorkbench() {
   };
   const structure = () => {
     setLive(false);
-    setMotionRequested(false);
     if (live) {
       setAnchor(lastStructured.current.anchor);
       setMode(lastStructured.current.mode);
@@ -222,12 +221,7 @@ export function NetworkWorkbench() {
     setWide(screen.matches);
     const resize = () => setWide(screen.matches);
     screen.addEventListener("change", resize);
-    const q = matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(q.matches);
-    const change = () => setReduced(q.matches);
-    q.addEventListener("change", change);
     return () => {
-      q.removeEventListener("change", change);
       screen.removeEventListener("change", resize);
     };
   }, []);
@@ -324,7 +318,7 @@ export function NetworkWorkbench() {
               onAnchor={chooseAnchor}
               warningService={exclude}
               disabledServiceIds={disabled}
-              motionPaused={reduced && !motionRequested}
+              motionPaused={!motionRequested}
             />
           </Suspense>
         )}
@@ -416,52 +410,7 @@ export function NetworkWorkbench() {
         <div
           className={`network-concentrators ${leftPanelVisible ? "has-left-panel" : ""} ${rightPanelVisible ? "has-right-panel" : ""} ${persistentSearch ? "has-search-rail" : ""}`}
         >
-          <label>
-            <span>{t("Concentrator", "Концентратор")}</span>
-            <select
-              aria-label={t("Choose graph concentrator", "Обрати концентратор графа")}
-              value={model.nodes.some((n) => n.id === anchor) ? anchor : "isrm"}
-              onChange={(e) => chooseAnchor(e.target.value)}
-            >
-              <option value="isrm">ISRM</option>
-              <optgroup label={t("Workflows", "Workflow")}>
-                <option value="workflow:core">{t("Trust core", "Ядро довіри")}</option>
-                {CLIENT_WORKFLOWS.map((w) => (
-                  <option key={w.id} value={"workflow:" + w.id}>
-                    {w.title[locale]}
-                  </option>
-                ))}
-              </optgroup>
-              <optgroup label={t("Services", "Сервіси")}>
-                {CLIENT_SERVICES.map((s) => (
-                  <option key={s.id} value={"svc:" + s.id}>
-                    {s.title[locale]}
-                  </option>
-                ))}
-              </optgroup>
-              <optgroup label={t("People", "Персони")}>
-                {shown.map((p) => (
-                  <option key={p.code} value={p.code}>
-                    {p.displayName}
-                  </option>
-                ))}
-              </optgroup>
-              <optgroup
-                label={t(
-                  "Supplied categories & organisations",
-                  "Категорії та організації з вибірки",
-                )}
-              >
-                {model.nodes
-                  .filter((n) => !["expert", "service", "workflow", "isrm"].includes(n.kind))
-                  .map((n) => (
-                    <option key={n.id} value={n.id}>
-                      {n.label}
-                    </option>
-                  ))}
-              </optgroup>
-            </select>
-          </label>
+          <NetworkConcentrator nodes={model.nodes} value={anchor} onChange={chooseAnchor} uk={uk} />
           <button
             className="network-live-control"
             aria-pressed={live}
@@ -473,14 +422,14 @@ export function NetworkWorkbench() {
                 setSearchHidden(true);
                 setMode("people");
                 setAnchor("isrm");
-                setMotionRequested(false);
+                setMotionRequested(true);
                 setLive(true);
               }
             }}
           >
             {t("Live graph", "Живий граф")}
           </button>
-          {live && reduced && (
+          {live && (
             <button
               className="network-motion-control"
               aria-pressed={motionRequested}
@@ -501,10 +450,10 @@ export function NetworkWorkbench() {
           )}
           <span className="network-interaction-hint">
             {live
-              ? reduced && !motionRequested
+              ? !motionRequested
                 ? t(
-                    "Reduced motion: drag nodes manually or press Play; search restores the structured view.",
-                    "Зменшення руху: тягніть вузли вручну або натисніть Play; пошук повертає структуру.",
+                    "Paused. Drag nodes manually or press Play; search returns to the structured view.",
+                    "Рух призупинено. Тягніть вузли вручну або натисніть Play; пошук повертає структуру.",
                   )
                 : t(
                     "Drag nodes to explore; a search choice returns to the structured view.",
@@ -516,7 +465,7 @@ export function NetworkWorkbench() {
                     "Зв’язки у межах двох кроків · спільні записи, не особисті знайомства.",
                   )
                 : t(
-                    "Hover for a name; select a node for details. Centre the view only when you choose.",
+                    "Hover to see direct connections; zoom in for names. Select a node for details.",
                     "Наведіть для назви; оберіть вузол для опису. Центрування — окрема дія.",
                   )}
           </span>
