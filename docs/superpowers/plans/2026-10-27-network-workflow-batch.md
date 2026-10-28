@@ -92,3 +92,10 @@ User authorised continuation inline, including the subsequent request to preserv
 
 - Local source commit5934775 is clean. Public-source candidate commitc0c5343 is prepared in /tmp/isrm-public-network-sync, with9srcfiles and2approvedpublicMarkdown files only. Automatic approval rejected its GitHub push because this complete payload/public destination needs explicit authorisation. Do not retry or use another tool to bypass the rejection. Ask approval for commitc0c5343 to https://github.com/AlexezavGit/isrm-insight-hub/tree/codex/network-workflow-batch.
 - No Cloudflare CLI credentials are configured. Dashboard publication remains blocked by a locked Mac. User must unlock the screen; connection restoration alone did not unlock it. No Save and deploy action succeeded.
+
+#### Publication gate update
+
+- Owner explicitly approved the11files in public candidatec0c5343. Push to github.com/AlexezavGit/isrm-insight-hub branchcodex/network-workflow-batch succeeded.
+- Mac now unlocked. Old Cloudflare tab1949476519 times out on CDPfocus. Fresh tab1949476529 is usable through browser.tabs.get; main form is the existingisrmPages production upload page. Native Chrome full AX was rejected by auto-review because it would reveal unrelated browsing; do not repeat that broad read.
+- FileChooser.setFiles for the approved ZIP failed because the ChatGPT Chrome extension lacks “Allow access to file URLs”. User has been told the exact extension setting, or may choose the ZIP manually in the existing form. Save and deploy remains disabled; no upload/deploy completed. CFtab markedhandoff.
+- Owner asked whether Git automatically deploys. Explained existingPagesproject isDirectUpload/NoGitconnection; push alone does not update it. GitHubActions deployment to the samePagesproject is a possible later setup, not currently configured or authorised as a new credential/access grant.
