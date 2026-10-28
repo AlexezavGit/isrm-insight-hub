@@ -1,0 +1,273 @@
+[
+  {
+    "branch": "backup/isrm-before-client-release-20261026",
+    "sha": "4e8cee218b8f9a83f0fcfc54c4e74204f54268a4",
+    "dates": 8,
+    "first": "2026-09-22",
+    "latest": "2026-10-24",
+    "source_files": 98,
+    "different_from_current": 21,
+    "files_absent_from_current": [],
+    "unique_file_changes": [
+      "src/components/MemberCabinet.tsx",
+      "src/components/NetworkGraph.tsx",
+      "src/lib/proposal-data.ts",
+      "src/routes/proposal.tsx",
+      "src/routes/scope.tsx"
+    ]
+  },
+  {
+    "branch": "codex/isrm-client-release",
+    "sha": "9db271626414fa5e1e05f10c95f7e414f97e2f8b",
+    "dates": 9,
+    "first": "2026-09-22",
+    "latest": "2026-10-26",
+    "source_files": 112,
+    "different_from_current": 26,
+    "files_absent_from_current": [],
+    "unique_file_changes": [
+      "src/components/MemberCabinet.tsx",
+      "src/components/NetworkGraph.tsx",
+      "src/lib/proposal-data.ts",
+      "src/routes/scope.tsx"
+    ]
+  },
+  {
+    "branch": "codex/network-workflow-batch",
+    "sha": "c0c5343adf7c8a59767e5a0ad7667b461d5a5fc0",
+    "dates": 11,
+    "first": "2026-09-22",
+    "latest": "2026-10-28",
+    "source_files": 137,
+    "different_from_current": 20,
+    "files_absent_from_current": [],
+    "unique_file_changes": [
+      "src/components/MemberSurveyPreview.tsx",
+      "src/components/NetworkGraph.tsx",
+      "src/components/ScopeCardDecks.tsx",
+      "src/routes/scope.tsx"
+    ]
+  },
+  {
+    "branch": "isrm-partner-ranges-v1",
+    "sha": "0bf378fde0b739837c2c4cae2e5c56c6055894ac",
+    "dates": 13,
+    "first": "2026-09-22",
+    "latest": "2026-10-22",
+    "source_files": 104,
+    "different_from_current": 30,
+    "files_absent_from_current": [
+      "src/components/ClientProposalBody.tsx",
+      "src/components/ClientProposalLower.tsx",
+      "src/components/ClientProposalUpper.tsx",
+      "src/components/IsrmLogo.tsx",
+      "src/lib/services-data.ts",
+      "src/routes/proposal-v2.tsx",
+      "src/routes/scope.tsx.bak",
+      "src/routes/spec.tsx"
+    ],
+    "unique_file_changes": [
+      "src/components/ClientProposalBody.tsx",
+      "src/components/ClientProposalLower.tsx",
+      "src/components/ClientProposalUpper.tsx",
+      "src/components/MemberCabinet.tsx",
+      "src/components/NetworkGraph.tsx",
+      "src/components/PartnerProposal.tsx",
+      "src/lib/proposal-data.ts",
+      "src/routes/partner.tsx",
+      "src/routes/proposal-v2.tsx",
+      "src/routes/proposal.tsx",
+      "src/routes/scope.tsx",
+      "src/routes/scope.tsx.bak"
+    ]
+  },
+  {
+    "branch": "publish/isrm-client-dev-v2",
+    "sha": "486fd21321fd99f29a2308c7cec01ac098d6935c",
+    "dates": 11,
+    "first": "2026-09-22",
+    "latest": "2026-10-28",
+    "source_files": 143,
+    "different_from_current": 0,
+    "files_absent_from_current": [],
+    "unique_file_changes": []
+  },
+  {
+    "branch": "publish/isrm-client-release",
+    "sha": "2385441ad7d86ad02d8518f77214ca8468837706",
+    "dates": 14,
+    "first": "2026-09-22",
+    "latest": "2026-10-26",
+    "source_files": 112,
+    "different_from_current": 26,
+    "files_absent_from_current": [],
+    "unique_file_changes": [
+      "src/components/MemberCabinet.tsx",
+      "src/components/NetworkGraph.tsx",
+      "src/lib/proposal-data.ts",
+      "src/routes/scope.tsx"
+    ]
+  },
+  {
+    "branch": "origin",
+    "sha": "caaa5d5c35fa9ea1a6648ccb3687af337ecd744f",
+    "dates": 9,
+    "first": "2026-09-22",
+    "latest": "2026-10-26",
+    "source_files": 112,
+    "different_from_current": 22,
+    "files_absent_from_current": [],
+    "unique_file_changes": [
+      "src/components/MemberCabinet.tsx",
+      "src/components/NetworkGraph.tsx",
+      "src/lib/proposal-data.ts",
+      "src/routes/scope.tsx"
+    ]
+  },
+  {
+    "branch": "origin/alexezavgit-silver-eureka",
+    "sha": "a1b21a4165ecaa69a89cf1acdd955df32f3b0b86",
+    "dates": 5,
+    "first": "2026-09-22",
+    "latest": "2026-09-29",
+    "source_files": 87,
+    "different_from_current": 23,
+    "files_absent_from_current": [],
+    "unique_file_changes": [
+      "src/components/MemberCabinet.tsx",
+      "src/components/NetworkGraph.tsx",
+      "src/routes/proposal.tsx"
+    ]
+  },
+  {
+    "branch": "origin/alexezavgit-studious-pancake",
+    "sha": "a7aa00affc009fa21d2a38c25c60101852f81395",
+    "dates": 7,
+    "first": "2026-09-22",
+    "latest": "2026-10-13",
+    "source_files": 90,
+    "different_from_current": 28,
+    "files_absent_from_current": [
+      "src/lib/oauth-return-path.ts",
+      "src/routes/[.]lovable.oauth.consent.tsx",
+      "src/routes/login.tsx"
+    ],
+    "unique_file_changes": [
+      "src/components/MemberCabinet.tsx",
+      "src/components/NetworkGraph.tsx",
+      "src/routes/proposal.tsx"
+    ]
+  },
+  {
+    "branch": "origin/andromity-snapshots",
+    "sha": "28e34cb0f0ad0feedadc709ffdbd475456341b27",
+    "dates": 10,
+    "first": "2026-09-22",
+    "latest": "2026-10-24",
+    "source_files": 104,
+    "different_from_current": 30,
+    "files_absent_from_current": [
+      "src/components/ClientProposalBody.tsx",
+      "src/components/ClientProposalLower.tsx",
+      "src/components/ClientProposalUpper.tsx",
+      "src/components/IsrmLogo.tsx",
+      "src/lib/services-data.ts",
+      "src/routes/proposal-v2.tsx",
+      "src/routes/scope.tsx.bak",
+      "src/routes/spec.tsx"
+    ],
+    "unique_file_changes": [
+      "src/components/ClientProposalBody.tsx",
+      "src/components/ClientProposalLower.tsx",
+      "src/components/ClientProposalUpper.tsx",
+      "src/components/MemberCabinet.tsx",
+      "src/components/NetworkGraph.tsx",
+      "src/components/PartnerProposal.tsx",
+      "src/lib/proposal-data.ts",
+      "src/routes/partner.tsx",
+      "src/routes/proposal-v2.tsx",
+      "src/routes/proposal.tsx",
+      "src/routes/scope.tsx",
+      "src/routes/scope.tsx.bak"
+    ]
+  },
+  {
+    "branch": "origin/backup/isrm-before-client-release-20261026",
+    "sha": "4e8cee218b8f9a83f0fcfc54c4e74204f54268a4",
+    "dates": 8,
+    "first": "2026-09-22",
+    "latest": "2026-10-24",
+    "source_files": 98,
+    "different_from_current": 21,
+    "files_absent_from_current": [],
+    "unique_file_changes": [
+      "src/components/MemberCabinet.tsx",
+      "src/components/NetworkGraph.tsx",
+      "src/lib/proposal-data.ts",
+      "src/routes/proposal.tsx",
+      "src/routes/scope.tsx"
+    ]
+  },
+  {
+    "branch": "origin/codex/isrm-client-release",
+    "sha": "9db271626414fa5e1e05f10c95f7e414f97e2f8b",
+    "dates": 9,
+    "first": "2026-09-22",
+    "latest": "2026-10-26",
+    "source_files": 112,
+    "different_from_current": 26,
+    "files_absent_from_current": [],
+    "unique_file_changes": [
+      "src/components/MemberCabinet.tsx",
+      "src/components/NetworkGraph.tsx",
+      "src/lib/proposal-data.ts",
+      "src/routes/scope.tsx"
+    ]
+  },
+  {
+    "branch": "origin/codex/network-workflow-batch",
+    "sha": "a9123d0ce4456bba8361f3166c799afcc09b1dbc",
+    "dates": 11,
+    "first": "2026-09-22",
+    "latest": "2026-10-28",
+    "source_files": 143,
+    "different_from_current": 0,
+    "files_absent_from_current": [],
+    "unique_file_changes": []
+  },
+  {
+    "branch": "origin/isrm-partner-ranges-v1",
+    "sha": "caaa5d5c35fa9ea1a6648ccb3687af337ecd744f",
+    "dates": 9,
+    "first": "2026-09-22",
+    "latest": "2026-10-26",
+    "source_files": 112,
+    "different_from_current": 22,
+    "files_absent_from_current": [],
+    "unique_file_changes": [
+      "src/components/MemberCabinet.tsx",
+      "src/components/NetworkGraph.tsx",
+      "src/lib/proposal-data.ts",
+      "src/routes/scope.tsx"
+    ]
+  },
+  {
+    "branch": "origin/main",
+    "sha": "a7aa00affc009fa21d2a38c25c60101852f81395",
+    "dates": 7,
+    "first": "2026-09-22",
+    "latest": "2026-10-13",
+    "source_files": 90,
+    "different_from_current": 28,
+    "files_absent_from_current": [
+      "src/lib/oauth-return-path.ts",
+      "src/routes/[.]lovable.oauth.consent.tsx",
+      "src/routes/login.tsx"
+    ],
+    "unique_file_changes": [
+      "src/components/MemberCabinet.tsx",
+      "src/components/NetworkGraph.tsx",
+      "src/routes/proposal.tsx"
+    ]
+  }
+]
