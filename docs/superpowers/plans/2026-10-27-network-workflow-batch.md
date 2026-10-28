@@ -99,3 +99,13 @@ User authorised continuation inline, including the subsequent request to preserv
 - Mac now unlocked. Old Cloudflare tab1949476519 times out on CDPfocus. Fresh tab1949476529 is usable through browser.tabs.get; main form is the existingisrmPages production upload page. Native Chrome full AX was rejected by auto-review because it would reveal unrelated browsing; do not repeat that broad read.
 - FileChooser.setFiles for the approved ZIP failed because the ChatGPT Chrome extension lacks “Allow access to file URLs”. User has been told the exact extension setting, or may choose the ZIP manually in the existing form. Save and deploy remains disabled; no upload/deploy completed. CFtab markedhandoff.
 - Owner asked whether Git automatically deploys. Explained existingPagesproject isDirectUpload/NoGitconnection; push alone does not update it. GitHubActions deployment to the samePagesproject is a possible later setup, not currently configured or authorised as a new credential/access grant.
+
+### GitHub Actions deployment · 28 October 2026
+
+This supersedes the manual-upload and Git-integration checkpoints above. The owner explicitly authorised automatic deployment from the public source branch to the existing `isrm.pages.dev` project.
+
+- Workflow, release preparation, destination guard and post-deploy verification are stored in the public branch and mirrored locally. Existing repository secrets are reused; no credential or access grant was created.
+- Source branch: `codex/network-workflow-batch`. Other branches and pull requests do not deploy. The destination is the existing `isrm` project; its production branch label is read from Cloudflare rather than guessed.
+- First Linux run exposed missing native optional dependencies in the Mac-generated lockfile. Added157 platform-specific entries with every existing package entry/version unchanged. Fresh npm ci,39tests, Pages build and release preparation pass locally. Run40671656774 also passed these steps on Linux.
+- Destination guard then rejected the saved account ID format; the masked log shows trailing whitespace. Target check and pinned Wrangler4.83.0 now trim surrounding whitespace and never print/write credential values. A failing whitespace reproduction passed after the fix, including a stub CLI assertion of the exact destination/normalised child environment.
+- Public head at this checkpoint: e8ed1e3. Deployment verification remains pending; no success claim yet. Approved documents remain in the public allowlist; internal notes/workbooks/history remain excluded.
