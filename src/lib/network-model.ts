@@ -1,4 +1,5 @@
 import type { Expert } from "./types";
+import { canonicalCountry } from "./network-reference";
 import {
   CLIENT_SERVICES,
   CLIENT_WORKFLOWS,
@@ -51,9 +52,22 @@ export function serviceCovers(id: string, e: Expert) {
     text,
   );
 }
-export function buildNetwork(experts: Expert[], layers: GraphLayers, locale: string): NetworkModel {
+export function buildNetwork(
+  experts: Expert[],
+  layers: GraphLayers,
+  locale: string,
+  selection: {
+    country?: string;
+    sector?: string;
+    expertise?: string;
+    role?: string;
+    reviewStatus?: string;
+  } = {},
+): NetworkModel {
   const uk = locale === "uk",
-    nodes: NetworkNode[] = [{ id: "isrm", kind: "isrm", label: "ISRM", size: 16 }],
+    nodes: NetworkNode[] = [
+      { id: "isrm", kind: "isrm", label: "ISRM", size: 16, x: 0, y: 0, fx: 0, fy: 0 },
+    ],
     links: NetworkEdge[] = [];
   const map = new Map(nodes.map((n) => [n.id, n]));
   const add = (id: string, kind: GraphKind, label: string) => {
@@ -88,7 +102,7 @@ export function buildNetwork(experts: Expert[], layers: GraphLayers, locale: str
       [layers.theme, e.ukraineCategory, "theme", "theme"],
       [layers.hub, e.communityRole, "role", "hub"],
       [layers.organization, e.organization, "organisation", "organisation"],
-      [layers.country, e.country, "country", "hub"],
+      [layers.country, canonicalCountry(e.country), "country", "hub"],
       [layers.rank, e.identityStatus, "record-status", "hub"],
       [layers.specialisation, e.primaryExpertise, "expertise", "theme"],
     ];
@@ -98,6 +112,22 @@ export function buildNetwork(experts: Expert[], layers: GraphLayers, locale: str
     CLIENT_SERVICES.filter((s) => serviceCovers(s.id, e)).forEach((s) =>
       edge(e.code, "svc:" + s.id, "coverage"),
     );
+  }
+  // A selected reference category may have no matching records. Retain its node
+  // without inventing links, membership or coverage.
+  for (const [value, prefix, kind] of [
+    [selection.country ? canonicalCountry(selection.country) : "", "country", "hub"],
+    [selection.sector, "sector", "sector"],
+    [selection.expertise, "expertise", "theme"],
+    [selection.role, "role", "hub"],
+    [selection.reviewStatus, "record-status", "hub"],
+  ] as [string | undefined, string, GraphKind][]) {
+    if (value && !map.has(prefix + ":" + value)) {
+      const id = prefix + ":" + value;
+      const node: NetworkNode = { id, kind, label: value, size: 0 };
+      nodes.push(node);
+      map.set(id, node);
+    }
   }
   return { nodes, links };
 }

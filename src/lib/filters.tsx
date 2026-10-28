@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { Expert } from "./types";
 import { useI18n } from "./i18n";
-import { Button } from "@/components/ui/button";
+import { canonicalCountry, referenceOptions } from "./network-reference";
 
 export interface Filters {
   q: string;
@@ -10,6 +10,8 @@ export interface Filters {
   country: string;
   theme: string;
   role: string;
+  expertise?: string;
+  reviewStatus?: string;
 }
 export const EMPTY: Filters = {
   q: "",
@@ -57,7 +59,9 @@ export function applyFilters(list: Expert[], f: Filters) {
     if (f.verified === "verified" && !e.verified) return false;
     if (f.verified === "queue" && e.verified) return false;
     if (f.sector && e.sector !== f.sector) return false;
-    if (f.country && e.country !== f.country) return false;
+    if (f.country && canonicalCountry(e.country) !== canonicalCountry(f.country)) return false;
+    if (f.expertise && e.primaryExpertise !== f.expertise) return false;
+    if (f.reviewStatus && e.identityStatus !== f.reviewStatus) return false;
     if (f.theme && e.ukraineCategory !== f.theme) return false;
     if (f.role && e.communityRole !== f.role) return false;
     if (q) {
@@ -91,24 +95,49 @@ export function FilterBar({
   setF,
   compact,
   showResearchQueue = true,
+  includeReference = false,
 }: {
   experts: Expert[];
   f: Filters;
   setF: (f: Filters) => void;
   compact?: boolean;
   showResearchQueue?: boolean;
+  includeReference?: boolean;
 }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const opts = useMemo(
     () => ({
-      sector: counts(experts, (e) => e.sector),
-      country: counts(experts, (e) => e.country),
-      theme: counts(experts, (e) => e.ukraineCategory),
-      role: counts(experts, (e) => e.communityRole),
+      sector: includeReference
+        ? referenceOptions(experts, "sector", locale)
+        : counts(experts, (e) => e.sector).map(([value, count]) => ({
+            value,
+            label: value,
+            count,
+          })),
+      country: includeReference
+        ? referenceOptions(experts, "country", locale)
+        : counts(experts, (e) => e.country).map(([value, count]) => ({
+            value,
+            label: value,
+            count,
+          })),
+      theme: counts(experts, (e) => e.ukraineCategory).map(([value, count]) => ({
+        value,
+        label: value,
+        count,
+      })),
+      role: includeReference
+        ? referenceOptions(experts, "role", locale)
+        : counts(experts, (e) => e.communityRole).map(([value, count]) => ({
+            value,
+            label: value,
+            count,
+          })),
+      expertise: referenceOptions(experts, "expertise", locale),
+      reviewStatus: referenceOptions(experts, "reviewStatus", locale),
     }),
-    [experts],
+    [experts, includeReference, locale],
   );
-  const vCount = experts.filter((e) => e.verified).length;
   const sel = "field py-2 text-sm";
   const Label = ({ c }: { c: string }) => (
     <p className="tech-label mb-1 text-muted-foreground">{c}</p>
@@ -118,6 +147,7 @@ export function FilterBar({
       <div className={compact ? "" : "md:col-span-2"}>
         <Label c={t("search")} />
         <input
+          aria-label={t("search")}
           value={f.q}
           onChange={(e) => setF({ ...f, q: e.target.value })}
           placeholder={t("searchPlaceholder")}
@@ -125,7 +155,10 @@ export function FilterBar({
         />
       </div>
 
-      {(["sector", "country", "theme", "role"] as const).map((k) => (
+      {(includeReference
+        ? (["country", "sector", "expertise", "role", "reviewStatus", "theme"] as const)
+        : (["sector", "country", "theme", "role"] as const)
+      ).map((k) => (
         <div key={k}>
           <Label
             c={
@@ -134,23 +167,42 @@ export function FilterBar({
                 country: t("geography"),
                 theme: t("ukraineExperience"),
                 role: t("isrmRole"),
+                expertise: locale === "uk" ? "Напрями експертизи" : "Expertise directions",
+                reviewStatus: locale === "uk" ? "Статус перевірки" : "Review status",
               }[k]
             }
           />
           <select
-            value={f[k]}
+            aria-label={
+              {
+                sector: t("sector"),
+                country: t("geography"),
+                theme: t("ukraineExperience"),
+                role: t("isrmRole"),
+                expertise: locale === "uk" ? "Напрями експертизи" : "Expertise directions",
+                reviewStatus: locale === "uk" ? "Статус перевірки" : "Review status",
+              }[k]
+            }
+            value={f[k] ?? ""}
             onChange={(e) => setF({ ...f, [k]: e.target.value })}
             className={sel}
           >
             <option value="">{t("all")}</option>
-            {opts[k].map(([v, n]) => (
-              <option key={v} value={v}>
-                {v} · {n}
+            {opts[k].map(({ value, label, count }) => (
+              <option key={value} value={value}>
+                {label} · {count}
               </option>
             ))}
           </select>
         </div>
       ))}
+      {includeReference && (
+        <small className="network-reference-note">
+          {locale === "uk"
+            ? "0 — у доступній вибірці немає записів із цією позначкою; це також може означати, що записи ще не класифіковані. Країни й території: ISO 3166; сектори: UK SIC 2026; напрями експертизи — робочий каталог."
+            : "0 means no records coded to that category in the accessible sample; records may not yet have been classified. Countries and territories: ISO 3166; sectors: UK SIC 2026; expertise directions are a working catalogue."}
+        </small>
+      )}
     </div>
   );
 }

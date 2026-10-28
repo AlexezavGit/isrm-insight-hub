@@ -16,6 +16,7 @@ const endId = (v: string | number | NetworkNode | undefined) =>
 export default function NetworkGraph({
   experts,
   layers,
+  referenceSelection,
   focus,
   onFocus,
   serviceMode = false,
@@ -33,6 +34,7 @@ export default function NetworkGraph({
 }: {
   experts: Expert[];
   layers: GraphLayers;
+  referenceSelection?: Parameters<typeof buildNetwork>[3];
   focus: string | null;
   onFocus: (id: string | null) => void;
   serviceMode?: boolean;
@@ -56,7 +58,10 @@ export default function NetworkGraph({
   const [size, setSize] = useState({ w: 800, h: 600 }),
     [hover, setHover] = useState<string | null>(null),
     [preview, setPreview] = useState<string | null>(null);
-  const model = useMemo(() => buildNetwork(experts, layers, locale), [experts, layers, locale]);
+  const model = useMemo(
+    () => buildNetwork(experts, layers, locale, referenceSelection),
+    [experts, layers, locale, referenceSelection],
+  );
   const effective = useMemo(
     () => activeServiceIds.filter((id) => !disabledServiceIds.includes(id)),
     [activeServiceIds, disabledServiceIds],
@@ -104,6 +109,7 @@ export default function NetworkGraph({
             item.fx = prev?.x ?? p.x;
             item.fy = prev?.y ?? p.y;
           }
+          if (n.kind === "isrm") Object.assign(item, { x: 0, y: 0, fx: 0, fy: 0, vx: 0, vy: 0 });
           cache.current.set(n.id, item);
           return item;
         }),
@@ -265,7 +271,11 @@ export default function NetworkGraph({
         d3AlphaDecay={0.02}
         autoPauseRedraw={false}
         enableNodeDrag={live}
-        onNodeDragEnd={() => {
+        onNodeDrag={(node) => {
+          if (node.kind === "isrm") Object.assign(node, { x: 0, y: 0, fx: 0, fy: 0, vx: 0, vy: 0 });
+        }}
+        onNodeDragEnd={(node) => {
+          if (node.kind === "isrm") Object.assign(node, { x: 0, y: 0, fx: 0, fy: 0, vx: 0, vy: 0 });
           if (!motionPaused) fg.current?.d3ReheatSimulation();
         }}
         minZoom={0.3}
@@ -280,7 +290,9 @@ export default function NetworkGraph({
             const n = model.nodes.find((n) => n.id === s);
             return serviceMode && assignedService(n?.expert, effective, disabledServiceIds) === t;
           }
-          return serviceMode ? l.kind === "architecture" : l.kind === "category";
+          return serviceMode
+            ? l.kind === "architecture"
+            : l.kind === "category" || l.kind === "sample";
         }}
         linkColor={(l: DrawLink) =>
           l.kind === "coverage"
@@ -289,7 +301,8 @@ export default function NetworkGraph({
               ? "rgba(144,177,204,.24)"
               : "rgba(145,181,196,.28)"
         }
-        linkWidth={0.7}
+        linkWidth={(l: DrawLink) => (l.kind === "sample" ? 0.4 : 0.7)}
+        linkLineDash={(l: DrawLink) => (l.kind === "sample" ? [2, 5] : null)}
         onRenderFramePre={(ctx, scale) => {
           if (!serviceMode || neighborhood) return;
           ctx.save();

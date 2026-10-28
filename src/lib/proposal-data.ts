@@ -1351,14 +1351,14 @@ export const SUPPORTING_DOCUMENTS = [
   {
     id: "project-description",
     title: {
-      en: "1 · Review the proposed scope",
-      uk: "1 · Переглянути запропонований обсяг робіт",
+      en: "1 · ISRM project overview",
+      uk: "1 · Опис проєкту ISRM",
     },
     purpose: {
       en: "Review the application capabilities, delivery stages and budget before requesting a detailed proposal.",
       uk: "Перегляньте можливості застосунку, етапи виконання та бюджет перед запитом детальної пропозиції.",
     },
-    href: "/scope",
+    href: "/ISRM_Project_Description.md",
   },
 ] as const;
 
