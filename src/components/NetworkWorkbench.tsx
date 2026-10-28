@@ -1,4 +1,6 @@
 import { NetworkConcentrator } from "./NetworkConcentrator";
+import { NetworkGuide } from "./NetworkGuide";
+import { GUIDE_STEPS } from "@/lib/network-guide";
 import { NetworkServiceDependencies, NetworkWorkflowDescription } from "./NetworkDescriptions";
 import {
   SERVICE_FRAME_FIELDS,
@@ -54,6 +56,8 @@ export function NetworkWorkbench() {
   };
   const root = useRef<HTMLElement>(null);
   const [wide, setWide] = useState(false);
+  const [guideStep, setGuideStep] = useState<number | null>(null);
+  const guidePerson = useRef<string | null>(null);
   const [live, setLive] = useState(!route.anchor && !route.stage && !route.preset);
   const [motionRequested, setMotionRequested] = useState(true);
   const [searchHidden, setSearchHidden] = useState(false);
@@ -162,6 +166,46 @@ export function NetworkWorkbench() {
     setPerson(code);
     if (!wide || (left === "shortlist" && shortlistSide === "right")) setLeft(null);
   };
+  const guideTo = (step: number | null) => {
+    setGuideStep(step);
+    if (step === null) return;
+    close();
+    setSearchHidden(true);
+    if (step === 0) {
+      setMode("people");
+      setLeft("search");
+    } else if (step === 1) {
+      structure();
+      setMode("people");
+    } else if (step === 2 || step === 3) {
+      const code =
+        selected?.code ?? shown.find((p) => p.code === guidePerson.current)?.code ?? shown[0]?.code;
+      if (code) {
+        guidePerson.current = code;
+        inspectPerson(code);
+      }
+    } else if (step === 4) {
+      setShortlistSide("left");
+      setLeft("shortlist");
+    }
+  };
+  useEffect(() => {
+    if (guideStep !== 2 && guideStep !== 3) return;
+    const frame = requestAnimationFrame(() => {
+      const panel = root.current?.querySelector<HTMLElement>(".network-right-panel");
+      if (!panel) return;
+      if (guideStep === 2) panel.scrollTop = 0;
+      else {
+        const target = panel.querySelector<HTMLElement>('[data-guide-target="save"]');
+        if (target) {
+          const padding = Number.parseFloat(getComputedStyle(panel).paddingTop) || 0;
+          panel.scrollTop +=
+            target.getBoundingClientRect().top - panel.getBoundingClientRect().top - padding - 12;
+        }
+      }
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [guideStep, person]);
   const choose = (id: ServiceId) => {
     if (id === "survey") setSurvey(true);
     setLive(false);
@@ -291,6 +335,7 @@ export function NetworkWorkbench() {
     <main
       ref={root}
       className={`client-network-page network-workbench ${panelOpen ? "has-panel" : ""}`}
+      data-guide-step={guideStep === null ? undefined : GUIDE_STEPS[guideStep]?.id}
     >
       <div
         className={`network-canvas ${leftPanelVisible ? "has-left-panel" : ""} ${rightPanelVisible ? "has-right-panel" : ""} ${persistentSearch ? "has-search-rail" : ""}`}
@@ -477,7 +522,7 @@ export function NetworkWorkbench() {
           aria-label={t("Search panel", "Панель пошуку")}
         >
           <fieldset className="network-layer-switch">
-            <legend>{t("Concentrators switch", "Перемикач концентраторів")}</legend>
+            <legend>{t("View connections by", "Показати зв’язки за")}</legend>
             {(
               [
                 ["organization", "People + organisations", "Персони та організації"],
@@ -774,6 +819,7 @@ export function NetworkWorkbench() {
           </Link>
           <button
             className="network-folder-button"
+            data-guide-target="save"
             disabled={!ready}
             onClick={() => {
               const removing = draft.shortlist.includes(selected.code);
@@ -873,6 +919,13 @@ export function NetworkWorkbench() {
           <button className="network-survey-link" onClick={() => setSurvey(true)}>
             {t("Questionnaire", "Опитувальник")}
           </button>
+          <NetworkGuide
+            step={guideStep}
+            onStep={guideTo}
+            uk={uk}
+            profileAvailable={shown.length > 0}
+            profileShortlisted={!!selected && draft.shortlist.includes(selected.code)}
+          />
           <DataUseNotice compact />
         </div>
         <nav
