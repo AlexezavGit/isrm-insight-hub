@@ -13,7 +13,13 @@ import { ClientAccessibility } from "@/components/ClientAccessibility";
 import { AccessControl } from "@/components/AppShell";
 import { useI18n } from "@/lib/i18n";
 import { CLIENT_SERVICES, CLIENT_WORKFLOWS } from "@/lib/client-catalog";
-import { CLIENT_APPROVED_PRICES, clientQuote } from "@/lib/client-pricing";
+import {
+  CLIENT_APPROVED_PRICES,
+  clientQuote,
+  clientPriceLines,
+  clientQuoteRange,
+  indicativePriceLabel,
+} from "@/lib/client-pricing";
 import { BRIEFING_MILESTONES } from "@/lib/briefing-milestones";
 import { buildClientSummary, emailHref } from "@/lib/client-draft";
 export const Route = createFileRoute("/scope")({
@@ -37,15 +43,8 @@ function ScopePage() {
   const [notice, setNotice] = useState("");
   const responseHint = useDismissibleDetails();
   const quote = clientQuote(draft);
-  const money = (value: number | null) =>
-    value === null
-      ? t("Pending approval", "Очікує погодження")
-      : t("From ", "Від ") +
-        new Intl.NumberFormat(locale === "uk" ? "uk-UA" : "en-GB", {
-          style: "currency",
-          currency: CLIENT_APPROVED_PRICES.currency,
-          maximumFractionDigits: 0,
-        }).format(value);
+  const estimate = clientQuoteRange(draft);
+  const money = (value: number | null) => indicativePriceLabel(value, locale);
   const summary = buildClientSummary(draft, locale);
   const validLimit =
     draft.budgetPosition !== "limit" ||
@@ -251,8 +250,8 @@ function ScopePage() {
             </details>
             <p className="scope-workflow-intro">
               {t(
-                "Work on either workflow can begin whenever you decide it is needed. Both build on the core; the starting scope and dependencies are agreed separately.",
-                "Роботу над будь-яким workflow можна почати, коли ви вирішите, що він потрібний. Обидва спираються на ядро; початковий обсяг і залежності погоджуються окремо.",
+                "Work on a workflow can begin whenever you decide it is needed. Each builds on the core; the starting scope and dependencies are agreed separately.",
+                "Роботу над будь-яким workflow можна почати, коли ви вирішите, що він потрібний. Кожен спирається на ядро; початковий обсяг і залежності погоджуються окремо.",
               )}
             </p>
             <WorkflowDeck locale={locale} draft={draft} ready={ready} update={update} />
@@ -293,8 +292,10 @@ function ScopePage() {
                   <input
                     type="checkbox"
                     checked={draft.mode === "full" && draft.integrationInterest}
-                    disabled={!ready || draft.mode !== "full"}
-                    onChange={(e) => update({ integrationInterest: e.target.checked })}
+                    disabled={!ready}
+                    onChange={(e) =>
+                      update({ mode: "full", integrationInterest: e.target.checked })
+                    }
                   />
                   <span>
                     {t(
@@ -315,62 +316,45 @@ function ScopePage() {
             </p>
             <h2>{t("Your selected scope", "Обраний обсяг")}</h2>
             <div className="client-price-receipt" aria-live="polite" aria-atomic="true">
-              <p>
-                <span>
-                  {draft.mode === "graph"
-                    ? t("Fallback · application as is", "Fallback · застосунок як є")
-                    : t("Core application", "Базовий застосунок")}
-                </span>
-                <strong>
-                  {money(
-                    draft.mode === "graph"
-                      ? CLIENT_APPROVED_PRICES.graph
-                      : CLIENT_APPROVED_PRICES.base,
-                  )}
-                </strong>
-              </p>
-              {draft.mode === "full" &&
-                CLIENT_WORKFLOWS.filter((w) => draft.workflowIds.includes(w.id)).map((w) => (
-                  <p key={w.id}>
-                    <span>{w.title[locale]}</span>
-                    <strong>
-                      {t("Include in the proposal estimate", "Додати до розрахунків у пропозиції")}
-                    </strong>
-                  </p>
-                ))}
-              {draft.mode === "graph" &&
-                draft.serviceIds
-                  .filter((id) => id === "research")
-                  .map((id) => (
-                    <p key={id}>
-                      <span>{CLIENT_SERVICES.find((s) => s.id === id)?.title[locale]}</span>
-                      <strong>{money(CLIENT_APPROVED_PRICES.addons[id] ?? null)}</strong>
-                    </p>
-                  ))}
-              {draft.mode === "full" && draft.integrationInterest && (
-                <p>
-                  <span>{t("Further development & AI", "Подальший розвиток та ШІ")}</span>
-                  <strong>{t("To estimate", "До оцінки")}</strong>
+              {clientPriceLines(draft, locale).map((line) => (
+                <p key={line.id}>
+                  <span>{line.title}</span>
+                  <strong>{money(line.value)}</strong>
                 </p>
-              )}
-              {draft.customIncluded &&
+              ))}
+              {draft.mode !== "full" &&
+                draft.customIncluded &&
                 draft.requests.map((request) => (
                   <p key={request.id}>
                     <span>{request.title}</span>
-                    <strong>
-                      {draft.mode === "full"
-                        ? t("To estimate", "До оцінки")
-                        : t("Separate discussion", "Окреме обговорення")}
-                    </strong>
+                    <strong>{t("Separate discussion", "Окреме обговорення")}</strong>
                   </p>
                 ))}
               <p className="client-price-total">
-                <span>{t("Total", "Разом")}</span>
+                <span>
+                  {estimate.pending
+                    ? t("Priced scope subtotal", "Сума оцінених позицій")
+                    : t("Indicative total", "Індикативна сума")}
+                </span>
                 <strong className="scope-quote-value" key={String(quote)}>
-                  {money(quote)}
+                  {indicativePriceLabel(estimate.low, locale, estimate.high)}
                 </strong>
               </p>
             </div>
+            <p className="scope-receipt-note">
+              {t(
+                "Planning estimates for development, subject to an agreed specification. Campaign delivery, content, licences, AI/API usage and ongoing professional review are quoted separately. Unpriced requests are excluded from the subtotal.",
+                "Планові орієнтири розробки за погодженим ТЗ. Проведення кампаній, контент, ліцензії, AI/API та постійне професійне рецензування оцінюються окремо. Неоцінені запити не включені до суми.",
+              )}
+            </p>
+            {draft.mode === "full" && (
+              <p className="scope-receipt-note">
+                {t(
+                  "The AI OSINT technical integration is already included in the core. It is an additional item only for the fallback route.",
+                  "Технічна інтеграція AI OSINT уже включена до ядра. Додатковою позицією вона є лише у fallback.",
+                )}
+              </p>
+            )}
             <section className="scope-fallback" aria-labelledby="scope-fallback-title">
               <h3 id="scope-fallback-title">
                 {t("Fallback options", "Fallback · альтернативний варіант")}
@@ -488,8 +472,8 @@ function ScopePage() {
                   (step) => `${step.title[locale]} — ${Math.round(step.fraction * 100)}%`,
                 ).join("; ")}
                 {t(
-                  ". Subject to agreement. Workflow estimates follow a separate discussion.",
-                  ". Підлягають погодженню. Workflow розрахуємо окремо після обговорення.",
+                  ". Subject to agreement. Workflows have separate scope and delivery agreements.",
+                  ". Підлягають погодженню. Обсяг і виконання workflow погоджуються окремо.",
                 )}
               </p>
             )}
@@ -646,7 +630,7 @@ function ScopePage() {
       </div>
       <a className="scope-mobile-total" href="#scope-budget-panel">
         <span>{t("Your indicative total", "Ваш індикативний підсумок")}</span>
-        <strong>{money(quote)}</strong>
+        <strong>{indicativePriceLabel(estimate.low, locale, estimate.high)}</strong>
         <ArrowLeft size={17} aria-hidden="true" />
       </a>
       <ScopePrintDocument summary={summary} locale={locale} />

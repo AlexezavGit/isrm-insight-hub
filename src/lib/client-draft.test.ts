@@ -94,18 +94,18 @@ test("email handoff encodes the complete summary without claiming delivery", () 
   assert.equal(url.searchParams.get("body"), buildClientSummary(d, "uk"));
 });
 
-import { clientQuote, CLIENT_APPROVED_PRICES } from "./client-pricing";
+import { clientQuote, CLIENT_APPROVED_PRICES, clientQuoteRange } from "./client-pricing";
 test("approved scope prices add up and unpriced requirements stay unknown", () => {
   assert.equal(clientQuote(emptyDraft()), 33600);
   assert.equal(
     clientQuote(updateDraft(emptyDraft(), { workflowIds: ["engagement", "expertise"] })),
-    33600,
+    58380,
   );
   const graph = updateDraft(emptyDraft(), { mode: "graph" });
   assert.equal(clientQuote(graph), 10080);
   assert.equal(
     clientQuote(updateDraft(graph, { serviceIds: ["groups", "contact", "research"] })),
-    null,
+    15120,
   );
   assert.equal(clientQuote(updateDraft(graph, { serviceIds: ["integration"] })), 10080);
 });
@@ -132,23 +132,23 @@ test("changing scope invalidates a previously accepted budget", () => {
     }).budgetPosition,
     "discuss",
   );
-  assert.ok(buildClientSummary(d, "en").includes("GBP 33600"));
+  assert.ok(buildClientSummary(d, "en").includes("£33,600"));
 });
 
-test("workflow interest is unpriced in the exported proposal", () => {
+test("workflow indicative prices are included in the exported proposal", () => {
   const d = updateDraft(emptyDraft(), { workflowIds: ["engagement", "expertise"] });
   const summary = buildClientSummary(d, "uk");
-  assert.equal(clientQuote(d), clientQuote(emptyDraft()));
+  assert.equal(clientQuote(d), 58380);
   assert.match(summary, /ПОГОДЖУЮ · ДОДАТИ ДО РОЗРАХУНКІВ У ПРОПОЗИЦІЇ/);
   assert.doesNotMatch(summary, /GBP 10000|GBP 12000/);
 });
 
-test("workflow interest never changes an agreed core amount", () => {
+test("workflow prices add to the core without altering its own amount", () => {
   const prices = { ...CLIENT_APPROVED_PRICES, base: 30000 };
   assert.equal(clientQuote(emptyDraft(), prices), 30000);
   assert.equal(
     clientQuote(updateDraft(emptyDraft(), { workflowIds: ["engagement", "expertise"] }), prices),
-    30000,
+    54780,
   );
 });
 
@@ -263,4 +263,67 @@ test("a custom graph request is retained in the shared email, Markdown and PDF s
       s.lines.some((l) => l.includes("Member enquiry review")),
     ),
   );
+});
+
+test("choosing a workflow from fallback restores the core and retains the requested workflow", () => {
+  const fallback = updateDraft(emptyDraft(), {
+    mode: "graph",
+    requests: [{ id: "keep", kind: "service", title: "Keep", description: "Retain this request" }],
+  });
+  const next = updateDraft(fallback, { mode: "full", workflowIds: ["engagement"] });
+  assert.equal(next.mode, "full");
+  assert.deepEqual(next.workflowIds, ["engagement"]);
+  assert.equal(next.requests[0]?.id, "keep");
+  assert.equal(clientQuoteRange(next).low, 44940);
+  assert.equal(clientQuote(next), null);
+});
+
+test("the future monitoring workflow survives storage and appears in all proposal exports", () => {
+  const draft = updateDraft(emptyDraft(), { workflowIds: ["monitoring"] });
+  assert.deepEqual(parseDraft(JSON.stringify(draft)).workflowIds, ["monitoring"]);
+  assert.equal(clientQuote(draft), 42000);
+  assert.match(buildClientSummary(draft, "en"), /Situational awareness & expert briefings/);
+  assert.match(buildClientMarkdown(draft, "en"), /Future workflow/);
+});
+
+test("fallback researcher integration has an indicative amount and core never charges it twice", () => {
+  assert.equal(clientQuote(emptyDraft()), 33600);
+  const fallback = updateDraft(emptyDraft(), { mode: "graph" });
+  assert.equal(clientQuote(updateDraft(fallback, { serviceIds: ["research"] })), 15120);
+});
+
+test("unknown requests keep the known subtotal visible and do not masquerade as zero", () => {
+  const d = updateDraft(emptyDraft(), {
+    workflowIds: ["engagement"],
+    requests: [{ id: "custom", kind: "service", title: "Custom", description: "To scope" }],
+  });
+  assert.equal(clientQuote(d), null);
+  assert.deepEqual(clientQuoteRange(d), { low: 44940, high: 46738, pending: true });
+});
+
+test("the restored requirement template retains all supplied fields in scope, Markdown and email", async () => {
+  const { serviceFrameText } = await import("./service-request-frame");
+  const description = serviceFrameText(
+    {
+      userRole: "Chapter Board",
+      need: "Find an appropriate colleague",
+      behavior: "Review then introduce",
+      outcome: "An agreed introduction",
+      dataIntegration: "Permission before contact",
+      acceptance: "The recipient confirms the next step",
+    },
+    "en",
+  );
+  const d = updateDraft(emptyDraft(), {
+    requests: [{ id: "template", kind: "workflow", title: "A chapter enquiry", description }],
+  });
+  for (const text of [
+    buildClientSummary(d, "en"),
+    buildClientMarkdown(d, "en"),
+    new URL(emailHref(d, "en")).searchParams.get("body")!,
+  ]) {
+    assert(text.includes("Chapter Board"));
+    assert(text.includes("Permission before contact"));
+    assert(text.includes("The recipient confirms the next step"));
+  }
 });

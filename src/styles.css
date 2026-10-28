@@ -9488,3 +9488,27 @@ body,
 }
 
 .network-dashboard-navigation .network-context-link { position:relative; z-index:1; transform:translateZ(0); }
+
+/* Graph inspection stays compact and can be moved clear of nearby nodes. */
+.network-node-preview.network-node-strip { display:flex; align-items:center; gap:.55rem; width:max-content; max-width:calc(100% - 24px); padding:.15rem .6rem .15rem .15rem; border:1px solid #91a9ad55; border-radius:5px; }
+.network-node-strip > strong { max-width:210px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:.76rem; }
+.network-node-strip > div { display:flex; flex-wrap:wrap; align-items:center; gap:.7rem; margin:0; }
+.network-node-strip button { min-height:32px; font-size:.72rem; white-space:nowrap; }
+.network-node-strip button.network-node-grip { display:flex; justify-content:center; align-items:center; min-width:30px; cursor:grab; touch-action:none; }
+.network-node-strip button.network-node-grip:active { cursor:grabbing; }
+.network-service-description,.network-service-dependencies { margin:.65rem 0; }
+.network-service-description > summary,.network-service-dependencies > summary { cursor:pointer; font-weight:600; padding:.5rem 0; text-underline-offset:4px; }
+.network-service-description > summary:hover,.network-service-dependencies > summary:hover { text-decoration:underline; }
+.network-service-dependencies .network-service-context { margin-top:.4rem; }
+.network-survey-entry { display:block; margin:.4rem 0 1rem; }
+.network-dialog form > label > small { display:block; margin:.3rem 0; line-height:1.5; font-size:.75rem; }
+.survey-document h3,.survey-document h4 { margin:1.1rem 0 .5rem; font-size:1rem; line-height:1.45; }
+.survey-document p,.survey-document li { font-size:.85rem; line-height:1.6; }
+.survey-document ul { padding-left:1.2rem; }
+@media(max-width:600px) {
+ .network-node-preview.network-node-strip { align-items:flex-start; flex-wrap:wrap; gap:.2rem .5rem; padding:.2rem .45rem; max-width:calc(100% - 16px); }
+ .network-node-strip > strong { max-width:calc(100vw - 95px); align-self:center; }
+ .network-node-strip > div { width:100%; padding-left:30px; gap:.6rem; }
+}
+.network-survey-link { color:inherit; background:transparent; border:0; padding:.15rem .3rem; text-decoration:underline; text-underline-offset:3px; cursor:pointer; font:inherit; }
+.network-survey-link:hover,.network-survey-link:focus-visible { color:var(--ds-gold); }

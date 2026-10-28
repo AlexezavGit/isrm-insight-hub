@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-28",
+  "currency": "GBP",
+  "ukHourlyScenario": 60,
+  "overheadLow": 0.25,
+  "overheadHigh": 0.3,
+  "targetDiscount": 0.3,
+  "fallbackShare": 0.3,
+  "hours": { "core": 640, "research": 96, "engagement": 216, "expertise": 256, "monitoring": 160 }
+}

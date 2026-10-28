@@ -1,3 +1,4 @@
+import { MovableNodeActions } from "./MovableNodeActions";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ForceGraph2D, { type ForceGraphMethods, type LinkObject } from "react-force-graph-2d";
 import type { Expert } from "@/lib/types";
@@ -304,6 +305,22 @@ export default function NetworkGraph({
         linkWidth={(l: DrawLink) => (l.kind === "sample" ? 0.4 : 0.7)}
         linkLineDash={(l: DrawLink) => (l.kind === "sample" ? [2, 5] : null)}
         onRenderFramePre={(ctx, scale) => {
+          if (!serviceMode && !live && !neighborhood) {
+            ctx.save();
+            ctx.strokeStyle = "rgba(145,181,196,.12)";
+            ctx.lineWidth = 1 / scale;
+            for (const [prefix, radius] of [
+              ["expertise:", 230],
+              ["sector:", 310],
+              ["country:", 390],
+            ] as const) {
+              if (!model.nodes.some((node) => node.id.startsWith(prefix))) continue;
+              ctx.beginPath();
+              ctx.arc(0, 0, radius, 0, Math.PI * 2);
+              ctx.stroke();
+            }
+            ctx.restore();
+          }
           if (!serviceMode || neighborhood) return;
           ctx.save();
           ctx.beginPath();
@@ -405,12 +422,16 @@ export default function NetworkGraph({
         }}
       />
       {selectedNode && (
-        <aside
-          className="network-node-preview"
-          aria-label={locale === "uk" ? "Обраний вузол" : "Selected node"}
-        >
-          <strong>{selectedNode.label}</strong>
-          {selectedNode.expert && <p>{selectedNode.expert.primaryExpertise}</p>}
+        <MovableNodeActions uk={locale === "uk"}>
+          <strong
+            title={
+              selectedNode.expert
+                ? `${selectedNode.label} · ${selectedNode.expert.primaryExpertise}`
+                : selectedNode.label
+            }
+          >
+            {selectedNode.label}
+          </strong>
           <div>
             {selectedNode.kind === "expert" && (
               <button
@@ -434,7 +455,7 @@ export default function NetworkGraph({
               {locale === "uk" ? "Назад до графа" : "Back to graph"}
             </button>
           </div>
-        </aside>
+        </MovableNodeActions>
       )}
     </div>
   );

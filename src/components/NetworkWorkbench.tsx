@@ -1,4 +1,9 @@
 import { NetworkServiceDependencies, NetworkWorkflowDescription } from "./NetworkDescriptions";
+import {
+  SERVICE_FRAME_FIELDS,
+  emptyServiceFrame,
+  serviceFrameText,
+} from "@/lib/service-request-frame";
 import { MemberSurveyPreview } from "./MemberSurveyPreview";
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearch } from "@tanstack/react-router";
@@ -25,6 +30,7 @@ import {
   CLIENT_WORKFLOWS,
   CORE_SERVICE_IDS,
   type ServiceId,
+  type WorkflowId,
 } from "@/lib/client-catalog";
 import type { GraphLayers } from "@/lib/network-model";
 import { buildNetwork, relatedPeople, workflowServices } from "@/lib/network-model";
@@ -87,7 +93,7 @@ export function NetworkWorkbench() {
   const [composer, setComposer] = useState(false),
     [kind, setKind] = useState<"service" | "workflow">("workflow"),
     [title, setTitle] = useState(""),
-    [description, setDescription] = useState(""),
+    [frame, setFrame] = useState(emptyServiceFrame),
     [saved, setSaved] = useState(false);
   const [mailing, setMailing] = useState(false),
     [survey, setSurvey] = useState(false),
@@ -158,6 +164,7 @@ export function NetworkWorkbench() {
     if (!wide || (left === "shortlist" && shortlistSide === "right")) setLeft(null);
   };
   const choose = (id: ServiceId) => {
+    if (id === "survey") setSurvey(true);
     setLive(false);
     setDisabled((v) => v.filter((s) => s !== id));
     setActive([id]);
@@ -200,7 +207,7 @@ export function NetworkWorkbench() {
   const startComposer = (k: "service" | "workflow") => {
     setKind(k);
     setTitle("");
-    setDescription("");
+    setFrame(emptyServiceFrame());
     setSaved(false);
     setComposer(true);
   };
@@ -247,7 +254,7 @@ export function NetworkWorkbench() {
   useEffect(() => {
     if (!route.preset) return;
     setLive(false);
-    if (route.preset === "engagement" || route.preset === "expertise") {
+    if (CLIENT_WORKFLOWS.some((w) => w.id === route.preset)) {
       setLeft("workflows");
       const w = route.preset;
       setMode("services");
@@ -679,6 +686,15 @@ export function NetworkWorkbench() {
             <Plus size={18} />
             {t("Describe your own requirement", "Описати власну потребу")}
           </button>
+          <button
+            className="network-context-action network-survey-entry"
+            onClick={() => setSurvey(true)}
+          >
+            {t(
+              "Member & Board questionnaire · view draft",
+              "Опитувальник членів і правління · переглянути",
+            )}
+          </button>
           {[
             {
               id: "core",
@@ -711,12 +727,13 @@ export function NetworkWorkbench() {
                     <label className="network-approve-choice">
                       <input
                         type="checkbox"
-                        checked={draft.workflowIds.includes(w.id as "engagement" | "expertise")}
-                        disabled={!ready || draft.mode !== "full"}
+                        checked={draft.workflowIds.includes(w.id as WorkflowId)}
+                        disabled={!ready}
                         onChange={(e) =>
                           update({
+                            mode: "full",
                             workflowIds: e.target.checked
-                              ? [...draft.workflowIds, w.id as "engagement" | "expertise"]
+                              ? [...draft.workflowIds, w.id as WorkflowId]
                               : draft.workflowIds.filter((id) => id !== w.id),
                           })
                         }
@@ -841,9 +858,16 @@ export function NetworkWorkbench() {
           aria-label={t("Service dossier", "Опис сервісу")}
         >
           <h2>{selectedService.title[locale]}</h2>
-          <p>{selectedService.detail[locale]}</p>
+          <details className="network-service-description" open>
+            <summary>{t("How this would help", "Як це допоможе")}</summary>
+            <p>{selectedService.detail[locale]}</p>
+          </details>
           <NetworkServiceDependencies id={selectedService.id} locale={locale} />
-          {service === "survey" && <MemberSurveyPreview locale={locale} />}
+          {service === "survey" && (
+            <button className="network-context-action" onClick={() => setSurvey(true)}>
+              {t("Open the questionnaire", "Відкрити опитувальник")}
+            </button>
+          )}
           <small>{selectedService.status[locale]}</small>
           <p className="network-panel-note">
             {t(
@@ -897,6 +921,9 @@ export function NetworkWorkbench() {
           <span className="network-demo-label">
             {t("Demonstration · supplied sample", "Демонстрація · передана вибірка")}
           </span>
+          <button className="network-survey-link" onClick={() => setSurvey(true)}>
+            {t("Questionnaire", "Опитувальник")}
+          </button>
           <DataUseNotice compact />
         </div>
         <nav
@@ -904,13 +931,14 @@ export function NetworkWorkbench() {
           aria-label={t("Graph panels", "Панелі графа")}
         >
           <button
-            aria-pressed={mode === "people"}
+            aria-pressed={left === "search" || persistentSearch}
             onClick={() => {
+              const opening = !(left === "search" || persistentSearch);
               close();
-              setSearchHidden(false);
+              setSearchHidden(!opening);
               setMode("people");
               if (anchor.startsWith("svc:") || anchor.startsWith("workflow:")) setAnchor("isrm");
-              setLeft(left === "search" ? null : "search");
+              setLeft(opening ? "search" : null);
             }}
           >
             <Search size={25} />
@@ -1009,7 +1037,7 @@ export function NetworkWorkbench() {
                     id: crypto.randomUUID(),
                     kind,
                     title: title.trim(),
-                    description: description.trim(),
+                    description: serviceFrameText(frame, locale),
                   },
                 ],
                 customIncluded: true,
@@ -1040,21 +1068,22 @@ export function NetworkWorkbench() {
                 }}
               />
             </label>
-            <label>
-              {t(
-                "Who needs it, actions, data and intended outcome",
-                "Кому потрібно, дії, дані та очікуваний результат",
-              )}
-              <textarea
-                required
-                rows={5}
-                value={description}
-                onChange={(e) => {
-                  setDescription(e.target.value);
-                  setSaved(false);
-                }}
-              />
-            </label>
+            {SERVICE_FRAME_FIELDS.map((field) => (
+              <label key={field.id}>
+                {field[locale]}
+                {field.id === "need" || field.id === "outcome" ? " *" : ""}
+                <small>{uk ? field.helpUk : field.helpEn}</small>
+                <textarea
+                  rows={field.rows}
+                  required={field.id === "need" || field.id === "outcome"}
+                  value={frame[field.id]}
+                  onChange={(event) => {
+                    setFrame((current) => ({ ...current, [field.id]: event.target.value }));
+                    setSaved(false);
+                  }}
+                />
+              </label>
+            ))}
             {saved ? (
               <div role="status">
                 <p>{t("Added to your scope draft.", "Додано до чернетки scope.")}</p>
@@ -1066,7 +1095,7 @@ export function NetworkWorkbench() {
             ) : (
               <button
                 className="client-button"
-                disabled={!ready || !title.trim() || !description.trim()}
+                disabled={!ready || !title.trim() || !frame.need.trim() || !frame.outcome.trim()}
               >
                 {t("Save to scope", "Зберегти до scope")}
               </button>

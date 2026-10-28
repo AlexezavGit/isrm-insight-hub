@@ -17,16 +17,21 @@ export function NetworkServiceDependencies({
   const c = SERVICE_CONTEXT[id],
     uk = locale === "uk";
   return (
-    <dl className="network-service-context">
-      <dt>{uk ? "Хто користуватиметься" : "Who would use it"}</dt>
-      <dd>{c.users[locale]}</dd>
-      <dt>{uk ? "Очікуваний результат" : "Intended result"}</dt>
-      <dd>{c.result[locale]}</dd>
-      <dt>{uk ? "Від чого залежить" : "Dependencies"}</dt>
-      <dd>{c.dependencies[locale]}</dd>
-      <dt>{uk ? "Запропонована технологія" : "Proposed technology"}</dt>
-      <dd>{c.technology[locale]}</dd>
-    </dl>
+    <details className="network-service-dependencies">
+      <summary>
+        {uk ? "Користувачі, результат і залежності" : "Users, outcome & dependencies"}
+      </summary>
+      <dl className="network-service-context">
+        <dt>{uk ? "Хто користуватиметься" : "Who would use it"}</dt>
+        <dd>{c.users[locale]}</dd>
+        <dt>{uk ? "Очікуваний результат" : "Intended result"}</dt>
+        <dd>{c.result[locale]}</dd>
+        <dt>{uk ? "Від чого залежить" : "Dependencies"}</dt>
+        <dd>{c.dependencies[locale]}</dd>
+        <dt>{uk ? "Запропонована технологія" : "Proposed technology"}</dt>
+        <dd>{c.technology[locale]}</dd>
+      </dl>
+    </details>
   );
 }
 export function NetworkWorkflowDescription({

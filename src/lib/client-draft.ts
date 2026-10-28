@@ -1,6 +1,11 @@
 import { BRIEFING_MILESTONES } from "./briefing-milestones";
 import { z } from "zod";
-import { CLIENT_APPROVED_PRICES, clientQuote } from "./client-pricing";
+import {
+  clientQuote,
+  clientPriceLines,
+  clientQuoteRange,
+  indicativePriceLabel,
+} from "./client-pricing";
 import {
   CORE_SERVICE_IDS,
   CLIENT_SERVICES,
@@ -25,7 +30,7 @@ const schema = z.object({
       "survey",
     ]),
   ),
-  workflowIds: z.array(z.enum(["engagement", "expertise"])),
+  workflowIds: z.array(z.enum(["engagement", "expertise", "monitoring"])),
   requests: z.array(
     z.object({
       id: z.string(),
@@ -70,8 +75,9 @@ export const parseDraft = (raw: string): ClientDraft => schema.parse(JSON.parse(
 export function updateDraft(draft: ClientDraft, changes: Partial<ClientDraft>): ClientDraft {
   const next = schema.parse({ ...draft, ...changes });
   if (changes.mode && changes.mode !== draft.mode) {
-    next.workflowIds = [];
-    next.integrationInterest = false;
+    next.workflowIds = changes.mode === "full" ? (changes.workflowIds ?? []) : [];
+    next.integrationInterest =
+      changes.mode === "full" ? (changes.integrationInterest ?? false) : false;
     next.serviceIds = changes.mode === "full" ? emptyDraft().serviceIds : [];
   }
   if (next.mode === "graph")
@@ -174,30 +180,17 @@ export function buildClientSummary(d: ClientDraft, locale: ClientLocale): string
         : uk
           ? "Потрібне обговорення бюджету"
           : "Budget to discuss",
-    ...[
-      [
-        d.mode === "graph"
-          ? uk
-            ? "Застосунок як є: пошук, досьє, shortlist та OSINT-перевірка"
-            : "Application as is: search, dossiers, shortlist and OSINT review"
-          : uk
-            ? "Базовий застосунок"
-            : "Core application",
-        d.mode === "graph" ? CLIENT_APPROVED_PRICES.graph : CLIENT_APPROVED_PRICES.base,
-      ],
-      ...(d.mode === "graph"
-        ? d.serviceIds
-            .filter((id) => id === "research")
-            .map((id) => [
-              CLIENT_SERVICES.find((s) => s.id === id)?.title[locale],
-              CLIENT_APPROVED_PRICES.addons[id] ?? null,
-            ])
-        : []),
-    ].map(
-      ([title, value]) =>
-        `${title}: ${value === null ? (uk ? "До погодження" : "Pending approval") : `${CLIENT_APPROVED_PRICES.currency} ${value}`}`,
+    ...clientPriceLines(d, locale).map(
+      (line) => `${line.title}: ${indicativePriceLabel(line.value, locale)}`,
     ),
-    `${uk ? "Індикативна сума" : "Indicative total"}: ${clientQuote(d) === null ? (uk ? "До погодження" : "Pending approval") : `${CLIENT_APPROVED_PRICES.currency} ${clientQuote(d)}`}`,
+    `${uk ? "Індикативна сума оцінених позицій" : "Indicative priced scope"}: ${indicativePriceLabel(clientQuoteRange(d).low, locale, clientQuoteRange(d).high)}`,
+    ...(clientQuoteRange(d).pending
+      ? [
+          uk
+            ? "Неоцінені позиції не включені до цієї суми й потребують окремої пропозиції."
+            : "Unpriced items are excluded from this subtotal and need a separate proposal.",
+        ]
+      : []),
     uk
       ? "Суми індикативні для зазначеного обсягу. Остаточну пропозицію, строки, інтеграції та права визначає угода."
       : "Amounts are indicative for the stated scope. The final offer, timetable, integrations and rights are defined in the agreement.",

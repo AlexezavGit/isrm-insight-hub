@@ -23,7 +23,7 @@ The proposed core application would allow authorised users to:
 
 A shared category in the graph is a route for exploration. It does not establish a personal introduction, endorsement, willingness to participate or permission to contact someone. AI-assisted research can contain errors and requires professional review before reliance.
 
-## A core application, with two possible workstreams
+## A core application, with optional workstreams
 
 **Core: a practical foundation for professional interaction.** Search, dossiers, working lists, evidence records and agreed access arrangements would provide a common foundation for subsequent services. The existing OSINT research assistant would require an agreed connection to the application. Research volumes, source permissions and ongoing AI/API costs would be defined separately.
 
@@ -31,9 +31,11 @@ A shared category in the graph is a route for exploration. It does not establish
 
 **Developing and sharing expertise.** A further workstream could help turn professional contributions into reviewed resources, discussions, research, learning and services for members or clients. An AI assistant trained or configured to support consultants with professional knowledge would be a separate future proposal, requiring agreement on purpose, rights, evidence and evaluation.
 
+**Situational awareness and expert briefings.** A separate future workflow could connect signals from an agreed source, such as World Monitor, to relevant recorded expertise, professional review and a briefing for an agreed audience. A bounded pilot would cover one source and a defined topic or region. Source licences, distribution rights, API usage and ongoing monitoring or professional review require separate agreement. No live monitoring service is connected in the demonstration.
+
 A **workflow** is a repeatable sequence of actions, responsibilities and decisions organised around a useful result. Automation can support the sequence; professional judgement remains with the appropriate people.
 
-Work on either optional workstream could begin when ISRM decides it is needed, provided the necessary core capabilities and dependencies are in place. Each would have its own agreed scope, independently useful results and acceptance criteria. Neither is included in the current core estimate merely because it is selected for discussion.
+Work on an optional workstream could begin when ISRM decides it is needed, provided the necessary core capabilities and dependencies are in place. Each would have its own agreed scope, independently useful results and acceptance criteria. Optional workstreams are outside the core estimate. The scope page shows separate planning ranges and includes selected priced workstreams in its indicative total. Unpriced requirements remain separate.
 
 ## Delivering the core
 
