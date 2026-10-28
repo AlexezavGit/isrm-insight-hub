@@ -1271,12 +1271,7 @@ function estimateClientPackage(packageIds: readonly string[]): ClientPackageEsti
       base: "base",
       high: "high",
     }[band] as EstimateScenario;
-    const roles: EstimateRole[] = [
-      "developer",
-      "product",
-      "operations",
-      "communications",
-    ];
+    const roles: EstimateRole[] = ["developer", "product", "operations", "communications"];
     const lines = roles.flatMap((role) => {
       const hours = workPackages
         .filter((item) => item.role === role)
@@ -1356,12 +1351,12 @@ export const SUPPORTING_DOCUMENTS = [
   {
     id: "project-description",
     title: {
-      en: "1 · ISRM project description",
-      uk: "1 · Повний опис проєкту ISRM",
+      en: "1 · ISRM project overview",
+      uk: "1 · Опис проєкту ISRM",
     },
     purpose: {
-      en: "The only supporting file currently present in this project; covers purpose, client pilot, architecture, scope and open decisions.",
-      uk: "Єдиний супровідний файл, наразі наявний у проєкті; містить мету, клієнтський пілот, архітектуру, обсяг і відкриті рішення.",
+      en: "Review the application capabilities, delivery stages and budget before requesting a detailed proposal.",
+      uk: "Перегляньте можливості застосунку, етапи виконання та бюджет перед запитом детальної пропозиції.",
     },
     href: "/ISRM_Project_Description.md",
   },

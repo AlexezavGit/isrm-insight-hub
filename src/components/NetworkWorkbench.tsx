@@ -10,6 +10,8 @@ import {
   GitBranch,
   Plus,
   Minus,
+  Play,
+  Pause,
   Users,
   Building2,
   Layers,
@@ -46,6 +48,7 @@ export function NetworkWorkbench() {
   const root = useRef<HTMLElement>(null);
   const [wide, setWide] = useState(false);
   const [live, setLive] = useState(!route.anchor && !route.stage && !route.preset);
+  const [motionRequested, setMotionRequested] = useState(false);
   const [searchHidden, setSearchHidden] = useState(false);
   const [left, setLeft] = useState<"search" | "workflows" | "shortlist" | null>(
     route.panel === "shortlist"
@@ -56,6 +59,8 @@ export function NetworkWorkbench() {
           ? "workflows"
           : null,
   );
+  const [shortlistSide, setShortlistSide] = useState<"left" | "right">("left");
+  const [groupFeedback, setGroupFeedback] = useState<string | null>(null);
   const [mode, setMode] = useState<"people" | "services">(
     route.stage === "configuration" ? "services" : "people",
   );
@@ -95,12 +100,25 @@ export function NetworkWorkbench() {
     () => filtered.filter((e) => e.verified || layers.researchQueue),
     [filtered, layers.researchQueue],
   );
+  const referenceExperts = useMemo(
+    () => all.filter((expert) => expert.verified || layers.researchQueue),
+    [all, layers.researchQueue],
+  );
   const selected = shown.find((e) => e.code === person),
     selectedService = CLIENT_SERVICES.find((s) => s.id === service);
   const persistentSearch =
     wide && !searchHidden && mode === "people" && !left && !selected && !service;
+  const leftPanelVisible = !!(
+    (left && !(left === "shortlist" && shortlistSide === "right")) ||
+    persistentSearch
+  );
+  const rightPanelVisible = !!(
+    selected ||
+    service ||
+    (left === "shortlist" && shortlistSide === "right")
+  );
   const panelOpen = !!(left || selected || service);
-  const model = useMemo(() => buildNetwork(shown, layers, locale), [shown, layers, locale]);
+  const model = useMemo(() => buildNetwork(shown, layers, locale, f), [shown, layers, locale, f]);
   const count =
     mode === "services" && active.length
       ? relatedPeople(
@@ -115,6 +133,7 @@ export function NetworkWorkbench() {
   };
   const structure = () => {
     setLive(false);
+    setMotionRequested(false);
     if (live) {
       setAnchor(lastStructured.current.anchor);
       setMode(lastStructured.current.mode);
@@ -122,6 +141,9 @@ export function NetworkWorkbench() {
     }
   };
   const openShortlist = () => {
+    setShortlistSide(
+      selected || service || (left === "shortlist" && shortlistSide === "right") ? "right" : "left",
+    );
     close();
     setSearchHidden(true);
     setLeft("shortlist");
@@ -133,7 +155,7 @@ export function NetworkWorkbench() {
       setLayers((v) => ({ ...v, researchQueue: true }));
     setService(null);
     setPerson(code);
-    if (!wide) setLeft(null);
+    if (!wide || (left === "shortlist" && shortlistSide === "right")) setLeft(null);
   };
   const choose = (id: ServiceId) => {
     setLive(false);
@@ -182,6 +204,11 @@ export function NetworkWorkbench() {
     setSaved(false);
     setComposer(true);
   };
+  useEffect(() => {
+    if (!groupFeedback) return;
+    const timer = window.setTimeout(() => setGroupFeedback(null), 2400);
+    return () => window.clearTimeout(timer);
+  }, [groupFeedback]);
   useEffect(() => {
     setMounted(true);
     const screen = matchMedia("(min-width:1100px)");
@@ -265,13 +292,14 @@ export function NetworkWorkbench() {
       className={`client-network-page network-workbench ${panelOpen ? "has-panel" : ""}`}
     >
       <div
-        className={`network-canvas ${left || persistentSearch ? "has-left-panel" : ""} ${selected || service ? "has-right-panel" : ""} ${persistentSearch ? "has-search-rail" : ""}`}
+        className={`network-canvas ${leftPanelVisible ? "has-left-panel" : ""} ${rightPanelVisible ? "has-right-panel" : ""} ${persistentSearch ? "has-search-rail" : ""}`}
       >
         {mounted && !loading && (
           <Suspense fallback={null}>
             <NetworkGraph
               experts={shown}
               layers={layers}
+              referenceSelection={f}
               locale={locale}
               focus={person}
               onFocus={(code) => {
@@ -289,15 +317,23 @@ export function NetworkWorkbench() {
               onAnchor={chooseAnchor}
               warningService={exclude}
               disabledServiceIds={disabled}
-              motionPaused={reduced}
+              motionPaused={reduced && !motionRequested}
             />
           </Suspense>
+        )}
+        {!loading && shown.length === 0 && (
+          <p className="network-empty-summary" role="status">
+            {t(
+              "No profiles recorded for this selection in the accessible sample.",
+              "За цим вибором у доступній вибірці профілів не зафіксовано.",
+            )}
+          </p>
         )}
       </div>
       <ClientHeader />
       <div className={`network-dashboard ${persistentSearch ? "has-search-rail" : ""}`}>
         <div className="network-panel-heading network-left-heading">
-          {(left || persistentSearch) && (
+          {leftPanelVisible && (
             <>
               <h2>
                 {left === "workflows"
@@ -320,23 +356,34 @@ export function NetworkWorkbench() {
           </Link>
           <div className="network-metrics" aria-live="polite">
             <span>
-              <strong>{visible}</strong>
+              <strong className="network-metric-number" key={visible}>
+                {visible}
+              </strong>
               {t("visible", "видимо")}
             </span>
             <span>
-              <strong>{count}</strong>
+              <strong className="network-metric-number" key={count}>
+                {count}
+              </strong>
               {mode === "services"
                 ? t("service coverage", "охоплено сервісом")
                 : t("matched", "знайдено")}
             </span>
             <button
-              className="network-shortlist-trigger"
+              className={`network-shortlist-trigger ${groupFeedback ? "has-feedback" : ""}`}
               onClick={openShortlist}
               aria-label={t("Open shortlist", "Відкрити shortlist")}
             >
-              <strong>{draft.shortlist.length}</strong>
-              {t("in shortlist", "у відборі")}
+              <strong className="network-metric-number" key={draft.shortlist.length}>
+                {draft.shortlist.length}
+              </strong>
+              {t("in your group", "у вашій групі")}
             </button>
+            {groupFeedback && (
+              <span className="network-group-feedback" role="status">
+                {groupFeedback}
+              </span>
+            )}
           </div>
           <Link to="/scope" className="network-context-link">
             <span>{t("Scope & budget", "Обсяг і бюджет")}</span>
@@ -344,12 +391,14 @@ export function NetworkWorkbench() {
           </Link>
         </nav>
         <div className="network-panel-heading network-right-heading">
-          {(selected || selectedService) && (
+          {(selected || selectedService || (left === "shortlist" && shortlistSide === "right")) && (
             <>
               <h2>
-                {selected
-                  ? `${t("Dossier", "Досьє")} · ${selected.code}`
-                  : t("Service capability", "Сервісна функціональність")}
+                {left === "shortlist" && shortlistSide === "right"
+                  ? t("Your shortlist", "Ваш shortlist")
+                  : selected
+                    ? `${t("Dossier", "Досьє")} · ${selected.code}`
+                    : t("Service capability", "Сервісна функціональність")}
               </h2>
               {backButton}
             </>
@@ -358,7 +407,7 @@ export function NetworkWorkbench() {
       </div>
       {(!panelOpen || wide) && (
         <div
-          className={`network-concentrators ${left || persistentSearch ? "has-left-panel" : ""} ${selected || service ? "has-right-panel" : ""} ${persistentSearch ? "has-search-rail" : ""}`}
+          className={`network-concentrators ${leftPanelVisible ? "has-left-panel" : ""} ${rightPanelVisible ? "has-right-panel" : ""} ${persistentSearch ? "has-search-rail" : ""}`}
         >
           <label>
             <span>{t("Concentrator", "Концентратор")}</span>
@@ -417,18 +466,38 @@ export function NetworkWorkbench() {
                 setSearchHidden(true);
                 setMode("people");
                 setAnchor("isrm");
+                setMotionRequested(false);
                 setLive(true);
               }
             }}
           >
             {t("Live graph", "Живий граф")}
           </button>
+          {live && reduced && (
+            <button
+              className="network-motion-control"
+              aria-pressed={motionRequested}
+              aria-label={
+                motionRequested
+                  ? t("Pause graph motion", "Призупинити рух графа")
+                  : t("Animate live graph", "Увімкнути рух живого графа")
+              }
+              title={
+                motionRequested
+                  ? t("Pause graph motion", "Призупинити рух графа")
+                  : t("Animate live graph", "Увімкнути рух живого графа")
+              }
+              onClick={() => setMotionRequested((value) => !value)}
+            >
+              {motionRequested ? <Pause size={16} /> : <Play size={16} />}
+            </button>
+          )}
           <span className="network-interaction-hint">
             {live
-              ? reduced
+              ? reduced && !motionRequested
                 ? t(
-                    "Reduced motion: drag nodes manually; search restores the structured view.",
-                    "Зменшення руху: вузли можна тягнути вручну; пошук повертає структуру.",
+                    "Reduced motion: drag nodes manually or press Play; search restores the structured view.",
+                    "Зменшення руху: тягніть вузли вручну або натисніть Play; пошук повертає структуру.",
                   )
                 : t(
                     "Drag nodes to explore; a search choice returns to the structured view.",
@@ -488,14 +557,14 @@ export function NetworkWorkbench() {
           </fieldset>
           <p className="network-panel-note">
             {t(
-              "Cities, human recommendations, AI verification and compliance decisions are not recorded in this sample. They are not inferred.",
-              "Міста, людські рекомендації, AI-верифікація та рішення щодо комплаєнсу у вибірці не зафіксовані. Ми їх не виводимо з інших ознак.",
+              "Explore recorded coverage and reference categories, including those with no matching profiles.",
+              "Переглядайте наявні записи й категорії довідника, зокрема ті, для яких профілів ще немає.",
             )}
           </p>
           <details className="network-refine-fields" open={left === "search"}>
             <summary>{t("Refine the search", "Уточнити пошук")}</summary>
             <FilterBar
-              experts={all}
+              experts={referenceExperts}
               f={f}
               setF={(value) => {
                 structure();
@@ -503,6 +572,7 @@ export function NetworkWorkbench() {
               }}
               compact
               showResearchQueue={false}
+              includeReference
             />
           </details>
           <button className="network-folder-button" onClick={close}>
@@ -520,7 +590,7 @@ export function NetworkWorkbench() {
       )}
       {left === "shortlist" && (
         <aside
-          className="network-paper-panel network-left-panel"
+          className={`network-paper-panel network-${shortlistSide}-panel`}
           aria-label={t("Shortlist", "Shortlist · відібрана група")}
         >
           <label className="network-group-name">
@@ -739,16 +809,22 @@ export function NetworkWorkbench() {
           <button
             className="network-folder-button"
             disabled={!ready}
-            onClick={() =>
+            onClick={() => {
+              const removing = draft.shortlist.includes(selected.code);
               update({
-                shortlist: draft.shortlist.includes(selected.code)
-                  ? draft.shortlist.filter((c) => c !== selected.code)
+                shortlist: removing
+                  ? draft.shortlist.filter((code) => code !== selected.code)
                   : [...draft.shortlist, selected.code],
-              })
-            }
+              });
+              setGroupFeedback(
+                removing
+                  ? t("Removed from your group · −1", "Прибрано з вашої групи · −1")
+                  : t("Added to your group · +1", "Додано до вашої групи · +1"),
+              );
+            }}
           >
             {draft.shortlist.includes(selected.code)
-              ? t("Remove from shortlist", "Прибрати з відбору")
+              ? t("In your group · remove", "У вашій групі · прибрати")
               : t("Add to shortlist", "Додати до відбору")}
           </button>
           <button className="network-context-action" onClick={openShortlist}>

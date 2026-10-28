@@ -9464,3 +9464,27 @@ body,
 @media (max-width:760px) {
  .network-right-heading:not(:empty) { padding-left:72px; }
 }
+
+.network-motion-control { display:grid; place-items:center; width:36px; height:36px; flex-shrink:0; border:1px solid #9db5bc66; border-radius:50%; background:transparent; color:var(--ds-paper); cursor:pointer; }
+.network-motion-control:hover,.network-motion-control[aria-pressed=true] { color:var(--ds-gold); border-color:var(--ds-gold); }
+
+/* Counters have their own visual weight; navigation sits away from the figures. */
+.network-dashboard-navigation { display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:.6rem; width:100%; }
+.network-dashboard-navigation .network-metrics { position:relative; justify-content:center; gap:clamp(.9rem,2vw,1.7rem); }
+.network-dashboard-navigation .network-metrics > span:not(.network-group-feedback),.network-dashboard-navigation .network-metrics > button { flex-direction:column; gap:.1rem; white-space:nowrap; }
+.network-dashboard-navigation .network-metrics .network-metric-number { display:block; font-size:1.7rem; line-height:1.1; font-variant-numeric:tabular-nums; transform-origin:center; }
+.network-shortlist-trigger.has-feedback .network-metric-number { color:#d3e4ca; }
+.network-dashboard-navigation .network-metrics .network-group-feedback { position:absolute; top:calc(100% + 10px); left:50%; transform:translateX(-50%); z-index:8; display:block; width:max-content; max-width:min(340px,90vw); padding:.4rem .7rem; background:#12313beF; color:#e5eddb; border:1px solid #b6c2a277; border-radius:4px; font-size:.72rem; white-space:normal; pointer-events:none; }
+.network-reference-note { display:block; margin-top:.7rem; }
+.network-empty-summary { position:absolute; top:70px; left:50%; transform:translateX(-50%); width:min(400px,90%); text-align:center; font-size:.85rem; color:var(--ds-paper); pointer-events:none; }
+@media (prefers-reduced-motion:no-preference) {
+ .network-metric-number { animation:network-counter-arrive .4s ease-out; }
+ @keyframes network-counter-arrive { from { opacity:.35; transform:translateY(.2em) scale(.9); } to { opacity:1; transform:none; } }
+}
+@media (max-width:760px) {
+ .network-dashboard-navigation { gap:.45rem; }
+ .network-dashboard-navigation .network-metrics { gap:.65rem; }
+ .network-dashboard-navigation .network-metrics .network-metric-number { font-size:1.35rem; }
+}
+
+.network-dashboard-navigation .network-context-link { position:relative; z-index:1; transform:translateZ(0); }
