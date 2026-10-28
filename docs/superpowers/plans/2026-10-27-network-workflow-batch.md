@@ -109,3 +109,11 @@ This supersedes the manual-upload and Git-integration checkpoints above. The own
 - First Linux run exposed missing native optional dependencies in the Mac-generated lockfile. Added157 platform-specific entries with every existing package entry/version unchanged. Fresh npm ci,39tests, Pages build and release preparation pass locally. Run40671656774 also passed these steps on Linux.
 - Destination guard then rejected the saved account ID format; the masked log shows trailing whitespace. Target check and pinned Wrangler4.83.0 now trim surrounding whitespace and never print/write credential values. A failing whitespace reproduction passed after the fix, including a stub CLI assertion of the exact destination/normalised child environment.
 - Public head at this checkpoint: e8ed1e3. Deployment verification remains pending; no success claim yet. Approved documents remain in the public allowlist; internal notes/workbooks/history remain excluded.
+
+#### Successful production deployment
+
+- [x] GitHub Actions run40672024902 completed successfully: https://github.com/AlexezavGit/isrm-insight-hub/actions/runs/40672024902 (publish job122760917574,1m1s).
+- [x] Cloudflare version9a25ee77 published to https://isrm.pages.dev/; version URL https://9a25ee77.isrm.pages.dev/. Production release.json matches e8ed1e3cbf9bd94de234871bcb33d2ab8682a144 exactly. Both CI and a separate local HTTP check verified proposal/scope/map and the two approved Markdown downloads.
+- [x] Browser production check shows45visible/45matched profiles, the larger dashboard, new panel controls and zero-count reference choices. Explicit Play activates live motion despite the browser's reduced-motion preference. No claim of a new native drag gesture test.
+- [x] Production proof saved privately: docs/review/production-release-2026-10-28.png. Git-backed local source includes all deployment scripts/configuration and portable lockfile; internal history and this plan are not pushed to the public branch.
+- Future pushes to codex/network-workflow-batch automatically run locked install,39behavioural tests, Pages build, guarded production deploy and post-deploy HTTP checks. Source files alone saved on disk do not publish until committed and pushed to this branch.
