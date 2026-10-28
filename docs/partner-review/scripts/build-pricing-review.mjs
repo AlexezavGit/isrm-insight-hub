@@ -192,6 +192,7 @@ val(s,'A27','Розробники, планова UA база');formula(s,'C27',
 val(s,'A28','Резерв накладних, довідково');formula(s,'C28',"=C27*'Припущення'!B11");formula(s,'D28',"=D27*'Припущення'!B12");
 val(s,'A29','Ліміт усіх нерозробницьких витрат');formula(s,'C29','=C26-C27');formula(s,'D29','=D26-D27');
 function selectedKnown(sheet,col,statusCol,last){const parts=scopes.map(([id],i)=>`IF('Припущення'!B${25+i}=0,0,IF(COUNTIFS('${sheet}'!$A$7:$A$${last},"${id}",'${sheet}'!$${statusCol}$7:$${statusCol}$${last},"Оцінено")=COUNTIFS('${sheet}'!$A$7:$A$${last},"${id}"),SUMIFS('${sheet}'!$${col}$7:$${col}$${last},'${sheet}'!$A$7:$A$${last},"${id}"),"n.a."))`);return `=IF(COUNT(${parts.join(',')})=4,SUM(${parts.join(',')}),"n.a.")`;}
+val(s,'A30','Залишок після планових накладних');formula(s,'C30','=C26-C27-C28');formula(s,'D30','=D26-D27-D28');
 val(s,'A31','Погоджені гонорари партнерів');formula(s,'C31',selectedKnown('Партнери','F','G',29));formula(s,'D31','=C31');
 val(s,'A32','Прямі та операційні витрати');formula(s,'C32',selectedKnown('OSINT та операції','F','G',17));formula(s,'D32','=C32');
 for(const [row,inputRow,label] of [[33,19,'Поточна розробка, компенсація G'],[34,20,'Податки проєкту'],[35,21,'Окремий резерв ризиків']]){val(s,`A${row}`,label);formula(s,`C${row}`,`=IF(ISNUMBER('Припущення'!B${inputRow}),'Припущення'!B${inputRow},"n.a.")`);formula(s,`D${row}`,`=C${row}`);}
@@ -222,6 +223,7 @@ const errors=await wb.inspect({kind:'match',searchTerm:'#REF!|#DIV/0!|#VALUE!|#N
 console.log(errors.ndjson);
 console.log((await wb.inspect({kind:'table',range:'Порівняння!A7:H15',include:'values,formulas',tableMaxRows:10,tableMaxCols:8,maxChars:2500})).ndjson);
 for(const [name,range,file]of [['Порівняння','A1:H17','summary'],['Порівняння','A20:D46','economics'],['Поточна розробка','A1:G36','current-development'],['Припущення','A1:E28','inputs'],['Розробка','A1:H29','development'],['Партнери','A1:G29','partners'],['OSINT та операції','A1:G20','operations']]){
+ if(process.env.ISRM_RENDER_ONLY && !process.env.ISRM_RENDER_ONLY.split(',').includes(file)) continue;
  const blob=await wb.render({sheetName:name,range,scale:1.3,format:'png'});await fs.writeFile(`/tmp/isrm-partner-workbook/${file}.png`,new Uint8Array(await blob.arrayBuffer()));
 }
 const output=await SpreadsheetFile.exportXlsx(wb);await output.save(`${out}/ISRM_Partner_Pricing_Review.xlsx`);
