@@ -9512,3 +9512,6 @@ body,
 }
 .network-survey-link { color:inherit; background:transparent; border:0; padding:.15rem .3rem; text-decoration:underline; text-underline-offset:3px; cursor:pointer; font:inherit; }
 .network-survey-link:hover,.network-survey-link:focus-visible { color:var(--ds-gold); }
+.client-price-receipt .client-price-total { display:grid; grid-template-columns:minmax(0,1fr); gap:.35rem; }
+.client-price-receipt .client-price-total > span { overflow-wrap:normal; word-break:normal; }
+.client-price-receipt .client-price-total > strong { justify-self:end; max-width:100%; overflow-wrap:normal; }
