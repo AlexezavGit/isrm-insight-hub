@@ -34,3 +34,6 @@ dist-ssr
 .env.local
 
 preview-access.txt
+
+# Generated Cloudflare Pages deployment bundle
+pages-upload/
