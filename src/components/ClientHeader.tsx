@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ClientAccessibility } from "./ClientAccessibility";
 import { AccessControl } from "./AppShell";
 export function ClientHeader({
   signIn = true,
   hideOnScroll = false,
+  motionControl,
 }: {
   signIn?: boolean;
   hideOnScroll?: boolean;
+  motionControl?: ReactNode;
 }) {
   const [hidden, setHidden] = useState(false);
   useEffect(() => {
@@ -32,6 +34,7 @@ export function ClientHeader({
       </Link>
       <div className="client-topbar-actions">
         <ClientAccessibility />
+        {motionControl}
         <AccessControl showSignIn={signIn} />
       </div>
     </header>

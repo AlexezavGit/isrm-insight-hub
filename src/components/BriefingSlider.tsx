@@ -3,7 +3,7 @@ import { IsrmContextLinks } from "./IsrmContextLinks";
 import { SLIDE_CONTEXT_KEYS } from "@/lib/isrm-context";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, ChevronsLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronsLeft, Pause, Play } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { useAccess } from "@/lib/access";
 import { BriefingVisual } from "./BriefingVisual";
@@ -14,7 +14,9 @@ export function BriefingSlider() {
   const uk = locale === "uk";
   const [slide, setSlide] = useState(0);
   const [mounted, setMounted] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(true);
+  // The owner has explicitly requested motion for this demonstration. Pause is always available.
+  const [motionEnabled, setMotionEnabled] = useState(true);
+  const reducedMotion = !motionEnabled;
   const content = useRef<HTMLDivElement>(null);
   const swipeStart = useRef<{ x: number; y: number; time: number } | null>(null);
   const lastSlide = slide === BRIEFING_SLIDES.length - 1;
@@ -22,27 +24,52 @@ export function BriefingSlider() {
   const current = BRIEFING_SLIDES[slide]!;
   useEffect(() => {
     setMounted(true);
-    const query = matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setReducedMotion(query.matches);
-    update();
-    query.addEventListener("change", update);
-    return () => query.removeEventListener("change", update);
   }, []);
   useEffect(() => {
     content.current?.scrollTo({ top: 0 });
   }, [slide]);
   return (
-    <main className="client-briefing">
+    <main className={`client-briefing ${motionEnabled ? "is-motion-enabled" : "is-motion-paused"}`}>
       <div className="client-briefing-graph" aria-hidden="true">
         {mounted && (
           <BriefingNetworkBackdrop
+            key={`${slide}:${data?.experts.length ?? 0}`}
             experts={data?.experts ?? []}
             slide={slide}
             reducedMotion={reducedMotion}
           />
         )}
       </div>
-      <ClientHeader signIn={false} />
+      <ClientHeader
+        signIn={false}
+        motionControl={
+          <button
+            className="client-motion-toggle"
+            aria-pressed={motionEnabled}
+            aria-label={
+              motionEnabled
+                ? uk
+                  ? "Призупинити анімацію"
+                  : "Pause animation"
+                : uk
+                  ? "Увімкнути анімацію"
+                  : "Play animation"
+            }
+            title={
+              motionEnabled
+                ? uk
+                  ? "Призупинити анімацію"
+                  : "Pause animation"
+                : uk
+                  ? "Увімкнути анімацію"
+                  : "Play animation"
+            }
+            onClick={() => setMotionEnabled((value) => !value)}
+          >
+            {motionEnabled ? <Pause size={16} /> : <Play size={16} />}
+          </button>
+        }
+      />
       <section
         className={`client-slide-surface ${lastSlide ? "is-final-slide" : "is-reading-slide"}`}
         onTouchStart={(e) => {
