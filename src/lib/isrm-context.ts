@@ -1,13 +1,114 @@
-import type { ClientLocale } from './client-catalog';
-export type ContextKey = 'core' | 'engagement' | 'expertise' | 'integration';
-type ContextItem = { text: Record<ClientLocale,string>; links: { label:string; url:string }[] };
+import type { ClientLocale } from "./client-catalog";
+export type ContextKey = "core" | "engagement" | "expertise" | "monitoring" | "integration";
+type ContextItem = { text: Record<ClientLocale, string>; links: { label: string; url: string }[] };
 // Public ISRM pages reviewed 26 October 2026. Proposed uses are ours, not ISRM commitments.
 export const ISRM_CONTEXT: Record<ContextKey, ContextItem[]> = {
- core: [{ text:{uk:'Мережа ISRM вже поєднує практиків, академічну спільноту й чаптери. Картотека може допомогти знаходити доречну експертизу та зберігати джерела зв’язків у цій мережі.',en:'ISRM already connects practitioners, academics and chapters. A dossier catalogue could help locate relevant expertise and retain the sources behind those connections.'},links:[{label:'About ISRM',url:'https://www.theisrm.org/about-us/'},{label:'International Chapters',url:'https://www.theisrm.org/international-chapters/'},{label:'Ukraine Chapter',url:'https://www.theisrm.org/international-chapters/ukraine-chapter/'}]}],
- engagement:[{text:{uk:'Маршрути до членства, навчання й подій мають різні умови участі. Застосунок може зберігати доречний наступний крок, дозвіл на комунікацію та результат звернення.',en:'Membership, training and events have different participation routes. The application could record the relevant next step, communication permission and enquiry outcome.'},links:[{label:'Membership',url:'https://www.theisrm.org/membership/'},{label:'Training Programmes',url:'https://www.theisrm.org/training-programmes/'},{label:'Events Calendar',url:'https://www.theisrm.org/events-calendar/'},{label:'Corporate Partners',url:'https://www.isrmcorp.com/corporate-partners/'}]},
- {text:{uk:'У Strategic Risk Case Competition 2026 були реєстрація студентських команд і підтвердження участі через LinkedIn. Це конкретний приклад маршруту «заявка → підтвердження → участь»; студентська участь не дорівнює оплачуваному членству.',en:'The Strategic Risk Case Competition 2026 used student team registration and LinkedIn participation confirmation. This illustrates an application → confirmation → participation route; student participation is distinct from paid membership.'},links:[{label:'Strategic Risk Case Competition 2026',url:'https://www.theisrm.org/strategic-risk-case-competition-2026/'},{label:'University Chapters',url:'https://www.theisrm.org/university-chapters/'}]}],
- expertise:[{text:{uk:'Public Library та Global Risk Review — наявні формати поширення знань ISRM. Workflow може допомагати готувати перевірені матеріали до таких форматів зі збереженням авторства, джерел і дозволів.',en:'The Public Library and Global Risk Review are existing ISRM knowledge formats. A workflow could help prepare reviewed material for such formats while preserving authorship, sources and permissions.'},links:[{label:'Public Library',url:'https://www.theisrm.org/public-library/'},{label:'Global Risk Review',url:'https://www.theisrm.org/global-risk-review/'},{label:'Academic Partners',url:'https://www.isrmcorp.com/academic-partners/'}]},
- {text:{uk:'Український чаптер анонсував Practical Mental Health Incident Management for Non-Specialists як освітню зустріч. Для таких ініціатив можна пов’язувати тему, експертизу, подію й дозволені матеріали. Це не клінічна послуга; дані про здоров’я учасників для цього не потрібні.',en:'The Ukraine Chapter announced Practical Mental Health Incident Management for Non-Specialists as an educational session. Related topics, expertise, events and permitted materials could be connected without treating this as a clinical service or collecting participants’ health data.'},links:[{label:'Ukraine Chapter',url:'https://www.theisrm.org/international-chapters/ukraine-chapter/'},{label:'Practical Mental Health Incident Management for Non-Specialists',url:'https://www.theisrm.org/practical-mental-health-incident-management-for-non-specialists/'}]}],
- integration:[{text:{uk:'AI in Risk Management — наявний напрям ISRM для професійного обговорення ШІ. Навчений на погодженій експертизі AI-консультант — окрема наступна ітерація; його можна обговорювати в цьому контексті. Підключення Library, Events Resources, Crisis Response Journal та інших платних або ліцензованих сервісів потребує окремого погодження прав, доступів і технічних умов.',en:'AI in Risk Management is an existing ISRM forum for professional discussion of AI. A consultant assistant trained on approved expertise belongs to a separate next iteration. Connections to the Library, Events Resources, Crisis Response Journal and other paid or licensed services require agreement on rights, access and technical conditions.'},links:[{label:'AI in Risk Management',url:'https://www.theisrm.org/ai-in-risk-management/'},{label:'Members Library',url:'https://www.theisrm.org/library/'},{label:'Events Resources',url:'https://www.theisrm.org/events-resources/'},{label:'Crisis Response Journal',url:'https://www.theisrm.org/crisis-response-journal/'}]}]
+  core: [
+    {
+      text: {
+        uk: "Мережа ISRM вже поєднує практиків, академічну спільноту й чаптери. Картотека може допомогти знаходити доречну експертизу та зберігати джерела зв’язків у цій мережі.",
+        en: "ISRM already connects practitioners, academics and chapters. A dossier catalogue could help locate relevant expertise and retain the sources behind those connections.",
+      },
+      links: [
+        { label: "About ISRM", url: "https://www.theisrm.org/about-us/" },
+        { label: "International Chapters", url: "https://www.theisrm.org/international-chapters/" },
+        {
+          label: "Ukraine Chapter",
+          url: "https://www.theisrm.org/international-chapters/ukraine-chapter/",
+        },
+      ],
+    },
+  ],
+  engagement: [
+    {
+      text: {
+        uk: "Маршрути до членства, навчання й подій мають різні умови участі. Застосунок може зберігати доречний наступний крок, дозвіл на комунікацію та результат звернення.",
+        en: "Membership, training and events have different participation routes. The application could record the relevant next step, communication permission and enquiry outcome.",
+      },
+      links: [
+        { label: "Membership", url: "https://www.theisrm.org/membership/" },
+        { label: "Training Programmes", url: "https://www.theisrm.org/training-programmes/" },
+        { label: "Events Calendar", url: "https://www.theisrm.org/events-calendar/" },
+        { label: "Corporate Partners", url: "https://www.isrmcorp.com/corporate-partners/" },
+      ],
+    },
+    {
+      text: {
+        uk: "У Strategic Risk Case Competition 2026 були реєстрація студентських команд і підтвердження участі через LinkedIn. Це конкретний приклад маршруту «заявка → підтвердження → участь»; студентська участь не дорівнює оплачуваному членству.",
+        en: "The Strategic Risk Case Competition 2026 used student team registration and LinkedIn participation confirmation. This illustrates an application → confirmation → participation route; student participation is distinct from paid membership.",
+      },
+      links: [
+        {
+          label: "Strategic Risk Case Competition 2026",
+          url: "https://www.theisrm.org/strategic-risk-case-competition-2026/",
+        },
+        { label: "University Chapters", url: "https://www.theisrm.org/university-chapters/" },
+      ],
+    },
+  ],
+  expertise: [
+    {
+      text: {
+        uk: "Public Library та Global Risk Review — наявні формати поширення знань ISRM. Workflow може допомагати готувати перевірені матеріали до таких форматів зі збереженням авторства, джерел і дозволів.",
+        en: "The Public Library and Global Risk Review are existing ISRM knowledge formats. A workflow could help prepare reviewed material for such formats while preserving authorship, sources and permissions.",
+      },
+      links: [
+        { label: "Public Library", url: "https://www.theisrm.org/public-library/" },
+        { label: "Global Risk Review", url: "https://www.theisrm.org/global-risk-review/" },
+        { label: "Academic Partners", url: "https://www.isrmcorp.com/academic-partners/" },
+      ],
+    },
+    {
+      text: {
+        uk: "Український чаптер анонсував Practical Mental Health Incident Management for Non-Specialists як освітню зустріч. Для таких ініціатив можна пов’язувати тему, експертизу, подію й дозволені матеріали. Це не клінічна послуга; дані про здоров’я учасників для цього не потрібні.",
+        en: "The Ukraine Chapter announced Practical Mental Health Incident Management for Non-Specialists as an educational session. Related topics, expertise, events and permitted materials could be connected without treating this as a clinical service or collecting participants’ health data.",
+      },
+      links: [
+        {
+          label: "Ukraine Chapter",
+          url: "https://www.theisrm.org/international-chapters/ukraine-chapter/",
+        },
+        {
+          label: "Practical Mental Health Incident Management for Non-Specialists",
+          url: "https://www.theisrm.org/practical-mental-health-incident-management-for-non-specialists/",
+        },
+      ],
+    },
+  ],
+  monitoring: [
+    {
+      text: {
+        uk: "Майбутній цикл може підтримати професійні обговорення чаптерів і підготовку матеріалів для Global Risk Review. Інтеграція World Monitor потребує окремого погодження джерел, прав поширення, рецензентів і аудиторії.",
+        en: "A future cycle could support chapter discussions and contributions to Global Risk Review. A World Monitor integration requires separate agreement on sources, distribution rights, reviewers and audience.",
+      },
+      links: [
+        { label: "International Chapters", url: "https://www.theisrm.org/international-chapters/" },
+        { label: "Global Risk Review", url: "https://www.theisrm.org/global-risk-review/" },
+        { label: "World Monitor", url: "https://www.worldmonitor.app/" },
+      ],
+    },
+  ],
+  integration: [
+    {
+      text: {
+        uk: "AI in Risk Management — наявний напрям ISRM для професійного обговорення ШІ. Навчений на погодженій експертизі AI-консультант — окрема наступна ітерація; його можна обговорювати в цьому контексті. Підключення Library, Events Resources, Crisis Response Journal та інших платних або ліцензованих сервісів потребує окремого погодження прав, доступів і технічних умов.",
+        en: "AI in Risk Management is an existing ISRM forum for professional discussion of AI. A consultant assistant trained on approved expertise belongs to a separate next iteration. Connections to the Library, Events Resources, Crisis Response Journal and other paid or licensed services require agreement on rights, access and technical conditions.",
+      },
+      links: [
+        { label: "AI in Risk Management", url: "https://www.theisrm.org/ai-in-risk-management/" },
+        { label: "Members Library", url: "https://www.theisrm.org/library/" },
+        { label: "Events Resources", url: "https://www.theisrm.org/events-resources/" },
+        {
+          label: "Crisis Response Journal",
+          url: "https://www.theisrm.org/crisis-response-journal/",
+        },
+      ],
+    },
+  ],
 };
-export const SLIDE_CONTEXT_KEYS: Partial<Record<number,ContextKey>> = {1:'core',2:'engagement',3:'core',4:'expertise'};
+export const SLIDE_CONTEXT_KEYS: Partial<Record<number, ContextKey>> = {
+  1: "core",
+  2: "engagement",
+  3: "core",
+  4: "expertise",
+};

@@ -85,6 +85,43 @@ const cycles = {
       noteUk: "Корисні результати оновлюють спільні знання",
     },
   ],
+  monitoring: [
+    {
+      Icon: FileSearch,
+      en: "Signals & sources",
+      uk: "Сигнали й джерела",
+      noteEn: "Agreed topics and regions",
+      noteUk: "Погоджені теми й регіони",
+    },
+    {
+      Icon: Users,
+      en: "Relevant expertise",
+      uk: "Доречна експертиза",
+      noteEn: "Colleagues and local context",
+      noteUk: "Колеги й місцевий контекст",
+    },
+    {
+      Icon: FileCheck2,
+      en: "Professional review",
+      uk: "Професійна перевірка",
+      noteEn: "Evidence before conclusions",
+      noteUk: "Докази перед висновками",
+    },
+    {
+      Icon: BookOpen,
+      en: "Reviewed briefing",
+      uk: "Перевірений брифінг",
+      noteEn: "Agreed audience and usage rights",
+      noteUk: "Погоджена аудиторія й права",
+    },
+    {
+      Icon: RefreshCw,
+      en: "Revisit & learn",
+      uk: "Уточнити й засвоїти",
+      noteEn: "Correct the assessment as events develop",
+      noteUk: "Уточнити оцінку за розвитком подій",
+    },
+  ],
 };
 export function WorkflowOrbit({
   workflow,

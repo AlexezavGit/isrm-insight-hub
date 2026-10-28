@@ -25,6 +25,7 @@ import {
   CLIENT_WORKFLOWS,
   CORE_SERVICE_IDS,
   type ServiceId,
+  type WorkflowId,
 } from "@/lib/client-catalog";
 import type { GraphLayers } from "@/lib/network-model";
 import { buildNetwork, relatedPeople, workflowServices } from "@/lib/network-model";
@@ -247,7 +248,7 @@ export function NetworkWorkbench() {
   useEffect(() => {
     if (!route.preset) return;
     setLive(false);
-    if (route.preset === "engagement" || route.preset === "expertise") {
+    if (CLIENT_WORKFLOWS.some((w) => w.id === route.preset)) {
       setLeft("workflows");
       const w = route.preset;
       setMode("services");
@@ -711,12 +712,13 @@ export function NetworkWorkbench() {
                     <label className="network-approve-choice">
                       <input
                         type="checkbox"
-                        checked={draft.workflowIds.includes(w.id as "engagement" | "expertise")}
-                        disabled={!ready || draft.mode !== "full"}
+                        checked={draft.workflowIds.includes(w.id as WorkflowId)}
+                        disabled={!ready}
                         onChange={(e) =>
                           update({
+                            mode: "full",
                             workflowIds: e.target.checked
-                              ? [...draft.workflowIds, w.id as "engagement" | "expertise"]
+                              ? [...draft.workflowIds, w.id as WorkflowId]
                               : draft.workflowIds.filter((id) => id !== w.id),
                           })
                         }
