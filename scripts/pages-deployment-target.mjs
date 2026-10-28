@@ -1,7 +1,7 @@
 import { appendFile } from 'node:fs/promises';
 
-const account = process.env.CLOUDFLARE_ACCOUNT_ID || '';
-const token = process.env.CLOUDFLARE_API_TOKEN || '';
+const account = (process.env.CLOUDFLARE_ACCOUNT_ID || '').trim();
+const token = (process.env.CLOUDFLARE_API_TOKEN || '').trim();
 if (!/^[a-f0-9]{32}$/i.test(account) || !token) throw new Error('Cloudflare repository secrets are missing or invalid');
 const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${account}/pages/projects/isrm`, {
   headers: { Authorization: `Bearer ${token}` },

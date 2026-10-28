@@ -2,7 +2,7 @@
 
 Pushes to `codex/network-workflow-batch` run the Cloudflare Pages workflow. The workflow installs locked dependencies, runs the application tests, builds the Pages preset and publishes the agreed public files to the existing `isrm` project at https://isrm.pages.dev/. Other branches and pull requests do not deploy production.
 
-The repository already stores `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` as GitHub Actions secrets. Their values are never committed or printed. The token is passed only to the destination check and the official Cloudflare deployment action, after the build. No new account access is created by this workflow.
+The repository already stores `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` as GitHub Actions secrets. Their values are never committed or printed. Surrounding whitespace is removed before use. The token is passed only to the destination check and the pinned official Wrangler CLI, after the build. No new account access is created by this workflow.
 
 The destination check verifies that the credentials address the existing `isrm.pages.dev` project, then reads its production branch label. This label determines the Pages environment and may differ from the Git source branch. Neither the project nor its address is recreated.
 
