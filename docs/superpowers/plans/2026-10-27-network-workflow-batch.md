@@ -87,3 +87,8 @@ User authorised continuation inline, including the subsequent request to preserv
 - [x] Final39tests pass; Pages build passes; focused lint0errors (existing react-refresh warnings in filters.tsx). Changed files have no tsc errors; recorded pre-existing partner/test errors remain.
 - [x] FinalZIP:/Users/alexzvo/Documents/ChatGPT/isrm/isrm-pages-approved-20261028.zip;36files;1089199bytes;sha256653b76c0bb238d14dbf961f30c5d92f117bcf3bf0fb43b2cce0fd1ad72f6a790. Only two explicitly approved documents; no internal docs/plan/workbooks/source maps. Staging:/tmp/isrm-pages-release-20261028-upload.
 - [ ] Connection restored, but native CUA reports Mac locked; automatic unlock failed. CDP focus times out. Owner asked to unlock and keep Chrome open. Production Save and deploy has NOT been clicked. No further publication/document approval is needed.
+
+#### Latest reconnect checkpoint
+
+- Local source commit5934775 is clean. Public-source candidate commitc0c5343 is prepared in /tmp/isrm-public-network-sync, with9srcfiles and2approvedpublicMarkdown files only. Automatic approval rejected its GitHub push because this complete payload/public destination needs explicit authorisation. Do not retry or use another tool to bypass the rejection. Ask approval for commitc0c5343 to https://github.com/AlexezavGit/isrm-insight-hub/tree/codex/network-workflow-batch.
+- No Cloudflare CLI credentials are configured. Dashboard publication remains blocked by a locked Mac. User must unlock the screen; connection restoration alone did not unlock it. No Save and deploy action succeeded.
