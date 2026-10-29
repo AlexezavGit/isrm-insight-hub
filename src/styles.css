@@ -9709,7 +9709,7 @@ body,
 .network-panel-resizer { position:absolute; z-index:4; left:-4px; top:var(--network-header-bottom); bottom:var(--network-rail-height); width:9px; cursor:col-resize; touch-action:none; background:linear-gradient(90deg,transparent,#b9c5bd70,transparent); }
 .network-panel-resizer:hover,.network-panel-resizer:focus-visible { background:#cbb56f; outline:1px solid #e4d69e; }
 .network-inspection-close { position:absolute; right:12px; top:calc(var(--network-controls-top) + 12px); z-index:3; display:grid; place-items:center; width:30px; height:30px; background:transparent; color:#1a3e49; border:1px solid #78969680; border-radius:4px; cursor:pointer; }
-.network-shortlist-panel { display:flex; flex-direction:column; gap:.7rem; height:100%; padding:calc(var(--network-controls-top) + 50px) .8rem calc(var(--network-rail-height) + 18px); color:#153b48; background:#eee9dce8; border-left:1px solid #9caaa4; backdrop-filter:blur(8px); line-height:1.5; }
+.network-shortlist-panel { display:block; box-sizing:border-box; height:100%; overflow-y:auto; overflow-x:hidden; overscroll-behavior:contain; padding:calc(var(--network-controls-top) + 50px) .8rem calc(var(--network-rail-height) + 18px); color:#153b48; background:#eee9dce8; border-left:1px solid #9caaa4; backdrop-filter:blur(8px); line-height:1.5; }
 .network-shortlist-panel header { display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; }
 .network-shortlist-panel header > svg { width:48px; height:48px; flex-shrink:0; }
 .network-shortlist-panel svg line { stroke:#537c85; stroke-width:.6; opacity:.65; }
@@ -9723,7 +9723,7 @@ body,
 .network-shortlist-panel button:hover { text-decoration:underline; text-underline-offset:3px; }
 .network-shortlist-panel button:disabled { opacity:.55; cursor:default; }
 .network-shortlist-tools > button:last-child { display:none; }
-.network-shortlist-cards { display:block; overflow:auto; overscroll-behavior:contain; min-height:0; flex:1; }
+.network-shortlist-cards { display:block; margin-block:.7rem; }
 .network-shortlist-cards article { padding:.7rem .4rem; border-bottom:1px solid #5d8a8a66; }
 .network-shortlist-cards article .network-shortlist-person { display:block; text-align:left; font-size:.9rem; font-weight:600; padding:0; }
 .network-shortlist-cards article small { display:block; font-size:.75rem; line-height:1.45; margin:.25rem 0; }
