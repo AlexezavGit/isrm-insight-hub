@@ -1,3 +1,10 @@
+import {
+  BOARD_RECIPIENT,
+  BOARD_CAPACITY,
+  BOARD_DECISION,
+  BOARD_RESPONSIBILITIES,
+  CORE_ACCEPTANCE,
+} from "./board-brief";
 import { BRIEFING_MILESTONES } from "./briefing-milestones";
 import { z } from "zod";
 import {
@@ -135,6 +142,7 @@ export function buildClientSummary(d: ClientDraft, locale: ClientLocale): string
     uk
       ? "Не є замовленням робіт або погодженням ціни."
       : "Not an order for work or acceptance of a price.",
+    BOARD_RECIPIENT + " · " + BOARD_CAPACITY[locale],
     `${uk ? "Контакт" : "Contact"}: ${d.name} ${d.email}`,
     `${uk ? "Варіант" : "Route"}: ${d.mode === "graph" ? (uk ? "Застосунок як є: пошук, досьє, shortlist та OSINT-перевірка" : "Application as is: search, dossiers, shortlist and OSINT review") : d.mode === "research-only" ? (uk ? "Разові дослідження" : "Research on request") : uk ? "Застосунок за погодженим складом" : "Application with agreed scope"}`,
     "\n" + (uk ? "СЕРВІСИ" : "SERVICES"),
@@ -211,6 +219,13 @@ ${step.acceptance[locale]}`,
         ? "Також цікавлять разові дослідження на замовлення."
         : "Also interested in research on individual requests."
       : "",
+    "\n" + (uk ? "ПІЛОТ І КРИТЕРІЇ ПРИЙМАННЯ" : "PILOT & ACCEPTANCE"),
+    BOARD_DECISION[locale],
+    BOARD_RESPONSIBILITIES[locale],
+    ...CORE_ACCEPTANCE[locale].map((item) => "• " + item),
+    uk
+      ? "Запропоновані перевірки для погодження ТЗ; не перелік уже реалізованих функцій прототипу."
+      : "Proposed checks for the specification, not a list of capabilities already implemented in the prototype.",
     "\n" + (uk ? "ДАНІ ТА ВІДПОВІДАЛЬНІСТЬ" : "DATA & RESPONSIBILITY"),
     uk
       ? "Демонстраційна вибірка та тематичні зв’язки не є акредитацією, рекомендацією ISRM чи оцінкою репутації. AI OSINT ще не підключено. Операційне використання даних потребує визначених цілей, правової підстави, відповідальних, строків зберігання та порядку реалізації прав."
