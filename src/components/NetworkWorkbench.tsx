@@ -123,7 +123,10 @@ export function NetworkWorkbench() {
     [mounted, setMounted] = useState(false),
     [visible, setVisible] = useState(0);
   const all = useMemo(() => data?.experts ?? [], [data]),
-    filtered = useMemo(() => applyFilters(all, f), [all, f]);
+    filtered = useMemo(
+      () => applyFilters(all, experience === "configuration" ? EMPTY : f),
+      [all, f, experience],
+    );
   const shown = useMemo(
     () => filtered.filter((e) => e.verified || layers.researchQueue),
     [filtered, layers.researchQueue],
@@ -150,7 +153,11 @@ export function NetworkWorkbench() {
   const leftPanelVisible = !!(left || persistentSearch);
   const rightPanelVisible = !!(selected || service);
   const panelOpen = !!(left || selected || service);
-  const model = useMemo(() => buildNetwork(shown, layers, locale, f), [shown, layers, locale, f]);
+  const selection = experience === "configuration" ? EMPTY : f;
+  const model = useMemo(
+    () => buildNetwork(shown, layers, locale, selection),
+    [shown, layers, locale, selection],
+  );
   const count =
     mode === "services" && active.length
       ? relatedPeople(
@@ -589,7 +596,7 @@ export function NetworkWorkbench() {
             <NetworkGraph
               experts={shown}
               layers={layers}
-              referenceSelection={f}
+              referenceSelection={selection}
               locale={locale}
               focus={person}
               onFocus={(code) => {
