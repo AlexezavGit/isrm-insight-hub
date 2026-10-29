@@ -12,7 +12,7 @@ import {
   type GraphLayers,
   type NetworkNode,
 } from "@/lib/network-model";
-import { layoutNetwork, fitGraphView, assignedService } from "@/lib/network-layout";
+import { layoutNetwork, fitGraphView } from "@/lib/network-layout";
 export type { GraphLayers } from "@/lib/network-model";
 type DrawLink = LinkObject<NetworkNode, { kind: string }>;
 const endId = (v: string | number | NetworkNode | undefined) =>
@@ -28,12 +28,17 @@ export default function NetworkGraph({
   locale = "en",
   motionPaused = false,
   activeServiceIds = [],
+  highlightedService,
+  coachNode,
+  highlightedPath = [],
+  onServiceExclude,
   onServiceSelect,
   onWorkflowSelect,
   onVisibleCount,
   anchor = "isrm",
   onAnchor,
   warningService,
+  warningPeopleIds,
   disabledServiceIds = [],
 }: {
   experts: Expert[];
@@ -47,12 +52,17 @@ export default function NetworkGraph({
   locale?: string;
   motionPaused?: boolean;
   activeServiceIds?: string[];
+  highlightedService?: string | null;
+  coachNode?: string | null;
+  highlightedPath?: string[];
+  onServiceExclude?: (id: string) => void;
   onServiceSelect?: (id: string) => void;
   onWorkflowSelect?: (id: string) => void;
   onVisibleCount?: (count: number) => void;
   anchor?: string;
   onAnchor?: (id: string) => void;
   warningService?: string | null;
+  warningPeopleIds?: string[];
   disabledServiceIds?: string[];
 }) {
   const wrap = useRef<HTMLDivElement>(null),
@@ -60,6 +70,7 @@ export default function NetworkGraph({
   const cache = useRef(new Map<string, NetworkNode>()),
     revealStarted = useRef(0),
     liveExpanded = useRef(false);
+  const coachTarget = useRef<HTMLDivElement>(null);
   const angle = useRef(0);
   const [rotationMode, setRotationMode] = useState(false);
   const [highContrast, setHighContrast] = useState(false);
@@ -82,6 +93,29 @@ export default function NetworkGraph({
       ),
     [model, effective],
   );
+  const [departing, setDeparting] = useState<Map<string, { time: number; order: number }>>(
+    new Map(),
+  );
+  const previousCoverage = useRef(new Set<string>());
+  useEffect(() => {
+    const lost = [...previousCoverage.current].filter((id) => !covered.has(id));
+    previousCoverage.current = new Set(covered);
+    if (!serviceMode || motionPaused) {
+      setDeparting(new Map());
+      return;
+    }
+    const now = performance.now();
+    setDeparting(
+      (current) =>
+        new Map(
+          [...current]
+            .filter(([id]) => !covered.has(id))
+            .concat(lost.map((id, order) => [id, { time: now, order }] as const)),
+        ),
+    );
+    const timer = window.setTimeout(() => setDeparting(new Map()), 3000);
+    return () => window.clearTimeout(timer);
+  }, [covered, serviceMode, motionPaused]);
   const points = useMemo(
     () =>
       layoutNetwork(
@@ -195,12 +229,12 @@ export default function NetworkGraph({
               .filter((n) =>
                 serviceMode
                   ? ["isrm", "service", "workflow"].includes(n.kind) ||
-                    (n.kind === "expert" && covered.has(n.id))
+                    (n.kind === "expert" && (covered.has(n.id) || departing.has(n.id)))
                   : !["service", "workflow"].includes(n.kind),
               )
               .map((n) => n.id),
           ),
-    [model, serviceMode, covered, neighborhood],
+    [model, serviceMode, covered, departing, neighborhood],
   );
   const visibleEdges = useMemo(
     () =>
@@ -209,14 +243,11 @@ export default function NetworkGraph({
         if (!visible.has(source) || !visible.has(target)) return false;
         if (neighborhood) return neighborhoodEdges.has(source + "\0" + target + "\0" + kind);
         if (kind === "coverage") {
-          const node = model.nodes.find((node) => node.id === source);
-          return (
-            serviceMode && assignedService(node?.expert, effective, disabledServiceIds) === target
-          );
+          return serviceMode && effective.some((id) => "svc:" + id === target);
         }
         return serviceMode ? kind === "architecture" : kind === "category" || kind === "sample";
       }),
-    [model, visible, neighborhood, neighborhoodEdges, serviceMode, effective, disabledServiceIds],
+    [model, visible, neighborhood, neighborhoodEdges, serviceMode, effective],
   );
   const visibleEdgeIds = useMemo(
     () => new Set(visibleEdges.map((link) => link.source + "\0" + link.target + "\0" + link.kind)),
@@ -228,8 +259,21 @@ export default function NetworkGraph({
   );
   const selectedNode = model.nodes.find((n) => n.id === preview && visible.has(n.id));
   const warningPeople = useMemo(
-    () => (warningService ? relatedPeople(model, ["svc:" + warningService]) : new Set<string>()),
-    [model, warningService],
+    () =>
+      warningPeopleIds
+        ? new Set(warningPeopleIds)
+        : warningService
+          ? new Set(
+              [...covered].filter(
+                (id) =>
+                  !relatedPeople(
+                    model,
+                    effective.filter((s) => s !== warningService).map((s) => "svc:" + s),
+                  ).has(id),
+              ),
+            )
+          : new Set<string>(),
+    [model, warningService, warningPeopleIds, covered, effective],
   );
   useEffect(() => {
     const el = wrap.current;
@@ -415,7 +459,11 @@ export default function NetworkGraph({
           visibleEdgeIds.has(endId(link.source) + "\0" + endId(link.target) + "\0" + link.kind)
         }
         linkColor={(link: DrawLink) => {
-          const related = hover && (endId(link.source) === hover || endId(link.target) === hover);
+          const a = highlightedPath.indexOf(endId(link.source)),
+            b = highlightedPath.indexOf(endId(link.target));
+          const pathEdge = a >= 0 && b >= 0 && Math.abs(a - b) === 1;
+          const related =
+            pathEdge || (hover && (endId(link.source) === hover || endId(link.target) === hover));
           return related
             ? "rgba(241,222,177,.85)"
             : hover
@@ -427,14 +475,23 @@ export default function NetworkGraph({
                   : "rgba(145,181,196,.28)";
         }}
         linkWidth={(link: DrawLink) =>
-          hover && (endId(link.source) === hover || endId(link.target) === hover)
-            ? 1.7
-            : link.kind === "sample"
-              ? 0.4
-              : 0.7
+          highlightedPath.includes(endId(link.source)) &&
+          highlightedPath.includes(endId(link.target))
+            ? 2.5
+            : hover && (endId(link.source) === hover || endId(link.target) === hover)
+              ? 1.7
+              : link.kind === "sample"
+                ? 0.4
+                : 0.7
         }
         linkLineDash={(l: DrawLink) => (l.kind === "sample" ? [2, 5] : null)}
         onRenderFramePre={(ctx, scale) => {
+          const target = coachNode ? data.nodes.find((n) => n.id === coachNode) : null;
+          if (target && coachTarget.current && target.x !== undefined && target.y !== undefined) {
+            const point = fg.current?.graph2ScreenCoords(target.x, target.y);
+            if (point)
+              coachTarget.current.style.transform = `translate(${point.x - 28}px,${point.y - 28}px)`;
+          }
           if (!serviceMode && !live && !neighborhood) {
             ctx.save();
             ctx.strokeStyle = "rgba(145,181,196,.12)";
@@ -587,17 +644,21 @@ export default function NetworkGraph({
         nodePointerAreaPaint={(n, c, ctx, scale) => {
           ctx.fillStyle = c;
           ctx.beginPath();
-          ctx.arc(n.x ?? 0, n.y ?? 0, Math.max(radius(n) + 4, 13 / scale), 0, Math.PI * 2);
+          ctx.arc(n.x ?? 0, n.y ?? 0, Math.max(radius(n) + 6, 22 / scale), 0, Math.PI * 2);
           ctx.fill();
         }}
         nodeCanvasObject={(n, ctx, scale) => {
           if (n.x === undefined || n.y === undefined) return;
           const selected =
+            highlightedPath.includes(n.id) ||
             hoverNeighbours.has(n.id) ||
             n.id === preview ||
             n.id === focus ||
             n.id === anchor ||
-            (n.kind === "service" && effective.includes(n.id.slice(4)));
+            (n.kind === "service" &&
+              (highlightedService
+                ? highlightedService === n.id.slice(4)
+                : effective.includes(n.id.slice(4))));
           const warning =
             warningService && ("svc:" + warningService === n.id || warningPeople.has(n.id));
           const age = performance.now() - revealStarted.current,
@@ -609,6 +670,17 @@ export default function NetworkGraph({
             : n.kind === "expert" && serviceMode
               ? rise
               : 1;
+          const departure = departing.get(n.id);
+          if (departure) {
+            const fade = Math.max(
+              0,
+              1 - (performance.now() - departure.time - (departure.order % 6) * 140) / 1900,
+            );
+            ctx.globalAlpha *=
+              fade * (0.8 + 0.2 * Math.sin((performance.now() - departure.time) / 95));
+          }
+          if (serviceMode && n.kind === "service" && !effective.includes(n.id.slice(4)))
+            ctx.globalAlpha *= 0.3;
           if (hover && !hoverNeighbours.has(n.id) && !selected) ctx.globalAlpha *= 0.25;
           if (warning && !motionPaused)
             ctx.globalAlpha *= 0.65 + 0.25 * Math.sin(performance.now() / 220);
@@ -629,6 +701,9 @@ export default function NetworkGraph({
           ctx.restore();
         }}
       />
+      {coachNode && (
+        <div ref={coachTarget} data-coach-node="" className="network-coach-node-target" />
+      )}
       <button
         className="network-rotate-control"
         aria-pressed={rotationMode}
@@ -662,6 +737,11 @@ export default function NetworkGraph({
                 }}
               >
                 {locale === "uk" ? "Відкрити досьє" : "Open dossier"}
+              </button>
+            )}
+            {selectedNode.kind === "service" && effective.includes(selectedNode.id.slice(4)) && (
+              <button onClick={() => onServiceExclude?.(selectedNode.id.slice(4))}>
+                {locale === "uk" ? "Вилучити зі складу" : "Remove from composition"}
               </button>
             )}
             <button

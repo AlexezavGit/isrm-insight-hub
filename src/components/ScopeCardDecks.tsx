@@ -9,6 +9,8 @@ import {
 } from "@/lib/client-catalog";
 import { CLIENT_APPROVED_PRICES, indicativePriceLabel } from "@/lib/client-pricing";
 import { selectedServiceIds, type ClientDraft } from "@/lib/client-draft";
+import { PackageServiceEditor } from "./PackageServiceEditor";
+import { packageChanges, packageServiceIds } from "@/lib/tailored-scope";
 
 type Props = {
   locale: ClientLocale;
@@ -55,7 +57,7 @@ function ServiceFolder({
     </details>
   );
 }
-export function CoreServiceDeck({ locale, draft }: Props) {
+export function CoreServiceDeck({ locale, draft, ready, update }: Props) {
   const uk = locale === "uk",
     selected = new Set(selectedServiceIds(draft));
   return (
@@ -69,8 +71,28 @@ export function CoreServiceDeck({ locale, draft }: Props) {
           <ChevronDown size={20} aria-hidden="true" />
         </summary>
         <div className="scope-large-folder-body">
+          <details className="scope-context-note">
+            <summary>{uk ? "Змінити склад ядра" : "Tailor the core composition"}</summary>
+            <PackageServiceEditor
+              id="core"
+              draft={draft}
+              locale={locale}
+              disabled={!ready}
+              onChange={(id, checked) =>
+                update(
+                  packageChanges(
+                    draft,
+                    "core",
+                    checked
+                      ? [...packageServiceIds(draft, "core"), id]
+                      : packageServiceIds(draft, "core").filter((s) => s !== id),
+                  ),
+                )
+              }
+            />
+          </details>
           <div className="scope-file-deck">
-            {CLIENT_SERVICES.filter((s) => CORE_SERVICE_IDS.includes(s.id)).map(
+            {CLIENT_SERVICES.filter((s) => packageServiceIds(draft, "core").includes(s.id)).map(
               (service, index) => (
                 <ServiceFolder
                   key={service.id}
@@ -126,6 +148,26 @@ export function WorkflowDeck({ locale, draft, ready, update }: Props) {
                 <ChevronDown size={20} aria-hidden="true" />
               </summary>
               <div className="scope-workflow-body">
+                <details className="scope-context-note">
+                  <summary>{uk ? "Змінити склад цього workflow" : "Tailor this workflow"}</summary>
+                  <PackageServiceEditor
+                    id={w.id}
+                    draft={draft}
+                    locale={locale}
+                    disabled={!ready}
+                    onChange={(id, checked) =>
+                      update(
+                        packageChanges(
+                          draft,
+                          w.id,
+                          checked
+                            ? [...packageServiceIds(draft, w.id), id]
+                            : packageServiceIds(draft, w.id).filter((s) => s !== id),
+                        ),
+                      )
+                    }
+                  />
+                </details>
                 {w.id === "monitoring" && <p className="scope-receipt-note">{w.detail[locale]}</p>}
                 {draft.mode !== "full" && (
                   <p className="scope-receipt-note">

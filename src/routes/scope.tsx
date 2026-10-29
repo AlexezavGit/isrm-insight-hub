@@ -1,3 +1,5 @@
+import { IntegrationStrip } from "@/components/IntegrationStrip";
+import { packageIsCustom } from "@/lib/tailored-scope";
 import { BoardDecisionNote } from "@/components/BoardDecisionNote";
 import { BOARD_RECIPIENT, BOARD_CAPACITY } from "@/lib/board-brief";
 import { ClientHeader } from "@/components/ClientHeader";
@@ -153,6 +155,7 @@ function ScopePage() {
                 "Виконання передбачає три етапи. Ядро та кожен workflow мають власні самодостатні результати, які погоджуються для кожного етапу.",
               )}
             </p>
+            <IntegrationStrip locale={locale} />
             <BoardDecisionNote locale={locale} />
             <DataUseNotice context="scope" compact />
             <p className="scope-deck-hint">
@@ -351,8 +354,8 @@ function ScopePage() {
             </div>
             <p className="scope-receipt-note">
               {t(
-                "Planning estimates for development, subject to an agreed specification. Campaign delivery, content, licences, AI/API usage and ongoing professional review are quoted separately. Unpriced requests are excluded from the subtotal.",
-                "Планові орієнтири розробки за погодженим ТЗ. Проведення кампаній, контент, ліцензії, AI/API та постійне професійне рецензування оцінюються окремо. Неоцінені запити не включені до суми.",
+                "Indicative prices only; exact calculations follow in the detailed proposal we prepare. Changed package contents require reassessment. Campaigns, content, licences, AI/API usage and ongoing professional review are quoted separately; unpriced requests are excluded.",
+                "Ціни виключно індикативні; точні розрахунки — у детальній пропозиції, яку ми підготуємо. Зміна складу пакетів потребує переоцінки. Кампанії, контент, ліцензії, AI/API й постійне рецензування оцінюються окремо; неоцінені запити не включені.",
               )}
             </p>
             {draft.mode === "full" && (
@@ -487,6 +490,7 @@ function ScopePage() {
             )}
             <p className="scope-receipt-note">
               {draft.mode === "full" &&
+                !packageIsCustom(draft, "core") &&
                 t(
                   "Core planning range £33,600–34,944. ",
                   "Плановий діапазон ядра £33 600–34 944. ",

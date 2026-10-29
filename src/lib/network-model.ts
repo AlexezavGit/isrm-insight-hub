@@ -46,10 +46,15 @@ const known = (s: string | undefined) =>
   !["Unclassified", "Не оцінено", "Unknown", "Ukraine-related experience"].includes(s);
 /** Coverage illustrates proposed service use; never a social recommendation or endorsement. */
 export function serviceCovers(id: string, e: Expert) {
-  if (["search", "groups", "contact", "integration", "survey"].includes(id)) return true;
-  const text = [e.sector, e.primaryExpertise, ...(e.tags ?? [])].join(" ").toLowerCase();
-  return /risk|resilien|security|advis|research|academ|humanitarian|безпек|ризик|дослідж/.test(
-    text,
+  // Illustrative participation bands, not an inference about this person's interests or use.
+  const hash = Array.from(e.code).reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+  const catalogue = CLIENT_SERVICES.map((service) => service.id);
+  const first = hash % catalogue.length;
+  const second = (first + 1) % catalogue.length;
+  return (
+    id === catalogue[first] ||
+    id === catalogue[second] ||
+    (hash % 3 === 0 && id === (hash % 2 === 0 ? "survey" : "publishing"))
   );
 }
 export function buildNetwork(

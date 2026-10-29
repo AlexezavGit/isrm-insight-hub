@@ -149,8 +149,8 @@ export function BriefingSlider() {
               <details className="briefing-recipient">
                 <summary>
                   {uk
-                    ? "Для Dr David Rubens · Стратегічна рада ISRM"
-                    : "For Dr David Rubens · ISRM Strategic Board"}
+                    ? "Dr David Rubens та правлінню ISRM"
+                    : "For Dr David Rubens and the ISRM Board"}
                 </summary>
                 <p>
                   <strong>{BOARD_RECIPIENT}</strong>

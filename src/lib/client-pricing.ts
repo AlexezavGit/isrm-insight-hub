@@ -1,3 +1,4 @@
+import { packageIsCustom } from "./tailored-scope";
 import type { ClientDraft } from "./client-draft";
 import basis from "./client-pricing-basis.json";
 import { CLIENT_SERVICES, CLIENT_WORKFLOWS, type ClientLocale } from "./client-catalog";
@@ -63,9 +64,21 @@ export function clientPriceLines(
       value: d.mode === "research-only" ? null : d.mode === "graph" ? prices.graph : prices.base,
     },
   ];
+  if (d.mode === "full" && packageIsCustom(d, "core"))
+    lines[0]!.title += uk ? " · індикативно, переоцінка" : " · indicative, reassessment required";
   if (d.mode === "full") {
     for (const w of CLIENT_WORKFLOWS.filter((w) => d.workflowIds.includes(w.id)))
-      lines.push({ id: w.id, title: w.title[locale], value: prices[w.id] });
+      lines.push({
+        id: w.id,
+        title:
+          w.title[locale] +
+          (packageIsCustom(d, w.id)
+            ? uk
+              ? " · індикативно, переоцінка"
+              : " · indicative, reassessment required"
+            : ""),
+        value: prices[w.id],
+      });
     if (d.integrationInterest)
       lines.push({
         id: "integration",
@@ -96,6 +109,8 @@ export function clientQuoteRange(d: ClientDraft, prices = CLIENT_APPROVED_PRICES
   };
 }
 export function clientQuote(d: ClientDraft, prices = CLIENT_APPROVED_PRICES): number | null {
+  if (d.mode === "full" && ["core", ...d.workflowIds].some((id) => packageIsCustom(d, id)))
+    return null;
   const lines =
     d.mode === "graph"
       ? [

@@ -78,3 +78,22 @@ test("shortlist export includes only selected accessible records and their own n
   );
   assert(text.includes("Follow-up"));
 });
+test("a single-edge stack accommodates search, dossier and group without covering the remaining graph", () => {
+  for (const viewport of [1100, 1280, 1440, 1920]) {
+    const layout = dock.stackedInspectionLayout(
+      viewport,
+      { search: true, profile: true, shortlist: true },
+      { search: 300, profile: 330, shortlist: 330 },
+    );
+    assert(layout.graph >= 380);
+    assert(layout.search >= 220 && layout.profile >= 220 && layout.shortlist >= 220);
+    assert(layout.width + layout.graph + 24 <= viewport);
+  }
+  const closed = dock.stackedInspectionLayout(
+    1440,
+    { search: false, profile: true, shortlist: false },
+    { search: 300, profile: 330, shortlist: 330 },
+  );
+  assert.equal(closed.width, 330);
+  assert.equal(closed.search, 0);
+});

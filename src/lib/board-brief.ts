@@ -1,7 +1,7 @@
-export const BOARD_RECIPIENT = "Dr David Rubens D.SyRM, CSyP, F.ISRM";
+export const BOARD_RECIPIENT = "Dr David Rubens";
 export const BOARD_CAPACITY = {
-  en: "Executive Director of the ISRM — for the Strategic Board",
-  uk: "Виконавчий директор ISRM — для Стратегічної ради",
+  en: "and the ISRM Board",
+  uk: "та правлінню ISRM",
 };
 export const BOARD_DECISION = {
   en: "Agree one bounded pilot enquiry before wider development: a real question, a named ISRM sponsor and reviewer, an agreed sample and a decision date. Compare the time to a useful shortlist with the current approach, assess relevance and record willingness to respond. No conversion or financial return is assumed.",

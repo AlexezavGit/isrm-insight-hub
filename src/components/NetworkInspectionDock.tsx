@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode, type CSSProperties } from "react";
 import { Network, X } from "lucide-react";
-import type { inspectionLayout, InspectionWidths } from "@/lib/network-dock";
+import type { stackedInspectionLayout, StackWidths } from "@/lib/network-dock";
 
 function WidthHandle({
   width,
@@ -14,7 +14,7 @@ function WidthHandle({
   onWidth: (width: number) => void;
 }) {
   const drag = useRef<{ x: number; width: number } | null>(null);
-  const limit = (value: number) => Math.max(260, Math.min(maximum, value));
+  const limit = (value: number) => Math.max(220, Math.min(maximum, value));
   return (
     <div
       className="network-panel-resizer"
@@ -22,7 +22,7 @@ function WidthHandle({
       tabIndex={0}
       aria-orientation="vertical"
       aria-label={label}
-      aria-valuemin={260}
+      aria-valuemin={220}
       aria-valuemax={Math.round(maximum)}
       aria-valuenow={Math.round(width)}
       onPointerDown={(event) => {
@@ -32,7 +32,7 @@ function WidthHandle({
         event.preventDefault();
       }}
       onPointerMove={(event) => {
-        if (drag.current) onWidth(limit(drag.current.width + drag.current.x - event.clientX));
+        if (drag.current) onWidth(limit(drag.current.width + event.clientX - drag.current.x));
       }}
       onPointerUp={(event) => {
         drag.current = null;
@@ -45,11 +45,11 @@ function WidthHandle({
         drag.current = null;
       }}
       onKeyDown={(event) => {
-        const change = event.key === "ArrowLeft" ? 24 : event.key === "ArrowRight" ? -24 : 0;
+        const change = event.key === "ArrowRight" ? 24 : event.key === "ArrowLeft" ? -24 : 0;
         if (change || event.key === "Home" || event.key === "End") {
           event.preventDefault();
           onWidth(
-            event.key === "Home" ? 260 : event.key === "End" ? maximum : limit(width + change),
+            event.key === "Home" ? 220 : event.key === "End" ? maximum : limit(width + change),
           );
         }
       }}
@@ -58,6 +58,10 @@ function WidthHandle({
 }
 
 export function NetworkInspectionDock({
+  search,
+  searchLabel,
+  onCloseSearch,
+  searchKey,
   profile,
   shortlist,
   profileKey,
@@ -67,18 +71,30 @@ export function NetworkInspectionDock({
   onCloseShortlist,
   onGraph,
   uk,
+  auxiliaryLabel,
+  auxiliaryKey,
+  profileLabel,
 }: {
+  search?: ReactNode;
+  searchLabel?: string | undefined;
+  searchKey?: number;
+  onCloseSearch?: () => void;
   profile?: ReactNode;
   shortlist?: ReactNode;
   profileKey: string | null;
-  layout: ReturnType<typeof inspectionLayout>;
-  onWidth: (panel: keyof InspectionWidths, width: number) => void;
+  layout: ReturnType<typeof stackedInspectionLayout>;
+  onWidth: (panel: keyof StackWidths, width: number) => void;
   onCloseProfile: () => void;
   onCloseShortlist: () => void;
   onGraph: () => void;
   uk: boolean;
+  auxiliaryLabel?: string | undefined;
+  auxiliaryKey?: string | null;
+  profileLabel?: string | undefined;
 }) {
-  const [tab, setTab] = useState<"profile" | "shortlist">(profile ? "profile" : "shortlist");
+  const [tab, setTab] = useState<"search" | "profile" | "shortlist">(
+    profile ? "profile" : "shortlist",
+  );
   const hasShortlist = !!shortlist;
   const previous = useRef(hasShortlist);
   useEffect(() => {
@@ -88,8 +104,15 @@ export function NetworkInspectionDock({
   useEffect(() => {
     if (profileKey) setTab("profile");
   }, [profileKey]);
-  const active = tab === "profile" && profile ? "profile" : shortlist ? "shortlist" : "profile";
-  if (!profile && !shortlist) return null;
+  useEffect(() => {
+    if (searchKey) setTab("search");
+  }, [searchKey]);
+  useEffect(() => {
+    if (auxiliaryKey) setTab("shortlist");
+  }, [auxiliaryKey]);
+  const panes = { search, profile, shortlist };
+  const active = panes[tab] ? tab : search ? "search" : profile ? "profile" : "shortlist";
+  if (!search && !profile && !shortlist) return null;
   const t = (en: string, ua: string) => (uk ? ua : en);
   return (
     <div className="network-inspection-dock" style={{ width: layout.width } as CSSProperties}>
@@ -98,14 +121,19 @@ export function NetworkInspectionDock({
           className="network-inspection-tabs"
           aria-label={t("Inspection panels", "Панелі перегляду")}
         >
+          {search && (
+            <button aria-pressed={active === "search"} onClick={() => setTab("search")}>
+              {searchLabel || t("Search", "Пошук")}
+            </button>
+          )}
           {profile && (
             <button aria-pressed={active === "profile"} onClick={() => setTab("profile")}>
-              {t("Dossier", "Досьє")}
+              {profileLabel || t("Dossier", "Досьє")}
             </button>
           )}
           {shortlist && (
             <button aria-pressed={active === "shortlist"} onClick={() => setTab("shortlist")}>
-              {t("Shortlist", "Відбір")}
+              {auxiliaryLabel || t("Shortlist", "Відбір")}
             </button>
           )}
           <button onClick={onGraph} aria-label={t("Return to graph", "Повернутися до графа")}>
@@ -113,14 +141,11 @@ export function NetworkInspectionDock({
           </button>
         </nav>
       )}
-      {(["shortlist", "profile"] as const).map((panel) => {
-        const content = panel === "profile" ? profile : shortlist;
+      {(["search", "profile", "shortlist"] as const).map((panel) => {
+        const content = panes[panel];
         if (!content) return null;
         const width = layout[panel];
-        const maximum = Math.min(
-          560,
-          layout.width + layout.graph - 380 - layout[panel === "profile" ? "shortlist" : "profile"],
-        );
+        const maximum = Math.min(560, layout.graph - 380 + width);
         return (
           <section
             key={panel}
@@ -133,20 +158,34 @@ export function NetworkInspectionDock({
                 width={width}
                 maximum={maximum}
                 label={
-                  panel === "profile"
-                    ? t("Resize dossier", "Змінити ширину досьє")
-                    : t("Resize shortlist", "Змінити ширину відбору")
+                  panel === "search"
+                    ? t("Resize ", "Змінити ширину: ") + (searchLabel || t("Search", "Пошук"))
+                    : panel === "profile"
+                      ? t("Resize dossier", "Змінити ширину досьє")
+                      : auxiliaryLabel
+                        ? t("Resize ", "Змінити ширину: ") + auxiliaryLabel
+                        : t("Resize shortlist", "Змінити ширину відбору")
                 }
                 onWidth={(value) => onWidth(panel, value)}
               />
             )}
             <button
               className="network-inspection-close"
-              onClick={panel === "profile" ? onCloseProfile : onCloseShortlist}
+              onClick={
+                panel === "search"
+                  ? onCloseSearch
+                  : panel === "profile"
+                    ? onCloseProfile
+                    : onCloseShortlist
+              }
               aria-label={
-                panel === "profile"
-                  ? t("Close dossier", "Закрити досьє")
-                  : t("Close shortlist", "Закрити відбір")
+                panel === "search"
+                  ? t("Close ", "Закрити: ") + (searchLabel || t("Search", "Пошук"))
+                  : panel === "profile"
+                    ? t("Close dossier", "Закрити досьє")
+                    : auxiliaryLabel
+                      ? t("Close ", "Закрити: ") + auxiliaryLabel
+                      : t("Close shortlist", "Закрити відбір")
               }
             >
               <X size={17} />

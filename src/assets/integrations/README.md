@@ -1,0 +1,1 @@
+Monochrome brand marks: WordPress and Moodle, from Simple Icons (https://github.com/simple-icons/simple-icons). Used to label illustrative integration candidates; not endorsements or connected systems. Brand rights remain with their respective holders.
