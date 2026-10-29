@@ -137,6 +137,7 @@ export function NetworkShortlist({
     <aside
       className={`network-shortlist-panel ${expanded ? "is-expanded" : ""}`}
       aria-label={t("Selected profiles listing", "Лістинг відібраних профілів")}
+      tabIndex={0}
     >
       <header>
         <svg
