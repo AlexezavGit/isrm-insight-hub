@@ -21,3 +21,5 @@
 ## Verification
 
 63 unit/regression tests pass; focused ESLint reports no errors or warnings; production build passes. Layout tests exercise paired panels, resizing/window shrink, graph working-space bounds, compact graph-strip policy and selected-only note export. Required-field validation was exercised RED→GREEN. Static review corrected close/resizer stacking, same-profile reinspection, configurator control bounds and compact search/list overlap. The browser runtime remains unavailable, so actual drag/touch and live visual verification are not claimed. Existing TypeScript errors remain in legacy PartnerGraph/PartnerProposal/finance code; changed modules have no reported errors.
+
+Published source ca4732d2bfc0291f2a97932845b3dc98b06ec687 via GitHub Actions 40867175141 (success). Independent release checker confirms the exact production commit. All four production routes return HTTP 200 and four shared tabs; recipient appears in briefing/scope and the Board decision note appears in scope. No private plan/audit or pricing workbook was published.
