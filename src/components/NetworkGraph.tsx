@@ -1,4 +1,6 @@
 import { directNeighbours, expansionProgress } from "@/lib/network-presentation";
+import { rotatePoint } from "@/lib/network-experience";
+import { RotateCw } from "lucide-react";
 import { MovableNodeActions } from "./MovableNodeActions";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ForceGraph2D, { type ForceGraphMethods, type LinkObject } from "react-force-graph-2d";
@@ -58,6 +60,9 @@ export default function NetworkGraph({
   const cache = useRef(new Map<string, NetworkNode>()),
     revealStarted = useRef(0),
     liveExpanded = useRef(false);
+  const angle = useRef(0);
+  const [rotationMode, setRotationMode] = useState(false);
+  const [highContrast, setHighContrast] = useState(false);
   const [size, setSize] = useState({ w: 800, h: 600 }),
     [hover, setHover] = useState<string | null>(null),
     [preview, setPreview] = useState<string | null>(null);
@@ -122,6 +127,65 @@ export default function NetworkGraph({
     }),
     [model, points, live],
   );
+  useEffect(() => {
+    const root = document.documentElement;
+    const read = () => setHighContrast(root.classList.contains("client-high-contrast"));
+    read();
+    const observer = new MutationObserver(read);
+    observer.observe(root, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
+    const el = wrap.current;
+    if (!el) return;
+    let previousGesture = 0;
+    const rotate = (delta: number) => {
+      angle.current += delta;
+      for (const node of data.nodes) {
+        if (node.kind === "isrm") continue;
+        const p = rotatePoint({ x: node.x ?? 0, y: node.y ?? 0 }, delta);
+        node.x = p.x;
+        node.y = p.y;
+        if (node.fx !== undefined) {
+          node.fx = p.x;
+          node.fy = p.y;
+        }
+        if (node.vx !== undefined || node.vy !== undefined) {
+          const velocity = rotatePoint({ x: node.vx ?? 0, y: node.vy ?? 0 }, delta);
+          node.vx = velocity.x;
+          node.vy = velocity.y;
+        }
+      }
+    };
+    const wheel = (event: WheelEvent) => {
+      if (!rotationMode || event.ctrlKey || event.metaKey) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      rotate(Math.max(-0.18, Math.min(0.18, (event.deltaX + event.deltaY) * 0.003)));
+    };
+    const start = () => {
+      previousGesture = 0;
+    };
+    const change = (event: Event) => {
+      const gesture = event as Event & { rotation?: number };
+      if (!rotationMode || typeof gesture.rotation !== "number") return;
+      const next = (gesture.rotation * Math.PI) / 180,
+        delta = next - previousGesture;
+      previousGesture = next;
+      if (Math.abs(delta) < 0.001) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      rotate(delta);
+    };
+    el.addEventListener("wheel", wheel, { capture: true, passive: false });
+    el.addEventListener("gesturestart", start, { capture: true });
+    el.addEventListener("gesturechange", change, { capture: true, passive: false });
+    return () => {
+      el.removeEventListener("wheel", wheel, true);
+      el.removeEventListener("gesturestart", start, true);
+      el.removeEventListener("gesturechange", change, true);
+    };
+  }, [data, rotationMode]);
   const visible = useMemo(
     () =>
       neighborhood
@@ -224,7 +288,7 @@ export default function NetworkGraph({
         const elapsed = now - start;
         data.nodes.forEach((node, index) => {
           if (node.kind === "isrm") return;
-          const target = points.get(node.id)!;
+          const target = rotatePoint(points.get(node.id)!, angle.current);
           const progress = expansionProgress(elapsed, (index % 7) * 30);
           Object.assign(node, {
             x: target.x * progress,
@@ -251,7 +315,7 @@ export default function NetworkGraph({
         ease = 1 - Math.pow(1 - t, 3);
       for (const n of data.nodes) {
         const a = from.get(n.id)!,
-          b = points.get(n.id)!;
+          b = rotatePoint(points.get(n.id)!, angle.current);
         n.x = a.x + (b.x - a.x) * ease;
         n.y = a.y + (b.y - a.y) * ease;
         n.fx = n.x;
@@ -285,12 +349,12 @@ export default function NetworkGraph({
             : 8;
   const colour = (n: NetworkNode) =>
     ({
-      expert: "#87c1b4",
-      organisation: "#9ec9e8",
+      expert: highContrast ? "#a9ffe2" : "#87c1b4",
+      organisation: highContrast ? "#c0e4ff" : "#9ec9e8",
       service: "#d2b66f",
       workflow: "#79a8d4",
       isrm: "#e7d8a4",
-      sector: "#b0a4d1",
+      sector: highContrast ? "#dfc8ff" : "#b0a4d1",
       theme: "#87b6c3",
       hub: "#a3c7a7",
     })[n.kind];
@@ -329,7 +393,7 @@ export default function NetworkGraph({
         width={size.w}
         height={size.h}
         graphData={data}
-        backgroundColor="rgba(0,0,0,0)"
+        backgroundColor={highContrast ? "#03111b" : "rgba(0,0,0,0)"}
         nodeLabel={() => ""}
         warmupTicks={0}
         cooldownTicks={live && !motionPaused ? Infinity : 0}
@@ -358,7 +422,9 @@ export default function NetworkGraph({
               ? "rgba(145,181,196,.08)"
               : link.kind === "coverage"
                 ? "rgba(216,188,112,.38)"
-                : "rgba(145,181,196,.28)";
+                : highContrast
+                  ? "rgba(201,229,240,.62)"
+                  : "rgba(145,181,196,.28)";
         }}
         linkWidth={(link: DrawLink) =>
           hover && (endId(link.source) === hover || endId(link.target) === hover)
@@ -421,6 +487,13 @@ export default function NetworkGraph({
           ctx.save();
           ctx.textAlign = "left";
           ctx.textBaseline = "middle";
+          const clipped = (text: string, maxWidth: number) => {
+            if (ctx.measureText(text).width <= maxWidth) return text;
+            const chars = Array.from(text);
+            while (chars.length && ctx.measureText(chars.join("") + "…").width > maxWidth)
+              chars.pop();
+            return chars.join("") + "…";
+          };
           for (const node of candidates) {
             if (node.x === undefined || node.y === undefined) continue;
             const screen = fg.current?.graph2ScreenCoords(node.x, node.y);
@@ -473,14 +546,26 @@ export default function NetworkGraph({
               w: width + 6 / scale,
               h: height + 4 / scale,
             });
-            ctx.fillStyle = primary ? "rgba(8,24,36,.95)" : "rgba(8,24,36,.78)";
+            ctx.fillStyle = highContrast
+              ? "#000c15"
+              : primary
+                ? "rgba(8,24,36,.95)"
+                : "rgba(8,24,36,.78)";
             ctx.fillRect(box.x, box.y, width, height);
-            ctx.fillStyle = hoverNeighbours.has(node.id) ? "#f1deb1" : "#e3ece9";
-            ctx.fillText(label, box.x + 6 / scale, box.y + 11 / scale, width - 12 / scale);
+            ctx.fillStyle = highContrast
+              ? "#ffffff"
+              : hoverNeighbours.has(node.id)
+                ? "#f1deb1"
+                : "#e3ece9";
+            ctx.fillText(clipped(label, width - 12 / scale), box.x + 6 / scale, box.y + 11 / scale);
             if (detail) {
               ctx.font = `${10 / scale}px "IBM Plex Sans",sans-serif`;
               ctx.fillStyle = "#b8d2d7";
-              ctx.fillText(detail, box.x + 6 / scale, box.y + 27 / scale, width - 12 / scale);
+              ctx.fillText(
+                clipped(detail, width - 12 / scale),
+                box.x + 6 / scale,
+                box.y + 27 / scale,
+              );
             }
           }
           ctx.restore();
@@ -544,6 +629,19 @@ export default function NetworkGraph({
           ctx.restore();
         }}
       />
+      <button
+        className="network-rotate-control"
+        aria-pressed={rotationMode}
+        title={
+          locale === "uk"
+            ? "Обертання у площині: прокрутка двома пальцями; щипок змінює масштаб"
+            : "Rotate in the plane: two-finger scroll; pinch still zooms"
+        }
+        onClick={() => setRotationMode((v) => !v)}
+      >
+        <RotateCw size={15} />
+        {locale === "uk" ? "Обертання" : "Rotate"}
+      </button>
       {selectedNode && (
         <MovableNodeActions uk={locale === "uk"}>
           <strong

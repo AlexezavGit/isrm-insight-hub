@@ -22,7 +22,7 @@ export const EMPTY: Filters = {
   role: "",
 };
 
-export function useFilters() {
+export function useFilters(persist = true) {
   const [filters, setFilters] = useState<Filters>(EMPTY);
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {
@@ -43,13 +43,13 @@ export function useFilters() {
     setLoaded(true);
   }, []);
   useEffect(() => {
-    if (loaded)
+    if (loaded && persist)
       try {
         sessionStorage.setItem("isrm-demo-filters", JSON.stringify(filters));
       } catch {
         /* Session-only preference. */
       }
-  }, [filters, loaded]);
+  }, [filters, loaded, persist]);
   return [filters, setFilters] as const;
 }
 
@@ -159,7 +159,7 @@ export function FilterBar({
         ? (["country", "sector", "expertise", "role", "reviewStatus", "theme"] as const)
         : (["sector", "country", "theme", "role"] as const)
       ).map((k) => (
-        <div key={k}>
+        <div key={k} data-filter-field={k}>
           <Label
             c={
               {

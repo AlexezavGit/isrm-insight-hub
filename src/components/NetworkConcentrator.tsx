@@ -8,11 +8,15 @@ export function NetworkConcentrator({
   value,
   onChange,
   uk,
+  configuration = false,
+  onFindPerson,
 }: {
   nodes: NetworkNode[];
   value: string;
   onChange: (id: string) => void;
   uk: boolean;
+  configuration?: boolean;
+  onFindPerson?: ((query: string) => void) | undefined;
 }) {
   const menu = useRef<HTMLDetailsElement>(null);
   const [query, setQuery] = useState("");
@@ -58,7 +62,13 @@ export function NetworkConcentrator({
       </summary>
       <div className="network-concentrator-options">
         <label>
-          {uk ? "Знайти категорію чи сервіс" : "Find a category or service"}
+          {configuration
+            ? uk
+              ? "Знайти категорію чи сервіс"
+              : "Find a category or service"
+            : uk
+              ? "Знайти категорію зв’язків"
+              : "Find a connection category"}
           <input
             type="search"
             value={query}
@@ -89,6 +99,18 @@ export function NetworkConcentrator({
           <p role="status">
             {uk ? "Відповідних категорій не знайдено." : "No matching categories found."}
           </p>
+        )}
+        {onFindPerson && searching && (
+          <button
+            onClick={() => {
+              onFindPerson(query);
+              if (menu.current) menu.current.open = false;
+            }}
+          >
+            {uk
+              ? `Знайти персону «${query}» у пошуку`
+              : `Find a person matching “${query}” in Search`}
+          </button>
         )}
       </div>
     </details>

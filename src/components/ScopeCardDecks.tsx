@@ -117,7 +117,7 @@ export function WorkflowDeck({ locale, draft, ready, update }: Props) {
           >
             <p className="scope-deck-hint">
               {uk
-                ? "Трансформувати workflow під вашу практику"
+                ? "Подумайте, як це допоможе у вашій роботі"
                 : "Consider how this would support your work"}
             </p>
             <details className="scope-large-folder">
