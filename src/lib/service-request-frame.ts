@@ -66,6 +66,14 @@ export const emptyServiceFrame = (): Record<ServiceFrameField, string> => ({
   dataIntegration: "",
   acceptance: "",
 });
+export function missingRequirementFields(
+  title: string,
+  values: Pick<Record<ServiceFrameField, string>, "need" | "outcome">,
+) {
+  return (["title", "need", "outcome"] as const).filter(
+    (key) => !(key === "title" ? title : values[key]).trim(),
+  );
+}
 export function serviceFrameText(values: Record<ServiceFrameField, string>, locale: "en" | "uk") {
   return SERVICE_FRAME_FIELDS.filter((field) => values[field.id].trim())
     .map((field) => `${field[locale]}\n${values[field.id].trim()}`)

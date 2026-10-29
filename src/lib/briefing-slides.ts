@@ -22,8 +22,8 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
       uk: "Від 11 тисяч контактів — до потрібних відповідей.",
     },
     body: {
-      en: "Checking every contact by hand creates a bottleneck. AI-assisted OSINT can prepare the research, but a professional must verify the evidence and conclusions: an error can put reputations at risk.",
-      uk: "Суцільна ручна перевірка створює вузьке місце. AI OSINT може підготувати дослідження, але докази й висновки обов’язково перевіряє фахівець: помилка загрожує репутації.",
+      en: "The immediate question is how to turn a large contact base into useful, defensible responses without an unsustainable review burden. AI-assisted OSINT can prepare research; a named professional must review the evidence before ISRM relies on it.",
+      uk: "Поточне питання — як отримувати корисні, обґрунтовані відповіді з великої бази контактів без непосильного ручного навантаження. AI OSINT готує дослідження; відповідальний фахівець перевіряє підстави, перш ніж ISRM покладатиметься на висновок.",
     },
     principle: {
       en: "A contact base is a starting point, not a forecast of demand.",
@@ -76,12 +76,12 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
       uk: "Знайти потрібну експертизу, перевірити підстави й залучити відповідних людей до запиту. Спільний застосунок для 35 чаптерів може поєднати AI-дослідження, відповідальну перевірку фахівцями й контрольований обмін — у масштабі, недоступному одному джерелу.",
     },
     principle: {
-      en: "Technology extends reach. Named professionals stand behind the judgement.",
-      uk: "Технології розширюють охоплення. За судженням — ім’я й репутація.",
+      en: "Agree who maintains the record, who reviews it and who may use it.",
+      uk: "Погодити, хто підтримує запис, хто перевіряє та хто має доступ.",
     },
     insight: {
-      en: "The value lies in the working practice: sources and dates, a responsible reviewer, permission to participate and a useful next step. The chapter questionnaire would establish needs and willingness to contribute.",
-      uk: "Цінність — у практиці роботи: джерела й дати, відповідальний фахівець, згода на участь і корисний наступний крок. Опитувальник чаптерів допоможе з’ясувати потреби та готовність долучитися.",
+      en: "Sources, dates and a named reviewer make the reasoning inspectable. The chapter questionnaire would establish demand, willingness to contribute and realistic review capacity; the specification must allocate data responsibilities and ongoing effort.",
+      uk: "Джерела, дати й відповідальний фахівець дозволяють перевірити підстави рішення. Опитування чаптерів визначить попит, готовність долучитися й ресурс перевірки; відповідальність за дані та постійне навантаження погоджуємо у ТЗ.",
     },
     note: {
       en: "Start with the existing questionnaire: needs, willingness to participate and review capacity across 35 chapters. Shared policies, source evidence, dates, access controls and correction routes underpin the proposed service. Secure shared storage and AI OSINT require implementation; the current demo is browser-local. Review does not guarantee accuracy or confer accreditation.",
@@ -164,8 +164,8 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
       uk: "Цифрове плече розвитку ISRM.",
     },
     body: {
-      en: "The application, AI OSINT and professional community address an operational need. Together they could build an enduring capability: members gain useful tools, clients gain better-supported answers, and ISRM gains stronger services and connections.",
-      uk: "Застосунок, AI OSINT і професійна спільнота відповідають на операційну потребу. Разом вони можуть утворити постійну спроможність: інструменти для членів, краще обґрунтовані відповіді для клієнтів, сильніші сервіси й зв’язки для ISRM.",
+      en: "For members: find relevant colleagues and retain a working shortlist. For chapter teams: route an enquiry to suitable expertise. For the Board: examine the evidence and the measured value of a pilot before extending the service.",
+      uk: "Членам — знайти доречних колег і зберегти робочий відбір. Командам чаптерів — спрямувати запит до потрібної експертизи. Раді — оцінити підстави й виміряну користь пілоту до розширення сервісу.",
     },
     principle: {
       en: "A capability for future enquiries — with room to develop.",
@@ -264,8 +264,8 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
       uk: "Почнімо з демонстрації. Продовжимо конкретним сценарієм.",
     },
     insight: {
-      en: "Agree the measures before the pilot: time to a useful shortlist, relevance confirmed by professional review and willingness to respond. The current demonstration is browser-local; shared access and AI OSINT would need implementation.",
-      uk: "До пілоту погоджуємо критерії: час до корисного відбору, релевантність за оцінкою фахівця й готовність відгукнутися. Поточне демо працює локально в браузері; спільний доступ і AI OSINT потребують реалізації.",
+      en: "A bounded pilot needs an ISRM sponsor, a reviewer, a representative enquiry and a decision date. Compare time to a useful shortlist with current practice, assess relevance and response, then decide whether to proceed. Scope records the proposed acceptance checks.",
+      uk: "Пілоту потрібні відповідальний ISRM, фахівець з перевірки, типовий запит і дата рішення. Порівнюємо час до корисного відбору з поточною практикою, оцінюємо релевантність і відгук, тоді вирішуємо щодо продовження. У scope — запропоновані критерії приймання.",
     },
     note: {
       en: "The demo uses the supplied sample; AI OSINT and shared authenticated storage are not yet connected. The briefing is an invitation to clarify needs, not a commission or a guarantee of commercial outcomes.",

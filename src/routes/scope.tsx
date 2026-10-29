@@ -1,3 +1,5 @@
+import { BoardDecisionNote } from "@/components/BoardDecisionNote";
+import { BOARD_RECIPIENT, BOARD_CAPACITY } from "@/lib/board-brief";
 import { ClientHeader } from "@/components/ClientHeader";
 import { ScopePrintDocument } from "@/components/ScopePrintDocument";
 import { buildClientMarkdown } from "@/lib/scope-document";
@@ -109,6 +111,11 @@ function ScopePage() {
             </a>
           </details>
         </section>
+        <p className="scope-recipient">
+          <strong>{BOARD_RECIPIENT}</strong>
+          <br />
+          {BOARD_CAPACITY[locale]}
+        </p>
         <p className="scope-project-subtitle">
           {t(
             "Proposed application capabilities, delivery stages and budget limits",
@@ -146,6 +153,7 @@ function ScopePage() {
                 "Виконання передбачає три етапи. Ядро та кожен workflow мають власні самодостатні результати, які погоджуються для кожного етапу.",
               )}
             </p>
+            <BoardDecisionNote locale={locale} />
             <DataUseNotice context="scope" compact />
             <p className="scope-deck-hint">
               {t(

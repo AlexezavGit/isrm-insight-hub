@@ -1,3 +1,4 @@
+import { BOARD_RECIPIENT, BOARD_CAPACITY } from "@/lib/board-brief";
 import { ClientHeader } from "./ClientHeader";
 import { IsrmContextLinks } from "./IsrmContextLinks";
 import { SLIDE_CONTEXT_KEYS } from "@/lib/isrm-context";
@@ -144,6 +145,19 @@ export function BriefingSlider() {
           aria-labelledby="briefing-title"
         >
           <div className="briefing-copy" aria-live="polite" aria-atomic="true">
+            {slide === 0 && (
+              <details className="briefing-recipient">
+                <summary>
+                  {uk
+                    ? "Для Dr David Rubens · Стратегічна рада ISRM"
+                    : "For Dr David Rubens · ISRM Strategic Board"}
+                </summary>
+                <p>
+                  <strong>{BOARD_RECIPIENT}</strong>
+                  <span>{BOARD_CAPACITY[locale]}</span>
+                </p>
+              </details>
+            )}
             {current.projectName && (
               <p className="briefing-project-name">{current.projectName[locale]}</p>
             )}
