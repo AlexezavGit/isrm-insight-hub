@@ -247,7 +247,6 @@ export function NetworkWorkbench() {
       setLayers((v) => ({ ...v, researchQueue: true }));
     setService(null);
     setPerson(code);
-    if (!wide) setLeft(null);
   };
   const captureView = () => ({
     f: { ...f },
@@ -458,7 +457,6 @@ export function NetworkWorkbench() {
     if (mode !== "services") setAnchor("isrm");
     setService(id);
     setPerson(null);
-    if (!wide) setLeft(null);
   };
   const activateWorkflow = (id: string) => {
     setConfigurationStarted(true);
@@ -877,10 +875,15 @@ export function NetworkWorkbench() {
               focus={person}
               onFocus={(code) => {
                 setInspectionFocus((value) => value + 1);
-                close();
+                setService(null);
                 setFullDossier(false);
                 if (code) setPerson(code);
-                else setSearchHidden(true);
+                else {
+                  close();
+                  setGroupOpen(false);
+                  setInspectedWorkflow(null);
+                  setSearchHidden(true);
+                }
               }}
               serviceMode={mode === "services"}
               live={live}
