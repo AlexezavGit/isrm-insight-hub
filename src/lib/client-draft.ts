@@ -5,6 +5,7 @@ import {
   BOARD_RESPONSIBILITIES,
   CORE_ACCEPTANCE,
 } from "./board-brief";
+import { packageServiceIds } from "./tailored-scope";
 import { BRIEFING_MILESTONES } from "./briefing-milestones";
 import { z } from "zod";
 import {
@@ -21,22 +22,30 @@ import {
   type ClientLocale,
   type ServiceId,
 } from "./client-catalog";
+const serviceEnum = z.enum([
+  "search",
+  "groups",
+  "research",
+  "review",
+  "evidence",
+  "contact",
+  "integration",
+  "publishing",
+  "survey",
+]);
 const schema = z.object({
   version: z.literal(1),
   mode: z.enum(["full", "graph", "research-only"]),
-  serviceIds: z.array(
-    z.enum([
-      "search",
-      "groups",
-      "research",
-      "review",
-      "evidence",
-      "contact",
-      "integration",
-      "publishing",
-      "survey",
-    ]),
-  ),
+  serviceIds: z.array(serviceEnum),
+  packageServices: z
+    .object({
+      core: z.array(serviceEnum),
+      engagement: z.array(serviceEnum),
+      expertise: z.array(serviceEnum),
+      monitoring: z.array(serviceEnum),
+    })
+    .partial()
+    .default({}),
   workflowIds: z.array(z.enum(["engagement", "expertise", "monitoring"])),
   requests: z.array(
     z.object({
@@ -65,6 +74,7 @@ export const emptyDraft = (): ClientDraft => ({
   mode: "full",
   serviceIds: ["groups", "research", "review", "evidence", "contact", "integration"],
   workflowIds: [],
+  packageServices: {},
   requests: [],
   shortlist: [],
   groupName: "",
@@ -96,6 +106,7 @@ export function updateDraft(draft: ClientDraft, changes: Partial<ClientDraft>): 
   const scopeChanged = [
     "mode",
     "serviceIds",
+    "packageServices",
     "workflowIds",
     "integrationInterest",
     "requests",
@@ -123,7 +134,13 @@ export function selectedServiceIds(draft: ClientDraft): ServiceId[] {
       ]),
     ];
   if (draft.mode === "research-only") return ["research", "review"];
-  return [...new Set<ServiceId>([...CORE_SERVICE_IDS, ...draft.serviceIds])];
+  return [
+    ...new Set<ServiceId>([
+      ...packageServiceIds(draft, "core"),
+      ...draft.serviceIds.filter((id) => !CORE_SERVICE_IDS.includes(id)),
+      ...draft.workflowIds.flatMap((id) => packageServiceIds(draft, id)),
+    ]),
+  ];
 }
 export function includeClientRequest(draft: ClientDraft, request: ClientDraft["requests"][number]) {
   return updateDraft(draft, {
@@ -157,6 +174,16 @@ export function buildClientSummary(d: ClientDraft, locale: ClientLocale): string
       (w) =>
         `• ${w.title[locale]}\n${w.detail[locale]}\n${w.outputs[locale].map((title, i) => `${title}: ${WORKFLOW_OUTCOME_COPY[w.id][locale][i]}`).join("\n")}`,
     ),
+    ...Object.entries(d.packageServices)
+      .filter(
+        ([id]) =>
+          d.mode === "full" &&
+          (id === "core" || d.workflowIds.includes(id as (typeof d.workflowIds)[number])),
+      )
+      .map(
+        ([id, ids]) =>
+          `${uk ? "Індивідуальний склад" : "Tailored composition"} · ${id}: ${(ids ?? []).map((service) => CLIENT_SERVICES.find((s) => s.id === service)?.title[locale]).join("; ") || (uk ? "без сервісів" : "no services")} — ${uk ? "результати й ціна потребують переоцінки" : "outcomes and price require reassessment"}`,
+      ),
     ...(d.integrationInterest && d.mode === "full"
       ? [
           uk
@@ -195,8 +222,8 @@ export function buildClientSummary(d: ClientDraft, locale: ClientLocale): string
     ...(clientQuoteRange(d).pending
       ? [
           uk
-            ? "Неоцінені позиції не включені до цієї суми й потребують окремої пропозиції."
-            : "Unpriced items are excluded from this subtotal and need a separate proposal.",
+            ? "Суми — лише індикативні орієнтири. Неоцінені позиції не включені; змінений склад потребує переоцінки в детальній пропозиції."
+            : "Amounts are indicative references only. Unpriced items are excluded; tailored compositions require reassessment in the detailed proposal.",
         ]
       : []),
     uk

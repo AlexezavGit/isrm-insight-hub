@@ -1,3 +1,4 @@
+import { IntegrationStrip } from "./IntegrationStrip";
 import { Link } from "@tanstack/react-router";
 import {
   CLIENT_SERVICES,
@@ -10,14 +11,16 @@ import { SERVICE_CONTEXT } from "@/lib/service-context";
 export function NetworkServiceDependencies({
   id,
   locale,
+  expanded = false,
 }: {
   id: ServiceId;
   locale: ClientLocale;
+  expanded?: boolean;
 }) {
   const c = SERVICE_CONTEXT[id],
     uk = locale === "uk";
   return (
-    <details className="network-service-dependencies">
+    <details className="network-service-dependencies" open={expanded || undefined}>
       <summary>
         {uk ? "Користувачі, результат і залежності" : "Users, outcome & dependencies"}
       </summary>
@@ -31,6 +34,7 @@ export function NetworkServiceDependencies({
         <dt>{uk ? "Запропонована технологія" : "Proposed technology"}</dt>
         <dd>{c.technology[locale]}</dd>
       </dl>
+      <IntegrationStrip locale={locale} />
     </details>
   );
 }

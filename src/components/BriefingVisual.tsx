@@ -1,3 +1,4 @@
+import { IntegrationStrip } from "./IntegrationStrip";
 import { BriefingNextSteps } from "./BriefingNextSteps";
 import {
   ArrowDown,
@@ -35,10 +36,18 @@ export function BriefingVisual({
           <strong>35</strong>
           <span>{uk ? "чаптерів · спільне поле взаємодії" : "chapters · a shared view"}</span>
         </header>
-        <div className="chapter-dotmap" aria-hidden="true">
-          {Array.from({ length: 35 }, (_, i) => (
-            <i key={i} />
-          ))}
+        <div className="briefing-review-contour">
+          <div>
+            <FileSearch size={28} />
+            <strong>{uk ? "AI готує" : "AI prepares"}</strong>
+            <small>{uk ? "Джерела та знахідки" : "Sources and findings"}</small>
+          </div>
+          <span aria-hidden="true">→</span>
+          <div>
+            <ShieldCheck size={28} />
+            <strong>{uk ? "Фахівець перевіряє" : "A professional reviews"}</strong>
+            <small>{uk ? "Ім’я, дата, висновок" : "Name, date, judgement"}</small>
+          </div>
         </div>
         <div className="chapter-dashboard-fields">
           {[
@@ -101,6 +110,7 @@ export function BriefingVisual({
     return (
       <div className="briefing-visual">
         <ExpertisePyramid locale={locale} compact />
+        <IntegrationStrip locale={locale} />
         <p className="briefing-visual-caption">
           {uk
             ? "Спільне ядро та окремо погоджені напрями розвитку"
@@ -118,7 +128,10 @@ export function BriefingVisual({
               ? [Users, FileSearch, Database, ShieldCheck][i]!
               : [FileSearch, BookOpen, Layers3][i]!;
           return (
-            <li key={s.en}>
+            <li
+              key={s.en}
+              style={index === 0 ? { width: `${100 - i * 10}%`, marginInline: "auto" } : undefined}
+            >
               <span className="briefing-path-icon">
                 <Icon size={23} aria-hidden="true" />
               </span>
