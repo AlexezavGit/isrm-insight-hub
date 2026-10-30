@@ -1098,8 +1098,8 @@ export function NetworkWorkbench() {
             >
               <p className="network-panel-note">
                 {t(
-                  "Recurring actions, organised around a useful result. Select a folder to see its services and their potential coverage.",
-                  "Повторювані дії, впорядковані навколо корисного результату. Оберіть папку, щоб побачити її сервіси та можливе охоплення.",
+                  "Choose support for ISRM’s working practices and policies. Explore a workflow or service, adjust its contents or describe your own requirement. Your choices shape a proposal; they do not activate services.",
+                  "Оберіть підтримку робочих практик і політик ISRM. Перегляньте workflow чи сервіс, змініть склад або опишіть власну потребу. Вибір формує пропозицію, а не активує сервіси.",
                 )}
               </p>
               <button

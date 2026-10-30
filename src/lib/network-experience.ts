@@ -132,9 +132,9 @@ export const SEARCH_REPLAY = [
     en: "An interactive prototype",
     uk: "Інтерактивний прототип",
     textEn:
-      "Map available expertise and the people who hold it. Watch a complete search, review and selection cycle, then try it yourself. This example does not change your saved group.",
+      "Explore recorded expertise in the supplied sample. Follow a search, inspect sources and statuses, then save a shortlist. Policies, professional review and willingness to participate are distinct from a graph connection. This example does not change your saved group.",
     textUk:
-      "Мапування доступної експертизи та її носіїв. Подивіться повний цикл пошуку, перевірки й відбору, а потім спробуйте самі. Приклад не змінює збережену групу.",
+      "Дослідіть зафіксовану експертизу переданої вибірки. Пройдіть пошук, перегляньте джерела й статуси, збережіть відбір. Політики, професійна перевірка та готовність долучитися відрізняються від зв’язку на графі. Приклад не змінює вашу групу.",
   },
   {
     id: "country",

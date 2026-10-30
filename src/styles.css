@@ -9822,7 +9822,8 @@ body,
 .briefing-review-contour strong { font-size:1rem; }.briefing-review-contour small { font-size:.75rem; }
 .client-journey-ring { display:none; }
 .scope-card-cabinet .client-scope-budget { background:var(--ds-paper); color:var(--ds-blue); }
-.scope-card-cabinet .client-scope-budget :is(.scope-fallback,.client-price-receipt) { background:transparent; color:inherit; }
+.scope-card-cabinet .client-scope-budget .scope-fallback { background:transparent; color:inherit; }
+.scope-card-cabinet .client-scope-budget .client-price-receipt { background:var(--ds-paper); color:inherit; isolation:isolate; }
 .scope-card-cabinet .client-scope-budget :is(h2,h3,strong,legend,.scope-receipt-note) { color:inherit; }
 .scope-card-cabinet .client-scope-budget :is(input,select,textarea) { background:#fff8; color:#173b49; border-color:#8ba0a3; }
 @media(max-width:1099px) {

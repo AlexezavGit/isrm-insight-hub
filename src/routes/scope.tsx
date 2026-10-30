@@ -1,5 +1,6 @@
 import { IntegrationStrip } from "@/components/IntegrationStrip";
 import { ScopeDeliveryNotes } from "@/components/ScopeDeliveryNotes";
+import { PROJECT_POSITIONING } from "@/lib/project-positioning";
 import { packageIsCustom } from "@/lib/tailored-scope";
 import { BoardDecisionNote } from "@/components/BoardDecisionNote";
 import { BOARD_RECIPIENT, BOARD_CAPACITY } from "@/lib/board-brief";
@@ -83,18 +84,9 @@ function ScopePage() {
           </aside>
         </header>
         <section className="scope-project-introduction">
-          <p>
-            {t(
-              "A project to develop safer professional communication and strengthen trust in network expertise across ISRM’s sphere of influence.",
-              "Проєкт із розвитку безпеки професійних комунікацій та зміцнення довіри до носіїв мережевої експертизи в зоні впливу ISRM.",
-            )}
-          </p>
-          <p>
-            {t(
-              "Our role is to help ISRM define the practical approach, responsibilities and evidence needed to support its members. The proposed application brings together management consulting, professional research and digital delivery around those requirements.",
-              "Наша роль — допомогти ISRM визначити практичний підхід, відповідальність і доказову основу для підтримки своїх членів. Запропонований застосунок поєднує управлінський консалтинг, професійні дослідження й цифрові інструменти навколо цих потреб.",
-            )}
-          </p>
+          <p>{PROJECT_POSITIONING.name[locale]}</p>
+          <p>{PROJECT_POSITIONING.purpose[locale]}</p>
+          <p>{PROJECT_POSITIONING.explanation[locale]}</p>
           <details className="scope-context-note">
             <summary>
               {t("Relevant consulting experience", "Профільний консалтинговий досвід")}
@@ -146,8 +138,8 @@ function ScopePage() {
           <div>
             <p className="scope-workflow-definition">
               {t(
-                "A workflow is an organised sequence of recurring actions: who contributes, what happens next and how the result is used. The application can support and automate the agreed steps.",
-                "Workflow — це впорядкована послідовність повторюваних дій: хто долучається, що відбувається далі та як використовується результат. Застосунок підтримує й автоматизує погоджені кроки.",
+                "A workflow brings recurring actions, responsibilities and decisions together around a useful result. ISRM’s policies and agreed standards define the expected outcome; technology supports the process. Combine the proposed capabilities, remove what is unnecessary or describe your own requirement.",
+                "Workflow поєднує повторювані дії, відповідальність і рішення навколо корисного результату. Політики ISRM та погоджені стандарти визначають очікуваний результат; технологія підтримує процес. Комбінуйте запропоновані можливості, прибирайте зайве або опишіть власну потребу.",
               )}
             </p>
             <p className="scope-delivery-intro">
@@ -518,8 +510,8 @@ function ScopePage() {
                 <summary>{t("Client response", "Відповідь замовника")}</summary>
                 <p>
                   {t(
-                    "Confirm the capabilities you want discussed, select the fallback if appropriate, and leave your contact details. We will prepare a detailed proposal; this does not place an order or approve a final price.",
-                    "Погодьте функціональність для обговорення, за потреби оберіть fallback та залиште контактні дані. На цій основі підготуємо детальну пропозицію; це не замовлення робіт і не погодження остаточної ціни.",
+                    "Continue with individual research, consider a tailored core or select further capabilities for assessment. If you already know what is needed, record the scope directly. A brief impression of the prototype is welcome whichever route you choose. Your response is a basis for a detailed proposal, not an order or acceptance of a final price.",
+                    "Продовжуйте разові дослідження, розгляньте індивідуальне ядро або оберіть додаткові можливості для оцінки. Якщо вже знаєте потребу — одразу опишіть обсяг. Будемо вдячні за коротке враження від прототипу за будь-якого вибору. Відповідь є основою детальної пропозиції, не замовленням чи погодженням остаточної ціни.",
                   )}
                 </p>
               </details>

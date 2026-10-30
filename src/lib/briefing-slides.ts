@@ -1,3 +1,4 @@
+import { PROJECT_POSITIONING } from "./project-positioning";
 import type { Copy } from "./client-catalog";
 import type { GraphLayers } from "@/components/NetworkGraph";
 export type BriefingSlide = {
@@ -22,16 +23,16 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
       uk: "Від 11 тисяч контактів — до потрібних відповідей.",
     },
     body: {
-      en: "The immediate question is how to turn a large contact base into useful, defensible responses without an unsustainable review burden. AI-assisted OSINT can prepare research; a named professional must review the evidence before ISRM relies on it.",
-      uk: "Поточне питання — як отримувати корисні, обґрунтовані відповіді з великої бази контактів без непосильного ручного навантаження. AI OSINT готує дослідження; відповідальний фахівець перевіряє підстави, перш ніж ISRM покладатиметься на висновок.",
+      en: "Your enquiry concerns 11,000 people. Research can prepare information; a large set of dossiers still needs a way to search, review, select and act. The prototype lets you explore that working process.",
+      uk: "Ваш запит стосується 11 тисяч людей. Дослідження готує інформацію; великому масиву досьє ще потрібен спосіб пошуку, перевірки, відбору й подальшої дії. Прототип дозволяє спробувати цей робочий процес.",
     },
     principle: {
-      en: "A contact base is a starting point, not a forecast of demand.",
-      uk: "База контактів — початок роботи, а не прогноз попиту.",
+      en: "A record is a starting point. A useful interaction is an outcome.",
+      uk: "Запис — початок роботи. Корисна взаємодія — результат.",
     },
     insight: {
-      en: "Begin with a focused sample: test relevance and response before committing resources across the entire contact base.",
-      uk: "Спершу — цільова вибірка: перевірити релевантність і відгук, перш ніж витрачати ресурси на весь масив контактів.",
+      en: "Individual research remains an option. The additional question is how to retain sources, follow up and reuse the work across future enquiries.",
+      uk: "Разові дослідження залишаються можливістю. Додаткове питання — як зберігати джерела, відстежувати подальші дії та використовувати роботу в наступних запитах.",
     },
     note: {
       en: "11,000+ contacts is the audience cited in your enquiry. LinkedIn contacts do not automatically become paying members or clients. Test relevance, response and conversion on a focused sample before scaling. AI OSINT is proposed and is not connected in this demo.",
@@ -72,17 +73,14 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
       uk: "35 чаптерів. Потенційна мережа експертизи.",
     },
     body: {
-      en: "Find the relevant expertise, examine the evidence and bring the right people into an enquiry. Across 35 chapters, a shared application could combine AI-assisted research with named professional review and controlled exchange — at a scale one source cannot easily offer.",
-      uk: "Знайти потрібну експертизу, перевірити підстави й залучити відповідних людей до запиту. Спільний застосунок для 35 чаптерів може поєднати AI-дослідження, відповідальну перевірку фахівцями й контрольований обмін — у масштабі, недоступному одному джерелу.",
+      en: "Find relevant expertise, inspect the source and prepare a working shortlist. Shared policies would define who maintains a record, reviews findings and authorises its use across chapters.",
+      uk: "Знайти доречну експертизу, переглянути джерело й підготувати робочий відбір. Спільні політики визначатимуть, хто підтримує запис, перевіряє висновки й дозволяє його використання між чаптерами.",
     },
     principle: {
       en: "Agree who maintains the record, who reviews it and who may use it.",
       uk: "Погодити, хто підтримує запис, хто перевіряє та хто має доступ.",
     },
-    insight: {
-      en: "Sources, dates and a named reviewer make the reasoning inspectable. The chapter questionnaire would establish demand, willingness to contribute and realistic review capacity; the specification must allocate data responsibilities and ongoing effort.",
-      uk: "Джерела, дати й відповідальний фахівець дозволяють перевірити підстави рішення. Опитування чаптерів визначить попит, готовність долучитися й ресурс перевірки; відповідальність за дані та постійне навантаження погоджуємо у ТЗ.",
-    },
+    insight: PROJECT_POSITIONING.explanation,
     note: {
       en: "Start with the existing questionnaire: needs, willingness to participate and review capacity across 35 chapters. Shared policies, source evidence, dates, access controls and correction routes underpin the proposed service. Secure shared storage and AI OSINT require implementation; the current demo is browser-local. Review does not guarantee accuracy or confer accreditation.",
       uk: "Починаємо з наявного опитувальника: потреби, готовність долучитися й ресурс перевірки 35 чаптерів. Основа сервісу — спільні політики, джерела, дати, контроль доступу й виправлення. Захищене спільне сховище та AI OSINT потребують реалізації; поточне демо працює локально в браузері. Перевірка не гарантує безпомилковості й не є акредитацією.",
@@ -118,12 +116,12 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
       uk: "Кожна взаємодія створює наступну можливість.",
     },
     body: {
-      en: "A useful interaction can lead to learning, paid membership, a partnership, a service enquiry, a referral or a conference. A connected workflow helps people find a relevant next step and brings value back to the network.",
-      uk: "Корисна взаємодія може привести до навчання, платного членства, партнерства, послуги, клієнтського запиту, рефералу чи конференції. Цілісний workflow допомагає знайти доречний наступний крок і повертає цінність у мережу.",
+      en: "People participate when there is a relevant reason: a professional discussion, useful expertise, an introduction or a service enquiry. Agreed responsibilities and follow-up help turn that interest into a useful interaction.",
+      uk: "Люди долучаються, коли є доречний мотив: професійне обговорення, потрібна експертиза, знайомство чи запит на послугу. Погоджена відповідальність і подальші дії допомагають перетворити цей інтерес на корисну взаємодію.",
     },
     principle: {
-      en: "Relevant opportunities for people. A repeatable cycle for ISRM.",
-      uk: "Людям — доречні можливості. ISRM — відтворюваний цикл.",
+      en: "Shared standards. A reason to participate. A recorded next step.",
+      uk: "Спільні стандарти. Мотив долучитися. Зафіксований наступний крок.",
     },
     insight: {
       en: "Members, clients, students and partners need different routes. The proposed workflow would connect needs with expertise and introductions beyond existing personal contacts; participation and conversion would be measured.",
@@ -164,12 +162,12 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
       uk: "Цифрове плече розвитку ISRM.",
     },
     body: {
-      en: "For members: find relevant colleagues and retain a working shortlist. For chapter teams: route an enquiry to suitable expertise. For the Board: examine the evidence and the measured value of a pilot before extending the service.",
-      uk: "Членам — знайти доречних колег і зберегти робочий відбір. Командам чаптерів — спрямувати запит до потрібної експертизи. Раді — оцінити підстави й виміряну користь пілоту до розширення сервісу.",
+      en: "The proposed project supports safer professional communication, connections between colleagues and network expertise. The application would help ISRM put its chosen policies and working practices into use alongside existing systems.",
+      uk: "Запропонований проєкт підтримує безпечніші професійні комунікації, горизонтальні зв’язки й мережеву експертизу. Застосунок допоможе втілювати обрані політики та робочі практики ISRM поруч із наявними системами.",
     },
     principle: {
-      en: "A capability for future enquiries — with room to develop.",
-      uk: "Спроможність для наступних запитів — із простором для розвитку.",
+      en: "Configure the support your organisation needs.",
+      uk: "Конструюйте підтримку розвитку своєї організації.",
     },
     insight: {
       en: "Build around the systems ISRM already uses. The proposed contribution is to connect expertise, evidence and enquiries; CRM, learning and project tools can be integrated where useful, within an agreed scope.",
@@ -210,12 +208,12 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
       uk: "Від перевірених даних — до мережевої експертизи.",
     },
     body: {
-      en: "Materials and experience could become research, professional practice and learning — and, later, AI agents that assist consultants. A hypothesis worth discussing, once secure communication and digital trust have a sound foundation.",
-      uk: "Матеріали й досвід можуть ставати дослідженнями, практиками й навчанням, а згодом — AI-агентами на допомогу консультантам. Гіпотеза, варта розмови, коли є основа безпечних комунікацій і цифрової довіри.",
+      en: "The pilot would test whether expertise can support a managed process: sources, dates, digital checks, appropriate contact, willingness to participate and a recorded outcome. Reviewed experience could later inform research, learning and further services.",
+      uk: "Пілот перевірить керований процес роботи з експертизою: джерела, дати, цифрові перевірки, доречний контакт, готовність долучитися й зафіксований результат. Перевірений досвід надалі може підтримувати дослідження, навчання та інші сервіси.",
     },
     principle: {
-      en: "First establish trust. Then explore what expertise + AI can become.",
-      uk: "Спершу — основа довіри. Далі — можливості експертизи + AI.",
+      en: "Keep records current. Give people a reason to contribute.",
+      uk: "Підтримувати актуальність. Створювати мотив долучитися.",
     },
     insight: {
       en: "This professional-to-professional direction goes beyond the original enquiry. Any future model training would require separate agreement on rights, permitted data, safeguards and evaluation.",
@@ -256,8 +254,8 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
       uk: "Наступний крок — визначити ваш сценарій.",
     },
     body: {
-      en: "Try the application with your familiar sample. Then agree one pilot enquiry: find relevant expertise, review the evidence and prepare a shortlist for a real need. Use the experience to shape the scope, budget and detailed proposal together.",
-      uk: "Спробуйте застосунок на знайомій вибірці. Далі погодьмо один пілотний запит: знайти експертизу, перевірити підстави й сформувати відбір для реальної потреби. На цьому досвіді разом уточнимо обсяг, бюджет і детальну пропозицію.",
+      en: "Try the search on a familiar sample. Then consider a tailored core, explore further capabilities or continue with individual research. Your choices and a brief impression will help us prepare the right next step.",
+      uk: "Спробуйте пошук на знайомій вибірці. Далі розгляньте індивідуальне ядро, дослідіть додаткові можливості або продовжуйте разові дослідження. Ваш вибір і коротке враження допоможуть визначити доречний наступний крок.",
     },
     principle: {
       en: "Start with the demonstration. Continue with a concrete scenario.",
