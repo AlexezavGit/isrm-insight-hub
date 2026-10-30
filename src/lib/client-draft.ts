@@ -7,6 +7,7 @@ import {
 } from "./board-brief";
 import { packageServiceIds } from "./tailored-scope";
 import { BRIEFING_MILESTONES } from "./briefing-milestones";
+import { PROJECT_POSITIONING } from "./project-positioning";
 import {
   SCOPE_DELIVERY_HEADING,
   SCOPE_DELIVERY_STATUS,
@@ -165,6 +166,9 @@ export function buildClientSummary(d: ClientDraft, locale: ClientLocale): string
       ? "Не є замовленням робіт або погодженням ціни."
       : "Not an order for work or acceptance of a price.",
     BOARD_RECIPIENT + " · " + BOARD_CAPACITY[locale],
+    PROJECT_POSITIONING.name[locale],
+    PROJECT_POSITIONING.purpose[locale],
+    PROJECT_POSITIONING.explanation[locale],
     `${uk ? "Контакт" : "Contact"}: ${d.name} ${d.email}`,
     `${uk ? "Варіант" : "Route"}: ${d.mode === "graph" ? (uk ? "Застосунок як є: пошук, досьє, shortlist та OSINT-перевірка" : "Application as is: search, dossiers, shortlist and OSINT review") : d.mode === "research-only" ? (uk ? "Разові дослідження" : "Research on request") : uk ? "Застосунок за погодженим складом" : "Application with agreed scope"}`,
     "\n" + (uk ? "СЕРВІСИ" : "SERVICES"),

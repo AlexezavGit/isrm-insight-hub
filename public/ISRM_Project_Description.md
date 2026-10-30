@@ -1,6 +1,6 @@
-# Developing secure professional communications and strengthening trust in network expertise across ISRM
+# Improving professional communications, connections between colleagues and network expertise across ISRM
 
-**Proposal for discussion · 28 October 2026**
+**Proposal for discussion · 30 October 2026**
 
 *Proposed application capabilities, delivery stages and budget limits*
 
@@ -8,7 +8,21 @@
 
 Professional confidence is earned through experience, sound judgement and evidence that can be checked. Timely access to reliable information helps people decide whose expertise to draw upon, what requires further investigation and where professional review is needed.
 
-ISRM brings together practitioners, chapters and specialist knowledge. The proposal is to give that community a practical digital means of finding relevant expertise, reviewing information and working with colleagues. Our contribution combines management consulting, professional research and application development around ISRM’s requirements.
+The proposed project concerns the security and reliability of professional communications, connections between colleagues and the development of network expertise. The application supports that organisational development alongside ISRM’s policies, agreed standards and responsibilities.
+
+Our purpose is to help ISRM turn professional enquiries into reasoned expert selection, agreed introductions and opportunities to collaborate — retaining sources, review findings and responsibility for recommendations.
+
+**The graph helps make sense of it. OSINT helps prepare the information. Professional review provides a considered, accountable judgement. Subsequent interaction creates the result.**
+
+## From a research request to a usable result
+
+The originating enquiry concerns research on approximately 11,000 people. A large set of dossiers still needs a practical way to search, compare, review, select and follow up. Individual research can continue while ISRM tries the prototype and considers whether a tailored working environment would help.
+
+The pilot would test a managed process: sources, dates, digital checks, an appropriate contact route, willingness to participate and recorded outcomes. Keeping records current and sustaining participation are central questions. A named process owner, shared rules and a reason to contribute matter alongside technology.
+
+ISRM’s chapter structure and professional activity provide a plausible setting to test these questions. This does not assume that every member will participate or that verified information automatically creates an engagement.
+
+ISRM has [announced a partnership with The OSINT Group](https://www.theisrm.org/1-day-osint-virtual-masterclass/). It would be useful to understand its practical scope and explore whether its research support could contribute to this organisational development project; no integration or additional partnership is presumed.
 
 ## What you would be able to do
 
@@ -33,7 +47,7 @@ A shared category in the graph is a route for exploration. It does not establish
 
 **Situational awareness and expert briefings.** A separate future workflow could connect signals from an agreed source, such as World Monitor, to relevant recorded expertise, professional review and a briefing for an agreed audience. A bounded pilot would cover one source and a defined topic or region. Source licences, distribution rights, API usage and ongoing monitoring or professional review require separate agreement. No live monitoring service is connected in the demonstration.
 
-A **workflow** is a repeatable sequence of actions, responsibilities and decisions organised around a useful result. Automation can support the sequence; professional judgement remains with the appropriate people.
+A **workflow** is a repeatable sequence of actions, responsibilities and decisions organised around a useful result. Automation can support the sequence; professional judgement remains with the appropriate people. Shared policies and standards define the acceptable evidence and expected outcome. The configurator lets ISRM combine, remove or describe capabilities to support its own working practices; selecting them shapes a proposal request and does not activate services.
 
 Work on an optional workstream could begin when ISRM decides it is needed, provided the necessary core capabilities and dependencies are in place. Each would have its own agreed scope, independently useful results and acceptance criteria. Optional workstreams are outside the core estimate. The scope page shows separate planning ranges and includes selected priced workstreams in its indicative total. Unpriced requirements remain separate.
 
@@ -55,4 +69,4 @@ It is not evidence of completed production integrations, live OSINT research, ve
 
 ## Your priorities, our next steps
 
-Try the application with a familiar enquiry. Identify the capabilities that would help your work, note any gaps and review the proposed scope and budget. We can then prepare a detailed proposal for the selected requirements and discuss any further development separately.
+Try the application with a familiar enquiry. Continue with individual research, consider a tailored core or explore further capabilities in the configurator. If you already know what is needed, record the scope directly. A brief impression is welcome whichever route you choose. We can prepare a detailed proposal for the requirements you want assessed; your response is not an order or acceptance of a final price.

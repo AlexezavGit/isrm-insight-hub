@@ -1,5 +1,7 @@
 # Для обговорення з Алексом і Дмитром
 
+Опис продукту, пілоту й ринкової позиції: [ISRM_Partner_Product_Brief_EN.md](ISRM_Partner_Product_Brief_EN.md). Містить наявні категорії рішень, перевірений орієнтир Glue Up, окремо позначений непідтверджений орієнтир Affinity, гіпотези попиту та три кроки просування. Це внутрішній матеріал, не публічна пропозиція.
+
 Чинний розрахунок: [ISRM_Partner_Pricing_Review.xlsx](ISRM_Partner_Pricing_Review.xlsx), англійською мовою.
 
 Вісім аркушів: Comparison, Current Development, Assumptions, Development, Executors, Internal Settlement, OSINT and Operations, Repository Review.

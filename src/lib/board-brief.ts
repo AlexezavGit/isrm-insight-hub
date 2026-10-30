@@ -4,8 +4,8 @@ export const BOARD_CAPACITY = {
   uk: "та правлінню ISRM",
 };
 export const BOARD_DECISION = {
-  en: "Agree one bounded pilot enquiry before wider development: a real question, a named ISRM sponsor and reviewer, an agreed sample and a decision date. Compare the time to a useful shortlist with the current approach, assess relevance and record willingness to respond. No conversion or financial return is assumed.",
-  uk: "До ширшої розробки погодити один обмежений пілотний запит: реальне питання, відповідального представника ISRM і фахівця з перевірки, вибірку та дату рішення. Порівняти час до корисного відбору з поточним способом, оцінити релевантність і готовність відгукнутися. Конверсію та фінансову віддачу не припускаємо наперед.",
+  en: "Agree one pilot enquiry with an ISRM sponsor, reviewer, permitted sample and decision date. Test a managed process: sources, dates, digital checks, an appropriate contact route, willingness to participate and the outcome. Compare time to a useful shortlist with current practice; assess how records stay current and what motivates participation. No conversion or financial return is assumed.",
+  uk: "Погодити один пілотний запит із відповідальним ISRM, фахівцем перевірки, дозволеною вибіркою й датою рішення. Перевірити керований процес: джерела, дати, цифрові перевірки, доречний контакт, готовність долучитися й результат. Порівняти час до корисного відбору з поточною практикою; оцінити підтримку актуальності й мотивацію участі. Конверсію та фінансову віддачу не припускаємо наперед.",
 };
 export const BOARD_RESPONSIBILITIES = {
   en: "Before operational use, agree who authorises data use, maintains records, reviews findings and handles corrections, together with access rules, ongoing effort and costs. ISRM's nominated owners and the delivery team must agree these responsibilities, the data-protection arrangements and the delivery timetable in the specification. AI findings remain subject to professional review.",

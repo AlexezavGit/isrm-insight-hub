@@ -6,10 +6,14 @@ export const ISRM_CONTEXT: Record<ContextKey, ContextItem[]> = {
   core: [
     {
       text: {
-        uk: "Мережа ISRM вже поєднує практиків, академічну спільноту й чаптери. Картотека може допомогти знаходити доречну експертизу та зберігати джерела зв’язків у цій мережі.",
-        en: "ISRM already connects practitioners, academics and chapters. A dossier catalogue could help locate relevant expertise and retain the sources behind those connections.",
+        uk: "ISRM оголосив партнерство з The OSINT Group. Було б корисно уточнити його практичний зміст і можливість поєднати дослідницьку підтримку з цим проєктом організаційного розвитку; підключення не припускається наперед.",
+        en: "ISRM has announced a partnership with The OSINT Group. It would be useful to understand its practical scope and explore whether its research support could contribute to this organisational development project; no connection is presumed.",
       },
       links: [
+        {
+          label: "ISRM · The OSINT Group partnership",
+          url: "https://www.theisrm.org/1-day-osint-virtual-masterclass/",
+        },
         { label: "About ISRM", url: "https://www.theisrm.org/about-us/" },
         { label: "International Chapters", url: "https://www.theisrm.org/international-chapters/" },
         {
