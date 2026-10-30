@@ -93,12 +93,15 @@ export function layoutNetwork(
   }
   return positions;
 }
+export const GRAPH_LABEL_ZOOM = 1.65;
+export const GRAPH_READABLE_ZOOM = 1.8;
 export function fitGraphView(
   positions: Map<string, Point>,
   visibleIds: string[],
   anchor: string,
   width: number,
   height: number,
+  readable = true,
 ) {
   const centre = positions.get(anchor) ?? { x: 0, y: 0 };
   const pts = visibleIds.map((id) => positions.get(id)).filter((p): p is Point => !!p);
@@ -107,6 +110,11 @@ export function fitGraphView(
   return {
     x: centre.x,
     y: centre.y,
-    zoom: Math.max(0.25, Math.min(1.7, (width - 48) / (dx * 2), (height - 48) / (dy * 2))),
+    zoom: readable
+      ? Math.max(
+          GRAPH_READABLE_ZOOM,
+          Math.min(2.2, (width - 48) / (dx * 2), (height - 48) / (dy * 2)),
+        )
+      : Math.max(0.25, Math.min(1.7, (width - 48) / (dx * 2), (height - 48) / (dy * 2))),
   };
 }

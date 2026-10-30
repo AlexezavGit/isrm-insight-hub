@@ -1,8 +1,9 @@
 import { directNeighbours, expansionProgress } from "@/lib/network-presentation";
 import { rotatePoint } from "@/lib/network-experience";
-import { RotateCw } from "lucide-react";
+import { RotateCw, Scan, Info } from "lucide-react";
+import { NetworkConnectionPath } from "./NetworkConnectionPath";
 import { MovableNodeActions } from "./MovableNodeActions";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import ForceGraph2D, { type ForceGraphMethods, type LinkObject } from "react-force-graph-2d";
 import type { Expert } from "@/lib/types";
 import {
@@ -12,7 +13,7 @@ import {
   type GraphLayers,
   type NetworkNode,
 } from "@/lib/network-model";
-import { layoutNetwork, fitGraphView } from "@/lib/network-layout";
+import { layoutNetwork, fitGraphView, GRAPH_LABEL_ZOOM } from "@/lib/network-layout";
 export type { GraphLayers } from "@/lib/network-model";
 type DrawLink = LinkObject<NetworkNode, { kind: string }>;
 const endId = (v: string | number | NetworkNode | undefined) =>
@@ -34,6 +35,11 @@ export default function NetworkGraph({
   onServiceExclude,
   onServiceSelect,
   onWorkflowSelect,
+  onWorkflowDismiss,
+  workflowHint,
+  workflowInfoId,
+  onPath,
+  showConnectionPath = true,
   onVisibleCount,
   anchor = "isrm",
   onAnchor,
@@ -58,6 +64,11 @@ export default function NetworkGraph({
   onServiceExclude?: (id: string) => void;
   onServiceSelect?: (id: string) => void;
   onWorkflowSelect?: (id: string) => void;
+  onWorkflowDismiss?: () => void;
+  workflowHint?: ReactNode;
+  workflowInfoId?: string | null;
+  onPath?: (ids: string[]) => void;
+  showConnectionPath?: boolean;
   onVisibleCount?: (count: number) => void;
   anchor?: string;
   onAnchor?: (id: string) => void;
@@ -192,6 +203,11 @@ export default function NetworkGraph({
       }
     };
     const wheel = (event: WheelEvent) => {
+      if (
+        event.target instanceof Element &&
+        event.target.closest(".network-workflow-hint,.network-graph-path,.network-graph-view-tools")
+      )
+        return;
       if (!rotationMode || event.ctrlKey || event.metaKey) return;
       event.preventDefault();
       event.stopImmediatePropagation();
@@ -201,6 +217,11 @@ export default function NetworkGraph({
       previousGesture = 0;
     };
     const change = (event: Event) => {
+      if (
+        event.target instanceof Element &&
+        event.target.closest(".network-workflow-hint,.network-graph-path")
+      )
+        return;
       const gesture = event as Event & { rotation?: number };
       if (!rotationMode || typeof gesture.rotation !== "number") return;
       const next = (gesture.rotation * Math.PI) / 180,
@@ -370,14 +391,14 @@ export default function NetworkGraph({
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
   }, [data, points, motionPaused, live]);
-  // Explicit concentrator choices and viewport changes move the camera; inspecting never does.
+  // Each new arrangement starts at a reading scale; inspecting a dossier does not move nodes.
   useEffect(() => {
     const view = fitGraphView(points, [...visible], anchor, size.w, size.h);
     fg.current?.centerAt(view.x, view.y, motionPaused ? 0 : 650);
     fg.current?.zoom(view.zoom, motionPaused ? 0 : 650);
-    // Selection changes only surface people around the fixed wheel; they must not refit it.
+    // Coverage changes do not enter this dependency list, keeping the service wheel stable.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [anchor, size.w, size.h, serviceMode, motionPaused, live]);
+  }, [anchor, size.w, size.h, serviceMode, motionPaused, live, points]);
   useEffect(() => {
     if (preview && !visible.has(preview)) setPreview(null);
   }, [visible, preview]);
@@ -428,7 +449,7 @@ export default function NetworkGraph({
   return (
     <div
       ref={wrap}
-      className="absolute inset-0"
+      className="network-graph absolute inset-0"
       role="group"
       aria-label={locale === "uk" ? "Інтерактивна мапа мережі" : "Interactive network map"}
     >
@@ -538,7 +559,8 @@ export default function NetworkGraph({
             .filter(
               (node) =>
                 visible.has(node.id) &&
-                (priority(node) < 3 || (!hover && scale >= (node.kind === "expert" ? 1.65 : 1.05))),
+                (priority(node) < 3 ||
+                  (!hover && scale >= (node.kind === "expert" ? GRAPH_LABEL_ZOOM : 1.05))),
             )
             .sort((a, b) => priority(a) - priority(b) || a.id.localeCompare(b.id));
           ctx.save();
@@ -629,6 +651,7 @@ export default function NetworkGraph({
         }}
         onNodeHover={(n) => setHover(n?.id ?? null)}
         onNodeClick={(n) => {
+          if (n.kind !== "workflow") onWorkflowDismiss?.();
           if (n.kind === "service") {
             setPreview(n.id);
             onServiceSelect?.(n.id.slice(4));
@@ -638,6 +661,7 @@ export default function NetworkGraph({
           } else setPreview(n.id);
         }}
         onBackgroundClick={() => {
+          onWorkflowDismiss?.();
           setPreview(null);
           onFocus(null);
         }}
@@ -704,19 +728,59 @@ export default function NetworkGraph({
       {coachNode && (
         <div ref={coachTarget} data-coach-node="" className="network-coach-node-target" />
       )}
-      <button
-        className="network-rotate-control"
-        aria-pressed={rotationMode}
-        title={
-          locale === "uk"
-            ? "Обертання у площині: прокрутка двома пальцями; щипок змінює масштаб"
-            : "Rotate in the plane: two-finger scroll; pinch still zooms"
-        }
-        onClick={() => setRotationMode((v) => !v)}
-      >
-        <RotateCw size={15} />
-        {locale === "uk" ? "Обертання" : "Rotate"}
-      </button>
+      {workflowHint}
+      {showConnectionPath &&
+        (selectedNode?.expert || experts.find((person) => person.code === focus)) &&
+        onPath && (
+          <div className="network-graph-path">
+            <NetworkConnectionPath
+              key={(selectedNode?.expert || experts.find((person) => person.code === focus))!.code}
+              person={(selectedNode?.expert || experts.find((person) => person.code === focus))!}
+              people={experts}
+              model={model}
+              onPath={onPath}
+              uk={locale === "uk"}
+            />
+          </div>
+        )}
+      <div className="network-graph-view-tools">
+        <button
+          className="network-overview-control"
+          onClick={() => {
+            const positions = new Map(
+              data.nodes.map((node) => [node.id, { x: node.x ?? 0, y: node.y ?? 0 }]),
+            );
+            const view = fitGraphView(positions, [...visible], anchor, size.w, size.h, false);
+            fg.current?.centerAt(view.x, view.y, motionPaused ? 0 : 650);
+            fg.current?.zoom(view.zoom, motionPaused ? 0 : 650);
+          }}
+        >
+          <Scan size={15} />
+          {locale === "uk" ? "Весь граф" : "Overview"}
+        </button>
+        {workflowInfoId && (
+          <button
+            className="network-workflow-info"
+            onClick={() => onWorkflowSelect?.(workflowInfoId)}
+            aria-label={locale === "uk" ? "Пояснення workflow" : "Workflow information"}
+          >
+            <Info size={17} />
+          </button>
+        )}
+        <button
+          className="network-rotate-control"
+          aria-pressed={rotationMode}
+          title={
+            locale === "uk"
+              ? "Обертання у площині: прокрутка двома пальцями; щипок змінює масштаб"
+              : "Rotate in the plane: two-finger scroll; pinch still zooms"
+          }
+          onClick={() => setRotationMode((v) => !v)}
+        >
+          <RotateCw size={15} />
+          {locale === "uk" ? "Обертання" : "Rotate"}
+        </button>
+      </div>
       {selectedNode && (
         <MovableNodeActions uk={locale === "uk"}>
           <strong

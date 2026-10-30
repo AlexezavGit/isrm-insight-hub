@@ -1,6 +1,17 @@
 import { useEffect, useState } from "react";
 import type { Expert } from "@/lib/types";
 import { personStatuses, researchFindings } from "@/lib/network-experience";
+import { Link } from "@tanstack/react-router";
+import {
+  PROFILE_WORK_EVENT,
+  WORKING_REVIEW_STATES,
+  readProfileNotes,
+  readWorkingStatus,
+  writeProfileNote,
+  writeWorkingStatus,
+  type WorkingReviewState,
+} from "@/lib/profile-work";
+import type { ServiceId } from "@/lib/client-catalog";
 
 export function NetworkProfile({
   expert: e,
@@ -14,6 +25,7 @@ export function NetworkProfile({
   ready,
   replayResearch,
   highlight,
+  example = false,
 }: {
   expert: Expert;
   uk: boolean;
@@ -26,17 +38,39 @@ export function NetworkProfile({
   ready: boolean;
   replayResearch?: "request" | "findings" | undefined;
   highlight?: string | undefined;
+  example?: boolean;
 }) {
   const t = (en: string, ua: string) => (uk ? ua : en);
-  const [research, setResearch] = useState<"idle" | "request" | "findings">("idle");
-  useEffect(() => setResearch("idle"), [e.code]);
+  const [note, setNote] = useState("");
+  const [workingStatus, setWorkingStatus] = useState<WorkingReviewState>("none");
+  const [storageError, setStorageError] = useState(false);
   useEffect(() => {
-    if (research !== "request" || replayResearch) return;
-    const timer = window.setTimeout(() => setResearch("findings"), 2800);
-    return () => window.clearTimeout(timer);
-  }, [research, replayResearch]);
-  const phase = replayResearch ?? research;
+    const load = () => {
+      try {
+        setNote(example ? "" : readProfileNotes(localStorage)[e.code] || "");
+        setWorkingStatus(example ? "none" : readWorkingStatus(localStorage, e.code));
+        setStorageError(false);
+      } catch {
+        setNote("");
+        setWorkingStatus("none");
+        setStorageError(true);
+      }
+    };
+    load();
+    window.addEventListener(PROFILE_WORK_EVENT, load);
+    return () => window.removeEventListener(PROFILE_WORK_EVENT, load);
+  }, [e.code, example]);
+  const phase = replayResearch ?? "idle";
   const findings = researchFindings(e);
+  const configurationAction = (id: ServiceId, en: string, ua: string) => (
+    <Link
+      className="network-context-action"
+      to="/"
+      search={{ view: "map", stage: "configuration", capability: id }}
+    >
+      {t(en, ua)}
+    </Link>
+  );
   return (
     <>
       <div className="network-profile-toolbar">
@@ -48,6 +82,7 @@ export function NetworkProfile({
         </button>
       </div>
       <h2>{e.displayName}</h2>
+      <small className="network-profile-code">{e.code}</small>
       {e.organization && (
         <p>
           {e.role} · {e.organization}
@@ -63,7 +98,7 @@ export function NetworkProfile({
           {e.sector} · {e.country}
         </p>
       </section>
-      <details className="network-record-statuses" open>
+      <details className="network-record-statuses" open={full || undefined}>
         <summary>{t("Recorded statuses and assessments", "Зафіксовані статуси й оцінки")}</summary>
         <dl>
           {personStatuses(e, uk).map((s) => (
@@ -108,6 +143,9 @@ export function NetworkProfile({
             [t("Case theme", "Тема кейсу"), e.caseTheme],
             [t("International relevance", "Міжнародна релевантність"), e.internationalRelevance],
             [t("Potential contribution", "Можливий внесок"), e.contribution],
+            [t("Recorded expertise tags", "Записані напрями експертизи"), e.tags?.join("; ")],
+            [t("Potential role · source field", "Можлива роль · вихідне поле"), e.potentialRole],
+            [t("Priority · source field", "Пріоритет · вихідне поле"), e.priority],
           ]
             .filter(([, value]) => value)
             .map(([label, value]) => (
@@ -129,47 +167,147 @@ export function NetworkProfile({
           {e.phone && <p>{e.phone}</p>}
         </section>
       )}
-      <section className="network-research-preview" aria-live="polite">
-        <button
-          className="network-context-action"
-          onClick={() => setResearch("request")}
-          disabled={phase === "request" || !!replayResearch}
-        >
-          {t("Preview AI OSINT research", "Переглянути дослідження AI OSINT")}
-        </button>
-        <small>
-          {t(
-            "Process demonstration. AI OSINT awaits connection; no external search or new verification is performed.",
-            "Демонстрація процесу. AI OSINT очікує підключення; зовнішній пошук і нова перевірка не проводяться.",
-          )}
-        </small>
-        {phase === "request" && (
-          <p role="status">
+      {full && (
+        <section className="network-profile-work">
+          <h3>{t("Your working record", "Ваша робота з профілем")}</h3>
+          <label>
+            {t("Working review mark", "Робоча позначка перегляду")}
+            <select
+              value={workingStatus}
+              disabled={example || !ready}
+              onChange={(event) => {
+                const status = event.target.value as WorkingReviewState;
+                setWorkingStatus(status);
+                try {
+                  writeWorkingStatus(localStorage, e.code, status);
+                  setStorageError(false);
+                } catch {
+                  setStorageError(true);
+                }
+              }}
+            >
+              {WORKING_REVIEW_STATES.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {uk ? s.uk : s.en}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            {t("Your notes and next action", "Ваші нотатки й наступна дія")}
+            <textarea
+              rows={5}
+              value={note}
+              disabled={example || !ready}
+              onChange={(event) => {
+                const value = event.target.value;
+                setNote(value);
+                try {
+                  writeProfileNote(localStorage, e.code, value);
+                  setStorageError(false);
+                } catch {
+                  setStorageError(true);
+                }
+              }}
+            />
+          </label>
+          <small>
             {t(
-              "Preparing an example request → reading accessible supplied fields → preparing for professional review…",
-              "Підготовка прикладу запиту → читання доступних полів запису → підготовка до перевірки фахівцем…",
+              "Personal working notes in this browser, not a change to the source record or a verification decision.",
+              "Особисті робочі нотатки в цьому браузері. Вони не змінюють вихідний запис і не є рішенням щодо верифікації.",
             )}
-          </p>
-        )}
-        {phase === "findings" && (
-          <div>
-            <h3>{t("Found in the supplied record", "Знайдено в переданому записі")}</h3>
-            {findings.map((f) => (
-              <p key={f.id}>
-                <strong>{uk ? f.uk : f.en}</strong>
-                <br />
-                <mark>{f.value}</mark>
-              </p>
-            ))}
-            <small>
+          </small>
+          {storageError && (
+            <p role="alert">
               {t(
-                "These fields have not been newly obtained or independently verified. No source record has been overwritten.",
-                "Ці поля не отримано заново й не перевірено незалежно. Вихідний запис не перезаписано.",
+                "The change is visible in this panel but could not be saved in this browser.",
+                "Зміну видно в панелі, але зберегти її в браузері не вдалося.",
               )}
-            </small>
-          </div>
-        )}
-      </section>
+            </p>
+          )}
+          <h3>
+            {t(
+              "Further actions · agree the capability",
+              "Подальші дії · погодити функціональність",
+            )}
+          </h3>
+          {configurationAction(
+            "research",
+            "Request research · configure connection",
+            "Замовити дослідження · погодити підключення",
+          )}
+          {configurationAction(
+            "review",
+            "Arrange professional verification",
+            "Погодити професійну перевірку",
+          )}
+          {configurationAction(
+            "contact",
+            "Request an introduction or recommendation",
+            "Запросити знайомство чи рекомендацію",
+          )}
+          {configurationAction(
+            "groups",
+            "Move between named groups",
+            "Переміщувати між іменованими групами",
+          )}
+          {configurationAction(
+            "integration",
+            "Manage Board, Chapter and member roles",
+            "Керувати ролями правління, чаптерів і членів",
+          )}
+          {configurationAction(
+            "evidence",
+            "Update or correct the dossier",
+            "Доповнювати чи виправляти досьє",
+          )}
+          <Link className="network-context-action" to="/scope" hash="scope-core-title">
+            {t("Review scope and budget limits", "Погодити обсяг та бюджетні ліміти")}
+          </Link>
+          <small>
+            {t(
+              "These operations require an agreed service connection. Following a link does not send a request or perform a check.",
+              "Ці операції потребують погодженого підключення сервісів. Перехід не надсилає запит і не виконує перевірку.",
+            )}
+          </small>
+        </section>
+      )}
+      {(full || replayResearch) && (
+        <section className="network-research-preview" aria-live="polite">
+          <small>
+            {t(
+              "Process demonstration. AI OSINT awaits connection; no external search or new verification is performed.",
+              "Демонстрація процесу. AI OSINT очікує підключення; зовнішній пошук і нова перевірка не проводяться.",
+            )}
+          </small>
+          {phase === "request" && (
+            <p role="status">
+              {t(
+                "Preparing an example request → reading accessible supplied fields → preparing for professional review…",
+                "Підготовка прикладу запиту → читання доступних полів запису → підготовка до перевірки фахівцем…",
+              )}
+            </p>
+          )}
+          {phase === "findings" && (
+            <div>
+              <h3>{t("Found in the supplied record", "Знайдено в переданому записі")}</h3>
+              {findings.map((f) => (
+                <p key={f.id}>
+                  <strong>{uk ? f.uk : f.en}</strong>
+                  <br />
+                  <mark>{f.value}</mark>
+                </p>
+              ))}
+              <small>
+                {t(
+                  "These fields have not been newly obtained or independently verified. No source record has been overwritten.",
+                  "Ці поля не отримано заново й не перевірено незалежно. Вихідний запис не перезаписано.",
+                )}
+              </small>
+            </div>
+          )}
+        </section>
+      )}
       <button
         className="network-folder-button"
         data-guide-target="save"

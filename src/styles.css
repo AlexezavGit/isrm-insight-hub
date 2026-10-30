@@ -9925,3 +9925,40 @@ body,
 .participation-sweep { stroke:var(--ds-gold); stroke-width:5; stroke-dasharray:12 88; animation:participation-travel 22s linear infinite; }
 .is-motion-paused .participation-sweep { animation-play-state:paused; }
 @keyframes participation-travel { to { stroke-dashoffset:-100; } }
+
+/* Inspection columns follow the measured filing-tab grid. */
+.network-workbench .network-inspection-dock { left:var(--network-dock-left,0px); }
+.network-workbench .network-dashboard > .network-panel-heading { display:none; }
+.network-pane-heading { position:absolute; left:12px; right:62px; top:calc(var(--network-controls-top) + 12px); z-index:2; margin:0; min-height:44px; display:flex; align-items:center; font-size:.95rem; font-weight:600; color:#173f4c; }
+.network-service-choices > .capability-service-choice { display:flex; align-items:center; gap:.35rem; border-bottom:1px solid #839c9c33; }
+.capability-service-choice > input { width:20px; height:20px; margin:12px 5px; accent-color:#254f59; flex-shrink:0; cursor:pointer; }
+.capability-service-choice .capability-tree-service { flex:1; min-width:0; border:0; }
+.network-service-choices > small { display:block; font-size:.72rem; line-height:1.5; margin-top:.7rem; }
+.network-profile-work { margin:1rem 0; border-top:1px solid #849c9c66; padding-top:.7rem; }
+.network-profile-work label { display:block; font-size:.84rem; margin:.7rem 0; }
+.network-profile-work :is(select,textarea) { display:block; width:100%; background:#faf8f0; border:1px solid #829b9c; border-radius:3px; padding:.5rem; margin-top:.35rem; color:#173f4c; font:inherit; min-height:44px; }
+.network-profile-work textarea { resize:vertical; }
+.network-profile-work small { display:block; font-size:.72rem; line-height:1.5; }
+.network-profile-work .network-context-action { display:flex; min-height:44px; padding:.5rem 0; }
+.network-workflow-hint { position:absolute; top:58px; right:12px; z-index:10; width:min(350px,calc(100% - 24px)); max-height:min(370px,52dvh); overflow:auto; padding:.6rem .8rem; background:#eee9dcf5; color:#183f4b; border:1px solid #8ba5a5; border-radius:9px; box-shadow:0 6px 24px #04172766; backdrop-filter:blur(9px); font-size:.82rem; line-height:1.5; }
+.network-workflow-hint header { display:flex; align-items:center; gap:.5rem; justify-content:space-between; }
+.network-workflow-hint header button { min-width:44px; min-height:44px; display:grid; place-items:center; cursor:pointer; }
+.network-workflow-hint p { margin:.5rem 0; }
+.network-workflow-hint h3 { font-size:.85rem; margin:.7rem 0 .3rem; }
+.network-workflow-hint ul { list-style:disc; padding-left:1.1rem; }
+.network-workflow-hint .network-folder-button { margin:.5rem 0; font-size:.8rem; }
+.network-workflow-hint > label { display:flex; gap:.6rem; align-items:center; min-height:44px; }
+.network-workflow-hint input { width:20px; height:20px; accent-color:#254f59; flex-shrink:0; }
+.network-graph-view-tools { position:absolute; right:10px; top:8px; display:flex; flex-wrap:wrap; justify-content:flex-end; gap:.35rem; z-index:5; max-width:calc(100% - 20px); }
+.network-graph-view-tools > button { position:static; min-height:44px; display:flex; align-items:center; gap:.35rem; border:1px solid #b7c9ca66; border-radius:5px; padding:.4rem .5rem; background:#092735dd; color:#e4e9df; font-size:.72rem; cursor:pointer; }
+.network-graph-path { position:absolute; left:12px; top:58px; z-index:6; width:min(330px,calc(100% - 24px)); background:#eee9dcef; color:#153f4c; padding:0 .7rem; border:1px solid #91a8a7; border-radius:7px; backdrop-filter:blur(8px); max-height:48dvh; overflow:auto; }
+.network-graph-path .network-connection-path { border:0; }
+.network-shortlist-panel .network-shortlist-cards article { padding:.65rem .2rem; }
+.network-shortlist-panel .network-shortlist-cards .network-shortlist-person { min-height:44px; display:flex; align-items:center; }
+.network-shortlist-panel footer > button { min-height:44px; }
+@media(max-width:1099px) {
+ .network-pane-heading { top:5px; font-size:.87rem; }
+ .network-inspection-tabs + .network-inspection-pane .network-pane-heading { top:5px; }
+ .network-workbench .network-inspection-pane :is(.network-left-panel,.network-right-panel) { padding-top:60px; }
+ .network-shortlist-panel { padding-top:60px; }
+}

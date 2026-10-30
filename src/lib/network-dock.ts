@@ -16,7 +16,7 @@ export function stackedInspectionLayout(
       width: keys.length ? Math.min(420, Math.max(0, viewport - 64)) : 0,
       graph: viewport,
     };
-  const budget = viewport - 404,
+  const budget = viewport - Math.max(284, (viewport - 40) / 4 + 24),
     total = Object.values(sizes).reduce((a, b) => a + b, 0),
     minimum = keys.length * 220;
   if (total > budget && total > minimum)

@@ -1,96 +1,51 @@
-import { useState } from "react";
-import { Plus, Minus } from "lucide-react";
-import {
-  CLIENT_SERVICES,
-  CLIENT_WORKFLOWS,
-  type ClientLocale,
-  type ServiceId,
-  type WorkflowId,
-} from "@/lib/client-catalog";
+import { Plus } from "lucide-react";
+import { CLIENT_SERVICES, type ClientLocale, type ServiceId } from "@/lib/client-catalog";
 import type { ClientDraft } from "@/lib/client-draft";
-import { packageServiceIds, type PackageId } from "@/lib/tailored-scope";
-import { PackageServiceEditor } from "./PackageServiceEditor";
+import { selectedServiceIds } from "@/lib/client-draft";
+
 export function NetworkCapabilityTree({
   draft,
   locale,
-  open,
-  onOpen,
   onService,
-  editing,
   disabled,
   onToggle,
-  onWorkflow,
 }: {
   draft: ClientDraft;
   locale: ClientLocale;
-  open: string | null;
-  onOpen: (id: string) => void;
   onService: (id: ServiceId) => void;
-  editing: boolean;
   disabled: boolean;
-  onToggle: (packageId: PackageId, serviceId: ServiceId, checked: boolean) => void;
-  onWorkflow: (id: WorkflowId, checked: boolean) => void;
+  onToggle: (serviceId: ServiceId, checked: boolean) => void;
 }) {
   const uk = locale === "uk",
-    [edit, setEdit] = useState(false);
+    selected = selectedServiceIds(draft);
   return (
-    <div className="network-capability-tree">
-      <button
-        className="network-context-action"
-        aria-pressed={edit || editing}
-        onClick={() => setEdit(!edit)}
-      >
-        {uk ? "Змінити склад пакетів" : "Edit package composition"}
-      </button>
-      {[
-        { id: "core" as const, title: { en: "Trust core", uk: "Ядро довіри" } },
-        ...CLIENT_WORKFLOWS,
-      ].map((w) => (
-        <section className="capability-tree-branch" key={w.id} data-workflow-id={w.id}>
-          <div className="capability-tree-heading">
-            <button aria-expanded={open === w.id} onClick={() => onOpen(w.id)}>
-              {open === w.id ? <Minus size={17} /> : <Plus size={17} />}
-              <span>{w.title[locale]}</span>
-            </button>
-            {w.id !== "core" && (
-              <input
-                type="checkbox"
-                aria-label={
-                  (uk ? "Додати до пропозиції: " : "Include in proposal: ") + w.title[locale]
-                }
-                checked={draft.workflowIds.includes(w.id)}
-                disabled={disabled}
-                onChange={(e) => onWorkflow(w.id, e.target.checked)}
-              />
-            )}
-          </div>
-          {open === w.id && (
-            <div className="capability-tree-leaves">
-              {editing || edit ? (
-                <PackageServiceEditor
-                  id={w.id}
-                  draft={draft}
-                  locale={locale}
-                  disabled={disabled}
-                  onChange={(id, checked) => onToggle(w.id, id, checked)}
-                />
-              ) : (
-                packageServiceIds(draft, w.id).map((id) => (
-                  <button
-                    key={id}
-                    className="capability-tree-service"
-                    data-service-id={id}
-                    onClick={() => onService(id)}
-                  >
-                    <Plus size={15} />
-                    {CLIENT_SERVICES.find((s) => s.id === id)?.title[locale]}
-                  </button>
-                ))
-              )}
-            </div>
-          )}
-        </section>
+    <div className="network-capability-tree network-service-choices">
+      {CLIENT_SERVICES.map((service) => (
+        <div className="capability-service-choice" key={service.id}>
+          <input
+            type="checkbox"
+            checked={selected.includes(service.id)}
+            disabled={disabled}
+            aria-label={
+              (uk ? "Включити до пропозиції: " : "Include in proposal: ") + service.title[locale]
+            }
+            onChange={(event) => onToggle(service.id, event.target.checked)}
+          />
+          <button
+            className="capability-tree-service"
+            data-service-id={service.id}
+            onClick={() => onService(service.id)}
+          >
+            <Plus size={16} />
+            <span>{service.title[locale]}</span>
+          </button>
+        </div>
       ))}
+      <small>
+        {uk
+          ? "Вибір змінює запропонований склад сервісів. Workflow пояснюються на графі; змінений обсяг потребує переоцінки."
+          : "Your choices shape the proposed services. Workflow explanations are on the graph; changed scope requires reassessment."}
+      </small>
     </div>
   );
 }
