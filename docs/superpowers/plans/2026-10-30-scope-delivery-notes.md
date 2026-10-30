@@ -21,10 +21,19 @@
 
 ## Tasks
 
-- [ ] Add five bilingual notes and render them in one collapsed receipt disclosure.
-- [ ] Include the same notes in the common summary and recognise their section in Markdown/print.
-- [ ] Verify section identity and email/Markdown/print retention in both languages and all three routes; retain existing pricing checks.
-- [ ] Add architect-facing questions on baselines, scope, changes, budget control, acceptance and warranty.
-- [ ] Run tests, focused lint, build and diff checks, commit private work and publish only public source changes via the established deployment branch.
+- [x] Add five bilingual notes and render them in one collapsed receipt disclosure.
+- [x] Include the same notes in the common summary and recognise their section in Markdown/print.
+- [x] Verify section identity and email/Markdown/print retention in both languages and all three routes; retain existing pricing checks.
+- [x] Add architect-facing questions on baselines, scope, changes, budget control, acceptance and warranty.
+- [x] Run tests, focused lint, build and diff checks, commit private work and publish only public source changes via the established deployment branch.
 
 No additional approval round is needed: the reviewed direction and implementation are already authorised by the user.
+
+## Verification and publication
+
+- 70 application tests passed; focused ESLint and production build passed.
+- Both languages render five terms in a collapsed disclosure; exports preserve one complete section across all three routes.
+- Pricing and delivery-milestone files are unchanged.
+- Public source release: `5b0db396603cb569df9e24c9df3058f46ffc901c`; GitHub Actions run `40983359103` succeeded.
+- Independent release check passed; live `/scope` returns the five notes, collapsed. No live browser gesture or visual inspection is claimed.
+- Private architect addendum remains outside the public deployment.
