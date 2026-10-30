@@ -170,6 +170,7 @@ export function BriefingSlider() {
           </div>
           <BriefingVisual
             index={slide}
+            experts={data?.experts ?? []}
             slide={current}
             locale={locale}
             reducedMotion={reducedMotion}

@@ -1,6 +1,10 @@
 # ISRM — professional communications and network expertise
 
-30 October 2026 · Internal partner discussion · Product positioning and pilot rationale
+31 October 2026 · Internal partner discussion · Product positioning and pilot rationale
+
+The accompanying **ISRM_Partner_Discussion_Pack_EN.pdf** combines printable mini-slides, this rationale, market comparisons, financial scenarios, a simplified TRD and an architect addendum. The existing workbook remains the detailed calculation source.
+
+**Purpose of the figures now:** assess the opportunity, possible paid work and whether the potential remuneration is of interest. All rates, hours, allocations and income are indicative scenarios. No approval of personal rates, budget or delivery commitments is requested at this stage. We will agree the executors' rates, allocation of functions and final client price when preparing and jointly confirming the final proposal.
 
 ## What we are proposing
 
@@ -35,11 +39,13 @@ The relevant alternatives are several established product categories, not just g
 
 ### Published price references and their limits
 
-| Reference | Status on 30 October 2026 | Comparison limit |
+| Reference | Verification status | Comparison limit |
 |---|---|---|
 | Glue Up starting packages: **US$3,000–US$6,500/year** | Verified directly on the supplier's public pricing page | Starting subscription range; not a quotation for ISRM's chapters, migration, integrations or all desired services |
 | Glue Up Advanced: **US$8,000–US$18,500/year**; Enterprise custom pricing | Verified on the same page; multi-chapter/multi-location management listed under Enterprise | Do not price the 35-chapter scenario from the entry package |
-| Affinity: **US$2,000/user/year** | Reference supplied for this review; the current pricing page could not be retrieved for independent confirmation | Treat as an unconfirmed reference pending a current supplier quotation, not a verified current entry rate or ISRM total |
+| Affinity Essential: **US$2,000/user/year** | Confirmed on the supplier's current product pricing page in this review | Per paid account, not per record stored; actual seats, minimums, discounts and licence terms require a supplier quotation |
+
+The calculation **178 × US$2,000 = US$356,000/year** is valid only if 178 people require paid operator accounts. A corpus of 178 profiles does not establish that requirement. Illustrative annual seat arithmetic: 3 accounts US$6,000; 10 accounts US$20,000; 35 accounts US$70,000. These are not ISRM quotations.
 
 Keep currencies, billing units and scope separate. A yearly subscription, a per-seat licence and a one-off implementation are not equivalent prices. Compare a common scenario over three years: setup/configuration, migration, integrations, licences, hosting, professional research/review, internal operations, support, changes and exit. Use actual supplier quotations before claiming a cost advantage.
 
@@ -72,6 +78,16 @@ Preserve standard systems where they do their job. Quote only the custom gap and
 
 The public core planning range remains **£33,600–£34,944**, indicative for its stated scope and subject to technical confirmation. It is not directly comparable with a US-dollar subscription or an enterprise quotation that has not been obtained. The internal full-cost funding calculation and public planning figures must be reconciled before a fixed offer. This brief does not change prices, executor fees, payment fractions or the developer estimate.
 
+## Internal financial position and paid functions
+
+The retained workbook models **£50,849** core revenue against **£44,215.68** estimated total delivery cost, leaving **£6,633.32** contribution before tax. This is approximately **8.23% below** the same-scope UK model of £55,411.67, rather than 30% below. Within the calculation, the funding floor takes precedence over a target discount. These are scenarios for assessing interest, not a request to approve a price, agreed contracts or collected income.
+
+Function fees follow the person or qualified provider performing the work. Alex's proposed functions concern client decisions and legal/privacy/rights work; Dmytro's concern research protocols and research/communications delivery; Oleksii's concern strategy, product definition and acceptance. Core function fees are respectively £2,759.59, £3,894 and £6,237. If equal thirds of positive contribution are agreed, the illustrative additional core profit is £2,211.11 each. Current-development remuneration remains within the development allocation and is not included again in these partner receipts.
+
+The function rates retained in the model are UK discipline averages for client services, communications, strategy and product, an OSINT median, and a Ukrainian legal-provider proxy. They are **not uniformly lower UK market rates**. The print pack shows the arithmetic and the distinction; the workbook retains dated rate and currency sources.
+
+Three optional directions together represent conditional revenue of **£73,085** and contribution of **£9,534.06**, in addition to the core. Fees for campaign/content work, research, rights and product ownership are costs before profit, not unpaid partner overhead. No separate referral commission is assumed. Optional scope, provider charges, operating volumes and any referral terms require their own decisions. The print pack gives per-person scenarios and simplified technical allocations without exposing detailed current-development remuneration.
+
 ## Already created; not yet demonstrated as operational
 
 The supplied corpus contains 178 records; 45 have the source flag `is_verified`. This is not proof that all are ISRM members, that every expertise claim is independently confirmed or that disclosure is authorised.
@@ -84,7 +100,7 @@ The configurator is a real tool for shaping proposed scope, not the operational 
 
 - Glue Up pricing, directly retrieved 30 October 2026: https://www.glueup.com/pricing
 - Affinity relationship intelligence, reviewed in the preceding discussion: https://www.affinity.co/product/relationship-intelligence
-- Affinity pricing reference to reconfirm: https://www.affinity.co/pricing
+- Affinity Essential annual per-user pricing, confirmed in this review: https://www.affinity.co/product/affinity-pricing
 - Neo4j Bloom overview, reviewed for the architect brief: https://neo4j.com/docs/bloom-user-guide/current/bloom-visual-tour/bloom-overview/
 - Linkurious supported sources, reviewed for the architect brief: https://doc.linkurious.com/admin-manual/4.3/configure-sources/
 - ISRM partnership announcement within its OSINT masterclass article, directly retrieved 30 October 2026: https://www.theisrm.org/1-day-osint-virtual-masterclass/

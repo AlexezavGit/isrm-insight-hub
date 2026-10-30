@@ -1,5 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { RESPONSE_CONTACT, responseEmailHref } from "./client-response";
 import {
   SCOPE_DELIVERY_HEADING,
   SCOPE_DELIVERY_STATUS,
@@ -96,7 +97,24 @@ test("email handoff encodes the complete summary without claiming delivery", () 
   const d = updateDraft(emptyDraft(), { notes: "A&B + 100%\nІнтеграція" });
   const url = new URL(emailHref(d, "uk"));
   assert.equal(url.protocol, "mailto:");
+  assert.equal(url.pathname, RESPONSE_CONTACT.email);
   assert.equal(url.searchParams.get("body"), buildClientSummary(d, "uk"));
+});
+
+test("board responses do not export obsolete identity fields and long-message handoff uses the same recipient", () => {
+  const draft = updateDraft(emptyDraft(), {
+    name: "Legacy name to omit",
+    email: "legacy@example.invalid",
+  });
+  for (const locale of ["en", "uk"] as const) {
+    const summary = buildClientSummary(draft, locale);
+    assert(!summary.includes("Legacy name to omit"));
+    assert(!summary.includes("legacy@example.invalid"));
+    assert.equal(
+      new URL(responseEmailHref("Attach the full request")).pathname,
+      new URL(emailHref(draft, locale)).pathname,
+    );
+  }
 });
 
 test("delivery arrangements remain one complete section in all exports and routes without changing the quote", () => {
@@ -125,7 +143,37 @@ test("delivery arrangements remain one complete section in all exports and route
   }
 });
 
-import { clientQuote, CLIENT_APPROVED_PRICES, clientQuoteRange } from "./client-pricing";
+import {
+  clientQuote,
+  CLIENT_APPROVED_PRICES,
+  clientQuoteRange,
+  clientPriceLines,
+} from "./client-pricing";
+test("individual research replaces development selections and remains unpriced in the receipt and exports", () => {
+  const before = updateDraft(emptyDraft(), {
+    workflowIds: ["engagement"],
+    integrationInterest: true,
+  });
+  const draft = updateDraft(before, { mode: "research-only" });
+  assert.deepEqual(draft.workflowIds, []);
+  assert.equal(draft.integrationInterest, false);
+  assert.equal(clientQuote(draft), null);
+  for (const locale of ["en", "uk"] as const) {
+    const lines = clientPriceLines(draft, locale);
+    assert.equal(lines.length, 1);
+    assert.equal(lines[0]!.value, null);
+    assert.match(lines[0]!.title, locale === "en" ? /Research on request/ : /Разові дослідження/);
+    const summary = buildClientSummary(draft, locale);
+    assert(summary.includes(lines[0]!.title));
+    assert.match(
+      summary,
+      locale === "en"
+        ? /Indicative priced scope: To estimate/
+        : /Індикативна сума оцінених позицій: До оцінки/,
+    );
+    assert.equal(new URL(emailHref(draft, locale)).searchParams.get("body"), summary);
+  }
+});
 test("approved scope prices add up and unpriced requirements stay unknown", () => {
   assert.equal(clientQuote(emptyDraft()), 33600);
   assert.equal(

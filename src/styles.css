@@ -9861,3 +9861,67 @@ body,
 .scope-delivery-notes dl > div { margin:.7rem 0; }
 .scope-delivery-notes dt { font-weight:600; }
 .scope-delivery-notes dd { margin:.2rem 0 0; }
+
+/* The receipt and its controls occupy separate areas, never stacked scroll layers. */
+.scope-card-cabinet .scope-linear-layout > .client-scope-budget { display:flex; flex-direction:column; }
+.scope-card-cabinet .scope-linear-layout > .client-scope-budget > .client-price-receipt { position:static; top:auto; z-index:auto; flex:0 0 auto; background:var(--ds-paper); max-height:none; overflow:visible; }
+.scope-receipt-controls { min-height:0; }
+.scope-wide-action { display:flex; align-items:center; justify-content:center; width:100%; min-height:48px; margin-top:.65rem; text-align:center; }
+.scope-introduction-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem 1.5rem; margin:1.2rem 0 1.8rem; }
+.scope-introduction-grid > div { border-top:1px solid var(--scope-card-line); padding:.7rem 0; }
+.scope-introduction-grid h2 { font:600 1.05rem/1.35 "Space Grotesk",sans-serif; margin:0 0 .45rem; }
+.scope-introduction-grid p { font-size:.92rem; line-height:1.55; margin:0; }
+.scope-service-folder { display:grid; grid-template-columns:40px minmax(0,1fr); align-items:start; }
+.scope-service-check { display:grid; place-items:center; min-height:48px; cursor:pointer; }
+.scope-service-check input,.scope-option-choice input { width:20px; height:20px; accent-color:var(--ds-blue); }
+.scope-additional-options { margin:1.5rem 0; }
+.scope-option-row { padding:1rem 0; border-top:1px solid var(--scope-card-line); }
+.scope-option-choice { display:grid; grid-template-columns:24px minmax(0,1fr) auto; gap:.7rem; align-items:center; min-height:48px; cursor:pointer; }
+.scope-option-choice .scope-block-price { font-size:.95rem; white-space:normal; text-align:right; }
+@media(min-width:761px) {
+ .scope-card-cabinet .scope-linear-layout > .client-scope-budget { overflow:hidden; }
+ .scope-card-cabinet .scope-linear-layout > .client-scope-budget > .client-price-receipt { max-height:min(38dvh,320px); overflow:auto; }
+ .scope-receipt-controls { flex:1 1 auto; overflow-y:auto; overscroll-behavior:contain; padding-right:.25rem; }
+}
+@media(max-width:600px) {
+ .scope-introduction-grid { grid-template-columns:1fr; gap:.4rem; }
+ .scope-option-choice { grid-template-columns:24px minmax(0,1fr); }
+ .scope-option-choice .scope-block-price { grid-column:2; justify-self:start; text-align:left; }
+}
+
+/* Stable brand/action row at every width; navigation always owns its own row. */
+.shared-client-header { display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"brand actions" "journey journey"; column-gap:.6rem; row-gap:.4rem; }
+.shared-client-header .client-wordmark { grid-area:brand; min-width:0; max-width:100%; flex-wrap:nowrap; white-space:nowrap; gap:.55rem; }
+.shared-client-header .client-wordmark span { max-width:none; font-family:"Source Sans 3",sans-serif; }
+.shared-client-header .client-topbar-actions { grid-area:actions; width:auto; min-width:0; max-width:none; display:flex; flex-wrap:nowrap; align-items:center; justify-self:end; gap:.25rem; }
+.shared-client-header .client-topbar-actions > div { flex:0 0 auto; }
+.shared-client-header .client-accessibility,.shared-client-header .client-language { flex-wrap:nowrap; }
+.shared-client-header :is(.client-journey-tabs,.client-journey-ring) { grid-area:journey; }
+.shared-client-header .client-accessibility button { display:grid; place-items:center; }
+@media(max-width:480px) {
+ .shared-client-header .client-wordmark { font-size:1.05rem; gap:.3rem; }
+ .shared-client-header .client-wordmark span { font-size:.5rem; letter-spacing:.03em; max-width:3.4rem; white-space:normal; padding-left:.3rem; }
+ .shared-client-header .client-topbar-actions { gap:.1rem; }
+ .shared-client-header .client-topbar-actions button { min-width:28px; padding-inline:.15rem; }
+}
+/* Two presentation families: Source Sans for reading, Space Grotesk for headings. */
+.client-briefing .client-slide-surface *,.client-briefing .shared-client-header * { font-family:"Source Sans 3",sans-serif; }
+.client-briefing .client-slide-surface :is(h1,h2,h3),.client-briefing .shared-client-header .client-wordmark { font-family:"Space Grotesk",sans-serif; }
+.briefing-evidence-figure { margin:0; min-width:0; display:flex; flex-direction:column; justify-content:center; }
+.briefing-evidence-figure svg { width:100%; max-height:43dvh; height:auto; overflow:visible; }
+.briefing-evidence-figure text { fill:var(--ds-blue); font-size:15px; font-weight:500; }
+.service-audience-figure text { font-size:18px; }
+.briefing-evidence-figure .figure-hub-title { font-size:27px; font-weight:700; }
+.evidence-map-edge { stroke:var(--ds-blue); stroke-width:1; opacity:.35; }
+.source-confirmed { fill:var(--ds-gold); stroke:var(--ds-blue); stroke-width:.4; }
+.source-unreviewed { fill:var(--ds-teal); stroke:var(--ds-blue); stroke-width:.4; }
+.evidence-map-hub,.service-map-node { fill:var(--ds-paper); stroke:var(--ds-blue); stroke-width:1.2; }
+.service-audience-edge { stroke:var(--ds-blue); stroke-width:1; stroke-dasharray:3 5; opacity:.3; }
+.service-workflow-edge { fill:none; stroke:var(--ds-teal); stroke-width:2; opacity:.65; }
+.service-workflow-edge.workflow-edge-1 { stroke:var(--ds-gold); stroke-dasharray:5 4; }
+.service-workflow-edge.workflow-edge-2 { stroke:var(--ds-blue); stroke-dasharray:2 6; }
+.briefing-evidence-figure figcaption { font-size:.75rem; line-height:1.4; margin-top:.5rem; color:var(--ds-blue); }
+.participation-track,.participation-sweep { fill:none; stroke:var(--ds-blue); stroke-width:1.3; }
+.participation-sweep { stroke:var(--ds-gold); stroke-width:5; stroke-dasharray:12 88; animation:participation-travel 22s linear infinite; }
+.is-motion-paused .participation-sweep { animation-play-state:paused; }
+@keyframes participation-travel { to { stroke-dashoffset:-100; } }
