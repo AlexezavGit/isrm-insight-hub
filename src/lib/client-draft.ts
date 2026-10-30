@@ -7,6 +7,11 @@ import {
 } from "./board-brief";
 import { packageServiceIds } from "./tailored-scope";
 import { BRIEFING_MILESTONES } from "./briefing-milestones";
+import {
+  SCOPE_DELIVERY_HEADING,
+  SCOPE_DELIVERY_STATUS,
+  scopeDeliveryNotes,
+} from "./scope-delivery-notes";
 import { z } from "zod";
 import {
   clientQuote,
@@ -253,6 +258,9 @@ ${step.acceptance[locale]}`,
     uk
       ? "Запропоновані перевірки для погодження ТЗ; не перелік уже реалізованих функцій прототипу."
       : "Proposed checks for the specification, not a list of capabilities already implemented in the prototype.",
+    "\n" + SCOPE_DELIVERY_HEADING[locale],
+    SCOPE_DELIVERY_STATUS[locale],
+    ...scopeDeliveryNotes(locale).map((note) => `• ${note.title}: ${note.body}`),
     "\n" + (uk ? "ДАНІ ТА ВІДПОВІДАЛЬНІСТЬ" : "DATA & RESPONSIBILITY"),
     uk
       ? "Демонстраційна вибірка та тематичні зв’язки не є акредитацією, рекомендацією ISRM чи оцінкою репутації. AI OSINT ще не підключено. Операційне використання даних потребує визначених цілей, правової підстави, відповідальних, строків зберігання та порядку реалізації прав."

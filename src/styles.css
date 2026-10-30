@@ -9853,3 +9853,10 @@ body,
 .integration-strip img { width:22px; height:22px; object-fit:contain; opacity:.85; }
 
 .network-workbench .network-panel-resizer { left:auto; right:-4px; }
+
+.scope-delivery-notes { margin-top:.75rem; border-top:1px solid var(--scope-card-line); font-size:.75rem; line-height:1.55; }
+.scope-delivery-notes > summary { min-height:44px; padding:.65rem 0; cursor:pointer; font-weight:600; }
+.scope-delivery-notes > p { margin:.25rem 0 .7rem; }
+.scope-delivery-notes dl > div { margin:.7rem 0; }
+.scope-delivery-notes dt { font-weight:600; }
+.scope-delivery-notes dd { margin:.2rem 0 0; }

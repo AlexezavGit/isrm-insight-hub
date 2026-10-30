@@ -1,4 +1,5 @@
 import { IntegrationStrip } from "@/components/IntegrationStrip";
+import { ScopeDeliveryNotes } from "@/components/ScopeDeliveryNotes";
 import { packageIsCustom } from "@/lib/tailored-scope";
 import { BoardDecisionNote } from "@/components/BoardDecisionNote";
 import { BOARD_RECIPIENT, BOARD_CAPACITY } from "@/lib/board-brief";
@@ -503,6 +504,7 @@ function ScopePage() {
             <a className="client-button scope-receipt-next" href="#scope-response-section">
               {t("Accept & arrange a discussion", "Погодити та домовитися про обговорення")}
             </a>
+            <ScopeDeliveryNotes locale={locale} />
           </aside>
         </div>
         <section id="scope-response-section" className="client-scope-card scope-response-section">
