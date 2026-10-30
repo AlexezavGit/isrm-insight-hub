@@ -1,6 +1,11 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  SCOPE_DELIVERY_HEADING,
+  SCOPE_DELIVERY_STATUS,
+  scopeDeliveryNotes,
+} from "./scope-delivery-notes";
+import {
   emptyDraft,
   parseDraft,
   updateDraft,
@@ -92,6 +97,32 @@ test("email handoff encodes the complete summary without claiming delivery", () 
   const url = new URL(emailHref(d, "uk"));
   assert.equal(url.protocol, "mailto:");
   assert.equal(url.searchParams.get("body"), buildClientSummary(d, "uk"));
+});
+
+test("delivery arrangements remain one complete section in all exports and routes without changing the quote", () => {
+  for (const [mode, expected] of [
+    ["full", 33600],
+    ["graph", 10080],
+    ["research-only", null],
+  ] as const) {
+    const draft = updateDraft(emptyDraft(), { mode });
+    for (const locale of ["en", "uk"] as const) {
+      const summary = buildClientSummary(draft, locale);
+      const sections = scopeDocumentSections(summary).sections.filter(
+        (section) => section.title === SCOPE_DELIVERY_HEADING[locale],
+      );
+      assert.equal(sections.length, 1);
+      assert(sections[0]!.lines.includes(SCOPE_DELIVERY_STATUS[locale]));
+      const paragraphs = sections[0]!.lines.filter((line) => line.startsWith("• "));
+      assert.equal(paragraphs.length, 5);
+      for (const note of scopeDeliveryNotes(locale)) {
+        assert(paragraphs.some((line) => line.includes(note.body)));
+        assert(buildClientMarkdown(draft, locale).includes(note.body));
+      }
+      assert.equal(new URL(emailHref(draft, locale)).searchParams.get("body"), summary);
+      assert.equal(clientQuote(draft), expected);
+    }
+  }
 });
 
 import { clientQuote, CLIENT_APPROVED_PRICES, clientQuoteRange } from "./client-pricing";
