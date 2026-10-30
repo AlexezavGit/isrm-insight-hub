@@ -9962,3 +9962,6 @@ body,
  .network-workbench .network-inspection-pane :is(.network-left-panel,.network-right-panel) { padding-top:60px; }
  .network-shortlist-panel { padding-top:60px; }
 }
+/* Scrolled dossier content passes beneath a readable heading surface. */
+.network-workbench .network-inspection-pane .network-pane-heading { left:0; right:0; top:var(--network-controls-top); height:58px; padding:0 62px 0 12px; background:#eee9dc; backdrop-filter:blur(8px); }
+@media(max-width:1099px) { .network-workbench .network-inspection-pane .network-pane-heading { top:0; height:56px; } }
