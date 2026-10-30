@@ -1,18 +1,20 @@
-import { IntegrationStrip } from "./IntegrationStrip";
 import { BriefingNextSteps } from "./BriefingNextSteps";
+import {
+  ExpertiseMapFigure,
+  ServiceAudienceFigure,
+  ChapterCollaborationFigure,
+  ParticipationCycleFigure,
+} from "./BriefingEvidenceFigures";
 import {
   ArrowDown,
   Database,
   FileSearch,
-  Handshake,
   Layers3,
-  Network,
   ShieldCheck,
   Users,
   BookOpen,
 } from "lucide-react";
-import { WorkflowOrbit } from "./WorkflowOrbit";
-import { ExpertisePyramid } from "./ClientValueFramework";
+import type { Expert } from "@/lib/types";
 import type { BriefingSlide } from "@/lib/briefing-slides";
 import type { ClientLocale } from "@/lib/client-catalog";
 
@@ -21,103 +23,19 @@ export function BriefingVisual({
   slide,
   locale,
   reducedMotion = false,
+  experts = [],
 }: {
   index: number;
   slide: BriefingSlide;
   locale: ClientLocale;
   reducedMotion?: boolean;
+  experts?: Expert[];
 }) {
   const uk = locale === "uk";
-  if (index === 1)
-    return (
-      <figure className="briefing-visual briefing-chapter-dashboard">
-        <header>
-          <Network size={20} aria-hidden="true" />
-          <strong>35</strong>
-          <span>{uk ? "чаптерів · спільне поле взаємодії" : "chapters · a shared view"}</span>
-        </header>
-        <div className="briefing-review-contour">
-          <div>
-            <FileSearch size={28} />
-            <strong>{uk ? "AI готує" : "AI prepares"}</strong>
-            <small>{uk ? "Джерела та знахідки" : "Sources and findings"}</small>
-          </div>
-          <span aria-hidden="true">→</span>
-          <div>
-            <ShieldCheck size={28} />
-            <strong>{uk ? "Фахівець перевіряє" : "A professional reviews"}</strong>
-            <small>{uk ? "Ім’я, дата, висновок" : "Name, date, judgement"}</small>
-          </div>
-        </div>
-        <div className="chapter-dashboard-fields">
-          {[
-            { Icon: Users, en: "Expertise", uk: "Експертиза" },
-            { Icon: FileSearch, en: "Needs", uk: "Потреби" },
-            { Icon: Handshake, en: "Introductions", uk: "Знайомства" },
-          ].map(({ Icon, en, uk: ua }) => (
-            <details key={en} className="chapter-field-folder">
-              <summary>
-                <Icon size={19} aria-hidden="true" />
-                <span>{uk ? ua : en}</span>
-              </summary>
-              <p>
-                {uk
-                  ? {
-                      Expertise: "Яку експертизу чаптер готовий запропонувати колегам?",
-                      Needs: "Якої підтримки та інформації потребують члени?",
-                      Introductions: "Хто може допомогти з доречним професійним знайомством?",
-                    }[en]
-                  : {
-                      Expertise: "What expertise could the chapter share with colleagues?",
-                      Needs: "What support and information do members need?",
-                      Introductions: "Who could help with a relevant professional introduction?",
-                    }[en]}
-              </p>
-            </details>
-          ))}
-        </div>
-        <div className="chapter-dashboard-outcomes">
-          <span>
-            {uk
-              ? "Навчання · членство · партнерства · alumni"
-              : "Learning · membership · partnerships · alumni"}
-          </span>
-          <span>
-            {uk
-              ? "Запити клієнтів · реферали · крос-селл · конференції"
-              : "Client enquiries · referrals · cross-sell · conferences"}
-          </span>
-        </div>
-        <figcaption>
-          {uk
-            ? "Концепція дашборда · наповнюється за результатами опитування, без вигаданих показників."
-            : "Dashboard concept · populated through the questionnaire, with no invented activity metrics."}
-        </figcaption>
-      </figure>
-    );
-  if (index === 2)
-    return (
-      <div className="briefing-visual briefing-engagement">
-        <WorkflowOrbit workflow="engagement" compact locale={locale} />
-        <p className="briefing-visual-caption">
-          {uk
-            ? "Навчання · членство · партнерства · послуги · реферали · конференції"
-            : "Learning · membership · partnerships · services · referrals · conferences"}
-        </p>
-      </div>
-    );
-  if (index === 3)
-    return (
-      <div className="briefing-visual">
-        <ExpertisePyramid locale={locale} compact />
-        <IntegrationStrip locale={locale} />
-        <p className="briefing-visual-caption">
-          {uk
-            ? "Спільне ядро та окремо погоджені напрями розвитку"
-            : "A shared foundation with separately agreed workstreams"}
-        </p>
-      </div>
-    );
+  if (index === 1) return <ExpertiseMapFigure experts={experts} locale={locale} />;
+  if (index === 2) return <ServiceAudienceFigure locale={locale} />;
+  if (index === 3) return <ChapterCollaborationFigure locale={locale} />;
+  if (index === 4) return <ParticipationCycleFigure locale={locale} />;
   if (index === 5) return <BriefingNextSteps locale={locale} reducedMotion={reducedMotion} />;
   return (
     <figure className="briefing-visual briefing-path briefing-path-0">

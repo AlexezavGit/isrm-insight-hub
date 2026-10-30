@@ -8,6 +8,7 @@ import {
 import { packageServiceIds } from "./tailored-scope";
 import { BRIEFING_MILESTONES } from "./briefing-milestones";
 import { PROJECT_POSITIONING } from "./project-positioning";
+import { responseEmailHref } from "./client-response";
 import {
   SCOPE_DELIVERY_HEADING,
   SCOPE_DELIVERY_STATUS,
@@ -159,6 +160,7 @@ export function includeClientRequest(draft: ClientDraft, request: ClientDraft["r
 export function buildClientSummary(d: ClientDraft, locale: ClientLocale): string {
   const uk = locale === "uk";
   const services = selectedServiceIds(d);
+  const estimate = clientQuoteRange(d);
   return [
     "ISRM · " +
       (uk ? "Запит на підготовку детальної пропозиції" : "Request for a detailed proposal"),
@@ -169,7 +171,6 @@ export function buildClientSummary(d: ClientDraft, locale: ClientLocale): string
     PROJECT_POSITIONING.name[locale],
     PROJECT_POSITIONING.purpose[locale],
     PROJECT_POSITIONING.explanation[locale],
-    `${uk ? "Контакт" : "Contact"}: ${d.name} ${d.email}`,
     `${uk ? "Варіант" : "Route"}: ${d.mode === "graph" ? (uk ? "Застосунок як є: пошук, досьє, shortlist та OSINT-перевірка" : "Application as is: search, dossiers, shortlist and OSINT review") : d.mode === "research-only" ? (uk ? "Разові дослідження" : "Research on request") : uk ? "Застосунок за погодженим складом" : "Application with agreed scope"}`,
     "\n" + (uk ? "СЕРВІСИ" : "SERVICES"),
     ...CLIENT_SERVICES.filter((s) => services.includes(s.id)).map(
@@ -227,7 +228,7 @@ export function buildClientSummary(d: ClientDraft, locale: ClientLocale): string
     ...clientPriceLines(d, locale).map(
       (line) => `${line.title}: ${indicativePriceLabel(line.value, locale)}`,
     ),
-    `${uk ? "Індикативна сума оцінених позицій" : "Indicative priced scope"}: ${indicativePriceLabel(clientQuoteRange(d).low, locale, clientQuoteRange(d).high)}`,
+    `${uk ? "Індикативна сума оцінених позицій" : "Indicative priced scope"}: ${indicativePriceLabel(estimate.pending && estimate.low === 0 ? null : estimate.low, locale, estimate.high)}`,
     ...(clientQuoteRange(d).pending
       ? [
           uk
@@ -274,5 +275,5 @@ ${step.acceptance[locale]}`,
   ].join("\n");
 }
 export function emailHref(d: ClientDraft, locale: ClientLocale) {
-  return `mailto:alexezav@gmail.com,dmitrfilim@gmail.com?subject=${encodeURIComponent("ISRM · Scope discussion")}&body=${encodeURIComponent(buildClientSummary(d, locale))}`;
+  return responseEmailHref(buildClientSummary(d, locale));
 }
