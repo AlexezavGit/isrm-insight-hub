@@ -238,9 +238,9 @@ export const SEARCH_REPLAY = [
     en: "Review, then add to the listing",
     uk: "Перегляньте й додайте до лістингу",
     textEn:
-      "Inspect the next mini dossier and retain it in the same example group. Its constellation changes with the selected members.",
+      "Inspect the next mini dossier and retain it in the same example group. Open names in the shortlist to review their dossiers while continuing the search.",
     textUk:
-      "Переглядаємо наступне міні-досьє й додаємо до тієї самої групи прикладу. Її мініграф змінюється зі складом відібраних.",
+      "Переглядаємо наступне міні-досьє й додаємо до тієї самої групи прикладу. Клік на ім’я у відборі відкриває досьє для перегляду без припинення пошуку.",
   },
   {
     id: "result",
@@ -264,12 +264,12 @@ export const CONFIGURATION_REPLAY = [
   },
   {
     id: "core",
-    en: "Start with a useful workflow",
-    uk: "Почніть із корисного workflow",
+    en: "Choose useful services",
+    uk: "Оберіть корисні сервіси",
     textEn:
-      "A workflow groups recurring actions around a result. The Trust core includes the search and selection cycle demonstrated in the prototype.",
+      "Select the services you need. Search and working lists form the cycle demonstrated in the prototype; the proposed composition can be changed.",
     textUk:
-      "Workflow поєднує повторювані дії навколо результату. Ядро довіри включає цикл пошуку й відбору, продемонстрований у прототипі.",
+      "Позначайте потрібні сервіси. Пошук і робочі списки утворюють цикл із прототипу; запропонований склад можна змінювати.",
   },
   {
     id: "service",
@@ -285,9 +285,9 @@ export const CONFIGURATION_REPLAY = [
     en: "Consider the engagement cycle",
     uk: "Розгляньте цикл залучення",
     textEn:
-      "Here members and prospective clients are audiences for a proposed workflow. Compare its services with what your association needs.",
+      "Click a workflow node or its information control on the graph for an explanation. The hint describes a possible combination of services, not an extra panel or a compulsory package.",
     textUk:
-      "Тут члени й потенційні клієнти — аудиторії запропонованого workflow. Зіставте його сервіси з потребами асоціації.",
+      "Клік на вузол workflow чи його інформаційну кнопку на графі відкриває пояснення. Хінт описує можливе поєднання сервісів, не окрему панель чи обов’язковий пакет.",
   },
   {
     id: "tailor",

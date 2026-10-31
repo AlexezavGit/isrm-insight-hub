@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Expert } from "@/lib/types";
 import type { NetworkModel } from "@/lib/network-model";
 import { recordedPath } from "@/lib/network-path";
+import { useDismissibleDetails } from "./useDismissibleDetails";
 export function NetworkConnectionPath({
   person,
   people,
@@ -18,6 +19,7 @@ export function NetworkConnectionPath({
   const [query, setQuery] = useState(""),
     [path, setPath] = useState<string[] | null>(null);
   const t = (en: string, ua: string) => (uk ? ua : en);
+  const details = useDismissibleDetails();
   const matches =
     query.trim().length >= 3
       ? people
@@ -29,7 +31,7 @@ export function NetworkConnectionPath({
           .slice(0, 7)
       : [];
   return (
-    <details className="network-connection-path">
+    <details ref={details} className="network-connection-path">
       <summary>
         {t(
           "Through what might these profiles connect?",
@@ -64,11 +66,13 @@ export function NetworkConnectionPath({
       {path && (
         <div role="status">
           {path.length ? (
-            <ol>
-              {path.map((id) => (
-                <li key={id}>{model.nodes.find((n) => n.id === id)?.label || id}</li>
-              ))}
-            </ol>
+            <p>
+              {t(
+                "Recorded route highlighted on the graph",
+                "Зафіксований шлях підсвічено на графі",
+              )}{" "}
+              · {path.length - 1}
+            </p>
           ) : (
             <p>
               {t(

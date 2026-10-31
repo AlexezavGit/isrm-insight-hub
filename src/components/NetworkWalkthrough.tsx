@@ -62,9 +62,9 @@ export function NetworkWalkthrough({
         replayKind === "configuration"
           ? ".network-example-proposal"
           : ".network-shortlist-panel header",
-      core: '[data-workflow-id="core"] .capability-tree-heading',
+      core: '.network-capability-tree [data-service-id="search"]',
       service: ".network-service-description",
-      workflow: '[data-workflow-id="engagement"] .capability-tree-heading',
+      workflow: ".network-workflow-hint",
       tailor: ".network-add-request",
       intro: replayKind === "configuration" ? ".network-capability-tree" : "[data-coach-node]",
     };

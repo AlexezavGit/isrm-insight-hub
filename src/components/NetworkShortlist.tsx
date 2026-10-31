@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Network, X, ChevronDown, Flag, Download, Save } from "lucide-react";
 import type { Expert } from "@/lib/types";
-import { constellation } from "@/lib/network-experience";
+import { readProfileNotes, restoreProfileNotes, PROFILE_WORK_EVENT } from "@/lib/profile-work";
 import { shortlistMarkdown } from "@/lib/network-shortlist";
 
 export function NetworkShortlist({
@@ -37,7 +37,6 @@ export function NetworkShortlist({
 }) {
   const t = (en: string, ua: string) => (uk ? ua : en);
   const [notes, setNotes] = useState<Record<string, string>>({});
-  const [noteError, setNoteError] = useState(false);
   const [flags, setFlags] = useState<string[]>([]);
   const [saved, setSaved] = useState(false);
   const [snapshots, setSnapshots] = useState<
@@ -50,6 +49,7 @@ export function NetworkShortlist({
     }[]
   >([]);
   const [saveError, setSaveError] = useState(false);
+  const [restoreError, setRestoreError] = useState(false);
   useEffect(() => setSaved(false), [codes, name]);
   useEffect(() => {
     try {
@@ -83,8 +83,6 @@ export function NetworkShortlist({
       /* Local follow-up only. */
     }
   }, [example]);
-  const members = people.filter((p) => codes.includes(p.code));
-  const map = useMemo(() => constellation(members), [members]);
   const toggle = (code: string) => {
     const next = flags.includes(code) ? flags.filter((x) => x !== code) : [...flags, code];
     setFlags(next);
@@ -104,13 +102,14 @@ export function NetworkShortlist({
         setSaveError(true);
         return;
       }
+      const currentNotes = readProfileNotes(localStorage);
       const savedList = {
         id: crypto.randomUUID(),
         name,
         codes: [...codes],
         followUp: flags.filter((code) => codes.includes(code)),
         notes: Object.fromEntries(
-          codes.filter((code) => notes[code]).map((code) => [code, notes[code]]),
+          codes.filter((code) => currentNotes[code]).map((code) => [code, currentNotes[code]]),
         ),
         createdAt: new Date().toISOString(),
       };
@@ -125,7 +124,15 @@ export function NetworkShortlist({
     }
   };
   const download = () => {
-    const text = shortlistMarkdown(people, codes, name, notes, flags, uk);
+    let currentNotes = notes;
+    if (!example) {
+      try {
+        currentNotes = readProfileNotes(localStorage);
+      } catch {
+        /* Retain notes already loaded. */
+      }
+    }
+    const text = shortlistMarkdown(people, codes, name, currentNotes, flags, uk);
     const url = URL.createObjectURL(new Blob([text], { type: "text/markdown;charset=utf-8" }));
     const a = document.createElement("a");
     a.href = url;
@@ -140,31 +147,10 @@ export function NetworkShortlist({
       tabIndex={0}
     >
       <header>
-        <svg
-          viewBox="0 0 100 100"
-          role="img"
-          aria-label={t(
-            "Shared categories of this group, not personal recommendations",
-            "Спільні категорії групи, не особисті рекомендації",
-          )}
-        >
-          {map.links.map((l, i) => {
-            const a = map.nodes.find((n) => n.id === l.source)!,
-              b = map.nodes.find((n) => n.id === l.target)!;
-            return <line key={i} x1={a.x} y1={a.y} x2={b.x} y2={b.y} />;
-          })}
-          {map.nodes.map((n) => (
-            <circle
-              key={n.id}
-              cx={n.x}
-              cy={n.y}
-              r={n.kind === "core" ? 5 : n.kind === "person" ? 2.5 : 3}
-              className={n.kind}
-            />
-          ))}
-        </svg>
         <label>
-          {example ? t("Example shortlist", "Приклад відбору") : t("Your shortlist", "Ваш відбір")}{" "}
+          {example
+            ? t("Example group name", "Назва групи прикладу")
+            : t("Group name", "Назва групи")}{" "}
           · {codes.length}
           <input
             value={name}
@@ -218,45 +204,6 @@ export function NetworkShortlist({
               >
                 {p?.displayName || code}
               </button>
-              <small>
-                {p?.primaryExpertise ||
-                  t("Not in the accessible sample", "Немає в доступній вибірці")}
-              </small>
-              <small>
-                {t("Source status", "Статус джерела")}:{" "}
-                {p?.identityStatus || t("Not recorded", "Не зафіксовано")}
-              </small>
-              <details className="network-shortlist-note" open={expanded || undefined}>
-                <summary>{t("Your notes & next step", "Ваші нотатки й наступна дія")}</summary>
-                <textarea
-                  value={notes[code] || ""}
-                  disabled={disabled}
-                  rows={3}
-                  aria-label={t("Note for ", "Нотатка для ") + (p?.displayName || code)}
-                  placeholder={t(
-                    "What should be checked or discussed next?",
-                    "Що перевірити або обговорити далі?",
-                  )}
-                  onChange={(event) => {
-                    const next = { ...notes, [code]: event.target.value };
-                    setNotes(next);
-                    setSaved(false);
-                    if (!example)
-                      try {
-                        localStorage.setItem("isrm-shortlist-notes", JSON.stringify(next));
-                        setNoteError(false);
-                      } catch {
-                        setNoteError(true);
-                      }
-                  }}
-                />
-                <small>
-                  {t(
-                    "Your working note; no request has been sent.",
-                    "Ваша робоча нотатка; запит не надсилається.",
-                  )}
-                </small>
-              </details>
               <div>
                 <button
                   aria-pressed={flags.includes(code)}
@@ -277,6 +224,14 @@ export function NetworkShortlist({
         })}
       </div>
       <footer>
+        {restoreError && (
+          <small role="alert">
+            {t(
+              "The selection opened, but its saved notes could not be restored in this browser.",
+              "Відбір відкрито, але його збережені нотатки відновити в браузері не вдалося.",
+            )}
+          </small>
+        )}
         <small>
           {example
             ? t(
@@ -284,8 +239,8 @@ export function NetworkShortlist({
                 "Тимчасовий приклад · ваша збережена група не змінена",
               )
             : t(
-                "Saved in this browser · follow-up marks are your notes, not verification decisions",
-                "Збережено в цьому браузері · позначки уваги — ваші нотатки, не висновки перевірки",
+                "Stored only in this browser. Open saved shortlists below; download Markdown for a separate file. Working marks are not verification decisions.",
+                "Лише в цьому браузері. Збережені відбори відкриваються нижче; Markdown завантажує окремий файл. Робочі позначки не є висновками перевірки.",
               )}
         </small>
         {!example && snapshots.length > 0 && (
@@ -305,13 +260,14 @@ export function NetworkShortlist({
                     ([code, value]) => list.codes.includes(code) && typeof value === "string",
                   ),
                 ) as Record<string, string>;
-                setNotes(restoredNotes);
                 try {
                   localStorage.setItem("isrm-shortlist-follow-up", JSON.stringify(restored));
-                  localStorage.setItem("isrm-shortlist-notes", JSON.stringify(restoredNotes));
+                  setNotes(restoreProfileNotes(localStorage, list.codes, restoredNotes));
+                  setRestoreError(false);
                 } catch {
-                  /* Visible in this tab only. */
+                  setRestoreError(true);
                 }
+                window.dispatchEvent(new Event(PROFILE_WORK_EVENT));
                 onRestore(list.codes, list.name);
                 setSaved(false);
               }
@@ -329,27 +285,19 @@ export function NetworkShortlist({
           <button onClick={save} disabled={disabled || !codes.length}>
             <Save size={14} />
             {saved
-              ? t("Snapshot saved", "Знімок збережено")
-              : t("Save a snapshot", "Зберегти знімок")}
+              ? t("Saved in this browser", "Збережено в цьому браузері")
+              : t("Save this shortlist in the browser", "Зберегти відбір у браузері")}
           </button>
         )}
         <button onClick={download} disabled={!codes.length}>
           <Download size={14} />
           Markdown
         </button>
-        {noteError && (
-          <small role="alert">
-            {t(
-              "Notes are visible in this tab only. Download Markdown to keep them.",
-              "Нотатки видимі лише в цій вкладці. Збережіть їх у Markdown.",
-            )}
-          </small>
-        )}
         {saveError && (
           <small role="alert">
             {t(
-              "Could not save the snapshot. Download Markdown to retain this selection.",
-              "Не вдалося зберегти знімок. Завантажте Markdown, щоб залишити цей відбір.",
+              "Could not save this shortlist. Download Markdown to retain this selection.",
+              "Не вдалося зберегти відбір. Завантажте Markdown, щоб залишити цей відбір.",
             )}
           </small>
         )}

@@ -62,13 +62,23 @@ test("fitting uses visible wheel and selected people, not distant invisible node
   const ids = model.nodes
     .filter((n) => ["isrm", "service", "workflow"].includes(n.kind))
     .map((n) => n.id);
-  const view = fitGraphView(pos, ids, "isrm", 900, 600);
+  const view = fitGraphView(pos, ids, "isrm", 900, 600, false);
   assert(view.zoom > 0.8);
   assert(view.zoom < 1.6);
   assert.equal(view.x, 0);
   assert.equal(view.y, 0);
   const selected = fitGraphView(pos, ids, "svc:research", 900, 600);
   assert.equal(selected.x, pos.get("svc:research")!.x);
+});
+
+test("automatic expansion reaches readable labels while overview remains available", () => {
+  const positions = layoutNetwork(model, "people", [], []);
+  for (const width of [300, 600, 1200]) {
+    const view = fitGraphView(positions, [...positions.keys()], "isrm", width, 500);
+    assert(view.zoom >= 1.8);
+    const overview = fitGraphView(positions, [...positions.keys()], "isrm", width, 500, false);
+    assert(overview.zoom <= view.zoom);
+  }
 });
 
 test("choosing a person rebuilds the node layout with that person at the centre", () => {

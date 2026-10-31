@@ -85,7 +85,7 @@ test("a single-edge stack accommodates search, dossier and group without coverin
       { search: true, profile: true, shortlist: true },
       { search: 300, profile: 330, shortlist: 330 },
     );
-    assert(layout.graph >= 380);
+    assert(layout.graph >= 260);
     assert(layout.search >= 220 && layout.profile >= 220 && layout.shortlist >= 220);
     assert(layout.width + layout.graph + 24 <= viewport);
   }
@@ -96,4 +96,19 @@ test("a single-edge stack accommodates search, dossier and group without coverin
   );
   assert.equal(closed.width, 330);
   assert.equal(closed.search, 0);
+});
+
+test("three initial inspection columns align with the upper quarter-width tabs", () => {
+  for (const viewport of [1100, 1440, 1920]) {
+    const column = Math.round((viewport - 40) / 4);
+    const result = dock.stackedInspectionLayout(
+      viewport,
+      { search: true, profile: true, shortlist: true },
+      { search: column, profile: column, shortlist: column },
+    );
+    assert.equal(result.search, column);
+    assert.equal(result.profile, column);
+    assert.equal(result.shortlist, column);
+    assert(result.graph >= 260);
+  }
 });
