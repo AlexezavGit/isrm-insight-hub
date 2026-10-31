@@ -8,10 +8,12 @@ export function ClientHeader({
   signIn = true,
   hideOnScroll = false,
   motionControl,
+  baseline = false,
 }: {
   signIn?: boolean;
   hideOnScroll?: boolean;
   motionControl?: ReactNode;
+  baseline?: boolean;
 }) {
   const { locale } = useI18n();
   const uk = locale === "uk";
@@ -66,7 +68,7 @@ export function ClientHeader({
   }, [hideOnScroll]);
   return (
     <header
-      className={`client-topbar shared-client-header ${hideOnScroll ? "scroll-client-header" : ""} ${hidden ? "is-receded" : ""}`}
+      className={`client-topbar shared-client-header ${baseline ? "is-baseline-header" : ""} ${hideOnScroll ? "scroll-client-header" : ""} ${hidden ? "is-receded" : ""}`}
     >
       <Link
         to="/scope"
@@ -76,7 +78,7 @@ export function ClientHeader({
         ISRM <span>INSIGHT HUB</span>
       </Link>
       <div className="client-topbar-actions">
-        <ClientAccessibility />
+        <ClientAccessibility baseline={baseline} />
         {motionControl}
         <AccessControl showSignIn={signIn} />
       </div>
