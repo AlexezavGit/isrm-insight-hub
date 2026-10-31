@@ -74,6 +74,7 @@ export function NetworkInspectionDock({
   auxiliaryLabel,
   auxiliaryKey,
   profileLabel,
+  historical = false,
 }: {
   search?: ReactNode;
   searchLabel?: string | undefined;
@@ -91,6 +92,7 @@ export function NetworkInspectionDock({
   auxiliaryLabel?: string | undefined;
   auxiliaryKey?: string | null;
   profileLabel?: string | undefined;
+  historical?: boolean;
 }) {
   const [tab, setTab] = useState<"search" | "profile" | "shortlist">(
     profile ? "profile" : "shortlist",
@@ -145,7 +147,9 @@ export function NetworkInspectionDock({
         const content = panes[panel];
         if (!content) return null;
         const width = layout[panel];
-        const maximum = Math.max(220, Math.min(560, layout.graph - 260 + width));
+        const maximum = historical
+          ? Math.min(560, layout.graph - 380 + width)
+          : Math.max(220, Math.min(560, layout.graph - 260 + width));
         return (
           <section
             key={panel}
@@ -153,13 +157,15 @@ export function NetworkInspectionDock({
             hidden={layout.compact && active !== panel}
             style={layout.compact ? undefined : { width }}
           >
-            <h2 className="network-pane-heading">
-              {panel === "search"
-                ? searchLabel || t("Search", "Пошук")
-                : panel === "profile"
-                  ? profileLabel || t("Dossier", "Досьє")
-                  : auxiliaryLabel || t("Your shortlist", "Ваш відбір")}
-            </h2>
+            {!historical && (
+              <h2 className="network-pane-heading">
+                {panel === "search"
+                  ? searchLabel || t("Search", "Пошук")
+                  : panel === "profile"
+                    ? profileLabel || t("Dossier", "Досьє")
+                    : auxiliaryLabel || t("Your shortlist", "Ваш відбір")}
+              </h2>
+            )}
             {!layout.compact && (
               <WidthHandle
                 width={width}

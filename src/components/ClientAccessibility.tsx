@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n";
 import { Contrast } from "lucide-react";
-export function ClientAccessibility() {
+export function ClientAccessibility({ baseline = false }: { baseline?: boolean }) {
   const { locale } = useI18n();
   const [large, setLarge] = useState(false);
   const [contrast, setContrast] = useState(false);
@@ -45,7 +45,15 @@ export function ClientAccessibility() {
         aria-label={locale === "uk" ? "Контраст" : "Contrast"}
         title={locale === "uk" ? "Контраст" : "Contrast"}
       >
-        <Contrast size={17} aria-hidden="true" />
+        {baseline ? (
+          locale === "uk" ? (
+            "Контраст"
+          ) : (
+            "Contrast"
+          )
+        ) : (
+          <Contrast size={17} aria-hidden="true" />
+        )}
       </button>
     </div>
   );

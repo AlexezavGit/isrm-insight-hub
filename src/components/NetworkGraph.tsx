@@ -40,6 +40,7 @@ export default function NetworkGraph({
   workflowInfoId,
   onPath,
   showConnectionPath = true,
+  readableExpansions = true,
   onVisibleCount,
   anchor = "isrm",
   onAnchor,
@@ -64,11 +65,12 @@ export default function NetworkGraph({
   onServiceExclude?: (id: string) => void;
   onServiceSelect?: (id: string) => void;
   onWorkflowSelect?: (id: string) => void;
-  onWorkflowDismiss?: () => void;
+  onWorkflowDismiss?: (() => void) | undefined;
   workflowHint?: ReactNode;
   workflowInfoId?: string | null;
   onPath?: (ids: string[]) => void;
   showConnectionPath?: boolean;
+  readableExpansions?: boolean;
   onVisibleCount?: (count: number) => void;
   anchor?: string;
   onAnchor?: (id: string) => void;
@@ -391,14 +393,24 @@ export default function NetworkGraph({
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
   }, [data, points, motionPaused, live]);
-  // Each new arrangement starts at a reading scale; inspecting a dossier does not move nodes.
+  const cameraArrangement = readableExpansions ? points : null;
+  // The configurator retains its historical fit; the prototype opens at reading scale.
   useEffect(() => {
-    const view = fitGraphView(points, [...visible], anchor, size.w, size.h);
+    const view = fitGraphView(points, [...visible], anchor, size.w, size.h, readableExpansions);
     fg.current?.centerAt(view.x, view.y, motionPaused ? 0 : 650);
     fg.current?.zoom(view.zoom, motionPaused ? 0 : 650);
     // Coverage changes do not enter this dependency list, keeping the service wheel stable.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [anchor, size.w, size.h, serviceMode, motionPaused, live, points]);
+  }, [
+    anchor,
+    size.w,
+    size.h,
+    serviceMode,
+    motionPaused,
+    live,
+    cameraArrangement,
+    readableExpansions,
+  ]);
   useEffect(() => {
     if (preview && !visible.has(preview)) setPreview(null);
   }, [visible, preview]);
@@ -744,21 +756,23 @@ export default function NetworkGraph({
           </div>
         )}
       <div className="network-graph-view-tools">
-        <button
-          className="network-overview-control"
-          onClick={() => {
-            const positions = new Map(
-              data.nodes.map((node) => [node.id, { x: node.x ?? 0, y: node.y ?? 0 }]),
-            );
-            const view = fitGraphView(positions, [...visible], anchor, size.w, size.h, false);
-            fg.current?.centerAt(view.x, view.y, motionPaused ? 0 : 650);
-            fg.current?.zoom(view.zoom, motionPaused ? 0 : 650);
-          }}
-        >
-          <Scan size={15} />
-          {locale === "uk" ? "Весь граф" : "Overview"}
-        </button>
-        {workflowInfoId && (
+        {readableExpansions && (
+          <button
+            className="network-overview-control"
+            onClick={() => {
+              const positions = new Map(
+                data.nodes.map((node) => [node.id, { x: node.x ?? 0, y: node.y ?? 0 }]),
+              );
+              const view = fitGraphView(positions, [...visible], anchor, size.w, size.h, false);
+              fg.current?.centerAt(view.x, view.y, motionPaused ? 0 : 650);
+              fg.current?.zoom(view.zoom, motionPaused ? 0 : 650);
+            }}
+          >
+            <Scan size={15} />
+            {locale === "uk" ? "Весь граф" : "Overview"}
+          </button>
+        )}
+        {readableExpansions && workflowInfoId && (
           <button
             className="network-workflow-info"
             onClick={() => onWorkflowSelect?.(workflowInfoId)}

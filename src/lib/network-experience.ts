@@ -264,12 +264,12 @@ export const CONFIGURATION_REPLAY = [
   },
   {
     id: "core",
-    en: "Choose useful services",
-    uk: "Оберіть корисні сервіси",
+    en: "Start with a useful workflow",
+    uk: "Почніть із корисного workflow",
     textEn:
-      "Select the services you need. Search and working lists form the cycle demonstrated in the prototype; the proposed composition can be changed.",
+      "A workflow groups recurring actions around a result. The Trust core includes the search and selection cycle demonstrated in the prototype.",
     textUk:
-      "Позначайте потрібні сервіси. Пошук і робочі списки утворюють цикл із прототипу; запропонований склад можна змінювати.",
+      "Workflow поєднує повторювані дії навколо результату. Ядро довіри включає цикл пошуку й відбору, продемонстрований у прототипі.",
   },
   {
     id: "service",
@@ -285,9 +285,9 @@ export const CONFIGURATION_REPLAY = [
     en: "Consider the engagement cycle",
     uk: "Розгляньте цикл залучення",
     textEn:
-      "Click a workflow node or its information control on the graph for an explanation. The hint describes a possible combination of services, not an extra panel or a compulsory package.",
+      "Here members and prospective clients are audiences for a proposed workflow. Compare its services with what your association needs.",
     textUk:
-      "Клік на вузол workflow чи його інформаційну кнопку на графі відкриває пояснення. Хінт описує можливе поєднання сервісів, не окрему панель чи обов’язковий пакет.",
+      "Тут члени й потенційні клієнти — аудиторії запропонованого workflow. Зіставте його сервіси з потребами асоціації.",
   },
   {
     id: "tailor",

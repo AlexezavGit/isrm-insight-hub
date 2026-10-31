@@ -1,4 +1,3 @@
-import { NetworkWorkflowHint } from "./NetworkWorkflowHint";
 import { NetworkCapabilityTree } from "./NetworkCapabilityTree";
 import {
   packageServiceIds,
@@ -20,7 +19,7 @@ import {
   CONFIGURATION_REPLAY,
   type Experience,
 } from "@/lib/network-experience";
-import { NetworkServiceDependencies } from "./NetworkDescriptions";
+import { NetworkServiceDependencies, NetworkWorkflowDescription } from "./NetworkDescriptions";
 import {
   SERVICE_FRAME_FIELDS,
   emptyServiceFrame,
@@ -177,10 +176,11 @@ export function NetworkWorkbench() {
     viewportWidth,
     {
       search: experience === "configuration" ? left === "workflows" : leftPanelVisible,
-      profile: experience === "configuration" ? !!(selected || service) : !!selected,
-      shortlist: experience === "configuration" ? false : groupOpen,
+      profile: experience === "configuration" ? !!inspectedWorkflow : !!selected,
+      shortlist: experience === "configuration" ? !!(selected || service) : groupOpen,
     },
     panelWidths,
+    experience === "configuration",
   );
   const rightPanelVisible = !!(
     selected ||
@@ -453,7 +453,10 @@ export function NetworkWorkbench() {
   };
   const choose = (id: ServiceId) => {
     setConfigurationStarted(true);
-    setInspectedWorkflow(null);
+    if (experience === "configuration") {
+      if (!inspectedWorkflow)
+        setInspectedWorkflow(openWorkflow && openWorkflow !== "own" ? openWorkflow : "core");
+    } else setInspectedWorkflow(null);
     setInspectionFocus((value) => value + 1);
     if (id === "survey") setSurvey(true);
     setLive(false);
@@ -466,7 +469,7 @@ export function NetworkWorkbench() {
   };
   const activateWorkflow = (id: string) => {
     setConfigurationStarted(true);
-    setInspectedWorkflow((current) => (current === id ? null : id));
+    setInspectedWorkflow(id);
     setInspectionFocus((value) => value + 1);
     setLive(false);
     setMode("services");
@@ -474,7 +477,8 @@ export function NetworkWorkbench() {
     setAnchor("isrm");
     setPerson(null);
     setService(null);
-    setOpenWorkflow(id);
+    setLeft("workflows");
+    setOpenWorkflow((v) => (v === id ? null : id));
   };
   const chooseAnchor = (id: string) => {
     if (all.some((e) => e.code === id) && !searchBeforeConnections.current)
@@ -494,8 +498,6 @@ export function NetworkWorkbench() {
       setActive([id.slice(4) as ServiceId]);
     } else if (id.startsWith("workflow:")) {
       const w = id.slice(9);
-      setInspectedWorkflow(w);
-      setOpenWorkflow(w);
       setMode("services");
       setActive(workflowServices(w, disabled));
     } else setMode("people");
@@ -642,6 +644,12 @@ export function NetworkWorkbench() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route.capability, experience]);
   useEffect(() => {
+    if (experience === "configuration") {
+      setPanelWidths({ search: 300, profile: 330, shortlist: 330 });
+      setPanelInset(0);
+    }
+  }, [experience]);
+  useEffect(() => {
     const el = root.current;
     if (!el) return;
     const header = el.querySelector<HTMLElement>(".shared-client-header"),
@@ -651,7 +659,9 @@ export function NetworkWorkbench() {
     const controls = el.querySelector<HTMLElement>(".network-concentrators");
     const measure = () => {
       const tab = header.querySelector<HTMLElement>(".client-journey-tabs > a");
-      if (wide && tab) {
+      if (experience === "configuration") {
+        setPanelInset(0);
+      } else if (wide && tab) {
         const rect = tab.getBoundingClientRect();
         const column = Math.max(220, Math.min(560, Math.round(rect.width)));
         setPanelInset(Math.max(0, Math.round(rect.left - el.getBoundingClientRect().left)));
@@ -682,7 +692,7 @@ export function NetworkWorkbench() {
     if (rail) ro.observe(rail);
     if (controls) ro.observe(controls);
     return () => ro.disconnect();
-  }, [wide, panelOpen]);
+  }, [wide, panelOpen, experience]);
   const personServiceInspection = (
     <>
       {selected && (
@@ -772,7 +782,9 @@ export function NetworkWorkbench() {
           <NetworkServiceDependencies
             id={selectedService.id}
             locale={locale}
-            expanded={wide && layout.profile >= 460}
+            expanded={
+              wide && (experience === "configuration" ? layout.shortlist : layout.profile) >= 460
+            }
           />
           {service === "survey" && (
             <button
@@ -924,26 +936,9 @@ export function NetworkWorkbench() {
               onWorkflowSelect={activateWorkflow}
               workflowInfoId={openWorkflow && openWorkflow !== "own" ? openWorkflow : null}
               showConnectionPath={experience === "prototype"}
-              onWorkflowDismiss={() => setInspectedWorkflow(null)}
-              workflowHint={
-                experience === "configuration" && inspectedWorkflow ? (
-                  <NetworkWorkflowHint
-                    id={inspectedWorkflow}
-                    locale={locale}
-                    onClose={() => setInspectedWorkflow(null)}
-                    onService={choose}
-                    disabled={!ready || !!walk}
-                    selected={draft.workflowIds.includes(inspectedWorkflow as WorkflowId)}
-                    onSelect={(checked) =>
-                      update({
-                        mode: "full",
-                        workflowIds: checked
-                          ? [...new Set([...draft.workflowIds, inspectedWorkflow as WorkflowId])]
-                          : draft.workflowIds.filter((id) => id !== inspectedWorkflow),
-                      })
-                    }
-                  />
-                ) : null
+              readableExpansions={experience === "prototype"}
+              onWorkflowDismiss={
+                experience === "prototype" ? () => setInspectedWorkflow(null) : undefined
               }
               onPath={(ids) => {
                 setConnectionPath(ids);
@@ -971,7 +966,7 @@ export function NetworkWorkbench() {
           </p>
         )}
       </div>
-      <ClientHeader />
+      <ClientHeader baseline={experience === "configuration"} />
       <div className={`network-dashboard ${persistentSearch ? "has-search-rail" : ""}`}>
         <div className="network-panel-heading network-left-heading">
           {leftPanelVisible && (
@@ -992,7 +987,7 @@ export function NetworkWorkbench() {
           aria-label={t("Current view and selection", "Поточний вигляд і відбір")}
         >
           <div className="network-metrics" aria-live="polite">
-            {backButton}
+            {experience === "prototype" && backButton}
             <span>
               <strong className="network-metric-number" key={visible}>
                 {visible}
@@ -1141,6 +1136,7 @@ export function NetworkWorkbench() {
         </div>
       )}
       <NetworkInspectionDock
+        historical={experience === "configuration"}
         searchKey={searchFocus}
         searchLabel={
           experience === "configuration" ? t("Configurator", "Конфігуратор") : t("Search", "Пошук")
@@ -1153,12 +1149,12 @@ export function NetworkWorkbench() {
           experience === "configuration" && left === "workflows" ? (
             <aside
               className="network-paper-panel network-left-panel"
-              aria-label={t("Service capabilities", "Сервісна функціональність")}
+              aria-label={t("Workflow panel", "Панель workflow")}
             >
               <p className="network-panel-note">
                 {t(
-                  "Choose the services that would support your work. Read a description, adjust the selection or describe your own requirement. Your choices shape a proposal; they do not activate services.",
-                  "Оберіть сервіси для вашої роботи. Прочитайте опис, змініть вибір або опишіть власну потребу. Вибір формує пропозицію, а не активує сервіси.",
+                  "Choose support for ISRM’s working practices and policies. Explore a workflow or service, adjust its contents or describe your own requirement. Your choices shape a proposal; they do not activate services.",
+                  "Оберіть підтримку робочих практик і політик ISRM. Перегляньте workflow чи сервіс, змініть склад або опишіть власну потребу. Вибір формує пропозицію, а не активує сервіси.",
                 )}
               </p>
               <button
@@ -1191,14 +1187,21 @@ export function NetworkWorkbench() {
                     : draft
                 }
                 locale={locale}
+                open={openWorkflow}
+                onOpen={activateWorkflow}
                 onService={choose}
+                editing={wide && layout.search >= 460}
                 disabled={!ready || !!walk}
-                onToggle={(id, checked) => {
-                  if (checked) changePackage("core", id, true);
-                  else {
-                    setExcludePackage(null);
-                    setExclude(id);
-                  }
+                onToggle={changePackage}
+                onWorkflow={(id, checked) => {
+                  setConfigurationStarted(true);
+                  setInspectedWorkflow(id);
+                  update({
+                    mode: "full",
+                    workflowIds: checked
+                      ? [...new Set([...draft.workflowIds, id])]
+                      : draft.workflowIds.filter((w) => w !== id),
+                  });
                 }}
               />
               {walk?.kind === "configuration" && walkId === "result" && (
@@ -1358,15 +1361,22 @@ export function NetworkWorkbench() {
             </aside>
           ) : null
         }
-        profileKey={person || service ? `${person || service}:${inspectionFocus}` : null}
+        profileKey={
+          person || service || inspectedWorkflow
+            ? `${person || service || inspectedWorkflow}:${inspectionFocus}`
+            : null
+        }
         layout={layout}
         onWidth={setWidth}
         onCloseProfile={() => {
-          setPerson(null);
-          setService(null);
+          if (experience === "configuration") setInspectedWorkflow(null);
+          else {
+            setPerson(null);
+            setService(null);
+          }
         }}
-        auxiliaryLabel={undefined}
-        profileLabel={experience === "configuration" ? t("Service", "Сервіс") : undefined}
+        auxiliaryLabel={experience === "configuration" ? t("Service", "Сервіс") : undefined}
+        profileLabel={experience === "configuration" ? t("Workflow", "Workflow") : undefined}
         onCloseShortlist={() =>
           experience === "configuration" ? (setService(null), setPerson(null)) : setGroupOpen(false)
         }
@@ -1382,9 +1392,35 @@ export function NetworkWorkbench() {
             ? `${service || person}:${inspectionFocus}`
             : null
         }
-        profile={selected || selectedService ? personServiceInspection : null}
+        profile={
+          experience === "configuration" ? (
+            inspectedWorkflow ? (
+              <>
+                {inspectedWorkflow && (
+                  <aside
+                    className="network-paper-panel network-right-panel"
+                    aria-label={t("Workflow description", "Опис workflow")}
+                  >
+                    <NetworkWorkflowDescription
+                      id={inspectedWorkflow}
+                      locale={locale}
+                      onService={choose}
+                      compact={!(wide && layout.profile >= 460)}
+                    />
+                  </aside>
+                )}
+              </>
+            ) : null
+          ) : selected ? (
+            personServiceInspection
+          ) : null
+        }
         shortlist={
-          experience === "prototype" && groupOpen ? (
+          experience === "configuration" ? (
+            selected || selectedService ? (
+              personServiceInspection
+            ) : null
+          ) : groupOpen ? (
             <NetworkShortlist
               people={all}
               codes={selectedCodes}
@@ -1500,7 +1536,7 @@ export function NetworkWorkbench() {
                 }}
               >
                 <GitBranch size={25} />
-                {t("Service capabilities", "Сервісна функціональність")}
+                {t("Workflows & services", "Workflow та сервіси")}
               </button>
               <button onClick={() => startComposer("workflow")}>
                 <Plus size={25} />

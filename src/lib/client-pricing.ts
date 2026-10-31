@@ -54,17 +54,13 @@ export function clientPriceLines(
     {
       id: "base",
       title:
-        d.mode === "research-only"
+        d.mode === "graph"
           ? uk
-            ? "Разові дослідження · обсяг до погодження"
-            : "Research on request · scope to agree"
-          : d.mode === "graph"
-            ? uk
-              ? "Fallback · застосунок як є"
-              : "Fallback · application as is"
-            : uk
-              ? "Базовий застосунок"
-              : "Core application",
+            ? "Fallback · застосунок як є"
+            : "Fallback · application as is"
+          : uk
+            ? "Базовий застосунок"
+            : "Core application",
       value: d.mode === "research-only" ? null : d.mode === "graph" ? prices.graph : prices.base,
     },
   ];
