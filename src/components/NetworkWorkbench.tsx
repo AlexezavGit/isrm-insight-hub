@@ -992,6 +992,7 @@ export function NetworkWorkbench() {
           aria-label={t("Current view and selection", "Поточний вигляд і відбір")}
         >
           <div className="network-metrics" aria-live="polite">
+            {backButton}
             <span>
               <strong className="network-metric-number" key={visible}>
                 {visible}
