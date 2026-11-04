@@ -135,8 +135,8 @@ export function ContactDialog({ open, onOpenChange, locale, budgetNote }: Contac
           </DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground">
             {t(
-              "Fill in your details and we will contact you to discuss the project scope and budget.",
-              "Заповніть дані — ми зв'яжемось з вами для обговорення обсягу та бюджету."
+              "Record your details and comments as a draft in this browser. This demonstration does not send email or notify the project team.",
+              "Збережіть дані та коментарі як чернетку в цьому браузері. Демонстрація не надсилає листа й не повідомляє команду проєкту."
             )}
           </DialogDescription>
         </DialogHeader>
@@ -148,8 +148,8 @@ export function ContactDialog({ open, onOpenChange, locale, budgetNote }: Contac
             className="py-6 text-center text-base font-medium text-success"
           >
             {t(
-              "Thank you. We will be in touch shortly.",
-              "Дякуємо. Ми зв'яжемося з вами найближчим часом."
+              "Draft saved in this browser only. No email has been sent.",
+              "Чернетку збережено лише в цьому браузері. Лист не надіслано."
             )}
           </p>
         ) : (
@@ -236,7 +236,7 @@ export function ContactDialog({ open, onOpenChange, locale, budgetNote }: Contac
             </div>
 
             <Button type="submit" className="mt-1 self-end">
-              {t("Send request", "Надіслати запит")}
+              {t("Save discussion draft", "Зберегти чернетку обговорення")}
             </Button>
           </form>
         )}

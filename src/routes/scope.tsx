@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowLeft, ExternalLink, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   CLIENT_OFFER_PACKAGES,
@@ -11,6 +11,7 @@ import { CLIENT_OFFER_COMBINED_ESTIMATE } from "@/lib/proposal-data";
 import { MARKET_BENCHMARKS } from "@/lib/proposal-data";
 import { useI18n } from "@/lib/i18n";
 import { ContactDialog } from "@/components/ContactDialog";
+import { BRIEFING_MILESTONES } from "@/lib/briefing-milestones";
 
 export const Route = createFileRoute("/scope")({
   head: () => ({
@@ -19,9 +20,10 @@ export const Route = createFileRoute("/scope")({
       {
         name: "description",
         content:
-          "Review ISRM project scope and indicative budget. Select the sections that apply and indicate your budget position.",
+          "Discuss ISRM project scope, staged delivery and indicative budget limits before a detailed specification and formal agreement.",
       },
       { property: "og:title", content: "ISRM — Scope & Budget" },
+      { property: "og:description", content: "Indicate interest in safer professional communication, reviewed network expertise and a non-binding budget limit before a formal offer." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -107,17 +109,17 @@ function ScopePage() {
         <header className="partner-header">
           <div>
             <Button asChild variant="ghost" className="partner-back">
-              <Link to="/proposal">
+              <Link to="/" search={{ panel: "search" }}>
                 <ArrowLeft aria-hidden="true" />
                 {text("Back to the expert network", "До мережі експертів")}
               </Link>
             </Button>
             <p className="partner-eyebrow">{text("ISRM · Scope & Budget", "ISRM · Обсяг і бюджет")}</p>
-            <h1>{text("What will be built — and what it costs", "Що буде побудовано — і скільки це коштує")}</h1>
+            <h1>{text("Agree a direction. Define the budget limits.", "Погодити напрям. Визначити ліміти бюджету.")}</h1>
             <p className="partner-lede">
               {text(
-                "The MVP is included by default. Check the optional sections that fit your needs, then indicate your budget position.",
-                "MVP включено за замовчуванням. Позначте опційні розділи, які відповідають вашим потребам, потім вкажіть свою позицію щодо бюджету.",
+                "A project for safer professional communication and stronger trust in network expertise across ISRM. Indicate your interest in the core application, optional services and a budget limit. This starts a further discussion; it does not commission work or approve an invoice.",
+                "Проєкт розвитку безпеки професійних комунікацій та зміцнення довіри до носіїв мережевої експертизи в зоні впливу ISRM. Вкажіть зацікавленість у базовому застосунку, додаткових сервісах і ліміт бюджету. Це початок подальшого обговорення, а не замовлення робіт чи погодження рахунка.",
               )}
             </p>
           </div>
@@ -130,6 +132,26 @@ function ScopePage() {
           </div>
         </header>
 
+        <section className="mb-10 border-y border-border py-6" aria-labelledby="scope-trust-heading">
+          <p className="tech-label text-primary">{text("Trust is an evidence-based mandate", "Довіра — мандат, що спирається на докази")}</p>
+          <h2 id="scope-trust-heading" className="mt-3 font-display text-2xl">{text("Professional judgement, supported by transparent research", "Професійне судження за підтримки прозорого дослідження")}</h2>
+          <p className="partner-body mt-3">{text("Reliable, current information underpins trusted consultancy. AI can help organise public-source evidence, but cannot guarantee that a claim is true. A responsible expert must assess its context, limitations and relevance. Trust can change as new evidence or experience emerges.", "Достовірна й актуальна інформація — основа довіреного консалтингу. ШІ допомагає впорядкувати відкриті дані, але не гарантує правдивості твердження. Відповідальний експерт має оцінити контекст, обмеження й доречність. Довіра може змінюватися з появою нових доказів або досвіду.")}</p>
+          <p className="mt-4 font-display text-lg text-primary">{text("Professional need → AI-assisted research → human fact-checking → applied expertise → informed trust", "Професійна потреба → дослідження з ШІ → перевірка фактів людиною → застосування експертизи → обґрунтована довіра")}</p>
+        </section>
+        <section className="mb-10" aria-labelledby="scope-delivery-heading">
+          <h2 id="scope-delivery-heading" className="font-display text-2xl">{text("Three delivery stages, each with an accepted result", "Три етапи, кожен із прийнятим результатом")}</h2>
+          <p className="partner-muted mt-3">{text("Proposed payment split: 30% / 50% / 20% of the final agreed budget, at the corresponding milestone. The timetable, rights, acceptance criteria and invoice terms will be agreed in the formal offer.", "Запропонований розподіл платежів: 30% / 50% / 20% від остаточно погодженого бюджету на відповідних етапах. Строки, права, критерії приймання та умови рахунків погоджуватимемо в офіційній пропозиції.")}</p>
+          <ol className="mt-6 grid gap-6 md:grid-cols-3">
+            {BRIEFING_MILESTONES.map((step, index) => (
+              <li key={step.id} className="border-t border-border pt-4">
+                <p className="tech-label text-primary">0{index + 1} · {step.fraction * 100}%</p>
+                <h3 className="mt-3 font-display text-xl">{step.title[uk ? "uk" : "en"]}</h3>
+                <p className="partner-body mt-3">{step.detail[uk ? "uk" : "en"]}</p>
+                <p className="partner-muted mt-3">{text("Result: ", "Результат: ")}{step.acceptance[uk ? "uk" : "en"]}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
         {/* ── Main two-column layout: sections left, price right ─────── */}
         <div className="scope-layout">
 
@@ -151,8 +173,8 @@ function ScopePage() {
               </div>
               <p className="scope-section-desc">
                 {text(
-                  "Expert search, group selection, project assignment, profile review and evidence record. The first useful standalone product.",
-                  "Пошук експертів, відбір групи, призначення до проєкту, перевірка профілю та запис доказів. Перший самостійно корисний продукт.",
+                  "A proposed standalone tool for finding expertise, saving groups, preparing safe contact and reviewing source evidence. Reuse the existing demonstration where rights and technical review permit; add AI-assisted research only within an agreed scope.",
+                  "Самостійний інструмент для пошуку експертизи, збереження груп, підготовки безпечного контакту та перегляду доказів із джерел. Повторно використати наявну демонстрацію там, де дозволять права й технічна перевірка; дослідження з ШІ додавати лише в погодженому обсязі.",
                 )}
               </p>
               <ul className="scope-feature-list">
@@ -173,7 +195,7 @@ function ScopePage() {
                 <div style={{ flex: 1 }}>
                   <label className="scope-section-label" htmlFor="include-pilot">
                     <h2 id="scope-pilot-heading" className="scope-section-title">
-                      {text("Expert engagement cycle", "Цикл залучення експертів")}
+                      {text("Optional network workflows", "Додаткові процеси мережі")}
                     </h2>
                   </label>
                   <label className="scope-checkbox-label" htmlFor="include-pilot">
@@ -190,8 +212,8 @@ function ScopePage() {
               </div>
               <p className="scope-section-desc">
                 {text(
-                  "Recruitment campaigns, TII co-design, structured working groups and a findings report. Optional after the MVP is accepted.",
-                  "Кампанії залучення, спільне проєктування TII, структуровані робочі групи та звіт. Опційно після прийняття MVP.",
+                  "Two optional directions: member and service-user engagement; and the capture, development and sharing of network knowledge. Research the useful functions with ISRM before implementation. Larger campaigns, additional publications and conference production need their own scope and approval.",
+                  "Два додаткові напрями: залучення членів і користувачів послуг; накопичення, розвиток та поширення мережевої експертизи. До реалізації визначити корисні функції разом із ISRM. Ширші кампанії, додаткові публікації та організація конференцій потребують власного обсягу й погодження.",
                 )}
               </p>
               <ul className="scope-feature-list">
@@ -229,8 +251,8 @@ function ScopePage() {
               </div>
               <p className="scope-section-desc">
                 {text(
-                  "Strategic sessions, board preparation, expertise gap analysis and TII framework co-design. Separately priced — not bundled into development.",
-                  "Стратегічні сесії, підготовка борду, аналіз прогалин в експертизі та спільне проєктування рамки TII. Окрема ціна — не включена у розробку.",
+                  "Additional strategic sessions can assess expertise gaps, review responsibilities, chapter priorities and a proposed Trust & Influence framework. Work already covered by feasibility or the selected expert-cycle package must not be billed again.",
+                  "Додаткові стратегічні сесії можуть охопити прогалини експертизи, відповідальність за перевірку, пріоритети чаптерів і запропоновану рамку Trust & Influence. Робота, вже включена до оцінки здійсненності чи обраного експертного циклу, не оплачується вдруге.",
                 )}
               </p>
               <ul className="scope-feature-list">
@@ -294,8 +316,8 @@ function ScopePage() {
 
             <p className="partner-muted" style={{ fontSize: "0.78rem", lineHeight: "1.5", marginBottom: "1.5rem" }}>
               {text(
-                "Upper bound planning scenarios only. Rate inputs unverified. Hosting, AI/API and legal costs excluded.",
-                "Лише верхня межа планувального сценарію. Ставки не перевірені. Хостинг, AI/API та юридичні витрати виключені.",
+                "Existing upper-bound planning scenarios are retained for discussion, not a revised quote. Rates are unverified; reuse rights and compensation, hosting, AI/API, legal/privacy work, tax and support remain to be agreed. The selected total does not include separately priced consulting or unspecified additions.",
+                "Наявні верхні межі планувальних сценаріїв збережено для обговорення — це не оновлена оферта. Ставки не перевірені; права й компенсацію повторного використання, хостинг, AI/API, юридичну роботу, приватність, податки та підтримку ще потрібно погодити. Сума не включає окремо оцінюваний консалтинг чи невизначені доповнення.",
               )}
             </p>
 
@@ -307,7 +329,7 @@ function ScopePage() {
               <label style={{ display: "flex", alignItems: "center", gap: "0.6rem", cursor: "pointer", fontSize: "0.95rem" }}>
                 <input type="radio" name="budget-pos" value="approve" checked={budgetChoice === "approve"} onChange={() => setBudgetChoice("approve")}
                   style={{ width: "1.1rem", height: "1.1rem", accentColor: "var(--color-primary)" }} />
-                <span>{text("This range works for me", "Цей діапазон мені підходить")}</span>
+                <span>{text("This range is a basis for discussion", "Цей діапазон — основа для обговорення")}</span>
               </label>
               <label style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem", cursor: "pointer", fontSize: "0.95rem" }}>
                 <input type="radio" name="budget-pos" value="limit" checked={budgetChoice === "limit"} onChange={() => setBudgetChoice("limit")}
@@ -336,9 +358,9 @@ function ScopePage() {
               style={{ width: "100%", fontSize: "1rem", padding: "0.8rem 1rem" }}
             >
               {budgetChoice === "approve"
-                ? text("Confirm & Send", "Підтвердити та відіслати")
+                ? text("Record interest & comments", "Зафіксувати інтерес і коментарі")
                 : budgetChoice === "limit"
-                ? text("Confirm & Send", "Підтвердити та відіслати")
+                ? text("Record interest & comments", "Зафіксувати інтерес і коментарі")
                 : text("Select a budget position above", "Оберіть позицію вище")}
             </Button>
 
@@ -355,17 +377,20 @@ function ScopePage() {
         <footer className="partner-footer">
           <div className="cta-bottom">
             <Button asChild variant="outline" className="button-outline">
-              <Link to="/proposal">{text("Back to the expert network", "До мережі експертів")}</Link>
+              <Link to="/" search={{ panel: "search" }}><ArrowLeft aria-hidden="true" />{text("Back to the expert network", "До мережі експертів")}</Link>
             </Button>
           </div>
           <p className="partner-footer-route-notice" role="note">
             {text(
-              "Indicative ranges are planning references. First payment is at least 30% of the agreed total.",
-              "Індикативні діапазони — планувальні орієнтири. Перший платіж — не менше 30% від погодженої суми.",
+              "Your response records interest and proposed limits, not final approval. A detailed specification, delivery timetable and formal offer will follow for a separate approval round before any invoice. Proposed milestone payments: 30% / 50% / 20%. The current contact form saves a draft in this browser only; it does not send an email.",
+              "Відповідь фіксує інтерес і запропоновані ліміти, а не остаточне погодження. До будь-якого рахунка підготуємо детальне технічне завдання, строки й офіційну пропозицію для окремого раунду погодження. Запропоновані платежі: 30% / 50% / 20%. Поточна контактна форма зберігає чернетку лише в цьому браузері; лист не надсилається.",
             )}
           </p>
           <p className="partner-muted" style={{ fontSize: "0.78rem", marginTop: "0.5rem" }}>
             {CLIENT_PRICING_STATUS[uk ? "uk" : "en"]}
+          </p>
+          <p className="mt-6 text-center">
+            <Link to="/partner" className="font-mono text-xs text-muted-foreground opacity-40" aria-label={text("Service configurator — partner access only", "Конфігуратор сервісу — доступ для партнерів")}>{text("service configurator", "конфігуратор сервісу")}</Link>
           </p>
         </footer>
 
@@ -375,12 +400,12 @@ function ScopePage() {
           locale={locale}
           budgetNote={
             budgetChoice === "approve"
-              ? text("Budget: approved as presented", "Бюджет: погоджено як представлено") +
-                (pilotIncluded ? text(" + engagement cycle", " + цикл залучення") : "") +
+              ? text("Non-binding interest: presented budget range is a basis for discussion", "Зацікавленість без зобов’язань: представлений бюджет — основа обговорення") +
+                (pilotIncluded ? text(" + optional network workflows", " + додаткові процеси мережі") : "") +
                 (consultingIncluded ? text(" + consulting", " + консалтинг") : "")
               : budgetChoice === "limit" && budgetInput
               ? `${text("Budget ceiling:", "Бюджетна стеля:")} ${budgetInput}` +
-                (pilotIncluded ? text(" + engagement cycle", " + цикл залучення") : "") +
+                (pilotIncluded ? text(" + optional network workflows", " + додаткові процеси мережі") : "") +
                 (consultingIncluded ? text(" + consulting", " + консалтинг") : "")
               : undefined
           }
