@@ -48,14 +48,7 @@ export function buildExperts(level: AccessLevel): Expert[] {
       caseTheme: vd.case_study_theme,
       internationalRelevance: vd.international_relevance,
     };
-    if (level === "guest") return {
-      ...base,
-      evidence: "",
-      contribution: "",
-      potentialRole: "",
-      caseTheme: undefined,
-      internationalRelevance: undefined,
-    };
+    if (level === "guest") return base;
     return {
       ...base,
       displayName: r.name || r.anonymized_name,
@@ -122,7 +115,11 @@ export function resolveAccess(code: string | undefined): {
   if (!c) return { level: "guest" };
   const admin = process.env["ISRM_ADMIN_CODE"]?.trim();
   if (admin && c === admin) return { level: "coordinator", grantedBy: "Координатор" };
-  const board = process.env["ISRM_BOARD_CODE"]?.trim();
-  if (board && c === board) return { level: "referral", grantedBy: "ISRM Board" };
+  const norm = c.toLowerCase();
+  const ref = (raw as Raw[]).find(
+    (r) =>
+      r.is_verified && (r.code.toLowerCase() === norm || (r.name && r.name.toLowerCase() === norm)),
+  );
+  if (ref) return { level: "referral", grantedBy: `Рекомендація ${ref.code}` };
   return { level: "guest" };
 }

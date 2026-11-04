@@ -24,19 +24,11 @@ export function AccessProvider({
   const queryClient = useQueryClient();
   const [code, setCodeState] = useState("");
   useEffect(() => {
-    try {
-      setCodeState(sessionStorage.getItem(KEY) || "");
-    } catch {
-      /* Use this tab in memory when browser storage is unavailable. */
-    }
+    setCodeState(sessionStorage.getItem(KEY) || "");
   }, []);
   const setCode = (c: string) => {
-    try {
-      if (c) sessionStorage.setItem(KEY, c);
-      else sessionStorage.removeItem(KEY);
-    } catch {
-      /* Access remains in memory for this tab. */
-    }
+    if (c) sessionStorage.setItem(KEY, c);
+    else sessionStorage.removeItem(KEY);
     setCodeState(c);
   };
   const fetchNet = useServerFn(getNetwork);

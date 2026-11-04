@@ -5,7 +5,6 @@ import { useRouterState } from "@tanstack/react-router";
 import { useAccess } from "@/lib/access";
 import { checkAccess } from "@/lib/network.functions";
 import { useI18n } from "@/lib/i18n";
-import { useClientDraft } from "./ClientDraftProvider";
 import { Button } from "@/components/ui/button";
 
 /** Standalone language toggle — renders EN / UK buttons. */
@@ -39,45 +38,20 @@ export function LanguageSwitcher() {
  * we only render the floating global switcher on all other routes.
  */
 export function AppShell({ children }: { children: ReactNode }) {
-  const { error, reset, draft, backup } = useClientDraft();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   // Pages with their own language switcher in their own header
   const PAGES_WITH_OWN_SWITCHER = ["/", "/proposal", "/partner", "/partner-finance", "/scope"];
-  const showGlobal = !PAGES_WITH_OWN_SWITCHER.some(
-    (pg) => pathname === pg || pathname.startsWith(pg + "/"),
-  );
+  const showGlobal = !PAGES_WITH_OWN_SWITCHER.some((pg) => pathname === pg || pathname.startsWith(pg + "/"));
+
+
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       {showGlobal && (
         <div className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-end p-3 sm:p-4">
           <div className="pointer-events-auto">
-            <AccessControl />
+            <LanguageSwitcher />
           </div>
-        </div>
-      )}
-      {error && (
-        <div className="client-storage-error" role="alert">
-          <p>{error}</p>
-          <button
-            onClick={() => {
-              const blob = new Blob(
-                [JSON.stringify({ retained: backup, currentDraft: draft }, null, 2)],
-                {
-                  type: "text/plain",
-                },
-              );
-              const url = URL.createObjectURL(blob);
-              const a = document.createElement("a");
-              a.href = url;
-              a.download = "ISRM-stored-draft.txt";
-              a.click();
-              setTimeout(() => URL.revokeObjectURL(url), 1000);
-            }}
-          >
-            Download stored draft
-          </button>
-          <button onClick={reset}>Start a new draft</button>
         </div>
       )}
       {children}
@@ -108,7 +82,7 @@ export function AccessControl() {
         {level === "guest" ? (
           <Button onClick={() => setOpen(true)} size="sm">
             <LogIn />
-            {locale === "uk" ? "Увійти в кабінет" : "Member sign in"}
+            Sign in
           </Button>
         ) : (
           <Button
@@ -118,7 +92,7 @@ export function AccessControl() {
             className="border-primary/60 bg-primary/10 text-primary"
           >
             {level === "coordinator" ? <ShieldCheck /> : <LogOut />}
-            <span className="hidden sm:inline">{locale === "uk" ? "Вийти" : "Sign out"}</span>
+            <span className="hidden sm:inline">Sign out</span>
           </Button>
         )}
       </div>
@@ -156,10 +130,6 @@ function UnlockDialog({ onClose }: { onClose: () => void }) {
     >
       <form
         onSubmit={submit}
-        role="dialog"
-        aria-modal="true"
-        aria-label={t("revealFull")}
-        onKeyDown={(e) => { if (e.key === "Escape") onClose(); }}
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-md rounded-lg border border-border bg-card p-6 shadow-2xl"
       >
@@ -170,9 +140,6 @@ function UnlockDialog({ onClose }: { onClose: () => void }) {
         <p className="mt-2 text-sm text-muted-foreground">{t("accessHelp")}</p>
         <input
           autoFocus
-          type="password"
-          autoComplete="current-password"
-          aria-label={t("accessPassword")}
           value={val}
           onChange={(e) => setVal(e.target.value)}
           className="mt-5 w-full rounded border border-input bg-background px-3 py-2.5 font-mono text-sm outline-none focus:border-primary"

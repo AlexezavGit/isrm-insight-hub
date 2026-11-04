@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -12,7 +13,6 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { AccessProvider } from "../lib/access";
 import { I18nProvider } from "../lib/i18n";
-import { ClientDraftProvider } from "../components/ClientDraftProvider";
 import { AppShell } from "../components/AppShell";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
@@ -124,17 +124,17 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const loadExpertNetwork = pathname !== "/proposal" && pathname !== "/scope";
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing the Outlet breaks all child routes. */}
-      <AccessProvider>
+      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+      <AccessProvider enabled={loadExpertNetwork}>
         <I18nProvider>
-          <ClientDraftProvider>
-            <AppShell>
-              <Outlet />
-            </AppShell>
-          </ClientDraftProvider>
+          <AppShell>
+            <Outlet />
+          </AppShell>
         </I18nProvider>
       </AccessProvider>
     </QueryClientProvider>
