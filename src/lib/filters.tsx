@@ -10,6 +10,7 @@ export interface Filters {
   country: string;
   theme: string;
   role: string;
+  organization?: string;
   expertise?: string;
   reviewStatus?: string;
 }
@@ -20,6 +21,7 @@ export const EMPTY: Filters = {
   country: "",
   theme: "",
   role: "",
+  organization: "",
 };
 
 export function useFilters(persist = true) {
@@ -33,6 +35,9 @@ export function useFilters(persist = true) {
         if (
           value &&
           ["q", "sector", "country", "theme", "role"].every((k) => typeof value[k] === "string") &&
+          ["organization", "expertise", "reviewStatus"].every(
+            (k) => value[k] === undefined || typeof value[k] === "string",
+          ) &&
           ["all", "verified", "queue"].includes(value.verified)
         )
           setFilters(value);
@@ -64,6 +69,7 @@ export function applyFilters(list: Expert[], f: Filters) {
     if (f.reviewStatus && e.identityStatus !== f.reviewStatus) return false;
     if (f.theme && e.ukraineCategory !== f.theme) return false;
     if (f.role && e.communityRole !== f.role) return false;
+    if (f.organization && e.organization !== f.organization) return false;
     if (q) {
       const hay = [
         e.code,

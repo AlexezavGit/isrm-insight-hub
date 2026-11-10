@@ -1,3 +1,4 @@
+import { canonicalCountry } from "@/lib/network-reference";
 import { useEffect, useState } from "react";
 import type { Expert } from "@/lib/types";
 import { personStatuses, researchFindings } from "@/lib/network-experience";
@@ -12,11 +13,12 @@ import {
   type WorkingReviewState,
 } from "@/lib/profile-work";
 import type { ServiceId } from "@/lib/client-catalog";
+import { hasDossierDetails, hasRecordedContent } from "@/lib/dossier-content";
 
 export function NetworkProfile({
   expert: e,
   uk,
-  full,
+  full: requestedFull,
   onFull,
   shortlisted,
   onToggle,
@@ -41,6 +43,8 @@ export function NetworkProfile({
   example?: boolean;
 }) {
   const t = (en: string, ua: string) => (uk ? ua : en);
+  const canExpand = hasDossierDetails(e);
+  const full = requestedFull && canExpand;
   const [note, setNote] = useState("");
   const [workingStatus, setWorkingStatus] = useState<WorkingReviewState>("none");
   const [storageError, setStorageError] = useState(false);
@@ -74,13 +78,33 @@ export function NetworkProfile({
   return (
     <>
       <div className="network-profile-toolbar">
-        <button className="network-context-action" onClick={() => onFull(!full)}>
-          {full ? t("Mini dossier", "Міні-досьє") : t("Full dossier", "Повне досьє")}
-        </button>
+        {canExpand && (
+          <button className="network-context-action" onClick={() => onFull(!full)}>
+            {full ? t("Mini dossier", "Міні-досьє") : t("Full dossier", "Повне досьє")}
+          </button>
+        )}
         <button className="network-context-action" onClick={onGroup}>
-          {t("Your shortlist", "Ваш відбір")}
+          {t("My shortlist", "Мій відбір")}
         </button>
       </div>
+      {!canExpand && (
+        <p className="network-panel-note">
+          {e.dossierAvailability === "restricted"
+            ? t(
+                "Further source information is restricted at this access level. Use authorised access to review it.",
+                "Додаткова джерельна інформація закрита на цьому рівні доступу. Для її перегляду потрібен належний доступ.",
+              )
+            : t(
+                "No further profile information is available in this demonstration.",
+                "Додаткової інформації про профіль у цій демонстрації немає.",
+              )}
+          {configurationAction(
+            "research",
+            "Discuss research for this profile",
+            "Обговорити дослідження цього профілю",
+          )}
+        </p>
+      )}
       <h2>{e.displayName}</h2>
       <small className="network-profile-code">{e.code}</small>
       {e.organization && (
@@ -95,7 +119,8 @@ export function NetworkProfile({
         {full && <h3>{t("Expertise", "Експертиза")}</h3>}
         <p>{e.primaryExpertise}</p>
         <p>
-          {e.sector} · {e.country}
+          {e.sector} · {t("Phone-code country: ", "Країна телефонного коду: ")}
+          {uk ? e.country : canonicalCountry(e.country)}
         </p>
       </section>
       <details className="network-record-statuses" open={full || undefined}>
@@ -117,27 +142,26 @@ export function NetworkProfile({
       </details>
       {full && (
         <>
-          <section
-            data-profile-field="evidence"
-            className={highlight === "evidence" ? "is-coached-field" : ""}
-          >
-            <h3>{t("Evidence and source", "Доказова база й джерело")}</h3>
-            <p>
-              {e.evidence ||
-                t("Not supplied at this access level", "Не надано для цього рівня доступу")}
-            </p>
-            {e.source && (
-              <a href={e.source} target="_blank" rel="noreferrer">
-                {t("Open supplied source", "Відкрити надане джерело")}
-              </a>
-            )}
-            <dl>
-              <dt>{t("Confidence · source field", "Впевненість · вихідне поле")}</dt>
-              <dd>{e.confidence || t("Not supplied", "Не надано")}</dd>
-              <dt>{t("Engagement stage · source field", "Етап взаємодії · вихідне поле")}</dt>
-              <dd>{e.crmStage || t("Not supplied", "Не надано")}</dd>
-            </dl>
-          </section>
+          {(hasRecordedContent(e.evidence) || hasRecordedContent(e.source)) && (
+            <section
+              data-profile-field="evidence"
+              className={highlight === "evidence" ? "is-coached-field" : ""}
+            >
+              <h3>{t("Evidence and source", "Доказова база й джерело")}</h3>
+              {hasRecordedContent(e.evidence) && <p>{e.evidence}</p>}
+              {e.source && (
+                <a href={e.source} target="_blank" rel="noreferrer">
+                  {t("Open supplied source", "Відкрити надане джерело")}
+                </a>
+              )}
+              <dl>
+                <dt>{t("Confidence · source field", "Впевненість · вихідне поле")}</dt>
+                <dd>{e.confidence || t("Not supplied", "Не надано")}</dd>
+                <dt>{t("Engagement stage · source field", "Етап взаємодії · вихідне поле")}</dt>
+                <dd>{e.crmStage || t("Not supplied", "Не надано")}</dd>
+              </dl>
+            </section>
+          )}
           {[
             [t("Ukraine-related experience", "Досвід, пов’язаний з Україною"), e.ukraineTheme],
             [t("Case theme", "Тема кейсу"), e.caseTheme],
@@ -147,7 +171,7 @@ export function NetworkProfile({
             [t("Potential role · source field", "Можлива роль · вихідне поле"), e.potentialRole],
             [t("Priority · source field", "Пріоритет · вихідне поле"), e.priority],
           ]
-            .filter(([, value]) => value)
+            .filter(([, value]) => hasRecordedContent(value))
             .map(([label, value]) => (
               <section key={label}>
                 <h3>{label}</h3>
@@ -155,17 +179,6 @@ export function NetworkProfile({
               </section>
             ))}
         </>
-      )}
-      {full && (e.linkedin || e.phone) && (
-        <section>
-          <h3>{t("Available contact details", "Доступні контактні дані")}</h3>
-          {e.linkedin && (
-            <a href={e.linkedin} target="_blank" rel="noreferrer">
-              LinkedIn
-            </a>
-          )}
-          {e.phone && <p>{e.phone}</p>}
-        </section>
       )}
       {full && (
         <section className="network-profile-work">
@@ -319,7 +332,7 @@ export function NetworkProfile({
           : t("Add to shortlist", "Додати до відбору")}
       </button>
       <button className="network-context-action" onClick={onConnections}>
-        {t("Explore this person’s connections", "Дослідити зв’язки цієї персони")}
+        {t("Show recorded expertise on the map", "Показати записану експертизу на мапі")}
       </button>
     </>
   );

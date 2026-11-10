@@ -181,21 +181,7 @@ function Dossier() {
               <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
                 {t("contacts")}
               </p>
-              {e.phone ? (
-                <p className="mt-2 font-mono">{e.phone}</p>
-              ) : (
-                <p className="mt-2 text-muted-foreground">{t("directContacts")}</p>
-              )}
-              {e.linkedin && (
-                <a
-                  href={e.linkedin}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-1 block truncate text-primary"
-                >
-                  {t("linkedin")}
-                </a>
-              )}
+              <p className="mt-2 text-muted-foreground">{t("directContacts")}</p>
               {e.sensitivity && (
                 <p className="mt-2 text-xs text-muted-foreground">{e.sensitivity}</p>
               )}

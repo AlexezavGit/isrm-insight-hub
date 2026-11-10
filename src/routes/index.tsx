@@ -1,5 +1,5 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
-import { NetworkWorkbench } from "@/components/NetworkWorkbench";
+import { createFileRoute } from "@tanstack/react-router";
+import { NetworkWorkspace } from "@/components/NetworkWorkspace";
 import { CLIENT_SERVICES } from "@/lib/client-catalog";
 
 type IndexSearch = {
@@ -12,10 +12,6 @@ type IndexSearch = {
 };
 
 export const Route = createFileRoute("/")({
-  beforeLoad: ({ search }) => {
-    if (!search.view && !search.panel && !search.stage && !search.preset && !search.anchor)
-      throw redirect({ to: "/proposal" });
-  },
   validateSearch: (search: Record<string, unknown>): IndexSearch => {
     const stage = search["stage"] === "configuration" ? ("configuration" as const) : undefined;
     const panel =
@@ -40,13 +36,13 @@ export const Route = createFileRoute("/")({
   },
   head: () => ({
     meta: [
-      { title: "ISRM Ukraine — Live Expert Network" },
+      { title: "ISRM Insight Hub — Network workspace" },
       {
         name: "description",
         content:
           "A privacy-aware map of expertise, sectors and network services; TII methodology is under development and no score is calculated.",
       },
-      { property: "og:title", content: "ISRM Ukraine — Live Expert Network" },
+      { property: "og:title", content: "ISRM Insight Hub — Network workspace" },
       {
         property: "og:description",
         content:
@@ -56,5 +52,5 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: NetworkWorkbench,
+  component: NetworkWorkspace,
 });

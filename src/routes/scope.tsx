@@ -1,33 +1,15 @@
-import { IntegrationStrip } from "@/components/IntegrationStrip";
-import { ScopeDeliveryNotes } from "@/components/ScopeDeliveryNotes";
-import { PROJECT_POSITIONING } from "@/lib/project-positioning";
-import { packageIsCustom } from "@/lib/tailored-scope";
-import { BoardDecisionNote } from "@/components/BoardDecisionNote";
-import { BOARD_RECIPIENT, BOARD_CAPACITY } from "@/lib/board-brief";
 import { ClientHeader } from "@/components/ClientHeader";
 import { ScopePrintDocument } from "@/components/ScopePrintDocument";
 import { buildClientMarkdown } from "@/lib/scope-document";
-import { IsrmContextLinks } from "@/components/IsrmContextLinks";
-import { useDismissibleDetails } from "@/components/useDismissibleDetails";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { CoreServiceDeck, WorkflowDeck } from "@/components/ScopeCardDecks";
+import { ServiceFunctionDeck } from "@/components/ScopeCardDecks";
 import { DataUseNotice } from "@/components/DataUseNotice";
 import { useState } from "react";
-import { ArrowLeft, Download, Mail, Printer, Copy, ChevronDown } from "lucide-react";
+import { ArrowLeft, Download, Mail, Printer, ChevronDown } from "lucide-react";
 import { useClientDraft } from "@/components/ClientDraftProvider";
-import { ClientAccessibility } from "@/components/ClientAccessibility";
-import { AccessControl } from "@/components/AppShell";
 import { useI18n } from "@/lib/i18n";
-import { CLIENT_SERVICES, CLIENT_WORKFLOWS } from "@/lib/client-catalog";
-import {
-  CLIENT_APPROVED_PRICES,
-  clientQuote,
-  clientPriceLines,
-  clientQuoteRange,
-  indicativePriceLabel,
-} from "@/lib/client-pricing";
-import { BRIEFING_MILESTONES } from "@/lib/briefing-milestones";
-import { buildClientSummary, emailHref } from "@/lib/client-draft";
+import { CLIENT_SERVICES } from "@/lib/client-catalog";
+import { buildClientSummary, emailHref, selectedServiceIds } from "@/lib/client-draft";
 export const Route = createFileRoute("/scope")({
   head: () => ({
     meta: [
@@ -35,7 +17,7 @@ export const Route = createFileRoute("/scope")({
       {
         name: "description",
         content:
-          "Review your selected services, workflows, custom needs and budget position before requesting a detailed proposal.",
+          "Confirm selected service functions, adjust the scope and record a client budget limit for estimation.",
       },
     ],
   }),
@@ -47,14 +29,14 @@ function ScopePage() {
   const uk = locale === "uk";
   const t = (en: string, ua: string) => (uk ? ua : en);
   const [notice, setNotice] = useState("");
-  const responseHint = useDismissibleDetails();
-  const quote = clientQuote(draft);
-  const estimate = clientQuoteRange(draft);
-  const money = (value: number | null) => indicativePriceLabel(value, locale);
   const summary = buildClientSummary(draft, locale);
+  const selectedServices = selectedServiceIds(draft);
+  const includedRequestCount = draft.customIncluded ? draft.requests.length : 0;
+  const functionCount = selectedServices.length + includedRequestCount;
   const validLimit =
-    draft.budgetPosition !== "limit" ||
+    !draft.budgetCeiling.trim() ||
     (Number(draft.budgetCeiling) > 0 && Number.isFinite(Number(draft.budgetCeiling)));
+  const validScope = functionCount > 0 && draft.scopeConfirmed;
   const download = () => {
     const url = URL.createObjectURL(
       new Blob([buildClientMarkdown(draft, locale)], { type: "text/markdown;charset=utf-8" }),
@@ -75,94 +57,42 @@ function ScopePage() {
         </Link>
         <header className="client-slide-topline scope-page-title">
           <div>
-            <h1>{t("Your priorities. Our next steps.", "Ваші пріоритети. Наші наступні дії.")}</h1>
+            <h1>
+              {t(
+                "Confirm functions. Set a budget limit.",
+                "Підтвердьте функції. Вкажіть межу бюджету.",
+              )}
+            </h1>
           </div>
           <aside className="client-title-meta">
-            <p className="client-eyebrow">
-              {t("A basis for our next conversation", "Основа наступної розмови")}
+            <p>
+              {t("Functional scope · estimate request", "Функціональний обсяг · запит на оцінку")}
             </p>
           </aside>
         </header>
         <section className="scope-project-introduction">
-          <p>{PROJECT_POSITIONING.name[locale]}</p>
-          <p>{PROJECT_POSITIONING.purpose[locale]}</p>
-          <p>{PROJECT_POSITIONING.explanation[locale]}</p>
-          <details className="scope-context-note">
-            <summary>
-              {t("Relevant consulting experience", "Профільний консалтинговий досвід")}
-            </summary>
-            <p>
-              {t(
-                "Our approach draws on experience in institutional development and human capital. Alex Zvolinskiy’s project record includes coordinating the strategic and operational development of Ukraine’s Chamber of Commerce and Industry within a CIPE project, as project coordinator and HR management expert. The work covered long-term strategy, operational planning and staff development in sustainable organisational development.",
-                "Наш підхід спирається на досвід інституційного розвитку та управління людським капіталом. Серед проєктів Олексія Зволінського — стратегічний і операційний розвиток ТПП України в проєкті CIPE, у ролі координатора та експерта з управління людськими ресурсами. Робота охоплювала довгострокову стратегію, операційний план і навчання персоналу сталому організаційному розвитку.",
-              )}
-            </p>
-            <a
-              href="https://www.linkedin.com/in/alexeyzvolinskiy/details/projects/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {t("Project record · Alex Zvolinskiy", "Проєктний досвід · Олексій Зволінський")}
-            </a>
-          </details>
-        </section>
-        <p className="scope-recipient">
-          <strong>{BOARD_RECIPIENT}</strong>
-          <br />
-          {BOARD_CAPACITY[locale]}
-        </p>
-        <p className="scope-project-subtitle">
-          {t(
-            "Proposed application capabilities, delivery stages and budget limits",
-            "Погодження функціональності цифрового додатку, етапів та лімітів",
-          )}
-        </p>
-        <details className="scope-trust-mandate scope-large-folder scope-page-folder">
-          <summary className="scope-workflow-tab">
-            <span className="scope-trust-slogan">
-              {t(
-                "Trust is a mandate in trusted consultancy.",
-                "Довіра — це мандат для сектору trusted consultancy.",
-              )}
-            </span>
-            <ChevronDown size={20} aria-hidden="true" />
-          </summary>
           <p>
             {t(
-              "That mandate can change with the outcomes of interaction and the evidence that supports or challenges it. Timely awareness and verified information underpin trusted consultancy.",
-              "Цей мандат може змінюватися залежно від результатів взаємодії та даних, що підтверджують або спростовують підстави для довіри. Своєчасна поінформованість і перевірені дані — основа trusted consultancy.",
+              "Choose the individual functions to include in an estimate request. You can change them here; the configurator explains each function and shows non-binding examples of how functions may connect. This page does not ask you to approve a preset workflow or price.",
+              "Оберіть окремі функції для запиту на оцінку. Тут можна змінити вибір; конфігуратор пояснює кожну функцію та показує необов’язкові приклади їх поєднання. Ця сторінка не просить погоджувати типовий workflow чи ціну.",
             )}
           </p>
-        </details>
+        </section>
+        <p className="scope-project-subtitle">
+          {t(
+            "Select functions. Confirm the estimate request.",
+            "Оберіть функції. Підтвердіть запит на оцінку.",
+          )}
+        </p>
         <div className="client-scope-grid scope-linear-layout">
           <div>
-            <p className="scope-workflow-definition">
-              {t(
-                "A workflow brings recurring actions, responsibilities and decisions together around a useful result. ISRM’s policies and agreed standards define the expected outcome; technology supports the process. Combine the proposed capabilities, remove what is unnecessary or describe your own requirement.",
-                "Workflow поєднує повторювані дії, відповідальність і рішення навколо корисного результату. Політики ISRM та погоджені стандарти визначають очікуваний результат; технологія підтримує процес. Комбінуйте запропоновані можливості, прибирайте зайве або опишіть власну потребу.",
-              )}
-            </p>
-            <p className="scope-delivery-intro">
-              {t(
-                "Delivery follows three stages. The core and each workflow have their own self-contained results, agreed for each stage.",
-                "Виконання передбачає три етапи. Ядро та кожен workflow мають власні самодостатні результати, які погоджуються для кожного етапу.",
-              )}
-            </p>
-            <IntegrationStrip locale={locale} />
-            <BoardDecisionNote locale={locale} />
             <DataUseNotice context="scope" compact />
-            <p className="scope-deck-hint">
-              {t(
-                "Consider how this would support your work",
-                "Подумайте, як це допоможе у вашій роботі",
-              )}
-            </p>
-            <CoreServiceDeck locale={locale} draft={draft} ready={ready} update={update} />
+            <ServiceFunctionDeck locale={locale} draft={draft} ready={ready} update={update} />
             <details className="scope-large-folder scope-page-folder">
               <summary className="scope-workflow-tab">
                 <h2>
-                  {t("Your project requirements", "Ваші проєкти та вимоги")} (
-                  {draft.requests.length})
+                  {t("Additional functions", "Додаткова функціональність")} ({draft.requests.length}
+                  )
                 </h2>
                 <ChevronDown size={20} aria-hidden="true" />
               </summary>
@@ -175,29 +105,24 @@ function ScopePage() {
                     onChange={(e) => update({ customIncluded: e.target.checked })}
                   />
                   <span>
-                    {draft.mode === "full"
-                      ? t(
-                          "Include the described functions and workflows in the estimate",
-                          "Включити описані функції та workflow до оцінки",
-                        )
-                      : t(
-                          "Retain these additional requests for separate discussion; excluded from the simpler option and its price",
-                          "Зберегти додаткові запити для окремого обговорення; не включені до fallback та його ціни",
-                        )}
+                    {t(
+                      "Include these additional functions in the estimate request",
+                      "Включити цю функціональність до запиту на оцінку",
+                    )}
                   </span>
                 </label>
                 <label className="scope-manual-request">
                   {t(
-                    "Describe the capabilities or workflow you need",
-                    "Опишіть потрібну функціональність або workflow",
+                    "Describe a function you need that is not listed",
+                    "Опишіть потрібну функцію, якої немає у списку",
                   )}
                   <textarea
                     rows={4}
                     disabled={!ready}
                     value={draft.requests.find((r) => r.id === "scope-manual")?.description ?? ""}
                     placeholder={t(
-                      "Your requirements, systems and desired result…",
-                      "Ваші вимоги, системи та бажаний результат…",
+                      "Describe the capability and the result you need…",
+                      "Опишіть потрібну функцію та очікуваний результат…",
                     )}
                     onChange={(e) => {
                       const remaining = draft.requests.filter((r) => r.id !== "scope-manual");
@@ -207,8 +132,11 @@ function ScopePage() {
                               ...remaining,
                               {
                                 id: "scope-manual",
-                                kind: "workflow",
-                                title: t("Client requirements", "Вимоги замовника"),
+                                kind: "service",
+                                title: t(
+                                  "Additional client function",
+                                  "Додаткова функція замовника",
+                                ),
                                 description: e.target.value,
                               },
                             ]
@@ -217,14 +145,6 @@ function ScopePage() {
                     }}
                   />
                 </label>
-                {draft.mode !== "full" && draft.requests.length > 0 && (
-                  <p className="client-notice">
-                    {t(
-                      "Retained for reference; excluded from the selected simpler route.",
-                      "Збережено для довідки; не входить до обраного спрощеного варіанта.",
-                    )}
-                  </p>
-                )}
                 {draft.requests.length ? (
                   draft.requests
                     .filter((r) => r.id !== "scope-manual")
@@ -243,260 +163,112 @@ function ScopePage() {
                       </article>
                     ))
                 ) : (
-                  <p>
-                    {t(
-                      "Describe your requirements in the field above.",
-                      "Опишіть додаткові вимоги в полі вище.",
-                    )}
-                  </p>
+                  <p>{t("No additional functions described.", "Додаткових функцій не описано.")}</p>
                 )}
-              </div>
-            </details>
-            <p className="scope-workflow-intro">
-              {t(
-                "Work on a workflow can begin whenever you decide it is needed. Each builds on the core; the starting scope and dependencies are agreed separately.",
-                "Роботу над будь-яким workflow можна почати, коли ви вирішите, що він потрібний. Кожен спирається на ядро; початковий обсяг і залежності погоджуються окремо.",
-              )}
-            </p>
-            <WorkflowDeck locale={locale} draft={draft} ready={ready} update={update} />
-            <p className="scope-deck-hint">
-              {t(
-                "Consider how this would support your work",
-                "Подумайте, як це допоможе у вашій роботі",
-              )}
-            </p>
-            <details className="scope-large-folder scope-page-folder scope-next-iteration">
-              <summary className="scope-workflow-tab">
-                <h2>
-                  Integration
-                  <span className="scope-heading-subtitle">
-                    {t("Future development & AI", "Подальший розвиток та ШІ")}
-                  </span>
-                </h2>
-                <ChevronDown size={20} aria-hidden="true" />
-              </summary>
-              <div className="scope-large-folder-body">
-                <p className="client-eyebrow">
-                  {t(
-                    "Further development · for consideration in the proposal",
-                    "Наступна ітерація · до розрахунків у пропозиції",
-                  )}
-                </p>
-                <p>
-                  {t(
-                    "A consultant’s AI assistant trained on approved professional expertise is a separate next step. The existing OSINT research assistant works with data and sources; it is not this trained consultant. Future work may also connect project-management tools and paid ISRM services, subject to licences, permissions and available interfaces.",
-                    "AI-консультант — помічник консультанта, навчений на погодженій професійній експертизі, — окремий наступний крок. Наявний OSINT-помічник досліджує дані й джерела; це інший інструмент. Наступна ітерація може також підключити системи управління проєктами та платні сервіси ISRM за погодженими ліцензіями, правами доступу й доступними інтерфейсами.",
-                  )}
-                </p>
-                <details className="scope-context-note">
-                  <summary>{t("ISRM context", "Контекст ISRM")}</summary>
-                  <IsrmContextLinks context="integration" locale={locale} />
-                </details>
-                <label className="scope-block-choice">
-                  <input
-                    type="checkbox"
-                    checked={draft.mode === "full" && draft.integrationInterest}
-                    disabled={!ready}
-                    onChange={(e) =>
-                      update({ mode: "full", integrationInterest: e.target.checked })
-                    }
-                  />
-                  <span>
-                    {t(
-                      "Approve scope discussion · outside the core budget",
-                      "Погоджую опрацювання · поза бюджетом ядра",
-                    )}
-                  </span>
-                </label>
               </div>
             </details>
           </div>
           <aside id="scope-budget-panel" className="client-scope-budget">
-            <p className="client-eyebrow">
-              {t(
-                "For your proposal · not a payment request",
-                "До пропозиції · не рахунок на оплату",
-              )}
-            </p>
-            <h2>{t("Your selected scope", "Обраний обсяг")}</h2>
+            <h2>{t("Scope confirmation", "Підтвердження обсягу")}</h2>
             <div className="client-price-receipt" aria-live="polite" aria-atomic="true">
-              {clientPriceLines(draft, locale).map((line) => (
-                <p key={line.id}>
-                  <span>{line.title}</span>
-                  <strong>{money(line.value)}</strong>
-                </p>
-              ))}
-              {draft.mode !== "full" &&
-                draft.customIncluded &&
-                draft.requests.map((request) => (
-                  <p key={request.id}>
-                    <span>{request.title}</span>
-                    <strong>{t("Separate discussion", "Окреме обговорення")}</strong>
-                  </p>
-                ))}
               <p className="client-price-total">
-                <span>
-                  {estimate.pending
-                    ? t("Priced scope subtotal", "Сума оцінених позицій")
-                    : t("Indicative total", "Індикативна сума")}
-                </span>
-                <strong className="scope-quote-value" key={String(quote)}>
-                  {indicativePriceLabel(estimate.low, locale, estimate.high)}
-                </strong>
+                <span>{t("Functions selected", "Обрано функцій")}</span>
+                <strong>{functionCount}</strong>
               </p>
+              {functionCount ? (
+                <ul>
+                  {CLIENT_SERVICES.filter((service) => selectedServices.includes(service.id)).map(
+                    (service) => (
+                      <li key={service.id}>{service.title[locale]}</li>
+                    ),
+                  )}
+                  {draft.customIncluded &&
+                    draft.requests.map((request) => <li key={request.id}>{request.title}</li>)}
+                </ul>
+              ) : (
+                <p>{t("No service functions selected.", "Сервісні функції не обрано.")}</p>
+              )}
             </div>
             <p className="scope-receipt-note">
               {t(
-                "Indicative prices only; exact calculations follow in the detailed proposal we prepare. Changed package contents require reassessment. Campaigns, content, licences, AI/API usage and ongoing professional review are quoted separately; unpriced requests are excluded.",
-                "Ціни виключно індикативні; точні розрахунки — у детальній пропозиції, яку ми підготуємо. Зміна складу пакетів потребує переоцінки. Кампанії, контент, ліцензії, AI/API й постійне рецензування оцінюються окремо; неоцінені запити не включені.",
+                "This request asks for an itemised estimate of the selected functions. It is not a quotation or contract. Unpriced integrations, licences, hosting and ongoing services must be identified separately in the estimate; they are not assumed to be free.",
+                "Цей запит просить деталізовану оцінку обраних функцій. Це не комерційна пропозиція і не договір. Інтеграції, ліцензії, хостинг і постійні послуги без оцінки мають бути вказані окремо; вони не вважаються безкоштовними.",
               )}
             </p>
-            {draft.mode === "full" && (
-              <p className="scope-receipt-note">
-                {t(
-                  "The AI OSINT technical integration is already included in the core. It is an additional item only for the fallback route.",
-                  "Технічна інтеграція AI OSINT уже включена до ядра. Додатковою позицією вона є лише у fallback.",
-                )}
-              </p>
-            )}
-            <section className="scope-fallback" aria-labelledby="scope-fallback-title">
-              <h3 id="scope-fallback-title">
-                {t("Fallback options", "Fallback · альтернативний варіант")}
-              </h3>
-              <p className="scope-receipt-note">
-                {t(
-                  "If the proposed development goes beyond your present requirements:",
-                  "Якщо розробка перевищує ваші поточні потреби:",
-                )}
-              </p>
-              <label className="client-route-choice">
-                <input
-                  type="checkbox"
-                  checked={draft.mode === "graph"}
-                  disabled={!ready}
-                  onChange={(e) => update({ mode: e.target.checked ? "graph" : "full" })}
-                />
-                <span>
-                  <span>
-                    {t(
-                      "Application as is · search, dossiers, shortlist & OSINT",
-                      "Застосунок як є · пошук, досьє, shortlist та OSINT",
-                    )}
-                  </span>
-                  <small>
-                    {t(
-                      "Replaces the core and workflow selections. OSINT uses the existing research service; volumes and fees require agreement.",
-                      "Замінює вибір ядра та workflow. OSINT виконує наявний дослідницький сервіс; обсяг і вартість погоджуються.",
-                    )}
-                  </small>
-                </span>
-              </label>
-              <label className="client-route-choice">
-                <input
-                  type="checkbox"
-                  checked={draft.mode === "graph" && draft.serviceIds.includes("research")}
-                  disabled={!ready || draft.mode !== "graph"}
-                  onChange={(e) => update({ serviceIds: e.target.checked ? ["research"] : [] })}
-                />
-                <span>
-                  {t(
-                    "Add the AI research assistant integration?",
-                    "Додати інтеграцію ШІ-асистента дослідника?",
-                  )}
-                </span>
-              </label>
-              <p className="scope-receipt-note">
-                {t(
-                  "Individual OSINT searches remain available without integration. Research usage and integration costs are agreed separately.",
-                  "Разові OSINT-пошуки залишаються доступними без інтеграції. Обсяг досліджень і вартість підключення погоджуються окремо.",
-                )}
-              </p>
-              <Link to="/" search={{ view: "map" }} className="client-text-button">
-                {t("Explore the tool", "Дослідити інструмент")}
-              </Link>
-            </section>
             <fieldset className="scope-budget-position" disabled={!ready}>
-              <legend>{t("Your budget position", "Ваша бюджетна позиція")}</legend>
-              <label className="client-radio-label">
-                <input
-                  form="scope-response"
-                  type="radio"
-                  name="budget"
-                  checked={draft.budgetPosition === "approve"}
-                  disabled={quote === null}
-                  onChange={() => update({ budgetPosition: "approve" })}
-                />
-                {t("Approve", "Погоджую")}
-              </label>
-              <label className="client-radio-label">
-                <input
-                  form="scope-response"
-                  type="radio"
-                  name="budget"
-                  checked={draft.budgetPosition === "discuss"}
-                  onChange={() => update({ budgetPosition: "discuss" })}
-                />
-                {t("Will discuss", "Обговоримо")}
-              </label>
-              <label className="client-radio-label">
-                <input
-                  form="scope-response"
-                  type="radio"
-                  name="budget"
-                  checked={draft.budgetPosition === "limit"}
-                  onChange={() => update({ budgetPosition: "limit", currency: "GBP" })}
-                />
-                {t("Estimated ceiling", "Орієнтовна межа")}
-              </label>
-              <label className="scope-ceiling-entry">
+              <legend>
+                {t("Your budget ceiling (optional)", "Ваша межа бюджету (необов’язково)")}
+              </legend>
+              <label className="scope-ceiling-entry" htmlFor="scope-budget-ceiling">
                 <span className="sr-only">
-                  {t("Estimated ceiling in GBP", "Орієнтовна межа у GBP")}
+                  {t("Maximum budget amount", "Максимальна сума бюджету")}
                 </span>
                 <input
-                  form="scope-response"
+                  id="scope-budget-ceiling"
                   type="number"
                   min="0.01"
                   step="any"
-                  placeholder="XXXXX"
+                  placeholder={t("Leave blank to discuss", "Залиште порожнім для обговорення")}
                   value={draft.budgetCeiling}
-                  required={draft.budgetPosition === "limit"}
-                  disabled={draft.budgetPosition !== "limit"}
-                  onChange={(e) => update({ budgetCeiling: e.target.value, currency: "GBP" })}
+                  onChange={(e) =>
+                    update({
+                      budgetCeiling: e.target.value,
+                      budgetPosition: e.target.value.trim() ? "limit" : "discuss",
+                    })
+                  }
                 />
-                <span>GBP</span>
+                <select
+                  aria-label={t("Budget currency", "Валюта бюджету")}
+                  value={draft.currency}
+                  onChange={(e) => {
+                    const currency = e.target.value;
+                    if (currency === "GBP" || currency === "EUR" || currency === "USD")
+                      update({ currency });
+                  }}
+                >
+                  <option value="GBP">GBP</option>
+                  <option value="EUR">EUR</option>
+                  <option value="USD">USD</option>
+                </select>
               </label>
-            </fieldset>
-            {draft.mode === "full" && (
               <p className="scope-receipt-note">
                 {t(
-                  "Proposed core delivery and payment terms: ",
-                  "Попередні умови виконання й оплати ядра: ",
+                  "This is your maximum budget, not an estimate of the work's cost.",
+                  "Це ваша максимальна межа, а не оцінка вартості робіт.",
                 )}
-                {BRIEFING_MILESTONES.map(
-                  (step) => `${step.title[locale]} — ${Math.round(step.fraction * 100)}%`,
-                ).join("; ")}
+              </p>
+            </fieldset>
+            <label className="client-route-choice">
+              <input
+                type="checkbox"
+                checked={draft.scopeConfirmed}
+                disabled={!ready || functionCount === 0}
+                onChange={(e) => update({ scopeConfirmed: e.target.checked })}
+              />
+              <span>
                 {t(
-                  ". Subject to agreement. Workflows have separate scope and delivery agreements.",
-                  ". Підлягають погодженню. Обсяг і виконання workflow погоджуються окремо.",
+                  "Confirm these functions for an estimate",
+                  "Підтверджую ці функції для підготовки оцінки",
+                )}
+              </span>
+            </label>
+            {functionCount === 0 && (
+              <p className="scope-receipt-note" role="status">
+                {t(
+                  "Select at least one service function before confirming the scope.",
+                  "Оберіть щонайменше одну сервісну функцію, перш ніж підтвердити обсяг.",
                 )}
               </p>
             )}
             <p className="scope-receipt-note">
-              {draft.mode === "full" &&
-                !packageIsCustom(draft, "core") &&
-                t(
-                  "Core planning range £33,600–34,944. ",
-                  "Плановий діапазон ядра £33 600–34 944. ",
-                )}
               {t(
-                "Final price follows agreed scope. Unpriced requests, hosting, AI/API usage and ongoing operations are estimated separately.",
-                "Остаточна ціна залежить від погодженого обсягу. Запити без ціни, хостинг, AI/API та постійна операційна робота оцінюються окремо.",
+                "You can revise the functions before creating the request. The estimate will need to describe any exclusions and assumptions.",
+                "Перед створенням запиту можна змінити функції. В оцінці мають бути описані виключення та припущення.",
               )}
             </p>
             <a className="client-button scope-receipt-next" href="#scope-response-section">
-              {t("Accept & arrange a discussion", "Погодити та домовитися про обговорення")}
+              {t("Prepare estimate request", "Підготувати запит на оцінку")}
             </a>
-            <ScopeDeliveryNotes locale={locale} />
           </aside>
         </div>
         <section id="scope-response-section" className="client-scope-card scope-response-section">
@@ -506,12 +278,12 @@ function ScopePage() {
               <ChevronDown size={20} aria-hidden="true" />
             </summary>
             <div className="scope-large-folder-body">
-              <details ref={responseHint} className="scope-response-hint">
+              <details className="scope-response-hint">
                 <summary>{t("Client response", "Відповідь замовника")}</summary>
                 <p>
                   {t(
-                    "Continue with individual research, consider a tailored core or select further capabilities for assessment. If you already know what is needed, record the scope directly. A brief impression of the prototype is welcome whichever route you choose. Your response is a basis for a detailed proposal, not an order or acceptance of a final price.",
-                    "Продовжуйте разові дослідження, розгляньте індивідуальне ядро або оберіть додаткові можливості для оцінки. Якщо вже знаєте потребу — одразу опишіть обсяг. Будемо вдячні за коротке враження від прототипу за будь-якого вибору. Відповідь є основою детальної пропозиції, не замовленням чи погодженням остаточної ціни.",
+                    "Your response records the functions to estimate and any budget limit you choose to share. It does not approve an organisation-specific workflow, place an order or accept a final price.",
+                    "Ваша відповідь фіксує функції для оцінки та, за бажанням, бюджетну межу. Вона не погоджує workflow організації, не є замовленням і не підтверджує остаточну ціну.",
                   )}
                 </p>
               </details>
@@ -519,9 +291,26 @@ function ScopePage() {
                 id="scope-response"
                 onSubmit={(e) => {
                   e.preventDefault();
+                  if (!validScope) {
+                    setNotice(
+                      functionCount === 0
+                        ? t(
+                            "Select at least one service function before creating the request.",
+                            "Оберіть щонайменше одну сервісну функцію, перш ніж створити запит.",
+                          )
+                        : t(
+                            "Confirm the selected functions for an estimate before creating the request.",
+                            "Підтвердіть обрані функції для оцінки, перш ніж створити запит.",
+                          ),
+                    );
+                    return;
+                  }
                   if (!validLimit) {
                     setNotice(
-                      t("Enter a positive budget ceiling.", "Вкажіть додатну межу бюджету."),
+                      t(
+                        "Enter a budget ceiling greater than zero, or clear the field to leave it open.",
+                        "Вкажіть бюджетну межу більшу за нуль або очистьте поле, щоб не задавати її.",
+                      ),
                     );
                     return;
                   }
@@ -600,16 +389,16 @@ function ScopePage() {
                   disabled={!ready}
                 >
                   <Mail size={19} />
-                  <span>{t("Send", "Надіслати")}</span>
+                  <span>{t("Create email draft", "Створити чернетку листа")}</span>
+                </button>
+                <button className="scope-action-card" onClick={download} disabled={!ready}>
+                  <Download size={19} />
+                  <span>{t("Download request", "Завантажити запит")}</span>
                 </button>
                 <button className="scope-action-card" onClick={() => window.print()}>
                   <Printer size={19} />
                   <span>PDF</span>
                 </button>
-                <Link to="/proposal" className="scope-action-card">
-                  <ArrowLeft size={19} />
-                  <span>{t("Back to start", "На початок")}</span>
-                </Link>
               </div>
               {notice && (
                 <p className="client-notice" role="status">
@@ -618,8 +407,8 @@ function ScopePage() {
               )}
               <p className="client-note">
                 {t(
-                  "Your contact details and choices are stored only in this browser until you send them yourself. This is a request for discussion, not an order or acceptance of a price.",
-                  "Контактні дані й вибір зберігаються лише в цьому браузері до вашого надсилання. Це запит на обговорення, а не замовлення чи погодження ціни.",
+                  "Your details and selections stay in this browser until you choose to create an email draft. The draft must be reviewed and sent by you.",
+                  "Ваші дані та вибір залишаються в цьому браузері, доки ви не створите чернетку листа. Її потрібно перевірити й надіслати самостійно.",
                 )}
               </p>{" "}
             </div>
@@ -635,8 +424,8 @@ function ScopePage() {
         </footer>
       </div>
       <a className="scope-mobile-total" href="#scope-budget-panel">
-        <span>{t("Your indicative total", "Ваш індикативний підсумок")}</span>
-        <strong>{indicativePriceLabel(estimate.low, locale, estimate.high)}</strong>
+        <span>{t("Functions in estimate request", "Функцій у запиті на оцінку")}</span>
+        <strong>{functionCount}</strong>
         <ArrowLeft size={17} aria-hidden="true" />
       </a>
       <ScopePrintDocument summary={summary} locale={locale} />

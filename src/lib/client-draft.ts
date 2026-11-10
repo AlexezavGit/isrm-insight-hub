@@ -1,30 +1,9 @@
-import {
-  BOARD_RECIPIENT,
-  BOARD_CAPACITY,
-  BOARD_DECISION,
-  BOARD_RESPONSIBILITIES,
-  CORE_ACCEPTANCE,
-} from "./board-brief";
-import { packageServiceIds } from "./tailored-scope";
-import { BRIEFING_MILESTONES } from "./briefing-milestones";
-import { PROJECT_POSITIONING } from "./project-positioning";
-import {
-  SCOPE_DELIVERY_HEADING,
-  SCOPE_DELIVERY_STATUS,
-  scopeDeliveryNotes,
-} from "./scope-delivery-notes";
+import { packageIsCustom, packageServiceIds } from "./tailored-scope";
 import { z } from "zod";
-import {
-  clientQuote,
-  clientPriceLines,
-  clientQuoteRange,
-  indicativePriceLabel,
-} from "./client-pricing";
 import {
   CORE_SERVICE_IDS,
   CLIENT_SERVICES,
   CLIENT_WORKFLOWS,
-  WORKFLOW_OUTCOME_COPY,
   type ClientLocale,
   type ServiceId,
 } from "./client-catalog";
@@ -66,6 +45,7 @@ const schema = z.object({
   customIncluded: z.boolean().default(true),
   oneOffResearch: z.boolean().default(false),
   integrationInterest: z.boolean().default(false),
+  scopeConfirmed: z.boolean().default(false),
   budgetPosition: z.enum(["discuss", "limit", "approve"]),
   budgetCeiling: z.string(),
   currency: z.enum(["GBP", "USD", "EUR"]),
@@ -78,7 +58,7 @@ export const DRAFT_KEY = "isrm-client-draft-v1";
 export const emptyDraft = (): ClientDraft => ({
   version: 1,
   mode: "full",
-  serviceIds: ["groups", "research", "review", "evidence", "contact", "integration"],
+  serviceIds: [],
   workflowIds: [],
   packageServices: {},
   requests: [],
@@ -87,21 +67,27 @@ export const emptyDraft = (): ClientDraft => ({
   customIncluded: true,
   oneOffResearch: false,
   integrationInterest: false,
-  budgetPosition: "approve",
+  scopeConfirmed: false,
+  budgetPosition: "discuss",
   budgetCeiling: "",
   currency: "GBP",
   name: "",
   email: "",
   notes: "",
 });
-export const parseDraft = (raw: string): ClientDraft => schema.parse(JSON.parse(raw));
+export const parseDraft = (raw: string): ClientDraft => {
+  const parsed = schema.parse(JSON.parse(raw));
+  return parsed.budgetPosition === "approve"
+    ? { ...parsed, budgetPosition: "discuss", scopeConfirmed: false }
+    : parsed;
+};
 export function updateDraft(draft: ClientDraft, changes: Partial<ClientDraft>): ClientDraft {
   const next = schema.parse({ ...draft, ...changes });
   if (changes.mode && changes.mode !== draft.mode) {
-    next.workflowIds = changes.mode === "full" ? (changes.workflowIds ?? []) : [];
+    next.workflowIds = [];
     next.integrationInterest =
       changes.mode === "full" ? (changes.integrationInterest ?? false) : false;
-    next.serviceIds = changes.mode === "full" ? emptyDraft().serviceIds : [];
+    next.serviceIds = changes.mode === "full" ? (changes.serviceIds ?? []) : [];
   }
   if (next.mode === "graph")
     next.serviceIds = next.serviceIds.filter((id) => ["research"].includes(id));
@@ -113,18 +99,17 @@ export function updateDraft(draft: ClientDraft, changes: Partial<ClientDraft>): 
     "mode",
     "serviceIds",
     "packageServices",
-    "workflowIds",
     "integrationInterest",
     "requests",
     "customIncluded",
+    "scopeConfirmed",
   ].some(
     (key) =>
       key in changes &&
       JSON.stringify(draft[key as keyof ClientDraft]) !==
         JSON.stringify(next[key as keyof ClientDraft]),
   );
-  if (next.budgetPosition === "approve" && (scopeChanged || clientQuote(next) === null))
-    next.budgetPosition = "discuss";
+  if (scopeChanged && !("scopeConfirmed" in changes)) next.scopeConfirmed = false;
   return next;
 }
 export function selectedServiceIds(draft: ClientDraft): ServiceId[] {
@@ -142,9 +127,8 @@ export function selectedServiceIds(draft: ClientDraft): ServiceId[] {
   if (draft.mode === "research-only") return ["research", "review"];
   return [
     ...new Set<ServiceId>([
-      ...packageServiceIds(draft, "core"),
+      ...(draft.packageServices?.core === undefined ? [] : packageServiceIds(draft, "core")),
       ...draft.serviceIds.filter((id) => !CORE_SERVICE_IDS.includes(id)),
-      ...draft.workflowIds.flatMap((id) => packageServiceIds(draft, id)),
     ]),
   ];
 }
@@ -158,119 +142,73 @@ export function includeClientRequest(draft: ClientDraft, request: ClientDraft["r
 }
 export function buildClientSummary(d: ClientDraft, locale: ClientLocale): string {
   const uk = locale === "uk";
-  const services = selectedServiceIds(d);
+  const services = new Set(selectedServiceIds(d));
+  const selected = CLIENT_SERVICES.filter((service) => services.has(service.id));
+  const omitted = CLIENT_SERVICES.filter((service) => !services.has(service.id));
+  const requests = d.customIncluded ? d.requests : [];
   return [
-    "ISRM · " +
-      (uk ? "Запит на підготовку детальної пропозиції" : "Request for a detailed proposal"),
+    `ISRM · ${uk ? "Підтвердження функціонального обсягу для оцінки" : "Functional scope confirmation for estimation"}`,
     uk
-      ? "Не є замовленням робіт або погодженням ціни."
-      : "Not an order for work or acceptance of a price.",
-    BOARD_RECIPIENT + " · " + BOARD_CAPACITY[locale],
-    PROJECT_POSITIONING.name[locale],
-    PROJECT_POSITIONING.purpose[locale],
-    PROJECT_POSITIONING.explanation[locale],
-    `${uk ? "Контакт" : "Contact"}: ${d.name} ${d.email}`,
-    `${uk ? "Варіант" : "Route"}: ${d.mode === "graph" ? (uk ? "Застосунок як є: пошук, досьє, shortlist та OSINT-перевірка" : "Application as is: search, dossiers, shortlist and OSINT review") : d.mode === "research-only" ? (uk ? "Разові дослідження" : "Research on request") : uk ? "Застосунок за погодженим складом" : "Application with agreed scope"}`,
-    "\n" + (uk ? "СЕРВІСИ" : "SERVICES"),
-    ...CLIENT_SERVICES.filter((s) => services.includes(s.id)).map(
-      (s) => `• ${s.title[locale]}\n  ${s.detail[locale]}`,
-    ),
-    "\n" +
-      (uk
-        ? "WORKFLOWS · ПОГОДЖУЮ · ДОДАТИ ДО РОЗРАХУНКІВ У ПРОПОЗИЦІЇ"
-        : "WORKFLOWS · APPROVE · INCLUDE IN THE PROPOSAL ESTIMATE"),
-    ...CLIENT_WORKFLOWS.filter((w) => d.mode === "full" && d.workflowIds.includes(w.id)).map(
-      (w) =>
-        `• ${w.title[locale]}\n${w.detail[locale]}\n${w.outputs[locale].map((title, i) => `${title}: ${WORKFLOW_OUTCOME_COPY[w.id][locale][i]}`).join("\n")}`,
-    ),
-    ...Object.entries(d.packageServices)
-      .filter(
-        ([id]) =>
-          d.mode === "full" &&
-          (id === "core" || d.workflowIds.includes(id as (typeof d.workflowIds)[number])),
-      )
-      .map(
-        ([id, ids]) =>
-          `${uk ? "Індивідуальний склад" : "Tailored composition"} · ${id}: ${(ids ?? []).map((service) => CLIENT_SERVICES.find((s) => s.id === service)?.title[locale]).join("; ") || (uk ? "без сервісів" : "no services")} — ${uk ? "результати й ціна потребують переоцінки" : "outcomes and price require reassessment"}`,
-      ),
-    ...(d.integrationInterest && d.mode === "full"
+      ? "Цей документ фіксує функції, які замовник просить оцінити. Він не є замовленням робіт чи прийняттям остаточної ціни."
+      : "This document records the functions the client asks to have estimated. It is not an order for work or acceptance of a final price.",
+    `${uk ? "Контакт" : "Contact"}: ${d.name || "—"} · ${d.email || "—"}`,
+    ...(d.mode === "full" && ["core", ...d.workflowIds].some((id) => packageIsCustom(d, id))
       ? [
+          `\n${uk ? "Змінений склад пакета" : "Tailored composition"}`,
           uk
-            ? "Integration · наступна ітерація: погоджую опрацювання AI-консультанта та ліцензованих інтеграцій; додати до розрахунків у пропозиції."
-            : "Integration · next iteration: scope discussion agreed for an AI consultant assistant and licensed integrations; include in the proposal estimate.",
+            ? "Зміни до стандартного складу потребують окремої оцінки; показані суми є лише орієнтирами."
+            : "Changes to the reference composition require a separate estimate; displayed amounts are indicative only.",
         ]
       : []),
-    "\n" + (uk ? "ВЛАСНІ ОПИСИ" : "CUSTOM REQUESTS"),
-    ...(d.mode !== "full" && d.customIncluded && d.requests.length
-      ? [
+    `\n${uk ? "ОБРАНІ СЕРВІСНІ ФУНКЦІЇ" : "SELECTED SERVICE FUNCTIONS"}`,
+    ...(selected.length
+      ? selected.map(
+          (service) =>
+            `• ${service.title[locale]}\n  ${service.detail[locale]}\n  ${service.status[locale]}`,
+        )
+      : [uk ? "Функції ще не обрано." : "No functions have been selected yet."]),
+    `\n${uk ? "НЕ ВКЛЮЧЕНО ДО ЦЬОГО ЗАПИТУ" : "NOT INCLUDED IN THIS REQUEST"}`,
+    ...(omitted.length
+      ? omitted.map((service) => {
+          const examples = CLIENT_WORKFLOWS.filter((workflow) =>
+            workflow.serviceIds.includes(service.id),
+          ).map((workflow) => workflow.title[locale]);
+          return `• ${service.title[locale]}${examples.length ? ` — ${uk ? "пов’язані приклади використання" : "related usage examples"}: ${examples.join("; ")}` : ""}`;
+        })
+      : [
           uk
-            ? "Додаткові запити для окремого обговорення. Не включені до обраного fallback-обсягу або його ціни."
-            : "Additional requests for separate discussion. Excluded from the selected simpler option and its price.",
-        ]
-      : []),
-    ...(d.customIncluded ? d.requests : []).map(
-      (r) =>
-        `${r.kind === "workflow" ? "Workflow" : uk ? "Сервіс" : "Service"}: ${r.title}\n${r.description}`,
-    ),
-    "\n" + (uk ? "РОБОЧИЙ ВІДБІР · ДСП" : "WORKING SHORTLIST · CONFIDENTIAL"),
-    `${d.groupName || "—"}: ${d.shortlist.join(", ") || "—"}`,
-    "\n" + (uk ? "БЮДЖЕТНА ПОЗИЦІЯ" : "BUDGET POSITION"),
-    d.budgetPosition === "approve" && clientQuote(d) !== null
+            ? "Усі описані сервісні функції включені до запиту на оцінку."
+            : "All described service functions are included in the estimation request.",
+        ]),
+    uk
+      ? "Приклади workflow в конфігураторі показують можливі зв’язки функцій; вони не є шаблонами, які замовник має обрати або погодити. Власні процеси й послідовність робіт визначаються разом з організацією."
+      : "Workflow examples in the configurator show possible connections between functions; they are not templates the client must select or approve. The organisation's own processes and sequence of work are defined together.",
+    `\n${uk ? "ВЛАСНІ ВИМОГИ" : "ADDITIONAL REQUIREMENTS"}`,
+    ...(requests.length
+      ? requests.map((request) => `• ${request.title}\n${request.description}`)
+      : [uk ? "Не додано." : "None added."]),
+    `\n${uk ? "ПІДТВЕРДЖЕННЯ ОБСЯГУ" : "SCOPE CONFIRMATION"}`,
+    d.scopeConfirmed
       ? uk
-        ? "Індикативний бюджет прийнятний для підготовки Пропозиції"
-        : "Indicative budget acceptable as a basis for a detailed proposal"
-      : d.budgetPosition === "limit"
-        ? `${uk ? "Запропонована межа" : "Suggested ceiling"}: ${d.currency} ${d.budgetCeiling}`
-        : uk
-          ? "Потрібне обговорення бюджету"
-          : "Budget to discuss",
-    ...clientPriceLines(d, locale).map(
-      (line) => `${line.title}: ${indicativePriceLabel(line.value, locale)}`,
-    ),
-    `${uk ? "Індикативна сума оцінених позицій" : "Indicative priced scope"}: ${indicativePriceLabel(clientQuoteRange(d).low, locale, clientQuoteRange(d).high)}`,
-    ...(clientQuoteRange(d).pending
-      ? [
-          uk
-            ? "Суми — лише індикативні орієнтири. Неоцінені позиції не включені; змінений склад потребує переоцінки в детальній пропозиції."
-            : "Amounts are indicative references only. Unpriced items are excluded; tailored compositions require reassessment in the detailed proposal.",
-        ]
-      : []),
+        ? "Підтверджено для підготовки оцінки; це не прийняття ціни чи договору."
+        : "Confirmed for preparation of an estimate; this is not acceptance of a price or contract."
+      : uk
+        ? "Не підтверджено."
+        : "Not confirmed.",
+    `\n${uk ? "БЮДЖЕТНА МЕЖА" : "BUDGET LIMIT"}`,
+    d.budgetPosition === "limit" && Number(d.budgetCeiling) > 0
+      ? `${uk ? "Запропонована максимальна межа" : "Proposed maximum ceiling"}: ${d.currency} ${d.budgetCeiling}`
+      : uk
+        ? "Межу не зазначено; бюджет належить обговорити."
+        : "No ceiling supplied; budget remains to be discussed.",
     uk
-      ? "Суми індикативні для зазначеного обсягу. Остаточну пропозицію, строки, інтеграції та права визначає угода."
-      : "Amounts are indicative for the stated scope. The final offer, timetable, integrations and rights are defined in the agreement.",
-    ...(d.mode === "full"
-      ? [
-          uk
-            ? "Попередні умови, що підлягають погодженню, тільки для ядра: ТЗ та угода 30%; перший запуск та інтеграція 50%; налаштування та передача 20%."
-            : "Provisional terms, subject to agreement, for the core only: specification & agreement 30%; initial deployment & integration 50%; refinement & handover 20%.",
-          ...BRIEFING_MILESTONES.map(
-            (step) => `${Math.round(step.fraction * 100)}% · ${step.title[locale]}
-${step.detail[locale]}
-${step.acceptance[locale]}`,
-          ),
-        ]
-      : []),
-    d.oneOffResearch
-      ? uk
-        ? "Також цікавлять разові дослідження на замовлення."
-        : "Also interested in research on individual requests."
-      : "",
-    "\n" + (uk ? "ПІЛОТ І КРИТЕРІЇ ПРИЙМАННЯ" : "PILOT & ACCEPTANCE"),
-    BOARD_DECISION[locale],
-    BOARD_RESPONSIBILITIES[locale],
-    ...CORE_ACCEPTANCE[locale].map((item) => "• " + item),
+      ? "Це межа замовника, а не розрахунок вартості. Після підтвердження функцій готується окрема оцінка з одноразовими роботами й регулярними витратами. Якщо оцінка перевищить межу, варіанти зміни обсягу повертаються на погодження."
+      : "This is the client's limit, not a cost estimate. After the functions are confirmed, a separate estimate will show one-off work and recurring costs. If the estimate exceeds the ceiling, scope alternatives will be returned for review.",
+    `\n${uk ? "ІНШІ УМОВИ" : "OTHER TERMS"}`,
     uk
-      ? "Запропоновані перевірки для погодження ТЗ; не перелік уже реалізованих функцій прототипу."
-      : "Proposed checks for the specification, not a list of capabilities already implemented in the prototype.",
-    "\n" + SCOPE_DELIVERY_HEADING[locale],
-    SCOPE_DELIVERY_STATUS[locale],
-    ...scopeDeliveryNotes(locale).map((note) => `• ${note.title}: ${note.body}`),
-    "\n" + (uk ? "ДАНІ ТА ВІДПОВІДАЛЬНІСТЬ" : "DATA & RESPONSIBILITY"),
-    uk
-      ? "Демонстраційна вибірка та тематичні зв’язки не є акредитацією, рекомендацією ISRM чи оцінкою репутації. AI OSINT ще не підключено. Операційне використання даних потребує визначених цілей, правової підстави, відповідальних, строків зберігання та порядку реалізації прав."
-      : "The demonstration sample and thematic matches are not accreditation, an ISRM endorsement or a reputation assessment. AI OSINT is not connected. Operational data use requires defined purposes, lawful basis, responsibilities, retention periods and a rights process.",
-    "\n" + (uk ? "ПРИМІТКИ" : "NOTES"),
-    d.notes,
+      ? "Організаційні workflow, дані та джерела, конкретні інтеграції, критерії приймання, строки, податки, ліцензії, підтримка й умови оплати визначаються в детальній пропозиції. Неоцінені позиції не вважаються безкоштовними."
+      : "Organisational workflows, data and sources, specific integrations, acceptance checks, schedule, tax, licences, support and payment terms are defined in the detailed proposal. Unestimated items are not treated as free.",
+    `\n${uk ? "ПРИМІТКИ" : "NOTES"}\n${d.notes || (uk ? "—" : "—")}`,
   ].join("\n");
 }
 export function emailHref(d: ClientDraft, locale: ClientLocale) {

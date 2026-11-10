@@ -1,3 +1,10 @@
+import { NetworkPrototypeDock } from "./NetworkPrototypeDock";
+import type {
+  PrototypeWorkspace,
+  WorkspaceAction,
+  PrototypePanel,
+  prototypeLayout,
+} from "@/lib/prototype-workspace";
 import { useEffect, useRef, useState, type ReactNode, type CSSProperties } from "react";
 import { Network, X } from "lucide-react";
 import type { stackedInspectionLayout, StackWidths } from "@/lib/network-dock";
@@ -57,7 +64,7 @@ function WidthHandle({
   );
 }
 
-export function NetworkInspectionDock({
+function StackedInspectionDock({
   search,
   searchLabel,
   onCloseSearch,
@@ -209,4 +216,40 @@ export function NetworkInspectionDock({
       })}
     </div>
   );
+}
+
+export function NetworkInspectionDock({
+  workspace,
+  ...props
+}: Parameters<typeof StackedInspectionDock>[0] & {
+  workspace?:
+    | {
+        state: PrototypeWorkspace;
+        layout: ReturnType<typeof prototypeLayout>;
+        results: ReactNode;
+        labels: Record<PrototypePanel, string>;
+        onAction: (action: WorkspaceAction) => void;
+        onWidth: (panel: PrototypePanel, width: number) => void;
+      }
+    | undefined;
+}) {
+  if (workspace)
+    return (
+      <NetworkPrototypeDock
+        state={workspace.state}
+        profileKey={props.profileKey}
+        layout={workspace.layout}
+        panes={{
+          search: props.search,
+          results: workspace.results,
+          profile: props.profile,
+          shortlist: props.shortlist,
+        }}
+        labels={workspace.labels}
+        onAction={workspace.onAction}
+        onWidth={workspace.onWidth}
+        uk={props.uk}
+      />
+    );
+  return <StackedInspectionDock {...props} />;
 }

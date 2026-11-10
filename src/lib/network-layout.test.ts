@@ -1,7 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { buildNetwork } from "./network-model";
-import { layoutNetwork, fitGraphView } from "./network-layout";
+import {
+  layoutNetwork,
+  freeNetworkPositions,
+  fitGraphView,
+  interpolatePoint,
+  transitionOrigins,
+} from "./network-layout";
 import type { Expert } from "./types";
 const people = Array.from(
   { length: 45 },
@@ -56,6 +62,35 @@ test("the service wheel stays fixed while different people groups surface", () =
     assert(Math.hypot(q.x, q.y) < 215);
   }
 });
+
+test("the proposed core anchors the configurator and leaves room for workflow labels", () => {
+  const graph = buildNetwork(
+    [],
+    { sector: false, theme: false, hub: false, researchQueue: false },
+    "en",
+    {},
+    { includeHub: false, includeServiceCoverage: false, includeProposedCore: true },
+  );
+  const ordered = layoutNetwork(graph, "services", [], [], "", false);
+  assert.deepEqual(ordered.get("core:expertise-trust"), { x: 0, y: 0 });
+  assert.equal(
+    Math.round(Math.hypot(ordered.get("workflow:search")!.x, ordered.get("workflow:search")!.y)),
+    200,
+  );
+  assert(Math.hypot(ordered.get("svc:search")!.x, ordered.get("svc:search")!.y) > 400);
+
+  const free = freeNetworkPositions([...ordered.keys()], ordered, "");
+  assert.deepEqual(free.get("core:expertise-trust"), { x: 0, y: 0 });
+  assert.equal(free.size, ordered.size);
+
+  const focused = layoutNetwork(graph, "services", [], [], "svc:search", false);
+  assert.deepEqual(focused.get("svc:search"), { x: 0, y: 0 });
+  assert.notDeepEqual(focused.get("core:expertise-trust"), { x: 0, y: 0 });
+  assert(
+    Math.hypot(focused.get("core:expertise-trust")!.x, focused.get("core:expertise-trust")!.y) >=
+      200,
+  );
+});
 test("fitting uses visible wheel and selected people, not distant invisible nodes", () => {
   const pos = layoutNetwork(model, "services", [], []);
   pos.set("invisible", { x: 100000, y: 100000 });
@@ -106,4 +141,88 @@ test("structured people categories have separate expertise, sector and country r
   assert(radius("expertise:Risk consulting") < radius("sector:Risk"));
   assert(radius("sector:Risk") < radius("country:United Kingdom"));
   assert.deepEqual(points.get("isrm"), { x: 0, y: 0 });
+});
+
+test("workspace layout places recorded people and categories without an artificial centre node", () => {
+  const projection = buildNetwork(
+    people.slice(0, 3),
+    {
+      sector: true,
+      theme: false,
+      hub: false,
+      researchQueue: true,
+      specialisation: true,
+    },
+    "en",
+    {},
+    { includeHub: false, includeServiceCoverage: false },
+  );
+  const positions = layoutNetwork(projection, "people", [], [], "", false);
+  assert(!positions.has("isrm"));
+  for (const node of projection.nodes) assert(positions.has(node.id), node.id);
+  assert(Math.abs(positions.get("sector:Risk")!.x) < 1e-10);
+  assert.equal(positions.get("sector:Risk")!.y, -310);
+  assert(Math.hypot(positions.get("P0")!.x, positions.get("P0")!.y) > 200);
+});
+
+test("the dispersed opening layout is deterministic, spread around the anchor, and non-collapsed", () => {
+  const positions = layoutNetwork(model, "people", [], [], "P0");
+  const ids = model.nodes.map((node) => node.id);
+  const first = freeNetworkPositions(ids, positions, "P0");
+  const second = freeNetworkPositions([...ids].reverse(), positions, "P0");
+  assert.deepEqual(first, second);
+  assert.deepEqual(first.get("P0"), { x: 0, y: 0 });
+  assert.equal(first.size, ids.length);
+  assert(new Set([...first.values()].map(({ x, y }) => `${x}:${y}`)).size, ids.length);
+  assert([...first.values()].some((point) => Math.hypot(point.x, point.y) > 180));
+  assert(![...first.values()].every((point) => Math.hypot(point.x, point.y) < 10));
+});
+
+test("the ordered transition interpolates continuously from the live layout to fixed positions", () => {
+  const from = { x: -120, y: 80 };
+  const to = { x: 240, y: -160 };
+  assert.deepEqual(interpolatePoint(from, to, 0), from);
+  assert.deepEqual(interpolatePoint(from, to, 1), to);
+  const middle = interpolatePoint(from, to, 0.5);
+  assert(middle.x > from.x && middle.x < to.x);
+  assert(middle.y < from.y && middle.y > to.y);
+  assert.deepEqual(interpolatePoint(from, to, -1), from);
+  assert.deepEqual(interpolatePoint(from, to, 2), to);
+});
+
+test("new nodes begin at an existing visible neighbour instead of appearing at their destination", () => {
+  const previous = new Map([
+    ["anchor", { x: 0, y: 0 }],
+    ["neighbour", { x: 40, y: 25 }],
+    ["unrelated", { x: -30, y: 15 }],
+  ]);
+  const targets = new Map([
+    ["anchor", { x: 0, y: 0 }],
+    ["neighbour", { x: 120, y: 0 }],
+    ["new-node", { x: 200, y: 80 }],
+    ["orphan", { x: -90, y: 60 }],
+  ]);
+  const origins = transitionOrigins(
+    ["anchor", "neighbour", "new-node", "orphan"],
+    [
+      { source: "new-node", target: "neighbour" },
+      { source: "new-node", target: "anchor" },
+    ],
+    previous,
+    targets,
+    "anchor",
+  );
+  assert.deepEqual(origins.get("new-node"), previous.get("anchor"));
+  assert.deepEqual(origins.get("orphan"), { x: 0, y: 0 });
+  assert.deepEqual(origins.get("neighbour"), previous.get("neighbour"));
+});
+
+test("disconnected additions start at the nearest previously visible node", () => {
+  const previous = new Map([
+    ["departing-node", { x: -40, y: 20 }],
+    ["distant-node", { x: 300, y: 240 }],
+  ]);
+  const targets = new Map([["arriving-node", { x: -55, y: 35 }]]);
+  const origins = transitionOrigins(["arriving-node"], [], previous, targets, "missing-anchor");
+  assert.deepEqual(origins.get("arriving-node"), previous.get("departing-node"));
 });

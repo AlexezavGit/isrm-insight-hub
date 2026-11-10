@@ -9,15 +9,11 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { useI18n } from "@/lib/i18n";
-import { CoreCapabilities, WorkflowValue } from "./ClientValueFramework";
+import { WorkflowValue } from "./ClientValueFramework";
 import { useClientDraft } from "./ClientDraftProvider";
-import {
-  CORE_SERVICE_IDS,
-  CLIENT_SERVICES,
-  CLIENT_WORKFLOWS,
-  type ServiceId,
-} from "@/lib/client-catalog";
+import { CLIENT_SERVICES, CLIENT_WORKFLOWS, type ServiceId } from "@/lib/client-catalog";
 import { selectedServiceIds } from "@/lib/client-draft";
+import { serviceSelectionChanges } from "@/lib/tailored-scope";
 
 type Props = {
   open: boolean;
@@ -44,9 +40,6 @@ export function ClientConfiguration({
   const [editingId, setEditingId] = useState<string | null>(null);
   const uk = locale === "uk";
   const ids = selectedServiceIds(draft);
-  const linked = CLIENT_WORKFLOWS.filter((w) => draft.workflowIds.includes(w.id)).flatMap(
-    (w) => w.serviceIds,
-  );
   const start = () => {
     setTitle("");
     setDescription("");
@@ -92,25 +85,21 @@ export function ClientConfiguration({
             {uk ? "Сервіси" : "Services"}
           </button>
           <button aria-pressed={tab === "workflows"} onClick={() => setTab("workflows")}>
-            Workflows
+            {uk ? "Приклади зв’язків" : "Connection examples"}
           </button>
         </div>
         <p className="client-note">
           {uk
-            ? "Вибір описує бажаний обсяг. Це не запуск сервісів і не замовлення робіт."
-            : "Selections describe your preferred scope. They do not activate services or commission work."}
+            ? "Обирайте потрібні функції. Приклади нижче показують, як їх можна поєднати; це не готові workflow для погодження."
+            : "Select the functions you need. The examples show how they can connect; they are not predefined workflows for approval."}
         </p>
-        {tab === "services" && <CoreCapabilities locale={locale} compact />}
         {draft.mode !== "full" && (
           <div className="client-notice">
             <p>
               {uk
-                ? "Обрано спрощений варіант. Для повної конфігурації поверніться до застосунку."
-                : "A simpler route is selected. Return to the application route to configure services."}
+                ? "Ви можете переглянути поточний набір і змінити його. Будь-яка зміна переведе запит до оцінки функцій."
+                : "You can review and change the current selection. Any change will create a function-based estimate request."}
             </p>
-            <button onClick={() => update({ mode: "full" })}>
-              {uk ? "Конфігурувати застосунок" : "Configure the application"}
-            </button>
           </div>
         )}
         {tab === "services"
@@ -118,37 +107,43 @@ export function ClientConfiguration({
               <article
                 key={s.id}
                 id={`client-service-${s.id}`}
-                className={`client-service-card ${activeService === s.id ? "is-focused" : ""}`}
+                className={`client-service-card ${activeService === s.id ? "is-focused" : ""} ${ids.includes(s.id) ? "is-selected" : ""}`}
               >
                 <label>
                   <input
                     type="checkbox"
                     checked={ids.includes(s.id)}
-                    disabled={
-                      !ready ||
-                      draft.mode !== "full" ||
-                      CORE_SERVICE_IDS.includes(s.id) ||
-                      linked.includes(s.id)
-                    }
+                    disabled={!ready}
                     onChange={(e) =>
-                      update({
-                        serviceIds: e.target.checked
-                          ? [...draft.serviceIds, s.id]
-                          : draft.serviceIds.filter((id) => id !== s.id),
-                      })
+                      update(
+                        serviceSelectionChanges(
+                          draft,
+                          e.target.checked ? [...ids, s.id] : ids.filter((id) => id !== s.id),
+                        ),
+                      )
                     }
                   />
                   <strong>{s.title[locale]}</strong>
                 </label>
                 <p>{s.detail[locale]}</p>
                 <span className="client-status">{s.status[locale]}</span>
-                {linked.includes(s.id) && (
-                  <p className="client-note">
-                    {uk
-                      ? "Входить до обраного workflow; змінюється разом із ним."
-                      : "Included by a selected workflow; change it with that workflow."}
-                  </p>
-                )}
+                <p className="client-note">
+                  {ids.includes(s.id)
+                    ? uk
+                      ? "Включено до функціонального обсягу."
+                      : "Included in the functional scope."
+                    : uk
+                      ? "Не включено: приклади, яким потрібна ця функція, нижче покажуть її відсутність."
+                      : "Not included: examples that use this function below will show the gap."}
+                </p>
+                <details>
+                  <summary>{uk ? "Може підтримувати" : "Can support"}</summary>
+                  <ul>
+                    {CLIENT_WORKFLOWS.filter((w) => w.serviceIds.includes(s.id)).map((w) => (
+                      <li key={w.id}>{w.title[locale]}</li>
+                    ))}
+                  </ul>
+                </details>
                 <button
                   type="button"
                   className="client-text-button"
@@ -158,61 +153,68 @@ export function ClientConfiguration({
                 </button>
               </article>
             ))
-          : CLIENT_WORKFLOWS.map((w) => (
-              <article key={w.id} className="client-service-card">
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={draft.workflowIds.includes(w.id)}
-                    disabled={!ready}
-                    onChange={(e) =>
-                      update({
-                        mode: "full",
-                        workflowIds: e.target.checked
-                          ? [...draft.workflowIds, w.id]
-                          : draft.workflowIds.filter((id) => id !== w.id),
-                      })
-                    }
-                  />
-                  <strong>{w.title[locale]}</strong>
-                </label>
-                <p>{w.detail[locale]}</p>
-                <WorkflowValue workflow={w.id} locale={locale} compact />
-                <ul className="client-output-tags">
-                  {w.outputs[locale].map((o) => (
-                    <li key={o}>{o}</li>
-                  ))}
-                </ul>
-                <details>
-                  <summary>{uk ? "Задіяні сервіси" : "Services involved"}</summary>
-                  <ul>
-                    {w.serviceIds.map((id) => (
-                      <li key={id}>{CLIENT_SERVICES.find((s) => s.id === id)?.title[locale]}</li>
+          : CLIENT_WORKFLOWS.map((w) => {
+              const missing = w.serviceIds.filter((id) => !ids.includes(id));
+              return (
+                <article key={w.id} className="client-service-card">
+                  <h3>{w.title[locale]}</h3>
+                  <p>{w.detail[locale]}</p>
+                  <WorkflowValue workflow={w.id} locale={locale} compact />
+                  <ul className="client-output-tags">
+                    {w.outputs[locale].map((o) => (
+                      <li key={o}>{o}</li>
                     ))}
                   </ul>
-                </details>
-                <button
-                  type="button"
-                  className="client-text-button"
-                  onClick={() => onExplore(w.serviceIds)}
-                >
-                  {uk ? "Показати залежності" : "Show dependencies"} →
-                </button>
-              </article>
-            ))}
+                  <div className="client-note" aria-live="polite">
+                    <strong>
+                      {uk
+                        ? missing.length
+                          ? "Чого бракує в обраному наборі"
+                          : "Усі пов’язані функції обрані"
+                        : missing.length
+                          ? "Missing from the selected functions"
+                          : "All related functions are selected"}
+                    </strong>
+                    {missing.length ? (
+                      <ul>
+                        {missing.map((id) => (
+                          <li key={id}>
+                            {CLIENT_SERVICES.find((service) => service.id === id)?.title[locale]}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p>
+                        {uk
+                          ? "Це лише приклад зв’язків, не погодження чи вимога реалізувати цей workflow."
+                          : "This is only a connection example, not approval or a requirement to implement this workflow."}
+                      </p>
+                    )}
+                    {missing.length > 0 && (
+                      <p>
+                        {uk
+                          ? "Без цих функцій приклад втрачає відповідні можливості. Реальний процес організації може бути іншим."
+                          : "Without these functions, the example lacks the corresponding capabilities. The organisation's actual process may differ."}
+                      </p>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    className="client-text-button"
+                    onClick={() => onExplore(w.serviceIds)}
+                  >
+                    {uk ? "Показати залежності" : "Show dependencies"} →
+                  </button>
+                </article>
+              );
+            })}
         <button
           type="button"
           className="client-button client-button-secondary"
           disabled={!ready}
           onClick={start}
         >
-          {tab === "workflows"
-            ? uk
-              ? "Описати свій workflow"
-              : "Describe your workflow"
-            : uk
-              ? "Описати свій сервіс"
-              : "Describe a service"}
+          {uk ? "Додати власну функціональність" : "Add a capability of your own"}
         </button>
         {draft.requests.map((r) => (
           <article className="client-service-card" key={r.id}>
@@ -266,9 +268,7 @@ export function ClientConfiguration({
               e.preventDefault();
               const request = {
                 id: editingId || crypto.randomUUID(),
-                kind:
-                  (editingId ? draft.requests.find((r) => r.id === editingId)?.kind : undefined) ??
-                  (tab === "workflows" ? ("workflow" as const) : ("service" as const)),
+                kind: "service",
                 title: title.trim(),
                 description: description.trim(),
               };

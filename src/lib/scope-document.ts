@@ -1,7 +1,7 @@
 import { buildClientSummary, type ClientDraft } from "./client-draft";
 import type { ClientLocale } from "./client-catalog";
 const headings =
-  /^(СЕРВІСИ|SERVICES|WORKFLOWS(?: · .*)?|ВЛАСНІ ОПИСИ|CUSTOM REQUESTS|РОБОЧИЙ ВІДБІР · ДСП|WORKING SHORTLIST · CONFIDENTIAL|БЮДЖЕТНА ПОЗИЦІЯ|BUDGET POSITION|ПІЛОТ І КРИТЕРІЇ ПРИЙМАННЯ|PILOT & ACCEPTANCE|ОБСЯГ, ЗМІНИ ТА ВИКОНАННЯ|SCOPE, CHANGES & DELIVERY|ДАНІ ТА ВІДПОВІДАЛЬНІСТЬ|DATA & RESPONSIBILITY|ПРИМІТКИ|NOTES)$/;
+  /^(ОБРАНІ СЕРВІСНІ ФУНКЦІЇ|SELECTED SERVICE FUNCTIONS|НЕ ВКЛЮЧЕНО ДО ЦЬОГО ЗАПИТУ|NOT INCLUDED IN THIS REQUEST|ВЛАСНІ ВИМОГИ|ADDITIONAL REQUIREMENTS|ПІДТВЕРДЖЕННЯ ОБСЯГУ|SCOPE CONFIRMATION|БЮДЖЕТНА МЕЖА|BUDGET LIMIT|ІНШІ УМОВИ|OTHER TERMS|ПРИМІТКИ|NOTES)$/;
 export function scopeDocumentSections(summary: string) {
   const lines = summary.split("\n");
   const title = lines.shift() ?? "ISRM";

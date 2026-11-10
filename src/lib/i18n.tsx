@@ -92,21 +92,20 @@ const dictionary: Dictionary = {
     uk: "Упевненість зіставлення · поле джерела, не бал TII",
     en: "Match confidence · source field, not a TII score",
   },
-  contacts: { uk: "Контакти", en: "Contacts" },
+  contacts: { uk: "Шлях контакту", en: "Contact route" },
   directContacts: {
-    uk: "Прямі контакти доступні лише координатору.",
-    en: "Direct contacts are available to the coordinator only.",
+    uk: "Прямі контактні дані не входять до цієї демонстрації.",
+    en: "Direct contact details are not included in this demonstration.",
   },
-  linkedin: { uk: "Профіль LinkedIn", en: "LinkedIn profile" },
-  safeRequest: { uk: "Безпечний запит контакту", en: "Secure contact request" },
-  sendCoordinator: { uk: "Надіслати координатору", en: "Send to coordinator" },
+  safeRequest: { uk: "Підготувати запит контакту", en: "Prepare a contact request" },
+  sendCoordinator: { uk: "Зберегти локальну чернетку", en: "Save local draft" },
   requestSent: {
     uk: "Локальну демонстраційну чернетку збережено. Повідомлення координатору не надіслано.",
     en: "Local demonstration draft saved. No message has been sent to a coordinator.",
   },
   contactConsent: {
-    uk: "Контакт встановлюється лише через координатора ISRM — експерт дає згоду до розкриття даних.",
-    en: "Contact is arranged only through the ISRM coordinator, with expert consent before disclosure.",
+    uk: "Чернетка залишається в цьому браузері: її не надіслано координатору чи експерту, і вона не встановлює контакт.",
+    en: "The draft stays in this browser: it is not sent to a coordinator or expert and does not establish contact.",
   },
 };
 

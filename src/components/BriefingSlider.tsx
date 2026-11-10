@@ -164,6 +164,7 @@ export function BriefingSlider() {
             <p className="client-slide-body">{current.body[locale]}</p>
             <p className="briefing-key-context">{current.insight[locale]}</p>
             <p className="briefing-principle">{current.principle[locale]}</p>
+            <p className="briefing-boundary-note">{current.note[locale]}</p>
             {SLIDE_CONTEXT_KEYS[slide] && (
               <IsrmContextLinks context={SLIDE_CONTEXT_KEYS[slide]!} locale={locale} compact />
             )}

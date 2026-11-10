@@ -1,5 +1,5 @@
 import type { ClientDraft } from "./client-draft";
-import { CLIENT_WORKFLOWS, CORE_SERVICE_IDS, type ServiceId } from "./client-catalog";
+import { CORE_SERVICE_IDS, CLIENT_WORKFLOWS, type ServiceId } from "./client-catalog";
 export type PackageId = "core" | "engagement" | "expertise" | "monitoring";
 export function packageServiceIds(draft: ClientDraft, id: string): ServiceId[] {
   const override = draft.packageServices?.[id as PackageId];
@@ -28,12 +28,27 @@ export function packageChanges(
 ): Partial<ClientDraft> {
   return { mode: "full", packageServices: { ...draft.packageServices, [id]: [...new Set(ids)] } };
 }
+export function serviceSelectionChanges(
+  draft: ClientDraft,
+  ids: ServiceId[],
+): Partial<ClientDraft> {
+  const selected = [...new Set(ids)];
+  return {
+    mode: "full",
+    workflowIds: [],
+    packageServices: {
+      ...draft.packageServices,
+      core: selected.filter((id) => CORE_SERVICE_IDS.includes(id)),
+    },
+    serviceIds: selected.filter((id) => !CORE_SERVICE_IDS.includes(id)),
+  };
+}
 export function excludeServiceChanges(
   draft: ClientDraft,
   service: ServiceId,
   packageId: PackageId | null,
 ): Partial<ClientDraft> {
-  const packages = (packageId ? [packageId] : ["core", ...draft.workflowIds]) as PackageId[];
+  const packages = (packageId ? [packageId] : ["core"]) as PackageId[];
   const packageServices = { ...draft.packageServices };
   for (const id of packages)
     packageServices[id] = packageServiceIds(draft, id).filter((s) => s !== service);

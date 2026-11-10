@@ -1,8 +1,22 @@
 import { useEffect, useState } from "react";
-import { Network, X, ChevronDown, Flag, Download, Save } from "lucide-react";
+import { Network, X, ChevronDown, Flag, Download, Save, Settings, ArrowRight } from "lucide-react";
 import type { Expert } from "@/lib/types";
 import { readProfileNotes, restoreProfileNotes, PROFILE_WORK_EVENT } from "@/lib/profile-work";
-import { shortlistMarkdown } from "@/lib/network-shortlist";
+import {
+  CONTACT_INTERMEDIARIES,
+  readContactPaths,
+  removeContactPath,
+  writeContactPath,
+  type ContactIntermediary,
+  type ContactPath,
+  type ContactPathMap,
+} from "@/lib/contact-paths";
+import {
+  findSavedShortlistSnapshot,
+  readSavedShortlists,
+  shortlistMarkdown,
+  type SavedShortlistSnapshot,
+} from "@/lib/network-shortlist";
 
 export function NetworkShortlist({
   people,
@@ -13,7 +27,9 @@ export function NetworkShortlist({
   onRemove,
   onClose,
   onSearch,
+  onConfigure,
   onRestore,
+  captureGraph,
   uk,
   example = false,
   disabled = false,
@@ -28,7 +44,9 @@ export function NetworkShortlist({
   onRemove: (code: string) => void;
   onClose: () => void;
   onSearch: () => void;
+  onConfigure?: () => void;
   onRestore: (codes: string[], name: string) => void;
+  captureGraph: () => string;
   uk: boolean;
   example?: boolean;
   disabled?: boolean;
@@ -38,18 +56,19 @@ export function NetworkShortlist({
   const t = (en: string, ua: string) => (uk ? ua : en);
   const [notes, setNotes] = useState<Record<string, string>>({});
   const [flags, setFlags] = useState<string[]>([]);
+  const [projectName, setProjectName] = useState("");
   const [saved, setSaved] = useState(false);
-  const [snapshots, setSnapshots] = useState<
-    {
-      id: string;
-      name: string;
-      codes: string[];
-      followUp?: string[];
-      notes?: Record<string, string>;
-    }[]
-  >([]);
+  const [snapshots, setSnapshots] = useState<SavedShortlistSnapshot[]>([]);
+  const [selectedSnapshotId, setSelectedSnapshotId] = useState("");
   const [saveError, setSaveError] = useState(false);
   const [restoreError, setRestoreError] = useState(false);
+  const [snapshotReadError, setSnapshotReadError] = useState(false);
+  const [contactPaths, setContactPaths] = useState<ContactPathMap>({});
+  const [recommendationVia, setRecommendationVia] = useState<
+    Partial<Record<string, ContactIntermediary>>
+  >({});
+  const [contactPathError, setContactPathError] = useState(false);
+  const selectedSnapshot = findSavedShortlistSnapshot(snapshots, selectedSnapshotId, name, codes);
   useEffect(() => setSaved(false), [codes, name]);
   useEffect(() => {
     try {
@@ -68,21 +87,43 @@ export function NetworkShortlist({
           (x: unknown) => typeof x === "string",
         ),
       );
-      const lists = JSON.parse(localStorage.getItem("isrm-saved-shortlists") || "[]");
-      if (Array.isArray(lists))
-        setSnapshots(
-          lists.filter(
-            (x) =>
-              typeof x?.id === "string" &&
-              typeof x?.name === "string" &&
-              Array.isArray(x?.codes) &&
-              x.codes.every((c: unknown) => typeof c === "string"),
-          ),
-        );
+      setSnapshots(readSavedShortlists(localStorage.getItem("isrm-saved-shortlists")));
     } catch {
-      /* Local follow-up only. */
+      setSnapshotReadError(true);
+    }
+    if (example) {
+      setContactPaths({});
+      setContactPathError(false);
+    } else {
+      try {
+        setContactPaths(readContactPaths(localStorage));
+        setContactPathError(false);
+      } catch {
+        setContactPathError(true);
+      }
     }
   }, [example]);
+  const saveContactPath = (code: string, path: ContactPath) => {
+    try {
+      const next = example
+        ? { ...contactPaths, [code]: path }
+        : writeContactPath(localStorage, code, path);
+      setContactPaths(next);
+      setContactPathError(false);
+    } catch {
+      setContactPathError(true);
+    }
+  };
+  const clearContactPath = (code: string) => {
+    try {
+      const next = example ? { ...contactPaths } : removeContactPath(localStorage, code);
+      if (example) delete next[code];
+      setContactPaths(next);
+      setContactPathError(false);
+    } catch {
+      setContactPathError(true);
+    }
+  };
   const toggle = (code: string) => {
     const next = flags.includes(code) ? flags.filter((x) => x !== code) : [...flags, code];
     setFlags(next);
@@ -95,13 +136,16 @@ export function NetworkShortlist({
       }
   };
   const save = () => {
+    setSaved(false);
+    setSaveError(false);
     try {
-      const key = "isrm-saved-shortlists";
-      const existing = JSON.parse(localStorage.getItem(key) || "[]");
-      if (!Array.isArray(existing)) {
+      const image = captureGraph();
+      if (!image.startsWith("data:image/png;base64,")) {
         setSaveError(true);
         return;
       }
+      const key = "isrm-saved-shortlists";
+      const existing = readSavedShortlists(localStorage.getItem(key));
       const currentNotes = readProfileNotes(localStorage);
       const savedList = {
         id: crypto.randomUUID(),
@@ -111,11 +155,13 @@ export function NetworkShortlist({
         notes: Object.fromEntries(
           codes.filter((code) => currentNotes[code]).map((code) => [code, currentNotes[code]]),
         ),
+        image,
         createdAt: new Date().toISOString(),
       };
       const next = [...existing, savedList];
       localStorage.setItem(key, JSON.stringify(next));
       setSnapshots(next);
+      setSelectedSnapshotId(savedList.id);
       setSaved(true);
       setSaveError(false);
     } catch {
@@ -140,6 +186,7 @@ export function NetworkShortlist({
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
+  const mappedCodes = codes.filter((code) => !!contactPaths[code]);
   return (
     <aside
       className={`network-shortlist-panel ${expanded ? "is-expanded" : ""}`}
@@ -150,7 +197,7 @@ export function NetworkShortlist({
         <label>
           {example
             ? t("Example group name", "Назва групи прикладу")
-            : t("Group name", "Назва групи")}{" "}
+            : t("Shortlist name", "Назва відбору")}{" "}
           · {codes.length}
           <input
             value={name}
@@ -158,7 +205,7 @@ export function NetworkShortlist({
               onName(e.target.value);
               setSaved(false);
             }}
-            placeholder={t("Name the group", "Назвіть групу")}
+            placeholder={t("Name this shortlist", "Назвіть відбір")}
             disabled={disabled}
           />
         </label>
@@ -219,11 +266,221 @@ export function NetworkShortlist({
                   {t("Remove", "Прибрати")}
                 </button>
               </div>
+              <section
+                className="network-contact-route"
+                aria-label={t("Contact route", "Шлях контакту")}
+              >
+                <h4>{t("Contact route", "Шлях контакту")}</h4>
+                <div>
+                  <button
+                    type="button"
+                    disabled={disabled}
+                    onClick={() => saveContactPath(code, { kind: "direct", status: "prepared" })}
+                  >
+                    {t("Prepare safe direct contact", "Підготувати безпечний прямий контакт")}
+                  </button>
+                </div>
+                <label>
+                  {t("Request a recommendation through", "Запросити рекомендацію через")}
+                  <select
+                    value={recommendationVia[code] ?? ""}
+                    disabled={disabled}
+                    onChange={(event) => {
+                      const intermediary = event.target.value;
+                      setRecommendationVia((current) =>
+                        CONTACT_INTERMEDIARIES.some((item) => item === intermediary)
+                          ? { ...current, [code]: intermediary as ContactIntermediary }
+                          : { ...current, [code]: undefined },
+                      );
+                    }}
+                  >
+                    <option value="">{t("Choose a route", "Оберіть шлях")}</option>
+                    {CONTACT_INTERMEDIARIES.map((intermediary) => (
+                      <option key={intermediary} value={intermediary}>
+                        {intermediary === "specialty"
+                          ? t("Specialty lead", "Лідер спеціалізації")
+                          : intermediary === "practice"
+                            ? t("Practice lead", "Лідер практики")
+                            : t("Regional representative", "Регіональний представник")}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <button
+                  type="button"
+                  disabled={disabled || !recommendationVia[code]}
+                  onClick={() => {
+                    const intermediary = recommendationVia[code];
+                    if (intermediary)
+                      saveContactPath(code, {
+                        kind: "recommendation",
+                        intermediary,
+                        status: "prepared",
+                      });
+                  }}
+                >
+                  {t("Prepare recommendation request", "Підготувати запит рекомендації")}
+                </button>
+                {contactPaths[code] && (
+                  <div className="network-contact-route-status" role="status">
+                    <p>
+                      {contactPaths[code].status === "prepared"
+                        ? t(
+                            "Route prepared in this browser; nothing was sent.",
+                            "Шлях підготовлено в цьому браузері; нічого не надіслано.",
+                          )
+                        : t(
+                            "You marked communication with this expert as started.",
+                            "Ви позначили, що комунікацію з цим фахівцем розпочато.",
+                          )}
+                    </p>
+                    {contactPaths[code].status === "prepared" && (
+                      <button
+                        type="button"
+                        disabled={disabled}
+                        onClick={() =>
+                          saveContactPath(code, { ...contactPaths[code]!, status: "in-contact" })
+                        }
+                      >
+                        {t("Mark communication as started", "Позначити початок комунікації")}
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      disabled={disabled}
+                      onClick={() => clearContactPath(code)}
+                    >
+                      {t("Remove contact path", "Прибрати шлях контакту")}
+                    </button>
+                  </div>
+                )}
+              </section>
             </article>
           );
         })}
       </div>
+      {codes.length > 0 && (
+        <section className="network-contact-map" aria-labelledby="network-contact-map-title">
+          <h3 id="network-contact-map-title">{t("My contact map", "Моя мапа контактів")}</h3>
+          <p>
+            {t(
+              "The map separates possible routes from people you mark as being in communication with. Shared expertise alone does not establish a connection.",
+              "Мапа відрізняє можливі шляхи від людей, з якими ви позначили комунікацію. Спільна експертиза сама по собі не встановлює зв’язок.",
+            )}
+          </p>
+          {contactPathError && (
+            <p role="alert">
+              {t(
+                "Contact paths could not be saved or read in this browser. Existing data was not overwritten.",
+                "Не вдалося прочитати або зберегти шляхи контактів у цьому браузері. Наявні дані не перезаписано.",
+              )}
+            </p>
+          )}
+          {mappedCodes.length > 0 ? (
+            <ul className="network-contact-map-paths">
+              {mappedCodes.map((code) => {
+                const person = people.find((item) => item.code === code);
+                const path = contactPaths[code]!;
+                return (
+                  <li key={code}>
+                    <span className="network-contact-map-path">
+                      <span>{t("You", "Ви")}</span>
+                      <ArrowRight size={14} aria-hidden="true" />
+                      {path.kind === "recommendation" && (
+                        <>
+                          <span>
+                            {path.intermediary === "specialty"
+                              ? t("Specialty lead", "Лідер спеціалізації")
+                              : path.intermediary === "practice"
+                                ? t("Practice lead", "Лідер практики")
+                                : t("Regional representative", "Регіональний представник")}
+                          </span>
+                          <ArrowRight size={14} aria-hidden="true" />
+                        </>
+                      )}
+                      <span>
+                        {person?.displayName || code}
+                        {person?.primaryExpertise ? ` · ${person.primaryExpertise}` : ""}
+                      </span>
+                    </span>
+                    <small>
+                      {path.status === "prepared"
+                        ? t(
+                            "Potential route · prepared locally, not sent",
+                            "Можливий шлях · підготовлено локально, не надіслано",
+                          )
+                        : path.kind === "direct"
+                          ? t(
+                              "Direct · communication marked by you",
+                              "Напряму · комунікацію позначили ви",
+                            )
+                          : t(
+                              "Via recommendation · communication marked by you",
+                              "Через рекомендацію · комунікацію позначили ви",
+                            )}
+                    </small>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            <p>
+              {t(
+                "No contact routes have been recorded for this shortlist yet.",
+                "Для цього відбору ще не зафіксовано шляхів контакту.",
+              )}
+            </p>
+          )}
+          <small>
+            {t(
+              "Demonstration only: routes are stored in this browser. No message is sent; intermediary roles have no assigned representatives, and communication status is your own record.",
+              "Лише демонстрація: шляхи зберігаються в цьому браузері. Повідомлення не надсилається; ролям посередників не призначено конкретних представників, а статус комунікації — ваша власна позначка.",
+            )}
+          </small>
+        </section>
+      )}
+      {!example && codes.length > 0 && (
+        <section className="network-project-invite" aria-labelledby="network-project-invite-title">
+          <h3 id="network-project-invite-title">
+            {t("Invite this group to a project", "Запросити цю групу до проєкту")}
+          </h3>
+          <label>
+            {t("Project name", "Назва проєкту")}
+            <input
+              value={projectName}
+              onChange={(event) => setProjectName(event.target.value)}
+              placeholder={t("Enter a project name", "Введіть назву проєкту")}
+              disabled={disabled}
+            />
+          </label>
+          <div>
+            <button type="button" disabled aria-describedby="network-project-invite-note">
+              {t("Send invitations", "Надіслати запрошення")}
+            </button>
+            {onConfigure && (
+              <button type="button" onClick={onConfigure}>
+                <Settings size={14} />
+                {t("Configure services", "Налаштувати сервіси")}
+              </button>
+            )}
+          </div>
+          <p id="network-project-invite-note">
+            {t(
+              "Invitations are in development and cannot be sent in this demo. Configure services to define this group's needs; a future release may require Premium.",
+              "Надсилання запрошень ще розробляється й недоступне в демо. Налаштуйте сервіси, щоб визначити потреби групи; у майбутній версії функція може вимагати Premium.",
+            )}
+          </p>
+        </section>
+      )}
       <footer>
+        {snapshotReadError && (
+          <small role="alert">
+            {t(
+              "Saved shortlist data could not be read. Existing browser data was not overwritten.",
+              "Не вдалося прочитати збережені відбори. Наявні дані браузера не перезаписано.",
+            )}
+          </small>
+        )}
         {restoreError && (
           <small role="alert">
             {t(
@@ -251,6 +508,7 @@ export function NetworkShortlist({
             onChange={(event) => {
               const list = snapshots.find((s) => s.id === event.target.value);
               if (list) {
+                setSelectedSnapshotId(list.id);
                 const restored = (list.followUp ?? []).filter(
                   (code) => typeof code === "string" && list.codes.includes(code),
                 );
@@ -281,6 +539,34 @@ export function NetworkShortlist({
             ))}
           </select>
         )}
+        {selectedSnapshot && (
+          <figure
+            className="network-shortlist-saved-map"
+            aria-label={t("Saved shortlist graph snapshot", "Збережений знімок графа відбору")}
+          >
+            {selectedSnapshot.image ? (
+              <img
+                src={selectedSnapshot.image}
+                alt={
+                  t("Saved graph snapshot for ", "Збережений знімок графа для ") +
+                  selectedSnapshot.name
+                }
+              />
+            ) : (
+              <figcaption>
+                {t(
+                  "This earlier shortlist was saved without a graph snapshot.",
+                  "Цей раніше збережений відбір не містить знімка графа.",
+                )}
+              </figcaption>
+            )}
+            {selectedSnapshot.image && (
+              <figcaption>
+                {t("Saved graph snapshot · ", "Збережений знімок графа · ") + selectedSnapshot.name}
+              </figcaption>
+            )}
+          </figure>
+        )}
         {!example && (
           <button onClick={save} disabled={disabled || !codes.length}>
             <Save size={14} />
@@ -296,8 +582,8 @@ export function NetworkShortlist({
         {saveError && (
           <small role="alert">
             {t(
-              "Could not save this shortlist. Download Markdown to retain this selection.",
-              "Не вдалося зберегти відбір. Завантажте Markdown, щоб залишити цей відбір.",
+              "Could not capture the graph and save this shortlist. Download Markdown to retain the selection.",
+              "Не вдалося зняти граф і зберегти відбір. Завантажте Markdown, щоб зберегти список.",
             )}
           </small>
         )}

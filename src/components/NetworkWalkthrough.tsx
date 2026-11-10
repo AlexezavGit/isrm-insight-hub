@@ -154,7 +154,8 @@ export function NetworkWalkthrough({
     document.addEventListener("keydown", listener);
     return () => document.removeEventListener("keydown", listener);
   }, [state, onClose]);
-  const portal = (node: ReactNode) => createPortal(node, host.current ?? document.body);
+  const portal = (node: ReactNode, inline = false) =>
+    inline ? node : createPortal(node, host.current ?? document.body);
   return (
     <>
       <button
@@ -186,6 +187,7 @@ export function NetworkWalkthrough({
               <X size={15} />
             </button>
           </div>,
+          experience === "prototype",
         )}
       {state &&
         current &&

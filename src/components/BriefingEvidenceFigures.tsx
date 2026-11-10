@@ -1,3 +1,4 @@
+import { expertiseName } from "@/lib/workspace-map";
 import { CLIENT_SERVICES, CLIENT_WORKFLOWS, type ClientLocale } from "@/lib/client-catalog";
 import type { Expert } from "@/lib/types";
 
@@ -43,7 +44,7 @@ export function ExpertiseMapFigure({
   const uk = locale === "uk";
   const groups = new Map<string, Expert[]>();
   for (const person of experts) {
-    const key = person.primaryExpertise?.trim() || (uk ? "Не зафіксовано" : "Not recorded");
+    const key = expertiseName(person, uk);
     groups.set(key, [...(groups.get(key) || []), person]);
   }
   const ranked = [...groups].sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]));
@@ -130,7 +131,7 @@ export function ServiceAudienceFigure({ locale }: { locale: ClientLocale }) {
         aria-label={
           uk
             ? "Сервіси навколо потреб людей; ребра показують можливе об’єднання в процеси"
-            : "Services around people's needs; edges show possible workflow bundles"
+            : "Services around people's needs; edges show example workflows"
         }
       >
         {coords.map((p) => (
@@ -222,8 +223,8 @@ export function ChapterCollaborationFigure({ locale }: { locale: ClientLocale })
       </svg>
       <figcaption>
         {uk
-          ? "Масштаб із брифу, не показник активної участі. Мережева користь залежить від внеску людей, актуальності й спільних правил."
-          : "Scale described in the brief, not a measure of active participation. Network value depends on contribution, current information and shared rules."}
+          ? "Контекст із брифу, if confirmed (ISRM-CTX-CHAPTERS), не показник активної участі. Мережева користь залежить від внеску людей, актуальності й спільних правил."
+          : "Planning context from the brief, if confirmed (ISRM-CTX-CHAPTERS), not a measure of active participation. Network value depends on contribution, current information and shared rules."}
       </figcaption>
     </figure>
   );

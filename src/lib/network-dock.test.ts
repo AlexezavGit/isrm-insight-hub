@@ -51,18 +51,35 @@ test("requirement validation reports the specific missing inputs instead of a si
   );
 });
 test("shortlist export includes only selected accessible records and their own notes", () => {
-  const people = [
+  const base: Expert = {
+    id: 1,
+    code: "",
+    displayName: "",
+    primaryExpertise: "Risk",
+    sector: "Security",
+    country: "Ukraine",
+    identityStatus: "Source confirmed",
+    verified: false,
+    confidence: "",
+    communityRole: "",
+    crmStage: "",
+    priority: "",
+    tags: [],
+    ukraineTheme: "",
+    ukraineCategory: "",
+    evidence: "",
+    contribution: "",
+    potentialRole: "",
+  };
+  const people: (Expert & { phone?: string })[] = [
     {
+      ...base,
       code: "A",
       displayName: "Selected",
-      primaryExpertise: "Risk",
-      sector: "Security",
-      country: "Ukraine",
-      identityStatus: "Source confirmed",
       phone: "PRIVATE",
     },
-    { code: "B", displayName: "Not selected" },
-  ] as Expert[];
+    { ...base, code: "B", displayName: "Not selected" },
+  ];
   const text = shortlistMarkdown(
     people,
     ["A"],

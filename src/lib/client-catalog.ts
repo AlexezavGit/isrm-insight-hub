@@ -23,12 +23,12 @@ export const CLIENT_SERVICES = [
     id: "research",
     title: { en: "AI OSINT research assistant", uk: "ШІ OSINT-помічник дослідника даних" },
     detail: {
-      en: "You would be able to request research, receive findings with their sources and pass them to a professional reviewer. The existing AI OSINT assistant requires connection to the application; research volumes and AI/API costs are agreed separately.",
-      uk: "Ви зможете замовляти дослідження, отримувати висновки разом із джерелами та передавати їх фахівцю на перевірку. Наявного ШІ OSINT-помічника потрібно підключити до застосунку; обсяг досліджень і AI/API-витрати погоджуються окремо.",
+      en: "You would be able to request research, receive findings with their sources and pass them to a professional reviewer. The research connection, permitted data use, research volumes and AI/API costs are agreed separately.",
+      uk: "Ви зможете замовляти дослідження, отримувати висновки разом із джерелами та передавати їх фахівцю на перевірку. Підключення досліджень, дозволене використання даних, обсяг і AI/API-витрати погоджуються окремо.",
     },
     status: {
-      en: "Existing assistant · application connection to agree",
-      uk: "Наявний помічник · підключення до застосунку погоджується",
+      en: "Planned research connection · scope to agree",
+      uk: "Плановане підключення досліджень · обсяг погоджується",
     },
   },
   {
@@ -42,7 +42,7 @@ export const CLIENT_SERVICES = [
   },
   {
     id: "evidence",
-    title: { en: "Evidence & knowledge records", uk: "Записи доказів і знань" },
+    title: { en: "Sources & reviewed findings", uk: "Джерела й перевірені висновки" },
     detail: {
       en: "You would be able to reuse a reviewed finding while retaining its source, author, review date, permissions and version history.",
       uk: "Ви зможете повторно використовувати перевірені висновки разом із джерелом, авторством, датою перевірки, дозволами та історією змін.",

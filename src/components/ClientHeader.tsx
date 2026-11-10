@@ -1,4 +1,3 @@
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
@@ -9,49 +8,23 @@ export function ClientHeader({
   hideOnScroll = false,
   motionControl,
   baseline = false,
+  beforeNavigation,
 }: {
   signIn?: boolean;
   hideOnScroll?: boolean;
   motionControl?: ReactNode;
   baseline?: boolean;
+  beforeNavigation?: ReactNode;
 }) {
   const { locale } = useI18n();
   const uk = locale === "uk";
   const location = useLocation();
-  const search = location.search as { stage?: string; preset?: string };
-  const configuration = search.stage === "configuration" || !!search.preset;
   const active =
     location.pathname === "/proposal"
       ? "briefing"
       : location.pathname === "/scope"
         ? "scope"
-        : configuration
-          ? "configuration"
-          : "prototype";
-  const stages = [
-    { id: "briefing", to: "/proposal" as const, search: {}, label: uk ? "Брифінг" : "Briefing" },
-    {
-      id: "prototype",
-      to: "/" as const,
-      search: { view: "map" as const },
-      label: uk ? "Пошук · прототип" : "Find expertise · prototype",
-    },
-    {
-      id: "configuration",
-      to: "/" as const,
-      search: { view: "map" as const, stage: "configuration" as const },
-      label: uk ? "Конфігуратор" : "Configurator",
-    },
-    {
-      id: "scope",
-      to: "/scope" as const,
-      search: {},
-      label: uk ? "Обсяг і бюджет" : "Scope & budget",
-    },
-  ];
-  const index = stages.findIndex((s) => s.id === active),
-    previous = stages[(index + 3) % 4]!,
-    next = stages[(index + 1) % 4]!;
+        : "dossier";
   const [hidden, setHidden] = useState(false);
   useEffect(() => {
     if (!hideOnScroll) return;
@@ -68,12 +41,13 @@ export function ClientHeader({
   }, [hideOnScroll]);
   return (
     <header
-      className={`client-topbar shared-client-header ${baseline ? "is-baseline-header" : ""} ${hideOnScroll ? "scroll-client-header" : ""} ${hidden ? "is-receded" : ""}`}
+      className={`client-topbar shared-client-header is-material-header ${baseline ? "is-baseline-header" : ""} ${hideOnScroll ? "scroll-client-header" : ""} ${hidden ? "is-receded" : ""}`}
     >
       <Link
-        to="/scope"
+        to="/"
+        search={{ view: "map" }}
         className="client-wordmark"
-        aria-label={uk ? "ISRM · обсяг і бюджет" : "ISRM · scope and budget"}
+        aria-label={uk ? "ISRM · відкрити застосунок" : "ISRM · open application"}
       >
         ISRM <span>INSIGHT HUB</span>
       </Link>
@@ -82,54 +56,21 @@ export function ClientHeader({
         {motionControl}
         <AccessControl showSignIn={signIn} />
       </div>
+      {beforeNavigation}
       <nav
-        className="client-journey-tabs"
-        aria-label={uk ? "Етапи знайомства із застосунком" : "Explore the application"}
+        className="client-material-navigation"
+        aria-label={
+          uk ? "Матеріали й перехід до застосунку" : "Supporting materials and application"
+        }
       >
+        <Link to="/" search={{ view: "map" }}>
+          {uk ? "Відкрити застосунок" : "Open application"}
+        </Link>
         <Link to="/proposal" aria-current={active === "briefing" ? "page" : undefined}>
-          {uk ? "Брифінг" : "Briefing"}
-        </Link>
-        <Link
-          to="/"
-          search={{ view: "map" }}
-          aria-current={active === "prototype" ? "page" : undefined}
-        >
-          <span>{uk ? "Пошук" : "Find expertise"}</span>
-          <small>{uk ? "Прототип" : "Prototype"}</small>
-        </Link>
-        <Link
-          to="/"
-          search={{ view: "map", stage: "configuration" }}
-          aria-current={active === "configuration" ? "page" : undefined}
-        >
-          <span>{uk ? "Конфігуратор" : "Configurator"}</span>
-          <small>{uk ? "Обрати функції" : "Choose capabilities"}</small>
+          {uk ? "Брифінг · документ" : "Briefing · document"}
         </Link>
         <Link to="/scope" aria-current={active === "scope" ? "page" : undefined}>
-          {uk ? "Обсяг і бюджет" : "Scope & budget"}
-        </Link>
-      </nav>
-      <nav
-        className="client-journey-ring"
-        aria-label={uk ? "Кільцева навігація розділами" : "Cycle through the four sections"}
-      >
-        <Link
-          to={previous.to}
-          search={previous.search}
-          aria-label={(uk ? "До розділу: " : "Previous: ") + previous.label}
-        >
-          <ArrowLeft size={21} />
-        </Link>
-        <span aria-current="page">
-          <small>{index + 1} / 4</small>
-          {stages[index]?.label}
-        </span>
-        <Link
-          to={next.to}
-          search={next.search}
-          aria-label={(uk ? "До розділу: " : "Next: ") + next.label}
-        >
-          <ArrowRight size={21} />
+          {uk ? "Обсяг і бюджет · документ" : "Scope & budget · document"}
         </Link>
       </nav>
     </header>

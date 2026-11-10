@@ -1,5 +1,6 @@
 import raw from "@/data/experts.json";
 import type { AccessLevel, Expert } from "./types";
+import { hasDossierDetails, hasRecordedContent } from "./dossier-content";
 
 type Raw = (typeof raw)[number] & { verified_details: Record<string, string> };
 
@@ -31,6 +32,7 @@ export function buildExperts(level: AccessLevel): Expert[] {
       code: r.code,
       displayName: r.anonymized_name,
       sector: r.sector,
+      organizationAvailability: hasRecordedContent(r.organization) ? "available" : "unrecorded",
       country: r.country,
       identityStatus: r.identity_status,
       verified: r.is_verified,
@@ -48,24 +50,32 @@ export function buildExperts(level: AccessLevel): Expert[] {
       caseTheme: vd.case_study_theme,
       internationalRelevance: vd.international_relevance,
     };
-    if (level === "guest") return {
-      ...base,
-      evidence: "",
-      contribution: "",
-      potentialRole: "",
-      caseTheme: undefined,
-      internationalRelevance: undefined,
-    };
+    if (level === "guest") {
+      const guest: Expert = {
+        ...base,
+        organizationAvailability: hasRecordedContent(r.organization) ? "restricted" : "unrecorded",
+        evidence: "",
+        contribution: "",
+        potentialRole: "",
+        caseTheme: undefined,
+        internationalRelevance: undefined,
+      };
+      guest.dossierAvailability = hasDossierDetails(guest)
+        ? "available"
+        : hasDossierDetails(base) ||
+            [vd.primary_source, r.organization, r.role].some(hasRecordedContent)
+          ? "restricted"
+          : "not-prepared";
+      return guest;
+    }
     return {
       ...base,
       displayName: r.name || r.anonymized_name,
       ukraineTheme: ed.ukraine_theme,
       organization: r.organization,
       role: r.role,
-      linkedin: r.linkedin,
       source: vd.primary_source,
       sensitivity: r.sensitivity,
-      phone: level === "coordinator" ? (r.phone || "").replace(/\u200e/g, "") : undefined,
     };
   });
 }
