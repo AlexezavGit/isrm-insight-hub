@@ -45,6 +45,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const PAGES_WITH_OWN_SWITCHER = [
     "/",
     "/proposal",
+    "/presentation",
     "/partner",
     "/partner-finance",
     "/scope",

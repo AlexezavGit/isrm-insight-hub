@@ -1,3 +1,5 @@
+import { MAP_SYMBOLS, mapSymbolPath } from "@/lib/map-symbols";
+import { networkSymbolKind } from "@/lib/network-symbols";
 import {
   directNeighbours,
   NETWORK_LIFECYCLE_DURATION,
@@ -726,57 +728,29 @@ const NetworkGraph = forwardRef<NetworkGraphHandle, NetworkGraphProps>(function 
               ? 4.6
               : 8;
   const colour = (n: NetworkNode) =>
-    ({
-      expert: highContrast ? "#a9ffe2" : "#87c1b4",
-      core: highContrast ? "#fff2bc" : "#78d4c2",
-      organisation: highContrast ? "#c0e4ff" : "#9ec9e8",
-      service: "#d2b66f",
-      workflow: "#79a8d4",
-      isrm: "#e7d8a4",
-      sector: highContrast ? "#dfc8ff" : "#b0a4d1",
-      theme: "#87b6c3",
-      hub: "#a3c7a7",
-      status: "#b7d29c",
-    })[n.kind];
-  const shape = (n: NetworkNode, ctx: CanvasRenderingContext2D, r: number) => {
+    highContrast
+      ? {
+          expert: highContrast ? "#a9ffe2" : "#87c1b4",
+          core: highContrast ? "#fff2bc" : "#78d4c2",
+          organisation: highContrast ? "#c0e4ff" : "#9ec9e8",
+          service: "#d2b66f",
+          workflow: "#79a8d4",
+          isrm: "#e7d8a4",
+          sector: highContrast ? "#dfc8ff" : "#b0a4d1",
+          theme: "#87b6c3",
+          hub: "#a3c7a7",
+          status: "#b7d29c",
+        }[n.kind]
+      : MAP_SYMBOLS[networkSymbolKind(n)].color;
+  const shape = (n: NetworkNode, r: number) => {
     const x = n.x ?? 0,
       y = n.y ?? 0;
-    ctx.beginPath();
-    if (n.kind === "core") {
-      for (const scale of [1, 0.7]) {
-        const radius = r * scale;
-        for (let i = 0; i < 6; i++) {
-          const angle = (i * Math.PI) / 3;
-          const px = x + Math.cos(angle) * radius,
-            py = y + Math.sin(angle) * radius;
-          if (i === 0) ctx.moveTo(px, py);
-          else ctx.lineTo(px, py);
-        }
-        ctx.closePath();
-        if (scale === 1) ctx.moveTo(x, y);
-      }
-    } else if (n.kind === "organisation" || n.kind === "status") {
-      ctx.moveTo(x, y - r);
-      ctx.lineTo(x + r, y);
-      ctx.lineTo(x, y + r);
-      ctx.lineTo(x - r, y);
-      ctx.closePath();
-    } else if (n.kind === "service") {
-      ctx.roundRect(x - r, y - r * 0.8, r * 2, r * 1.6, 3);
-    } else if (n.kind === "workflow") {
-      for (let i = 0; i < 6; i++) {
-        const a = (i * Math.PI) / 3;
-        const px = x + Math.cos(a) * r,
-          py = y + Math.sin(a) * r;
-        if (i === 0) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
-      }
-      ctx.closePath();
-      if (n.id === "workflow:search") {
-        ctx.moveTo(x + r * 0.45, y);
-        ctx.arc(x, y, r * 0.45, 0, Math.PI * 2);
-      }
-    } else ctx.arc(x, y, r, 0, Math.PI * 2);
+    const path = new Path2D();
+    path.addPath(
+      new Path2D(mapSymbolPath(networkSymbolKind(n), r)),
+      new DOMMatrix().translate(x, y),
+    );
+    return path;
   };
   return (
     <div
@@ -1271,12 +1245,12 @@ const NetworkGraph = forwardRef<NetworkGraphHandle, NetworkGraphProps>(function 
           ctx.scale(revealProgress, revealProgress);
           ctx.translate(-n.x, -n.y);
           const r = radius(n);
-          shape(n, ctx, r);
+          const nodePath = shape(n, r);
           ctx.fillStyle = n.kind === "expert" ? colour(n) : "#102c3c";
           ctx.strokeStyle = selected ? "#f1deb1" : colour(n);
           ctx.lineWidth = (selected ? 2 : 1.4) / scale;
-          ctx.fill();
-          ctx.stroke();
+          ctx.fill(nodePath);
+          ctx.stroke(nodePath);
           if (selected) {
             ctx.beginPath();
             ctx.arc(n.x, n.y, r + 4 / scale, 0, Math.PI * 2);

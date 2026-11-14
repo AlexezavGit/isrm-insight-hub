@@ -34,6 +34,103 @@ function Label({ text, x, y, width = 21 }: { text: string; x: number; y: number;
   );
 }
 
+function RecordCluster({
+  people,
+  x,
+  y,
+  flagged,
+}: {
+  people: Expert[];
+  x: number;
+  y: number;
+  flagged: boolean;
+}) {
+  return (
+    <g>
+      {people.map((person, i) => {
+        const angle = i * 2.399963;
+        const radius = 5.5 * Math.sqrt(i + 1);
+        const cx = x + Math.cos(angle) * radius;
+        const cy = y + Math.sin(angle) * radius;
+        return flagged ? (
+          <rect
+            key={person.code}
+            x={cx - 2.7}
+            y={cy - 2.7}
+            width="5.4"
+            height="5.4"
+            className="source-confirmed"
+          />
+        ) : (
+          <circle key={person.code} cx={cx} cy={cy} r="2.5" className="source-unreviewed" />
+        );
+      })}
+    </g>
+  );
+}
+
+export function ResearchSampleFigure({
+  experts,
+  locale,
+}: {
+  experts: Expert[];
+  locale: ClientLocale;
+}) {
+  const uk = locale === "uk";
+  const flagged = experts.filter((person) => person.verified);
+  const other = experts.filter((person) => !person.verified);
+  return (
+    <figure className="briefing-evidence-figure research-sample-figure">
+      <svg
+        viewBox="0 0 640 460"
+        role="img"
+        aria-label={
+          uk
+            ? "Передана вибірка: усі записи й окрема група досліджених профілів"
+            : "Supplied sample: all records and the subset with dedicated research entries"
+        }
+      >
+        <line x1="310" y1="215" x2="150" y2="165" className="evidence-map-edge" />
+        <line x1="330" y1="225" x2="490" y2="270" className="evidence-map-edge" />
+        <RecordCluster people={flagged} x={145} y={155} flagged />
+        <RecordCluster people={other} x={490} y={265} flagged={false} />
+        <circle cx="320" cy="220" r="59" className="evidence-map-hub" />
+        <text x="320" y="213" textAnchor="middle" className="figure-hub-title">
+          {experts.length || "—"}
+        </text>
+        <text x="320" y="238" textAnchor="middle">
+          {uk ? "записів" : "records"}
+        </text>
+        <Label
+          x={145}
+          y={300}
+          width={18}
+          text={
+            uk
+              ? `Досліджені профілі · ${flagged.length}`
+              : `Researched profiles · ${flagged.length}`
+          }
+        />
+        <Label
+          x={490}
+          y={390}
+          width={20}
+          text={uk ? "Інші записи вибірки" : "Other sample records"}
+        />
+      </svg>
+      <figcaption>
+        {experts.length
+          ? uk
+            ? `Зріз переданої книги: ${experts.length} записів контактів і ${flagged.length} окремих профілів із дослідженням відкритих джерел. Квадрат і коло розрізняють стан запису, а не професійну рекомендацію. ISRM-DATA-RESEARCH-WORKBOOK-RECORDS-2026-11-12; ISRM-DATA-RESEARCH-WORKBOOK-PROFILES-2026-08-28.`
+            : `Supplied-workbook view: ${experts.length} contact records and ${flagged.length} separate profiles with public-source research. Squares and circles distinguish record status, not a professional endorsement. ISRM-DATA-RESEARCH-WORKBOOK-RECORDS-2026-11-12; ISRM-DATA-RESEARCH-WORKBOOK-PROFILES-2026-08-28.`
+          : uk
+            ? "Завантаження переданої вибірки…"
+            : "Loading the supplied sample…"}
+      </figcaption>
+    </figure>
+  );
+}
+
 export function ExpertiseMapFigure({
   experts,
   locale,
@@ -107,8 +204,8 @@ export function ExpertiseMapFigure({
       <figcaption>
         {experts.length
           ? uk
-            ? `${experts.length} записів · ${experts.filter((p) => p.verified).length} із вихідною позначкою підтвердження. Групування за записаною експертизою; не доказ знайомства чи рекомендації.`
-            : `${experts.length} records · ${experts.filter((p) => p.verified).length} with a source confirmation flag. Grouped by recorded expertise; not proof of acquaintance or recommendation.`
+            ? `${experts.length} записів · ${experts.filter((p) => p.verified).length} із вихідною позначкою підтвердження. Групування за записаною експертизою; не доказ знайомства чи рекомендації. ISRM-OBS-SOURCE-FLAGS-2026-11-08.`
+            : `${experts.length} records · ${experts.filter((p) => p.verified).length} with a source confirmation flag. Grouped by recorded expertise; not proof of acquaintance or recommendation. ISRM-OBS-SOURCE-FLAGS-2026-11-08.`
           : uk
             ? "Завантаження переданої вибірки…"
             : "Loading the supplied sample…"}
@@ -162,14 +259,14 @@ export function ServiceAudienceFigure({ locale }: { locale: ClientLocale }) {
             <g key={service.id}>
               <title>{service.title[locale]}</title>
               <rect
-                x={p.x - 66}
-                y={p.y - 29}
-                width="132"
-                height="67"
-                rx="12"
+                x={p.x - 12}
+                y={p.y - 12}
+                width="24"
+                height="24"
+                rx="3"
                 className="service-map-node"
               />
-              <Label x={p.x} y={p.y - 8} width={14} text={SERVICE_LABELS[service.id][locale]} />
+              <Label x={p.x} y={p.y + 31} width={14} text={SERVICE_LABELS[service.id][locale]} />
             </g>
           );
         })}
@@ -183,48 +280,58 @@ export function ServiceAudienceFigure({ locale }: { locale: ClientLocale }) {
   );
 }
 
-export function ChapterCollaborationFigure({ locale }: { locale: ClientLocale }) {
+export function EvidenceUseFigure({ locale }: { locale: ClientLocale }) {
   const uk = locale === "uk";
+  const nodes = [
+    { x: 85, y: 205, label: uk ? "Запис про експертизу" : "Expertise record" },
+    { x: 235, y: 110, label: uk ? "Джерело й дата" : "Source and date" },
+    { x: 385, y: 205, label: uk ? "Фахова перевірка" : "Professional review" },
+    { x: 555, y: 110, label: uk ? "Дозволена дія" : "Permitted action" },
+  ];
   return (
-    <figure className="briefing-evidence-figure chapter-collaboration-figure">
+    <figure className="briefing-evidence-figure evidence-use-figure">
       <svg
         viewBox="0 0 640 420"
         role="img"
         aria-label={
           uk
-            ? "Можлива взаємодія чаптерів навколо спільних правил"
-            : "Potential chapter collaboration around shared rules"
+            ? "Запропонований шлях від запису через джерело й фахову перевірку до дозволеної дії"
+            : "Proposed path from a record through source and professional review to a permitted action"
         }
       >
-        {Array.from({ length: 35 }, (_, i) => {
-          const a = (i / 35) * Math.PI * 2;
-          const x = 320 + Math.cos(a) * 245,
-            y = 205 + Math.sin(a) * 160;
-          return (
-            <g key={i}>
-              <line x1="320" y1="205" x2={x} y2={y} className="evidence-map-edge" />
-              <circle cx={x} cy={y} r="7" className="source-unreviewed" />
-            </g>
-          );
-        })}
-        <circle cx="320" cy="205" r="94" className="evidence-map-hub" />
-        <text x="320" y="175" textAnchor="middle" className="figure-hub-title">
-          35
-        </text>
+        <path d="M 85 205 L 235 110 L 385 205 L 555 110" className="evidence-use-path" />
+        {nodes.map((node, i) => (
+          <g key={node.label}>
+            {i % 2 === 0 ? (
+              <rect
+                x={node.x - 13}
+                y={node.y - 13}
+                width="26"
+                height="26"
+                rx="3"
+                className="service-map-node"
+              />
+            ) : (
+              <polygon
+                points={`${node.x - 15},${node.y} ${node.x - 8},${node.y - 13} ${node.x + 8},${node.y - 13} ${node.x + 15},${node.y} ${node.x + 8},${node.y + 13} ${node.x - 8},${node.y + 13}`}
+                className="service-map-node"
+              />
+            )}
+            <Label x={node.x} y={node.y + 48} text={node.label} width={18} />
+          </g>
+        ))}
+        <path d="M 235 110 L 235 300 L 385 300 L 385 205" className="evidence-use-feedback" />
         <Label
-          x={320}
-          y={200}
-          text={
-            uk
-              ? "чаптерів · спільні стандарти й відповідальність"
-              : "chapters · shared standards and responsibility"
-          }
+          x={310}
+          y={325}
+          width={24}
+          text={uk ? "Виправлення й оновлення" : "Corrections and updates"}
         />
       </svg>
       <figcaption>
         {uk
-          ? "Контекст із брифу, if confirmed (ISRM-CTX-CHAPTERS), не показник активної участі. Мережева користь залежить від внеску людей, актуальності й спільних правил."
-          : "Planning context from the brief, if confirmed (ISRM-CTX-CHAPTERS), not a measure of active participation. Network value depends on contribution, current information and shared rules."}
+          ? "Проєктована модель відповідальності, не фактично виконана перевірка вибірки. Без джерела, рішення рецензента й правил використання вузол графа ще не є рекомендацією."
+          : "Proposed accountability model, not a completed review of the sample. Without a source, reviewer decision and rules for use, a graph node is not yet a recommendation."}
       </figcaption>
     </figure>
   );
@@ -273,14 +380,14 @@ export function ParticipationCycleFigure({ locale }: { locale: ClientLocale }) {
           return (
             <g key={label}>
               <rect
-                x={x - 84}
-                y={y - 28}
-                width="168"
-                height="60"
-                rx="12"
+                x={x - 13}
+                y={y - 13}
+                width="26"
+                height="26"
+                rx="3"
                 className="service-map-node"
               />
-              <Label x={x} y={y - 3} text={label} />
+              <Label x={x} y={y + 35} text={label} />
             </g>
           );
         })}

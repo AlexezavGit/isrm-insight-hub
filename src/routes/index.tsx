@@ -7,6 +7,8 @@ type IndexSearch = {
   panel?: "search" | "shortlist";
   stage?: "configuration";
   preset?: string;
+  sample?: "sectors" | "expertise";
+  practice?: "search";
   anchor?: string;
   capability?: string;
 };
@@ -22,9 +24,12 @@ export const Route = createFileRoute("/")({
     const preset = typeof rawPreset === "string" ? rawPreset : undefined;
     const result: IndexSearch = {};
     if (search["view"] === "map") result.view = "map";
+    if (search["practice"] === "search") result.practice = "search";
     if (stage) result.stage = stage;
     if (panel) result.panel = panel;
     if (preset !== undefined) result.preset = preset;
+    if (search["sample"] === "sectors" || search["sample"] === "expertise")
+      result.sample = search["sample"];
     if (
       typeof search["capability"] === "string" &&
       CLIENT_SERVICES.some((s) => s.id === search["capability"])

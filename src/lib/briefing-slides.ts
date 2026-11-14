@@ -2,7 +2,6 @@ import type { Copy } from "./client-catalog";
 import type { GraphLayers } from "@/components/NetworkGraph";
 export type BriefingSlide = {
   label: Copy;
-  projectName?: Copy;
   title: Copy;
   body: Copy;
   note: Copy;
@@ -11,290 +10,115 @@ export type BriefingSlide = {
   steps: Copy[];
   layers: GraphLayers;
 };
+const copy = (en: string, uk: string): Copy => ({ en, uk });
+const slide = (label: Copy, title: Copy, body: Copy, note = copy("", "")): BriefingSlide => ({
+  label,
+  title,
+  body,
+  note,
+  insight: copy("", ""),
+  principle: copy("", ""),
+  steps: [],
+  layers: { sector: true, theme: false, hub: false, researchQueue: true },
+});
+/** Accepted 14 November 2026; one source for the web presentation and all printed pages. */
 export const BRIEFING_SLIDES: BriefingSlide[] = [
-  {
-    label: {
-      en: "From enquiry to use",
-      uk: "Від запиту до використання",
-    },
-    title: {
-      en: "A broad enquiry needs a way to use its results.",
-      uk: "Широкий запит потребує способу використати результат.",
-    },
-    body: {
-      en: "Your enquiry covers a large contact audience. Research can prepare the information; reviewing it, selecting relevant expertise and coordinating the next action create an operational challenge of their own.",
-      uk: "Ваш запит охоплює велику аудиторію контактів. Дослідження може підготувати інформацію; її перевірка, доречний підбір експертизи й організація наступної дії створюють окрему операційну задачу.",
-    },
-    insight: {
-      en: "A dossier is not yet a conversation, an engagement or a client mandate. The question is how ISRM can put the research to work.",
-      uk: "Досьє ще не є розмовою, співпрацею чи клієнтським дорученням. Питання в тому, як ISRM зможе використати дослідження у роботі.",
-    },
-    principle: {
-      en: "Make the information usable as a shared asset.",
-      uk: "Зробити інформацію придатним до спільної роботи ресурсом.",
-    },
-    note: {
-      en: "The audience described in the enquiry is the starting context, not a verified reachable network or a forecast of demand.",
-      uk: "Аудиторія із запиту — початковий контекст, не підтверджена досяжна мережа чи прогноз попиту.",
-    },
-    steps: [
-      {
-        en: "Broad research enquiry",
-        uk: "Широкий запит дослідження",
-      },
-      {
-        en: "Source-backed records",
-        uk: "Записи з джерелами",
-      },
-      {
-        en: "Professional selection",
-        uk: "Професійний відбір",
-      },
-      {
-        en: "Agreed next action",
-        uk: "Погоджена наступна дія",
-      },
-    ],
-    layers: {
-      sector: true,
-      theme: false,
-      hub: false,
-      researchQueue: true,
-    },
-  },
-  {
-    label: {
-      en: "Tools and professional judgement",
-      uk: "Інструменти й професійне судження",
-    },
-    title: {
-      en: "Digital tools organise. ISRM professionals judge.",
-      uk: "Цифрові інструменти впорядковують. Фахівці ISRM оцінюють.",
-    },
-    body: {
-      en: "The prototype shows search, dossiers and a working shortlist on the supplied research sample. Digital tools can organise information and AI can assist research. ISRM consultants and members can provide professional review, within agreed roles and standards.",
-      uk: "Прототип показує пошук, досьє й робочий відбір на переданій дослідницькій вибірці. Цифрові інструменти можуть впорядковувати інформацію, а ШІ — допомагати дослідженню. Консультанти й члени ISRM можуть здійснювати професійну перевірку в межах погоджених ролей і стандартів.",
-    },
-    insight: {
-      en: "The graph helps make sense of it. OSINT helps prepare the information. Professional review provides a considered, accountable judgement. Subsequent interaction creates the result.",
-      uk: "Граф допомагає це зрозуміти. OSINT допомагає підготувати інформацію. Професійна перевірка дає відповідальне судження. А подальша взаємодія створює результат.",
-    },
-    principle: {
-      en: "Support professional responsibility with evidence.",
-      uk: "Підтримати професійну відповідальність доказовими підставами.",
-    },
-    note: {
-      en: "The map describes the supplied sample, not the whole membership. Source confirmation, professional review, a recommendation and willingness to participate remain distinct. Operational AI research is not connected.",
-      uk: "Мапа описує передану вибірку, не весь склад членства. Підтвердження джерела, професійна перевірка, рекомендація й готовність долучитися залишаються різними ознаками. Операційне дослідження з ШІ не підключене.",
-    },
-    steps: [
-      {
-        en: "Overview of recorded expertise",
-        uk: "Огляд записаної експертизи",
-      },
-      {
-        en: "Inspect available evidence",
-        uk: "Перегляд доступних підстав",
-      },
-      {
-        en: "Keep a reasoned shortlist",
-        uk: "Обґрунтований відбір",
-      },
-    ],
-    layers: {
-      sector: true,
-      theme: false,
-      hub: false,
-      specialisation: true,
-      researchQueue: true,
-    },
-  },
-  {
-    label: {
-      en: "Services around member needs",
-      uk: "Сервіси навколо потреб членів",
-    },
-    title: {
-      en: "Use the same foundation for more than verification.",
-      uk: "Використати спільну основу ширше за верифікацію.",
-    },
-    body: {
-      en: "Information, professional review and member participation can also support introductions, client enquiries, peer learning, discussions and shared knowledge. Choose the services useful to ISRM; the configurator shows how they can work together.",
-      uk: "Інформація, професійна перевірка й участь членів можуть також підтримувати знайомства, клієнтські запити, взаємне навчання, обговорення та спільні знання. Обирайте корисні для ISRM сервіси; конфігуратор показує, як вони можуть працювати разом.",
-    },
-    insight: {
-      en: "Services and their required functions form the proposed scope. Workflow examples explain possible uses; they do not require ISRM to buy a preset package.",
-      uk: "Сервіси та потрібні функції формують запропонований обсяг. Приклади workflow пояснюють можливі застосування; вони не вимагають купувати готовий пакет.",
-    },
-    principle: {
-      en: "Choose useful services. Agree the way of working.",
-      uk: "Обрати корисні сервіси. Погодити спосіб роботи.",
-    },
-    note: {
-      en: "Each use needs an owner, participation and appropriate rules. Choosing a service does not activate it or establish member demand. Technical and process dependencies must be made explicit.",
-      uk: "Кожне застосування потребує відповідального, участі людей і доречних правил. Вибір сервісу не активує його й не доводить попиту членів. Технічні та процесні залежності мають бути явними.",
-    },
-    steps: [
-      {
-        en: "People and needs",
-        uk: "Люди й потреби",
-      },
-      {
-        en: "Useful services",
-        uk: "Корисні сервіси",
-      },
-      {
-        en: "Agreed working process",
-        uk: "Погоджений процес роботи",
-      },
-    ],
-    layers: {
-      sector: true,
-      theme: false,
-      hub: true,
-      researchQueue: true,
-    },
-  },
-  {
-    label: {
-      en: "Shared rules at scale",
-      uk: "Спільні правила на масштабі",
-    },
-    title: {
-      en: "Shared rules make cross-chapter work possible.",
-      uk: "Спільні правила уможливлюють роботу між чаптерами.",
-    },
-    body: {
-      en: "A wider range of uses belongs in ISRM’s organisational development: who contributes, who reviews, how information is maintained and how colleagues may be approached. Standards, policies and procedures define responsibilities and acceptable outcomes.",
-      uk: "Ширший набір застосувань належить до організаційного розвитку ISRM: хто долучається, хто перевіряє, як підтримується інформація та як звертатися до колег. Стандарти, політики й процедури визначають відповідальність і прийнятний результат.",
-    },
-    insight: {
-      en: "The proposed approach combines reusable tools with ISRM’s own practices. Agreed integrations can connect useful functions to existing systems; actual systems and access requirements must first be established.",
-      uk: "Запропонований підхід поєднує повторно використовувані інструменти з практиками ISRM. Погоджені інтеграції можуть поєднати потрібні функції з наявними системами; спочатку потрібно визначити самі системи й вимоги до доступу.",
-    },
-    principle: {
-      en: "Agree what a useful result means.",
-      uk: "Погодити, що саме є корисним результатом.",
-    },
-    note: {
-      en: "This is a proposed direction for organisational use. It does not assume active participation across chapters, an existing integration or an approved ISRM operating policy.",
-      uk: "Це запропонований напрям організаційного використання. Він не припускає активної участі всіх чаптерів, уже наявної інтеграції чи затвердженої операційної політики ISRM.",
-    },
-    steps: [
-      {
-        en: "Shared policies",
-        uk: "Спільні політики",
-      },
-      {
-        en: "Professional responsibility",
-        uk: "Професійна відповідальність",
-      },
-      {
-        en: "Useful interaction",
-        uk: "Корисна взаємодія",
-      },
-    ],
-    layers: {
-      sector: true,
-      theme: true,
-      hub: true,
-      researchQueue: true,
-    },
-  },
-  {
-    label: {
-      en: "Flywheel: a hypothesis to test",
-      uk: "Цикл цінності: гіпотеза для перевірки",
-    },
-    title: {
-      en: "Keep information current. Make participation worthwhile.",
-      uk: "Актуальні дані. Змістовна участь.",
-    },
-    body: {
-      en: "Pilot a useful enquiry and examine what sustains the process: current records, a responsible coordinator, professional review and people willing to contribute. Record the next action and its outcome so the network can learn from the interaction.",
-      uk: "Випробуймо корисний запит і перевірмо, що підтримує процес: актуальні записи, відповідальний координатор, професійна перевірка й готовність людей долучитися. Фіксуймо наступну дію та її результат, щоб мережа могла вчитися на взаємодії.",
-    },
-    insight: {
-      en: "Access to relevant expertise, introductions, learning and useful discussions may give members reasons to participate. The pilot must test these motives and the work needed to keep them going.",
-      uk: "Доступ до доречної експертизи, знайомств, навчання й корисних обговорень може створювати мотив участі. Пілот має перевірити ці мотиви та роботу, потрібну для їх підтримки.",
-    },
-    principle: {
-      en: "Test the benefit. Then decide what grows.",
-      uk: "Перевірити користь. Тоді вирішити, що розвивати.",
-    },
-    note: {
-      en: "No exponential growth or financial return is promised. Future consultant assistants or model training require a separate decision on purpose, data rights, safeguards and evaluation.",
-      uk: "Експоненційне зростання чи фінансова віддача не обіцяються. Майбутні AI-консультанти чи навчання моделей потребують окремого рішення щодо мети, прав, захисту й оцінювання.",
-    },
-    steps: [
-      {
-        en: "Useful contribution",
-        uk: "Корисний внесок",
-      },
-      {
-        en: "Reviewed experience",
-        uk: "Перевірений досвід",
-      },
-      {
-        en: "Further value",
-        uk: "Подальша цінність",
-      },
-    ],
-    layers: {
-      sector: false,
-      theme: true,
-      hub: true,
-      researchQueue: true,
-    },
-  },
-  {
-    label: {
-      en: "Your next step",
-      uk: "Ваш наступний крок",
-    },
-    title: {
-      en: "Try the prototype. Choose useful support.",
-      uk: "Спробуйте прототип. Оберіть корисну підтримку.",
-    },
-    body: {
-      en: "Continue individual research, adapt the demonstrated tools or choose further services for a pilot. You can describe a need directly; workflow examples are there to help. A simpler existing-application option remains available for discussion.",
-      uk: "Продовжуйте разові дослідження, адаптуйте продемонстровані інструменти чи оберіть додаткові сервіси для пілоту. Потребу можна описати прямо; приклади workflow допомагають зорієнтуватися. Простіший варіант на основі наявного застосунку також залишається предметом обговорення.",
-    },
-    insight: {
-      en: "Your choices inform a detailed proposal with agreed scope, dependencies, acceptance checks and budget. This is an invitation to discuss, not an order or acceptance of a final price.",
-      uk: "Ваш вибір стане основою детальної пропозиції з погодженими обсягом, залежностями, перевірками приймання й бюджетом. Це запрошення до розмови, не замовлення чи погодження остаточної ціни.",
-    },
-    principle: {
-      en: "Your decision. A practical next conversation.",
-      uk: "Ваше рішення. Предметна наступна розмова.",
-    },
-    note: {
-      en: "The demonstration uses the supplied sample. Operational AI OSINT and shared authenticated storage are not connected. Decisions remain with ISRM.",
-      uk: "Демонстрація використовує передану вибірку. Операційний AI OSINT і спільне авторизоване сховище не підключені. Рішення залишаються за ISRM.",
-    },
-    steps: [
-      {
-        en: "Try the prototype",
-        uk: "Спробувати прототип",
-      },
-      {
-        en: "Choose services or describe a need",
-        uk: "Обрати сервіси або описати потребу",
-      },
-      {
-        en: "Review scope and budget position",
-        uk: "Розглянути обсяг і бюджетну позицію",
-      },
-      {
-        en: "Request a detailed proposal",
-        uk: "Запросити детальну пропозицію",
-      },
-    ],
-    layers: {
-      sector: true,
-      theme: true,
-      hub: false,
-      researchQueue: true,
-    },
-  },
+  slide(
+    copy("The capability gap", "Зміна спроможності працювати з даними"),
+    copy("AI changes how we access and use data.", "ШІ змінює доступність і використання даних."),
+    copy(
+      "With suitable sources and a clear enquiry, AI can help you gather initial information faster. This shift calls for different approaches and tools to process it at scale and turn it into a steady flow of expertise, interaction and resources.",
+      "За наявності потрібних джерел і чіткого запиту ШІ може допомогти швидше зібрати первинну інформацію. Ця зміна потребує інших підходів та інструментів, щоб опрацьовувати її у великому обсязі й перетворювати на сталий потік експертизи, взаємодії та ресурсів.",
+    ),
+  ),
+  slide(
+    copy("Data that exists is not data that works", "Від запису до дії"),
+    copy("Each record needs a path to action.", "Кожному запису потрібен шлях до дії."),
+    copy(
+      "Data that exists is not data that works. Name the person who controls access, keeps the information current and follows through on the next step. Record the outcome so colleagues can use what the interaction taught them.",
+      "Наявність даних ще не означає їх використання. Визначте, хто керує доступом, оновлює інформацію й відповідає за наступний крок. Зафіксуйте результат, щоб колеги могли використати досвід цієї взаємодії.",
+    ),
+  ),
+  slide(
+    copy(
+      "A standing resource rather than a one-off study",
+      "Постійний ресурс замість разового дослідження",
+    ),
+    copy(
+      "Keep expertise current through the work that needs it.",
+      "Підтримуйте актуальність експертизи через роботу, для якої вона потрібна.",
+    ),
+    copy(
+      "We began building this for our own consulting work. We had not found the combination of functions we needed in the proprietary tools we tried. Consultants need current evidence for current assignments; AI can assist, while they remain responsible for checking it. An association offers a pilot setting where colleagues could maintain and use shared expertise.",
+      "Ми почали розробку для власної консалтингової роботи: у випробуваних пропрієтарних рішеннях не знайшли потрібного поєднання функцій. Консультантам потрібні актуальні докази для поточних завдань; ШІ може допомагати, а перевірка залишається їхньою відповідальністю. Асоціація дає середовище для пілоту, де колеги могли б підтримувати й використовувати спільну експертизу.",
+    ),
+  ),
+  slide(
+    copy("What it looks like · ISRM research", "Як це виглядає · дослідження для ISRM"),
+    copy(
+      "The ISRM demonstration returns the first research results.",
+      "Демонстрація повертає ISRM перші результати дослідження.",
+    ),
+    copy(
+      "ISRM shared 178 records. We have gathered initial public-source information on 45 identified profiles; research continues, and its depth can change. The graph shows the attributes recorded so far. Further research can add fields and detail.",
+      "ISRM передала 178 записів. Зібрано перші дані з відкритих джерел щодо 45 ідентифікованих профілів; дослідження триває, а його глибину можна змінити. Граф показує наявні записані атрибути. Подальше дослідження може розширити їх перелік і деталізацію.",
+    ),
+    copy(
+      "Research sheet: 28 August 2026. Initial findings do not establish professional endorsement or consent to contact. Selections are saved in this browser.",
+      "Дослідницький аркуш — станом на 28 серпня 2026 року. Перші результати не означають професійної рекомендації чи згоди на контакт. Відбір зберігається в цьому браузері.",
+    ),
+  ),
+  slide(
+    copy("Where it could go", "Подальші застосування"),
+    copy(
+      "From a working search to connected workflows.",
+      "Від робочого пошуку до пов’язаних процесів.",
+    ),
+    copy(
+      "Working data, a suitable tool and people who can use it are the starting point. Policies, standards and agreed procedures guide their work. The configurator illustrates functions you could combine around your processes, from research assistance to member engagement and team formation. Through use, colleagues could build shared expertise and support organisational development.",
+      "Початок — дані, придатні до роботи, відповідний інструмент і люди, здатні ним користуватися. Політики, стандарти й погоджені процедури спрямовують їхню роботу. Конфігуратор показує функції, які можна поєднувати під свої процеси: дослідницьку допомогу, залучення учасників, формування команд. Під час використання колеги могли б накопичувати спільну експертизу й підтримувати організаційний розвиток.",
+    ),
+    copy(
+      "Configuration for discussion. Planned services require development.",
+      "Конфігурація для обговорення. Заплановані сервіси потребують розроблення.",
+    ),
+  ),
+  slide(
+    copy("Privacy and consent by design", "Приватність і згода в основі проєктування"),
+    copy(
+      "Seeing a profile should not mean unrestricted access.",
+      "Перегляд профілю не повинен означати необмежений доступ.",
+    ),
+    copy(
+      "A useful network needs clear rules for who can see, review and share information. A source record, a colleague’s recommendation and a person’s consent are different things. Introductions need an agreed route and permission to disclose contact details.",
+      "Корисній мережі потрібні чіткі правила: хто може бачити, перевіряти й передавати інформацію. Запис у джерелі, рекомендація колеги та згода персони — різні речі. Для знайомства потрібні погоджений шлях і дозвіл розкрити контактні дані.",
+    ),
+    copy(
+      "The demonstration masks direct contacts. Operational access, consent and retention rules require agreement and implementation.",
+      "Демонстрація маскує прямі контакти. Операційні правила доступу, згоди та зберігання потребують погодження й реалізації.",
+    ),
+  ),
+  slide(
+    copy("Integration landscape", "Поле інтеграції"),
+    copy(
+      "Connect the systems you use to the expertise you need.",
+      "Поєднайте свої системи з потрібною експертизою.",
+    ),
+    copy(
+      "Membership, learning and publication systems can supply information. The proposed integration layer would connect permitted records to expertise, sources and professional review, then return agreed results to the systems you use. You would choose where AI assistance belongs.",
+      "Системи членства, навчання й публікацій можуть надавати інформацію. Запропонований інтеграційний шар пов’язував би дозволені записи з експертизою, джерелами й професійною перевіркою, а погоджені результати повертав би до ваших систем. Ви визначаєте, де потрібна допомога ШІ.",
+    ),
+    copy(
+      "Target architecture. Connectors and shared storage require development. Operational AI research is not connected in this demonstration.",
+      "Цільова архітектура. Конектори та спільне сховище потребують розроблення. Операційне ШІ-дослідження в цій демонстрації не підключено.",
+    ),
+  ),
+  slide(
+    copy("An invitation, not an offer", "Запрошення до відгуку"),
+    copy("We would value your view", "Будемо вдячні за вашу думку."),
+    copy(
+      "Please explore the demonstration when convenient. We would value your view on what is useful, what you would change, and how it relates to your organisation’s work. Think of it as a visit to our workshop using the ISRM research sample.",
+      "Огляньте демонстрацію у зручний час. Будемо вдячні за думку: що корисне, що ви змінили б і як це пов’язано з роботою вашої організації. Сприймайте це як візит до нашої майстерні на прикладі дослідницької вибірки ISRM.",
+    ),
+  ),
 ];

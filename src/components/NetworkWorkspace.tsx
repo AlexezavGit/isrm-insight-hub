@@ -1,5 +1,5 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useSearch } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import {
   Info,
   FolderOpen,
@@ -44,6 +44,8 @@ import {
   expertiseName,
   workflowAdditionalServiceIds,
   workflowRequiredServiceIds,
+  presentationSampleLayers,
+  type PresentationSampleView,
   type MapLayers,
   type WorkspacePane,
   type WorkspaceMode,
@@ -74,6 +76,7 @@ const anchorFromFilters = (filters: Filters) =>
           ? "country:" + canonicalCountry(filters.country)
           : "";
 export function NetworkWorkspace() {
+  const navigate = useNavigate();
   const { locale } = useI18n(),
     uk = locale === "uk",
     t = useCallback((en: string, ua: string) => (uk ? ua : en), [uk]);
@@ -87,6 +90,8 @@ export function NetworkWorkspace() {
     panel?: string;
     capability?: ServiceId;
     preset?: string;
+    sample?: PresentationSampleView;
+    practice?: "search";
     anchor?: string;
   };
   const [mode, setMode] = useState<WorkspaceMode>(
@@ -127,11 +132,17 @@ export function NetworkWorkspace() {
   const [railExtent, setRailExtent] = useState(10000);
   const [tutorial, setTutorial] = useState<number | null>(null),
     [tutorialLong, setTutorialLong] = useState(false);
+  const [practice, setPractice] = useState<number | null>(route.practice === "search" ? 0 : null);
   const [slip, setSlip] = useState(""),
     [saved, setSaved] = useState<SavedMap[]>([]),
     [saveName, setSaveName] = useState(""),
     [storageError, setStorageError] = useState("");
   const [savedBlocked, setSavedBlocked] = useState(false);
+  const [scopePrompt, setScopePrompt] = useState<{
+    title: string;
+    described: boolean;
+    id?: ServiceId;
+  } | null>(null);
   const settings = useDismissibleDetails(),
     mapRef = useRef<WorkspaceGraphHandle>(null),
     bodyRef = useRef<HTMLDivElement>(null);
@@ -238,12 +249,28 @@ export function NetworkWorkspace() {
         setWorkflowId(selected);
         setAnchor(route.preset ? "workflow:" + selected : "");
       }
+    } else if (route.sample) {
+      setMode("search");
+      setPane(null);
+      setF({ ...EMPTY });
+      setLayers(presentationSampleLayers(route.sample));
+      setStatus({
+        ai: "any",
+        peer: "any",
+        membership: "any",
+        chapter: "any",
+        source: "any",
+        organisation: "any",
+      });
+      setMapContext("search");
+      setPerson(null);
+      setAnchor("");
     } else if (route.panel) {
       setMode("search");
       setPane(route.panel === "shortlist" ? "shortlist" : "results");
       setMapContext(route.panel === "shortlist" ? "shortlist" : "search");
     }
-  }, [route.stage, route.capability, route.preset, route.panel]);
+  }, [route.stage, route.capability, route.preset, route.sample, route.panel]);
   useEffect(() => {
     try {
       setSaved(readWorkspaceMaps(localStorage.getItem(storageKey)));
@@ -314,6 +341,7 @@ export function NetworkWorkspace() {
     graphPeople,
   ]);
   const inspect = (code: string, expanded = false) => {
+    if (practice === 1) setPractice(2);
     setPerson(code);
     setAnchor(code);
     if (mapContext === "shortlist" && !draft.shortlist.includes(code)) setMapContext("search");
@@ -324,6 +352,7 @@ export function NetworkWorkspace() {
   };
   const togglePerson = () => {
     if (!person) return;
+    if (practice === 2 && !draft.shortlist.includes(person)) setPractice(3);
     update({
       shortlist: draft.shortlist.includes(person)
         ? draft.shortlist.filter((c) => c !== person)
@@ -364,6 +393,7 @@ export function NetworkWorkspace() {
       const next = [item, ...saved];
       localStorage.setItem(storageKey, JSON.stringify(next));
       setSaved(next);
+      if (practice === 3) setPractice(4);
       setStorageError("");
     } catch {
       setStorageError(
@@ -402,6 +432,7 @@ export function NetworkWorkspace() {
     </figure>
   );
   const setFilter = (key: keyof Filters, value: string, selectedAnchor?: string) => {
+    if (practice === 0 && key === "expertise" && value) setPractice(1);
     const filterAnchor = value
       ? key === "organization"
         ? "organisation:" + value
@@ -534,6 +565,10 @@ export function NetworkWorkspace() {
       open("core");
     } else if (n.kind === "service") {
       const id = n.id.slice(4) as ServiceId;
+      if (!CLIENT_SERVICES.some((service) => service.id === id)) {
+        setScopePrompt({ title: n.label, described: false });
+        return;
+      }
       setFunctionId(id);
       setCycle(null);
       const workflow = WORKSPACE_WORKFLOWS.find((item) => item.serviceIds.includes(id));
@@ -698,6 +733,19 @@ export function NetworkWorkspace() {
       <p>{selectedFunction.detail[locale]}</p>
       <h4>{t("Result and availability", "Результат і доступність")}</h4>
       <p>{selectedFunction.status[locale]}</p>
+      <button
+        type="button"
+        className="workspace-scope-bridge"
+        onClick={() =>
+          setScopePrompt({
+            title: selectedFunction.title[locale],
+            described: true,
+            id: selectedFunction.id,
+          })
+        }
+      >
+        {t("Review this function in Scope & budget", "Розглянути функцію в «Обсяг і бюджет»")}
+      </button>
       {selectedFunction.id === "evidence" && (
         <p>
           {t(
@@ -811,7 +859,7 @@ export function NetworkWorkspace() {
               </button>
             </div>
           ))}
-          <label className="workspace-field">
+          <label className="workspace-field workspace-save-search">
             {t("Search name", "Назва пошуку")}
             <input value={saveName} onChange={(e) => setSaveName(e.target.value)} />
           </label>
@@ -1642,6 +1690,81 @@ export function NetworkWorkspace() {
               </>
             )}
           </footer>
+          {practice !== null && !isConfiguration && (
+            <aside
+              className="workspace-practice"
+              aria-label={t("Guided first search", "Перший пошук із підказками")}
+            >
+              <button
+                className="practice-close"
+                aria-label={t("Close guided search", "Закрити підказки пошуку")}
+                onClick={() => setPractice(null)}
+              >
+                ×
+              </button>
+              <h2>{t("Your first working result", "Ваш перший робочий результат")}</h2>
+              <p>
+                {
+                  [
+                    t(
+                      "Choose a recorded expertise category on the graph or in the Expertise list. A shared category is not evidence that people know each other.",
+                      "Оберіть на графі або у списку «Експертиза» записаний напрям. Спільна категорія не доводить знайомства між людьми.",
+                    ),
+                    t(
+                      "The map and results now show that category. Open a person with recorded information and inspect their dossier.",
+                      "Мапа й результати показують обраний напрям. Відкрийте персону з наявними відомостями та перегляньте досьє.",
+                    ),
+                    t(
+                      "Read the available expertise and source status. Tick Selected to keep this person in your working shortlist; this is not a recommendation or an introduction.",
+                      "Прочитайте експертизу й статус джерел. Позначте «Відібрано», щоб залишити персону у робочому відборі; це не рекомендація чи знайомство.",
+                    ),
+                    t(
+                      "Your shortlist is retained in this browser. Now name and save this search with its graph snapshot. Saving a search and keeping a shortlist are separate actions.",
+                      "Відбір зберігається в цьому браузері. Тепер назвіть і збережіть пошук зі знімком графа. Збереження пошуку та відбір персон — окремі дії.",
+                    ),
+                    t(
+                      "You have saved a search and map. You can reopen them from Search results. Your shortlist is available separately in My shortlist. Nothing has been sent; these records remain local to this browser.",
+                      "Пошук і мапу збережено. Їх можна знову відкрити в результатах пошуку. Відбір доступний окремо в «Мій відбір». Нічого не надіслано; збереження локальне для цього браузера.",
+                    ),
+                  ][practice]
+                }
+              </p>
+              {practice === 0 && (
+                <button onClick={() => open("criteria")}>
+                  {t("Open expertise criteria", "Відкрити критерії експертизи")}
+                </button>
+              )}
+              {practice === 1 && (
+                <button onClick={() => open("results")}>
+                  {t("Open matching records", "Відкрити знайдені записи")}
+                </button>
+              )}
+              {practice === 2 && person && draft.shortlist.includes(person) && (
+                <button onClick={() => setPractice(3)}>
+                  {t("Use the existing selection", "Продовжити з наявним відбором")}
+                </button>
+              )}
+              {practice === 3 && (
+                <button
+                  onClick={() => {
+                    open("results");
+                    requestAnimationFrame(() =>
+                      document
+                        .querySelector(".workspace-save-search")
+                        ?.scrollIntoView({ block: "center", behavior: "smooth" }),
+                    );
+                  }}
+                >
+                  {t("Go to search saving", "Перейти до збереження пошуку")}
+                </button>
+              )}
+              {practice === 4 && (
+                <button onClick={() => setPractice(null)}>
+                  {t("Continue independently", "Продовжити самостійно")}
+                </button>
+              )}
+            </aside>
+          )}
           {tutorial !== null && (
             <aside className="workspace-tutorial" aria-label={t("Tutorial", "Туторіал")}>
               <header>
@@ -1728,6 +1851,54 @@ export function NetworkWorkspace() {
         <p role="alert" className="workspace-storage-error">
           {error || storageError}
         </p>
+      )}
+      {scopePrompt && (
+        <div
+          className="workspace-scope-shade"
+          onKeyDown={(event) => {
+            if (event.key === "Escape") {
+              event.stopPropagation();
+              setScopePrompt(null);
+            }
+          }}
+        >
+          <section
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="workspace-scope-prompt-title"
+            aria-describedby="workspace-scope-prompt-body"
+            className="workspace-scope-prompt"
+          >
+            <h2 id="workspace-scope-prompt-title">
+              {t("Discuss this function", "Обговорити функцію")}
+            </h2>
+            <p id="workspace-scope-prompt-body">
+              {t(
+                `Open Scope & budget to review ${scopePrompt.title} for an estimate request.${scopePrompt.described ? "" : " You can describe this proposed function in Additional functions."} This does not approve implementation, timing or price.`,
+                `Відкрийте «Обсяг і бюджет», щоб розглянути «${scopePrompt.title}» у запиті на оцінку.${scopePrompt.described ? "" : " Цю запропоновану функцію можна описати в розділі «Додаткова функціональність»."} Це не погоджує реалізацію, строки чи ціну.`,
+              )}
+            </p>
+            <div>
+              <button type="button" autoFocus onClick={() => setScopePrompt(null)}>
+                {t("Stay here", "Залишитися тут")}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setScopePrompt(null);
+                  void navigate({
+                    to: "/scope",
+                    hash: scopePrompt.described
+                      ? `scope-service-${scopePrompt.id}`
+                      : "scope-additional-functions",
+                  });
+                }}
+              >
+                {t("Open Scope & budget", "Відкрити «Обсяг і бюджет»")}
+              </button>
+            </div>
+          </section>
+        </div>
       )}
     </main>
   );

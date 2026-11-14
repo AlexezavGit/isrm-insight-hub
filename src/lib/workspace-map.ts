@@ -26,6 +26,18 @@ export const DEFAULT_MAP_LAYERS = {
   chapter: true,
 };
 export type MapLayers = typeof DEFAULT_MAP_LAYERS;
+export type PresentationSampleView = "sectors" | "expertise";
+export const presentationSampleLayers = (view: PresentationSampleView): MapLayers => ({
+  people: true,
+  organisations: false,
+  countries: false,
+  expertise: view === "expertise",
+  sectors: view === "sectors",
+  ai: false,
+  peer: false,
+  membership: false,
+  chapter: false,
+});
 export type MapKind =
   | "person"
   | "organisation"

@@ -1,10 +1,7 @@
-import { BOARD_RECIPIENT, BOARD_CAPACITY } from "@/lib/board-brief";
+import { PresentationFeedback } from "./PresentationFeedback";
 import { ClientHeader } from "./ClientHeader";
-import { IsrmContextLinks } from "./IsrmContextLinks";
-import { SLIDE_CONTEXT_KEYS } from "@/lib/isrm-context";
 import { useEffect, useRef, useState } from "react";
-import { Link } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, ChevronsLeft, Pause, Play } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronsLeft, Pause, Play, Printer } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { useAccess } from "@/lib/access";
 import { BriefingVisual } from "./BriefingVisual";
@@ -30,7 +27,9 @@ export function BriefingSlider() {
     content.current?.scrollTo({ top: 0 });
   }, [slide]);
   return (
-    <main className={`client-briefing ${motionEnabled ? "is-motion-enabled" : "is-motion-paused"}`}>
+    <main
+      className={`client-briefing is-eight-slide-deck ${motionEnabled ? "is-motion-enabled" : "is-motion-paused"}`}
+    >
       <div className="client-briefing-graph" aria-hidden="true">
         {mounted && (
           <BriefingNetworkBackdrop
@@ -42,6 +41,7 @@ export function BriefingSlider() {
         )}
       </div>
       <ClientHeader
+        generalPresentation
         signIn={false}
         motionControl={
           <button
@@ -72,7 +72,7 @@ export function BriefingSlider() {
         }
       />
       <section
-        className={`client-slide-surface ${lastSlide ? "is-final-slide" : "is-reading-slide"}`}
+        className="client-slide-surface is-reading-slide"
         onTouchStart={(e) => {
           swipeStart.current = null;
           if (
@@ -106,8 +106,8 @@ export function BriefingSlider() {
         aria-roledescription={uk ? "Презентація" : "carousel"}
         aria-label={
           uk
-            ? "Відповідь Девіду Рубенсу та правлінню ISRM"
-            : "A response to David Rubens and the ISRM Strategic Board"
+            ? "Презентація роботи з професійною експертизою"
+            : "Expertise and professional networks presentation"
         }
         onKeyDown={(e) => {
           if ((e.target as HTMLElement).closest("input, textarea, select, [contenteditable=true]"))
@@ -133,7 +133,7 @@ export function BriefingSlider() {
             <span aria-label={uk ? "Поточний слайд" : "Current slide"}>
               {String(slide + 1).padStart(2, "0")}
               <i />
-              06
+              {String(BRIEFING_SLIDES.length).padStart(2, "0")}
             </span>
           </aside>
         </header>
@@ -144,96 +144,99 @@ export function BriefingSlider() {
           role="region"
           aria-labelledby="briefing-title"
         >
+          <BriefingVisual key={slide} index={slide} experts={data?.experts ?? []} locale={locale} />
           <div className="briefing-copy" aria-live="polite" aria-atomic="true">
-            {slide === 0 && (
-              <details className="briefing-recipient">
-                <summary>
-                  {uk
-                    ? "Dr David Rubens та правлінню ISRM"
-                    : "For Dr David Rubens and the ISRM Board"}
-                </summary>
-                <p>
-                  <strong>{BOARD_RECIPIENT}</strong>
-                  <span>{BOARD_CAPACITY[locale]}</span>
-                </p>
-              </details>
-            )}
-            {current.projectName && (
-              <p className="briefing-project-name">{current.projectName[locale]}</p>
-            )}
             <p className="client-slide-body">{current.body[locale]}</p>
-            <p className="briefing-key-context">{current.insight[locale]}</p>
-            <p className="briefing-principle">{current.principle[locale]}</p>
-            <p className="briefing-boundary-note">{current.note[locale]}</p>
-            {SLIDE_CONTEXT_KEYS[slide] && (
-              <IsrmContextLinks context={SLIDE_CONTEXT_KEYS[slide]!} locale={locale} compact />
+            {current.note[locale] && (
+              <p className="briefing-boundary-note">{current.note[locale]}</p>
             )}
+            {(slide === 4 || lastSlide) && (
+              <a
+                className="briefing-slide-action"
+                href={
+                  lastSlide
+                    ? "/?view=map&sample=expertise&practice=search"
+                    : "/?stage=configuration"
+                }
+              >
+                {lastSlide
+                  ? uk
+                    ? "Спробувати демонстрацію"
+                    : "Try the demonstration"
+                  : uk
+                    ? "Оглянути конфігуратор"
+                    : "Explore the configurator"}
+              </a>
+            )}
+            {lastSlide && <PresentationFeedback uk={uk} />}
           </div>
-          <BriefingVisual
-            index={slide}
-            experts={data?.experts ?? []}
-            slide={current}
-            locale={locale}
-            reducedMotion={reducedMotion}
-          />
         </div>
         <footer className="client-slide-footer">
-          {!lastSlide && (
-            <div className="client-slide-navigation">
-              <button
-                className="client-icon-button"
-                disabled={slide === 0}
-                onClick={() => setSlide((s) => s - 1)}
-                aria-label={uk ? "Попередній слайд" : "Previous slide"}
-              >
-                <ArrowLeft />
-              </button>
-              <div className="client-slide-dots">
-                {BRIEFING_SLIDES.map((s, i) => (
-                  <button
-                    key={s.label.en}
-                    aria-label={`${uk ? "Слайд" : "Slide"} ${i + 1}`}
-                    aria-current={slide === i ? "step" : undefined}
-                    onClick={() => setSlide(i)}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
-              </div>
-              <button
-                className="client-icon-button"
-                onClick={() => setSlide((s) => s + 1)}
-                aria-label={uk ? "Наступний слайд" : "Next slide"}
-              >
-                <ArrowRight />
-              </button>
+          <div className="client-slide-navigation">
+            <button
+              type="button"
+              className="client-icon-button"
+              disabled={slide === 0}
+              onClick={() => setSlide((s) => (s === BRIEFING_SLIDES.length - 1 ? 0 : s - 1))}
+              aria-label={
+                lastSlide
+                  ? uk
+                    ? "На початок"
+                    : "Back to start"
+                  : uk
+                    ? "Попередній слайд"
+                    : "Previous slide"
+              }
+            >
+              {lastSlide ? <ChevronsLeft /> : <ArrowLeft />}
+            </button>
+            <div className="client-slide-dots">
+              {BRIEFING_SLIDES.map((s, i) => (
+                <button
+                  key={s.label.en}
+                  type="button"
+                  aria-label={`${uk ? "Слайд" : "Slide"} ${i + 1}`}
+                  aria-current={slide === i ? "step" : undefined}
+                  onClick={() => setSlide(i)}
+                >
+                  {i + 1}
+                </button>
+              ))}
             </div>
-          )}
-          {lastSlide && (
-            <div className="client-inline-actions briefing-final-actions">
-              <Link
-                to="/"
-                search={{ view: "map" }}
-                className="client-button briefing-final-action briefing-explore-action"
-              >
-                {uk ? "Спробувати застосунок" : "Try the application"}
-              </Link>
-              <Link to="/scope" className="client-button briefing-final-action">
-                {uk ? "Обсяг і бюджет" : "Scope & budget"}
-              </Link>
-              <button
-                type="button"
-                className="client-button briefing-final-action briefing-rewind"
-                aria-label={uk ? "Повернутися на початок" : "Back to start"}
-                title={uk ? "На початок" : "Back to start"}
-                onClick={() => setSlide(0)}
-              >
-                <ChevronsLeft aria-hidden="true" />
-                <span>{uk ? "На початок" : "Back to start"}</span>
-              </button>
-            </div>
-          )}
+            <button
+              type="button"
+              className="client-icon-button"
+              onClick={() => (lastSlide ? window.print() : setSlide((s) => s + 1))}
+              aria-label={
+                lastSlide
+                  ? uk
+                    ? "Друкувати презентацію"
+                    : "Print presentation"
+                  : uk
+                    ? "Наступний слайд"
+                    : "Next slide"
+              }
+            >
+              {lastSlide ? <Printer /> : <ArrowRight />}
+            </button>
+          </div>
         </footer>
+      </section>
+      <section
+        className="client-print-summary briefing-print-summary"
+        aria-label={uk ? "Версія презентації для друку" : "Printable presentation"}
+      >
+        {BRIEFING_SLIDES.map((item, index) => (
+          <article key={item.label.en} className="briefing-print-slide">
+            <p className="briefing-print-kicker">
+              INSIGHT HUB · {String(index + 1).padStart(2, "0")}
+            </p>
+            <h2>{item.title[locale]}</h2>
+            <BriefingVisual index={index} experts={data?.experts ?? []} locale={locale} />
+            <p>{item.body[locale]}</p>
+            {item.note[locale] && <p className="briefing-print-note">{item.note[locale]}</p>}
+          </article>
+        ))}
       </section>
     </main>
   );

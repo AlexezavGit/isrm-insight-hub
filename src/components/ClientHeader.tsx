@@ -9,18 +9,20 @@ export function ClientHeader({
   motionControl,
   baseline = false,
   beforeNavigation,
+  generalPresentation = false,
 }: {
   signIn?: boolean;
   hideOnScroll?: boolean;
   motionControl?: ReactNode;
   baseline?: boolean;
   beforeNavigation?: ReactNode;
+  generalPresentation?: boolean;
 }) {
   const { locale } = useI18n();
   const uk = locale === "uk";
   const location = useLocation();
   const active =
-    location.pathname === "/proposal"
+    location.pathname === "/proposal" || location.pathname === "/presentation"
       ? "briefing"
       : location.pathname === "/scope"
         ? "scope"
@@ -47,9 +49,17 @@ export function ClientHeader({
         to="/"
         search={{ view: "map" }}
         className="client-wordmark"
-        aria-label={uk ? "ISRM · відкрити застосунок" : "ISRM · open application"}
+        aria-label={uk ? "Відкрити демонстрацію" : "Open demonstration"}
       >
-        ISRM <span>INSIGHT HUB</span>
+        {generalPresentation ? (
+          <>
+            INSIGHT <span>HUB</span>
+          </>
+        ) : (
+          <>
+            ISRM <span>INSIGHT HUB</span>
+          </>
+        )}
       </Link>
       <div className="client-topbar-actions">
         <ClientAccessibility baseline={baseline} />
@@ -64,14 +74,22 @@ export function ClientHeader({
         }
       >
         <Link to="/" search={{ view: "map" }}>
-          {uk ? "Відкрити застосунок" : "Open application"}
+          {generalPresentation
+            ? uk
+              ? "Спробувати демонстрацію"
+              : "Try the demonstration"
+            : uk
+              ? "Відкрити застосунок"
+              : "Open application"}
         </Link>
-        <Link to="/proposal" aria-current={active === "briefing" ? "page" : undefined}>
-          {uk ? "Брифінг · документ" : "Briefing · document"}
+        <Link to="/presentation" aria-current={active === "briefing" ? "page" : undefined}>
+          {uk ? "Презентація" : "Presentation"}
         </Link>
-        <Link to="/scope" aria-current={active === "scope" ? "page" : undefined}>
-          {uk ? "Обсяг і бюджет · документ" : "Scope & budget · document"}
-        </Link>
+        {!generalPresentation && (
+          <Link to="/scope" aria-current={active === "scope" ? "page" : undefined}>
+            {uk ? "Обсяг і бюджет · документ" : "Scope & budget · document"}
+          </Link>
+        )}
       </nav>
     </header>
   );

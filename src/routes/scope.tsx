@@ -1,10 +1,10 @@
 import { ClientHeader } from "@/components/ClientHeader";
 import { ScopePrintDocument } from "@/components/ScopePrintDocument";
 import { buildClientMarkdown } from "@/lib/scope-document";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useLocation } from "@tanstack/react-router";
 import { ServiceFunctionDeck } from "@/components/ScopeCardDecks";
 import { DataUseNotice } from "@/components/DataUseNotice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft, Download, Mail, Printer, ChevronDown } from "lucide-react";
 import { useClientDraft } from "@/components/ClientDraftProvider";
 import { useI18n } from "@/lib/i18n";
@@ -24,11 +24,20 @@ export const Route = createFileRoute("/scope")({
   component: ScopePage,
 });
 function ScopePage() {
+  const location = useLocation();
   const { draft, update, ready } = useClientDraft();
   const { locale } = useI18n();
   const uk = locale === "uk";
   const t = (en: string, ua: string) => (uk ? ua : en);
   const [notice, setNotice] = useState("");
+  useEffect(() => {
+    const target = location.hash.replace(/^#/, "");
+    if (!target) return;
+    const frame = requestAnimationFrame(() => {
+      document.getElementById(target)?.scrollIntoView({ block: "start" });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [location.hash]);
   const summary = buildClientSummary(draft, locale);
   const selectedServices = selectedServiceIds(draft);
   const includedRequestCount = draft.customIncluded ? draft.requests.length : 0;
@@ -88,7 +97,11 @@ function ScopePage() {
           <div>
             <DataUseNotice context="scope" compact />
             <ServiceFunctionDeck locale={locale} draft={draft} ready={ready} update={update} />
-            <details className="scope-large-folder scope-page-folder">
+            <details
+              id="scope-additional-functions"
+              className="scope-large-folder scope-page-folder"
+              defaultOpen={location.hash.includes("scope-additional-functions")}
+            >
               <summary className="scope-workflow-tab">
                 <h2>
                   {t("Additional functions", "Додаткова функціональність")} ({draft.requests.length}

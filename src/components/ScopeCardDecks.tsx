@@ -34,6 +34,7 @@ export function ServiceFunctionDeck({ locale, draft, ready, update }: Props) {
               return (
                 <article
                   key={service.id}
+                  id={`scope-service-${service.id}`}
                   className={`scope-file-card scope-interactive-folder ${included ? "is-selected" : ""}`}
                 >
                   <label className="scope-file-tab">
