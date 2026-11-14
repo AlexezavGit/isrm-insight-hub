@@ -28,6 +28,7 @@ export function BriefingSlider() {
   }, [slide]);
   return (
     <main
+      data-presentation-revision="2026-11-14-self-repair"
       className={`client-briefing is-eight-slide-deck ${motionEnabled ? "is-motion-enabled" : "is-motion-paused"}`}
     >
       <div className="client-briefing-graph" aria-hidden="true">
@@ -144,7 +145,13 @@ export function BriefingSlider() {
           role="region"
           aria-labelledby="briefing-title"
         >
-          <BriefingVisual key={slide} index={slide} experts={data?.experts ?? []} locale={locale} />
+          <BriefingVisual
+            key={slide}
+            index={slide}
+            experts={data?.experts ?? []}
+            locale={locale}
+            motionPaused={!motionEnabled}
+          />
           <div className="briefing-copy" aria-live="polite" aria-atomic="true">
             <p className="client-slide-body">{current.body[locale]}</p>
             {current.note[locale] && (
@@ -232,7 +239,7 @@ export function BriefingSlider() {
               INSIGHT HUB · {String(index + 1).padStart(2, "0")}
             </p>
             <h2>{item.title[locale]}</h2>
-            <BriefingVisual index={index} experts={data?.experts ?? []} locale={locale} />
+            <BriefingVisual index={index} experts={data?.experts ?? []} locale={locale} printMode />
             <p>{item.body[locale]}</p>
             {item.note[locale] && <p className="briefing-print-note">{item.note[locale]}</p>}
           </article>

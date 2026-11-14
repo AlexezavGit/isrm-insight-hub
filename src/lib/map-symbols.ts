@@ -20,6 +20,11 @@ export const MAP_SYMBOLS: Record<
 };
 /** Shared geometry for the actual map and its legend/slips. */
 export function mapSymbolPath(kind: MapKind, r: number) {
+  return rawMapSymbolPath(kind, r).replace(/-?\d+(?:\.\d+)?(?:e[-+]?\d+)?/gi, (value) =>
+    String(Math.round(Number(value) * 1000) / 1000),
+  );
+}
+function rawMapSymbolPath(kind: MapKind, r: number) {
   const shape = MAP_SYMBOLS[kind].shape;
   if (shape === "circle") return `M ${-r} 0 A ${r} ${r} 0 1 0 ${r} 0 A ${r} ${r} 0 1 0 ${-r} 0`;
   if (shape === "diamond") return `M 0 ${-r} L ${r} 0 L 0 ${r} L ${-r} 0 Z`;

@@ -26,12 +26,12 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
   slide(
     copy("The capability gap", "Зміна спроможності працювати з даними"),
     copy(
-      "Technology changes access to data — and how we check it.",
-      "Технології змінюють доступність даних і способи перевіряти їхню достовірність.",
+      "Technology changed the speed and availability of data — and how we check it.",
+      "Технології змінили швидкість і доступність даних — і способи перевіряти їхню достовірність.",
     ),
     copy(
-      "AI helps gather initial information from suitable sources faster. The question shifts: how do you process a thousand contacts, or the larger enquiry ISRM brought us? Different tools and ways of working can turn available data into a steady flow of expertise, interaction and resources.",
-      "ШІ допомагає швидше збирати первинну інформацію з відповідних джерел. Питання змінюється: як опрацювати тисячу контактів або масштабний запит ISRM? Інші інструменти й підходи до роботи дають змогу перетворювати наявні дані на сталий потік експертизи, взаємодії та ресурсів.",
+      "AI helps gather initial information faster. Data is widely available; obtaining value from it requires the ability to process and use it. How do you handle a thousand contacts, or the larger enquiry ISRM brought us? That shift calls for different tools and ways of working to build a steady flow of expertise, interaction and resources.",
+      "ШІ допомагає швидше збирати первинну інформацію. Дані доступні багатьом; користь потребує спроможності їх опрацювати й застосувати. Як опрацювати тисячу контактів або масштабний запит ISRM? Ця зміна потребує інших інструментів і підходів, щоб створювати сталий потік експертизи, взаємодії та ресурсів.",
     ),
     copy("", ""),
   ),
@@ -42,8 +42,8 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
       "Технології опрацьовують дані. Люди визначають мету.",
     ),
     copy(
-      "Colleagues and clients need information they can use and trust. People decide who may access it, check what matters for the task and record what happened next. Policies, standards and agreed procedures support that responsibility. The tool should make this part of their ordinary work.",
-      "Колегам і клієнтам потрібні дані, які можна застосувати й яким можна довіряти. Люди визначають доступ, перевіряють важливе для завдання та фіксують наступні дії й результат. Політики, стандарти й погоджені процедури підтримують цю відповідальність. Інструмент має зробити це частиною їхньої звичайної роботи.",
+      "Colleagues and clients need information they can use and trust. People decide who may access it, check what matters for the task and record what happened next. Policies, standards and agreed procedures support that responsibility. The tool should make this part of their ordinary work. AI can make mistakes; a professional remains responsible for the recommendation.",
+      "Колегам і клієнтам потрібні дані, які можна застосувати й яким можна довіряти. Люди визначають доступ, перевіряють важливе для завдання та фіксують наступні дії й результат. Політики, стандарти й погоджені процедури підтримують цю відповідальність. Інструмент має зробити це частиною їхньої звичайної роботи. ШІ може помилятися; за рекомендацію відповідає професіонал.",
     ),
     copy("", ""),
   ),
@@ -54,12 +54,12 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
       "Накопичуйте мережеву експертизу через звичайну роботу.",
     ),
     copy(
-      "We began building this for our own consulting work: the proprietary tools we tried did not provide the combination we needed. Colleagues could keep evidence current while using it for real tasks. The framework combines expertise evidence with 360-degree feedback from different working relationships as the basis of a future Trust & Influence Index.",
-      "Ми почали розробку для власної консалтингової роботи: у випробуваних пропрієтарних рішеннях не знайшли потрібного поєднання функцій. Колеги могли б підтримувати актуальність даних, застосовуючи їх у звичайній роботі. У фреймворку докази експертизи й оцінка 360° з різних робочих взаємодій стають основою майбутнього Trust & Influence Index.",
+      "We began building this for our own consulting work: we had not found the combination we needed in the proprietary tools we tried. Colleagues keep information current when they need it in their ordinary work. A person’s confirmation, a colleague’s recommendation and feedback on shared work can add different perspectives. Clear rules for use and value in their own work give people a reason to participate. An association offers a setting for this shared expertise to grow.",
+      "Ми почали розробку для власної консалтингової роботи: у випробуваних пропрієтарних рішеннях не знайшли потрібного поєднання функцій. Дані підтримуються, коли потрібні у звичайній роботі. Власне підтвердження, рекомендація колеги й відгук про спільну роботу додають різні перспективи. Зрозумілі правила використання й користь у власній роботі дають підставу долучатися. В асоціації так може накопичуватися мережева експертиза.",
     ),
     copy(
-      "MODEL: a sovereign data core and multi-source assessment. The index method and operational controls require development; no score is shown.",
-      "МОДЕЛЬ: суверенне ядро даних та оцінка з різних джерел. Методика індексу й операційні механізми потребують розроблення; бал не розраховується.",
+      "MODEL: the sovereign core is the chosen framework. Shared work, permissions and professional review need agreed rules.",
+      "МОДЕЛЬ: суверенне ядро — обраний фреймворк. Спільній роботі, доступу й фаховій перевірці потрібні погоджені правила.",
     ),
   ),
   slide(
@@ -99,8 +99,8 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
       "Від корисної функції до пов’язаних воркфлоу.",
     ),
     copy(
-      "Data, suitable tools and human capital are the starting point. Policies, standards and procedures make shared work repeatable. The configurator illustrates services you could combine around your processes: research, participation, knowledge sharing and team formation. Your needs guide development; the framework keeps the data model and access rules connected.",
-      "Початок — дані, придатні інструменти й людський капітал. Політики, стандарти та процедури впорядковують спільну роботу. Конфігуратор показує сервіси, які можна поєднувати під свої процеси: дослідження, участь, обмін знаннями й формування команд. Потреби визначають напрям розвитку; фреймворк зберігає спільну модель даних і правил доступу.",
+      "Data, suitable tools and human capital are the starting point. Policies, standards and procedures make shared work repeatable. The configurator illustrates services you could combine around your processes: research, participation, knowledge sharing and team formation. Your needs guide development; the framework keeps the data model and access rules connected. This can support organisational development beyond the handling of data.",
+      "Початок — дані, придатні інструменти й людський капітал. Політики, стандарти та процедури впорядковують спільну роботу. Конфігуратор показує сервіси, які можна поєднувати під свої процеси: дослідження, участь, обмін знаннями й формування команд. Потреби визначають напрям розвитку; фреймворк зберігає спільну модель даних і правил доступу. Це підтримка організаційного розвитку, ширша за опрацювання даних.",
     ),
     copy(
       "A configuration for discussion: service choices would shape the interface and workflows. Planned services require development.",

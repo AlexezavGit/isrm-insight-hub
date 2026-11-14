@@ -77,6 +77,8 @@ export function freeNetworkPositions(
       y: centre.y + Math.sin(angle) * distance,
     });
   });
+  for (const [id, p] of result)
+    result.set(id, { x: Math.round(p.x * 1000) / 1000, y: Math.round(p.y * 1000) / 1000 });
   return result;
 }
 
@@ -195,6 +197,9 @@ export function layoutNetwork(
       positions.set(core.id, { x: -220, y: 0 });
     positions.set(anchor, { x: 0, y: 0 });
   }
+  // Stable SVG/SSR coordinates across JavaScript engines; subpixel layout is unchanged.
+  for (const [id, p] of positions)
+    positions.set(id, { x: Math.round(p.x * 1000) / 1000, y: Math.round(p.y * 1000) / 1000 });
   return positions;
 }
 export const GRAPH_LABEL_ZOOM = 1.65;

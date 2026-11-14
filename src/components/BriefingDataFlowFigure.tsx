@@ -16,8 +16,8 @@ export function BriefingDataFlowFigure({
 
   const graph = useMemo(() => briefingGraph(experts, "expertise", locale), [experts, locale]);
   const steps = uk
-    ? ["Наявні дані", "Опрацювати", "Застосувати"]
-    : ["Available data", "Process", "Apply"];
+    ? ["Наявні дані", "Спроможність опрацювати", "Спроможність застосувати"]
+    : ["Available data", "Ability to process", "Ability to apply"];
   const renderMap = (state: number) => {
     const positions = state === 0 ? graph.free : graph.positions;
     const extent =
@@ -83,8 +83,8 @@ export function BriefingDataFlowFigure({
         </div>
         <p className="briefing-story-caption" aria-live="polite">
           {uk
-            ? "Ті самі записи: від неструктурованої вибірки до обґрунтованого відбору."
-            : "The same records: from an unstructured sample to a focused selection."}
+            ? "ШІ + 2 кліки: від наявних даних до показаного відбору."
+            : "AI + 2 clicks: from available data to the illustrated selection."}
         </p>
         <div className="briefing-flow-goals">
           {uk
