@@ -10791,3 +10791,152 @@ margin: 16mm 17mm;
   .briefing-flow-print svg { height: 60mm; max-height: 60mm; }
   .briefing-workflow-tabs { font-size: 8pt; }
 }
+
+/* Approved public institutional layer, separate from the research sample. */
+.public-directory-control {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 5;
+  max-width: min(28rem, calc(100% - 6rem));
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  color: #f1ecdf;
+  background: #0c2b39e8;
+  padding: 0.45rem 0.65rem;
+}
+.public-directory-control button {
+  color: inherit;
+  border: 0;
+  border-bottom: 1px solid #a5bfc4;
+  background: none;
+  text-align: left;
+  padding: 0.25rem;
+  cursor: pointer;
+}
+.public-directory-control button[aria-pressed="true"] {
+  color: #e5c66b;
+}
+.public-directory-control select,
+.briefing-public-chapters select {
+  width: 100%;
+  color: #f1ecdf;
+  background: #0c2b39;
+  border: 1px solid #a5bfc4;
+  padding: 0.35rem;
+  font: inherit;
+  font-size: 0.8rem;
+}
+.public-directory-dialog {
+  width: min(42rem, 85vw);
+  max-height: 80dvh;
+  overflow: auto;
+  color: #143e4d;
+  background: #eee8d6;
+  border: 1px solid #a5bfc4;
+  border-radius: 0.7rem;
+  padding: 1.5rem 2rem;
+}
+.public-directory-dialog::backdrop {
+  background: #03192399;
+}
+.public-directory-close {
+  float: right;
+  font-size: 1.75rem;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.public-directory-portrait {
+  width: 8rem;
+  height: 8rem;
+  object-fit: cover;
+  float: right;
+  margin: 0 0 1rem 1rem;
+}
+.public-directory-dialog section {
+  border-top: 1px solid #9ba9a6;
+  margin-top: 1rem;
+}
+.public-directory-dialog a {
+  text-decoration: underline;
+}
+.public-model-label {
+  color: #f0d68a;
+  font-size: 0.75rem;
+  margin: 0;
+}
+.briefing-public-chapters .briefing-story-field {
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+}
+.briefing-public-chapters svg {
+  height: 100%;
+  width: 100%;
+  min-height: 0;
+}
+.public-role-caption {
+  color: #f0eadb;
+  font-size: 0.75rem;
+  margin: 0;
+}
+.public-role-caption a {
+  text-decoration: underline;
+}
+.client-briefing .briefing-flow-print {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  min-height: 0;
+}
+.client-briefing .briefing-flow-print strong {
+  color: #f0eadb;
+  text-align: center;
+  display: block;
+  font-size: 0.8rem;
+}
+.client-briefing .briefing-flow-print svg {
+  width: 100%;
+  height: 100%;
+  max-height: 260px;
+}
+@media (max-width: 700px) {
+  .public-directory-control {
+    bottom: 0.5rem;
+    left: 0.5rem;
+    max-width: calc(100% - 5rem);
+  }
+  .briefing-public-chapters svg {
+    min-height: 240px;
+  }
+}
+.briefing-journey-states { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: .8rem; min-height: 0; height: 100%; }
+.briefing-journey-state { display: grid; grid-template-rows: auto minmax(0,1fr) auto; min-width: 0; color: #f0eadb; background: #0c2b39; padding: .6rem; }
+.briefing-journey-state strong { font-size: .85rem; }
+.briefing-journey-state svg { width: 100%; height: 100%; min-height: 100px; }
+.briefing-journey-state p { font-size: .75rem; line-height: 1.3; min-height: 2.6em; margin: .25rem 0 0; }
+.briefing-search-journey figcaption a { text-decoration: underline; }
+@media screen and (min-width: 1000px) {
+ .client-briefing .is-journey-slide .client-slide-content { display: grid; grid-template-columns: minmax(0,1fr); grid-template-rows: minmax(0,1fr) auto; gap: .65rem; }
+ .client-briefing .is-journey-slide .briefing-copy { display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem; }
+ .client-briefing .is-journey-slide .client-slide-body { margin: 0; font-size: 1rem; line-height: 1.4; }
+ .client-briefing .is-journey-slide .briefing-boundary-note { margin: 0; }
+}
+@media screen and (max-width: 999px) { .briefing-journey-states { grid-template-columns: repeat(2,minmax(0,1fr)); } .briefing-journey-state svg { height: 130px; } }
+@media print {
+ .public-directory-control { display:none; }
+ .briefing-public-chapters select, .public-role-caption { display: none; }
+ .briefing-print-slide:has(.briefing-search-journey) { display: block; }
+ .briefing-search-journey { width: 100%; height: 95mm; }
+ .briefing-search-journey .briefing-journey-states { grid-template-columns: repeat(5,minmax(0,1fr)); height: 80mm; }
+ .briefing-journey-state svg { height: 50mm; }
+}
+.client-briefing .briefing-data-flow .briefing-story-field { grid-template-rows: minmax(0,1fr) auto auto; }
+.client-briefing .briefing-data-flow .briefing-flow-print > div { display: grid; grid-template-rows: auto minmax(0,1fr); min-height: 0; }
+.client-briefing .briefing-data-flow .briefing-flow-print svg { min-height: 0; max-height: none; }
+@media screen and (min-width:1000px) {
+ .client-briefing.is-eight-slide-deck .is-journey-slide .client-slide-content { grid-template-columns: minmax(0,1fr); }
+ .client-briefing.is-eight-slide-deck .is-journey-slide .client-slide-content > .briefing-search-journey { grid-column: 1; grid-row: 1; width: 100%; height: 100%; min-height: 0; justify-content: flex-start; }
+ .client-briefing.is-eight-slide-deck .is-journey-slide .client-slide-content > .briefing-copy { grid-column: 1; grid-row: 2; width: 100%; }
+ .briefing-search-journey .briefing-journey-states { flex: 1 1 0; min-height: 0; width: 100%; height: auto; }
+}

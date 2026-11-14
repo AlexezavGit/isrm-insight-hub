@@ -128,15 +128,19 @@ export function layoutNetwork(
     const radius =
       mode === "services"
         ? 242
-        : node.id.startsWith("expertise:")
-          ? 230
-          : node.id.startsWith("sector:")
+        : node.id.startsWith("public-person:")
+          ? 350
+          : node.id.startsWith("public-unit:")
             ? 310
-            : node.id.startsWith("country:")
-              ? 390
-              : node.id.startsWith("organisation:")
-                ? 350
-                : 270;
+            : node.id.startsWith("expertise:")
+              ? 230
+              : node.id.startsWith("sector:")
+                ? 310
+                : node.id.startsWith("country:")
+                  ? 390
+                  : node.id.startsWith("organisation:")
+                    ? 350
+                    : 270;
     rings.set(radius, [...(rings.get(radius) ?? []), node]);
   }
   for (const [radius, nodes] of rings) {

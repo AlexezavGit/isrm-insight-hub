@@ -1,7 +1,10 @@
+import { PublicDirectoryPanel } from "./PublicDirectoryPanel";
+import { ISRM_PUBLIC_DIRECTORY, publicRoleId } from "@/lib/public-directory";
 import {
   forwardRef,
   useEffect,
   useImperativeHandle,
+  useMemo,
   useRef,
   useState,
   type ReactNode,
@@ -92,10 +95,16 @@ export const WorkspaceGraph = forwardRef<WorkspaceGraphHandle, Props>(function W
   const rail = useRef<HTMLElement>(null);
   const railContents = useRef<HTMLDivElement>(null);
   const [free, setFree] = useState(false);
+  const [publicLeadership, setPublicLeadership] = useState(false);
+  const [publicRecord, setPublicRecord] = useState<string | null>(null);
   const [paused, setPaused] = useState(false);
   const [toolsPinned, setToolsPinned] = useState(false);
   const suppressTouch = useRef(false);
   const uk = locale === "uk";
+  const graphLayers = useMemo(
+    () => ({ ...layers, publicLeadership: !configuration && publicLeadership }),
+    [layers, configuration, publicLeadership],
+  );
 
   useImperativeHandle(
     ref,
@@ -128,6 +137,13 @@ export const WorkspaceGraph = forwardRef<WorkspaceGraphHandle, Props>(function W
   const kinds: MapKind[] = configuration
     ? ["core", "function", "workflow"]
     : ["person", "organisation", "country", "expertise", "sector", "status"];
+  const legendLabel = (kind: string) =>
+    kind === "country" && publicLeadership
+      ? label(
+          "Country: sample phone code or public chapter jurisdiction; not residence",
+          "Країна: код телефону у вибірці або територія чаптеру; не проживання",
+        )
+      : (legend[kind]?.[uk ? "uk" : "en"] ?? kind);
   const sourceFlagCount = experts.filter((expert) => expert.verified).length;
 
   return (
@@ -140,7 +156,7 @@ export const WorkspaceGraph = forwardRef<WorkspaceGraphHandle, Props>(function W
         <NetworkGraph
           ref={graph}
           experts={experts}
-          layers={layers}
+          layers={graphLayers}
           referenceSelection={configuration ? undefined : referenceSelection}
           focus={focus}
           onFocus={(id) => {
@@ -162,13 +178,60 @@ export const WorkspaceGraph = forwardRef<WorkspaceGraphHandle, Props>(function W
           highlightedWorkflow={selectedWorkflow}
           onServiceExclude={onServiceExclude}
           onWorkflowSelect={onWorkflowSelect}
-          onNodeSelect={onNode}
+          onNodeSelect={(node, expanded) => {
+            if (node.id.startsWith("public-person:") || node.id.startsWith("public-unit:"))
+              setPublicRecord(node.id);
+            else onNode(node, expanded);
+          }}
           anchor={anchor}
           onAnchor={onAnchor}
           showConnectionPath={false}
           readableExpansions={false}
         />
         {dashboard}
+        {!configuration && (
+          <div className="public-directory-control">
+            <button
+              type="button"
+              aria-pressed={publicLeadership}
+              onClick={() => setPublicLeadership((v) => !v)}
+              title={label(
+                "Published units and representatives; double-outline people are separate from the research sample",
+                "Опубліковані підрозділи та представники; подвійний контур відділяє їх від дослідницької вибірки",
+              )}
+            >
+              {label("ISRM chapters & representatives", "Чаптери й представники ISRM")}
+            </button>
+            {publicLeadership && (
+              <select
+                aria-label={label("Open public ISRM record", "Відкрити публічний запис ISRM")}
+                value=""
+                onChange={(e) => {
+                  if (e.target.value) setPublicRecord(e.target.value);
+                }}
+              >
+                <option value="">
+                  {label(
+                    "Names, published roles and sources",
+                    "Імена, опубліковані посади та джерела",
+                  )}
+                </option>
+                {ISRM_PUBLIC_DIRECTORY.entries.map((u) => (
+                  <optgroup key={u.id} label={u.label}>
+                    {u.people.map((p) => (
+                      <option key={p.name} value={publicRoleId(p.name)}>
+                        {p.name} · {p.role}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            )}
+          </div>
+        )}
+        {publicRecord && (
+          <PublicDirectoryPanel id={publicRecord} uk={uk} onClose={() => setPublicRecord(null)} />
+        )}
         {!configuration && showEmpty && (
           <p className="workspace-map-empty">
             {label(
@@ -286,11 +349,11 @@ export const WorkspaceGraph = forwardRef<WorkspaceGraphHandle, Props>(function W
                 key={kind}
                 tabIndex={0}
                 role="img"
-                aria-label={legend[kind]![locale === "uk" ? "uk" : "en"]}
-                data-hint={legend[kind]![locale === "uk" ? "uk" : "en"]}
+                aria-label={legendLabel(kind)}
+                data-hint={legendLabel(kind)}
               >
                 <GraphGlyph kind={kind} />
-                <span>{legend[kind]![locale === "uk" ? "uk" : "en"]}</span>
+                <span>{legendLabel(kind)}</span>
               </div>
             ))}
             {!configuration && (

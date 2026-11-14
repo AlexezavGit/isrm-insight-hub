@@ -1,6 +1,7 @@
 import type { MapKind } from "./workspace-map";
 /** Shared semantics for the live canvas, SVG figures and legend. */
 export function networkSymbolKind(node: { id: string; kind: string }): MapKind {
+  if (node.id.startsWith("public-person:")) return "person";
   if (node.kind === "expert") return "person";
   if (node.kind === "service") return "function";
   if (node.kind === "isrm" || node.kind === "core") return "core";

@@ -1,3 +1,4 @@
+import { publicLeadershipGraph } from "./public-directory";
 import type { Expert } from "./types";
 import { canonicalCountry } from "./network-reference";
 import {
@@ -30,6 +31,7 @@ export interface GraphLayers {
   services?: boolean;
   membership?: boolean;
   chapter?: boolean;
+  publicLeadership?: boolean;
 }
 export interface NetworkBuildOptions {
   includeHub?: boolean;
@@ -204,6 +206,15 @@ export function buildNetwork(
       CLIENT_SERVICES.filter((s) => serviceCovers(s.id, e)).forEach((s) =>
         edge(e.code, "svc:" + s.id, "coverage"),
       );
+  }
+  if (layers.publicLeadership) {
+    const published = publicLeadershipGraph();
+    for (const node of published.nodes)
+      if (!map.has(node.id)) {
+        nodes.push(node);
+        map.set(node.id, node);
+      }
+    links.push(...published.links);
   }
   // A selected reference category may have no matching records. Retain its node
   // without inventing links, membership or coverage.

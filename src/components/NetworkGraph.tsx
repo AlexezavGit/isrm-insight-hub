@@ -136,6 +136,7 @@ const NetworkGraph = forwardRef<NetworkGraphHandle, NetworkGraphProps>(function 
     initialExpansionStarted = useRef(false),
     initialLifecycleElapsed = useRef(0),
     initialLifecycleStartedAt = useRef<number | null>(null);
+  const lastAnimationData = useRef<object | null>(null);
   const coachTarget = useRef<HTMLDivElement>(null);
   const angle = useRef(0);
   const [rotationMode, setRotationMode] = useState(false);
@@ -321,7 +322,7 @@ const NetworkGraph = forwardRef<NetworkGraphHandle, NetworkGraphProps>(function 
         .filter((l) =>
           serviceMode
             ? ["architecture", "foundation", "coverage", "core"].includes(l.kind)
-            : ["category", "sample"].includes(l.kind),
+            : ["category", "sample", "public-role", "public-jurisdiction"].includes(l.kind),
         )
         .map((l) => ({ ...l })),
     };
@@ -578,7 +579,20 @@ const NetworkGraph = forwardRef<NetworkGraphHandle, NetworkGraphProps>(function 
   ]);
   useEffect(() => {
     let raf = 0;
+    // A new filter/layout is a transition from the visible state, not another intro.
+    if (lastAnimationData.current && lastAnimationData.current !== data) {
+      liveExpanded.current = true;
+    }
+    lastAnimationData.current = data;
     if (motionPaused) {
+      for (const node of data.nodes) {
+        const target = rotatePoint(points.get(node.id) ?? collapsedPoint, angle.current);
+        node.x = target.x;
+        node.y = target.y;
+        node.fx = target.x;
+        node.fy = target.y;
+      }
+      liveExpanded.current = true;
       fg.current?.pauseAnimation();
       return () => cancelAnimationFrame(raf);
     }
@@ -1246,11 +1260,18 @@ const NetworkGraph = forwardRef<NetworkGraphHandle, NetworkGraphProps>(function 
           ctx.translate(-n.x, -n.y);
           const r = radius(n);
           const nodePath = shape(n, r);
-          ctx.fillStyle = n.kind === "expert" ? colour(n) : "#102c3c";
+          ctx.fillStyle =
+            n.kind === "expert" || n.id.startsWith("public-person:") ? colour(n) : "#102c3c";
           ctx.strokeStyle = selected ? "#f1deb1" : colour(n);
           ctx.lineWidth = (selected ? 2 : 1.4) / scale;
           ctx.fill(nodePath);
           ctx.stroke(nodePath);
+          if (n.id.startsWith("public-person:")) {
+            ctx.beginPath();
+            ctx.arc(n.x, n.y, r + 3 / scale, 0, Math.PI * 2);
+            ctx.strokeStyle = "#e5c66b";
+            ctx.stroke();
+          }
           if (selected) {
             ctx.beginPath();
             ctx.arc(n.x, n.y, r + 4 / scale, 0, Math.PI * 2);
@@ -1265,8 +1286,8 @@ const NetworkGraph = forwardRef<NetworkGraphHandle, NetworkGraphProps>(function 
               ctx.beginPath();
               for (const direction of [-1, 1]) {
                 for (const vertical of [-1, 1]) {
-                  const x = n.x + direction * half;
-                  const y = n.y + vertical * half;
+                  const x = (n.x ?? 0) + direction * half;
+                  const y = (n.y ?? 0) + vertical * half;
                   ctx.moveTo(x - direction * corner, y);
                   ctx.lineTo(x, y);
                   ctx.lineTo(x, y - vertical * corner);

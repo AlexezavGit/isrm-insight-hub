@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { briefingGraph } from "@/lib/briefing-graph";
 import { MAP_SYMBOLS, mapSymbolPath } from "@/lib/map-symbols";
 import { networkSymbolKind } from "@/lib/network-symbols";
@@ -13,7 +13,7 @@ export function BriefingDataFlowFigure({
   locale: ClientLocale;
 }) {
   const uk = locale === "uk";
-  const [stage, setStage] = useState(0);
+
   const graph = useMemo(() => briefingGraph(experts, "expertise", locale), [experts, locale]);
   const steps = uk
     ? ["Наявні дані", "Опрацювати", "Застосувати"]
@@ -73,22 +73,6 @@ export function BriefingDataFlowFigure({
   return (
     <figure className="briefing-evidence-figure briefing-data-flow">
       <div className="briefing-story-field">
-        <div
-          className="briefing-flow-steps"
-          aria-label={uk ? "Стани того самого графа" : "States of the same graph"}
-        >
-          {steps.map((label, i) => (
-            <button
-              key={label}
-              type="button"
-              aria-pressed={stage === i}
-              onClick={() => setStage(i)}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-        <div className="briefing-flow-live">{renderMap(stage)}</div>
         <div className="briefing-flow-print">
           {steps.map((label, i) => (
             <div key={label}>
@@ -98,11 +82,9 @@ export function BriefingDataFlowFigure({
           ))}
         </div>
         <p className="briefing-story-caption" aria-live="polite">
-          {stage === 2 && graph.category
-            ? `${graph.category.label} · ${graph.matched.size} ${uk ? "записів за цим атрибутом" : "records with this attribute"}`
-            : uk
-              ? "Ті самі записи й атрибути; змінюється спосіб роботи з ними."
-              : "The same records and attributes; a different way to work with them."}
+          {uk
+            ? "Ті самі записи: від неструктурованої вибірки до обґрунтованого відбору."
+            : "The same records: from an unstructured sample to a focused selection."}
         </p>
         <div className="briefing-flow-goals">
           {uk

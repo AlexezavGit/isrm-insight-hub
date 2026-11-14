@@ -115,46 +115,34 @@ const scenes: Record<number, { nodes: Node[]; edges: Edge[]; caption: Copy }> = 
   },
   5: {
     nodes: [
-      { ...node("person", 320, 165, "One profile", "Один профіль"), kind: "person" },
-      { ...node("guest", 110, 80, "Guest view", "Гостьовий перегляд"), meaning: "system-function" },
       {
-        ...node("coordinator", 530, 80, "Coordinator review", "Перегляд координатором", true),
+        ...node("client", 65, 90, "Client request", "Запит клієнта", true),
         meaning: "user-action",
       },
-      { ...node("source", 115, 290, "Source record", "Запис у джерелі"), meaning: "data" },
       {
-        ...node(
-          "recommendation",
-          320,
-          305,
-          "Colleague recommendation",
-          "Рекомендація колеги",
-          true,
-        ),
-        meaning: "data",
+        ...node("david", 245, 265, "David · coordinator", "Девід · координатор", true),
+        kind: "person",
+      },
+      { ...node("person", 440, 90, "Selected expert", "Обрана персона", true), kind: "person" },
+      {
+        ...node("permission", 440, 265, "Permission in return", "Зустрічний дозвіл", true),
+        kind: "status",
       },
       {
-        ...node(
-          "contact",
-          540,
-          290,
-          "Contact: permission required",
-          "Контакт: потрібен дозвіл",
-          true,
-        ),
+        ...node("intro", 625, 170, "Agreed introduction", "Погоджене знайомство", true),
         meaning: "goal",
       },
     ],
     edges: [
-      edge("person", "guest"),
-      edge("person", "coordinator", true),
-      edge("source", "person"),
-      edge("recommendation", "person", true),
-      edge("person", "contact", true),
+      edge("client", "david", true),
+      edge("david", "person", true),
+      edge("person", "permission", true),
+      edge("permission", "david", true),
+      edge("permission", "intro", true),
     ],
     caption: c(
-      "Separate what is known from who may see it and what the person has agreed to.",
-      "Розрізняйте відомості, право доступу та те, на що погодилася людина.",
+      "MODEL · David coordinates the illustrated request; the person grants permission before disclosure.",
+      "МОДЕЛЬ · Девід координує показаний запит; персона дає дозвіл до розкриття контактів.",
     ),
   },
   6: {

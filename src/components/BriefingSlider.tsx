@@ -72,7 +72,7 @@ export function BriefingSlider() {
         }
       />
       <section
-        className="client-slide-surface is-reading-slide"
+        className={`client-slide-surface is-reading-slide${slide === 3 ? " is-journey-slide" : ""}`}
         onTouchStart={(e) => {
           swipeStart.current = null;
           if (
@@ -150,7 +150,7 @@ export function BriefingSlider() {
             {current.note[locale] && (
               <p className="briefing-boundary-note">{current.note[locale]}</p>
             )}
-            {(slide === 4 || lastSlide) && (
+            {(slide === 5 || lastSlide) && (
               <a
                 className="briefing-slide-action"
                 href={
