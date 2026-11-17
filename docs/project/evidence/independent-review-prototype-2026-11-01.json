@@ -1,0 +1,30 @@
+{
+  "rule": "QA-2",
+  "reviewer": "verify_isrm_registry",
+  "status": "done",
+  "confirmed": [
+    "Observation passports and source existence",
+    "Source XLSX checksum",
+    "No expert accreditation inferred from source flag",
+    "No residence or work country inferred from phone code"
+  ],
+  "resolved": [
+    "Review date unavailable in prototype distinguished from absent in source",
+    "UN scenario geography explicitly limited to phone-code category"
+  ],
+  "changes": [
+    {
+      "file": "docs/reviews/deep-audit-2026-10-31/PROTOTYPE.md",
+      "before_sha256": "b080a4e1c65706b67123f50d889173f5edb17e420afa04e605ee106942d05808",
+      "after_sha256": "82286a1d52183398277ed182dc8aa08fd47af4d5cb5312c0c71632a1bd8cd1d1",
+      "archive": "docs/project/archive/PROTOTYPE.md.before-review-date-qa-2026-11-01"
+    },
+    {
+      "file": "docs/project/REGISTRY.csv",
+      "before_sha256": "8724f1361c362da7fd27c3b47c8710acd647dfba5117859435adc4b156078bad",
+      "after_sha256": "7a39d600dfaf773046be5bad89fc575f7ccb431e7255620251ac2a3346e21eab",
+      "archive": "docs/project/archive/REGISTRY.csv.before-un-geography-qa-2026-11-01"
+    }
+  ],
+  "final_read": "Reviewer confirmed corrected date availability, explicit phone-code geography limit and checksum records"
+}

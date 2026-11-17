@@ -1,0 +1,32 @@
+{
+  "status": "done",
+  "reviewer": "independent agent /root/verify_isrm_registry under QA-2",
+  "registry_codes": [
+    "ISRM-REQ-TOP-ROW",
+    "ISRM-REQ-BOTTOM-ROW"
+  ],
+  "registry_review": {
+    "sources_exist": true,
+    "previous_rows_unchanged": true,
+    "archive_and_hashes_checked": true,
+    "passports_complete": true,
+    "scope": "Wide-screen row requirement is direct; narrow-screen menus are an implementation adaptation."
+  },
+  "claims_review": {
+    "checked_paths": [
+      "work/isrm-prototype-panels/src",
+      "work/isrm-prototype-panels/scripts",
+      "published commit 3ce13068e29304f1eeeb636ced07fd30c05953a2 src/scripts as available"
+    ],
+    "not_found_in_checked_runtime": [
+      "iso-orchestrator",
+      "discoverProjectSessions",
+      "sessionGraph",
+      "batch-state.tsv"
+    ],
+    "actual_flow": "Supplied JSON -> buildExperts -> getNetwork access projection -> filters",
+    "serviceCovers": "Deterministic hash of profile code; not evidence of interest, consent, use or demand",
+    "limit": "No claim that an orchestrator is absent from every other tool or repository. No batch research run. No contact values copied."
+  },
+  "review_result": "No registry changes required; do not adopt the attached audit readiness claims."
+}

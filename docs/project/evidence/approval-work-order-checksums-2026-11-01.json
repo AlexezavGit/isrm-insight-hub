@@ -1,0 +1,44 @@
+{
+  "status": "done",
+  "archive": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/project/archive/2026-11-01-before-approved-audit-work-order",
+  "changes": [
+    {
+      "source": "PROJECT_OVERLAY_ISRM.md",
+      "archive": "docs/project/archive/2026-11-01-before-approved-audit-work-order/PROJECT_OVERLAY_ISRM.md",
+      "sha256_before": "69fe7252ed2d348e618c86a25b9093b6995e420243ccb768ccb9e17948268d56",
+      "sha256_after": "19dc765732d7cf7d0829a35971535e70e35809578dd89d1435aa9d8ed80ab22b"
+    },
+    {
+      "source": "docs/project/ENTRY.md",
+      "archive": "docs/project/archive/2026-11-01-before-approved-audit-work-order/docs/project/ENTRY.md",
+      "sha256_before": "d2f6ae054392b1958b87d5f092d26cd9da6e1c964bc787e0bb1ff28b02fb0a78",
+      "sha256_after": "fb729b2ba71463302c56b8e6c5ce4cfb064067823aa5bf3e007e6748075b0434"
+    },
+    {
+      "source": "docs/reviews/deep-audit-2026-10-31/PROTOTYPE.md",
+      "archive": "docs/project/archive/2026-11-01-before-approved-audit-work-order/docs/reviews/deep-audit-2026-10-31/PROTOTYPE.md",
+      "sha256_before": "b007fb39acc7ec21e50a5bfc0dcb7d2b52a3a8780c00dfc7b3670a6151b40075",
+      "sha256_after": "b3b9a18d0a6a6411972eb7f2e0880c11ee4c20b635cc09e266626daca37786d1"
+    },
+    {
+      "source": "docs/reviews/deep-audit-2026-10-31/README.md",
+      "archive": "docs/project/archive/2026-11-01-before-approved-audit-work-order/docs/reviews/deep-audit-2026-10-31/README.md",
+      "sha256_before": "c023de28de25da13ca5199fbc4c3f593b751fc9f508d2a9506a5c786f37cc6c1",
+      "sha256_after": "67fc716ddbee40f4c19d8f0de33d4376508d5585d0d87b59f7cc488ba2d0a223"
+    },
+    {
+      "source": "docs/project/session-notes/index.json",
+      "archive": "docs/project/archive/2026-11-01-before-approved-audit-work-order/docs/project/session-notes/index.json",
+      "sha256_before": "a8e20f0428d1ca5485547a3a3eff359ea5adfc707d2bedfd404ecc8374631531",
+      "sha256_after": "4b314f72e22327d307a496977d6eff5b24180d90de245f08fbd8457717acfc5c"
+    }
+  ],
+  "attachment": {
+    "path": "docs/project/sources/reusable-offering-analysis-2026-11-01.txt",
+    "sha256": "5a873234f2a2a38ed9aabdd104f9ac263876056eb2047452d8da42fe82e69aa5",
+    "exact_copy": true
+  },
+  "registry_changed": false,
+  "application_source_changed": false,
+  "decision": "Audit accepted; implementation order proposed and preference question pending"
+}

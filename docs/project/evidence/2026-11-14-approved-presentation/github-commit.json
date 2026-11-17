@@ -1,0 +1,35 @@
+{
+  "sha": "d989e1e6ea64ecc12a278901bd6afc6f15ba9748",
+  "node_id": "C_kwDOUsffIdoAKGQ5ODllMWU2ZWE2NGVjYzEyYTI3ODkwMWJkNmFmYzZmMTViYTk3NDg",
+  "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/commits/d989e1e6ea64ecc12a278901bd6afc6f15ba9748",
+  "html_url": "https://github.com/AlexezavGit/isrm-insight-hub/commit/d989e1e6ea64ecc12a278901bd6afc6f15ba9748",
+  "author": {
+    "name": "AlexezavGit",
+    "email": "alexezav@gmail.com",
+    "date": "2026-11-14T06:40:40Z"
+  },
+  "committer": {
+    "name": "AlexezavGit",
+    "email": "alexezav@gmail.com",
+    "date": "2026-11-14T06:40:40Z"
+  },
+  "tree": {
+    "sha": "78cb22e51344f95318dc33284ebda406849a3968",
+    "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/trees/78cb22e51344f95318dc33284ebda406849a3968"
+  },
+  "message": "Publish accepted graph-first presentation and integration landscape",
+  "parents": [
+    {
+      "sha": "d950d520f888285a8b5c7221366c848f22fe76e8",
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/commits/d950d520f888285a8b5c7221366c848f22fe76e8",
+      "html_url": "https://github.com/AlexezavGit/isrm-insight-hub/commit/d950d520f888285a8b5c7221366c848f22fe76e8"
+    }
+  ],
+  "verification": {
+    "verified": false,
+    "reason": "unsigned",
+    "signature": null,
+    "payload": null,
+    "verified_at": null
+  }
+}

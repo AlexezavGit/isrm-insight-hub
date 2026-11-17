@@ -1,0 +1,47 @@
+{
+  "status": "done",
+  "archive": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/project/archive/2026-11-02-before-implementation-handoff",
+  "files": [
+    {
+      "file": "PROJECT_OVERLAY_ISRM.md",
+      "before": "9f30756ed5093a95f25c990f7a50e227b1f1ca3d97759bce0012c8b6cb29cbf0",
+      "after": "edefe44264ef8096cf68954aafb876f2920a1e806bf0a83e84fc6ed625b16c62"
+    },
+    {
+      "file": "docs/project/ENTRY.md",
+      "before": "e7745bd017293628435401d4bac306c700faf8dd06d18a09d116a156b968cb6d",
+      "after": "f9c10ba01115b0dcba8619c24d91e1c13cddfc391b97a22c4ace042a652058f9"
+    },
+    {
+      "file": "docs/reviews/deep-audit-2026-10-31/PROTOTYPE.md",
+      "before": "b3b9a18d0a6a6411972eb7f2e0880c11ee4c20b635cc09e266626daca37786d1",
+      "after": "2f5979c229fc857b0c22c8536965074d9aff9ad6b95615364d34d59cf2756383"
+    },
+    {
+      "file": "docs/reviews/deep-audit-2026-10-31/IMPLEMENTATION-ORDER.md",
+      "before": "046c7cbba9a331e7f470f7af8378801a678642667a138051ce09aad0d0ba2122",
+      "after": "7ad417ef50f2165db56ae413de0494e4e286c6b627288e419a419fb6f17a2379"
+    },
+    {
+      "file": "docs/reviews/deep-audit-2026-10-31/README.md",
+      "before": "67fc716ddbee40f4c19d8f0de33d4376508d5585d0d87b59f7cc488ba2d0a223",
+      "after": "0491abc39c3b1ef19d81261c2e0cb4968932b6ddae487d86dca89d44f6448c65"
+    },
+    {
+      "file": "docs/reviews/deep-audit-2026-10-31/BRIEFING-REVISION.md",
+      "before": "ddaac4ba879880b292e38ddb5b02c1ab9efb893034f0defaae3cf21c8f0e3eb5",
+      "after": "9b18a847dbc3820fdfbe61130824db355c187481254f207b56bb0efd869bc884"
+    },
+    {
+      "file": "docs/project/session-notes/index.json",
+      "before": "4b314f72e22327d307a496977d6eff5b24180d90de245f08fbd8457717acfc5c",
+      "after": "0328719506d4cc8399af9fc3dff0f9b9a8d2b02830055cc65f92290a1ec21b9f"
+    }
+  ],
+  "created": [
+    "docs/reviews/deep-audit-2026-10-31/LOCAL-IMPLEMENTATION.md",
+    "docs/project/session-notes/2026-11-02-local-prototype-and-briefing.md"
+  ],
+  "registry_changed": false,
+  "public_release_created": false
+}

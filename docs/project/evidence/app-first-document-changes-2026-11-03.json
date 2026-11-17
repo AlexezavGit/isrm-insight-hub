@@ -1,0 +1,23 @@
+{
+  "status": "done",
+  "files": [
+    {
+      "path": "PROJECT_OVERLAY_ISRM.md",
+      "before": "edefe44264ef8096cf68954aafb876f2920a1e806bf0a83e84fc6ed625b16c62",
+      "after": "5e2b2276855711cb14a5c9a9d4cea93cd2e09fdcf9407300db3169d9f5734b43",
+      "archive": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/project/archive/2026-11-02-before-app-first-framing/PROJECT_OVERLAY_ISRM.md"
+    },
+    {
+      "path": "docs/project/ENTRY.md",
+      "before": "f9c10ba01115b0dcba8619c24d91e1c13cddfc391b97a22c4ace042a652058f9",
+      "after": "a16e7162475f2ea68c5f53de776ff1a14081ebb6b0257b2aca002398eb83292b",
+      "archive": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/project/archive/2026-11-02-before-app-first-framing/docs/project/ENTRY.md"
+    },
+    {
+      "path": "docs/project/REGISTRY.csv",
+      "before": "0cfe7cd75374700f2e3c01ed00e09621870fb165017be5e9ac96973b5ceb9c01",
+      "after": "e3befcc47e763395e8f513933b17b9907d7bec1e3a2c299622af4eed3290d817",
+      "archive": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/project/archive/2026-11-02-before-app-first-framing/docs/project/REGISTRY.csv"
+    }
+  ]
+}

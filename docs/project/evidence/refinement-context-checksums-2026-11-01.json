@@ -1,0 +1,14 @@
+[
+  {
+    "file": "docs/reviews/deep-audit-2026-10-31/PANEL-MECHANICS.html",
+    "archive": "docs/project/archive/PANEL-MECHANICS.html.before-selection-context-2026-11-01",
+    "before_sha256": "401ec71de6f41b68586a410384152782e7924d21878c7faf76daf29f144c399e",
+    "after_sha256": "1c1ad2c3c680df58ec1474f1285276b9762d018ba2eac39b99ad932f3bb4b51e"
+  },
+  {
+    "file": "docs/reviews/deep-audit-2026-10-31/PROTOTYPE.md",
+    "archive": "docs/project/archive/PROTOTYPE.md.before-panel-limit-qa-2026-11-01",
+    "before_sha256": "51c7b57d20398ca856ef81afb3e3a6a6d4e7ae4abe8537444ac8da7199f96a4b",
+    "after_sha256": "e5dea73e63e039ec5144272429398135f05418dc02e4958b891896da09f22582"
+  }
+]

@@ -1,0 +1,507 @@
+{
+  "status": "done",
+  "local_http_links": {
+    "index.html": 200,
+    "ISRM_App_First_2026-11-03.html": 200,
+    "ISRM_Deep_Audit_Briefing_2026-10-31.html": 200,
+    "ISRM_Deep_Audit_Prototype_2026-11-01.html": 200,
+    "ISRM_Project_Entry_2026-10-31.html": 200,
+    "project/sources/app-first-framing-user-2026-11-02.txt": 200,
+    "project/sources/orchestrator-audit-claims-2026-11-02.txt": 200,
+    "project/REGISTRY.csv": 200,
+    "ISRM_Work_Order_2026-11-01.html": 200,
+    "app-first-screens/03-before-app-chrome.jpg": 200,
+    "app-first-screens/01-user-top-strip.png": 200,
+    "app-first-screens/02-user-bottom-strip.png": 200,
+    "app-first-screens/05-app-chrome-wide-final.jpg": 200,
+    "app-first-screens/06-working-pair-new-chrome.jpg": 200,
+    "app-first-screens/08-materials-separate.jpg": 200,
+    "app-first-screens/16-standalone-document-header.jpg": 200,
+    "app-first-screens/13-narrow-final.jpg": 200,
+    "ISRM_Briefing_Revision_2026-11-02.html": 200,
+    "project/evidence/app-first-qa-2026-11-03.json": 200,
+    "project/evidence/app-first-validation-2026-11-03.json": 200,
+    "ISRM_Local_Implementation_2026-11-02.html": 200,
+    "implementation-screens/briefing-2-revised.jpg": 200,
+    "implementation-screens/briefing-3-revised.jpg": 200,
+    "project/sources/index.html": 200,
+    "project/sources/user-presentation-notes-2026-11-01.txt": 200,
+    "screens/01-briefing-slide-1.jpg": 200,
+    "project/sources/recovered-graph-status-prompt-2026-11-01.json": 200,
+    "ISRM_Panel_Mechanics_2026-11-01.html": 200,
+    "screens/02-briefing-slide-2.jpg": 200,
+    "screens/03-briefing-slide-3.jpg": 200,
+    "screens/04-briefing-slide-4.jpg": 200,
+    "screens/05-briefing-slide-5.jpg": 200,
+    "screens/06-briefing-slide-6.jpg": 200,
+    "screens/07-briefing-slide-6-narrow.jpg": 200,
+    "screens/08-briefing-slide-1-narrow.jpg": 200,
+    "screens/09-briefing-slide-1-larger-text.jpg": 200,
+    "screens/10-briefing-larger-text-scrolled.jpg": 200,
+    "refinement-screens/05-panel-mechanics-shortlist-state.jpg": 200,
+    "refinement-screens/06-panel-mechanics-full-from-shortlist.jpg": 200,
+    "project/evidence/panel-storyboard-browser-check-2026-11-01.json": 200,
+    "refinement-screens/04-briefing-supplied-sample-current.jpg": 200,
+    "refinement-screens/01-existing-search-results-disclosure.jpg": 200,
+    "refinement-screens/02-unprepared-mini-dossier.jpg": 200,
+    "refinement-screens/03-unprepared-full-shell.jpg": 200,
+    "prototype-screens/25-chrome-current-viewport.jpg": 200,
+    "prototype-screens/31-return-from-capability.jpg": 200,
+    "prototype-screens/06-search-filters-and-counts.jpg": 200,
+    "project/evidence/crm-field-availability.json": 200,
+    "prototype-screens/26-wide-mini-dossier.jpg": 200,
+    "prototype-screens/27-wide-resize-with-neighbouring-panels.jpg": 200,
+    "prototype-screens/28-wide-resize-opens-full-dossier.jpg": 200,
+    "prototype-screens/20-shortlist-visible-after-second-toggle.jpg": 200,
+    "prototype-screens/22-saved-shortlist-confirmation.jpg": 200,
+    "prototype-screens/24-exported-shortlist.md": 200,
+    "prototype-screens/35-ukraine-un-mini-dossier.jpg": 200,
+    "prototype-screens/30-research-capability-boundary.jpg": 200,
+    "prototype-screens/32-guided-search-example.jpg": 200,
+    "prototype-screens/33-close-guide-restores-query.jpg": 200,
+    "project/evidence/public-source-contact-check-2026-11-01.json": 200,
+    "implementation-screens/13-local-handoff-2026-11-02.jpg": 200,
+    "project/evidence/local-browser-handoff-2026-11-02.json": 200,
+    "implementation-screens/09-restored-mini-with-shortlist.jpg": 200,
+    "implementation-screens/07-narrow-selection.jpg": 200,
+    "implementation-screens/08-narrow-shortlist.jpg": 200,
+    "implementation-screens/11-restricted-record-no-full-form.jpg": 200,
+    "project/evidence/local-implementation-manifest-2026-11-02.json": 200,
+    "project/evidence/local-implementation-checks-2026-11-02/implementation-tests-final.log": 200,
+    "project/evidence/local-implementation-checks-2026-11-02/changed-files-lint-final.log": 200,
+    "project/evidence/local-implementation-checks-2026-11-02/implementation-build-final.log": 200,
+    "project/evidence/local-implementation-checks-2026-11-02/implementation-lint-final.log": 200,
+    "project/evidence/local-implementation-checks-2026-11-02/implementation-tsc-final.log": 200,
+    "project/evidence/local-implementation-checks-2026-11-02/local-code-changes.diff.txt": 200,
+    "project/evidence/independent-review-local-implementation-2026-11-02.json": 200,
+    "ISRM_Project_Overlay_2026-11-01.html": 200,
+    "project/sources/direct-clarification-2026-11-01.txt": 200,
+    "project/sources/user-prototype-refinement-direct-2026-11-01.txt": 200,
+    "project/evidence/source-parity.json": 200,
+    "project/evidence/live-release-marker.json": 200,
+    "project/evidence/local-branches-and-worktrees.json": 200,
+    "references/bb7a5dbca4-ISRM_Project_Description.html": 200,
+    "references/b481ebdf36-ISRM_Community_Member_Survey_Draft.html": 200,
+    "references/a6f832fb73-ISRM_Partner_Product_Brief_EN.html": 200,
+    "references/d3f2757ea4-ISRM_Partner_Pricing_Review.xlsx": 200,
+    "references/4b48a6a624-ISRM_Editorial_Coverage_20261031.html": 200,
+    "references/8074f08c1d-README.html": 200,
+    "references/becb96248e-ISRM_Architecture_Clarification_EN.html": 200,
+    "references/406ca113e9-ISRM_Delivery_Boundaries_Addendum_EN.html": 200,
+    "project/evidence/pdf-comparisons.json": 200,
+    "project/evidence/exact-duplicates.json": 200,
+    "project/sources/history-audit-prompts.json": 200,
+    "project/sources/history-design-prompts.json": 200,
+    "project/sources/user-feedback-2026-10-31.txt": 200,
+    "project/evidence/documentation-inventory.csv": 200,
+    "project/evidence/zip-snapshot-documents.json": 200,
+    "project/evidence/github-evidence.json": 200,
+    "project/evidence/local-branch-source-differences.json": 200,
+    "project/sources/reusable-offering-analysis-2026-11-01.txt": 200,
+    "project/sources/user-finish-started-work-2026-11-02.txt": 200,
+    "project/sources/user-implementation-order-direct-2026-11-01.txt": 200,
+    "project/sources/user-local-implementation-and-briefing-line-2026-11-01.txt": 200,
+    "references/e58f024975-ISRM_Developer_Brief_EN.pdf": 200,
+    "references/24a6e3236b-ISRM_Developer_Estimate_EN.xlsx": 200
+  },
+  "images": [
+    {
+      "file": "screens/01-briefing-slide-1.jpg",
+      "width": 1204,
+      "height": 602,
+      "sha256": "5c9df4fdd17536cd8201a8d49627cfe140147d0653ee0b662f351ef35eb95831"
+    },
+    {
+      "file": "screens/02-briefing-slide-2.jpg",
+      "width": 1204,
+      "height": 602,
+      "sha256": "fc742399dfad22f668a4f0cd0740e615fd6b8157f51dbd05e63a04ff42120214"
+    },
+    {
+      "file": "screens/03-briefing-slide-3.jpg",
+      "width": 1204,
+      "height": 602,
+      "sha256": "e7ea3f7d93d9bef5dad28bb80a843bb179dd9180c53578276ea9e254f16f8c34"
+    },
+    {
+      "file": "screens/04-briefing-slide-4.jpg",
+      "width": 1204,
+      "height": 602,
+      "sha256": "958580f4f37247b525346726160bee91467ddbdf6c338a3435704d574b007012"
+    },
+    {
+      "file": "screens/05-briefing-slide-5.jpg",
+      "width": 1204,
+      "height": 602,
+      "sha256": "a1551ac3dc3f899577a0f2ffa17ccb3a7c34bb3fb107b01685c322a26d385e7b"
+    },
+    {
+      "file": "screens/06-briefing-slide-6.jpg",
+      "width": 1204,
+      "height": 602,
+      "sha256": "94451d91e5d6dac31505537dc09813d449f20807697e072b0a875964d3303cc2"
+    },
+    {
+      "file": "screens/07-briefing-slide-6-narrow.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "ae31a0a7c8d173d96ac0fb60505adfd33d3c3abedaa8bc34d858f138e5a823d4"
+    },
+    {
+      "file": "screens/08-briefing-slide-1-narrow.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "8378cf519d1e1812be6b42fe4011d41f4704aa552738c1b530cf18ac634ab61c"
+    },
+    {
+      "file": "screens/09-briefing-slide-1-larger-text.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "2b8bcf38713cf8def000b3ad9dae49d85833de9d3567775215afc2e479dcd954"
+    },
+    {
+      "file": "screens/10-briefing-larger-text-scrolled.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "2f9091b78a563fa8b1b4032a96a046d84352b81613447f82e8fcb9cb40dd3426"
+    },
+    {
+      "file": "prototype-screens/04-include-review-queue.jpg",
+      "width": 662,
+      "height": 602,
+      "sha256": "3011678f4e415314a51b0e612d29c5ae306484f879b5a92abf21c44b10d2943b"
+    },
+    {
+      "file": "prototype-screens/06-search-filters-and-counts.jpg",
+      "width": 662,
+      "height": 602,
+      "sha256": "5d5f8f77123b9bfdd9074ee4dc16c9a1c4b08a05f71df2d1e1dce62ff19596b8"
+    },
+    {
+      "file": "prototype-screens/20-shortlist-visible-after-second-toggle.jpg",
+      "width": 662,
+      "height": 602,
+      "sha256": "84a390309569671753c07d2b687989a6fb69318d52583402a0cd591af9807c79"
+    },
+    {
+      "file": "prototype-screens/22-saved-shortlist-confirmation.jpg",
+      "width": 662,
+      "height": 602,
+      "sha256": "d37358527012bf2c07ad59a7fbb2c6d0dd4c6aeba8b6327b77944cbff940ebf5"
+    },
+    {
+      "file": "prototype-screens/23-restored-saved-shortlist.jpg",
+      "width": 662,
+      "height": 602,
+      "sha256": "8dc8840e36255b2bb130f8d69d79ab3ca9fa7586694ab0c70ad52bee42d59ff4"
+    },
+    {
+      "file": "prototype-screens/25-chrome-current-viewport.jpg",
+      "width": 1280,
+      "height": 660,
+      "sha256": "d8c3dc8e5b2a7877ec2003b29fd512109113467c6fc9d86fe694bedcfefe7430"
+    },
+    {
+      "file": "prototype-screens/26-wide-mini-dossier.jpg",
+      "width": 1280,
+      "height": 660,
+      "sha256": "d2f1258b561d6e6f9df542bd1dbe04ea496942e2872c4097543e50ce13431a4a"
+    },
+    {
+      "file": "prototype-screens/27-wide-resize-with-neighbouring-panels.jpg",
+      "width": 1280,
+      "height": 604,
+      "sha256": "e27cdc837bc843d9b4653e04e435fd271a3d7378bee46f46d3b1a4de18b14d38"
+    },
+    {
+      "file": "prototype-screens/28-wide-resize-opens-full-dossier.jpg",
+      "width": 1280,
+      "height": 604,
+      "sha256": "9f6288d1de1f9c138bea56c40291d890c445e0162238c414dee813097fcb2b4e"
+    },
+    {
+      "file": "prototype-screens/30-research-capability-boundary.jpg",
+      "width": 662,
+      "height": 602,
+      "sha256": "6768b9ed65d14bb3fed4fa6080016a0c002350db0ae420e9b54b6b111911ecbe"
+    },
+    {
+      "file": "prototype-screens/31-return-from-capability.jpg",
+      "width": 662,
+      "height": 602,
+      "sha256": "d7bdd8d89f2ab179c1f0f36828e4a5a35073836db650510d4c19f2ef541a2a3a"
+    },
+    {
+      "file": "prototype-screens/32-guided-search-example.jpg",
+      "width": 662,
+      "height": 602,
+      "sha256": "cbba30c18a1a738301ebd4a0a6c28577b8020e431875614d95220560933a152e"
+    },
+    {
+      "file": "prototype-screens/33-close-guide-restores-query.jpg",
+      "width": 662,
+      "height": 602,
+      "sha256": "e6eefde89c37f8b93979db48132cbba68896a2a2d8f69ab96a3ff69596f53137"
+    },
+    {
+      "file": "prototype-screens/34-ukraine-un-recorded-expertise.jpg",
+      "width": 662,
+      "height": 602,
+      "sha256": "45ae2aaf812edf7b84f7bd5f1c35b11928b6ac3668765637b6bf6222292cb8dc"
+    },
+    {
+      "file": "prototype-screens/35-ukraine-un-mini-dossier.jpg",
+      "width": 662,
+      "height": 602,
+      "sha256": "2c7fb9a9560fde90f342ef74bbe7f3eba822fd51cd468ada110de5e2b2acb765"
+    },
+    {
+      "file": "prototype-screens/36-restored-working-selection.jpg",
+      "width": 662,
+      "height": 602,
+      "sha256": "cfd2130c3ef09a8f5457bde3c43d7491997679d5c60c4ca86961e02550ecd5a5"
+    },
+    {
+      "file": "refinement-screens/01-existing-search-results-disclosure.jpg",
+      "width": 1280,
+      "height": 720,
+      "sha256": "c4393667ea28f6a16ad4593ec62f3c26851775230754f618730f446e922185e2"
+    },
+    {
+      "file": "refinement-screens/02-unprepared-mini-dossier.jpg",
+      "width": 1280,
+      "height": 720,
+      "sha256": "7a8ad7001009fe1f92b0d95bf63769153fc9f0d6c432ffff69a2c261bba7c4a8"
+    },
+    {
+      "file": "refinement-screens/03-unprepared-full-shell.jpg",
+      "width": 1280,
+      "height": 720,
+      "sha256": "59443e40e8a212026b33678e6d292967d3553e1863e199cc9bab88822e908f46"
+    },
+    {
+      "file": "refinement-screens/04-briefing-supplied-sample-current.jpg",
+      "width": 1280,
+      "height": 720,
+      "sha256": "48ff6e2ed58eac4aeba37a0516bc743c081fc1b5ad7ba2d9efb286a77c2a3286"
+    },
+    {
+      "file": "refinement-screens/05-panel-mechanics-shortlist-state.jpg",
+      "width": 1280,
+      "height": 720,
+      "sha256": "aca3762841c394c08cc912048f0f62a7e0c6d346157e934fb64312fb09547f4b"
+    },
+    {
+      "file": "refinement-screens/06-panel-mechanics-full-from-shortlist.jpg",
+      "width": 1280,
+      "height": 720,
+      "sha256": "5c2b170431341f5bc0abb5f93408fff1885b9fd98b2a9f7afabfec0ab8d5f0c5"
+    },
+    {
+      "file": "implementation-screens/07-narrow-selection.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "9ca4d14902e097aab3d69d5cc467406b9f05468b72316e2a5424d11298b27a2e"
+    },
+    {
+      "file": "implementation-screens/08-narrow-shortlist.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "d1fe6a83734d2a9200b2e000fa94317c15c2be9f7511e50cf767aeab82e2b392"
+    },
+    {
+      "file": "implementation-screens/09-restored-mini-with-shortlist.jpg",
+      "width": 1280,
+      "height": 720,
+      "sha256": "85697f740a8afbb4b925d2e153495475512ef9119b765b0d68754a5df2a9c39f"
+    },
+    {
+      "file": "implementation-screens/11-restricted-record-no-full-form.jpg",
+      "width": 1280,
+      "height": 720,
+      "sha256": "a08e43cb8d7a52d72e0406c5a419c232ca3938317a01ea419131d5cb8a5b01e4"
+    },
+    {
+      "file": "implementation-screens/13-local-handoff-2026-11-02.jpg",
+      "width": 1180,
+      "height": 602,
+      "sha256": "e09d96267b386417757119dc9f22b0bfab1ae0ada40d9f8dd2ba0bbd5132f1ec"
+    },
+    {
+      "file": "implementation-screens/14-briefing-uk-2026-11-02.jpg",
+      "width": 1180,
+      "height": 602,
+      "sha256": "4acc1007e2f5bfe0b97e413422d8eebf1f7055756bfbfbca09567eb175500dc7"
+    },
+    {
+      "file": "implementation-screens/briefing-1-revised.jpg",
+      "width": 1280,
+      "height": 720,
+      "sha256": "2255ad68714d41df3226b02713375b1d3cfd8caa54d189760d6f678055b9f1a4"
+    },
+    {
+      "file": "implementation-screens/briefing-2-revised.jpg",
+      "width": 1280,
+      "height": 720,
+      "sha256": "5b9561859be611bc8160c15538101467d48653cc664ab7194b2b0dbe201b768a"
+    },
+    {
+      "file": "implementation-screens/briefing-3-revised.jpg",
+      "width": 1280,
+      "height": 720,
+      "sha256": "fde89fa1302f8cc99f4d83f1bbe7359d1ec0e9b31daa26db2f50491616dcfff6"
+    },
+    {
+      "file": "implementation-screens/briefing-4-revised.jpg",
+      "width": 1280,
+      "height": 720,
+      "sha256": "5459147452f7df9d52233914925fe37b185533c941b94dfd3f203f450de0907c"
+    },
+    {
+      "file": "implementation-screens/briefing-5-revised.jpg",
+      "width": 1280,
+      "height": 720,
+      "sha256": "627257e1af91e40bbc6c8d4428e4846c8199644894edfa68c5c19772c9571347"
+    },
+    {
+      "file": "implementation-screens/briefing-6-revised.jpg",
+      "width": 1280,
+      "height": 720,
+      "sha256": "2598e090fb6ffdb71b3b5ac5f9149a5d1f968e8bd6cc5f10bc7d4fad4847a868"
+    },
+    {
+      "file": "app-first-screens/01-user-top-strip.png",
+      "width": 2358,
+      "height": 442,
+      "sha256": "be8346627fa364ae9e6123341155c45f3d4c8f55f078894c00b89e8f91d50f5f"
+    },
+    {
+      "file": "app-first-screens/02-user-bottom-strip.png",
+      "width": 2444,
+      "height": 232,
+      "sha256": "991db155d391601f23dc7f58345365698b218692afcbf3dead8780cbd8bccb2c"
+    },
+    {
+      "file": "app-first-screens/03-before-app-chrome.jpg",
+      "width": 1280,
+      "height": 720,
+      "sha256": "8d8f1e8b449a7eeb245ca88a179f52bba356f19f783117feae3db4a7c98f78dc"
+    },
+    {
+      "file": "app-first-screens/05-app-chrome-wide-final.jpg",
+      "width": 1280,
+      "height": 720,
+      "sha256": "3e63dd9ef16b37acbe58c9b54b179188f2ba434195574c66907393463504f3cb"
+    },
+    {
+      "file": "app-first-screens/06-working-pair-new-chrome.jpg",
+      "width": 1280,
+      "height": 720,
+      "sha256": "b270a0eccbe7cc8b9cabf43dfbb2ad865c5dbaba8bcb5cac4f37b8c83e965bf9"
+    },
+    {
+      "file": "app-first-screens/08-materials-separate.jpg",
+      "width": 1280,
+      "height": 720,
+      "sha256": "f16989e55d0a23946ee9af1ebcb50e5e8f1cfe024ff24efe8849577e20b2d8af"
+    },
+    {
+      "file": "app-first-screens/10-narrow-view-menu.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "e7ed1f08aaa5fbb9d2b506799fb50e771c9d53fc26cefcd60b29dda7cbe251b0"
+    },
+    {
+      "file": "app-first-screens/13-narrow-final.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "368a346009792200decb01ba4ee82da4ce18138042ca8764c3f792fab42969ef"
+    },
+    {
+      "file": "app-first-screens/14-functions-navigation-final.jpg",
+      "width": 1130,
+      "height": 602,
+      "sha256": "4ba5dc85fd9cc1bea1c25b72cafedb1364321e761a931b2cac9cdf801a17fec6"
+    },
+    {
+      "file": "app-first-screens/16-standalone-document-header.jpg",
+      "width": 1130,
+      "height": 230,
+      "sha256": "db821411eb0a5281aa24446f67b6b16eb22822cad94a5142f61a5dbaead8bba1"
+    },
+    {
+      "file": "app-first-screens/17-application-final.jpg",
+      "width": 1130,
+      "height": 602,
+      "sha256": "911181d3730c31392a3f26e893e49096366d16fbb5e805139681e2c6c827d122"
+    }
+  ],
+  "reference_snapshots_verified": [
+    {
+      "source": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/public/ISRM_Project_Description.md",
+      "file": "references/bb7a5dbca4-ISRM_Project_Description.md",
+      "sha256": "336a7ead7f3c3b8db47e313a611339da02604fc8e5676ce2cdb798934c360e93",
+      "meaning": "Exact source snapshot; financial correctness and approval not implied"
+    },
+    {
+      "source": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/public/ISRM_Community_Member_Survey_Draft.md",
+      "file": "references/b481ebdf36-ISRM_Community_Member_Survey_Draft.md",
+      "sha256": "b4fe95a23c13fdab97eeaabd7c3accc3b86437c15691326fb3efafbf1a4bf9ee",
+      "meaning": "Exact source snapshot; financial correctness and approval not implied"
+    },
+    {
+      "source": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/partner-review/ISRM_Partner_Product_Brief_EN.md",
+      "file": "references/a6f832fb73-ISRM_Partner_Product_Brief_EN.md",
+      "sha256": "6dbc3cec5b7fdb27363f5f90bcd395b018c70ffac2d74d0a467fc4e6ba90a291",
+      "meaning": "Exact source snapshot; financial correctness and approval not implied"
+    },
+    {
+      "source": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/partner-review/ISRM_Partner_Pricing_Review.xlsx",
+      "file": "references/d3f2757ea4-ISRM_Partner_Pricing_Review.xlsx",
+      "sha256": "c04406ed24035fbf91356333c6ad3af5b602d82bb4927684c22499ecfdc57545",
+      "meaning": "Exact source snapshot; financial correctness and approval not implied"
+    },
+    {
+      "source": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/partner-review/ISRM_Editorial_Coverage_20261031.md",
+      "file": "references/4b48a6a624-ISRM_Editorial_Coverage_20261031.md",
+      "sha256": "4f0d258dddb2ae262c6d9944f8ea261eb5077947e6c7019d41d20b79a319173a",
+      "meaning": "Exact source snapshot; financial correctness and approval not implied"
+    },
+    {
+      "source": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/developer-review/README.md",
+      "file": "references/8074f08c1d-README.md",
+      "sha256": "81a7004f5ad5ccfb9824baeda03114a50e01c8115d3aaac91aaba96a86deee0f",
+      "meaning": "Exact source snapshot; financial correctness and approval not implied"
+    },
+    {
+      "source": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/developer-review/ISRM_Architecture_Clarification_EN.md",
+      "file": "references/becb96248e-ISRM_Architecture_Clarification_EN.md",
+      "sha256": "5ff4bbee68c37ff154887c486b198bee22f120fcf8c08ca0c6323fc867c8ef7b",
+      "meaning": "Exact source snapshot; financial correctness and approval not implied"
+    },
+    {
+      "source": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/developer-review/ISRM_Delivery_Boundaries_Addendum_EN.md",
+      "file": "references/406ca113e9-ISRM_Delivery_Boundaries_Addendum_EN.md",
+      "sha256": "d8652b1b4a431ce7758b20562edce0ebc286955654cb687167942ddb1924aaa4",
+      "meaning": "Exact source snapshot; financial correctness and approval not implied"
+    },
+    {
+      "source": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/developer-review/ISRM_Developer_Brief_EN.pdf",
+      "file": "references/e58f024975-ISRM_Developer_Brief_EN.pdf",
+      "sha256": "528587cd33b278542187267b18b20fac50be0257d07b42a3f8ef6a4558158569",
+      "meaning": "Exact source snapshot; financial correctness and approval not implied"
+    },
+    {
+      "source": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/developer-review/ISRM_Developer_Estimate_EN.xlsx",
+      "file": "references/24a6e3236b-ISRM_Developer_Estimate_EN.xlsx",
+      "sha256": "a44251a1daad27740695c5faf057da32fa99f6036b39689dabd09e0e4250a274",
+      "meaning": "Exact source snapshot; financial correctness and approval not implied"
+    }
+  ],
+  "unresolved_historical_links": [],
+  "errors": [],
+  "limitations": [
+    "Local output links and bytes checked; external web-page availability is not rechecked by this script",
+    "No financial calculation; direct row requirements registered and independently reviewed; local code built and checked separately; no deployment performed"
+  ]
+}

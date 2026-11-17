@@ -1,0 +1,16 @@
+{
+  "base_commit": "1eaef10b31968ff258a28c73f94ceffcd498aed0",
+  "branch": "codex/network-workflow-batch",
+  "paths": {
+    "src/styles.css": "91a74164b675ae6dbce93568b58e779b749b94100bb9ade2c201cc241acc1de4",
+    "src/components/PublicChapterFigure.tsx": "853fb6c9b18aee22dd42923bad45f9811f1916beb5c0fd189b842e79c1a3e29a",
+    "src/components/BriefingVisual.tsx": "054746ce2dc881f5736ae0e503d7955d95101fe7fda451e6839f44a4cdfcecbf",
+    "src/components/BriefingSearchJourneyFigure.tsx": "ce200763447c61cd3b40a53c2c3a2201aae095c6ba78dffca4063e3df362a186",
+    "src/components/BriefingSlider.tsx": "42f2afa2648799bb5f4da316cdb63d1dc9f9400a9282a1ee528c8206ccb07c02",
+    "src/components/BriefingDataFlowFigure.tsx": "c2eb6a942978ec7ed8c03a91e39b9cdc8632b51ef2899b6b2f6457a1b78529b7",
+    "src/lib/network-layout.ts": "736e9dd0c6fc331661b64d71c9b119b22f59295ac2c4912daaeb33562bad1bf8",
+    "src/lib/briefing-slides.ts": "614cb977c289751f70f53c9cded703cab2aca9f4140b576d189f08b25e3abd9e",
+    "src/lib/map-symbols.ts": "d576ba6fea3f55c4b2fe27c5f10f0d6a4068d863ae7e5aae268292d22a6e3c2e",
+    "src/components/BriefingConnectedGraph.tsx": "75b45d5826e8a802482ca55bd0d6ee1dae1162f95714fc97ae983bf4428b00ad"
+  }
+}

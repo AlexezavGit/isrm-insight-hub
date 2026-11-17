@@ -1,0 +1,66 @@
+{
+  "scope": "Proposed narrative and project navigation; no active app implementation",
+  "document_acceptance": "pending",
+  "overall_task": "in_progress",
+  "documents": [
+    {
+      "source": "PROJECT_OVERLAY_ISRM.md",
+      "sha256": "8194169df7a9528ed847d06204ea97deabcaf74680ad39c0ba4ade449a06ff18",
+      "state": "saved_and_read_back"
+    },
+    {
+      "source": "docs/project/ENTRY.md",
+      "sha256": "fbe993192975c83dec1c7f7c09dcf28257c42c57a83fe8d8d1eb418ddb965136",
+      "state": "saved_and_read_back"
+    },
+    {
+      "source": "docs/project/presentation-whole-narrative-review-2026-11-14.md",
+      "sha256": "21b2adaab4d9e0d22d6775f4a74bf33d34d5510e097e9d80ff7a34b4acc0b63b",
+      "state": "saved_and_read_back"
+    },
+    {
+      "source": "docs/project/next-iteration-graph-and-architect-2026-11-13.md",
+      "sha256": "f4b3ac401cb15efd3a0a3c9621a843a3de19587cdac1d539b6f9e12b938e1d57",
+      "state": "saved_and_read_back"
+    },
+    {
+      "source": "docs/project/presentation-revised-story-2026-11-14.md",
+      "sha256": "578a36854d9ff4697c3589ecc91711cfd7bba83eab74ad2fd72ef8c308b50285",
+      "state": "saved_and_read_back"
+    }
+  ],
+  "new_document_links_valid": true,
+  "registry_sha256": "60012b31f1960a9ad6a820d1580e8207c5851d5af0c59b970e5a24e698e3d8f0",
+  "registry_modified_by_this_iteration": false,
+  "active_code_before": {
+    "src/lib/briefing-slides.ts": "65f8a1f76a22f5174341ca0780760304c3afd38653d086a13467cc42f5db2af8",
+    "src/components/BriefingSlider.tsx": "c9100f8e3afdc1521d96f6ba46c1c002cead94300951a045ec8ae6a97e5ce54d",
+    "src/components/BriefingStoryGraph.tsx": "cee3d70060f479bb96c8a4031c3e71c362e3be4b95d5ab46e66ab8d7e4810ad7",
+    "src/components/BriefingVisual.tsx": "de08233f3eafdbfe325caaa70bfccc4b41615982f03a04d5390c6886e2820977",
+    "src/components/NetworkWorkspace.tsx": "a26d1f021f89427b406af156d35b1fd0ee389668ea0f5c5eaa3cce8a7d8a6a75",
+    "src/components/WorkspacePerson.tsx": "097b543fb3f0a1360ff7be07b71d98c8073ebd75c4d3e9ac9aae01fbd73a1ff1",
+    "src/styles.css": "1336a577c4d63d93e6f5d934762eb3014c302c0d9cab7720978d6fd528d97808"
+  },
+  "active_code_after": {
+    "src/lib/briefing-slides.ts": "65f8a1f76a22f5174341ca0780760304c3afd38653d086a13467cc42f5db2af8",
+    "src/components/BriefingSlider.tsx": "c9100f8e3afdc1521d96f6ba46c1c002cead94300951a045ec8ae6a97e5ce54d",
+    "src/components/BriefingStoryGraph.tsx": "cee3d70060f479bb96c8a4031c3e71c362e3be4b95d5ab46e66ab8d7e4810ad7",
+    "src/components/BriefingVisual.tsx": "de08233f3eafdbfe325caaa70bfccc4b41615982f03a04d5390c6886e2820977",
+    "src/components/NetworkWorkspace.tsx": "a26d1f021f89427b406af156d35b1fd0ee389668ea0f5c5eaa3cce8a7d8a6a75",
+    "src/components/WorkspacePerson.tsx": "097b543fb3f0a1360ff7be07b71d98c8073ebd75c4d3e9ac9aae01fbd73a1ff1",
+    "src/styles.css": "1336a577c4d63d93e6f5d934762eb3014c302c0d9cab7720978d6fd528d97808"
+  },
+  "active_code_unchanged": true,
+  "session_index_entry": {
+    "id": "isrm-revised-story-and-integration-check-2026-11-14",
+    "title": "Дані, спроможність і застосування: нова редакція слайдів, інтеграції та змістове розкриття панелей",
+    "path": "../presentation-revised-story-2026-11-14.md",
+    "status": "done",
+    "acceptance": "pending",
+    "sha256": "578a36854d9ff4697c3589ecc91711cfd7bba83eab74ad2fd72ef8c308b50285"
+  },
+  "session_index_sha256": "dfdb9f45a9d606c48c3f2f5dd4ccdafceb847de80b4899c11720344270ae20ce",
+  "archive_manifest_sha256": "a8753dd9eb941de345d75bdccb6e263840d416dd094bc209b1a548d89d3d363c",
+  "screen_and_print_verification": "not performed; proposal not implemented",
+  "semantic_readback": "Slide text and visual instructions read back against protected narrative; excluded superseded support promise"
+}

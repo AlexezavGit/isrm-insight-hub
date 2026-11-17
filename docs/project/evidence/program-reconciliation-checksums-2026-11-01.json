@@ -1,0 +1,21 @@
+{
+  "date": "2026-11-01",
+  "edits": [
+    {
+      "file": "PROJECT_OVERLAY_ISRM.md",
+      "archive": "docs/project/archive/PROJECT_OVERLAY_ISRM.md.before-program-and-training-2026-11-01",
+      "before_sha256": "b89782baeb1e63317f541e6fd517c59d72bd2d0a20e5d1841e0f7b6af9a1d363",
+      "after_sha256": "0e8dc5f28bec99d787e1f1a8b6fb2dcde884f3ad7eb228ef9917acb5000e7cbb"
+    },
+    {
+      "file": "docs/project/ENTRY.md",
+      "archive": "docs/project/archive/ENTRY.md.before-program-and-training-2026-11-01",
+      "before_sha256": "5d8f160a9aa16b39a7e8f93f29cb43a0ce789275b04c33dc6eb1818cd6dbad42",
+      "after_sha256": "bef7aae8895b8ddf06d69bb2e312878a7294e1a7740af8f3a9d3aa332a288d86"
+    }
+  ],
+  "source": {
+    "file": "docs/project/sources/user-presentation-notes-2026-11-01.txt",
+    "sha256": "b0ab659cc553ae3491b3567673eaadbd6691605d03b9608de125481eb5e54bf9"
+  }
+}

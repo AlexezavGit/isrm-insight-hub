@@ -1,0 +1,134 @@
+import type { Copy } from "./client-catalog";
+import type { GraphLayers } from "@/components/NetworkGraph";
+export type BriefingSlide = {
+  label: Copy;
+  title: Copy;
+  body: Copy;
+  note: Copy;
+  insight: Copy;
+  principle: Copy;
+  steps: Copy[];
+  layers: GraphLayers;
+};
+const copy = (en: string, uk: string): Copy => ({ en, uk });
+const slide = (label: Copy, title: Copy, body: Copy, note = copy("", "")): BriefingSlide => ({
+  label,
+  title,
+  body,
+  note,
+  insight: copy("", ""),
+  principle: copy("", ""),
+  steps: [],
+  layers: { sector: true, theme: false, hub: false, researchQueue: true },
+});
+/** Author revision and clarifications accepted 14 November 2026. Working features and target model stay distinct. */
+export const BRIEFING_SLIDES: BriefingSlide[] = [
+  slide(
+    copy("The capability gap", "Зміна спроможності працювати з даними"),
+    copy(
+      "Technology changes access to data — and how we check it.",
+      "Технології змінюють доступність даних і способи перевіряти їхню достовірність.",
+    ),
+    copy(
+      "AI helps gather initial information from suitable sources faster. The question shifts: how do you process a thousand contacts, or the larger enquiry ISRM brought us? Different tools and ways of working can turn available data into a steady flow of expertise, interaction and resources.",
+      "ШІ допомагає швидше збирати первинну інформацію з відповідних джерел. Питання змінюється: як опрацювати тисячу контактів або масштабний запит ISRM? Інші інструменти й підходи до роботи дають змогу перетворювати наявні дані на сталий потік експертизи, взаємодії та ресурсів.",
+    ),
+    copy("", ""),
+  ),
+  slide(
+    copy("Data that exists is not data that works", "Від даних до корисної роботи"),
+    copy(
+      "Technology processes data. People give it a purpose.",
+      "Технології опрацьовують дані. Люди визначають мету.",
+    ),
+    copy(
+      "Colleagues and clients need information they can use and trust. People decide who may access it, check what matters for the task and record what happened next. Policies, standards and agreed procedures support that responsibility. The tool should make this part of their ordinary work.",
+      "Колегам і клієнтам потрібні дані, які можна застосувати й яким можна довіряти. Люди визначають доступ, перевіряють важливе для завдання та фіксують наступні дії й результат. Політики, стандарти й погоджені процедури підтримують цю відповідальність. Інструмент має зробити це частиною їхньої звичайної роботи.",
+    ),
+    copy("", ""),
+  ),
+  slide(
+    copy("A standing resource · the proposed framework", "Постійний ресурс · обраний фреймворк"),
+    copy(
+      "Build shared expertise through ordinary work.",
+      "Накопичуйте мережеву експертизу через звичайну роботу.",
+    ),
+    copy(
+      "We began building this for our own consulting work: the proprietary tools we tried did not provide the combination we needed. Colleagues could keep evidence current while using it for real tasks. The framework combines expertise evidence with 360-degree feedback from different working relationships as the basis of a future Trust & Influence Index.",
+      "Ми почали розробку для власної консалтингової роботи: у випробуваних пропрієтарних рішеннях не знайшли потрібного поєднання функцій. Колеги могли б підтримувати актуальність даних, застосовуючи їх у звичайній роботі. У фреймворку докази експертизи й оцінка 360° з різних робочих взаємодій стають основою майбутнього Trust & Influence Index.",
+    ),
+    copy(
+      "MODEL: a sovereign data core and multi-source assessment. The index method and operational controls require development; no score is shown.",
+      "МОДЕЛЬ: суверенне ядро даних та оцінка з різних джерел. Методика індексу й операційні механізми потребують розроблення; бал не розраховується.",
+    ),
+  ),
+  slide(
+    copy("What it looks like · ISRM research", "Як це виглядає · дослідження для ISRM"),
+    copy(
+      "The first research results, in a working graph.",
+      "Перші результати дослідження — у робочому графі.",
+    ),
+    copy(
+      "ISRM shared 178 records. We have gathered initial public-source information on 45 identified profiles; research continues, and its depth can change. The graph shows the attributes recorded so far. A separate public layer adds the units and representatives listed on ISRM’s website, beyond the original enquiry.",
+      "ISRM передала 178 записів. Зібрано перші дані з відкритих джерел щодо 45 ідентифікованих профілів; дослідження триває, глибину можна змінити. Граф показує наявні атрибути. Окремий публічний шар доповнює вибірку підрозділами й представниками із сайту ISRM — понад початковий запит.",
+    ),
+    copy(
+      "The public directory is a separate source, not additional researched profiles in the original sample. Initial findings are not endorsements or permission to contact.",
+      "Публічний каталог — окреме джерело, а не додаткові досліджені профілі початкової вибірки. Перші результати не означають рекомендації чи згоди на контакт.",
+    ),
+  ),
+  slide(
+    copy("Privacy and consent by design", "Приватність і згода в основі проєктування"),
+    copy(
+      "A request, permission in return, then an introduction.",
+      "Запит, зустрічний дозвіл, погоджене знайомство.",
+    ),
+    copy(
+      "A public name, a colleague’s recommendation and permission to share contact details are different things. In the illustrated route, David coordinates the request and the person decides whether to accept. The framework keeps the source, permitted access and agreed next step distinct.",
+      "Публічне ім’я, рекомендація колеги й дозвіл передати контакти — різні речі. У показаному сценарії Девід координує запит, а персона вирішує, чи погодитися. Фреймворк розрізняє джерело відомостей, дозволений доступ та погоджений наступний крок.",
+    ),
+    copy(
+      "MODEL: the request-and-permission route requires development. The current demonstration masks direct contacts.",
+      "МОДЕЛЬ: шлях запиту та погодження потребує розроблення. Чинна демонстрація маскує прямі контакти.",
+    ),
+  ),
+  slide(
+    copy("Where it could go", "Подальші застосування"),
+    copy(
+      "From a useful function to connected workflows.",
+      "Від корисної функції до пов’язаних воркфлоу.",
+    ),
+    copy(
+      "Data, suitable tools and human capital are the starting point. Policies, standards and procedures make shared work repeatable. The configurator illustrates services you could combine around your processes: research, participation, knowledge sharing and team formation. Your needs guide development; the framework keeps the data model and access rules connected.",
+      "Початок — дані, придатні інструменти й людський капітал. Політики, стандарти та процедури впорядковують спільну роботу. Конфігуратор показує сервіси, які можна поєднувати під свої процеси: дослідження, участь, обмін знаннями й формування команд. Потреби визначають напрям розвитку; фреймворк зберігає спільну модель даних і правил доступу.",
+    ),
+    copy(
+      "A configuration for discussion: service choices would shape the interface and workflows. Planned services require development.",
+      "Конфігурація для обговорення: обрані сервіси визначатимуть інтерфейс і воркфлоу. Заплановані сервіси потребують розроблення.",
+    ),
+  ),
+  slide(
+    copy("Integration landscape", "Поле інтеграції"),
+    copy(
+      "Connect existing systems to shared expertise.",
+      "Поєднайте наявні системи з мережевою експертизою.",
+    ),
+    copy(
+      "Membership, learning, publications and working interactions can provide evidence. The proposed integration layer would connect permitted records to expertise and professional review, then return agreed results to existing systems. You choose where AI belongs, including possible research assistance and future expert advisers.",
+      "Членство, навчання, публікації та робочі взаємодії можуть давати докази. Запропонований інтеграційний шар пов’язував би дозволені записи з експертизою й професійною перевіркою та повертав погоджені результати до наявних систем. Ви визначаєте роль ШІ, зокрема дослідницьку допомогу й можливих майбутніх експертних радників.",
+    ),
+    copy(
+      "Target architecture. Connectors, shared storage and any model training require separate development and permissions. Operational AI research is not connected.",
+      "Цільова архітектура. Конектори, спільне сховище й навчання моделей потребують окремої розробки та дозволів. Операційне ШІ-дослідження не підключено.",
+    ),
+  ),
+  slide(
+    copy("An invitation, not an offer", "Запрошення до відгуку"),
+    copy("Help shape the next step.", "Допоможіть визначити наступний крок."),
+    copy(
+      "What would be useful in your work? What would need to change to fit your processes and the board’s priorities? We would welcome a short demonstration and a discussion of how the framework could be tailored to your organisation — from search to shared expertise. Thank you for visiting our workshop.",
+      "Що тут було б корисним для вашої роботи? Що потрібно змінити, щоб рішення відповідало вашим процесам і цілям правління? Будемо раді коротко показати можливості й обговорити адаптацію фреймворку під вашу організацію — від пошуку до мережевої експертизи. Дякуємо за візит до нашої майстерні.",
+    ),
+    copy("", ""),
+  ),
+];

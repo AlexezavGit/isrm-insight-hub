@@ -1,0 +1,25 @@
+{
+  "rule": "QA-1",
+  "checks": {
+    "project_sources_loaded": true,
+    "direct_feedback_preserved": true,
+    "original_distinctions_recovered": true,
+    "third_party_claims_separated": true,
+    "two_list_types_and_visible_pair_specified": true,
+    "content_gate_separate_from_verified": true,
+    "shared_attribute_not_interpersonal_endorsement": true,
+    "specific_zone_proposal_integrated": true,
+    "cross_surface_terms_scoped_explicitly": true,
+    "no_fabricated_profiles_or_tii_scores": true,
+    "no_financial_estimates_or_reuse_percentages": true,
+    "independent_registry_review_done": true,
+    "saved_screens_inspected": true,
+    "conceptual_storyboard_separate_from_live_app": true
+  },
+  "implementation_status": "Audit and conceptual interaction diagram only",
+  "open": [
+    "Prototype acceptance",
+    "Full configurator and scope audits",
+    "Separate authorized remediation of public source fields"
+  ]
+}

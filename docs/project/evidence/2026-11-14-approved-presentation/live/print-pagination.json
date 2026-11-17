@@ -1,0 +1,14 @@
+[
+  {
+    "locale": "en",
+    "pages": 8,
+    "source": "PDF printed from deployed /presentation in headless Chrome",
+    "temporary_qa_file": "/private/tmp/isrm-approved-qa-en.pdf"
+  },
+  {
+    "locale": "uk",
+    "pages": 8,
+    "source": "PDF printed from deployed /presentation in headless Chrome",
+    "temporary_qa_file": "/private/tmp/isrm-approved-qa-uk.pdf"
+  }
+]

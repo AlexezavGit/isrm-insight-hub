@@ -1,0 +1,200 @@
+[
+  {
+    "sha256": "e4f8e9ae6e6853b8dc01e125d8992d6deead895d52cce623029ec5d23ea2c40d",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/README.md",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/README.md"
+    ]
+  },
+  {
+    "sha256": "37c484818824d2521eee3367e7aa2c2abbd19635d8103d19734b6e24603d0292",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/components.json",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/components.json"
+    ]
+  },
+  {
+    "sha256": "0ff5b0536ac765fe8beabcfe2202c3069c4cc43136e20e4c2f04c55f6f4ebc84",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/tsconfig.json",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/tsconfig.json"
+    ]
+  },
+  {
+    "sha256": "e61813e8a8cd9b320e6fcb029fea987bb9d6c8b3bc75c8d82918bba9911e3efc",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/plan/HANDOFF-2026-10-07-ISRM.md",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/plan/HANDOFF-2026-10-07-ISRM.md"
+    ]
+  },
+  {
+    "sha256": "0fe48d6a0077d0bb5e1324e7c0fc8f55dd532b146507258329a8c8d3a5a144af",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/plan/feature-isrm-price-calculations-v1.md",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/plan/feature-isrm-price-calculations-v1.md"
+    ]
+  },
+  {
+    "sha256": "2588cb7d772a932bcb460c1fe01015c9de8aebdddbb6ddfe33ca372bdc625586",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/plan/feature-isrm-partner-client-paths-v2.md",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/plan/feature-isrm-partner-client-paths-v2.md"
+    ]
+  },
+  {
+    "sha256": "fc6364cd6eb34731fad5d5567e96cdb8b70ef8df7dc9eb546f7dd6f6316f2729",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/plan/feature-isrm-partner-financial-tables-v1.md",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/plan/feature-isrm-partner-financial-tables-v1.md"
+    ]
+  },
+  {
+    "sha256": "b2eeef435009531b3913f11ed300c8148cc2fc280ac9edf3f092a6ab15679219",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/plan/feature-isrm-partner-configurator-v1.md",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/plan/feature-isrm-partner-configurator-v1.md"
+    ]
+  },
+  {
+    "sha256": "a24bcc86d029c2ba14b3f9135f8dc9a24850f7944b7db4c2591bfca4b3b44530",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/plan/feature-isrm-pilot-cohort2-feasibility-v1.xlsx",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/plan/feature-isrm-pilot-cohort2-feasibility-v1.xlsx"
+    ]
+  },
+  {
+    "sha256": "e660c949e7b9804f0e5277c6fac7227a5d65e126c9cc781c2235835682f869a4",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/plan/feature-isrm-partner-financial-summary-v1.md",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/plan/feature-isrm-partner-financial-summary-v1.md"
+    ]
+  },
+  {
+    "sha256": "b80c384f41d74c382b6a3e053e54b69634152f8258927ca993c9cc774276e286",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/plan/feature-isrm-pilot-cohort2-feasibility-csv/Per-Package_x_Tier.csv",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/plan/feature-isrm-pilot-cohort2-feasibility-csv/Per-Package_x_Tier.csv"
+    ]
+  },
+  {
+    "sha256": "aa41423b562b0194f37e53e0b0eb272b58fba859d635ae145acf1f510a67b7d3",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/plan/feature-isrm-pilot-cohort2-feasibility-csv/Cohort_2_Funnel.csv",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/plan/feature-isrm-pilot-cohort2-feasibility-csv/Cohort_2_Funnel.csv"
+    ]
+  },
+  {
+    "sha256": "16b9f9404cfd7a2018e11cb0f6cac53aa31effe2e1fd3b8e82ec849281001c62",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/plan/feature-isrm-pilot-cohort2-feasibility-csv/SaaS_Feasibility.csv",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/plan/feature-isrm-pilot-cohort2-feasibility-csv/SaaS_Feasibility.csv"
+    ]
+  },
+  {
+    "sha256": "a64fc9162438bb9bfb58019b2c451e84981a6e8fbf859489a4c38a9fc004c492",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/plan/feature-isrm-pilot-cohort2-feasibility-csv/Rate_Card_and_Modules.csv",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/plan/feature-isrm-pilot-cohort2-feasibility-csv/Rate_Card_and_Modules.csv"
+    ]
+  },
+  {
+    "sha256": "77e9ffe88cc3ca0e39bcb8596b74c94532286dff0a96f3205ee654fdf0c4b290",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/plan/feature-isrm-pilot-cohort2-feasibility-csv/Hours_and_Pay.csv",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/plan/feature-isrm-pilot-cohort2-feasibility-csv/Hours_and_Pay.csv"
+    ]
+  },
+  {
+    "sha256": "a44251a1daad27740695c5faf057da32fa99f6036b39689dabd09e0e4250a274",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/developer-review/ISRM_Developer_Estimate_EN.xlsx",
+      "/Users/alexzvo/Documents/ChatGPT/isrm/outputs/isrm-architecture-20261029/ISRM_Developer_Estimate_EN.xlsx"
+    ]
+  },
+  {
+    "sha256": "528587cd33b278542187267b18b20fac50be0257d07b42a3f8ef6a4558158569",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/developer-review/ISRM_Developer_Brief_EN.pdf",
+      "/Users/alexzvo/Documents/ChatGPT/isrm/outputs/isrm-architecture-20261029/ISRM_Developer_Brief_EN.pdf"
+    ]
+  },
+  {
+    "sha256": "c04406ed24035fbf91356333c6ad3af5b602d82bb4927684c22499ecfdc57545",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/partner-review/ISRM_Partner_Pricing_Review.xlsx",
+      "/Users/alexzvo/Documents/ChatGPT/isrm/outputs/isrm-pricing-en-20261028/ISRM_Partner_Pricing_Review.xlsx",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/docs/Чек ап/ISRM_Partner_Pricing_Review (1).xlsx"
+    ]
+  },
+  {
+    "sha256": "3ea4352ba567018d998b3ecb91bca0e2ba4cea903d418ade7bb1eea66b39ecfe",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/archive/partner-estimates-through-2026-10-27/ISRM_internal_review.html",
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/archive/partner-estimates-through-2026-10-27/ISRM_partner_cost_review.html"
+    ]
+  },
+  {
+    "sha256": "36063c1ce77e12a3d45957ee0d5bf0c97f47cc7dbfdb64d542eb78dfcde2605a",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/archive/pricing-review-uk-20261028/ISRM_Partner_Pricing_Review.xlsx",
+      "/Users/alexzvo/Documents/ChatGPT/isrm/outputs/isrm-pricing-20261028/ISRM_Partner_Pricing_Review.xlsx"
+    ]
+  },
+  {
+    "sha256": "4b5762db07e6be466195df1dbcc3099b4ad895f5c96f2f57cae2fb5b78cc8484",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/archive/pre-publication-2026-10-28/ISRM_Community_Member_Survey_Draft.md",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/docs/ISRM_Community_Member_Survey_Draft.md"
+    ]
+  },
+  {
+    "sha256": "f9ed015ed2e3f9cda802a678914f293da79e02452ae65562c27bc27e6576d3f1",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/archive/pre-publication-2026-10-28/ISRM_Project_Description.md",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/public/ISRM_Project_Description.md"
+    ]
+  },
+  {
+    "sha256": "e98c83472ec13ac481a325771a03e605862d3b3a13b479ba758092d1c0272f84",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/archive/developer-review-20261028/ISRM_Developer_Estimate_EN.xlsx",
+      "/Users/alexzvo/Documents/ChatGPT/isrm/outputs/isrm-pricing-en-20261028/ISRM_Developer_Estimate_EN.xlsx",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/docs/Чек ап/ISRM_Developer_Estimate_EN.xlsx"
+    ]
+  },
+  {
+    "sha256": "4b6cbe823d96674965f9e31b81b137d1896916a345f6d642c4d59eebbd6a3f0c",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/archive/developer-review-20261028/ISRM_Developer_Brief_EN.pdf",
+      "/Users/alexzvo/Documents/ChatGPT/isrm/outputs/isrm-pricing-en-20261028/ISRM_Developer_Brief_EN.pdf"
+    ]
+  },
+  {
+    "sha256": "257ee2ab996eedad7c1861e852cbc0d1b8f43b78c6995fdef5bd69cf4d280ca6",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/reference-material/4_ISRM_Content_to_Service_Assessment.md",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/docs/4_ISRM_Content_to_Service_Assessment.md"
+    ]
+  },
+  {
+    "sha256": "4ac7800b9cf141add03b9b635e03783b7b3cda03c7c666a5479979aeadff4de9",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/reference-material/5_ISRM_Expert_Registry_Access_Contract.md",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/docs/5_ISRM_Expert_Registry_Access_Contract.md"
+    ]
+  },
+  {
+    "sha256": "ee861a433c31e4ab5bc4e7ab827bf77956cbee7a77621e5f32d64065d7ca1c03",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/reference-material/ISRM_Website_Audit_EN.docx",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/docs/ISRM_Website_Audit_EN.docx"
+    ]
+  },
+  {
+    "sha256": "391c517677b13b477110257aa1af09b351adac8f0bdd8eaf21cc20ca349bbf50",
+    "paths": [
+      "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/.lovable/plan/graph-first-isrm-network-platform-2026-09-29.md",
+      "/Users/alexzvo/.copilot/repos/isrm-insight-hub/.lovable/plan/graph-first-isrm-network-platform-2026-09-29.md"
+    ]
+  }
+]

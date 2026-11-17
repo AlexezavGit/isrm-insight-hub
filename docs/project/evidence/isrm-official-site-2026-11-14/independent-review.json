@@ -1,0 +1,9 @@
+{
+  "source_review": "PASS by independent agent verify_census_and_meaning",
+  "pages": 26,
+  "published_appearances": 53,
+  "distinct_exact_name_strings": 52,
+  "code_data_sha256": "26de763b8a525c3ae4cc95b732a4694ddc13e302f94ca88fea3b022301b8614e",
+  "limits": "Not all active chapters or independently deduplicated real persons. Source roles are not Board membership, endorsement or consent.",
+  "corrections": "Caribbean role unspecified; blank portrait removed; Rob Currie retains two sources; country legend distinguishes jurisdiction from sample phone code."
+}

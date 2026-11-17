@@ -1,0 +1,1442 @@
+[
+  {
+    "lang": "en",
+    "width": 1366,
+    "height": 768,
+    "slide": 1,
+    "client": [
+      1282,
+      493
+    ],
+    "scroll": [
+      1282,
+      493
+    ],
+    "bottom": 683.625,
+    "viewport": 768,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 210.875,
+        "bottom": 663.625,
+        "height": 452.75
+      },
+      {
+        "class": "briefing-copy",
+        "top": 372.71875,
+        "bottom": 501.765625,
+        "height": 129.046875
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1366,
+    "height": 768,
+    "slide": 2,
+    "client": [
+      1282,
+      493
+    ],
+    "scroll": [
+      1282,
+      493
+    ],
+    "bottom": 683.625,
+    "viewport": 768,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 210.875,
+        "bottom": 663.625,
+        "height": 452.75
+      },
+      {
+        "class": "briefing-copy",
+        "top": 381.421875,
+        "bottom": 493.078125,
+        "height": 111.65625
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1366,
+    "height": 768,
+    "slide": 3,
+    "client": [
+      1282,
+      487
+    ],
+    "scroll": [
+      1282,
+      487
+    ],
+    "bottom": 683.625,
+    "viewport": 768,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 216.9375,
+        "bottom": 663.625,
+        "height": 446.6875
+      },
+      {
+        "class": "briefing-copy",
+        "top": 354.890625,
+        "bottom": 525.65625,
+        "height": 170.765625
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1366,
+    "height": 768,
+    "slide": 4,
+    "client": [
+      1282,
+      493
+    ],
+    "scroll": [
+      1282,
+      493
+    ],
+    "bottom": 683.625,
+    "viewport": 768,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-search-graph-figure",
+        "top": 210.875,
+        "bottom": 663.625,
+        "height": 452.75
+      },
+      {
+        "class": "briefing-copy",
+        "top": 342.34375,
+        "bottom": 532.140625,
+        "height": 189.796875
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1366,
+    "height": 768,
+    "slide": 5,
+    "client": [
+      1282,
+      493
+    ],
+    "scroll": [
+      1282,
+      493
+    ],
+    "bottom": 683.625,
+    "viewport": 768,
+    "children": [
+      {
+        "class": "briefing-evidence-figure service-audience-figure",
+        "top": 210.875,
+        "bottom": 663.625,
+        "height": 452.75
+      },
+      {
+        "class": "briefing-copy",
+        "top": 331.859375,
+        "bottom": 542.625,
+        "height": 210.765625
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1366,
+    "height": 768,
+    "slide": 6,
+    "client": [
+      1282,
+      493
+    ],
+    "scroll": [
+      1282,
+      493
+    ],
+    "bottom": 683.625,
+    "viewport": 768,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 210.875,
+        "bottom": 663.625,
+        "height": 452.75
+      },
+      {
+        "class": "briefing-copy",
+        "top": 342.34375,
+        "bottom": 532.140625,
+        "height": 189.796875
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1366,
+    "height": 768,
+    "slide": 7,
+    "client": [
+      1282,
+      493
+    ],
+    "scroll": [
+      1282,
+      493
+    ],
+    "bottom": 683.625,
+    "viewport": 768,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 210.875,
+        "bottom": 663.625,
+        "height": 452.75
+      },
+      {
+        "class": "briefing-copy",
+        "top": 351.859375,
+        "bottom": 522.625,
+        "height": 170.765625
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1366,
+    "height": 768,
+    "slide": 8,
+    "client": [
+      1282,
+      493
+    ],
+    "scroll": [
+      1282,
+      493
+    ],
+    "bottom": 683.625,
+    "viewport": 768,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 210.875,
+        "bottom": 663.625,
+        "height": 452.75
+      },
+      {
+        "class": "briefing-copy",
+        "top": 332.734375,
+        "bottom": 541.765625,
+        "height": 209.03125
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1440,
+    "height": 900,
+    "slide": 1,
+    "client": [
+      1352,
+      623
+    ],
+    "scroll": [
+      1352,
+      623
+    ],
+    "bottom": 815.625,
+    "viewport": 900,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 212.921875,
+        "bottom": 795.625,
+        "height": 582.703125
+      },
+      {
+        "class": "briefing-copy",
+        "top": 437.421875,
+        "bottom": 571.109375,
+        "height": 133.6875
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1440,
+    "height": 900,
+    "slide": 2,
+    "client": [
+      1352,
+      623
+    ],
+    "scroll": [
+      1352,
+      623
+    ],
+    "bottom": 815.625,
+    "viewport": 900,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 212.921875,
+        "bottom": 795.625,
+        "height": 582.703125
+      },
+      {
+        "class": "briefing-copy",
+        "top": 446.125,
+        "bottom": 562.421875,
+        "height": 116.296875
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1440,
+    "height": 900,
+    "slide": 3,
+    "client": [
+      1352,
+      619
+    ],
+    "scroll": [
+      1352,
+      619
+    ],
+    "bottom": 815.625,
+    "viewport": 900,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 216.9375,
+        "bottom": 795.625,
+        "height": 578.6875
+      },
+      {
+        "class": "briefing-copy",
+        "top": 417.796875,
+        "bottom": 594.75,
+        "height": 176.953125
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1440,
+    "height": 900,
+    "slide": 4,
+    "client": [
+      1352,
+      623
+    ],
+    "scroll": [
+      1352,
+      623
+    ],
+    "bottom": 815.625,
+    "viewport": 900,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-search-graph-figure",
+        "top": 212.921875,
+        "bottom": 795.625,
+        "height": 582.703125
+      },
+      {
+        "class": "briefing-copy",
+        "top": 406.28125,
+        "bottom": 602.265625,
+        "height": 195.984375
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1440,
+    "height": 900,
+    "slide": 5,
+    "client": [
+      1352,
+      623
+    ],
+    "scroll": [
+      1352,
+      623
+    ],
+    "bottom": 815.625,
+    "viewport": 900,
+    "children": [
+      {
+        "class": "briefing-evidence-figure service-audience-figure",
+        "top": 212.921875,
+        "bottom": 795.625,
+        "height": 582.703125
+      },
+      {
+        "class": "briefing-copy",
+        "top": 395.796875,
+        "bottom": 612.75,
+        "height": 216.953125
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1440,
+    "height": 900,
+    "slide": 6,
+    "client": [
+      1352,
+      623
+    ],
+    "scroll": [
+      1352,
+      623
+    ],
+    "bottom": 815.625,
+    "viewport": 900,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 212.921875,
+        "bottom": 795.625,
+        "height": 582.703125
+      },
+      {
+        "class": "briefing-copy",
+        "top": 406.28125,
+        "bottom": 602.265625,
+        "height": 195.984375
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1440,
+    "height": 900,
+    "slide": 7,
+    "client": [
+      1352,
+      623
+    ],
+    "scroll": [
+      1352,
+      623
+    ],
+    "bottom": 815.625,
+    "viewport": 900,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 212.921875,
+        "bottom": 795.625,
+        "height": 582.703125
+      },
+      {
+        "class": "briefing-copy",
+        "top": 415.796875,
+        "bottom": 592.75,
+        "height": 176.953125
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1440,
+    "height": 900,
+    "slide": 8,
+    "client": [
+      1352,
+      623
+    ],
+    "scroll": [
+      1352,
+      623
+    ],
+    "bottom": 815.625,
+    "viewport": 900,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 212.921875,
+        "bottom": 795.625,
+        "height": 582.703125
+      },
+      {
+        "class": "briefing-copy",
+        "top": 395.890625,
+        "bottom": 612.65625,
+        "height": 216.765625
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1280,
+    "height": 720,
+    "slide": 1,
+    "client": [
+      1201,
+      447
+    ],
+    "scroll": [
+      1201,
+      447
+    ],
+    "bottom": 635.625,
+    "viewport": 720,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 208.484375,
+        "bottom": 615.625,
+        "height": 407.140625
+      },
+      {
+        "class": "briefing-copy",
+        "top": 350.25,
+        "bottom": 473.859375,
+        "height": 123.609375
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1280,
+    "height": 720,
+    "slide": 2,
+    "client": [
+      1201,
+      447
+    ],
+    "scroll": [
+      1201,
+      447
+    ],
+    "bottom": 635.625,
+    "viewport": 720,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 208.484375,
+        "bottom": 615.625,
+        "height": 407.140625
+      },
+      {
+        "class": "briefing-copy",
+        "top": 358.9375,
+        "bottom": 465.15625,
+        "height": 106.21875
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1280,
+    "height": 720,
+    "slide": 3,
+    "client": [
+      1201,
+      439
+    ],
+    "scroll": [
+      1201,
+      439
+    ],
+    "bottom": 635.625,
+    "viewport": 720,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 216.9375,
+        "bottom": 615.625,
+        "height": 398.6875
+      },
+      {
+        "class": "briefing-copy",
+        "top": 334.515625,
+        "bottom": 498.03125,
+        "height": 163.515625
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1280,
+    "height": 720,
+    "slide": 4,
+    "client": [
+      1201,
+      447
+    ],
+    "scroll": [
+      1201,
+      447
+    ],
+    "bottom": 635.625,
+    "viewport": 720,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-search-graph-figure",
+        "top": 208.484375,
+        "bottom": 615.625,
+        "height": 407.140625
+      },
+      {
+        "class": "briefing-copy",
+        "top": 320.78125,
+        "bottom": 503.328125,
+        "height": 182.546875
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1280,
+    "height": 720,
+    "slide": 5,
+    "client": [
+      1201,
+      447
+    ],
+    "scroll": [
+      1201,
+      447
+    ],
+    "bottom": 635.625,
+    "viewport": 720,
+    "children": [
+      {
+        "class": "briefing-evidence-figure service-audience-figure",
+        "top": 208.484375,
+        "bottom": 615.625,
+        "height": 407.140625
+      },
+      {
+        "class": "briefing-copy",
+        "top": 300.78125,
+        "bottom": 523.328125,
+        "height": 222.546875
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1280,
+    "height": 720,
+    "slide": 6,
+    "client": [
+      1201,
+      447
+    ],
+    "scroll": [
+      1201,
+      447
+    ],
+    "bottom": 635.625,
+    "viewport": 720,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 208.484375,
+        "bottom": 615.625,
+        "height": 407.140625
+      },
+      {
+        "class": "briefing-copy",
+        "top": 320.78125,
+        "bottom": 503.328125,
+        "height": 182.546875
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1280,
+    "height": 720,
+    "slide": 7,
+    "client": [
+      1201,
+      447
+    ],
+    "scroll": [
+      1201,
+      447
+    ],
+    "bottom": 635.625,
+    "viewport": 720,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 208.484375,
+        "bottom": 615.625,
+        "height": 407.140625
+      },
+      {
+        "class": "briefing-copy",
+        "top": 330.296875,
+        "bottom": 493.8125,
+        "height": 163.515625
+      }
+    ]
+  },
+  {
+    "lang": "en",
+    "width": 1280,
+    "height": 720,
+    "slide": 8,
+    "client": [
+      1201,
+      447
+    ],
+    "scroll": [
+      1201,
+      447
+    ],
+    "bottom": 635.625,
+    "viewport": 720,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 208.484375,
+        "bottom": 615.625,
+        "height": 407.140625
+      },
+      {
+        "class": "briefing-copy",
+        "top": 312.0625,
+        "bottom": 512.03125,
+        "height": 199.96875
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1366,
+    "height": 768,
+    "slide": 1,
+    "client": [
+      1282,
+      493
+    ],
+    "scroll": [
+      1282,
+      493
+    ],
+    "bottom": 683.625,
+    "viewport": 768,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 210.875,
+        "bottom": 663.625,
+        "height": 452.75
+      },
+      {
+        "class": "briefing-copy",
+        "top": 372.71875,
+        "bottom": 501.765625,
+        "height": 129.046875
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1366,
+    "height": 768,
+    "slide": 2,
+    "client": [
+      1282,
+      493
+    ],
+    "scroll": [
+      1282,
+      493
+    ],
+    "bottom": 683.625,
+    "viewport": 768,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 210.875,
+        "bottom": 663.625,
+        "height": 452.75
+      },
+      {
+        "class": "briefing-copy",
+        "top": 381.421875,
+        "bottom": 493.078125,
+        "height": 111.65625
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1366,
+    "height": 768,
+    "slide": 3,
+    "client": [
+      1282,
+      487
+    ],
+    "scroll": [
+      1282,
+      487
+    ],
+    "bottom": 683.625,
+    "viewport": 768,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 216.9375,
+        "bottom": 663.625,
+        "height": 446.6875
+      },
+      {
+        "class": "briefing-copy",
+        "top": 340.546875,
+        "bottom": 540,
+        "height": 199.453125
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1366,
+    "height": 768,
+    "slide": 4,
+    "client": [
+      1282,
+      493
+    ],
+    "scroll": [
+      1282,
+      493
+    ],
+    "bottom": 683.625,
+    "viewport": 768,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-search-graph-figure",
+        "top": 210.875,
+        "bottom": 663.625,
+        "height": 452.75
+      },
+      {
+        "class": "briefing-copy",
+        "top": 328,
+        "bottom": 546.484375,
+        "height": 218.484375
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1366,
+    "height": 768,
+    "slide": 5,
+    "client": [
+      1282,
+      493
+    ],
+    "scroll": [
+      1282,
+      493
+    ],
+    "bottom": 683.625,
+    "viewport": 768,
+    "children": [
+      {
+        "class": "briefing-evidence-figure service-audience-figure",
+        "top": 210.875,
+        "bottom": 663.625,
+        "height": 452.75
+      },
+      {
+        "class": "briefing-copy",
+        "top": 308,
+        "bottom": 566.484375,
+        "height": 258.484375
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1366,
+    "height": 768,
+    "slide": 6,
+    "client": [
+      1282,
+      493
+    ],
+    "scroll": [
+      1282,
+      493
+    ],
+    "bottom": 683.625,
+    "viewport": 768,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 210.875,
+        "bottom": 663.625,
+        "height": 452.75
+      },
+      {
+        "class": "briefing-copy",
+        "top": 342.34375,
+        "bottom": 532.140625,
+        "height": 189.796875
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1366,
+    "height": 768,
+    "slide": 7,
+    "client": [
+      1282,
+      493
+    ],
+    "scroll": [
+      1282,
+      493
+    ],
+    "bottom": 683.625,
+    "viewport": 768,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 210.875,
+        "bottom": 663.625,
+        "height": 452.75
+      },
+      {
+        "class": "briefing-copy",
+        "top": 337.515625,
+        "bottom": 536.96875,
+        "height": 199.453125
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1366,
+    "height": 768,
+    "slide": 8,
+    "client": [
+      1282,
+      493
+    ],
+    "scroll": [
+      1282,
+      493
+    ],
+    "bottom": 683.625,
+    "viewport": 768,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 210.875,
+        "bottom": 663.625,
+        "height": 452.75
+      },
+      {
+        "class": "briefing-copy",
+        "top": 332.734375,
+        "bottom": 541.765625,
+        "height": 209.03125
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1440,
+    "height": 900,
+    "slide": 1,
+    "client": [
+      1352,
+      623
+    ],
+    "scroll": [
+      1352,
+      623
+    ],
+    "bottom": 815.625,
+    "viewport": 900,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 212.921875,
+        "bottom": 795.625,
+        "height": 582.703125
+      },
+      {
+        "class": "briefing-copy",
+        "top": 437.421875,
+        "bottom": 571.109375,
+        "height": 133.6875
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1440,
+    "height": 900,
+    "slide": 2,
+    "client": [
+      1352,
+      623
+    ],
+    "scroll": [
+      1352,
+      623
+    ],
+    "bottom": 815.625,
+    "viewport": 900,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 212.921875,
+        "bottom": 795.625,
+        "height": 582.703125
+      },
+      {
+        "class": "briefing-copy",
+        "top": 446.125,
+        "bottom": 562.421875,
+        "height": 116.296875
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1440,
+    "height": 900,
+    "slide": 3,
+    "client": [
+      1352,
+      619
+    ],
+    "scroll": [
+      1352,
+      619
+    ],
+    "bottom": 815.625,
+    "viewport": 900,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 216.9375,
+        "bottom": 795.625,
+        "height": 578.6875
+      },
+      {
+        "class": "briefing-copy",
+        "top": 402.6875,
+        "bottom": 609.875,
+        "height": 207.1875
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1440,
+    "height": 900,
+    "slide": 4,
+    "client": [
+      1352,
+      623
+    ],
+    "scroll": [
+      1352,
+      623
+    ],
+    "bottom": 815.625,
+    "viewport": 900,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-search-graph-figure",
+        "top": 212.921875,
+        "bottom": 795.625,
+        "height": 582.703125
+      },
+      {
+        "class": "briefing-copy",
+        "top": 391.15625,
+        "bottom": 617.375,
+        "height": 226.21875
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1440,
+    "height": 900,
+    "slide": 5,
+    "client": [
+      1352,
+      623
+    ],
+    "scroll": [
+      1352,
+      623
+    ],
+    "bottom": 815.625,
+    "viewport": 900,
+    "children": [
+      {
+        "class": "briefing-evidence-figure service-audience-figure",
+        "top": 212.921875,
+        "bottom": 795.625,
+        "height": 582.703125
+      },
+      {
+        "class": "briefing-copy",
+        "top": 380.671875,
+        "bottom": 627.859375,
+        "height": 247.1875
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1440,
+    "height": 900,
+    "slide": 6,
+    "client": [
+      1352,
+      623
+    ],
+    "scroll": [
+      1352,
+      623
+    ],
+    "bottom": 815.625,
+    "viewport": 900,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 212.921875,
+        "bottom": 795.625,
+        "height": 582.703125
+      },
+      {
+        "class": "briefing-copy",
+        "top": 406.28125,
+        "bottom": 602.265625,
+        "height": 195.984375
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1440,
+    "height": 900,
+    "slide": 7,
+    "client": [
+      1352,
+      623
+    ],
+    "scroll": [
+      1352,
+      623
+    ],
+    "bottom": 815.625,
+    "viewport": 900,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 212.921875,
+        "bottom": 795.625,
+        "height": 582.703125
+      },
+      {
+        "class": "briefing-copy",
+        "top": 400.671875,
+        "bottom": 607.859375,
+        "height": 207.1875
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1440,
+    "height": 900,
+    "slide": 8,
+    "client": [
+      1352,
+      623
+    ],
+    "scroll": [
+      1352,
+      623
+    ],
+    "bottom": 815.625,
+    "viewport": 900,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 212.921875,
+        "bottom": 795.625,
+        "height": 582.703125
+      },
+      {
+        "class": "briefing-copy",
+        "top": 395.890625,
+        "bottom": 612.65625,
+        "height": 216.765625
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1280,
+    "height": 720,
+    "slide": 1,
+    "client": [
+      1201,
+      447
+    ],
+    "scroll": [
+      1201,
+      447
+    ],
+    "bottom": 635.625,
+    "viewport": 720,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 208.484375,
+        "bottom": 615.625,
+        "height": 407.140625
+      },
+      {
+        "class": "briefing-copy",
+        "top": 350.25,
+        "bottom": 473.859375,
+        "height": 123.609375
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1280,
+    "height": 720,
+    "slide": 2,
+    "client": [
+      1201,
+      447
+    ],
+    "scroll": [
+      1201,
+      447
+    ],
+    "bottom": 635.625,
+    "viewport": 720,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 208.484375,
+        "bottom": 615.625,
+        "height": 407.140625
+      },
+      {
+        "class": "briefing-copy",
+        "top": 358.9375,
+        "bottom": 465.15625,
+        "height": 106.21875
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1280,
+    "height": 720,
+    "slide": 3,
+    "client": [
+      1201,
+      439
+    ],
+    "scroll": [
+      1201,
+      439
+    ],
+    "bottom": 635.625,
+    "viewport": 720,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 216.9375,
+        "bottom": 615.625,
+        "height": 398.6875
+      },
+      {
+        "class": "briefing-copy",
+        "top": 321.078125,
+        "bottom": 511.46875,
+        "height": 190.390625
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1280,
+    "height": 720,
+    "slide": 4,
+    "client": [
+      1201,
+      447
+    ],
+    "scroll": [
+      1201,
+      447
+    ],
+    "bottom": 635.625,
+    "viewport": 720,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-search-graph-figure",
+        "top": 208.484375,
+        "bottom": 615.625,
+        "height": 407.140625
+      },
+      {
+        "class": "briefing-copy",
+        "top": 307.34375,
+        "bottom": 516.765625,
+        "height": 209.421875
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1280,
+    "height": 720,
+    "slide": 5,
+    "client": [
+      1201,
+      447
+    ],
+    "scroll": [
+      1201,
+      447
+    ],
+    "bottom": 635.625,
+    "viewport": 720,
+    "children": [
+      {
+        "class": "briefing-evidence-figure service-audience-figure",
+        "top": 208.484375,
+        "bottom": 615.625,
+        "height": 407.140625
+      },
+      {
+        "class": "briefing-copy",
+        "top": 287.34375,
+        "bottom": 536.765625,
+        "height": 249.421875
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1280,
+    "height": 720,
+    "slide": 6,
+    "client": [
+      1201,
+      447
+    ],
+    "scroll": [
+      1201,
+      447
+    ],
+    "bottom": 635.625,
+    "viewport": 720,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 208.484375,
+        "bottom": 615.625,
+        "height": 407.140625
+      },
+      {
+        "class": "briefing-copy",
+        "top": 320.78125,
+        "bottom": 503.328125,
+        "height": 182.546875
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1280,
+    "height": 720,
+    "slide": 7,
+    "client": [
+      1201,
+      447
+    ],
+    "scroll": [
+      1201,
+      447
+    ],
+    "bottom": 635.625,
+    "viewport": 720,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 208.484375,
+        "bottom": 615.625,
+        "height": 407.140625
+      },
+      {
+        "class": "briefing-copy",
+        "top": 316.859375,
+        "bottom": 507.25,
+        "height": 190.390625
+      }
+    ]
+  },
+  {
+    "lang": "uk",
+    "width": 1280,
+    "height": 720,
+    "slide": 8,
+    "client": [
+      1201,
+      447
+    ],
+    "scroll": [
+      1201,
+      447
+    ],
+    "bottom": 635.625,
+    "viewport": 720,
+    "children": [
+      {
+        "class": "briefing-evidence-figure briefing-story-figure",
+        "top": 208.484375,
+        "bottom": 615.625,
+        "height": 407.140625
+      },
+      {
+        "class": "briefing-copy",
+        "top": 312.0625,
+        "bottom": 512.03125,
+        "height": 199.96875
+      }
+    ]
+  }
+]

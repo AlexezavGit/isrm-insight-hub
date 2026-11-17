@@ -1,0 +1,20 @@
+[
+  {
+    "file": "docs/reviews/deep-audit-2026-10-31/README.md",
+    "archive": "docs/project/archive/README.md.before-routing-reconciliation-2026-11-01",
+    "before_sha256": "c1797697892e2449537bfd098eb3c1109826c753243422bbad8674bb5686b6ef",
+    "after_sha256": "7c1caa44d7fcb8ff2a3d0d07a531c29e72d2c8be8439172655f16c8ac23f3875"
+  },
+  {
+    "file": "docs/project/ENTRY.md",
+    "archive": "docs/project/archive/ENTRY.md.before-final-audit-status-2026-11-01",
+    "before_sha256": "bef7aae8895b8ddf06d69bb2e312878a7294e1a7740af8f3a9d3aa332a288d86",
+    "after_sha256": "05885a63f63b94ef2fa2c98cc36666bdd7d12790d9200a2796f4af7fa06734a9"
+  },
+  {
+    "file": "docs/reviews/deep-audit-2026-10-31/PROTOTYPE.md",
+    "archive": "docs/project/archive/PROTOTYPE.md.before-language-scope-2026-11-01",
+    "before_sha256": "82286a1d52183398277ed182dc8aa08fd47af4d5cb5312c0c71632a1bd8cd1d1",
+    "after_sha256": "ef1716c929eed217c4d3e96b1b9cbf155467e8d229f5b3004078248626030c37"
+  }
+]

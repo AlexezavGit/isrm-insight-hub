@@ -1,0 +1,80 @@
+[
+  {
+    "lang": "en",
+    "slide": 1,
+    "stage": 0,
+    "records": 356,
+    "caption": "The same records and attributes; a different way to work with them."
+  },
+  {
+    "lang": "en",
+    "slide": 1,
+    "stage": 1,
+    "records": 356,
+    "caption": "The same records and attributes; a different way to work with them."
+  },
+  {
+    "lang": "en",
+    "slide": 1,
+    "stage": 2,
+    "records": 356,
+    "caption": "Security, strategic risk and crisis management · 14 records with this attribute"
+  },
+  {
+    "lang": "en",
+    "slide": 5,
+    "workflow": "Engagement",
+    "title": "Engagement"
+  },
+  {
+    "lang": "en",
+    "slide": 5,
+    "workflow": "Shared expertise",
+    "title": "Shared expertise"
+  },
+  {
+    "lang": "en",
+    "slide": 5,
+    "workflow": "Client request",
+    "title": "Client request"
+  },
+  {
+    "lang": "uk",
+    "slide": 1,
+    "stage": 0,
+    "records": 356,
+    "caption": "Ті самі записи й атрибути; змінюється спосіб роботи з ними."
+  },
+  {
+    "lang": "uk",
+    "slide": 1,
+    "stage": 1,
+    "records": 356,
+    "caption": "Ті самі записи й атрибути; змінюється спосіб роботи з ними."
+  },
+  {
+    "lang": "uk",
+    "slide": 1,
+    "stage": 2,
+    "records": 356,
+    "caption": "Security, strategic risk and crisis management · 14 записів за цим атрибутом"
+  },
+  {
+    "lang": "uk",
+    "slide": 5,
+    "workflow": "Залучення",
+    "title": "Залучення"
+  },
+  {
+    "lang": "uk",
+    "slide": 5,
+    "workflow": "Мережева експертиза",
+    "title": "Мережева експертиза"
+  },
+  {
+    "lang": "uk",
+    "slide": 5,
+    "workflow": "Клієнтський запит",
+    "title": "Клієнтський запит"
+  }
+]

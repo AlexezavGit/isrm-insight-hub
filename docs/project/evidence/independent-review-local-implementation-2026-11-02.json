@@ -1,0 +1,15 @@
+{
+  "status": "done",
+  "reviewer": "/root/verify_isrm_registry",
+  "scope": "Independent QA-2: guest projection, dossier expansion and completion claims",
+  "findings": [
+    "Guest availability flag does not include withheld field values",
+    "Source placeholders do not count as restricted content",
+    "A false verification flag does not gate accessible dossier information",
+    "Unprepared and service-only values do not create full dossiers",
+    "Configurator migration remains explicitly unimplemented in BRIEFING-REVISION"
+  ],
+  "correction": "Classification also checks hidden contact and organisation fields for presence only, using hasRecordedContent",
+  "tests": "Reviewer confirmed network-access and network-panels after correction; prototype-workspace passed earlier",
+  "limits": "No independent browser walkthrough; no legal-basis or GDPR determination"
+}

@@ -9,8 +9,10 @@ test("public network exposes only anonymous profiles and codes never grant board
   assert.equal(anonymous.length, privateProfiles.length);
   assert.ok(anonymous.some((r, i) => r.displayName !== privateProfiles[i].displayName));
   for (const r of anonymous) {
-    for (const key of ["organization", "role", "phone", "linkedin", "source", "sensitivity"] as const)
+    for (const key of ["organization", "role", "source", "sensitivity"] as const)
       assert.equal(r[key], undefined);
+    assert.equal(Object.hasOwn(r, "phone"), false);
+    assert.equal(Object.hasOwn(r, "linkedin"), false);
     assert.equal(r.evidence, "");
     assert.equal(r.contribution, "");
     assert.equal(r.potentialRole, "");
@@ -21,7 +23,7 @@ test("public network exposes only anonymous profiles and codes never grant board
   assert.equal(resolveAccess("EXP-004").level, "guest");
   assert.equal(resolveAccess("not-a-password").level, "guest");
 });
-test("server-configured board password grants named profiles without direct phone access", () => {
+test("server-configured board password grants named profiles without direct contact data", () => {
   const previous = process.env["ISRM_BOARD_CODE"];
   process.env["ISRM_BOARD_CODE"] = "test-only-board-access";
   try {
@@ -29,7 +31,7 @@ test("server-configured board password grants named profiles without direct phon
     const records = buildExperts("referral");
     assert.ok(records.length > 0);
     assert.ok(records.some((r) => Boolean(r.organization)));
-    assert.ok(records.every((r) => r.phone === undefined));
+    assert.ok(records.every((r) => !Object.hasOwn(r, "phone") && !Object.hasOwn(r, "linkedin")));
   } finally {
     if (previous === undefined) delete process.env["ISRM_BOARD_CODE"];
     else process.env["ISRM_BOARD_CODE"] = previous;

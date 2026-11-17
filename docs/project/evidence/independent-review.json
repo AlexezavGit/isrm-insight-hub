@@ -1,0 +1,20 @@
+{
+  "rule": "QA-2",
+  "reviewer": "verify_isrm_registry",
+  "status": "done",
+  "findings_resolved": [
+    "Do not attribute a fixed slide order to an ambiguous user question",
+    "Describe the documentation inventory as a filtered selection",
+    "Identify each local branch comparison baseline explicitly"
+  ],
+  "confirmed": [
+    "CSV passports and statuses",
+    "Local link existence",
+    "Live release SHA screenshot",
+    "Git source parity scope",
+    "Exact workbook identities and limited PDF text comparison",
+    "Invalid worktree not called clean",
+    "Font finding limited to observed slide",
+    "Accessibility evidence limitations"
+  ]
+}

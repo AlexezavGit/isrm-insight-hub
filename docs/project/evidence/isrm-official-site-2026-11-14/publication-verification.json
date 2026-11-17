@@ -1,0 +1,13 @@
+{
+  "commit": "1eaef10b31968ff258a28c73f94ceffcd498aed0",
+  "parent": "d989e1e6ea64ecc12a278901bd6afc6f15ba9748",
+  "workflow": "https://github.com/AlexezavGit/isrm-insight-hub/actions/runs/43609953439",
+  "conclusion": "success",
+  "release_marker": "verified in production browser",
+  "live_qa": "isrm-chapters-live-qa.json",
+  "print_pages": {
+    "uk": 8,
+    "en": 8
+  },
+  "private_sample_unchanged": true
+}

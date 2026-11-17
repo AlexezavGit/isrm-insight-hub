@@ -1,0 +1,15 @@
+{
+  "src/lib/briefing-slides.ts": "65f8a1f76a22f5174341ca0780760304c3afd38653d086a13467cc42f5db2af8",
+  "src/components/BriefingSlider.tsx": "c9100f8e3afdc1521d96f6ba46c1c002cead94300951a045ec8ae6a97e5ce54d",
+  "src/components/BriefingStoryGraph.tsx": "cee3d70060f479bb96c8a4031c3e71c362e3be4b95d5ab46e66ab8d7e4810ad7",
+  "src/components/BriefingVisual.tsx": "de08233f3eafdbfe325caaa70bfccc4b41615982f03a04d5390c6886e2820977",
+  "src/components/BriefingSearchGraphFigure.tsx": "f65928948dbac004362b8fecbcd3e98c864b6332fb4499a3405bcfcde879c904",
+  "src/components/BriefingEvidenceFigures.tsx": "910f827f5f83f0f2cfc19d74a900e9ac4978549279aa9329c2e5bb178a715fc3",
+  "src/routes/presentation.tsx": "52b1c189b33a60758dfc8996ff3a08bf2589dc20cd5e19396e374ba117d798b7",
+  "src/routes/proposal.tsx": "af07fd847de1df74276c4f8820e8bb0adbcc0786f8651de203c9ff4ac1712f4d",
+  "src/styles.css": "1336a577c4d63d93e6f5d934762eb3014c302c0d9cab7720978d6fd528d97808",
+  "documentation/docs/project/presentation-revised-story-2026-11-14.md": "578a36854d9ff4697c3589ecc91711cfd7bba83eab74ad2fd72ef8c308b50285",
+  "documentation/docs/project/ENTRY.md": "fbe993192975c83dec1c7f7c09dcf28257c42c57a83fe8d8d1eb418ddb965136",
+  "documentation/PROJECT_OVERLAY_ISRM.md": "8194169df7a9528ed847d06204ea97deabcaf74680ad39c0ba4ade449a06ff18",
+  "documentation/docs/project/session-notes/index.json": "dfdb9f45a9d606c48c3f2f5dd4ccdafceb847de80b4899c11720344270ae20ce"
+}

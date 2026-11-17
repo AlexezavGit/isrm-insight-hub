@@ -1,0 +1,1025 @@
+{
+  "checks": [
+    {
+      "lang": "en",
+      "width": 1366,
+      "height": 768,
+      "slide": 1,
+      "client": [
+        1282,
+        493
+      ],
+      "scroll": [
+        1282,
+        493
+      ],
+      "viewport": [
+        1366,
+        768
+      ],
+      "documentWidth": 1366
+    },
+    {
+      "lang": "en",
+      "width": 1366,
+      "height": 768,
+      "slide": 2,
+      "client": [
+        1282,
+        493
+      ],
+      "scroll": [
+        1282,
+        493
+      ],
+      "viewport": [
+        1366,
+        768
+      ],
+      "documentWidth": 1366
+    },
+    {
+      "lang": "en",
+      "width": 1366,
+      "height": 768,
+      "slide": 3,
+      "client": [
+        1282,
+        487
+      ],
+      "scroll": [
+        1282,
+        487
+      ],
+      "viewport": [
+        1366,
+        768
+      ],
+      "documentWidth": 1366
+    },
+    {
+      "lang": "en",
+      "width": 1366,
+      "height": 768,
+      "slide": 4,
+      "client": [
+        1282,
+        493
+      ],
+      "scroll": [
+        1282,
+        493
+      ],
+      "viewport": [
+        1366,
+        768
+      ],
+      "documentWidth": 1366
+    },
+    {
+      "lang": "en",
+      "width": 1366,
+      "height": 768,
+      "slide": 5,
+      "client": [
+        1282,
+        493
+      ],
+      "scroll": [
+        1282,
+        493
+      ],
+      "viewport": [
+        1366,
+        768
+      ],
+      "documentWidth": 1366
+    },
+    {
+      "lang": "en",
+      "width": 1366,
+      "height": 768,
+      "slide": 6,
+      "client": [
+        1282,
+        493
+      ],
+      "scroll": [
+        1282,
+        493
+      ],
+      "viewport": [
+        1366,
+        768
+      ],
+      "documentWidth": 1366
+    },
+    {
+      "lang": "en",
+      "width": 1366,
+      "height": 768,
+      "slide": 7,
+      "client": [
+        1282,
+        493
+      ],
+      "scroll": [
+        1282,
+        493
+      ],
+      "viewport": [
+        1366,
+        768
+      ],
+      "documentWidth": 1366
+    },
+    {
+      "lang": "en",
+      "width": 1366,
+      "height": 768,
+      "slide": 8,
+      "client": [
+        1282,
+        493
+      ],
+      "scroll": [
+        1282,
+        493
+      ],
+      "viewport": [
+        1366,
+        768
+      ],
+      "documentWidth": 1366
+    },
+    {
+      "lang": "en",
+      "width": 1280,
+      "height": 720,
+      "slide": 1,
+      "client": [
+        1201,
+        447
+      ],
+      "scroll": [
+        1201,
+        447
+      ],
+      "viewport": [
+        1280,
+        720
+      ],
+      "documentWidth": 1280
+    },
+    {
+      "lang": "en",
+      "width": 1280,
+      "height": 720,
+      "slide": 2,
+      "client": [
+        1201,
+        447
+      ],
+      "scroll": [
+        1201,
+        447
+      ],
+      "viewport": [
+        1280,
+        720
+      ],
+      "documentWidth": 1280
+    },
+    {
+      "lang": "en",
+      "width": 1280,
+      "height": 720,
+      "slide": 3,
+      "client": [
+        1201,
+        439
+      ],
+      "scroll": [
+        1201,
+        439
+      ],
+      "viewport": [
+        1280,
+        720
+      ],
+      "documentWidth": 1280
+    },
+    {
+      "lang": "en",
+      "width": 1280,
+      "height": 720,
+      "slide": 4,
+      "client": [
+        1201,
+        447
+      ],
+      "scroll": [
+        1201,
+        447
+      ],
+      "viewport": [
+        1280,
+        720
+      ],
+      "documentWidth": 1280
+    },
+    {
+      "lang": "en",
+      "width": 1280,
+      "height": 720,
+      "slide": 5,
+      "client": [
+        1201,
+        447
+      ],
+      "scroll": [
+        1201,
+        447
+      ],
+      "viewport": [
+        1280,
+        720
+      ],
+      "documentWidth": 1280
+    },
+    {
+      "lang": "en",
+      "width": 1280,
+      "height": 720,
+      "slide": 6,
+      "client": [
+        1201,
+        447
+      ],
+      "scroll": [
+        1201,
+        447
+      ],
+      "viewport": [
+        1280,
+        720
+      ],
+      "documentWidth": 1280
+    },
+    {
+      "lang": "en",
+      "width": 1280,
+      "height": 720,
+      "slide": 7,
+      "client": [
+        1201,
+        447
+      ],
+      "scroll": [
+        1201,
+        447
+      ],
+      "viewport": [
+        1280,
+        720
+      ],
+      "documentWidth": 1280
+    },
+    {
+      "lang": "en",
+      "width": 1280,
+      "height": 720,
+      "slide": 8,
+      "client": [
+        1201,
+        447
+      ],
+      "scroll": [
+        1201,
+        447
+      ],
+      "viewport": [
+        1280,
+        720
+      ],
+      "documentWidth": 1280
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "height": 844,
+      "slide": 1,
+      "client": [
+        367,
+        551
+      ],
+      "scroll": [
+        367,
+        623
+      ],
+      "viewport": [
+        390,
+        844
+      ],
+      "documentWidth": 390
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "height": 844,
+      "slide": 2,
+      "client": [
+        367,
+        551
+      ],
+      "scroll": [
+        367,
+        551
+      ],
+      "viewport": [
+        390,
+        844
+      ],
+      "documentWidth": 390
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "height": 844,
+      "slide": 3,
+      "client": [
+        367,
+        551
+      ],
+      "scroll": [
+        367,
+        605
+      ],
+      "viewport": [
+        390,
+        844
+      ],
+      "documentWidth": 390
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "height": 844,
+      "slide": 4,
+      "client": [
+        367,
+        551
+      ],
+      "scroll": [
+        367,
+        997
+      ],
+      "viewport": [
+        390,
+        844
+      ],
+      "documentWidth": 390
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "height": 844,
+      "slide": 5,
+      "client": [
+        367,
+        551
+      ],
+      "scroll": [
+        367,
+        696
+      ],
+      "viewport": [
+        390,
+        844
+      ],
+      "documentWidth": 390
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "height": 844,
+      "slide": 6,
+      "client": [
+        367,
+        551
+      ],
+      "scroll": [
+        367,
+        617
+      ],
+      "viewport": [
+        390,
+        844
+      ],
+      "documentWidth": 390
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "height": 844,
+      "slide": 7,
+      "client": [
+        367,
+        551
+      ],
+      "scroll": [
+        367,
+        635
+      ],
+      "viewport": [
+        390,
+        844
+      ],
+      "documentWidth": 390
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "height": 844,
+      "slide": 8,
+      "client": [
+        367,
+        551
+      ],
+      "scroll": [
+        367,
+        960
+      ],
+      "viewport": [
+        390,
+        844
+      ],
+      "documentWidth": 390
+    },
+    {
+      "lang": "en",
+      "print": [
+        {
+          "title": "AI changes how we access and use data.",
+          "visible": true,
+          "width": 390,
+          "height": 907.078125
+        },
+        {
+          "title": "Each record needs a path to action.",
+          "visible": true,
+          "width": 390,
+          "height": 907.078125
+        },
+        {
+          "title": "Keep expertise current through the work that needs it.",
+          "visible": true,
+          "width": 390,
+          "height": 907.078125
+        },
+        {
+          "title": "The ISRM demonstration returns the first research results.",
+          "visible": true,
+          "width": 390,
+          "height": 907.078125
+        },
+        {
+          "title": "From a working search to connected workflows.",
+          "visible": true,
+          "width": 390,
+          "height": 907.078125
+        },
+        {
+          "title": "Seeing a profile should not mean unrestricted access.",
+          "visible": true,
+          "width": 390,
+          "height": 907.078125
+        },
+        {
+          "title": "Connect the systems you use to the expertise you need.",
+          "visible": true,
+          "width": 390,
+          "height": 907.078125
+        },
+        {
+          "title": "We would value your view",
+          "visible": true,
+          "width": 390,
+          "height": 907.078125
+        }
+      ]
+    },
+    {
+      "lang": "uk",
+      "width": 1366,
+      "height": 768,
+      "slide": 1,
+      "client": [
+        1282,
+        493
+      ],
+      "scroll": [
+        1282,
+        493
+      ],
+      "viewport": [
+        1366,
+        768
+      ],
+      "documentWidth": 1366
+    },
+    {
+      "lang": "uk",
+      "width": 1366,
+      "height": 768,
+      "slide": 2,
+      "client": [
+        1282,
+        493
+      ],
+      "scroll": [
+        1282,
+        493
+      ],
+      "viewport": [
+        1366,
+        768
+      ],
+      "documentWidth": 1366
+    },
+    {
+      "lang": "uk",
+      "width": 1366,
+      "height": 768,
+      "slide": 3,
+      "client": [
+        1282,
+        455
+      ],
+      "scroll": [
+        1282,
+        455
+      ],
+      "viewport": [
+        1366,
+        768
+      ],
+      "documentWidth": 1366
+    },
+    {
+      "lang": "uk",
+      "width": 1366,
+      "height": 768,
+      "slide": 4,
+      "client": [
+        1282,
+        493
+      ],
+      "scroll": [
+        1282,
+        493
+      ],
+      "viewport": [
+        1366,
+        768
+      ],
+      "documentWidth": 1366
+    },
+    {
+      "lang": "uk",
+      "width": 1366,
+      "height": 768,
+      "slide": 5,
+      "client": [
+        1282,
+        493
+      ],
+      "scroll": [
+        1282,
+        493
+      ],
+      "viewport": [
+        1366,
+        768
+      ],
+      "documentWidth": 1366
+    },
+    {
+      "lang": "uk",
+      "width": 1366,
+      "height": 768,
+      "slide": 6,
+      "client": [
+        1282,
+        493
+      ],
+      "scroll": [
+        1282,
+        493
+      ],
+      "viewport": [
+        1366,
+        768
+      ],
+      "documentWidth": 1366
+    },
+    {
+      "lang": "uk",
+      "width": 1366,
+      "height": 768,
+      "slide": 7,
+      "client": [
+        1282,
+        493
+      ],
+      "scroll": [
+        1282,
+        493
+      ],
+      "viewport": [
+        1366,
+        768
+      ],
+      "documentWidth": 1366
+    },
+    {
+      "lang": "uk",
+      "width": 1366,
+      "height": 768,
+      "slide": 8,
+      "client": [
+        1282,
+        493
+      ],
+      "scroll": [
+        1282,
+        493
+      ],
+      "viewport": [
+        1366,
+        768
+      ],
+      "documentWidth": 1366
+    },
+    {
+      "lang": "uk",
+      "width": 1280,
+      "height": 720,
+      "slide": 1,
+      "client": [
+        1201,
+        447
+      ],
+      "scroll": [
+        1201,
+        447
+      ],
+      "viewport": [
+        1280,
+        720
+      ],
+      "documentWidth": 1280
+    },
+    {
+      "lang": "uk",
+      "width": 1280,
+      "height": 720,
+      "slide": 2,
+      "client": [
+        1201,
+        447
+      ],
+      "scroll": [
+        1201,
+        447
+      ],
+      "viewport": [
+        1280,
+        720
+      ],
+      "documentWidth": 1280
+    },
+    {
+      "lang": "uk",
+      "width": 1280,
+      "height": 720,
+      "slide": 3,
+      "client": [
+        1201,
+        412
+      ],
+      "scroll": [
+        1201,
+        412
+      ],
+      "viewport": [
+        1280,
+        720
+      ],
+      "documentWidth": 1280
+    },
+    {
+      "lang": "uk",
+      "width": 1280,
+      "height": 720,
+      "slide": 4,
+      "client": [
+        1201,
+        447
+      ],
+      "scroll": [
+        1201,
+        447
+      ],
+      "viewport": [
+        1280,
+        720
+      ],
+      "documentWidth": 1280
+    },
+    {
+      "lang": "uk",
+      "width": 1280,
+      "height": 720,
+      "slide": 5,
+      "client": [
+        1201,
+        447
+      ],
+      "scroll": [
+        1201,
+        447
+      ],
+      "viewport": [
+        1280,
+        720
+      ],
+      "documentWidth": 1280
+    },
+    {
+      "lang": "uk",
+      "width": 1280,
+      "height": 720,
+      "slide": 6,
+      "client": [
+        1201,
+        447
+      ],
+      "scroll": [
+        1201,
+        447
+      ],
+      "viewport": [
+        1280,
+        720
+      ],
+      "documentWidth": 1280
+    },
+    {
+      "lang": "uk",
+      "width": 1280,
+      "height": 720,
+      "slide": 7,
+      "client": [
+        1201,
+        447
+      ],
+      "scroll": [
+        1201,
+        447
+      ],
+      "viewport": [
+        1280,
+        720
+      ],
+      "documentWidth": 1280
+    },
+    {
+      "lang": "uk",
+      "width": 1280,
+      "height": 720,
+      "slide": 8,
+      "client": [
+        1201,
+        447
+      ],
+      "scroll": [
+        1201,
+        447
+      ],
+      "viewport": [
+        1280,
+        720
+      ],
+      "documentWidth": 1280
+    },
+    {
+      "lang": "uk",
+      "width": 390,
+      "height": 844,
+      "slide": 1,
+      "client": [
+        367,
+        551
+      ],
+      "scroll": [
+        367,
+        648
+      ],
+      "viewport": [
+        390,
+        844
+      ],
+      "documentWidth": 390
+    },
+    {
+      "lang": "uk",
+      "width": 390,
+      "height": 844,
+      "slide": 2,
+      "client": [
+        367,
+        551
+      ],
+      "scroll": [
+        367,
+        557
+      ],
+      "viewport": [
+        390,
+        844
+      ],
+      "documentWidth": 390
+    },
+    {
+      "lang": "uk",
+      "width": 390,
+      "height": 844,
+      "slide": 3,
+      "client": [
+        367,
+        551
+      ],
+      "scroll": [
+        367,
+        655
+      ],
+      "viewport": [
+        390,
+        844
+      ],
+      "documentWidth": 390
+    },
+    {
+      "lang": "uk",
+      "width": 390,
+      "height": 844,
+      "slide": 4,
+      "client": [
+        367,
+        551
+      ],
+      "scroll": [
+        367,
+        1061
+      ],
+      "viewport": [
+        390,
+        844
+      ],
+      "documentWidth": 390
+    },
+    {
+      "lang": "uk",
+      "width": 390,
+      "height": 844,
+      "slide": 5,
+      "client": [
+        367,
+        551
+      ],
+      "scroll": [
+        367,
+        746
+      ],
+      "viewport": [
+        390,
+        844
+      ],
+      "documentWidth": 390
+    },
+    {
+      "lang": "uk",
+      "width": 390,
+      "height": 844,
+      "slide": 6,
+      "client": [
+        367,
+        551
+      ],
+      "scroll": [
+        367,
+        617
+      ],
+      "viewport": [
+        390,
+        844
+      ],
+      "documentWidth": 390
+    },
+    {
+      "lang": "uk",
+      "width": 390,
+      "height": 844,
+      "slide": 7,
+      "client": [
+        367,
+        551
+      ],
+      "scroll": [
+        367,
+        702
+      ],
+      "viewport": [
+        390,
+        844
+      ],
+      "documentWidth": 390
+    },
+    {
+      "lang": "uk",
+      "width": 390,
+      "height": 844,
+      "slide": 8,
+      "client": [
+        367,
+        551
+      ],
+      "scroll": [
+        367,
+        1039
+      ],
+      "viewport": [
+        390,
+        844
+      ],
+      "documentWidth": 390
+    },
+    {
+      "lang": "uk",
+      "print": [
+        {
+          "title": "ШІ змінює доступність і використання даних.",
+          "visible": true,
+          "width": 390,
+          "height": 907.078125
+        },
+        {
+          "title": "Кожному запису потрібен шлях до дії.",
+          "visible": true,
+          "width": 390,
+          "height": 907.078125
+        },
+        {
+          "title": "Підтримуйте актуальність експертизи через роботу, для якої вона потрібна.",
+          "visible": true,
+          "width": 390,
+          "height": 907.078125
+        },
+        {
+          "title": "Демонстрація повертає ISRM перші результати дослідження.",
+          "visible": true,
+          "width": 390,
+          "height": 907.078125
+        },
+        {
+          "title": "Від робочого пошуку до пов’язаних процесів.",
+          "visible": true,
+          "width": 390,
+          "height": 907.078125
+        },
+        {
+          "title": "Перегляд профілю не повинен означати необмежений доступ.",
+          "visible": true,
+          "width": 390,
+          "height": 907.078125
+        },
+        {
+          "title": "Поєднайте свої системи з потрібною експертизою.",
+          "visible": true,
+          "width": 390,
+          "height": 907.078125
+        },
+        {
+          "title": "Будемо вдячні за вашу думку.",
+          "visible": true,
+          "width": 390,
+          "height": 907.078125
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "overflows": [],
+  "mobileOverflow": []
+}

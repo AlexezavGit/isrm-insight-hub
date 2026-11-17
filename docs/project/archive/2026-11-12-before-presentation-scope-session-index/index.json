@@ -1,0 +1,224 @@
+{
+  "documents": [
+    {
+      "id": "isrm-worktree-inventory-and-start-screen-2026-11-10",
+      "title": "Інвентаризація семи робочих копій і межі конфігуратора",
+      "path": "2026-11-10-worktree-inventory.md",
+      "status": "done",
+      "sha256": "4902cada1081efa6e46972942c2ed07a74a2db4c50db7b462c7ea0f0c8a43849"
+    },
+    {
+      "id": "isrm-cloudflare-release-2026-11-10",
+      "title": "Опублікування app-first збірки ISRM",
+      "path": "2026-11-10-cloudflare-release.md",
+      "status": "done",
+      "sha256": "9814065b3f36bdab64538619149ce971064572972fdea1a2a7f93d9cfc57d9ca"
+    },
+    {
+      "id": "isrm-audit-2026-11-01",
+      "title": "Контрольна точка: брифінг і прототип",
+      "path": "2026-11-01-briefing-prototype-audit.md",
+      "status": "done",
+      "sha256": "370c1cc8a5812d6d669b45467b2db0976938a9ec9ad79aa3d3ad4ede1d5d5463"
+    },
+    {
+      "id": "isrm-prototype-refinement-2026-11-01",
+      "title": "Уточнення: переліки, панелі, відзнаки й терміни",
+      "path": "2026-11-01-prototype-refinement.md",
+      "status": "done",
+      "sha256": "34215413b99a5d26fcbb0e936b385f4700846b11530664e0dce6597fc04c2ecf"
+    },
+    {
+      "id": "isrm-approved-audit-work-order-2026-11-01",
+      "title": "Погодження прототипу та порядок реалізації",
+      "path": "2026-11-01-approved-audit-work-order.md",
+      "status": "done",
+      "sha256": "b429fb79a02a3923631c2a628540773379f01e870b4c5039055eeeb30f8ae897"
+    },
+    {
+      "id": "isrm-local-prototype-briefing-2026-11-02",
+      "title": "Локальний прототип і конкретна редакція брифінгу",
+      "path": "2026-11-02-local-prototype-and-briefing.md",
+      "status": "done",
+      "sha256": "bbf1e072f5bb048e6d289f873f9cf4ff190b72ca54f2cf42b9f2c86054bb16c5"
+    },
+    {
+      "id": "isrm-app-first-navigation-2026-11-03",
+      "title": "Застосунок як основний продукт: навігація та модель функцій",
+      "path": "2026-11-03-app-first-and-navigation.md",
+      "status": "done",
+      "sha256": "316b949057f26076e987212b891eb129614292b989e4cd5867b57eb0d7add71d"
+    },
+    {
+      "id": "isrm-workspace-ux-filter-2026-11-03",
+      "title": "Робочий простір, огляд експертизи й професійний UX-фільтр",
+      "path": "2026-11-03-workspace-and-ux-filter.md",
+      "status": "done",
+      "sha256": "c994ad5f1ba21f5338b66a5ce146466b11222347e0eeaf85eabe2a562d3b2738"
+    },
+    {
+      "id": "isrm-ux-ideation-2026-11-03",
+      "title": "UX/UI-корекції, словник і візуальні варіанти",
+      "path": "2026-11-03-ux-ideation.md",
+      "status": "done",
+      "sha256": "589201dd1ef9c8d00baf1ae4aa291dd1ab795212b64473f3d747165ee1872562"
+    },
+    {
+      "id": "isrm-combined-dossier-2026-11-03",
+      "title": "Зведений макет міні-досьє, зв’язків і рейлу",
+      "path": "2026-11-03-combined-dossier.md",
+      "status": "done",
+      "sha256": "58365e2819291fdfa02acc51f58c842d73f1d0c96a3ca991a83371636b151d48"
+    },
+    {
+      "id": "isrm-dashboard-material-2026-11-03",
+      "title": "Дашборд, світіння та внутрішній конфігуратор",
+      "path": "2026-11-03-dashboard-material.md",
+      "status": "done",
+      "sha256": "78fef63d3807fb610a2233c17c7e7162fe80582861ecc176810370f56aea5233"
+    },
+    {
+      "id": "isrm-rail-geometry-2026-11-03",
+      "title": "Єдина геометрія рейлів і dashboard-overlay",
+      "path": "2026-11-03-rail-geometry.md",
+      "status": "done",
+      "sha256": "4ed71547840ba3bddb939247aad57253b6170e4346487ca477f7e5d41fc2ad11"
+    },
+    {
+      "id": "isrm-coded-geometry-2026-11-03",
+      "title": "Виконані рейли, досьє та семантика лічильників",
+      "path": "2026-11-03-coded-geometry.md",
+      "status": "done",
+      "sha256": "8cdee7e9af5cabd31438046c95ad226f82e811de29a6474eb93756359eb51da4"
+    },
+    {
+      "id": "isrm-configurator-proposal-acceptance-2026-11-04",
+      "title": "Аудит конфігуратора, пропозиції та погодження ціни",
+      "path": "2026-11-04-configurator-proposal-acceptance-audit.md",
+      "status": "done",
+      "sha256": "acf9af00d1f285f0a96a8dafaea8c7125a13fc8a2388a5c47fbe16c1eea6a0ff"
+    },
+    {
+      "id": "isrm-graph-reuse-net-isrm-review-2026-11-04",
+      "title": "Зіставлення графів ISRM і огляд net_isrm",
+      "path": "2026-11-04-graph-reuse-net-isrm-review.md",
+      "status": "done",
+      "sha256": "292fe7c6fa191331d21bac8eaab5fed00b976c281ae36c5459ce6464df1d3569"
+    },
+    {
+      "id": "isrm-acceptance-criteria-and-graph-focus-2026-11-06",
+      "title": "Перевірка критеріїв приймання, фокуса графа й знімка shortlist",
+      "path": "2026-11-06-acceptance-criteria-and-graph-focus.md",
+      "status": "done",
+      "sha256": "5a5b64ebdea211270788af6ea5b7848e78151d94f076c85be1d30180b48cf156"
+    },
+    {
+      "id": "isrm-full-product-readiness-audit-2026-11-06",
+      "title": "Повний аудит готовності продукту до клієнтської взаємодії",
+      "path": "2026-11-06-full-product-readiness-audit.md",
+      "status": "done",
+      "sha256": "b51a20e22dca27e9b94755f1388a430b928d2082c7bdb1f80c673ccb31ade8f6"
+    },
+    {
+      "id": "isrm-graph-lifecycle-and-search-roundtrip-2026-11-07",
+      "title": "Перевірка циклу графа та відновлення групи",
+      "path": "2026-11-07-graph-lifecycle-and-search-roundtrip.md",
+      "status": "done",
+      "sha256": "3498df1f672af96eff79899c82830504c992ea8aa74e031409b2bf93cf29c846"
+    },
+    {
+      "id": "isrm-point-pause-grouped-graph-2026-11-07",
+      "title": "Цикл графа: точка, розсіювання, пауза, групування",
+      "path": "2026-11-07-point-pause-grouped-graph.md",
+      "status": "done",
+      "sha256": "49bbee08d3fa52e9b1f484c3074c663d8e8646df5ae5c14e9d3bde2a6f52d63f"
+    },
+    {
+      "id": "isrm-graph-as-search-2026-11-08",
+      "title": "Граф як пошук і панелі як відображення вибору",
+      "path": "2026-11-08-graph-as-search.md",
+      "status": "done",
+      "sha256": "e56c761c00d257c15efb6085f9352d66b921c86ba8c233a64c2a74750fd5adeb"
+    },
+    {
+      "id": "isrm-concept-proposal-synthesis-2026-11-08",
+      "title": "Зведення концепції, продукту й пропозиції",
+      "path": "2026-11-08-isrm-concept-and-proposal-synthesis.md",
+      "status": "done",
+      "sha256": "32cdcb4915ff54a93ae8eddeaa701948bb832d4edef1505c376d967d5f376449"
+    },
+    {
+      "id": "isrm-shortlist-contact-paths-2026-11-08",
+      "title": "Мапа шляхів контактів у shortlist",
+      "path": "2026-11-08-shortlist-contact-paths.md",
+      "status": "done",
+      "sha256": "6f82fc44616697c8e811a9041d3a0385b1ff196323d3eac8456fff9acc9559bd"
+    },
+    {
+      "id": "isrm-continuation-plan-2026-11-09",
+      "title": "План продовження: застосунок, конфігуратор, презентація та scope",
+      "path": "2026-11-09-continuation-plan.md",
+      "status": "done",
+      "sha256": "983d98142422481e3796bf326d1ddc5508a5640fd5501bc2b2d4726b1f045254"
+    },
+    {
+      "id": "isrm-capability-map-source-check-2026-11-09",
+      "title": "Дослідження конкурентів і baseline capability map",
+      "path": "2026-11-09-capability-map-source-check.md",
+      "status": "done",
+      "sha256": "30ebd71df9a29bdad135efeb03a9fc65d926fabda06da614da119c1cbfa29fa9"
+    },
+    {
+      "id": "isrm-capability-map-2026-11-09",
+      "title": "Карта можливостей і межа продукту",
+      "path": "../capability-map.md",
+      "status": "done",
+      "sha256": "44d96da471c9cbc0b701e191608f5c888169fecc62ed0f3a16641598d7d29e9e"
+    },
+    {
+      "id": "isrm-plan-alignment-2026-11-09",
+      "title": "Узгодження плану робіт із дослідженням",
+      "path": "../plan-alignment-2026-11-09.md",
+      "status": "done",
+      "sha256": "574109630b6bbf6c1191671b2da1974cf85ed2d7c09a4320bdc96829ce8892dd"
+    },
+    {
+      "id": "isrm-branch-inventory-and-cleanup-2026-11-09",
+      "title": "Інвентаризація гілок і погоджене очищення",
+      "path": "2026-11-09-branch-inventory-and-cleanup.md",
+      "status": "done",
+      "sha256": "7b658344a383b280dd8a9dfe77c6a60d3caaece67aae486f2aab901b8b5e2653"
+    },
+    {
+      "id": "isrm-product-boundary-and-user-journey-2026-11-10",
+      "title": "Межа MVP і user journey",
+      "path": "2026-11-10-product-boundary-and-user-journey.md",
+      "status": "done",
+      "sha256": "b5d6fd284fa7f87844fc36a9d92a1a25382b1736933f2e8f93191fbf95758d1d"
+    },
+    {
+      "id": "isrm-user-capability-model-and-branch-history-2026-11-10",
+      "title": "Авторська модель можливостей і стан гілок",
+      "path": "2026-11-10-user-capability-model-and-branch-history.md",
+      "status": "done",
+      "sha256": "2553c522ab23e56a23855bf61bcea484a4b280e8290c35e4c00f7ce5bb7d09f9"
+    },
+    {
+      "id": "isrm-secret-redeploy-2026-11-11",
+      "title": "Повторна публікація після заміни секрету доступу",
+      "path": "2026-11-11-secret-redeploy.md",
+      "status": "done",
+      "sha256": "f401fd3a3867f73f12b39c3920199842efaa5bc3dc07bdebe415d745a1bb0921"
+    },
+    {
+      "id": "isrm-branch-handoff-first-section-2026-11-11",
+      "title": "Звірка версій для передачі: перший розділ",
+      "path": "2026-11-11-branch-handoff-first-section.md",
+      "status": "done",
+      "sha256": "fddf4a97e5cbf22d8bf260a0d7298fa4f60bbc5a968f23f08bac1a08e9297b1b"
+    }
+  ],
+  "overall_task": "in_progress",
+  "next_gate": "Перший розділ звірки гілок і добору джерел виконано для перегляду Алексом. За FLOW-3 перед наступним розділом потрібне його приймання. Після нього порівняти поведінку production d950d52 та прототипу 900e4ed на одному сценарії, перенести лише прийняті вузькі рішення й перевірити. Окремо оновити застарілий рядок Registry про checkout-и з незалежною QA, а потім підготувати очищені зовнішні матеріали та домовленість про внесок.",
+  "handoff_location": "README.md → docs/project/ENTRY.md → Project Overlay і Registry; новий перший розділ: docs/project/session-notes/2026-11-11-branch-handoff-first-section.md та /Users/alexzvo/Documents/ChatGPT/isrm/work/isrm-handoff-review-2026-11-11/README.md. Попередня інвентаризація 2026-11-10-worktree-inventory.md не охоплює додатковий session-state checkout main; її числовий рядок у Registry не є поточним. Remote production ref d950d52 — нащадок локального c0c5343. Жодне дерево не видалено, refs і сайт не змінено."
+}

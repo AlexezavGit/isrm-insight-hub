@@ -1,0 +1,20 @@
+{
+  "reviewer": "independent QA-2 agent verify_source_records",
+  "source_check": {
+    "workbook_sha256": "bb4adfa5e809ccc80359b984076c49df8ff7e21b11f5ab0f8f2a9e472847b13b",
+    "crm_unique_record_ids": 178,
+    "research_unique_record_ids": 45,
+    "crm_locator": "Community CRM!A5:A182",
+    "research_locator": "Verified 45 Research!A5:A49; Primary source L; Research date N",
+    "research_dates": "2026-08-28",
+    "id_sets_equal_application_data": true
+  },
+  "semantic_review": "No consequential blockers identified in final slide text, graph components, graph data projection and CSS. Current/planned, records/profiles, source findings/endorsement, optional AI and target integrations remain distinct. Browser and print inspection performed separately by root.",
+  "not_verified": [
+    "Validity of each public source URL",
+    "Professional endorsement",
+    "Membership",
+    "Consent to contact"
+  ],
+  "registry_modified": false
+}

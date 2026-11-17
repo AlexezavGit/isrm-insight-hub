@@ -1,0 +1,34 @@
+{
+  "file": "/Users/alexzvo/.copilot/repos/isrm-insight-hub/docs/ISRM_Ukraine_Community_ICRM_178_FandP.xlsx",
+  "sha256": "bb4adfa5e809ccc80359b984076c49df8ff7e21b11f5ab0f8f2a9e472847b13b",
+  "sheet": "Community CRM",
+  "header_row": 4,
+  "fields": {
+    "Phone-code country": {
+      "any_nonempty": true,
+      "all_empty": false
+    },
+    "Professional country": {
+      "any_nonempty": false,
+      "all_empty": true
+    },
+    "City": {
+      "any_nonempty": false,
+      "all_empty": true
+    },
+    "Last verified": {
+      "any_nonempty": true,
+      "all_empty": false
+    },
+    "Consent / use status": {
+      "any_nonempty": true,
+      "all_empty": false
+    },
+    "Owner": {
+      "any_nonempty": true,
+      "all_empty": false
+    }
+  },
+  "method": "Inspect source records below the located header; rows require nonempty Record ID; no cell values or member contacts copied",
+  "not_checked": "Source country and residence/work location independently verified per person"
+}

@@ -1,0 +1,24 @@
+{
+  "base_commit": "d989e1e6ea64ecc12a278901bd6afc6f15ba9748",
+  "production_branch": "codex/network-workflow-batch",
+  "paths": {
+    "src/styles.css": "f723dbc7712044bfb5aa5957921445cfa225cf07902b2c455b953cdba8404f14",
+    "src/components/WorkspaceGraph.tsx": "cc52b9b1b38b70f07a14f429f59e7554616d03153dd0a1460018f5aacbccf7e0",
+    "src/components/BriefingVisual.tsx": "d59960ad1fd0f895ba61ef040af952998dca96769e1c6a4452c833caab2fb97c",
+    "src/components/NetworkGraph.tsx": "5e010c6d2bdc9bb394cb6906cc8beb899d769992e78a52108a61851c22cc7952",
+    "src/components/BriefingStoryGraph.tsx": "d7b4c471fc365a9eaf8c02e91927b1da726853122b8201dddae266a6c27f79c3",
+    "src/components/BriefingSlider.tsx": "03a4a9b1ad6ca7e1df79e9d4079e8677fb6095564e8ccbaefea0205c3fcdc717",
+    "src/components/BriefingDataFlowFigure.tsx": "4d31b8a79c2ae266a40b5b93289a2d90c9b1b3f250b9d2ac01d94d8b120973f5",
+    "src/lib/network-layout.ts": "8e3f9bcd1b44ef2067c62a171f398e9e2b2b03bc2565611e38d666c517a2f453",
+    "src/lib/briefing-slides.ts": "e3f52738278895d02244f01e78c85edc76fb68fc2b99f85aa1c8632f1784cedc",
+    "src/lib/network-model.ts": "eaa324401fdb1e8e7adb1aa8c1b55793b7788a9270de8cb4afeb8f0d226d2979",
+    "src/lib/network-symbols.ts": "967b65d17957ffaeec8f329c9b813525a5d17e147c2a099b8424cb0c13a5d9a5",
+    "src/data/isrm-public-directory.json": "26de763b8a525c3ae4cc95b732a4694ddc13e302f94ca88fea3b022301b8614e",
+    "src/lib/public-directory.ts": "7c6f40a08955f6ae38d99d24736120326cae559d57b4a917fc86fe3d836372cd",
+    "src/lib/public-directory.test.ts": "a3137b748bb080e7ffb4cf8d7a5c64990fd4d8b854359ffe212f41fa8d7f8166",
+    "src/components/PublicChapterFigure.tsx": "948f6dda9410b659894fefd2ebea4cf1417a7027985372756aad02a694879e87",
+    "src/components/PublicDirectoryPanel.tsx": "48792cc3f8a2bd73621095681ff6767611fb0bf6bb3e7f42be626687200916c5",
+    "src/components/BriefingSearchJourneyFigure.tsx": "a27dcaff43fa4c9501c9a1e293a7d2b13cba34266bc34c1163d8ca659df8ac78"
+  },
+  "excluded": "private dataset, raw site HTML, internal docs, secrets, dependencies and deployment configuration"
+}

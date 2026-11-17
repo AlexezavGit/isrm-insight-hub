@@ -1,0 +1,140 @@
+{
+  "documents": [
+    {
+      "id": "isrm-audit-2026-11-01",
+      "title": "Контрольна точка: брифінг і прототип",
+      "path": "2026-11-01-briefing-prototype-audit.md",
+      "status": "done",
+      "sha256": "370c1cc8a5812d6d669b45467b2db0976938a9ec9ad79aa3d3ad4ede1d5d5463"
+    },
+    {
+      "id": "isrm-prototype-refinement-2026-11-01",
+      "title": "Уточнення: переліки, панелі, відзнаки й терміни",
+      "path": "2026-11-01-prototype-refinement.md",
+      "status": "done",
+      "sha256": "34215413b99a5d26fcbb0e936b385f4700846b11530664e0dce6597fc04c2ecf"
+    },
+    {
+      "id": "isrm-approved-audit-work-order-2026-11-01",
+      "title": "Погодження прототипу та порядок реалізації",
+      "path": "2026-11-01-approved-audit-work-order.md",
+      "status": "done",
+      "sha256": "b429fb79a02a3923631c2a628540773379f01e870b4c5039055eeeb30f8ae897"
+    },
+    {
+      "id": "isrm-local-prototype-briefing-2026-11-02",
+      "title": "Локальний прототип і конкретна редакція брифінгу",
+      "path": "2026-11-02-local-prototype-and-briefing.md",
+      "status": "done",
+      "sha256": "bbf1e072f5bb048e6d289f873f9cf4ff190b72ca54f2cf42b9f2c86054bb16c5"
+    },
+    {
+      "id": "isrm-app-first-navigation-2026-11-03",
+      "title": "Застосунок як основний продукт: навігація та модель функцій",
+      "path": "2026-11-03-app-first-and-navigation.md",
+      "status": "done",
+      "sha256": "316b949057f26076e987212b891eb129614292b989e4cd5867b57eb0d7add71d"
+    },
+    {
+      "id": "isrm-workspace-ux-filter-2026-11-03",
+      "title": "Робочий простір, огляд експертизи й професійний UX-фільтр",
+      "path": "2026-11-03-workspace-and-ux-filter.md",
+      "status": "done",
+      "sha256": "c994ad5f1ba21f5338b66a5ce146466b11222347e0eeaf85eabe2a562d3b2738"
+    },
+    {
+      "id": "isrm-ux-ideation-2026-11-03",
+      "title": "UX/UI-корекції, словник і візуальні варіанти",
+      "path": "2026-11-03-ux-ideation.md",
+      "status": "done",
+      "sha256": "589201dd1ef9c8d00baf1ae4aa291dd1ab795212b64473f3d747165ee1872562"
+    },
+    {
+      "id": "isrm-combined-dossier-2026-11-03",
+      "title": "Зведений макет міні-досьє, зв’язків і рейлу",
+      "path": "2026-11-03-combined-dossier.md",
+      "status": "done",
+      "sha256": "58365e2819291fdfa02acc51f58c842d73f1d0c96a3ca991a83371636b151d48"
+    },
+    {
+      "id": "isrm-dashboard-material-2026-11-03",
+      "title": "Дашборд, світіння та внутрішній конфігуратор",
+      "path": "2026-11-03-dashboard-material.md",
+      "status": "done",
+      "sha256": "78fef63d3807fb610a2233c17c7e7162fe80582861ecc176810370f56aea5233"
+    },
+    {
+      "id": "isrm-rail-geometry-2026-11-03",
+      "title": "Єдина геометрія рейлів і dashboard-overlay",
+      "path": "2026-11-03-rail-geometry.md",
+      "status": "done",
+      "sha256": "4ed71547840ba3bddb939247aad57253b6170e4346487ca477f7e5d41fc2ad11"
+    },
+    {
+      "id": "isrm-coded-geometry-2026-11-03",
+      "title": "Виконані рейли, досьє та семантика лічильників",
+      "path": "2026-11-03-coded-geometry.md",
+      "status": "done",
+      "sha256": "8cdee7e9af5cabd31438046c95ad226f82e811de29a6474eb93756359eb51da4"
+    },
+    {
+      "id": "isrm-configurator-proposal-acceptance-2026-11-04",
+      "title": "Аудит конфігуратора, пропозиції та погодження ціни",
+      "path": "2026-11-04-configurator-proposal-acceptance-audit.md",
+      "status": "done",
+      "sha256": "acf9af00d1f285f0a96a8dafaea8c7125a13fc8a2388a5c47fbe16c1eea6a0ff"
+    },
+    {
+      "id": "isrm-graph-reuse-net-isrm-review-2026-11-04",
+      "title": "Зіставлення графів ISRM і огляд net_isrm",
+      "path": "2026-11-04-graph-reuse-net-isrm-review.md",
+      "status": "done",
+      "sha256": "292fe7c6fa191331d21bac8eaab5fed00b976c281ae36c5459ce6464df1d3569"
+    },
+    {
+      "id": "isrm-acceptance-criteria-and-graph-focus-2026-11-06",
+      "title": "Перевірка критеріїв приймання, фокуса графа й знімка shortlist",
+      "path": "2026-11-06-acceptance-criteria-and-graph-focus.md",
+      "status": "done",
+      "sha256": "5a5b64ebdea211270788af6ea5b7848e78151d94f076c85be1d30180b48cf156"
+    },
+    {
+      "id": "isrm-full-product-readiness-audit-2026-11-06",
+      "title": "Повний аудит готовності продукту до клієнтської взаємодії",
+      "path": "2026-11-06-full-product-readiness-audit.md",
+      "status": "done",
+      "sha256": "b51a20e22dca27e9b94755f1388a430b928d2082c7bdb1f80c673ccb31ade8f6"
+    },
+    {
+      "id": "isrm-graph-lifecycle-and-search-roundtrip-2026-11-07",
+      "title": "Перевірка циклу графа та відновлення групи",
+      "path": "2026-11-07-graph-lifecycle-and-search-roundtrip.md",
+      "status": "done",
+      "sha256": "3498df1f672af96eff79899c82830504c992ea8aa74e031409b2bf93cf29c846"
+    },
+    {
+      "id": "isrm-point-pause-grouped-graph-2026-11-07",
+      "title": "Цикл графа: точка, розсіювання, пауза, групування",
+      "path": "2026-11-07-point-pause-grouped-graph.md",
+      "status": "done",
+      "sha256": "49bbee08d3fa52e9b1f484c3074c663d8e8646df5ae5c14e9d3bde2a6f52d63f"
+    },
+    {
+      "id": "isrm-graph-as-search-2026-11-08",
+      "title": "Граф як пошук і панелі як відображення вибору",
+      "path": "2026-11-08-graph-as-search.md",
+      "status": "done",
+      "sha256": "e56c761c00d257c15efb6085f9352d66b921c86ba8c233a64c2a74750fd5adeb"
+    },
+    {
+      "id": "isrm-concept-proposal-synthesis-2026-11-08",
+      "title": "Зведення концепції, продукту й пропозиції",
+      "path": "2026-11-08-isrm-concept-and-proposal-synthesis.md",
+      "status": "done",
+      "sha256": "32cdcb4915ff54a93ae8eddeaa701948bb832d4edef1505c376d967d5f376449"
+    }
+  ],
+  "overall_task": "in_progress",
+  "next_gate": "Спершу переглянути та погодити або виправити внутрішнє зведення session-notes/2026-11-08-isrm-concept-and-proposal-synthesis.md; не готувати зовнішній handoff, фіксовану ціну чи нову реалізацію до цього рішення. Після цього завершити приймальний чистий браузерний маршрут: категоріальний вузол → фільтр/результати → персона/досьє та зв’язки → shortlist і відповідний маркер → збереження/відновлення тієї самої групи; окремо перевірити відновлення фільтрів разом із групою. Критерій (1) лишається частковим до цього проходу. Критерій (0) лишається частковим, доки не перевірено читабельний графовий знімок конфігуратора. Далі завершити рольові входи й туторіали, provenance/consent/intake для джерел даних, паспорти KPI-кандидатів, ізоляцію організацій, читабельність із цільовими користувачами, погодження опитування та партнерський/архітекторський handoff із фінансовими паспортами джерел. Не додавати непідтверджені бюджети чи production-обіцянки. Працювати лише в наявному code worktree; не commit, push, deploy чи видаляти гілки без прямого дозволу.",
+  "handoff_location": "Не готовий до зовнішньої передачі. Новий внутрішній проєктний документ для перегляду: session-notes/2026-11-08-isrm-concept-and-proposal-synthesis.md; він не є погодженою клієнтською редакцією або кошторисом. Найновіша контрольна точка застосунку: session-notes/2026-11-08-graph-as-search.md; вона фіксує продуктовий принцип drill-down пошуку, браузерні докази маркерів і відкритий повний маршрут. Напрямок анімації: session-notes/2026-11-07-point-pause-grouped-graph.md. Повний продуктовий аудит: session-notes/2026-11-06-full-product-readiness-audit.md. Матеріали проєкту лишаються в work/isrm-deep-audit/deliverable; окрему зовнішню копію Documents/Codex не створено."
+}

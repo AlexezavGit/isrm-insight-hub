@@ -1,0 +1,17 @@
+{
+  "sitemaps": [
+    [
+      "https://www.theisrm.org/wp-sitemap-posts-page-1.xml",
+      "HTTP Error 466: "
+    ],
+    [
+      "https://www.theisrm.org/page-sitemap.xml",
+      "HTTP Error 466: "
+    ],
+    [
+      "https://www.theisrm.org/sitemap_index.xml",
+      "HTTP Error 466: "
+    ]
+  ],
+  "additional_urls": []
+}

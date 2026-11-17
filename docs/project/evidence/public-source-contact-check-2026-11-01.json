@@ -1,0 +1,28 @@
+{
+  "checked_date": "2026-11-01",
+  "repository": {
+    "url": "https://github.com/AlexezavGit/isrm-insight-hub",
+    "private": false,
+    "visibility": "public",
+    "defaultBranch": "main",
+    "checkedDate": "2026-11-01",
+    "origin": "Connected GitHub fetch of repository resource; parsed repository JSON, no member values recorded"
+  },
+  "release_marker": {
+    "url": "https://isrm.pages.dev/release.json",
+    "commit": "3ce13068e29304f1eeeb636ced07fd30c05953a2",
+    "method": "Read live in IAB during refinement"
+  },
+  "published_tree_file": {
+    "path": "src/data/experts.json",
+    "blob_sha": "dfea67b38032b736ca5f645b587de4ccdddf8de0"
+  },
+  "local_blob_sha": "dfea67b38032b736ca5f645b587de4ccdddf8de0",
+  "nonempty_fields_present": {
+    "name": true,
+    "phone": true,
+    "linkedin": true
+  },
+  "locator": "src/data/experts.json:1 (minified source; values not copied)",
+  "limits": "Confirms source fields in a public Git tree matching the recorded release; does not determine lawful basis, consent, client JS delivery or any contractual conclusion. No raw contacts copied."
+}

@@ -1,0 +1,12 @@
+{
+  "commit": "f18a31f0eb9a7f79eb58f6508e92484bb498dcb1",
+  "parent": "1eaef10b31968ff258a28c73f94ceffcd498aed0",
+  "tree": "cb07255e16b9a722bd095f484aad0ec1b15ca17c",
+  "workflow": "https://github.com/AlexezavGit/isrm-insight-hub/actions/runs/43613283035",
+  "conclusion": "success",
+  "release_marker_verified": true,
+  "authorship": "main agent; no delegation",
+  "local_entry": "http://127.0.0.1:8873/presentation",
+  "live_entry": "https://isrm.pages.dev/presentation",
+  "unchanged": "private sample, source catalogue, access policy, dependencies and deployment configuration"
+}

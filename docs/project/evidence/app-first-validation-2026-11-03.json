@@ -1,0 +1,150 @@
+{
+  "status": "done_with_existing_global_failures",
+  "checks": {
+    "changed-lint": {
+      "exit_code": 0,
+      "file": "app-first-changed-lint-2026-11-03.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "tests": {
+      "exit_code": 0,
+      "file": "app-first-tests-2026-11-03.log",
+      "sha256": "9629ca489888c5dfd781d181288ceb1c2f91b89702b56d17d3a6b114a7b50b8e"
+    },
+    "tsc": {
+      "exit_code": 2,
+      "file": "app-first-tsc-2026-11-03.log",
+      "sha256": "47887f5a3d710ebed91b9e6cc9d1c6fe41ab3298c81f2275a9bb1005a0eaaedf"
+    },
+    "lint": {
+      "exit_code": 1,
+      "file": "app-first-lint-2026-11-03.log",
+      "sha256": "d996f44844f8129af2b2da4a9b6fae801214ee022ee14956c804b5743b5e2696"
+    },
+    "build": {
+      "exit_code": 0,
+      "file": "app-first-build-2026-11-03.log",
+      "sha256": "e66f89b04e1557b8d775a288e6f3502f8519706e99b932c60a76dac8e4d919f9"
+    },
+    "diff": {
+      "exit_code": 0,
+      "file": "app-first-diff-2026-11-03.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "changed_typescript_files": [
+    "src/components/BriefingEvidenceFigures.tsx",
+    "src/components/BriefingNextSteps.tsx",
+    "src/components/BriefingSlider.tsx",
+    "src/components/ClientHeader.tsx",
+    "src/components/NetworkApplicationHeader.tsx",
+    "src/components/NetworkInspectionDock.tsx",
+    "src/components/NetworkProfile.tsx",
+    "src/components/NetworkPrototypeDock.tsx",
+    "src/components/NetworkShortlist.tsx",
+    "src/components/NetworkWalkthrough.tsx",
+    "src/components/NetworkWorkbench.tsx",
+    "src/lib/briefing-slides.ts",
+    "src/lib/dossier-content.ts",
+    "src/lib/experts.server.ts",
+    "src/lib/network-panels.test.ts",
+    "src/lib/prototype-workspace.test.ts",
+    "src/lib/prototype-workspace.ts",
+    "src/lib/types.ts",
+    "src/routes/index.tsx"
+  ],
+  "new_tsc_diagnostics_vs_previous": [],
+  "new_lint_diagnostics_vs_previous": [],
+  "source_manifest": [
+    {
+      "file": "src/components/BriefingEvidenceFigures.tsx",
+      "sha256": "97b664cc1e0ed728e04cd40d73630171220c5e0071f30a2bae116c3c694a7bf1"
+    },
+    {
+      "file": "src/components/BriefingNextSteps.tsx",
+      "sha256": "53cf02abe5a6d75430913a0016c9e7d062182e8b27e72d8ecd3c8e8ed90947f7"
+    },
+    {
+      "file": "src/components/BriefingSlider.tsx",
+      "sha256": "122045d34ea3bfa1238ddfb2e260ef4946c6a5a6bed8a7f4142aa82390d2daf9"
+    },
+    {
+      "file": "src/components/ClientHeader.tsx",
+      "sha256": "2b4c472bbeb7b3be7f0e2d84328a095f5efeba88f3073a955a352600ec6a0db2"
+    },
+    {
+      "file": "src/components/NetworkApplicationHeader.tsx",
+      "sha256": "fba53501b44b6f722b377339102bf1244a5133b0a98f5a23d33a9752118aa891"
+    },
+    {
+      "file": "src/components/NetworkInspectionDock.tsx",
+      "sha256": "9f427fd490401a3bdd8d81447c0269da34dfcc5076305890d7a2335943b351a8"
+    },
+    {
+      "file": "src/components/NetworkProfile.tsx",
+      "sha256": "860ea4513e6e940d2855ab06660e04c8f7db3f0d54a41f5654565654382cdb2d"
+    },
+    {
+      "file": "src/components/NetworkPrototypeDock.tsx",
+      "sha256": "3df94128568fb57650ce21066ac6cbe01ef3c65978b6a645ed219d0882773b70"
+    },
+    {
+      "file": "src/components/NetworkShortlist.tsx",
+      "sha256": "f96070d393f7a271970175097d534c08790b1c1b5dd291a1cb918418992a3fe6"
+    },
+    {
+      "file": "src/components/NetworkWalkthrough.tsx",
+      "sha256": "52c98023d08a2ef8c97d37e1792b49c8b79f4a080b6a9528bf00b784bc12cfa9"
+    },
+    {
+      "file": "src/components/NetworkWorkbench.tsx",
+      "sha256": "7feabc35228ffc90d1aa96d95c80f28a152a9556cd536510ecbab5c2a5fd6608"
+    },
+    {
+      "file": "src/lib/briefing-slides.ts",
+      "sha256": "51e585ecd83080e9430a5a75a863440d58f370db4dd1c851c41b024bb1046f03"
+    },
+    {
+      "file": "src/lib/dossier-content.ts",
+      "sha256": "526ad07b2340fbf9f92a75eec47688c4c9a59aeb6ef2441399416d7f51ef7f61"
+    },
+    {
+      "file": "src/lib/experts.server.ts",
+      "sha256": "c2e5e238c28cf213ec7e00d9928aac591128a19d107ea134837bcb5caaff0156"
+    },
+    {
+      "file": "src/lib/network-panels.test.ts",
+      "sha256": "48c3254568f49e5a12045dc015bf115a752682a129b06034dd7f717e2f7ebe72"
+    },
+    {
+      "file": "src/lib/prototype-workspace.test.ts",
+      "sha256": "d1743da98f64d725fa7c904e2f3588114f87a8da9e48f19f91c907c798be0f98"
+    },
+    {
+      "file": "src/lib/prototype-workspace.ts",
+      "sha256": "8531dadc612b65710540f5429b3d216f7b9c9b7964a80da52180a2075c25dc66"
+    },
+    {
+      "file": "src/lib/types.ts",
+      "sha256": "34b763f753b7d9a8a6f7648d887927d092d30dc674064b4dc79d0b2968e3fc09"
+    },
+    {
+      "file": "src/routes/index.tsx",
+      "sha256": "1a8adb87750a436fd943cc90be6fb631d36e5900eb50f93180fc1eaa6e92eeb6"
+    },
+    {
+      "file": "src/styles.css",
+      "sha256": "b1ba92414fb19d44f35d34ee973f65cddf9f74a9c7a2d3db9919885cedc17361"
+    }
+  ],
+  "source_root": "/Users/alexzvo/Documents/ChatGPT/isrm/work/isrm-prototype-panels",
+  "base_commit": "56d43f22085d7c248b19b4d087fde444fecdb541",
+  "package_lock_unchanged_vs_base": true,
+  "ui_observations": "app-first-ui-observation-2026-11-03.json",
+  "document_navigation": "Briefing and scope links no longer contain staged journey controls; transition and return verified",
+  "limits": [
+    "Global lint and TypeScript still fail on existing unrelated diagnostics",
+    "Tests and build verify this local package, not operational readiness",
+    "No commit, push or deployment"
+  ]
+}

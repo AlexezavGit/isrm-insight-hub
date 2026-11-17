@@ -1,0 +1,287 @@
+[
+  {
+    "path": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub",
+    "head": "56d43f22085d7c248b19b4d087fde444fecdb541",
+    "branch": "publish/isrm-client-dev-v2",
+    "refs": [
+      {
+        "ref": "backup/isrm-before-client-release-20261026",
+        "sha": "4e8cee218b8f9a83f0fcfc54c4e74204f54268a4",
+        "upstream": "",
+        "relative_to_local_HEAD": "0\t63"
+      },
+      {
+        "ref": "codex/isrm-client-release",
+        "sha": "9db271626414fa5e1e05f10c95f7e414f97e2f8b",
+        "upstream": "origin/codex/isrm-client-release",
+        "relative_to_local_HEAD": "2\t63"
+      },
+      {
+        "ref": "codex/network-workflow-batch",
+        "sha": "c0c5343adf7c8a59767e5a0ad7667b461d5a5fc0",
+        "upstream": "",
+        "relative_to_local_HEAD": "7\t61"
+      },
+      {
+        "ref": "isrm-partner-ranges-v1",
+        "sha": "0bf378fde0b739837c2c4cae2e5c56c6055894ac",
+        "upstream": "origin/isrm-partner-ranges-v1",
+        "relative_to_local_HEAD": "0\t68"
+      },
+      {
+        "ref": "publish/isrm-client-dev-v2",
+        "sha": "56d43f22085d7c248b19b4d087fde444fecdb541",
+        "upstream": "origin/isrm-partner-ranges-v1",
+        "relative_to_local_HEAD": "0\t0"
+      },
+      {
+        "ref": "publish/isrm-client-release",
+        "sha": "2385441ad7d86ad02d8518f77214ca8468837706",
+        "upstream": "origin/isrm-partner-ranges-v1",
+        "relative_to_local_HEAD": "1\t68"
+      },
+      {
+        "ref": "origin",
+        "sha": "caaa5d5c35fa9ea1a6648ccb3687af337ecd744f",
+        "upstream": "",
+        "relative_to_local_HEAD": "0\t61"
+      },
+      {
+        "ref": "origin/alexezavgit-silver-eureka",
+        "sha": "a1b21a4165ecaa69a89cf1acdd955df32f3b0b86",
+        "upstream": "",
+        "relative_to_local_HEAD": "0\t150"
+      },
+      {
+        "ref": "origin/alexezavgit-studious-pancake",
+        "sha": "a7aa00affc009fa21d2a38c25c60101852f81395",
+        "upstream": "",
+        "relative_to_local_HEAD": "15\t150"
+      },
+      {
+        "ref": "origin/andromity-snapshots",
+        "sha": "28e34cb0f0ad0feedadc709ffdbd475456341b27",
+        "upstream": "",
+        "relative_to_local_HEAD": "66\t116"
+      },
+      {
+        "ref": "origin/backup/isrm-before-client-release-20261026",
+        "sha": "4e8cee218b8f9a83f0fcfc54c4e74204f54268a4",
+        "upstream": "",
+        "relative_to_local_HEAD": "0\t63"
+      },
+      {
+        "ref": "origin/codex/isrm-client-release",
+        "sha": "9db271626414fa5e1e05f10c95f7e414f97e2f8b",
+        "upstream": "",
+        "relative_to_local_HEAD": "2\t63"
+      },
+      {
+        "ref": "origin/codex/network-workflow-batch",
+        "sha": "a9123d0ce4456bba8361f3166c799afcc09b1dbc",
+        "upstream": "",
+        "relative_to_local_HEAD": "12\t61"
+      },
+      {
+        "ref": "origin/isrm-partner-ranges-v1",
+        "sha": "caaa5d5c35fa9ea1a6648ccb3687af337ecd744f",
+        "upstream": "",
+        "relative_to_local_HEAD": "0\t61"
+      },
+      {
+        "ref": "origin/main",
+        "sha": "a7aa00affc009fa21d2a38c25c60101852f81395",
+        "upstream": "",
+        "relative_to_local_HEAD": "15\t150"
+      }
+    ],
+    "worktrees": [
+      {
+        "worktree": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub",
+        "HEAD": "56d43f22085d7c248b19b4d087fde444fecdb541",
+        "branch": "refs/heads/publish/isrm-client-dev-v2",
+        "exists": true,
+        "git_root": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub",
+        "valid_checkout": true,
+        "status_porcelain": "?? PROJECT_OVERLAY_ISRM.md\n?? docs/project/\n?? docs/reviews/2026-10-31-code-data-content-review-uk.md\n?? docs/reviews/2026-10-31-ux-copy-review-uk-en.md\n?? docs/reviews/live-audit-2026-10-31/"
+      }
+    ],
+    "status_porcelain": "?? PROJECT_OVERLAY_ISRM.md\n?? docs/project/\n?? docs/reviews/2026-10-31-code-data-content-review-uk.md\n?? docs/reviews/2026-10-31-ux-copy-review-uk-en.md\n?? docs/reviews/live-audit-2026-10-31/"
+  },
+  {
+    "path": "/Users/alexzvo/.copilot/repos/isrm-insight-hub",
+    "head": "0bf378fde0b739837c2c4cae2e5c56c6055894ac",
+    "branch": "isrm-partner-ranges-v1",
+    "refs": [
+      {
+        "ref": "alexezavgit-cautious-barnacle",
+        "sha": "a7aa00affc009fa21d2a38c25c60101852f81395",
+        "upstream": "",
+        "relative_to_local_HEAD": "15\t82"
+      },
+      {
+        "ref": "alexezavgit-silver-eureka",
+        "sha": "a1b21a4165ecaa69a89cf1acdd955df32f3b0b86",
+        "upstream": "",
+        "relative_to_local_HEAD": "0\t82"
+      },
+      {
+        "ref": "alexezavgit-silver-invention",
+        "sha": "a7aa00affc009fa21d2a38c25c60101852f81395",
+        "upstream": "",
+        "relative_to_local_HEAD": "15\t82"
+      },
+      {
+        "ref": "alexezavgit-studious-pancake",
+        "sha": "a7aa00affc009fa21d2a38c25c60101852f81395",
+        "upstream": "",
+        "relative_to_local_HEAD": "15\t82"
+      },
+      {
+        "ref": "alexezavgit-super-dollop",
+        "sha": "a7aa00affc009fa21d2a38c25c60101852f81395",
+        "upstream": "",
+        "relative_to_local_HEAD": "15\t82"
+      },
+      {
+        "ref": "andromity-snapshots",
+        "sha": "28e34cb0f0ad0feedadc709ffdbd475456341b27",
+        "upstream": "",
+        "relative_to_local_HEAD": "66\t48"
+      },
+      {
+        "ref": "codex/isrm-client-release",
+        "sha": "9db271626414fa5e1e05f10c95f7e414f97e2f8b",
+        "upstream": "",
+        "relative_to_local_HEAD": "7\t0"
+      },
+      {
+        "ref": "isrm-partner-ranges-v1",
+        "sha": "0bf378fde0b739837c2c4cae2e5c56c6055894ac",
+        "upstream": "origin/isrm-partner-ranges-v1",
+        "relative_to_local_HEAD": "0\t0"
+      },
+      {
+        "ref": "main",
+        "sha": "a1b21a4165ecaa69a89cf1acdd955df32f3b0b86",
+        "upstream": "origin/main",
+        "relative_to_local_HEAD": "0\t82"
+      },
+      {
+        "ref": "origin",
+        "sha": "a7aa00affc009fa21d2a38c25c60101852f81395",
+        "upstream": "",
+        "relative_to_local_HEAD": "15\t82"
+      },
+      {
+        "ref": "origin/backup/isrm-before-client-release-20261026",
+        "sha": "4e8cee218b8f9a83f0fcfc54c4e74204f54268a4",
+        "upstream": "",
+        "relative_to_local_HEAD": "5\t0"
+      },
+      {
+        "ref": "origin/codex/network-workflow-batch",
+        "sha": "3ce13068e29304f1eeeb636ced07fd30c05953a2",
+        "upstream": "",
+        "relative_to_local_HEAD": "32\t0"
+      },
+      {
+        "ref": "origin/isrm-partner-ranges-v1",
+        "sha": "caaa5d5c35fa9ea1a6648ccb3687af337ecd744f",
+        "upstream": "",
+        "relative_to_local_HEAD": "7\t0"
+      },
+      {
+        "ref": "origin/main",
+        "sha": "a7aa00affc009fa21d2a38c25c60101852f81395",
+        "upstream": "",
+        "relative_to_local_HEAD": "15\t82"
+      }
+    ],
+    "worktrees": [
+      {
+        "worktree": "/Users/alexzvo/.copilot/repos/isrm-insight-hub",
+        "HEAD": "0bf378fde0b739837c2c4cae2e5c56c6055894ac",
+        "branch": "refs/heads/isrm-partner-ranges-v1",
+        "exists": true,
+        "git_root": "/Users/alexzvo/.copilot/repos/isrm-insight-hub",
+        "valid_checkout": true,
+        "status_porcelain": "M .andromity/crons.json\n M .gitignore\n D AGENTS.md\n D docs/ISRM_Ukraine_Community_CRM_178_FandP.xlsx\n D \"docs/_Initial prompt.md\"\n D \"docs/css duble_pricing model/ISRM_Pricing_Model - Inputs.csv\"\n D \"docs/css duble_pricing model/ISRM_Pricing_Model - Sources.csv\"\n D \"docs/css duble_pricing model/ISRM_Pricing_Model.xlsx - Core Estimate.tsv\"\n D \"docs/css duble_pricing model/ISRM_Pricing_Model.xlsx - Inputs.csv\"\n?? .mimosa/\n?? \"AGENTS lovable.md\"\n?? AGENT_PROTOCOL_UNIVERSAL_v3.md\n?? INSTRUCTIONS_ANTIHALTURA_PROTOCOL.md\n?? PROJECT_OVERLAY_ISRM.md\n?? docs/ISRM_Ukraine_Community_ICRM_178_FandP.xlsx\n?? \"docs/\\320\\237\\321\\200\\320\\276\\320\\274\\320\\277\\321\\202/\"\n?? \"docs/\\320\\247\\320\\265\\320\\272 \\320\\260\\320\\277/\"\n?? \"prompt isrm application proposal.textbundle/\""
+      },
+      {
+        "worktree": "/private/tmp/isrm-client-release",
+        "HEAD": "9db271626414fa5e1e05f10c95f7e414f97e2f8b",
+        "branch": "refs/heads/codex/isrm-client-release",
+        "prunable": "gitdir file points to non-existent location",
+        "exists": true,
+        "git_root": null,
+        "valid_checkout": false,
+        "status_porcelain": null
+      },
+      {
+        "worktree": "/Users/alexzvo/.copilot/repos/copilot-worktrees/isrm-insight-hub/alexezavgit-cautious-barnacle",
+        "HEAD": "a7aa00affc009fa21d2a38c25c60101852f81395",
+        "branch": "refs/heads/alexezavgit-cautious-barnacle",
+        "exists": true,
+        "git_root": "/Users/alexzvo/.copilot/repos/copilot-worktrees/isrm-insight-hub/alexezavgit-cautious-barnacle",
+        "valid_checkout": true,
+        "status_porcelain": ""
+      },
+      {
+        "worktree": "/Users/alexzvo/.copilot/repos/copilot-worktrees/isrm-insight-hub/alexezavgit-silver-eureka",
+        "HEAD": "a1b21a4165ecaa69a89cf1acdd955df32f3b0b86",
+        "branch": "refs/heads/alexezavgit-silver-eureka",
+        "exists": true,
+        "git_root": "/Users/alexzvo/.copilot/repos/copilot-worktrees/isrm-insight-hub/alexezavgit-silver-eureka",
+        "valid_checkout": true,
+        "status_porcelain": ""
+      },
+      {
+        "worktree": "/Users/alexzvo/.copilot/repos/copilot-worktrees/isrm-insight-hub/alexezavgit-silver-invention",
+        "HEAD": "a7aa00affc009fa21d2a38c25c60101852f81395",
+        "branch": "refs/heads/alexezavgit-silver-invention",
+        "exists": true,
+        "git_root": "/Users/alexzvo/.copilot/repos/copilot-worktrees/isrm-insight-hub/alexezavgit-silver-invention",
+        "valid_checkout": true,
+        "status_porcelain": ""
+      },
+      {
+        "worktree": "/Users/alexzvo/.copilot/repos/copilot-worktrees/isrm-insight-hub/alexezavgit-studious-pancake",
+        "HEAD": "a7aa00affc009fa21d2a38c25c60101852f81395",
+        "branch": "refs/heads/alexezavgit-studious-pancake",
+        "exists": true,
+        "git_root": "/Users/alexzvo/.copilot/repos/copilot-worktrees/isrm-insight-hub/alexezavgit-studious-pancake",
+        "valid_checkout": true,
+        "status_porcelain": ""
+      },
+      {
+        "worktree": "/Users/alexzvo/.copilot/repos/copilot-worktrees/isrm-insight-hub/alexezavgit-super-dollop",
+        "HEAD": "a7aa00affc009fa21d2a38c25c60101852f81395",
+        "branch": "refs/heads/alexezavgit-super-dollop",
+        "exists": true,
+        "git_root": "/Users/alexzvo/.copilot/repos/copilot-worktrees/isrm-insight-hub/alexezavgit-super-dollop",
+        "valid_checkout": true,
+        "status_porcelain": ""
+      },
+      {
+        "worktree": "/Users/alexzvo/.copilot/repos/copilot-worktrees/isrm-insight-hub/copilot-prewarm-silver-garbanzo",
+        "HEAD": "a1b21a4165ecaa69a89cf1acdd955df32f3b0b86",
+        "detached": "",
+        "exists": true,
+        "git_root": "/Users/alexzvo/.copilot/repos/copilot-worktrees/isrm-insight-hub/copilot-prewarm-silver-garbanzo",
+        "valid_checkout": true,
+        "status_porcelain": ""
+      },
+      {
+        "worktree": "/Users/alexzvo/.local/share/kilo/worktree-pool/isrm-insight-hub-d37c584a8694/charmed-plantain",
+        "HEAD": "a7aa00affc009fa21d2a38c25c60101852f81395",
+        "detached": "",
+        "exists": true,
+        "git_root": "/Users/alexzvo/.local/share/kilo/worktree-pool/isrm-insight-hub-d37c584a8694/charmed-plantain",
+        "valid_checkout": true,
+        "status_porcelain": ""
+      }
+    ],
+    "status_porcelain": "M .andromity/crons.json\n M .gitignore\n D AGENTS.md\n D docs/ISRM_Ukraine_Community_CRM_178_FandP.xlsx\n D \"docs/_Initial prompt.md\"\n D \"docs/css duble_pricing model/ISRM_Pricing_Model - Inputs.csv\"\n D \"docs/css duble_pricing model/ISRM_Pricing_Model - Sources.csv\"\n D \"docs/css duble_pricing model/ISRM_Pricing_Model.xlsx - Core Estimate.tsv\"\n D \"docs/css duble_pricing model/ISRM_Pricing_Model.xlsx - Inputs.csv\"\n?? .mimosa/\n?? \"AGENTS lovable.md\"\n?? AGENT_PROTOCOL_UNIVERSAL_v3.md\n?? INSTRUCTIONS_ANTIHALTURA_PROTOCOL.md\n?? PROJECT_OVERLAY_ISRM.md\n?? docs/ISRM_Ukraine_Community_ICRM_178_FandP.xlsx\n?? \"docs/\\320\\237\\321\\200\\320\\276\\320\\274\\320\\277\\321\\202/\"\n?? \"docs/\\320\\247\\320\\265\\320\\272 \\320\\260\\320\\277/\"\n?? \"prompt isrm application proposal.textbundle/\""
+  }
+]

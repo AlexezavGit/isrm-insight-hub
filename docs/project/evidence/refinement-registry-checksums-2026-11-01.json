@@ -1,0 +1,11 @@
+{
+  "file": "docs/project/REGISTRY.csv",
+  "archive": "docs/project/archive/REGISTRY.csv.before-two-list-refinement-2026-11-01",
+  "before_sha256": "7a39d600dfaf773046be5bad89fc575f7ccb431e7255620251ac2a3346e21eab",
+  "after_sha256": "0cfe7cd75374700f2e3c01ed00e09621870fb165017be5e9ac96973b5ceb9c01",
+  "new_codes": [
+    "ISRM-REQ-PANELS",
+    "ISRM-REQ-LISTS",
+    "ISRM-DATA-PUBLIC-SOURCE"
+  ]
+}

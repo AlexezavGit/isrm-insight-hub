@@ -1,0 +1,15 @@
+{
+  "local_links_missing": [],
+  "registry_csv_parses": true,
+  "independent_review": "QA-2 completed; two wording corrections applied",
+  "financial_recalculation": "not performed; financial values not accepted by this audit",
+  "audit_scope": "briefing complete for feedback; remaining surfaces await FLOW-3 approval",
+  "checksums": {
+    "PROJECT_OVERLAY_ISRM.md": "b89782baeb1e63317f541e6fd517c59d72bd2d0a20e5d1841e0f7b6af9a1d363",
+    "docs/project/ENTRY.md": "8b68ddf6e07d676ed7156f7c501e8e452ba8469f0fc40c3b75b3eb2de2634a65",
+    "docs/project/REGISTRY.csv": "ebba770522594cfbdd3558e04a3059cd0a37be13990e2ea068697edddb32fe1f",
+    "docs/README.md": "14eaedf364c2dc28b11316ddbb0b5aaa2a39de84ec3d52a44cdc07d5117e2c92",
+    "docs/reviews/deep-audit-2026-10-31/README.md": "a624a1b4f18848538bc35289e59f16fd7c7b84b72f526c9f0034c786039628ef"
+  },
+  "application_files_modified": []
+}

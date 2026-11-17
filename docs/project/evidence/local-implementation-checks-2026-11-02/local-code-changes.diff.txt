@@ -1,0 +1,2158 @@
+diff --git a/src/components/BriefingEvidenceFigures.tsx b/src/components/BriefingEvidenceFigures.tsx
+index 4ff06f0..a916383 100644
+--- a/src/components/BriefingEvidenceFigures.tsx
++++ b/src/components/BriefingEvidenceFigures.tsx
+@@ -130,7 +130,7 @@ export function ServiceAudienceFigure({ locale }: { locale: ClientLocale }) {
+         aria-label={
+           uk
+             ? "Сервіси навколо потреб людей; ребра показують можливе об’єднання в процеси"
+-            : "Services around people's needs; edges show possible workflow bundles"
++            : "Services around people's needs; edges show example workflows"
+         }
+       >
+         {coords.map((p) => (
+@@ -222,8 +222,8 @@ export function ChapterCollaborationFigure({ locale }: { locale: ClientLocale })
+       </svg>
+       <figcaption>
+         {uk
+-          ? "Масштаб із брифу, не показник активної участі. Мережева користь залежить від внеску людей, актуальності й спільних правил."
+-          : "Scale described in the brief, not a measure of active participation. Network value depends on contribution, current information and shared rules."}
++          ? "Контекст із брифу, if confirmed (ISRM-CTX-CHAPTERS), не показник активної участі. Мережева користь залежить від внеску людей, актуальності й спільних правил."
++          : "Planning context from the brief, if confirmed (ISRM-CTX-CHAPTERS), not a measure of active participation. Network value depends on contribution, current information and shared rules."}
+       </figcaption>
+     </figure>
+   );
+diff --git a/src/components/BriefingNextSteps.tsx b/src/components/BriefingNextSteps.tsx
+index d551335..f708e5f 100644
+--- a/src/components/BriefingNextSteps.tsx
++++ b/src/components/BriefingNextSteps.tsx
+@@ -3,29 +3,95 @@ import { Link } from "@tanstack/react-router";
+ import { useDismissibleDetails } from "./useDismissibleDetails";
+ import type { ClientLocale } from "@/lib/client-catalog";
+ 
+-export function BriefingNextSteps({ locale, reducedMotion }: { locale: ClientLocale; reducedMotion: boolean }) {
++export function BriefingNextSteps({
++  locale,
++  reducedMotion,
++}: {
++  locale: ClientLocale;
++  reducedMotion: boolean;
++}) {
+   const uk = locale === "uk";
+   const [active, setActive] = useState(0);
+   const [paused, setPaused] = useState(false);
+   const proposalHint = useDismissibleDetails();
+   useEffect(() => {
+     if (reducedMotion || paused) return;
+-    const timer = window.setInterval(() => setActive(i => (i + 1) % 4), 1800);
++    const timer = window.setInterval(() => setActive((i) => (i + 1) % 4), 1800);
+     return () => window.clearInterval(timer);
+   }, [reducedMotion, paused]);
+   const labels = uk
+-    ? ["Переглянути граф", "Спробувати застосунок", "Погодити обсяг і бюджет", "Отримати пропозицію"]
+-    : ["Explore the graph", "Try the application", "Agree scope & budget", "Receive a proposal"];
+-  return <figure className="briefing-visual briefing-next-graph" aria-label={uk ? "Чотири наступні кроки" : "Four next steps"}>
+-    <ol className="briefing-runway" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocusCapture={() => setPaused(true)}>
+-      {labels.map((label, i) => <li key={label} className={active === i ? "is-lit" : ""}>
+-        {i < 3 ? <Link className="briefing-step-tab" to={i === 2 ? "/scope" : "/"} {...(i === 2 ? {} : { search: i === 1 ? { panel: "search" as const } : { view: "map" as const } })} onClick={() => setActive(i)}>
+-          <span className="briefing-step-number">0{i + 1}</span><strong>{label}</strong>
+-        </Link> : <details ref={proposalHint} className="briefing-proposal-step" onToggle={e => { if (e.currentTarget.open) { setActive(3); setPaused(true); } }}>
+-          <summary className="briefing-step-tab"><span className="briefing-step-number">04</span><strong>{label}</strong></summary>
+-          <div className="briefing-proposal-hint"><p>{uk ? "Після вашого вибору й уточнення потреб ми підготуємо детальну пропозицію з обсягом, етапами та бюджетом. Ви зможете переглянути погодження перед відповіддю." : "Following your selection and clarification of requirements, we will prepare a detailed proposal setting out the scope, stages and budget. You can review your choices before responding."}</p><Link to="/scope">{uk ? "Повернутися до погодження" : "Return to scope agreement"}</Link></div>
+-        </details>}
+-      </li>)}
+-    </ol>
+-  </figure>;
++    ? [
++        "Спробувати прототип",
++        "Обрати сервіси або описати потребу",
++        "Розглянути обсяг і бюджетну позицію",
++        "Запросити детальну пропозицію",
++      ]
++    : [
++        "Try the prototype",
++        "Choose services or describe a need",
++        "Review scope and budget position",
++        "Request a detailed proposal",
++      ];
++  return (
++    <figure
++      className="briefing-visual briefing-next-graph"
++      aria-label={uk ? "Чотири наступні кроки" : "Four next steps"}
++    >
++      <ol
++        className="briefing-runway"
++        onMouseEnter={() => setPaused(true)}
++        onMouseLeave={() => setPaused(false)}
++        onFocusCapture={() => setPaused(true)}
++      >
++        {labels.map((label, i) => (
++          <li key={label} className={active === i ? "is-lit" : ""}>
++            {i < 3 ? (
++              <Link
++                className="briefing-step-tab"
++                to={i === 2 ? "/scope" : "/"}
++                {...(i === 2
++                  ? {}
++                  : {
++                      search:
++                        i === 1
++                          ? { view: "map" as const, stage: "configuration" as const }
++                          : { view: "map" as const },
++                    })}
++                onClick={() => setActive(i)}
++              >
++                <span className="briefing-step-number">0{i + 1}</span>
++                <strong>{label}</strong>
++              </Link>
++            ) : (
++              <details
++                ref={proposalHint}
++                className="briefing-proposal-step"
++                onToggle={(e) => {
++                  if (e.currentTarget.open) {
++                    setActive(3);
++                    setPaused(true);
++                  }
++                }}
++              >
++                <summary className="briefing-step-tab">
++                  <span className="briefing-step-number">04</span>
++                  <strong>{label}</strong>
++                </summary>
++                <div className="briefing-proposal-hint">
++                  <p>
++                    {uk
++                      ? "Після вашого вибору й уточнення потреб ми підготуємо детальну пропозицію з обсягом, етапами та бюджетом. Ви зможете переглянути погодження перед відповіддю."
++                      : "Following your selection and clarification of requirements, we will prepare a detailed proposal setting out the scope, stages and budget. You can review your choices before responding."}
++                  </p>
++                  <Link to="/scope">
++                    {uk ? "Переглянути вибір і наступний крок" : "Review choices and next step"}
++                  </Link>
++                </div>
++              </details>
++            )}
++          </li>
++        ))}
++      </ol>
++    </figure>
++  );
+ }
+diff --git a/src/components/BriefingSlider.tsx b/src/components/BriefingSlider.tsx
+index 5bdaedd..ac2f4fe 100644
+--- a/src/components/BriefingSlider.tsx
++++ b/src/components/BriefingSlider.tsx
+@@ -164,6 +164,7 @@ export function BriefingSlider() {
+             <p className="client-slide-body">{current.body[locale]}</p>
+             <p className="briefing-key-context">{current.insight[locale]}</p>
+             <p className="briefing-principle">{current.principle[locale]}</p>
++            <p className="briefing-boundary-note">{current.note[locale]}</p>
+             {SLIDE_CONTEXT_KEYS[slide] && (
+               <IsrmContextLinks context={SLIDE_CONTEXT_KEYS[slide]!} locale={locale} compact />
+             )}
+diff --git a/src/components/ClientHeader.tsx b/src/components/ClientHeader.tsx
+index 5b4aff8..792d203 100644
+--- a/src/components/ClientHeader.tsx
++++ b/src/components/ClientHeader.tsx
+@@ -9,11 +9,13 @@ export function ClientHeader({
+   hideOnScroll = false,
+   motionControl,
+   baseline = false,
++  beforeNavigation,
+ }: {
+   signIn?: boolean;
+   hideOnScroll?: boolean;
+   motionControl?: ReactNode;
+   baseline?: boolean;
++  beforeNavigation?: ReactNode;
+ }) {
+   const { locale } = useI18n();
+   const uk = locale === "uk";
+@@ -82,6 +84,7 @@ export function ClientHeader({
+         {motionControl}
+         <AccessControl showSignIn={signIn} />
+       </div>
++      {beforeNavigation}
+       <nav
+         className="client-journey-tabs"
+         aria-label={uk ? "Етапи знайомства із застосунком" : "Explore the application"}
+diff --git a/src/components/NetworkInspectionDock.tsx b/src/components/NetworkInspectionDock.tsx
+index b488b56..e83b829 100644
+--- a/src/components/NetworkInspectionDock.tsx
++++ b/src/components/NetworkInspectionDock.tsx
+@@ -1,3 +1,10 @@
++import { NetworkPrototypeDock } from "./NetworkPrototypeDock";
++import type {
++  PrototypeWorkspace,
++  WorkspaceAction,
++  PrototypePanel,
++  prototypeLayout,
++} from "@/lib/prototype-workspace";
+ import { useEffect, useRef, useState, type ReactNode, type CSSProperties } from "react";
+ import { Network, X } from "lucide-react";
+ import type { stackedInspectionLayout, StackWidths } from "@/lib/network-dock";
+@@ -57,7 +64,7 @@ function WidthHandle({
+   );
+ }
+ 
+-export function NetworkInspectionDock({
++function StackedInspectionDock({
+   search,
+   searchLabel,
+   onCloseSearch,
+@@ -210,3 +217,39 @@ export function NetworkInspectionDock({
+     </div>
+   );
+ }
++
++export function NetworkInspectionDock({
++  workspace,
++  ...props
++}: Parameters<typeof StackedInspectionDock>[0] & {
++  workspace?:
++    | {
++        state: PrototypeWorkspace;
++        layout: ReturnType<typeof prototypeLayout>;
++        results: ReactNode;
++        labels: Record<PrototypePanel, string>;
++        onAction: (action: WorkspaceAction) => void;
++        onWidth: (panel: PrototypePanel, width: number) => void;
++      }
++    | undefined;
++}) {
++  if (workspace)
++    return (
++      <NetworkPrototypeDock
++        state={workspace.state}
++        profileKey={props.profileKey}
++        layout={workspace.layout}
++        panes={{
++          search: props.search,
++          results: workspace.results,
++          profile: props.profile,
++          shortlist: props.shortlist,
++        }}
++        labels={workspace.labels}
++        onAction={workspace.onAction}
++        onWidth={workspace.onWidth}
++        uk={props.uk}
++      />
++    );
++  return <StackedInspectionDock {...props} />;
++}
+diff --git a/src/components/NetworkProfile.tsx b/src/components/NetworkProfile.tsx
+index 6d99b23..4bc4b65 100644
+--- a/src/components/NetworkProfile.tsx
++++ b/src/components/NetworkProfile.tsx
+@@ -1,3 +1,4 @@
++import { canonicalCountry } from "@/lib/network-reference";
+ import { useEffect, useState } from "react";
+ import type { Expert } from "@/lib/types";
+ import { personStatuses, researchFindings } from "@/lib/network-experience";
+@@ -12,11 +13,12 @@ import {
+   type WorkingReviewState,
+ } from "@/lib/profile-work";
+ import type { ServiceId } from "@/lib/client-catalog";
++import { hasDossierDetails, hasRecordedContent } from "@/lib/dossier-content";
+ 
+ export function NetworkProfile({
+   expert: e,
+   uk,
+-  full,
++  full: requestedFull,
+   onFull,
+   shortlisted,
+   onToggle,
+@@ -41,6 +43,8 @@ export function NetworkProfile({
+   example?: boolean;
+ }) {
+   const t = (en: string, ua: string) => (uk ? ua : en);
++  const canExpand = hasDossierDetails(e);
++  const full = requestedFull && canExpand;
+   const [note, setNote] = useState("");
+   const [workingStatus, setWorkingStatus] = useState<WorkingReviewState>("none");
+   const [storageError, setStorageError] = useState(false);
+@@ -74,13 +78,33 @@ export function NetworkProfile({
+   return (
+     <>
+       <div className="network-profile-toolbar">
+-        <button className="network-context-action" onClick={() => onFull(!full)}>
+-          {full ? t("Mini dossier", "Міні-досьє") : t("Full dossier", "Повне досьє")}
+-        </button>
++        {canExpand && (
++          <button className="network-context-action" onClick={() => onFull(!full)}>
++            {full ? t("Mini dossier", "Міні-досьє") : t("Full dossier", "Повне досьє")}
++          </button>
++        )}
+         <button className="network-context-action" onClick={onGroup}>
+-          {t("Your shortlist", "Ваш відбір")}
++          {t("My shortlist", "Мій відбір")}
+         </button>
+       </div>
++      {!canExpand && (
++        <p className="network-panel-note">
++          {e.dossierAvailability === "restricted"
++            ? t(
++                "Further source information is restricted at this access level. Use authorised access to review it.",
++                "Додаткова джерельна інформація закрита на цьому рівні доступу. Для її перегляду потрібен належний доступ.",
++              )
++            : t(
++                "No further profile information is available in this demonstration.",
++                "Додаткової інформації про профіль у цій демонстрації немає.",
++              )}
++          {configurationAction(
++            "research",
++            "Discuss research for this profile",
++            "Обговорити дослідження цього профілю",
++          )}
++        </p>
++      )}
+       <h2>{e.displayName}</h2>
+       <small className="network-profile-code">{e.code}</small>
+       {e.organization && (
+@@ -95,7 +119,8 @@ export function NetworkProfile({
+         {full && <h3>{t("Expertise", "Експертиза")}</h3>}
+         <p>{e.primaryExpertise}</p>
+         <p>
+-          {e.sector} · {e.country}
++          {e.sector} · {t("Phone-code country: ", "Країна телефонного коду: ")}
++          {uk ? e.country : canonicalCountry(e.country)}
+         </p>
+       </section>
+       <details className="network-record-statuses" open={full || undefined}>
+@@ -117,27 +142,26 @@ export function NetworkProfile({
+       </details>
+       {full && (
+         <>
+-          <section
+-            data-profile-field="evidence"
+-            className={highlight === "evidence" ? "is-coached-field" : ""}
+-          >
+-            <h3>{t("Evidence and source", "Доказова база й джерело")}</h3>
+-            <p>
+-              {e.evidence ||
+-                t("Not supplied at this access level", "Не надано для цього рівня доступу")}
+-            </p>
+-            {e.source && (
+-              <a href={e.source} target="_blank" rel="noreferrer">
+-                {t("Open supplied source", "Відкрити надане джерело")}
+-              </a>
+-            )}
+-            <dl>
+-              <dt>{t("Confidence · source field", "Впевненість · вихідне поле")}</dt>
+-              <dd>{e.confidence || t("Not supplied", "Не надано")}</dd>
+-              <dt>{t("Engagement stage · source field", "Етап взаємодії · вихідне поле")}</dt>
+-              <dd>{e.crmStage || t("Not supplied", "Не надано")}</dd>
+-            </dl>
+-          </section>
++          {(hasRecordedContent(e.evidence) || hasRecordedContent(e.source)) && (
++            <section
++              data-profile-field="evidence"
++              className={highlight === "evidence" ? "is-coached-field" : ""}
++            >
++              <h3>{t("Evidence and source", "Доказова база й джерело")}</h3>
++              {hasRecordedContent(e.evidence) && <p>{e.evidence}</p>}
++              {e.source && (
++                <a href={e.source} target="_blank" rel="noreferrer">
++                  {t("Open supplied source", "Відкрити надане джерело")}
++                </a>
++              )}
++              <dl>
++                <dt>{t("Confidence · source field", "Впевненість · вихідне поле")}</dt>
++                <dd>{e.confidence || t("Not supplied", "Не надано")}</dd>
++                <dt>{t("Engagement stage · source field", "Етап взаємодії · вихідне поле")}</dt>
++                <dd>{e.crmStage || t("Not supplied", "Не надано")}</dd>
++              </dl>
++            </section>
++          )}
+           {[
+             [t("Ukraine-related experience", "Досвід, пов’язаний з Україною"), e.ukraineTheme],
+             [t("Case theme", "Тема кейсу"), e.caseTheme],
+@@ -147,7 +171,7 @@ export function NetworkProfile({
+             [t("Potential role · source field", "Можлива роль · вихідне поле"), e.potentialRole],
+             [t("Priority · source field", "Пріоритет · вихідне поле"), e.priority],
+           ]
+-            .filter(([, value]) => value)
++            .filter(([, value]) => hasRecordedContent(value))
+             .map(([label, value]) => (
+               <section key={label}>
+                 <h3>{label}</h3>
+diff --git a/src/components/NetworkShortlist.tsx b/src/components/NetworkShortlist.tsx
+index f68426d..b6ce89a 100644
+--- a/src/components/NetworkShortlist.tsx
++++ b/src/components/NetworkShortlist.tsx
+@@ -150,7 +150,7 @@ export function NetworkShortlist({
+         <label>
+           {example
+             ? t("Example group name", "Назва групи прикладу")
+-            : t("Group name", "Назва групи")}{" "}
++            : t("Shortlist name", "Назва відбору")}{" "}
+           · {codes.length}
+           <input
+             value={name}
+@@ -158,7 +158,7 @@ export function NetworkShortlist({
+               onName(e.target.value);
+               setSaved(false);
+             }}
+-            placeholder={t("Name the group", "Назвіть групу")}
++            placeholder={t("Name this shortlist", "Назвіть відбір")}
+             disabled={disabled}
+           />
+         </label>
+diff --git a/src/components/NetworkWalkthrough.tsx b/src/components/NetworkWalkthrough.tsx
+index 1ba6415..8728ea8 100644
+--- a/src/components/NetworkWalkthrough.tsx
++++ b/src/components/NetworkWalkthrough.tsx
+@@ -154,7 +154,8 @@ export function NetworkWalkthrough({
+     document.addEventListener("keydown", listener);
+     return () => document.removeEventListener("keydown", listener);
+   }, [state, onClose]);
+-  const portal = (node: ReactNode) => createPortal(node, host.current ?? document.body);
++  const portal = (node: ReactNode, inline = false) =>
++    inline ? node : createPortal(node, host.current ?? document.body);
+   return (
+     <>
+       <button
+@@ -186,6 +187,7 @@ export function NetworkWalkthrough({
+               <X size={15} />
+             </button>
+           </div>,
++          experience === "prototype",
+         )}
+       {state &&
+         current &&
+diff --git a/src/components/NetworkWorkbench.tsx b/src/components/NetworkWorkbench.tsx
+index 9f02939..8a0bd5a 100644
+--- a/src/components/NetworkWorkbench.tsx
++++ b/src/components/NetworkWorkbench.tsx
+@@ -1,3 +1,12 @@
++import {
++  initialWorkspace,
++  changeWorkspace,
++  openWorkspacePanels,
++  prototypeLayout,
++  type PrototypePanel,
++  type WorkspaceAction,
++} from "@/lib/prototype-workspace";
++import { hasDossierDetails } from "@/lib/dossier-content";
+ import { NetworkCapabilityTree } from "./NetworkCapabilityTree";
+ import {
+   packageServiceIds,
+@@ -92,7 +101,17 @@ export function NetworkWorkbench() {
+   const [attemptedSave, setAttemptedSave] = useState(false);
+   const [walk, setWalk] = useState<WalkthroughState | null>(null);
+   const [groupOpen, setGroupOpen] = useState(route.panel === "shortlist");
+-  const [fullDossier, setFullDossier] = useState(false);
++  const [workspace, setWorkspace] = useState(() => initialWorkspace(route.panel));
++  const act = (action: WorkspaceAction) => {
++    setWorkspace((state) => changeWorkspace(state, action));
++    if (action.type === "search" || (action.type === "restore" && action.panel === "search")) {
++      setLeft("search");
++      setSearchHidden(false);
++    }
++  };
++  const fullDossier = workspace.full;
++  const setFullDossier = (full: boolean) => act({ type: "full", full });
++  const [resultsWidth, setResultsWidth] = useState(300);
+   const [experience, setExperience] = useState<Experience>(
+     route.stage === "configuration" || route.preset ? "configuration" : "prototype",
+   );
+@@ -169,10 +188,12 @@ export function NetworkWorkbench() {
+     : undefined;
+   const selected = all.find((e) => e.code === person),
+     selectedService = CLIENT_SERVICES.find((s) => s.id === service);
+-  const persistentSearch =
+-    wide && !searchHidden && experience === "prototype" && mode === "people" && !left;
+-  const leftPanelVisible = !!(left || persistentSearch);
+-  const layout = stackedInspectionLayout(
++  const persistentSearch = false;
++  const leftPanelVisible =
++    experience === "prototype"
++      ? openWorkspacePanels(workspace).includes("search")
++      : !!(left || persistentSearch);
++  const stackedLayout = stackedInspectionLayout(
+     viewportWidth,
+     {
+       search: experience === "configuration" ? left === "workflows" : leftPanelVisible,
+@@ -182,21 +203,35 @@ export function NetworkWorkbench() {
+     panelWidths,
+     experience === "configuration",
+   );
++  const prototypeDockLayout = prototypeLayout(viewportWidth, workspace, {
++    ...panelWidths,
++    results: resultsWidth,
++  });
++  const layout = experience === "prototype" ? prototypeDockLayout : stackedLayout;
+   const rightPanelVisible = !!(
+     selected ||
+     service ||
+     (experience === "configuration" ? left === "workflows" : groupOpen)
+   );
+   const dossierFull = fullDossier;
+-  const setWidth = (panel: keyof StackWidths, width: number) => {
++  const setWidth = (panel: PrototypePanel, width: number) => {
++    if (panel === "results") {
++      setResultsWidth(width);
++      return;
++    }
+     resizedPanels.current.add(panel);
+     setPanelWidths((current) => ({ ...current, [panel]: width }));
+     if (panel === "profile")
+       setFullDossier(
+-        width >= Math.max(460, Math.min(520, Math.round((viewportWidth - 40) / 4) + 40)),
++        !!selected &&
++          hasDossierDetails(selected) &&
++          width >= Math.max(460, Math.min(520, Math.round((viewportWidth - 40) / 4) + 40)),
+       );
+   };
+-  const panelOpen = !!(left || selected || service || (groupOpen && experience === "prototype"));
++  const panelOpen =
++    experience === "prototype"
++      ? prototypeDockLayout.panels.length > 0
++      : !!(left || selected || service);
+   const selection = experience === "configuration" ? EMPTY : f;
+   const model = useMemo(
+     () => buildNetwork(shown, layers, locale, selection),
+@@ -232,7 +267,8 @@ export function NetworkWorkbench() {
+       : shown.length;
+   const close = () => {
+     setLeft(null);
+-    setPerson(null);
++    if (experience === "prototype") act({ type: "graph" });
++    else setPerson(null);
+     setService(null);
+   };
+   const structure = () => {
+@@ -244,9 +280,11 @@ export function NetworkWorkbench() {
+     }
+   };
+   const openShortlist = () => {
+-    setGroupOpen((v) => !v);
++    setGroupOpen(true);
++    if (experience === "prototype") act({ type: "shortlist" });
+   };
+-  const inspectPerson = (code: string) => {
++  const inspectPerson = (code: string, origin?: "results" | "shortlist") => {
++    if (experience === "prototype") act({ type: "inspect", ...(origin ? { origin } : {}) });
+     setInspectionFocus((value) => value + 1);
+     structure();
+     setFullDossier(false);
+@@ -268,6 +306,7 @@ export function NetworkWorkbench() {
+     searchHidden,
+     groupOpen,
+     fullDossier,
++    workspace,
+     openWorkflow,
+     inspectedWorkflow,
+     configurationStarted,
+@@ -307,7 +346,7 @@ export function NetworkWorkbench() {
+       setLive(view.live);
+       setSearchHidden(view.searchHidden);
+       setGroupOpen(view.groupOpen);
+-      setFullDossier(view.fullDossier);
++      setWorkspace(view.workspace);
+       setOpenWorkflow(view.openWorkflow);
+       setInspectedWorkflow(view.inspectedWorkflow);
+       setConfigurationStarted(view.configurationStarted);
+@@ -415,6 +454,12 @@ export function NetworkWorkbench() {
+       walk.index >= 12 ? example.people.map((p) => p.code) : walk.index >= 10 ? [first.code] : [],
+     );
+     setGroupOpen(walk.index >= 10);
++    let replayWorkspace = initialWorkspace();
++    if (walk.index > 0) replayWorkspace = changeWorkspace(replayWorkspace, { type: "search" });
++    if (walk.index >= 4)
++      replayWorkspace = changeWorkspace(replayWorkspace, { type: "inspect", origin: "results" });
++    if (walk.index >= 10) replayWorkspace = changeWorkspace(replayWorkspace, { type: "add" });
++    setWorkspace({ ...replayWorkspace, full: walk.index >= 6 && walk.index <= 9 });
+     // Commands are tied to the replay step, not to subsequent manual panel interactions.
+     // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [walk?.index, walk?.kind, loading, example]);
+@@ -512,8 +557,9 @@ export function NetworkWorkbench() {
+       searchBeforeConnections.current = null;
+     }
+     setLeft("search");
++    if (experience === "prototype") act({ type: "search" });
+     setSearchHidden(false);
+-    setPerson(null);
++    if (experience !== "prototype") setPerson(null);
+     setService(null);
+     setMode("people");
+   };
+@@ -549,15 +595,7 @@ export function NetworkWorkbench() {
+     if (person && !all.some((e) => e.code === person)) setPerson(null);
+     if (anchor !== "isrm" && !model.nodes.some((n) => n.id === anchor)) setAnchor("isrm");
+   }, [shown, all, model, person, anchor, loading]);
+-  const prototypeView = useRef<{
+-    f: typeof f;
+-    layers: GraphLayers;
+-    anchor: string;
+-    left: typeof left;
+-    live: boolean;
+-    groupOpen: boolean;
+-    searchHidden: boolean;
+-  } | null>(null);
++  const prototypeView = useRef<ReturnType<typeof captureView> | null>(null);
+   useEffect(() => {
+     const next: Experience =
+       route.stage === "configuration" || route.preset ? "configuration" : "prototype";
+@@ -595,6 +633,8 @@ export function NetworkWorkbench() {
+         setLive(view.live);
+         setGroupOpen(view.groupOpen);
+         setSearchHidden(view.searchHidden);
++        setPerson(view.person);
++        setWorkspace(view.workspace);
+       } else {
+         setAnchor("isrm");
+         setLive(true);
+@@ -608,9 +648,13 @@ export function NetworkWorkbench() {
+   useEffect(() => {
+     if (route.panel === "shortlist") {
+       setGroupOpen(true);
++      act({ type: "shortlist" });
+       setLeft(null);
+       setSearchHidden(true);
+-    } else if (route.panel === "search") setLeft("search");
++    } else if (route.panel === "search") {
++      setLeft("search");
++      act({ type: "search" });
++    }
+   }, [route.panel]);
+   useEffect(() => {
+     if (!route.anchor || loading) return;
+@@ -676,7 +720,7 @@ export function NetworkWorkbench() {
+             : current;
+         });
+       }
+-      const top = header.offsetHeight + dashboard.offsetHeight;
++      const top = header.offsetHeight + (header.contains(dashboard) ? 0 : dashboard.offsetHeight);
+       el.style.setProperty("--network-controls-top", `${top}px`);
+       el.style.setProperty(
+         "--network-header-bottom",
+@@ -730,6 +774,7 @@ export function NetworkWorkbench() {
+                 uk={uk}
+                 full={dossierFull}
+                 onFull={(full) => {
++                  resizedPanels.current.add("profile");
+                   setFullDossier(full);
+                   setPanelWidths((current) => ({
+                     ...current,
+@@ -746,13 +791,15 @@ export function NetworkWorkbench() {
+                   if (walk?.kind === "prototype") setExampleCodes(shortlist);
+                   else update({ shortlist });
+                   setGroupOpen(true);
++                  act({ type: "add" });
++                  setPanelWidths((current) => ({ ...current, profile: 330 }));
+                   setGroupFeedback(
+                     removing
+-                      ? t("Removed from your group · −1", "Прибрано з вашої групи · −1")
+-                      : t("Added to your group · +1", "Додано до вашої групи · +1"),
++                      ? t("Removed from my shortlist", "Прибрано з мого відбору")
++                      : t("Added to my shortlist", "Додано до мого відбору"),
+                   );
+                 }}
+-                onGroup={() => setGroupOpen(true)}
++                onGroup={openShortlist}
+                 onConnections={() => chooseAnchor(selected.code)}
+                 replayResearch={
+                   walkId === "request" ? "request" : walkId === "findings" ? "findings" : undefined
+@@ -873,6 +920,75 @@ export function NetworkWorkbench() {
+       <Network size={21} />
+     </button>
+   );
++  const dashboard = (
++    <div className={`network-dashboard ${persistentSearch ? "has-search-rail" : ""}`}>
++      <div className="network-panel-heading network-left-heading">
++        {leftPanelVisible && (
++          <>
++            <h2>
++              {left === "workflows"
++                ? t("Capability configurator", "Конфігуратор функціональності")
++                : left === "shortlist"
++                  ? t("My shortlist", "Ваш shortlist")
++                  : t("Search", "Пошук")}
++            </h2>
++            {backButton}
++          </>
++        )}
++      </div>
++      <nav
++        className="network-dashboard-navigation"
++        aria-label={t("Current view and selection", "Поточний вигляд і відбір")}
++      >
++        <div className="network-metrics" aria-live="polite">
++          {experience === "prototype" && backButton}
++          <span>
++            <strong className="network-metric-number" key={visible}>
++              {visible}
++            </strong>
++            {t("visible", "видимо")}
++          </span>
++          <span>
++            <strong className="network-metric-number" key={count}>
++              {count}
++            </strong>
++            {mode === "services"
++              ? t("service coverage", "охоплено сервісом")
++              : t("matched", "знайдено")}
++          </span>
++          {experience === "prototype" && (
++            <button
++              className={`network-shortlist-trigger ${groupFeedback ? "has-feedback" : ""}`}
++              onClick={openShortlist}
++              aria-label={t("Open shortlist", "Відкрити shortlist")}
++            >
++              <strong className="network-metric-number" key={selectedCodes.length}>
++                {selectedCodes.length}
++              </strong>
++              {t("in my shortlist", "у моєму відборі")}
++            </button>
++          )}
++          {groupFeedback && (
++            <span className="network-group-feedback" role="status">
++              {groupFeedback}
++            </span>
++          )}
++        </div>
++      </nav>
++      <div className="network-panel-heading network-right-heading">
++        {(selected || selectedService) && (
++          <>
++            <h2>
++              {selected
++                ? `${t("Dossier", "Досьє")} · ${selected.code}`
++                : t("Service capability", "Сервісна функціональність")}
++            </h2>
++            {backButton}
++          </>
++        )}
++      </div>
++    </div>
++  );
+   return (
+     <main
+       ref={root}
+@@ -908,12 +1024,16 @@ export function NetworkWorkbench() {
+               layers={layers}
+               referenceSelection={selection}
+               locale={locale}
+-              focus={person}
++              focus={
++                experience === "prototype" && !prototypeDockLayout.panels.includes("profile")
++                  ? null
++                  : person
++              }
+               onFocus={(code) => {
+                 setInspectionFocus((value) => value + 1);
+                 setService(null);
+                 setFullDossier(false);
+-                if (code) setPerson(code);
++                if (code) inspectPerson(code);
+                 else {
+                   close();
+                   setGroupOpen(false);
+@@ -935,7 +1055,7 @@ export function NetworkWorkbench() {
+               onServiceSelect={(id) => choose(id as ServiceId)}
+               onWorkflowSelect={activateWorkflow}
+               workflowInfoId={openWorkflow && openWorkflow !== "own" ? openWorkflow : null}
+-              showConnectionPath={experience === "prototype"}
++              showConnectionPath={false}
+               readableExpansions={experience === "prototype"}
+               onWorkflowDismiss={
+                 experience === "prototype" ? () => setInspectedWorkflow(null) : undefined
+@@ -966,74 +1086,11 @@ export function NetworkWorkbench() {
+           </p>
+         )}
+       </div>
+-      <ClientHeader baseline={experience === "configuration"} />
+-      <div className={`network-dashboard ${persistentSearch ? "has-search-rail" : ""}`}>
+-        <div className="network-panel-heading network-left-heading">
+-          {leftPanelVisible && (
+-            <>
+-              <h2>
+-                {left === "workflows"
+-                  ? t("Capability configurator", "Конфігуратор функціональності")
+-                  : left === "shortlist"
+-                    ? t("Your shortlist", "Ваш shortlist")
+-                    : t("Search", "Пошук")}
+-              </h2>
+-              {backButton}
+-            </>
+-          )}
+-        </div>
+-        <nav
+-          className="network-dashboard-navigation"
+-          aria-label={t("Current view and selection", "Поточний вигляд і відбір")}
+-        >
+-          <div className="network-metrics" aria-live="polite">
+-            {experience === "prototype" && backButton}
+-            <span>
+-              <strong className="network-metric-number" key={visible}>
+-                {visible}
+-              </strong>
+-              {t("visible", "видимо")}
+-            </span>
+-            <span>
+-              <strong className="network-metric-number" key={count}>
+-                {count}
+-              </strong>
+-              {mode === "services"
+-                ? t("service coverage", "охоплено сервісом")
+-                : t("matched", "знайдено")}
+-            </span>
+-            {experience === "prototype" && (
+-              <button
+-                className={`network-shortlist-trigger ${groupFeedback ? "has-feedback" : ""}`}
+-                onClick={openShortlist}
+-                aria-label={t("Open shortlist", "Відкрити shortlist")}
+-              >
+-                <strong className="network-metric-number" key={selectedCodes.length}>
+-                  {selectedCodes.length}
+-                </strong>
+-                {t("in your group", "у вашій групі")}
+-              </button>
+-            )}
+-            {groupFeedback && (
+-              <span className="network-group-feedback" role="status">
+-                {groupFeedback}
+-              </span>
+-            )}
+-          </div>
+-        </nav>
+-        <div className="network-panel-heading network-right-heading">
+-          {(selected || selectedService) && (
+-            <>
+-              <h2>
+-                {selected
+-                  ? `${t("Dossier", "Досьє")} · ${selected.code}`
+-                  : t("Service capability", "Сервісна функціональність")}
+-              </h2>
+-              {backButton}
+-            </>
+-          )}
+-        </div>
+-      </div>
++      <ClientHeader
++        baseline={experience === "configuration"}
++        beforeNavigation={experience === "prototype" ? dashboard : undefined}
++      />
++      {experience === "configuration" && dashboard}
+       {(!panelOpen || wide) && (
+         <div
+           className={`network-concentrators ${leftPanelVisible ? "has-left-panel" : ""} ${rightPanelVisible ? "has-right-panel" : ""} ${persistentSearch ? "has-search-rail" : ""}`}
+@@ -1057,6 +1114,7 @@ export function NetworkWorkbench() {
+                     structure();
+                     setF({ ...EMPTY, q: query });
+                     setLeft("search");
++                    act({ type: "search" });
+                     setSearchHidden(false);
+                   }
+                 : undefined
+@@ -1136,6 +1194,60 @@ export function NetworkWorkbench() {
+         </div>
+       )}
+       <NetworkInspectionDock
++        workspace={
++          experience === "prototype"
++            ? {
++                state: workspace,
++                layout: prototypeDockLayout,
++                labels: {
++                  search: t("Search criteria", "Критерії пошуку"),
++                  results: t("Search results", "Результати пошуку"),
++                  profile: dossierFull
++                    ? t("Full dossier", "Повне досьє")
++                    : t("Mini dossier", "Міні-досьє"),
++                  shortlist: t("My shortlist", "Мій відбір"),
++                },
++                onAction: act,
++                onWidth: setWidth,
++                results: (
++                  <aside
++                    className="network-paper-panel network-search-results"
++                    aria-label={t("Search results", "Результати пошуку")}
++                  >
++                    <p className="network-panel-note" role="status">
++                      {shown.length}{" "}
++                      {t(
++                        "matching records in the current search",
++                        "записів у поточному результаті пошуку",
++                      )}
++                    </p>
++                    {shown.length ? (
++                      shown.map((p) => (
++                        <button
++                          className="network-result-row"
++                          key={p.code}
++                          aria-pressed={person === p.code}
++                          onClick={() => inspectPerson(p.code, "results")}
++                        >
++                          <strong>{p.displayName}</strong>
++                          <small>
++                            {p.code} · {p.sector}
++                          </small>
++                        </button>
++                      ))
++                    ) : (
++                      <p>
++                        {t(
++                          "No matching records. Change your search criteria.",
++                          "Збігів немає. Змініть критерії пошуку.",
++                        )}
++                      </p>
++                    )}
++                  </aside>
++                ),
++              }
++            : undefined
++        }
+         historical={experience === "configuration"}
+         searchKey={searchFocus}
+         searchLabel={
+@@ -1284,7 +1396,7 @@ export function NetworkWorkbench() {
+                 )}
+               </section>
+             </aside>
+-          ) : experience === "prototype" && leftPanelVisible ? (
++          ) : experience === "prototype" ? (
+             <aside
+               className={`network-paper-panel network-left-panel ${persistentSearch ? "is-persistent-search" : ""}`}
+               aria-label={t("Search panel", "Панель пошуку")}
+@@ -1347,17 +1459,12 @@ export function NetworkWorkbench() {
+                   includeReference
+                 />
+               </details>
+-              <button className="network-folder-button" onClick={close}>
++              <button
++                className="network-folder-button"
++                onClick={() => act({ type: "restore", panel: "results" })}
++              >
+                 {t("Show results", "Показати результати")} · {shown.length}
+               </button>
+-              <details className="network-profile-list">
+-                <summary>{t("Profiles · keyboard access", "Профілі · вибір з клавіатури")}</summary>
+-                {shown.map((p) => (
+-                  <button key={p.code} onClick={() => inspectPerson(p.code)}>
+-                    {p.displayName}
+-                  </button>
+-                ))}
+-              </details>
+             </aside>
+           ) : null
+         }
+@@ -1420,7 +1527,7 @@ export function NetworkWorkbench() {
+             selected || selectedService ? (
+               personServiceInspection
+             ) : null
+-          ) : groupOpen ? (
++          ) : workspace.known.includes("shortlist") || groupOpen ? (
+             <NetworkShortlist
+               people={all}
+               codes={selectedCodes}
+@@ -1430,14 +1537,17 @@ export function NetworkWorkbench() {
+               }
+               expanded={wide && layout.shortlist >= 460}
+               onExpand={() => setWidth("shortlist", layout.shortlist >= 460 ? 330 : 560)}
+-              onInspect={inspectPerson}
++              onInspect={(code) => inspectPerson(code, "shortlist")}
+               onRemove={(code) =>
+                 walk?.kind === "prototype"
+                   ? setExampleCodes((v) => v.filter((id) => id !== code))
+                   : update({ shortlist: draft.shortlist.filter((id) => id !== code) })
+               }
+               onRestore={(shortlist, groupName) => update({ shortlist, groupName })}
+-              onClose={() => setGroupOpen(false)}
++              onClose={() => {
++                setGroupOpen(false);
++                act({ type: "close", panel: "shortlist" });
++              }}
+               onSearch={continueSearch}
+               uk={uk}
+               example={walk?.kind === "prototype"}
+@@ -1447,57 +1557,43 @@ export function NetworkWorkbench() {
+         }
+       />
+       <footer className="network-bottom-rail">
+-        <div
+-          className="network-legend"
+-          aria-label={t("Graph legend", "Легенда графа")}
+-          title={t(
+-            "Legend · these symbols describe node types",
+-            "Легенда · ці символи пояснюють типи вузлів",
+-          )}
+-        >
+-          <small>{t("Legend", "Легенда")}</small>
+-          <span>
+-            <Users size={14} />
+-            {t("Person", "Персона")}
+-          </span>
+-          <span>
+-            <Building2 size={14} />
+-            {t("Organisation", "Організація")}
+-          </span>
+-          <span>
+-            <Layers size={14} />
+-            {t("Service", "Сервіс")}
+-          </span>
+-          <span>
+-            <GitBranch size={14} />
+-            Workflow
+-          </span>
+-          <span>○ {t("Concentrator", "Концентратор")}</span>
+-          <span className="network-demo-label">
+-            {t("Demonstration · supplied sample", "Демонстрація · передана вибірка")}
+-          </span>
+-          <button
+-            className="network-survey-link"
+-            onClick={() => {
+-              if (walk) endWalk();
+-              setSurvey(true);
+-            }}
++        <details className="network-legend-toggle" open={wide || undefined}>
++          <summary>{t("Legend", "Легенда")}</summary>
++          <div
++            className="network-legend"
++            aria-label={t("Graph legend", "Легенда графа")}
++            title={t(
++              "Legend · these symbols describe node types",
++              "Легенда · ці символи пояснюють типи вузлів",
++            )}
+           >
+-            {t("Questionnaire", "Опитувальник")}
+-          </button>
+-          <NetworkWalkthrough
+-            host={root}
+-            state={walk}
+-            experience={experience}
+-            onStart={beginWalk}
+-            onChange={setWalk}
+-            onClose={() => endWalk()}
+-            onTakeOver={() => endWalk(true)}
+-            uk={uk}
+-            available={!!example}
+-          />
+-          <DataUseNotice compact />
+-        </div>
++            <small>{t("Legend", "Легенда")}</small>
++            <span>
++              <Users size={14} />
++              {t("Person", "Персона")}
++            </span>
++            <span>
++              <Building2 size={14} />
++              {t("Organisation", "Організація")}
++            </span>
++            <span>
++              <Layers size={14} />
++              {t("Service", "Сервіс")}
++            </span>
++            <span>
++              <GitBranch size={14} />
++              Workflow
++            </span>
++            <span>○ {t("Concentrator", "Концентратор")}</span>
++            <span className="network-recorded-edge-key">
++              <GitBranch size={14} />
++              {t("Line · recorded category", "Лінія · записана категорія")}
++            </span>
++            <span className="network-demo-label">
++              {t("Demonstration · supplied sample", "Демонстрація · передана вибірка")}
++            </span>
++          </div>
++        </details>
+         <nav
+           className="client-network-dock network-two-tabs"
+           aria-label={t("Current workspace actions", "Дії поточного режиму")}
+@@ -1505,22 +1601,20 @@ export function NetworkWorkbench() {
+           {experience === "prototype" ? (
+             <>
+               <button
+-                aria-pressed={left === "search" || persistentSearch}
+-                onClick={() => {
+-                  const opening = !(left === "search" || persistentSearch);
+-                  close();
+-                  setSearchHidden(!opening);
+-                  setMode("people");
+-                  if (opening) continueSearch();
+-                  else setLeft(null);
+-                }}
++                aria-pressed={
++                  workspace.view === "search" && prototypeDockLayout.panels.includes("search")
++                }
++                onClick={continueSearch}
+               >
+                 <Search size={25} />
+                 {t("Search", "Пошук")}
+               </button>
+-              <button aria-pressed={groupOpen} onClick={openShortlist}>
++              <button
++                aria-pressed={prototypeDockLayout.panels.includes("shortlist")}
++                onClick={openShortlist}
++              >
+                 <Users size={25} />
+-                {t("Your shortlist", "Ваш відбір")} · {selectedCodes.length}
++                {t("My shortlist", "Мій відбір")} · {selectedCodes.length}
+               </button>
+             </>
+           ) : (
+@@ -1545,6 +1639,29 @@ export function NetworkWorkbench() {
+             </>
+           )}
+         </nav>
++        <div className="network-secondary-actions">
++          <button
++            className="network-survey-link"
++            onClick={() => {
++              if (walk) endWalk();
++              setSurvey(true);
++            }}
++          >
++            {t("Questionnaire", "Опитувальник")}
++          </button>
++          <NetworkWalkthrough
++            host={root}
++            state={walk}
++            experience={experience}
++            onStart={beginWalk}
++            onChange={setWalk}
++            onClose={() => endWalk()}
++            onTakeOver={() => endWalk(true)}
++            uk={uk}
++            available={!!example}
++          />
++          <DataUseNotice compact />
++        </div>
+       </footer>
+       <Dialog open={!!exclude} onOpenChange={(o) => !o && setExclude(null)}>
+         <DialogContent
+diff --git a/src/lib/briefing-slides.ts b/src/lib/briefing-slides.ts
+index 9ea257e..49a76e4 100644
+--- a/src/lib/briefing-slides.ts
++++ b/src/lib/briefing-slides.ts
+@@ -1,4 +1,3 @@
+-import { PROJECT_POSITIONING } from "./project-positioning";
+ import type { Copy } from "./client-catalog";
+ import type { GraphLayers } from "@/components/NetworkGraph";
+ export type BriefingSlide = {
+@@ -14,129 +13,210 @@ export type BriefingSlide = {
+ };
+ export const BRIEFING_SLIDES: BriefingSlide[] = [
+   {
+-    label: { en: "Asset, not bottleneck", uk: "Ресурс для роботи" },
++    label: {
++      en: "From enquiry to use",
++      uk: "Від запиту до використання",
++    },
+     title: {
+-      en: "11,000 contacts are a starting point.",
+-      uk: "11 тисяч контактів — початок роботи.",
++      en: "A broad enquiry needs a way to use its results.",
++      uk: "Широкий запит потребує способу використати результат.",
+     },
+     body: {
+-      en: "Your enquiry asks us to research a large audience. We can continue that work. The next practical question is how to find, review, select and use the information once it is delivered.",
+-      uk: "Ваш запит стосується дослідження великої аудиторії. Ми можемо продовжувати цю роботу. Наступне практичне питання — як знаходити, перевіряти, відбирати й використовувати інформацію після її отримання.",
++      en: "Your enquiry covers a large contact audience. Research can prepare the information; reviewing it, selecting relevant expertise and coordinating the next action create an operational challenge of their own.",
++      uk: "Ваш запит охоплює велику аудиторію контактів. Дослідження може підготувати інформацію; її перевірка, доречний підбір експертизи й організація наступної дії створюють окрему операційну задачу.",
+     },
+     insight: {
+-      en: "A dossier is not yet a conversation, an engagement or a client mandate. The prototype makes the next steps tangible.",
+-      uk: "Досьє ще не є розмовою, співпрацею чи клієнтським дорученням. Прототип дозволяє спробувати наступні кроки.",
++      en: "A dossier is not yet a conversation, an engagement or a client mandate. The question is how ISRM can put the research to work.",
++      uk: "Досьє ще не є розмовою, співпрацею чи клієнтським дорученням. Питання в тому, як ISRM зможе використати дослідження у роботі.",
+     },
+     principle: {
+-      en: "Put the research to work.",
+-      uk: "Перетворювати дослідження на корисну роботу.",
++      en: "Make the information usable as a shared asset.",
++      uk: "Зробити інформацію придатним до спільної роботи ресурсом.",
+     },
+     note: {
+-      en: "11,000 is the scale described in the enquiry, not a verified reachable audience or revenue forecast. No conversion is assumed.",
+-      uk: "11 тисяч — масштаб із запиту, не підтверджена досяжна аудиторія чи прогноз доходу. Конверсію не припускаємо.",
++      en: "The audience described in the enquiry is the starting context, not a verified reachable network or a forecast of demand.",
++      uk: "Аудиторія із запиту — початковий контекст, не підтверджена досяжна мережа чи прогноз попиту.",
+     },
+     steps: [
+-      { en: "Research enquiry", uk: "Запит дослідження" },
+-      { en: "Source-backed information", uk: "Інформація з джерелами" },
+-      { en: "Useful selection", uk: "Доречний відбір" },
+-      { en: "Agreed next action", uk: "Погоджена наступна дія" },
++      {
++        en: "Broad research enquiry",
++        uk: "Широкий запит дослідження",
++      },
++      {
++        en: "Source-backed records",
++        uk: "Записи з джерелами",
++      },
++      {
++        en: "Professional selection",
++        uk: "Професійний відбір",
++      },
++      {
++        en: "Agreed next action",
++        uk: "Погоджена наступна дія",
++      },
+     ],
+-    layers: { sector: true, theme: false, hub: false, researchQueue: true },
++    layers: {
++      sector: true,
++      theme: false,
++      hub: false,
++      researchQueue: true,
++    },
+   },
+   {
+-    label: { en: "Amplifier, not replacement", uk: "Підсилення професійної роботи" },
++    label: {
++      en: "Tools and professional judgement",
++      uk: "Інструменти й професійне судження",
++    },
+     title: {
+-      en: "Find expertise. Understand the evidence.",
+-      uk: "Знайти експертизу. Зрозуміти підстави.",
++      en: "Digital tools organise. ISRM professionals judge.",
++      uk: "Цифрові інструменти впорядковують. Фахівці ISRM оцінюють.",
+     },
+     body: {
+-      en: "Try search, dossiers and a working shortlist on the supplied 178-record sample. The map shows recorded expertise; operational AI research and shared systems still require connection.",
+-      uk: "Спробуйте пошук, досьє й робочий відбір на переданій вибірці зі 178 записів. Мапа показує зафіксовану експертизу; операційний AI research і спільні системи ще потребують підключення.",
++      en: "The prototype shows search, dossiers and a working shortlist on the supplied research sample. Digital tools can organise information and AI can assist research. ISRM consultants and members can provide professional review, within agreed roles and standards.",
++      uk: "Прототип показує пошук, досьє й робочий відбір на переданій дослідницькій вибірці. Цифрові інструменти можуть впорядковувати інформацію, а ШІ — допомагати дослідженню. Консультанти й члени ISRM можуть здійснювати професійну перевірку в межах погоджених ролей і стандартів.",
++    },
++    insight: {
++      en: "The graph helps make sense of it. OSINT helps prepare the information. Professional review provides a considered, accountable judgement. Subsequent interaction creates the result.",
++      uk: "Граф допомагає це зрозуміти. OSINT допомагає підготувати інформацію. Професійна перевірка дає відповідальне судження. А подальша взаємодія створює результат.",
++    },
++    principle: {
++      en: "Support professional responsibility with evidence.",
++      uk: "Підтримати професійну відповідальність доказовими підставами.",
+     },
+-    insight: PROJECT_POSITIONING.explanation,
+-    principle: { en: "Trust is a professional mandate.", uk: "Довіра — професійний мандат." },
+     note: {
+-      en: "Source confirmation, expertise, a recommendation and willingness to participate are different things. AI does not create a human recommendation. The supplied sample is not a complete membership register.",
+-      uk: "Підтвердження джерела, експертиза, рекомендація та готовність долучитися — різні речі. ШІ не створює людської рекомендації. Передана вибірка не є повним реєстром членства.",
++      en: "The map describes the supplied sample, not the whole membership. Source confirmation, professional review, a recommendation and willingness to participate remain distinct. Operational AI research is not connected.",
++      uk: "Мапа описує передану вибірку, не весь склад членства. Підтвердження джерела, професійна перевірка, рекомендація й готовність долучитися залишаються різними ознаками. Операційне дослідження з ШІ не підключене.",
+     },
+     steps: [
+-      { en: "Search", uk: "Пошук" },
+-      { en: "Inspect evidence", uk: "Перегляд підстав" },
+-      { en: "Keep a shortlist", uk: "Збереження відбору" },
++      {
++        en: "Overview of recorded expertise",
++        uk: "Огляд записаної експертизи",
++      },
++      {
++        en: "Inspect available evidence",
++        uk: "Перегляд доступних підстав",
++      },
++      {
++        en: "Keep a reasoned shortlist",
++        uk: "Обґрунтований відбір",
++      },
+     ],
+-    layers: { sector: true, theme: false, hub: false, specialisation: true, researchQueue: true },
++    layers: {
++      sector: true,
++      theme: false,
++      hub: false,
++      specialisation: true,
++      researchQueue: true,
++    },
+   },
+   {
+-    label: { en: "Services around people", uk: "Сервіси навколо людей" },
++    label: {
++      en: "Services around member needs",
++      uk: "Сервіси навколо потреб членів",
++    },
+     title: {
+-      en: "Choose support for your members’ needs.",
+-      uk: "Оберіть підтримку потреб ваших членів.",
++      en: "Use the same foundation for more than verification.",
++      uk: "Використати спільну основу ширше за верифікацію.",
+     },
+     body: {
+-      en: "Explore the service capabilities, keep what is useful and describe what is missing. Services can be combined into workflows, but you need not adopt a preset to explain your requirement.",
+-      uk: "Переглядайте сервісну функціональність, обирайте корисне й описуйте те, чого бракує. Сервіси можна об’єднувати у workflow, але для опису потреби не обов’язково приймати готовий набір.",
++      en: "Information, professional review and member participation can also support introductions, client enquiries, peer learning, discussions and shared knowledge. Choose the services useful to ISRM; the configurator shows how they can work together.",
++      uk: "Інформація, професійна перевірка й участь членів можуть також підтримувати знайомства, клієнтські запити, взаємне навчання, обговорення та спільні знання. Обирайте корисні для ISRM сервіси; конфігуратор показує, як вони можуть працювати разом.",
+     },
+     insight: {
+-      en: "The configurator shapes a tailored proposal. Its service links illustrate possible working arrangements; they do not activate services or prove member participation.",
+-      uk: "Конфігуратор формує індивідуальну пропозицію. Зв’язки сервісів показують можливу організацію роботи; вони не активують сервіси й не доводять участь членів.",
++      en: "Services and their required functions form the proposed scope. Workflow examples explain possible uses; they do not require ISRM to buy a preset package.",
++      uk: "Сервіси та потрібні функції формують запропонований обсяг. Приклади workflow пояснюють можливі застосування; вони не вимагають купувати готовий пакет.",
+     },
+     principle: {
+-      en: "Choose the capability. Shape the process together.",
+-      uk: "Оберіть можливість. Разом сформуємо процес.",
++      en: "Choose useful services. Agree the way of working.",
++      uk: "Обрати корисні сервіси. Погодити спосіб роботи.",
+     },
+     note: {
+-      en: "Preset packages remain optional planning aids. A changed composition requires reassessment of dependencies, outcomes and price in the detailed proposal.",
+-      uk: "Готові набори — лише опційні орієнтири. Змінений склад потребує переоцінки залежностей, результатів і ціни в детальній пропозиції.",
++      en: "Each use needs an owner, participation and appropriate rules. Choosing a service does not activate it or establish member demand. Technical and process dependencies must be made explicit.",
++      uk: "Кожне застосування потребує відповідального, участі людей і доречних правил. Вибір сервісу не активує його й не доводить попиту членів. Технічні та процесні залежності мають бути явними.",
+     },
+     steps: [
+-      { en: "People and needs", uk: "Люди й потреби" },
+-      { en: "Useful services", uk: "Корисні сервіси" },
+-      { en: "Agreed workflow", uk: "Погоджений workflow" },
++      {
++        en: "People and needs",
++        uk: "Люди й потреби",
++      },
++      {
++        en: "Useful services",
++        uk: "Корисні сервіси",
++      },
++      {
++        en: "Agreed working process",
++        uk: "Погоджений процес роботи",
++      },
+     ],
+-    layers: { sector: true, theme: false, hub: true, researchQueue: true },
++    layers: {
++      sector: true,
++      theme: false,
++      hub: true,
++      researchQueue: true,
++    },
+   },
+   {
+-    label: { en: "Shared rules at scale", uk: "Спільні правила на масштабі" },
++    label: {
++      en: "Shared rules at scale",
++      uk: "Спільні правила на масштабі",
++    },
+     title: {
+-      en: "35 chapters. Shared rules. Local judgement.",
+-      uk: "35 чаптерів. Спільні правила. Фахове судження.",
++      en: "Shared rules make cross-chapter work possible.",
++      uk: "Спільні правила уможливлюють роботу між чаптерами.",
+     },
+     body: {
+-      en: "Technology can support interaction across chapters. ISRM’s policies must define the expected result, who maintains information, who reviews it and how colleagues may be approached.",
+-      uk: "Технології можуть підтримати взаємодію між чаптерами. Політики ISRM мають визначити очікуваний результат, хто підтримує інформацію, хто перевіряє її та як звертатися до колег.",
++      en: "A wider range of uses belongs in ISRM’s organisational development: who contributes, who reviews, how information is maintained and how colleagues may be approached. Standards, policies and procedures define responsibilities and acceptable outcomes.",
++      uk: "Ширший набір застосувань належить до організаційного розвитку ISRM: хто долучається, хто перевіряє, як підтримується інформація та як звертатися до колег. Стандарти, політики й процедури визначають відповідальність і прийнятний результат.",
+     },
+     insight: {
+-      en: "Appropriate introductions, discussions and useful contributions give people reasons to participate. The application supports these arrangements alongside existing ISRM systems.",
+-      uk: "Доречні знайомства, обговорення й корисні внески створюють мотив долучатися. Застосунок підтримує ці домовленості поруч із наявними системами ISRM.",
++      en: "The proposed approach combines reusable tools with ISRM’s own practices. Agreed integrations can connect useful functions to existing systems; actual systems and access requirements must first be established.",
++      uk: "Запропонований підхід поєднує повторно використовувані інструменти з практиками ISRM. Погоджені інтеграції можуть поєднати потрібні функції з наявними системами; спочатку потрібно визначити самі системи й вимоги до доступу.",
+     },
+     principle: {
+       en: "Agree what a useful result means.",
+       uk: "Погодити, що саме є корисним результатом.",
+     },
+     note: {
+-      en: "The chapter count is the planning context in the brief, not evidence of active participation. Connections to actual CRM, learning and communication systems require individual scope and permission checks.",
+-      uk: "Кількість чаптерів — контекст планування з брифу, не доказ активної участі. Підключення до фактичних CRM, навчальних і комунікаційних систем потребують окремого погодження обсягу й прав.",
++      en: "This is a proposed direction for organisational use. It does not assume active participation across chapters, an existing integration or an approved ISRM operating policy.",
++      uk: "Це запропонований напрям організаційного використання. Він не припускає активної участі всіх чаптерів, уже наявної інтеграції чи затвердженої операційної політики ISRM.",
+     },
+     steps: [
+-      { en: "Shared policies", uk: "Спільні політики" },
+-      { en: "Professional responsibility", uk: "Професійна відповідальність" },
+-      { en: "Useful interaction", uk: "Корисна взаємодія" },
++      {
++        en: "Shared policies",
++        uk: "Спільні політики",
++      },
++      {
++        en: "Professional responsibility",
++        uk: "Професійна відповідальність",
++      },
++      {
++        en: "Useful interaction",
++        uk: "Корисна взаємодія",
++      },
+     ],
+-    layers: { sector: true, theme: true, hub: true, researchQueue: true },
++    layers: {
++      sector: true,
++      theme: true,
++      hub: true,
++      researchQueue: true,
++    },
+   },
+   {
+-    label: { en: "Flywheel: a hypothesis to test", uk: "Цикл цінності: гіпотеза для перевірки" },
++    label: {
++      en: "Flywheel: a hypothesis to test",
++      uk: "Цикл цінності: гіпотеза для перевірки",
++    },
+     title: {
+       en: "Keep information current. Make participation worthwhile.",
+       uk: "Актуальні дані. Змістовна участь.",
+     },
+     body: {
+-      en: "Build the pilot around one real enquiry and two difficult questions: how records stay current, and why people contribute. Sources, dates, digital checks, appropriate contact and the outcome form one managed process.",
+-      uk: "Побудуймо пілот навколо реального запиту й двох складних питань: як підтримувати актуальність та чому люди долучатимуться. Джерела, дати, цифрові перевірки, доречний контакт і результат утворюють керований процес.",
++      en: "Pilot a useful enquiry and examine what sustains the process: current records, a responsible coordinator, professional review and people willing to contribute. Record the next action and its outcome so the network can learn from the interaction.",
++      uk: "Випробуймо корисний запит і перевірмо, що підтримує процес: актуальні записи, відповідальний координатор, професійна перевірка й готовність людей долучитися. Фіксуймо наступну дію та її результат, щоб мережа могла вчитися на взаємодії.",
+     },
+     insight: {
+-      en: "Learning, useful interaction and participation can return experience to the network. Measure that effect before expanding into further services or knowledge products.",
+-      uk: "Навчання, корисна взаємодія й участь можуть повертати досвід у мережу. Виміряймо цей ефект до розширення сервісів чи створення продуктів експертизи.",
++      en: "Access to relevant expertise, introductions, learning and useful discussions may give members reasons to participate. The pilot must test these motives and the work needed to keep them going.",
++      uk: "Доступ до доречної експертизи, знайомств, навчання й корисних обговорень може створювати мотив участі. Пілот має перевірити ці мотиви та роботу, потрібну для їх підтримки.",
+     },
+     principle: {
+       en: "Test the benefit. Then decide what grows.",
+@@ -147,21 +227,38 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
+       uk: "Експоненційне зростання чи фінансова віддача не обіцяються. Майбутні AI-консультанти чи навчання моделей потребують окремого рішення щодо мети, прав, захисту й оцінювання.",
+     },
+     steps: [
+-      { en: "Useful contribution", uk: "Корисний внесок" },
+-      { en: "Reviewed experience", uk: "Перевірений досвід" },
+-      { en: "Further value", uk: "Подальша цінність" },
++      {
++        en: "Useful contribution",
++        uk: "Корисний внесок",
++      },
++      {
++        en: "Reviewed experience",
++        uk: "Перевірений досвід",
++      },
++      {
++        en: "Further value",
++        uk: "Подальша цінність",
++      },
+     ],
+-    layers: { sector: false, theme: true, hub: true, researchQueue: true },
++    layers: {
++      sector: false,
++      theme: true,
++      hub: true,
++      researchQueue: true,
++    },
+   },
+   {
+-    label: { en: "Your next step", uk: "Ваш наступний крок" },
++    label: {
++      en: "Your next step",
++      uk: "Ваш наступний крок",
++    },
+     title: {
+-      en: "Try the application. Choose your next step.",
+-      uk: "Спробуйте застосунок. Оберіть наступний крок.",
++      en: "Try the prototype. Choose useful support.",
++      uk: "Спробуйте прототип. Оберіть корисну підтримку.",
+     },
+     body: {
+-      en: "Continue individual research, tailor the core or explore additional capabilities. If a simpler existing-application option fits better, choose the fallback. A brief impression of the prototype is welcome whichever route you prefer.",
+-      uk: "Продовжуйте разові дослідження, адаптуйте ядро чи дослідіть додаткові можливості. Якщо краще підходить простіший наявний застосунок — оберіть fallback. Будемо вдячні за коротке враження від прототипу за будь-якого вибору.",
++      en: "Continue individual research, adapt the demonstrated tools or choose further services for a pilot. You can describe a need directly; workflow examples are there to help. A simpler existing-application option remains available for discussion.",
++      uk: "Продовжуйте разові дослідження, адаптуйте продемонстровані інструменти чи оберіть додаткові сервіси для пілоту. Потребу можна описати прямо; приклади workflow допомагають зорієнтуватися. Простіший варіант на основі наявного застосунку також залишається предметом обговорення.",
+     },
+     insight: {
+       en: "Your choices inform a detailed proposal with agreed scope, dependencies, acceptance checks and budget. This is an invitation to discuss, not an order or acceptance of a final price.",
+@@ -176,11 +273,28 @@ export const BRIEFING_SLIDES: BriefingSlide[] = [
+       uk: "Демонстрація використовує передану вибірку. Операційний AI OSINT і спільне авторизоване сховище не підключені. Рішення залишаються за ISRM.",
+     },
+     steps: [
+-      { en: "Explore the graph", uk: "Переглянути граф" },
+-      { en: "Try the application", uk: "Спробувати застосунок" },
+-      { en: "Agree scope & budget", uk: "Погодити обсяг і бюджет" },
+-      { en: "Receive a proposal", uk: "Отримати пропозицію" },
++      {
++        en: "Try the prototype",
++        uk: "Спробувати прототип",
++      },
++      {
++        en: "Choose services or describe a need",
++        uk: "Обрати сервіси або описати потребу",
++      },
++      {
++        en: "Review scope and budget position",
++        uk: "Розглянути обсяг і бюджетну позицію",
++      },
++      {
++        en: "Request a detailed proposal",
++        uk: "Запросити детальну пропозицію",
++      },
+     ],
+-    layers: { sector: true, theme: true, hub: false, researchQueue: true },
++    layers: {
++      sector: true,
++      theme: true,
++      hub: false,
++      researchQueue: true,
++    },
+   },
+ ];
+diff --git a/src/lib/experts.server.ts b/src/lib/experts.server.ts
+index c9756e6..54dd0a7 100644
+--- a/src/lib/experts.server.ts
++++ b/src/lib/experts.server.ts
+@@ -1,5 +1,6 @@
+ import raw from "@/data/experts.json";
+ import type { AccessLevel, Expert } from "./types";
++import { hasDossierDetails, hasRecordedContent } from "./dossier-content";
+ 
+ type Raw = (typeof raw)[number] & { verified_details: Record<string, string> };
+ 
+@@ -48,14 +49,25 @@ export function buildExperts(level: AccessLevel): Expert[] {
+       caseTheme: vd.case_study_theme,
+       internationalRelevance: vd.international_relevance,
+     };
+-    if (level === "guest") return {
+-      ...base,
+-      evidence: "",
+-      contribution: "",
+-      potentialRole: "",
+-      caseTheme: undefined,
+-      internationalRelevance: undefined,
+-    };
++    if (level === "guest") {
++      const guest: Expert = {
++        ...base,
++        evidence: "",
++        contribution: "",
++        potentialRole: "",
++        caseTheme: undefined,
++        internationalRelevance: undefined,
++      };
++      guest.dossierAvailability = hasDossierDetails(guest)
++        ? "available"
++        : hasDossierDetails(base) ||
++            [vd.primary_source, r.linkedin, r.phone, r.organization, r.role].some(
++              hasRecordedContent,
++            )
++          ? "restricted"
++          : "not-prepared";
++      return guest;
++    }
+     return {
+       ...base,
+       displayName: r.name || r.anonymized_name,
+diff --git a/src/lib/network-panels.test.ts b/src/lib/network-panels.test.ts
+index ecfc7eb..490b160 100644
+--- a/src/lib/network-panels.test.ts
++++ b/src/lib/network-panels.test.ts
+@@ -21,6 +21,14 @@ const person = {
+   country: "Ukraine",
+   verified: true,
+   identityStatus: "Source confirmed",
++  confidence: "",
++  communityRole: "",
++  crmStage: "",
++  priority: "",
++  ukraineTheme: "",
++  ukraineCategory: "",
++  contribution: "",
++  potentialRole: "",
+   evidence: "Restricted evidence detail",
+   source: "https://example.org/source",
+   phone: "PRIVATE-CONTACT",
+@@ -88,3 +96,44 @@ test("shortlist contains selected names and actions without profile descriptions
+   assert(!html.includes("Save a snapshot"));
+   assert(html.includes("Download") || html.includes("Markdown"));
+ });
++
++test("available dossier content, rather than a verification flag, controls expansion", async () => {
++  const props = {
++    uk: false,
++    full: true,
++    onFull: noop,
++    shortlisted: false,
++    onToggle: noop,
++    onGroup: noop,
++    onConnections: noop,
++    ready: true,
++  };
++  const partial = await render(
++    React.createElement(NetworkProfile, { ...props, expert: { ...person, verified: false } }),
++  );
++  assert(partial.includes("Restricted evidence detail"));
++  const empty = {
++    ...person,
++    verified: false,
++    evidence: "",
++    source: undefined,
++    phone: undefined,
++    ukraineTheme: "Ukraine-related experience",
++    contribution: "",
++    potentialRole: "",
++    tags: ["Unqualified / research pending"],
++  } as Expert;
++  const unprepared = await render(React.createElement(NetworkProfile, { ...props, expert: empty }));
++  assert(!unprepared.includes("Full dossier"));
++  assert(!unprepared.includes("textarea"));
++  assert(!unprepared.includes("Evidence and source"));
++  assert(unprepared.includes("No further profile information"));
++  const restricted = await render(
++    React.createElement(NetworkProfile, {
++      ...props,
++      expert: { ...empty, dossierAvailability: "restricted" },
++    }),
++  );
++  assert(restricted.includes("restricted at this access level"));
++  assert(!restricted.includes("Restricted evidence detail"));
++});
+diff --git a/src/lib/types.ts b/src/lib/types.ts
+index 5e9e422..0f40ab9 100644
+--- a/src/lib/types.ts
++++ b/src/lib/types.ts
+@@ -21,6 +21,7 @@ export interface Expert {
+   potentialRole: string;
+   caseTheme?: string | undefined;
+   internationalRelevance?: string | undefined;
++  dossierAvailability?: "available" | "restricted" | "not-prepared";
+   // revealed only
+   organization?: string | undefined;
+   role?: string | undefined;
+diff --git a/src/styles.css b/src/styles.css
+index 654f891..3fb3a0d 100644
+--- a/src/styles.css
++++ b/src/styles.css
+@@ -9939,3 +9939,67 @@ body,
+ .network-workbench.is-prototype .network-inspection-pane .network-pane-heading { left:0; right:0; top:var(--network-controls-top); height:58px; padding:0 62px 0 12px; background:#eee9dc; backdrop-filter:blur(8px); }
+ @media(max-width:1099px) { .network-workbench.is-prototype .network-inspection-pane .network-pane-heading { top:0; height:56px; } }
+ .network-workbench.is-prototype .network-metrics > .graph-return-tab{ min-width:44px; min-height:44px; border:1px solid #a5bebd66; border-radius:6px; background:transparent; color:var(--ds-paper); box-shadow:none; }
++
++/* Prototype: a controlled pair of papers, with recoverable context in named spines. */
++.network-workbench.is-prototype .shared-client-header .network-dashboard { position:relative; inset:auto; flex:0 0 100%; width:100%; padding:.15rem 0; min-height:48px; background:none; border:0; }
++.network-workbench.is-prototype .network-dashboard-navigation { display:flex; justify-content:center; }
++.network-workbench.is-prototype .network-dashboard .network-metrics { flex-wrap:wrap; gap:.35rem 1.2rem; }
++.network-workbench.is-prototype .network-dashboard .network-metric-number { font-size:1.2rem; }
++.network-workbench.is-prototype .network-dashboard .network-metrics > span,.network-workbench.is-prototype .network-dashboard .network-metrics > button { font-size:.7rem; }
++.network-workbench.is-prototype .network-prototype-dock { position:absolute; left:var(--network-dock-left,0px); top:var(--network-controls-top); bottom:var(--network-rail-height); z-index:30; display:flex; align-items:stretch; pointer-events:none; }
++.network-workbench.is-prototype .network-panel-spines { display:flex; flex-shrink:0; pointer-events:auto; }
++.network-panel-spine { width:32px; display:flex; flex-direction:column; align-items:stretch; border:1px solid #91aaa566; background:#214451d9; color:#eee9dc; backdrop-filter:blur(10px); }
++.network-panel-spine > button { display:flex; align-items:center; justify-content:center; cursor:pointer; min-height:32px; }
++.network-panel-spine > button:first-child { flex:1; min-height:120px; }
++.network-panel-spine > button:first-child span { writing-mode:vertical-rl; transform:rotate(180deg); font:600 .75rem/1.3 var(--font-sans,Arial,sans-serif); }
++.network-workbench.is-prototype .network-prototype-pane { position:relative; min-width:0; display:flex; flex-direction:column; height:100%; border:1px solid #8fa7a5; background:#eee9dcf0; color:#173f4c; backdrop-filter:blur(12px); box-shadow:4px 0 16px #071d2533; pointer-events:auto; }
++.network-prototype-pane[hidden] { display:none !important; }
++.network-prototype-heading { display:flex; align-items:center; flex-shrink:0; gap:.2rem; padding:.3rem .4rem .3rem .75rem; min-height:48px; border-bottom:1px solid #91aaa544; }
++.network-prototype-heading h2 { flex:1; min-width:0; margin:0; font-size:.92rem; font-weight:600; line-height:1.3; }
++.network-prototype-heading button { display:grid; place-items:center; width:32px; height:36px; flex-shrink:0; cursor:pointer; border-radius:4px; }
++.network-prototype-heading button:hover,.network-panel-spine button:hover { background:#5c828333; }
++.network-prototype-scroll { flex:1; min-height:0; overflow:auto; overscroll-behavior:contain; scrollbar-gutter:stable; }
++.network-workbench.is-prototype .network-prototype-scroll > .network-paper-panel { position:relative; inset:auto; width:100%; max-width:none; height:auto; min-height:100%; overflow:visible; padding:1rem .9rem 1.5rem; background:transparent; border:0; box-shadow:none; backdrop-filter:none; }
++.network-workbench.is-prototype .network-prototype-scroll > .network-shortlist-panel { padding:1rem .9rem 1.5rem; }
++.network-workbench.is-prototype .network-prototype-pane :is(h2,h3,p,button,summary,label,small) { overflow-wrap:anywhere; }
++.network-prototype-resizer { position:absolute; right:-5px; top:0; bottom:0; width:10px; z-index:4; cursor:col-resize; touch-action:none; }
++.network-prototype-resizer:hover,.network-prototype-resizer:focus-visible { background:#476f774d; outline:2px solid #244e5b; outline-offset:-3px; }
++.network-result-row { display:flex; flex-direction:column; align-items:flex-start; gap:.25rem; width:100%; padding:.7rem .35rem; min-height:56px; text-align:left; border-bottom:1px solid #8aa4a555; cursor:pointer; }
++.network-result-row strong { font-size:.9rem; font-weight:600; }
++.network-result-row small { font-size:.75rem; line-height:1.4; }
++.network-result-row[aria-pressed=true] { box-shadow:inset 3px 0 #244e5b; background:#cfdcdb66; }
++.network-result-row:focus-visible,.network-prototype-heading button:focus-visible,.network-panel-spine button:focus-visible { outline:2px solid currentColor; outline-offset:-3px; }
++.network-workbench.is-prototype .network-legend { position:fixed; right:12px; top:calc(var(--network-controls-top) + 58px); bottom:auto; left:auto; width:160px; display:flex; flex-direction:column; align-items:flex-start; gap:.4rem; padding:.65rem; border:1px solid #91aaa577; border-radius:6px; background:#153948dd; backdrop-filter:blur(8px); font-size:.65rem; }
++.network-secondary-actions { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:.3rem 1rem; padding:.35rem .6rem; color:#eee9dc; font-size:.7rem; }
++.network-workbench.is-prototype .network-bottom-rail { display:flex; flex-direction:column; }
++.network-workbench.is-prototype .network-two-tabs { order:0; }
++.network-workbench.is-prototype .network-secondary-actions { order:1; }
++.network-workbench.is-prototype .network-secondary-actions .client-data-notice { margin:0; padding:0; font-size:.7rem; background:transparent; border:0; color:inherit; }
++.network-workbench.is-prototype .network-secondary-actions .client-data-notice[open] { position:fixed; bottom:calc(var(--network-rail-height) + 10px); left:50%; transform:translateX(-50%); width:min(560px,calc(100vw - 32px)); max-height:60dvh; overflow:auto; background:#eee9dcf7; color:#173f4c; padding:1rem; border:1px solid #91aaa5; z-index:85; }
++@media(max-width:1099px) {
++ .network-workbench.is-prototype .network-prototype-dock { left:0; }
++ .network-workbench.is-prototype .network-legend { top:auto; bottom:calc(var(--network-rail-height) + 8px); max-width:120px; font-size:.6rem; padding:.4rem; }
++ .network-workbench.is-prototype.has-panel .network-legend { display:none; }
++ .network-workbench.is-prototype .network-secondary-actions { font-size:.65rem; }
++}
++
++.network-workbench.is-prototype .shared-client-header:not(.is-baseline-header) { grid-template-areas:"brand actions" "dashboard dashboard" "journey journey"; }
++.network-workbench.is-prototype .shared-client-header > .network-dashboard { grid-area:dashboard; grid-template-columns:minmax(0,1fr); }
++
++.network-workbench.is-prototype .network-prototype-scroll .network-paper-panel > h2 { font-size:.95rem; font-weight:600; line-height:1.4; }
++.network-workbench.is-prototype .network-prototype-scroll > .network-paper-panel { font-size:.88rem; line-height:1.55; }
++.network-workbench.is-prototype .network-legend-toggle { position:fixed; right:12px; top:calc(var(--network-controls-top) + 58px); width:160px; z-index:45; color:#eee9dc; pointer-events:auto; }
++.network-legend-toggle > summary { min-height:32px; font-size:.7rem; cursor:pointer; padding:.4rem .6rem; background:#153948ef; border:1px solid #91aaa577; border-radius:5px; }
++.network-workbench.is-prototype .network-legend-toggle .network-legend { position:static; width:100%; }
++.network-workbench.is-prototype.has-panel .network-legend-toggle .network-legend { display:flex; }
++@media(max-width:1099px) {
++ .network-workbench.is-prototype .network-legend-toggle { top:auto; bottom:calc(var(--network-rail-height) + 8px); width:140px; }
++ .network-workbench.is-prototype .network-legend-toggle:not([open]) { width:auto; }
++ .network-workbench.is-prototype .network-legend-toggle .network-legend { max-width:none; }
++}
++
++.network-workbench.is-prototype .network-replay-invite { position:static; inset:auto; transform:none; width:auto; max-width:none; min-height:32px; margin:0; padding:.25rem .5rem; background:transparent; color:#eee9dc; border:0; box-shadow:none; }
++.network-workbench.is-prototype .network-replay-invite button { color:inherit; }
++.network-workbench.is-prototype .network-legend span.network-recorded-edge-key { display:inline-flex; }
++
++.briefing-boundary-note { font-size:.76rem; line-height:1.5; color:#294f5b; border-top:1px solid #456e7433; padding-top:.65rem; margin-top:.8rem; }
+diff --git a/src/components/NetworkPrototypeDock.tsx b/src/components/NetworkPrototypeDock.tsx
+new file mode 100644
+index 0000000..c8169e1
+--- /dev/null
++++ b/src/components/NetworkPrototypeDock.tsx
+@@ -0,0 +1,167 @@
++import { useEffect, useRef, type ReactNode } from "react";
++import { ChevronLeft, X } from "lucide-react";
++import type {
++  PrototypePanel,
++  PrototypeWorkspace,
++  WorkspaceAction,
++  prototypeLayout,
++} from "@/lib/prototype-workspace";
++
++export function NetworkPrototypeDock({
++  state,
++  layout,
++  panes,
++  labels,
++  onAction,
++  onWidth,
++  uk,
++  profileKey,
++}: {
++  state: PrototypeWorkspace;
++  layout: ReturnType<typeof prototypeLayout>;
++  panes: Partial<Record<PrototypePanel, ReactNode>>;
++  labels: Record<PrototypePanel, string>;
++  onAction: (action: WorkspaceAction) => void;
++  onWidth: (panel: PrototypePanel, width: number) => void;
++  uk: boolean;
++  profileKey: string | null;
++}) {
++  const host = useRef<HTMLDivElement>(null);
++  const scroll = useRef<Partial<Record<PrototypePanel, number>>>({});
++  const drag = useRef<{ panel: PrototypePanel; x: number; width: number } | null>(null);
++  useEffect(() => {
++    scroll.current.profile = 0;
++    const content = host.current?.querySelector<HTMLElement>(
++      '[data-workspace-panel="profile"] .network-prototype-scroll',
++    );
++    if (content) content.scrollTop = 0;
++  }, [profileKey, state.full]);
++  const focusPanel = state.focus && layout.panels.includes(state.focus) ? state.focus : null;
++  useEffect(() => {
++    if (!focusPanel) return;
++    const panel = host.current?.querySelector<HTMLElement>(
++      `[data-workspace-panel="${focusPanel}"]`,
++    );
++    panel?.focus({ preventScroll: true });
++  }, [focusPanel, state.view, layout.compact]);
++  if (!layout.panels.length && !layout.rails.length) return null;
++  return (
++    <div ref={host} className="network-prototype-dock" style={{ width: layout.width }}>
++      <nav
++        className="network-panel-spines"
++        aria-label={uk ? "Збережений контекст панелей" : "Panel context"}
++      >
++        {layout.rails.map((panel) => (
++          <div className="network-panel-spine" key={panel}>
++            <button
++              title={labels[panel]}
++              onClick={() => onAction({ type: "restore", panel })}
++              aria-label={`${uk ? "Відновити" : "Restore"} ${labels[panel]}`}
++            >
++              <span>{labels[panel]}</span>
++            </button>
++            <button
++              onClick={() => onAction({ type: "close", panel })}
++              aria-label={`${uk ? "Закрити" : "Close"} ${labels[panel]}`}
++            >
++              <X size={14} />
++            </button>
++          </div>
++        ))}
++      </nav>
++      {(["search", "results", "profile", "shortlist"] as PrototypePanel[])
++        .filter((panel) => panes[panel])
++        .map((panel) => (
++          <section
++            key={panel}
++            className="network-prototype-pane"
++            data-workspace-panel={panel}
++            tabIndex={-1}
++            hidden={!layout.panels.includes(panel)}
++            aria-label={labels[panel]}
++            style={{ width: layout[panel] }}
++          >
++            <header className="network-prototype-heading">
++              <h2>{labels[panel]}</h2>
++              <button
++                title={uk ? "Схлопнути до корінця" : "Collapse to spine"}
++                aria-label={`${uk ? "Схлопнути" : "Collapse"} ${labels[panel]}`}
++                onClick={() => onAction({ type: "collapse", panel })}
++              >
++                <ChevronLeft size={16} />
++              </button>
++              <button
++                aria-label={`${uk ? "Закрити" : "Close"} ${labels[panel]}`}
++                onClick={() => onAction({ type: "close", panel })}
++              >
++                <X size={16} />
++              </button>
++            </header>
++            <div
++              className="network-prototype-scroll"
++              ref={(el) => {
++                if (el) el.scrollTop = scroll.current[panel] ?? 0;
++              }}
++              onScroll={(e) => {
++                scroll.current[panel] = e.currentTarget.scrollTop;
++              }}
++            >
++              {panes[panel]}
++            </div>
++            {!layout.compact && (
++              <div
++                className="network-prototype-resizer"
++                role="separator"
++                tabIndex={0}
++                aria-orientation="vertical"
++                aria-label={`${uk ? "Змінити ширину" : "Resize"} ${labels[panel]}`}
++                aria-valuemin={220}
++                aria-valuemax={560}
++                aria-valuenow={Math.round(layout[panel])}
++                onPointerDown={(e) => {
++                  if (e.button !== 0) return;
++                  drag.current = { panel, x: e.clientX, width: layout[panel] };
++                  e.currentTarget.setPointerCapture(e.pointerId);
++                  e.preventDefault();
++                }}
++                onPointerMove={(e) => {
++                  const d = drag.current;
++                  if (!d) return;
++                  const next = d.width + e.clientX - d.x;
++                  if (next < 140) {
++                    drag.current = null;
++                    onAction({ type: "collapse", panel });
++                  } else onWidth(panel, Math.max(220, Math.min(560, next)));
++                }}
++                onPointerUp={(e) => {
++                  drag.current = null;
++                  if (e.currentTarget.hasPointerCapture(e.pointerId))
++                    e.currentTarget.releasePointerCapture(e.pointerId);
++                }}
++                onPointerCancel={() => {
++                  drag.current = null;
++                }}
++                onLostPointerCapture={() => {
++                  drag.current = null;
++                }}
++                onKeyDown={(e) => {
++                  const delta = e.key === "ArrowRight" ? 24 : e.key === "ArrowLeft" ? -24 : 0;
++                  if (delta || e.key === "Home" || e.key === "End") {
++                    e.preventDefault();
++                    onWidth(
++                      panel,
++                      e.key === "Home"
++                        ? 220
++                        : e.key === "End"
++                          ? 560
++                          : Math.max(220, Math.min(560, layout[panel] + delta)),
++                    );
++                  }
++                }}
++              />
++            )}
++          </section>
++        ))}
++    </div>
++  );
++}
+diff --git a/src/lib/dossier-content.ts b/src/lib/dossier-content.ts
+new file mode 100644
+index 0000000..44acef9
+--- /dev/null
++++ b/src/lib/dossier-content.ts
+@@ -0,0 +1,32 @@
++import type { Expert } from "./types";
++
++const unprepared = new Set([
++  "",
++  "—",
++  "-",
++  "not assessed",
++  "to assess",
++  "unclassified",
++  "not supplied",
++  "not recorded",
++  "unknown",
++  "ukraine-related experience",
++  "unqualified / research pending",
++]);
++export function hasRecordedContent(value: string | undefined | null) {
++  return !unprepared.has((value ?? "").trim().toLowerCase());
++}
++export function hasDossierDetails(e: Expert) {
++  return [
++    e.evidence,
++    e.source,
++    e.contribution,
++    e.potentialRole,
++    e.caseTheme,
++    e.internationalRelevance,
++    e.ukraineTheme,
++    e.linkedin,
++    e.phone,
++    ...(e.tags ?? []),
++  ].some(hasRecordedContent);
++}
+diff --git a/src/lib/prototype-workspace.test.ts b/src/lib/prototype-workspace.test.ts
+new file mode 100644
+index 0000000..398236e
+--- /dev/null
++++ b/src/lib/prototype-workspace.test.ts
+@@ -0,0 +1,83 @@
++import test from "node:test";
++import assert from "node:assert/strict";
++import {
++  initialWorkspace,
++  changeWorkspace,
++  openWorkspacePanels,
++  prototypeLayout,
++  type WorkspaceAction,
++} from "./prototype-workspace";
++
++test("search, inspection and addition replace the pair and preserve the shortlist neighbour when expanded", () => {
++  let s = initialWorkspace();
++  assert.deepEqual(openWorkspacePanels(s), []);
++  s = changeWorkspace(s, { type: "search" });
++  assert.deepEqual(openWorkspacePanels(s), ["search", "results"]);
++  s = changeWorkspace(s, { type: "inspect", origin: "results" });
++  assert.deepEqual(openWorkspacePanels(s), ["results", "profile"]);
++  s = changeWorkspace(s, { type: "full", full: true });
++  s = changeWorkspace(s, { type: "add" });
++  assert.equal(s.full, false);
++  assert.deepEqual(openWorkspacePanels(s), ["profile", "shortlist"]);
++  s = changeWorkspace(s, { type: "full", full: true });
++  assert.equal(s.origin, "shortlist");
++  assert.deepEqual(openWorkspacePanels(s), ["profile", "shortlist"]);
++  s = changeWorkspace(s, { type: "inspect", origin: "shortlist" });
++  assert.equal(s.full, false);
++  assert.deepEqual(openWorkspacePanels(s), ["profile", "shortlist"]);
++});
++
++test("show graph and collapse retain recoverable context; close removes the spine without deleting the remembered view", () => {
++  let s = changeWorkspace(initialWorkspace("search"), { type: "inspect" });
++  s = changeWorkspace(s, { type: "graph" });
++  assert.deepEqual(openWorkspacePanels(s), []);
++  assert(s.known.includes("search") && s.known.includes("profile"));
++  s = changeWorkspace(s, { type: "restore", panel: "profile" });
++  assert.deepEqual(openWorkspacePanels(s), ["results", "profile"]);
++  s = changeWorkspace(s, { type: "close", panel: "results" });
++  assert(s.closed.includes("results"));
++  s = changeWorkspace(s, { type: "restore", panel: "search" });
++  assert.deepEqual(openWorkspacePanels(s), ["search", "results"]);
++});
++
++test("reopening a shortlist focuses it immediately rather than toggling a hidden open flag", () => {
++  let s = changeWorkspace(initialWorkspace("search"), { type: "inspect" });
++  s = changeWorkspace(s, { type: "add" });
++  s = changeWorkspace(s, { type: "graph" });
++  s = changeWorkspace(s, { type: "shortlist" });
++  assert.deepEqual(openWorkspacePanels(s), ["profile", "shortlist"]);
++  assert.equal(s.focus, "shortlist");
++  assert.deepEqual(changeWorkspace(s, { type: "shortlist" }), s);
++});
++
++test("all action sequences retain at most a working pair; narrow layouts and full dossiers yield neighbours to spines", () => {
++  const actions: WorkspaceAction[] = [
++    { type: "search" },
++    { type: "inspect" },
++    { type: "add" },
++    { type: "graph" },
++    { type: "full", full: true },
++    ...(["search", "results", "profile", "shortlist"] as const).flatMap(
++      (panel) =>
++        [
++          { type: "close", panel },
++          { type: "collapse", panel },
++          { type: "restore", panel },
++        ] as WorkspaceAction[],
++    ),
++  ];
++  const widths = { search: 300, results: 300, profile: 560, shortlist: 330 };
++  for (const a of actions)
++    for (const b of actions)
++      for (const c of actions) {
++        const s = [a, b, c].reduce(changeWorkspace, initialWorkspace());
++        assert(openWorkspacePanels(s).length <= 2);
++        for (const viewport of [390, 1100, 1440]) {
++          const layout = prototypeLayout(viewport, s, widths);
++          assert(layout.panels.length <= (viewport < 1100 ? 1 : 2));
++          assert(layout.width <= viewport);
++          assert(layout.panels.every((p) => !layout.rails.includes(p)));
++          if (viewport >= 1100) assert(layout.graph >= 280);
++        }
++      }
++});
+diff --git a/src/lib/prototype-workspace.ts b/src/lib/prototype-workspace.ts
+new file mode 100644
+index 0000000..6563b78
+--- /dev/null
++++ b/src/lib/prototype-workspace.ts
+@@ -0,0 +1,169 @@
++export type PrototypePanel = "search" | "results" | "profile" | "shortlist";
++type View = "overview" | "search" | "inspect" | "selection";
++export type PrototypeWorkspace = {
++  view: View;
++  known: PrototypePanel[];
++  collapsed: PrototypePanel[];
++  closed: PrototypePanel[];
++  focus: PrototypePanel | null;
++  origin: "results" | "shortlist";
++  hasProfile: boolean;
++  full: boolean;
++};
++export type WorkspaceAction =
++  | { type: "search" }
++  | { type: "inspect"; origin?: "results" | "shortlist" }
++  | { type: "shortlist" | "add" }
++  | { type: "full"; full: boolean }
++  | { type: "collapse" | "close" | "restore"; panel: PrototypePanel }
++  | { type: "graph" }
++  | { type: "reset" };
++
++export function initialWorkspace(panel?: string): PrototypeWorkspace {
++  const state: PrototypeWorkspace = {
++    view: "overview",
++    known: [],
++    collapsed: [],
++    closed: [],
++    focus: null,
++    origin: "results",
++    hasProfile: false,
++    full: false,
++  };
++  return panel === "search"
++    ? changeWorkspace(state, { type: "search" })
++    : panel === "shortlist"
++      ? changeWorkspace(state, { type: "shortlist" })
++      : state;
++}
++
++export function workspacePair(state: PrototypeWorkspace): PrototypePanel[] {
++  if (state.view === "search") return ["search", "results"];
++  if (state.view === "inspect") return state.hasProfile ? ["results", "profile"] : ["results"];
++  if (state.view === "selection")
++    return state.hasProfile ? ["profile", "shortlist"] : ["shortlist"];
++  return [];
++}
++
++export function openWorkspacePanels(state: PrototypeWorkspace) {
++  return workspacePair(state).filter(
++    (p) => !state.collapsed.includes(p) && !state.closed.includes(p),
++  );
++}
++
++function enter(state: PrototypeWorkspace, view: View, focus: PrototypePanel): PrototypeWorkspace {
++  const next = { ...state, view, focus };
++  const pair = workspacePair(next);
++  return {
++    ...next,
++    known: [...new Set([...state.known, ...pair])],
++    collapsed: state.collapsed.filter((p) => !pair.includes(p)),
++    closed: state.closed.filter((p) => !pair.includes(p)),
++  };
++}
++
++export function changeWorkspace(
++  state: PrototypeWorkspace,
++  action: WorkspaceAction,
++): PrototypeWorkspace {
++  switch (action.type) {
++    case "reset":
++      return initialWorkspace();
++    case "search":
++      return enter(state, "search", "search");
++    case "inspect": {
++      const origin = action.origin ?? (state.view === "selection" ? "shortlist" : "results");
++      return enter(
++        { ...state, origin, hasProfile: true, full: false },
++        origin === "shortlist" ? "selection" : "inspect",
++        "profile",
++      );
++    }
++    case "shortlist":
++    case "add":
++      return enter(
++        { ...state, origin: "shortlist", full: action.type === "add" ? false : state.full },
++        "selection",
++        "shortlist",
++      );
++    case "full":
++      return { ...state, full: action.full, focus: "profile" };
++    case "graph":
++      return {
++        ...state,
++        collapsed: [...new Set([...state.collapsed, ...openWorkspacePanels(state)])],
++        focus: null,
++      };
++    case "close":
++    case "collapse": {
++      const remaining = openWorkspacePanels(state).filter((p) => p !== action.panel);
++      return {
++        ...state,
++        closed:
++          action.type === "close" ? [...new Set([...state.closed, action.panel])] : state.closed,
++        collapsed:
++          action.type === "collapse"
++            ? [...new Set([...state.collapsed, action.panel])]
++            : state.collapsed,
++        focus: state.focus === action.panel ? (remaining.at(-1) ?? null) : state.focus,
++      };
++    }
++    case "restore": {
++      const view =
++        action.panel === "search"
++          ? "search"
++          : action.panel === "shortlist"
++            ? "selection"
++            : action.panel === "profile"
++              ? state.origin === "shortlist"
++                ? "selection"
++                : "inspect"
++              : state.hasProfile && state.origin === "results"
++                ? "inspect"
++                : "search";
++      return enter(state, view, action.panel);
++    }
++  }
++}
++
++export function prototypeLayout(
++  viewport: number,
++  state: PrototypeWorkspace,
++  requested: Record<PrototypePanel, number>,
++) {
++  const compact = viewport < 1100;
++  const pair = openWorkspacePanels(state);
++  let panels = compact ? pair.filter((p) => p === state.focus) : [...pair];
++  if (compact && !panels.length && pair.length) panels = [pair.at(-1)!];
++  const rails = () => state.known.filter((p) => !state.closed.includes(p) && !panels.includes(p));
++  const sizes = { search: 0, results: 0, profile: 0, shortlist: 0 };
++  const budget = () =>
++    Math.max(220, viewport - Math.max(284, viewport / 4) - rails().length * 32 - 16);
++  for (const p of panels) sizes[p] = Math.max(220, Math.min(560, requested[p]));
++  if (compact) {
++    if (panels[0])
++      sizes[panels[0]] = Math.max(0, Math.min(420, viewport - rails().length * 32 - 16));
++  } else if (
++    state.full &&
++    panels.includes("profile") &&
++    panels.reduce((sum, p) => sum + sizes[p], 0) > budget()
++  ) {
++    panels = ["profile"];
++    for (const p of Object.keys(sizes) as PrototypePanel[]) if (p !== "profile") sizes[p] = 0;
++    sizes.profile = Math.min(sizes.profile, budget());
++  } else {
++    const total = panels.reduce((sum, p) => sum + sizes[p], 0);
++    if (total > budget())
++      for (const p of panels) sizes[p] = Math.max(220, (sizes[p] * budget()) / total);
++  }
++  const width = panels.reduce((sum, p) => sum + sizes[p], 0) + rails().length * 32;
++  return {
++    ...sizes,
++    panels,
++    rails: rails(),
++    compact,
++    width,
++    graph: Math.max(0, viewport - width),
++    active: panels.at(-1) ?? null,
++  };
++}

@@ -1,0 +1,75 @@
+{
+  "status": "done",
+  "documents": [
+    {
+      "path": "PROJECT_OVERLAY_ISRM.md",
+      "sha256": "e191aa892774f8b79eff84426e80bde9e1efb1b787cc54ffa0dfe13b399b4a41"
+    },
+    {
+      "path": "docs/project/ENTRY.md",
+      "sha256": "01505954b17a2ca981d0fa96c449d7d3d3719e3835f02dbda9b50959a1c3f659"
+    },
+    {
+      "path": "docs/project/REGISTRY.csv",
+      "sha256": "94583d6adb934bc8f2ea16e99a5dd3f06d7c3361abb49144cef318dea4d4e2d5"
+    },
+    {
+      "path": "docs/project/sources/workspace-revision-user-2026-11-03.txt",
+      "sha256": "3e4a9c377ab92b420dac35e84f86eba9aff24f2c3a6e24b3fcaf97e9a0077814"
+    },
+    {
+      "path": "docs/project/session-notes/index.json",
+      "sha256": "e2d4d73f6fefb961f8d546ea329e6ed83932e88a200329076365f10272d6c706"
+    },
+    {
+      "path": "docs/project/session-notes/2026-11-03-workspace-and-ux-filter.md",
+      "sha256": "c994ad5f1ba21f5338b66a5ce146466b11222347e0eeaf85eabe2a562d3b2738"
+    },
+    {
+      "path": "docs/reviews/workspace-revision-2026-11-03/README.md",
+      "sha256": "2ab3d5ad2ce3b7152b6f04a954276307c2f738fb634dccbd427a281a3d2d69d4"
+    },
+    {
+      "path": "docs/reviews/app-first-2026-11-02/README.md",
+      "sha256": "eae993cd19ec9bc6b4f553a8cba9ecc239877a811455074d26ae2f91c1ce4bdf"
+    },
+    {
+      "path": "docs/reviews/deep-audit-2026-10-31/PROTOTYPE.md",
+      "sha256": "a40bc97503c1cf1d9b65b9fd24bab1d87188d7b90dcd2981deb1b2934ccab86a"
+    }
+  ],
+  "session_index_readback": [
+    {
+      "path": "2026-11-01-briefing-prototype-audit.md",
+      "status": "done",
+      "sha256": "370c1cc8a5812d6d669b45467b2db0976938a9ec9ad79aa3d3ad4ede1d5d5463"
+    },
+    {
+      "path": "2026-11-01-prototype-refinement.md",
+      "status": "done",
+      "sha256": "34215413b99a5d26fcbb0e936b385f4700846b11530664e0dce6597fc04c2ecf"
+    },
+    {
+      "path": "2026-11-01-approved-audit-work-order.md",
+      "status": "done",
+      "sha256": "b429fb79a02a3923631c2a628540773379f01e870b4c5039055eeeb30f8ae897"
+    },
+    {
+      "path": "2026-11-02-local-prototype-and-briefing.md",
+      "status": "done",
+      "sha256": "bbf1e072f5bb048e6d289f873f9cf4ff190b72ca54f2cf42b9f2c86054bb16c5"
+    },
+    {
+      "path": "2026-11-03-app-first-and-navigation.md",
+      "status": "done",
+      "sha256": "316b949057f26076e987212b891eb129614292b989e4cd5867b57eb0d7add71d"
+    },
+    {
+      "path": "2026-11-03-workspace-and-ux-filter.md",
+      "status": "done",
+      "sha256": "c994ad5f1ba21f5338b66a5ce146466b11222347e0eeaf85eabe2a562d3b2738"
+    }
+  ],
+  "overall_task": "in_progress",
+  "limits": "Readback and exact hashes; no financial validation or external publication"
+}

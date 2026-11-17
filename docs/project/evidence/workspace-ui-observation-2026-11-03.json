@@ -1,0 +1,165 @@
+{
+  "status": "done",
+  "date": "2026-11-03",
+  "app": "http://127.0.0.1:8771/",
+  "mode": "guest",
+  "ui_method": "CUA semantic and canvas interactions; DOM observations and saved screenshots",
+  "observations": [
+    {
+      "flow": "entry",
+      "result": "Home explains available/planned, shows supplied-expertise figure, has workflow chooser and capability configurator entrances"
+    },
+    {
+      "flow": "search-overview",
+      "result": "Full accessible sample, all map-layer checkboxes checked, zero papers, all search spines; no fixed ISRM hub in model"
+    },
+    {
+      "flow": "country",
+      "result": "Nonzero recorded choices in first alphabetical group; empty reference choices below; field semantics remain phone-code country"
+    },
+    {
+      "flow": "search-dossier-shortlist",
+      "result": "Results -> EXP-004 mini -> available full dossier -> add -> shortlist -> close and reopen; one paper at each step. Temporary test addition removed."
+    },
+    {
+      "flow": "saved-search",
+      "result": "Named search Огляд EXP-004 saved via UI, reload then restored criteria, layer/status state, result and actual captured image. Example remains browser-local."
+    },
+    {
+      "flow": "configuration-inspection",
+      "result": "Selecting search capability opens workflow context; included capability count unchanged by inspection. Existing draft was reused, not rewritten for the screenshot."
+    },
+    {
+      "flow": "workflow-cycle",
+      "result": "True continuous ellipse, no straight workflow polygon chords, tapered reflection, pause control; passed labels persist. Search rendering isolated from earlier cycle state."
+    },
+    {
+      "flow": "search-tutorial",
+      "result": "Overview -> criteria -> results -> available mini dossier; close restores previous pane/criteria/layers/status/map context. No shortlist or draft-composition writes."
+    },
+    {
+      "flow": "configuration-tutorial",
+      "result": "Overview -> description -> dependencies -> cycle; close restores zero open papers and all configuration spines. No draft-composition writes."
+    },
+    {
+      "flow": "wide-layout",
+      "width_css_px": 1920,
+      "height_css_px": 1080,
+      "result": "Full page screenshot includes complete header/footer/right rail and bounded graph; captured with fullPage to avoid native-surface cropping."
+    },
+    {
+      "flow": "narrow-layout",
+      "width_css_px": 390,
+      "height_css_px": 844,
+      "result": "One full-dossier paper, all search spines, document width equals viewport, no horizontal page overflow. Existing user tab and draft retained."
+    },
+    {
+      "flow": "document-header",
+      "width_css_px": 1280,
+      "result": "Document links lie between logo and language/access controls in the same header row; header geometry read back."
+    },
+    {
+      "flow": "finish",
+      "result": "Temporary viewport reset; user-used tab retained; final application tab is home. Concurrent user shortlist state not overwritten at handoff."
+    }
+  ],
+  "limits": [
+    "No full screen-reader audit",
+    "No AI/peer evidence decision or consent/intro completed",
+    "Browser-local storage, no server collaboration",
+    "Pictures are exact UI captures, not proof of professional relationships or participant demand"
+  ],
+  "screens": [
+    {
+      "path": "reviews/workspace-revision-2026-11-03/screens/01-user-document-header.png",
+      "width_px": 2170,
+      "height_px": 222,
+      "sha256": "65db738acb8ca42a29c7d94d446c7a01ceab6d5f4ad3b9a1a3435f72d173d174",
+      "role": "source user image"
+    },
+    {
+      "path": "reviews/workspace-revision-2026-11-03/screens/02-user-legend-mismatch.png",
+      "width_px": 810,
+      "height_px": 946,
+      "sha256": "058024a8bcf906b5280040c7c0cedbc9a64bcb48ab807a35745e67d0abd8c804",
+      "role": "source user image"
+    },
+    {
+      "path": "reviews/workspace-revision-2026-11-03/screens/03-user-right-rail.png",
+      "width_px": 556,
+      "height_px": 962,
+      "sha256": "519d94f7b93b78c0fe7953f1dca997269c0925c9d847f697a8ff3f126873e946",
+      "role": "source user image"
+    },
+    {
+      "path": "reviews/workspace-revision-2026-11-03/screens/04-user-wide-graph.png",
+      "width_px": 2266,
+      "height_px": 1192,
+      "sha256": "58ec63a999a47c3c59e3b9238fa82c489301d05db86cc1ccf52c5963840f1582",
+      "role": "source user image"
+    },
+    {
+      "path": "reviews/workspace-revision-2026-11-03/screens/05-user-expertise-overview.png",
+      "width_px": 916,
+      "height_px": 602,
+      "sha256": "61559779d86f1cb889e86cb345a5e70c437ea8aa1431e668e04270284db6b7e5",
+      "role": "source user image"
+    },
+    {
+      "path": "reviews/workspace-revision-2026-11-03/screens/10-configuration-final.jpg",
+      "width_px": 1280,
+      "height_px": 720,
+      "sha256": "1967d9f3c592c4cd53e9203a74b74ef8bc697edc5212fe03831c4b20de92166c",
+      "role": "local UI observation"
+    },
+    {
+      "path": "reviews/workspace-revision-2026-11-03/screens/12-cycle-final.jpg",
+      "width_px": 1280,
+      "height_px": 720,
+      "sha256": "a7698434c1eb7f8945ced5851ed9a97076a1811977ec8b99984dfd24591f811c",
+      "role": "local UI observation"
+    },
+    {
+      "path": "reviews/workspace-revision-2026-11-03/screens/13-wide-search-final.jpg",
+      "width_px": 1280,
+      "height_px": 720,
+      "sha256": "f89630ccba778e5fead13afaa17bb641f815c8a209358244df6fdcc23fb5e6b2",
+      "role": "local UI observation"
+    },
+    {
+      "path": "reviews/workspace-revision-2026-11-03/screens/14-narrow-paper.jpg",
+      "width_px": 390,
+      "height_px": 844,
+      "sha256": "7755c856bbe24b1a3afa362b7bc3539f9f8f63fd858aa229ba42c5c18910465d",
+      "role": "local UI observation"
+    },
+    {
+      "path": "reviews/workspace-revision-2026-11-03/screens/17-wide-full-page.jpg",
+      "width_px": 1920,
+      "height_px": 1080,
+      "sha256": "a7442e43b60115cf256b0c0f19df177aaf5d9e5e3ba96f6e6e40446b70409a55",
+      "role": "local UI observation"
+    },
+    {
+      "path": "reviews/workspace-revision-2026-11-03/screens/18-home-full-page.jpg",
+      "width_px": 1920,
+      "height_px": 1080,
+      "sha256": "3849a385744594fa8149ff015d4d8736187fbe8add411d8d97c3ff88195b84c2",
+      "role": "local UI observation"
+    },
+    {
+      "path": "reviews/workspace-revision-2026-11-03/screens/19-document-header.jpg",
+      "width_px": 1280,
+      "height_px": 200,
+      "sha256": "c9965e41c20f7ceee423fec1de7244766514f49bbd187ccf7d436a5b076e6c7a",
+      "role": "local UI observation"
+    },
+    {
+      "path": "reviews/workspace-revision-2026-11-03/screens/20-home-final.jpg",
+      "width_px": 1280,
+      "height_px": 720,
+      "sha256": "cb66f74ce6cff939c60774b852c1ea195f560443882f6f4f53ef22f4c61278bd",
+      "role": "local UI observation"
+    }
+  ]
+}

@@ -1,0 +1,1586 @@
+[
+  {
+    "language": "en",
+    "slide": 1,
+    "content": {
+      "height": 492.7109375,
+      "width": 1282.046875,
+      "x": 41.9765625,
+      "y": 190.8984375
+    },
+    "copy": {
+      "height": 189.8203125,
+      "width": 602,
+      "x": 698.0234375,
+      "y": 342.34375
+    },
+    "documentWidth": 1366,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "You have the data. Can you put it to work?",
+    "viewport": [
+      1366,
+      768
+    ],
+    "visual": {
+      "height": 452.7109375,
+      "width": 602,
+      "x": 65.9765625,
+      "y": 210.8984375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 2,
+    "content": {
+      "height": 492.7109375,
+      "width": 1282.046875,
+      "x": 41.9765625,
+      "y": 190.8984375
+    },
+    "copy": {
+      "height": 140.34375,
+      "width": 602,
+      "x": 698.0234375,
+      "y": 367.078125
+    },
+    "documentWidth": 1366,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "Data that exists is not data that works.",
+    "viewport": [
+      1366,
+      768
+    ],
+    "visual": {
+      "height": 452.7109375,
+      "width": 602,
+      "x": 65.9765625,
+      "y": 210.8984375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 3,
+    "content": {
+      "height": 486.125,
+      "width": 1282.046875,
+      "x": 41.9765625,
+      "y": 197.484375
+    },
+    "copy": {
+      "height": 208.859375,
+      "width": 602,
+      "x": 698.0234375,
+      "y": 336.1171875
+    },
+    "documentWidth": 1366,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "A standing resource rather than a one-off study.",
+    "viewport": [
+      1366,
+      768
+    ],
+    "visual": {
+      "height": 446.125,
+      "width": 602,
+      "x": 65.9765625,
+      "y": 217.484375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 4,
+    "content": {
+      "height": 492.7109375,
+      "width": 1282.046875,
+      "x": 41.9765625,
+      "y": 190.8984375
+    },
+    "copy": {
+      "height": 218.5078125,
+      "width": 602,
+      "x": 698.0234375,
+      "y": 328
+    },
+    "documentWidth": 1366,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "From records to a working map.",
+    "viewport": [
+      1366,
+      768
+    ],
+    "visual": {
+      "height": 452.7109375,
+      "width": 602,
+      "x": 65.9765625,
+      "y": 210.8984375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 5,
+    "content": {
+      "height": 492.7109375,
+      "width": 1282.046875,
+      "x": 41.9765625,
+      "y": 190.8984375
+    },
+    "copy": {
+      "height": 248.859375,
+      "width": 602,
+      "x": 698.0234375,
+      "y": 312.8203125
+    },
+    "documentWidth": 1366,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "The same foundation could support more of your work.",
+    "viewport": [
+      1366,
+      768
+    ],
+    "visual": {
+      "height": 452.7109375,
+      "width": 602,
+      "x": 65.9765625,
+      "y": 210.8984375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 6,
+    "content": {
+      "height": 492.7109375,
+      "width": 1282.046875,
+      "x": 41.9765625,
+      "y": 190.8984375
+    },
+    "copy": {
+      "height": 189.8203125,
+      "width": 602,
+      "x": 698.0234375,
+      "y": 342.34375
+    },
+    "documentWidth": 1366,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "Seeing a profile should not mean unrestricted access.",
+    "viewport": [
+      1366,
+      768
+    ],
+    "visual": {
+      "height": 452.7109375,
+      "width": 602,
+      "x": 65.9765625,
+      "y": 210.8984375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 7,
+    "content": {
+      "height": 492.7109375,
+      "width": 1282.046875,
+      "x": 41.9765625,
+      "y": 190.8984375
+    },
+    "copy": {
+      "height": 170.78125,
+      "width": 602,
+      "x": 698.0234375,
+      "y": 351.859375
+    },
+    "documentWidth": 1366,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "AI can assist the work. You decide where.",
+    "viewport": [
+      1366,
+      768
+    ],
+    "visual": {
+      "height": 452.7109375,
+      "width": 602,
+      "x": 65.9765625,
+      "y": 210.8984375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 8,
+    "content": {
+      "height": 492.7109375,
+      "width": 1282.046875,
+      "x": 41.9765625,
+      "y": 190.8984375
+    },
+    "copy": {
+      "height": 211.03125,
+      "width": 602,
+      "x": 698.0234375,
+      "y": 331.734375
+    },
+    "documentWidth": 1366,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "We would value your view",
+    "viewport": [
+      1366,
+      768
+    ],
+    "visual": {
+      "height": 452.7109375,
+      "width": 602,
+      "x": 65.9765625,
+      "y": 210.8984375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 1,
+    "content": {
+      "height": 447.09375,
+      "width": 1201.203125,
+      "x": 39.3984375,
+      "y": 188.515625
+    },
+    "copy": {
+      "height": 182.6015625,
+      "width": 562.5234375,
+      "x": 654.078125,
+      "y": 320.7578125
+    },
+    "documentWidth": 1280,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "You have the data. Can you put it to work?",
+    "viewport": [
+      1280,
+      720
+    ],
+    "visual": {
+      "height": 407.09375,
+      "width": 562.5234375,
+      "x": 63.3984375,
+      "y": 208.515625
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 2,
+    "content": {
+      "height": 447.09375,
+      "width": 1201.203125,
+      "x": 39.3984375,
+      "y": 188.515625
+    },
+    "copy": {
+      "height": 133.125,
+      "width": 562.5234375,
+      "x": 654.078125,
+      "y": 345.5
+    },
+    "documentWidth": 1280,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "Data that exists is not data that works.",
+    "viewport": [
+      1280,
+      720
+    ],
+    "visual": {
+      "height": 407.09375,
+      "width": 562.5234375,
+      "x": 63.3984375,
+      "y": 208.515625
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 3,
+    "content": {
+      "height": 438.125,
+      "width": 1201.203125,
+      "x": 39.3984375,
+      "y": 197.484375
+    },
+    "copy": {
+      "height": 201.640625,
+      "width": 562.5234375,
+      "x": 654.078125,
+      "y": 315.7265625
+    },
+    "documentWidth": 1280,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "A standing resource rather than a one-off study.",
+    "viewport": [
+      1280,
+      720
+    ],
+    "visual": {
+      "height": 398.125,
+      "width": 562.5234375,
+      "x": 63.3984375,
+      "y": 217.484375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 4,
+    "content": {
+      "height": 447.09375,
+      "width": 1201.203125,
+      "x": 39.3984375,
+      "y": 188.515625
+    },
+    "copy": {
+      "height": 209.484375,
+      "width": 562.5234375,
+      "x": 654.078125,
+      "y": 307.3203125
+    },
+    "documentWidth": 1280,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "From records to a working map.",
+    "viewport": [
+      1280,
+      720
+    ],
+    "visual": {
+      "height": 407.09375,
+      "width": 562.5234375,
+      "x": 63.3984375,
+      "y": 208.515625
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 5,
+    "content": {
+      "height": 447.09375,
+      "width": 1201.203125,
+      "x": 39.3984375,
+      "y": 188.515625
+    },
+    "copy": {
+      "height": 241.640625,
+      "width": 562.5234375,
+      "x": 654.078125,
+      "y": 291.2421875
+    },
+    "documentWidth": 1280,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "The same foundation could support more of your work.",
+    "viewport": [
+      1280,
+      720
+    ],
+    "visual": {
+      "height": 407.09375,
+      "width": 562.5234375,
+      "x": 63.3984375,
+      "y": 208.515625
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 6,
+    "content": {
+      "height": 447.09375,
+      "width": 1201.203125,
+      "x": 39.3984375,
+      "y": 188.515625
+    },
+    "copy": {
+      "height": 182.6015625,
+      "width": 562.5234375,
+      "x": 654.078125,
+      "y": 320.7578125
+    },
+    "documentWidth": 1280,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "Seeing a profile should not mean unrestricted access.",
+    "viewport": [
+      1280,
+      720
+    ],
+    "visual": {
+      "height": 407.09375,
+      "width": 562.5234375,
+      "x": 63.3984375,
+      "y": 208.515625
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 7,
+    "content": {
+      "height": 447.09375,
+      "width": 1201.203125,
+      "x": 39.3984375,
+      "y": 188.515625
+    },
+    "copy": {
+      "height": 163.5625,
+      "width": 562.5234375,
+      "x": 654.078125,
+      "y": 330.28125
+    },
+    "documentWidth": 1280,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "AI can assist the work. You decide where.",
+    "viewport": [
+      1280,
+      720
+    ],
+    "visual": {
+      "height": 407.09375,
+      "width": 562.5234375,
+      "x": 63.3984375,
+      "y": 208.515625
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 8,
+    "content": {
+      "height": 447.09375,
+      "width": 1201.203125,
+      "x": 39.3984375,
+      "y": 188.515625
+    },
+    "copy": {
+      "height": 202.0078125,
+      "width": 562.5234375,
+      "x": 654.078125,
+      "y": 311.0546875
+    },
+    "documentWidth": 1280,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "We would value your view",
+    "viewport": [
+      1280,
+      720
+    ],
+    "visual": {
+      "height": 407.09375,
+      "width": 562.5234375,
+      "x": 63.3984375,
+      "y": 208.515625
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 1,
+    "content": {
+      "height": 551.21875,
+      "width": 367.203125,
+      "x": 11.3984375,
+      "y": 220.5859375
+    },
+    "copy": {
+      "height": 227.6796875,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 546.7578125
+    },
+    "documentWidth": 390,
+    "overflow": [
+      0,
+      43
+    ],
+    "title": "You have the data. Can you put it to work?",
+    "viewport": [
+      390,
+      844
+    ],
+    "visual": {
+      "height": 301.375,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 236.5859375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 2,
+    "content": {
+      "height": 551.21875,
+      "width": 367.203125,
+      "x": 11.3984375,
+      "y": 220.5859375
+    },
+    "copy": {
+      "height": 123.984375,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 570.3515625
+    },
+    "documentWidth": 390,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "Data that exists is not data that works.",
+    "viewport": [
+      390,
+      844
+    ],
+    "visual": {
+      "height": 324.96875,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 236.5859375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 3,
+    "content": {
+      "height": 551.21875,
+      "width": 367.203125,
+      "x": 11.3984375,
+      "y": 220.5859375
+    },
+    "copy": {
+      "height": 221.1171875,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 569.15625
+    },
+    "documentWidth": 390,
+    "overflow": [
+      0,
+      59
+    ],
+    "title": "A standing resource rather than a one-off study.",
+    "viewport": [
+      390,
+      844
+    ],
+    "visual": {
+      "height": 323.7734375,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 236.5859375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 4,
+    "content": {
+      "height": 551.21875,
+      "width": 367.203125,
+      "x": 11.3984375,
+      "y": 220.5859375
+    },
+    "copy": {
+      "height": 234.2421875,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 974.9296875
+    },
+    "documentWidth": 390,
+    "overflow": [
+      0,
+      478
+    ],
+    "title": "From records to a working map.",
+    "viewport": [
+      390,
+      844
+    ],
+    "visual": {
+      "height": 729.546875,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 236.5859375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 5,
+    "content": {
+      "height": 551.21875,
+      "width": 367.203125,
+      "x": 11.3984375,
+      "y": 220.5859375
+    },
+    "copy": {
+      "height": 310.7109375,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 512.21875
+    },
+    "documentWidth": 390,
+    "overflow": [
+      0,
+      91
+    ],
+    "title": "The same foundation could support more of your work.",
+    "viewport": [
+      390,
+      844
+    ],
+    "visual": {
+      "height": 266.8359375,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 236.5859375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 6,
+    "content": {
+      "height": 551.21875,
+      "width": 367.203125,
+      "x": 11.3984375,
+      "y": 220.5859375
+    },
+    "copy": {
+      "height": 227.6796875,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 570.3515625
+    },
+    "documentWidth": 390,
+    "overflow": [
+      0,
+      66
+    ],
+    "title": "Seeing a profile should not mean unrestricted access.",
+    "viewport": [
+      390,
+      844
+    ],
+    "visual": {
+      "height": 324.96875,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 236.5859375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 7,
+    "content": {
+      "height": 551.21875,
+      "width": 367.203125,
+      "x": 11.3984375,
+      "y": 220.5859375
+    },
+    "copy": {
+      "height": 191.2109375,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 569.15625
+    },
+    "documentWidth": 390,
+    "overflow": [
+      0,
+      29
+    ],
+    "title": "AI can assist the work. You decide where.",
+    "viewport": [
+      390,
+      844
+    ],
+    "visual": {
+      "height": 323.7734375,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 236.5859375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "en",
+    "slide": 8,
+    "content": {
+      "height": 551.21875,
+      "width": 367.203125,
+      "x": 11.3984375,
+      "y": 220.5859375
+    },
+    "copy": {
+      "height": 215.578125,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 569.15625
+    },
+    "documentWidth": 390,
+    "overflow": [
+      0,
+      53
+    ],
+    "title": "We would value your view",
+    "viewport": [
+      390,
+      844
+    ],
+    "visual": {
+      "height": 323.7734375,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 236.5859375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 1,
+    "content": {
+      "height": 492.7109375,
+      "width": 1282.046875,
+      "x": 41.9765625,
+      "y": 190.8984375
+    },
+    "copy": {
+      "height": 218.5078125,
+      "width": 602,
+      "x": 698.0234375,
+      "y": 328
+    },
+    "documentWidth": 1366,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "Дані у вас є. А спроможність їх використовувати?",
+    "viewport": [
+      1366,
+      768
+    ],
+    "visual": {
+      "height": 452.7109375,
+      "width": 602,
+      "x": 65.9765625,
+      "y": 210.8984375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 2,
+    "content": {
+      "height": 492.7109375,
+      "width": 1282.046875,
+      "x": 41.9765625,
+      "y": 190.8984375
+    },
+    "copy": {
+      "height": 140.34375,
+      "width": 602,
+      "x": 698.0234375,
+      "y": 367.078125
+    },
+    "documentWidth": 1366,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "Наявні дані ще не працюють самі.",
+    "viewport": [
+      1366,
+      768
+    ],
+    "visual": {
+      "height": 452.7109375,
+      "width": 602,
+      "x": 65.9765625,
+      "y": 210.8984375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 3,
+    "content": {
+      "height": 486.125,
+      "width": 1282.046875,
+      "x": 41.9765625,
+      "y": 197.484375
+    },
+    "copy": {
+      "height": 237.546875,
+      "width": 602,
+      "x": 698.0234375,
+      "y": 321.7734375
+    },
+    "documentWidth": 1366,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "Постійний ресурс замість разового дослідження.",
+    "viewport": [
+      1366,
+      768
+    ],
+    "visual": {
+      "height": 446.125,
+      "width": 602,
+      "x": 65.9765625,
+      "y": 217.484375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 4,
+    "content": {
+      "height": 486.125,
+      "width": 1282.046875,
+      "x": 41.9765625,
+      "y": 197.484375
+    },
+    "copy": {
+      "height": 218.5078125,
+      "width": 602,
+      "x": 698.0234375,
+      "y": 331.2890625
+    },
+    "documentWidth": 1366,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "Від записів до робочої мапи.",
+    "viewport": [
+      1366,
+      768
+    ],
+    "visual": {
+      "height": 446.125,
+      "width": 602,
+      "x": 65.9765625,
+      "y": 217.484375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 5,
+    "content": {
+      "height": 492.7109375,
+      "width": 1282.046875,
+      "x": 41.9765625,
+      "y": 190.8984375
+    },
+    "copy": {
+      "height": 277.546875,
+      "width": 602,
+      "x": 698.0234375,
+      "y": 298.4765625
+    },
+    "documentWidth": 1366,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "Ця основа може підтримувати більше напрямів вашої роботи.",
+    "viewport": [
+      1366,
+      768
+    ],
+    "visual": {
+      "height": 452.7109375,
+      "width": 602,
+      "x": 65.9765625,
+      "y": 210.8984375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 6,
+    "content": {
+      "height": 492.7109375,
+      "width": 1282.046875,
+      "x": 41.9765625,
+      "y": 190.8984375
+    },
+    "copy": {
+      "height": 189.8203125,
+      "width": 602,
+      "x": 698.0234375,
+      "y": 342.34375
+    },
+    "documentWidth": 1366,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "Перегляд профілю не має означати необмежений доступ.",
+    "viewport": [
+      1366,
+      768
+    ],
+    "visual": {
+      "height": 452.7109375,
+      "width": 602,
+      "x": 65.9765625,
+      "y": 210.8984375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 7,
+    "content": {
+      "height": 492.7109375,
+      "width": 1282.046875,
+      "x": 41.9765625,
+      "y": 190.8984375
+    },
+    "copy": {
+      "height": 199.46875,
+      "width": 602,
+      "x": 698.0234375,
+      "y": 337.515625
+    },
+    "documentWidth": 1366,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "ШІ може допомагати роботі. Ви визначаєте де.",
+    "viewport": [
+      1366,
+      768
+    ],
+    "visual": {
+      "height": 452.7109375,
+      "width": 602,
+      "x": 65.9765625,
+      "y": 210.8984375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 8,
+    "content": {
+      "height": 492.7109375,
+      "width": 1282.046875,
+      "x": 41.9765625,
+      "y": 190.8984375
+    },
+    "copy": {
+      "height": 211.03125,
+      "width": 602,
+      "x": 698.0234375,
+      "y": 331.734375
+    },
+    "documentWidth": 1366,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "Будемо вдячні за вашу думку",
+    "viewport": [
+      1366,
+      768
+    ],
+    "visual": {
+      "height": 452.7109375,
+      "width": 602,
+      "x": 65.9765625,
+      "y": 210.8984375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 1,
+    "content": {
+      "height": 447.09375,
+      "width": 1201.203125,
+      "x": 39.3984375,
+      "y": 188.515625
+    },
+    "copy": {
+      "height": 209.484375,
+      "width": 562.5234375,
+      "x": 654.078125,
+      "y": 307.3203125
+    },
+    "documentWidth": 1280,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "Дані у вас є. А спроможність їх використовувати?",
+    "viewport": [
+      1280,
+      720
+    ],
+    "visual": {
+      "height": 407.09375,
+      "width": 562.5234375,
+      "x": 63.3984375,
+      "y": 208.515625
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 2,
+    "content": {
+      "height": 447.09375,
+      "width": 1201.203125,
+      "x": 39.3984375,
+      "y": 188.515625
+    },
+    "copy": {
+      "height": 133.125,
+      "width": 562.5234375,
+      "x": 654.078125,
+      "y": 345.5
+    },
+    "documentWidth": 1280,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "Наявні дані ще не працюють самі.",
+    "viewport": [
+      1280,
+      720
+    ],
+    "visual": {
+      "height": 407.09375,
+      "width": 562.5234375,
+      "x": 63.3984375,
+      "y": 208.515625
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 3,
+    "content": {
+      "height": 438.125,
+      "width": 1201.203125,
+      "x": 39.3984375,
+      "y": 197.484375
+    },
+    "copy": {
+      "height": 228.5234375,
+      "width": 562.5234375,
+      "x": 654.078125,
+      "y": 302.28125
+    },
+    "documentWidth": 1280,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "Постійний ресурс замість разового дослідження.",
+    "viewport": [
+      1280,
+      720
+    ],
+    "visual": {
+      "height": 398.125,
+      "width": 562.5234375,
+      "x": 63.3984375,
+      "y": 217.484375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 4,
+    "content": {
+      "height": 438.125,
+      "width": 1201.203125,
+      "x": 39.3984375,
+      "y": 197.484375
+    },
+    "copy": {
+      "height": 209.484375,
+      "width": 562.5234375,
+      "x": 654.078125,
+      "y": 311.8046875
+    },
+    "documentWidth": 1280,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "Від записів до робочої мапи.",
+    "viewport": [
+      1280,
+      720
+    ],
+    "visual": {
+      "height": 398.125,
+      "width": 562.5234375,
+      "x": 63.3984375,
+      "y": 217.484375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 5,
+    "content": {
+      "height": 447.09375,
+      "width": 1201.203125,
+      "x": 39.3984375,
+      "y": 188.515625
+    },
+    "copy": {
+      "height": 268.5234375,
+      "width": 562.5234375,
+      "x": 654.078125,
+      "y": 277.796875
+    },
+    "documentWidth": 1280,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "Ця основа може підтримувати більше напрямів вашої роботи.",
+    "viewport": [
+      1280,
+      720
+    ],
+    "visual": {
+      "height": 407.09375,
+      "width": 562.5234375,
+      "x": 63.3984375,
+      "y": 208.515625
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 6,
+    "content": {
+      "height": 447.09375,
+      "width": 1201.203125,
+      "x": 39.3984375,
+      "y": 188.515625
+    },
+    "copy": {
+      "height": 182.6015625,
+      "width": 562.5234375,
+      "x": 654.078125,
+      "y": 320.7578125
+    },
+    "documentWidth": 1280,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "Перегляд профілю не має означати необмежений доступ.",
+    "viewport": [
+      1280,
+      720
+    ],
+    "visual": {
+      "height": 407.09375,
+      "width": 562.5234375,
+      "x": 63.3984375,
+      "y": 208.515625
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 7,
+    "content": {
+      "height": 447.09375,
+      "width": 1201.203125,
+      "x": 39.3984375,
+      "y": 188.515625
+    },
+    "copy": {
+      "height": 190.4453125,
+      "width": 562.5234375,
+      "x": 654.078125,
+      "y": 316.8359375
+    },
+    "documentWidth": 1280,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "ШІ може допомагати роботі. Ви визначаєте де.",
+    "viewport": [
+      1280,
+      720
+    ],
+    "visual": {
+      "height": 407.09375,
+      "width": 562.5234375,
+      "x": 63.3984375,
+      "y": 208.515625
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 8,
+    "content": {
+      "height": 447.09375,
+      "width": 1201.203125,
+      "x": 39.3984375,
+      "y": 188.515625
+    },
+    "copy": {
+      "height": 202.0078125,
+      "width": 562.5234375,
+      "x": 654.078125,
+      "y": 311.0546875
+    },
+    "documentWidth": 1280,
+    "overflow": [
+      0,
+      0
+    ],
+    "title": "Будемо вдячні за вашу думку",
+    "viewport": [
+      1280,
+      720
+    ],
+    "visual": {
+      "height": 407.09375,
+      "width": 562.5234375,
+      "x": 63.3984375,
+      "y": 208.515625
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 1,
+    "content": {
+      "height": 551.21875,
+      "width": 367.203125,
+      "x": 11.3984375,
+      "y": 220.5859375
+    },
+    "copy": {
+      "height": 252.4765625,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 587.515625
+    },
+    "documentWidth": 390,
+    "overflow": [
+      0,
+      108
+    ],
+    "title": "Дані у вас є. А спроможність їх використовувати?",
+    "viewport": [
+      390,
+      844
+    ],
+    "visual": {
+      "height": 342.1328125,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 236.5859375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 2,
+    "content": {
+      "height": 551.21875,
+      "width": 367.203125,
+      "x": 11.3984375,
+      "y": 220.5859375
+    },
+    "copy": {
+      "height": 148.78125,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 592.75
+    },
+    "documentWidth": 390,
+    "overflow": [
+      0,
+      10
+    ],
+    "title": "Наявні дані ще не працюють самі.",
+    "viewport": [
+      390,
+      844
+    ],
+    "visual": {
+      "height": 347.3671875,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 236.5859375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 3,
+    "content": {
+      "height": 551.21875,
+      "width": 367.203125,
+      "x": 11.3984375,
+      "y": 220.5859375
+    },
+    "copy": {
+      "height": 270.7109375,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 587.515625
+    },
+    "documentWidth": 390,
+    "overflow": [
+      0,
+      127
+    ],
+    "title": "Постійний ресурс замість разового дослідження.",
+    "viewport": [
+      390,
+      844
+    ],
+    "visual": {
+      "height": 342.1328125,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 236.5859375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 4,
+    "content": {
+      "height": 551.21875,
+      "width": 367.203125,
+      "x": 11.3984375,
+      "y": 220.5859375
+    },
+    "copy": {
+      "height": 277.2734375,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 974.9296875
+    },
+    "documentWidth": 390,
+    "overflow": [
+      0,
+      521
+    ],
+    "title": "Від записів до робочої мапи.",
+    "viewport": [
+      390,
+      844
+    ],
+    "visual": {
+      "height": 729.546875,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 236.5859375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 5,
+    "content": {
+      "height": 551.21875,
+      "width": 367.203125,
+      "x": 11.3984375,
+      "y": 220.5859375
+    },
+    "copy": {
+      "height": 310.7109375,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 529.015625
+    },
+    "documentWidth": 390,
+    "overflow": [
+      0,
+      108
+    ],
+    "title": "Ця основа може підтримувати більше напрямів вашої роботи.",
+    "viewport": [
+      390,
+      844
+    ],
+    "visual": {
+      "height": 283.6328125,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 236.5859375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 6,
+    "content": {
+      "height": 551.21875,
+      "width": 367.203125,
+      "x": 11.3984375,
+      "y": 220.5859375
+    },
+    "copy": {
+      "height": 227.6796875,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 570.3515625
+    },
+    "documentWidth": 390,
+    "overflow": [
+      0,
+      66
+    ],
+    "title": "Перегляд профілю не має означати необмежений доступ.",
+    "viewport": [
+      390,
+      844
+    ],
+    "visual": {
+      "height": 324.96875,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 236.5859375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 7,
+    "content": {
+      "height": 551.21875,
+      "width": 367.203125,
+      "x": 11.3984375,
+      "y": 220.5859375
+    },
+    "copy": {
+      "height": 234.2421875,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 569.15625
+    },
+    "documentWidth": 390,
+    "overflow": [
+      0,
+      72
+    ],
+    "title": "ШІ може допомагати роботі. Ви визначаєте де.",
+    "viewport": [
+      390,
+      844
+    ],
+    "visual": {
+      "height": 323.7734375,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 236.5859375
+    },
+    "wrongLegend": false
+  },
+  {
+    "language": "uk",
+    "slide": 8,
+    "content": {
+      "height": 551.21875,
+      "width": 367.203125,
+      "x": 11.3984375,
+      "y": 220.5859375
+    },
+    "copy": {
+      "height": 255.578125,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 569.15625
+    },
+    "documentWidth": 390,
+    "overflow": [
+      0,
+      93
+    ],
+    "title": "Будемо вдячні за вашу думку",
+    "viewport": [
+      390,
+      844
+    ],
+    "visual": {
+      "height": 323.7734375,
+      "width": 332.015625,
+      "x": 28.9921875,
+      "y": 236.5859375
+    },
+    "wrongLegend": false
+  }
+]

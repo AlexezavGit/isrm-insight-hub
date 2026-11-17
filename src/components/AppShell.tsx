@@ -45,6 +45,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const PAGES_WITH_OWN_SWITCHER = [
     "/",
     "/proposal",
+    "/presentation",
     "/partner",
     "/partner-finance",
     "/scope",
@@ -92,24 +93,39 @@ export function AppShell({ children }: { children: ReactNode }) {
   );
 }
 
-export function AccessControl({ showSignIn = true }: { showSignIn?: boolean }) {
+export function AccessControl({
+  showSignIn = true,
+  compact = false,
+}: {
+  showSignIn?: boolean;
+  compact?: boolean;
+}) {
   const { data, setCode } = useAccess();
   const { locale, setLocale } = useI18n();
   const [open, setOpen] = useState(false);
   const level = data?.level ?? "guest";
   return (
     <>
-      <div className="flex items-center gap-1 rounded border border-border bg-panel/75 p-1 backdrop-blur-xl">
+      <div
+        className={
+          compact
+            ? "workspace-access"
+            : "flex items-center gap-1 rounded border border-border bg-panel/75 p-1 backdrop-blur-xl"
+        }
+      >
         {(["en", "uk"] as const).map((code) => (
           <Button
             key={code}
             variant={locale === code ? "secondary" : "ghost"}
             size="sm"
             onClick={() => setLocale(code)}
+            data-current={locale === code}
+            aria-label={code === "uk" ? "Українська" : "English"}
+            data-hint={code === "uk" ? "Українська" : "English"}
             aria-pressed={locale === code}
             className="h-7 px-2 font-mono text-[10px] uppercase"
           >
-            {code}
+            {compact && code === "uk" ? "UA" : code}
           </Button>
         ))}
         {!showSignIn ? null : level === "guest" ? (
@@ -118,7 +134,7 @@ export function AccessControl({ showSignIn = true }: { showSignIn?: boolean }) {
             size="sm"
             className="client-member-signin"
             aria-label={locale === "uk" ? "Розкрити дані профілів" : "Unlock profile data"}
-            title={locale === "uk" ? "Розкрити дані профілів" : "Unlock profile data"}
+            data-hint={locale === "uk" ? "Розкрити дані профілів" : "Unlock profile data"}
           >
             <Lock />
           </Button>
@@ -129,7 +145,7 @@ export function AccessControl({ showSignIn = true }: { showSignIn?: boolean }) {
             size="sm"
             className="client-member-signin"
             aria-label={locale === "uk" ? "Приховати дані профілів" : "Lock profile data"}
-            title={locale === "uk" ? "Приховати дані профілів" : "Lock profile data"}
+            data-hint={locale === "uk" ? "Приховати дані профілів" : "Lock profile data"}
           >
             <LockOpen />
           </Button>

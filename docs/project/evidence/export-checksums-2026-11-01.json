@@ -1,0 +1,352 @@
+{
+  "status": "done",
+  "source": "/Users/alexzvo/Documents/ChatGPT/isrm/work/isrm-deep-audit/deliverable",
+  "output": "/Users/alexzvo/Documents/Codex/2026-10-31/product-design-audit-users-alexzvo-codex/outputs/isrm-deep-audit-2026-10-31",
+  "files": [
+    {
+      "file": "ISRM_Deep_Audit_Briefing_2026-10-31.html",
+      "sha256": "c9a46d7664c782acee35b2538f616abbfb555fb62ee82b1ce64c50ab7541fb13"
+    },
+    {
+      "file": "ISRM_Deep_Audit_Briefing_2026-10-31.md",
+      "sha256": "52f2afc3774ac44d411fce168ed3615cb4806b7bc82084531ccf905060f1e5cf"
+    },
+    {
+      "file": "ISRM_Deep_Audit_Prototype_2026-11-01.html",
+      "sha256": "15e23eb1b4833319ae1ff961504f24c9ccbaa0b6939953a44b0d973fc39a782a"
+    },
+    {
+      "file": "ISRM_Deep_Audit_Prototype_2026-11-01.md",
+      "sha256": "1996aaec6651ab0d381084ac232632f809dabf39ec67dfe785e9c6fb29b8f27c"
+    },
+    {
+      "file": "ISRM_Project_Entry_2026-10-31.html",
+      "sha256": "9dcbcc844e2339e4795e70cf71bd5c86373dffe772d5242774ea8ef28a1387ed"
+    },
+    {
+      "file": "ISRM_Project_Entry_2026-10-31.md",
+      "sha256": "4c5dfad94444c5b92553942a25cc4e5392bc02aada6ea5b3175c768e067388bf"
+    },
+    {
+      "file": "ISRM_Project_Overlay_2026-11-01.html",
+      "sha256": "c9a8a93366ece1c8507a913c1c3eaf889f8fb8ce1f5db785abacef7486913605"
+    },
+    {
+      "file": "ISRM_Project_Overlay_2026-11-01.md",
+      "sha256": "29be4a5dae67683d985743fd63642b1975567509e95d6f42c8a922c269aa59d6"
+    },
+    {
+      "file": "ISRM_REGISTRY_2026-10-31.csv",
+      "sha256": "ebba770522594cfbdd3558e04a3059cd0a37be13990e2ea068697edddb32fe1f"
+    },
+    {
+      "file": "ISRM_REGISTRY_2026-11-01.csv",
+      "sha256": "7a39d600dfaf773046be5bad89fc575f7ccb431e7255620251ac2a3346e21eab"
+    },
+    {
+      "file": "index.html",
+      "sha256": "0afe1947fd37582788382a936dadecfcbe40eea4e4aef7449fb700dad0b5159a"
+    },
+    {
+      "file": "project/REGISTRY.csv",
+      "sha256": "7a39d600dfaf773046be5bad89fc575f7ccb431e7255620251ac2a3346e21eab"
+    },
+    {
+      "file": "project/evidence/11-live-release-marker.jpg",
+      "sha256": "400b6143b87334959134443ab2c2e18ec60dbe5ffc273b3c77b5a872e8a5f4a2"
+    },
+    {
+      "file": "project/evidence/administrative-edit-checksums.json",
+      "sha256": "9cf5eef36d126fdcf88c50144173a5fdfc6e5a43668d35d0b81703a0b40a567f"
+    },
+    {
+      "file": "project/evidence/briefing-update-checksums-2026-11-01.json",
+      "sha256": "6c3969c92aef206585a6f100c9a669dd2c661a0123bc6c3a6559ed63a8cf9c0c"
+    },
+    {
+      "file": "project/evidence/bundle-validation.json",
+      "sha256": "47f6077eda30eaee100ae38d37d725aa5a9aa63a03240cf790307248ec1409d8"
+    },
+    {
+      "file": "project/evidence/crm-field-availability.json",
+      "sha256": "e510dc04a45f0d423f3896368bbdf3864ac081d5f499537f434abaf23a4dcc72"
+    },
+    {
+      "file": "project/evidence/deliverable-validation-2026-11-01.json",
+      "sha256": "e7cccbebeaf6201a105d8c7d3a235cb6cbc4cba26cc54272d854692f9f39de29"
+    },
+    {
+      "file": "project/evidence/documentation-inventory.csv",
+      "sha256": "7badbd22162bf8c923ad1290f5e71e52fedc6198b61c4a57206029e352e8bea2"
+    },
+    {
+      "file": "project/evidence/exact-duplicates.json",
+      "sha256": "fd1896a090698255b0c7767a6ff830455cf9246fa57a69582f5cc9bf3a856892"
+    },
+    {
+      "file": "project/evidence/final-text-status-checksums-2026-11-01.json",
+      "sha256": "66dac3707d8c822534a3f9a72a740dd9ad1c659f3f3698fcd63a74b34ad7692f"
+    },
+    {
+      "file": "project/evidence/github-evidence.json",
+      "sha256": "bad7c242db999434d9ea86b1ccc9adc5ff997d68d1be9db606de66b9331beae1"
+    },
+    {
+      "file": "project/evidence/independent-review-prototype-2026-11-01.json",
+      "sha256": "cdbbc97e3d9d492428c5bb5bce697eeafd7eb1570cfcd807903f58de3df2eb53"
+    },
+    {
+      "file": "project/evidence/independent-review.json",
+      "sha256": "9008a070999866f6c31647e9bc7160b810ee7f2e9c459e7dd9dfff9236896567"
+    },
+    {
+      "file": "project/evidence/live-release-marker.json",
+      "sha256": "2d2ec263d33c58566e664e1d7d5fd130b3bb5023a86d5ee98a358375221904a8"
+    },
+    {
+      "file": "project/evidence/local-branch-source-differences.json",
+      "sha256": "91ae40658ca3939de023e9447675a9694c6959dec5a1b5ac5829d9c0d1d801dc"
+    },
+    {
+      "file": "project/evidence/local-branches-and-worktrees.json",
+      "sha256": "f8b513e0dc4b032d8b2079d2f053eda2044ea6cc1e7becc7e4029a347f853278"
+    },
+    {
+      "file": "project/evidence/pdf-comparisons.json",
+      "sha256": "b219cd9c7e3ae6cf91d453d07bfe01a21946d4e7a36596bba7ccd0ff37177388"
+    },
+    {
+      "file": "project/evidence/program-reconciliation-checksums-2026-11-01.json",
+      "sha256": "18570db1f7f78de2cf7185b069424b4f9859d7c892b920adb3634c5a5897c8ce"
+    },
+    {
+      "file": "project/evidence/reference-copy-manifest.json",
+      "sha256": "af201d5644062a71cd524ed0f126325f7e96cd3509614712413a004ae36eb3a2"
+    },
+    {
+      "file": "project/evidence/registry-observations-checksums-2026-11-01.json",
+      "sha256": "f1d21a8098cd048a7a0b42ec7dd660ce63d8da5bd54f75d692a7a3284e3cbd02"
+    },
+    {
+      "file": "project/evidence/source-parity.json",
+      "sha256": "e6e35fe93f38229b2d55288085729c132f5ea707114d6b0388860368d487121b"
+    },
+    {
+      "file": "project/evidence/zip-snapshot-documents.json",
+      "sha256": "6843a8ecda51c85a35589856736889059252daf9343b3224d1484dc28f6e455f"
+    },
+    {
+      "file": "project/session-notes/2026-11-01-briefing-prototype-audit.md",
+      "sha256": "370c1cc8a5812d6d669b45467b2db0976938a9ec9ad79aa3d3ad4ede1d5d5463"
+    },
+    {
+      "file": "project/session-notes/index.json",
+      "sha256": "4c1eb967894dbe14f5ef9ad82e2ac4997589bb23c75b59663042d883fff0d0f6"
+    },
+    {
+      "file": "project/sources/direct-clarification-2026-11-01.txt",
+      "sha256": "ecec33d7a5049c5a2965fa59bc6b8c7f93671ec86e2811559aebf82ceba9f51d"
+    },
+    {
+      "file": "project/sources/history-audit-prompts.json",
+      "sha256": "c2f4e57d98ee0f8303844e7e95e94d51a356fc8447e5795240df8ede2a528d16"
+    },
+    {
+      "file": "project/sources/history-design-prompts.json",
+      "sha256": "8c45c5b36c7fa10b8e8de70dc6c4a22eb7467fc11a15aa696edccbdd40f5e116"
+    },
+    {
+      "file": "project/sources/index.html",
+      "sha256": "63394ca553ddc543f248d76a5611f85dd5a0d18d616670b0ae125c0fbd1c9e63"
+    },
+    {
+      "file": "project/sources/user-feedback-2026-10-31.txt",
+      "sha256": "a0915c67187f68310922815ceb242888cc4c92a718e1222d2a236f26dd3fc364"
+    },
+    {
+      "file": "project/sources/user-presentation-notes-2026-11-01.txt",
+      "sha256": "b0ab659cc553ae3491b3567673eaadbd6691605d03b9608de125481eb5e54bf9"
+    },
+    {
+      "file": "proof-entry-fixed.jpg",
+      "sha256": "504be7bb92d588f4392c988a7be970f84706c922db47e7f6eca5a61c26e40264"
+    },
+    {
+      "file": "prototype-screens/04-include-review-queue.jpg",
+      "sha256": "3011678f4e415314a51b0e612d29c5ae306484f879b5a92abf21c44b10d2943b"
+    },
+    {
+      "file": "prototype-screens/06-search-filters-and-counts.jpg",
+      "sha256": "5d5f8f77123b9bfdd9074ee4dc16c9a1c4b08a05f71df2d1e1dce62ff19596b8"
+    },
+    {
+      "file": "prototype-screens/20-shortlist-visible-after-second-toggle.jpg",
+      "sha256": "84a390309569671753c07d2b687989a6fb69318d52583402a0cd591af9807c79"
+    },
+    {
+      "file": "prototype-screens/22-saved-shortlist-confirmation.jpg",
+      "sha256": "d37358527012bf2c07ad59a7fbb2c6d0dd4c6aeba8b6327b77944cbff940ebf5"
+    },
+    {
+      "file": "prototype-screens/23-restored-saved-shortlist.jpg",
+      "sha256": "8dc8840e36255b2bb130f8d69d79ab3ca9fa7586694ab0c70ad52bee42d59ff4"
+    },
+    {
+      "file": "prototype-screens/24-exported-shortlist.md",
+      "sha256": "dbf8863a9bf399bc7fe4e3b0fe39440eea77a39998b383cfe4d71ab0b06a70d4"
+    },
+    {
+      "file": "prototype-screens/25-chrome-current-viewport.jpg",
+      "sha256": "d8c3dc8e5b2a7877ec2003b29fd512109113467c6fc9d86fe694bedcfefe7430"
+    },
+    {
+      "file": "prototype-screens/26-wide-mini-dossier.jpg",
+      "sha256": "d2f1258b561d6e6f9df542bd1dbe04ea496942e2872c4097543e50ce13431a4a"
+    },
+    {
+      "file": "prototype-screens/27-wide-resize-with-neighbouring-panels.jpg",
+      "sha256": "e27cdc837bc843d9b4653e04e435fd271a3d7378bee46f46d3b1a4de18b14d38"
+    },
+    {
+      "file": "prototype-screens/28-wide-resize-opens-full-dossier.jpg",
+      "sha256": "9f6288d1de1f9c138bea56c40291d890c445e0162238c414dee813097fcb2b4e"
+    },
+    {
+      "file": "prototype-screens/30-research-capability-boundary.jpg",
+      "sha256": "6768b9ed65d14bb3fed4fa6080016a0c002350db0ae420e9b54b6b111911ecbe"
+    },
+    {
+      "file": "prototype-screens/31-return-from-capability.jpg",
+      "sha256": "d7bdd8d89f2ab179c1f0f36828e4a5a35073836db650510d4c19f2ef541a2a3a"
+    },
+    {
+      "file": "prototype-screens/32-guided-search-example.jpg",
+      "sha256": "cbba30c18a1a738301ebd4a0a6c28577b8020e431875614d95220560933a152e"
+    },
+    {
+      "file": "prototype-screens/33-close-guide-restores-query.jpg",
+      "sha256": "e6eefde89c37f8b93979db48132cbba68896a2a2d8f69ab96a3ff69596f53137"
+    },
+    {
+      "file": "prototype-screens/34-ukraine-un-recorded-expertise.jpg",
+      "sha256": "45ae2aaf812edf7b84f7bd5f1c35b11928b6ac3668765637b6bf6222292cb8dc"
+    },
+    {
+      "file": "prototype-screens/35-ukraine-un-mini-dossier.jpg",
+      "sha256": "2c7fb9a9560fde90f342ef74bbe7f3eba822fd51cd468ada110de5e2b2acb765"
+    },
+    {
+      "file": "prototype-screens/36-restored-working-selection.jpg",
+      "sha256": "cfd2130c3ef09a8f5457bde3c43d7491997679d5c60c4ca86961e02550ecd5a5"
+    },
+    {
+      "file": "references/24a6e3236b-ISRM_Developer_Estimate_EN.xlsx",
+      "sha256": "a44251a1daad27740695c5faf057da32fa99f6036b39689dabd09e0e4250a274"
+    },
+    {
+      "file": "references/406ca113e9-ISRM_Delivery_Boundaries_Addendum_EN.html",
+      "sha256": "1076b22420ea49d312bdcae192145a5a57fc5393d5a51990184752108fec78ed"
+    },
+    {
+      "file": "references/406ca113e9-ISRM_Delivery_Boundaries_Addendum_EN.md",
+      "sha256": "d8652b1b4a431ce7758b20562edce0ebc286955654cb687167942ddb1924aaa4"
+    },
+    {
+      "file": "references/4b48a6a624-ISRM_Editorial_Coverage_20261031.html",
+      "sha256": "0bdfdff1fc420ba74411e765b3eae0a982db7a42aad512e00f7a9222f6b6e280"
+    },
+    {
+      "file": "references/4b48a6a624-ISRM_Editorial_Coverage_20261031.md",
+      "sha256": "4f0d258dddb2ae262c6d9944f8ea261eb5077947e6c7019d41d20b79a319173a"
+    },
+    {
+      "file": "references/8074f08c1d-README.html",
+      "sha256": "5df51b7eb03b34e8b056e149eb569fd7de629e253748f442f0de06b830fe512c"
+    },
+    {
+      "file": "references/8074f08c1d-README.md",
+      "sha256": "81a7004f5ad5ccfb9824baeda03114a50e01c8115d3aaac91aaba96a86deee0f"
+    },
+    {
+      "file": "references/a6f832fb73-ISRM_Partner_Product_Brief_EN.html",
+      "sha256": "465c9a6fe7b681bf138b7c785d3aca93195845c7d1a450a43331e575cd2dda3a"
+    },
+    {
+      "file": "references/a6f832fb73-ISRM_Partner_Product_Brief_EN.md",
+      "sha256": "6dbc3cec5b7fdb27363f5f90bcd395b018c70ffac2d74d0a467fc4e6ba90a291"
+    },
+    {
+      "file": "references/b481ebdf36-ISRM_Community_Member_Survey_Draft.html",
+      "sha256": "0bb9b851f6e8efd1d1af74d110ae9c59a74a683564f1454e6ebe55924561e180"
+    },
+    {
+      "file": "references/b481ebdf36-ISRM_Community_Member_Survey_Draft.md",
+      "sha256": "b4fe95a23c13fdab97eeaabd7c3accc3b86437c15691326fb3efafbf1a4bf9ee"
+    },
+    {
+      "file": "references/bb7a5dbca4-ISRM_Project_Description.html",
+      "sha256": "4d82cd57c2577f0cdd652eda7029682e8255a3ad268a31cf7d8a9555918420f8"
+    },
+    {
+      "file": "references/bb7a5dbca4-ISRM_Project_Description.md",
+      "sha256": "336a7ead7f3c3b8db47e313a611339da02604fc8e5676ce2cdb798934c360e93"
+    },
+    {
+      "file": "references/becb96248e-ISRM_Architecture_Clarification_EN.html",
+      "sha256": "8e67d2aaf9cbc073bdc871e09209e649f3ec78dc5524d83d84946c1fae0f2e0d"
+    },
+    {
+      "file": "references/becb96248e-ISRM_Architecture_Clarification_EN.md",
+      "sha256": "5ff4bbee68c37ff154887c486b198bee22f120fcf8c08ca0c6323fc867c8ef7b"
+    },
+    {
+      "file": "references/d3f2757ea4-ISRM_Partner_Pricing_Review.xlsx",
+      "sha256": "c04406ed24035fbf91356333c6ad3af5b602d82bb4927684c22499ecfdc57545"
+    },
+    {
+      "file": "references/e58f024975-ISRM_Developer_Brief_EN.pdf",
+      "sha256": "528587cd33b278542187267b18b20fac50be0257d07b42a3f8ef6a4558158569"
+    },
+    {
+      "file": "screens/01-briefing-slide-1.jpg",
+      "sha256": "5c9df4fdd17536cd8201a8d49627cfe140147d0653ee0b662f351ef35eb95831"
+    },
+    {
+      "file": "screens/02-briefing-slide-2.jpg",
+      "sha256": "fc742399dfad22f668a4f0cd0740e615fd6b8157f51dbd05e63a04ff42120214"
+    },
+    {
+      "file": "screens/03-briefing-slide-3.jpg",
+      "sha256": "e7ea3f7d93d9bef5dad28bb80a843bb179dd9180c53578276ea9e254f16f8c34"
+    },
+    {
+      "file": "screens/04-briefing-slide-4.jpg",
+      "sha256": "958580f4f37247b525346726160bee91467ddbdf6c338a3435704d574b007012"
+    },
+    {
+      "file": "screens/05-briefing-slide-5.jpg",
+      "sha256": "a1551ac3dc3f899577a0f2ffa17ccb3a7c34bb3fb107b01685c322a26d385e7b"
+    },
+    {
+      "file": "screens/06-briefing-slide-6.jpg",
+      "sha256": "94451d91e5d6dac31505537dc09813d449f20807697e072b0a875964d3303cc2"
+    },
+    {
+      "file": "screens/07-briefing-slide-6-narrow.jpg",
+      "sha256": "ae31a0a7c8d173d96ac0fb60505adfd33d3c3abedaa8bc34d858f138e5a823d4"
+    },
+    {
+      "file": "screens/08-briefing-slide-1-narrow.jpg",
+      "sha256": "8378cf519d1e1812be6b42fe4011d41f4704aa552738c1b530cf18ac634ab61c"
+    },
+    {
+      "file": "screens/09-briefing-slide-1-larger-text.jpg",
+      "sha256": "2b8bcf38713cf8def000b3ad9dae49d85833de9d3567775215afc2e479dcd954"
+    },
+    {
+      "file": "screens/10-briefing-larger-text-scrolled.jpg",
+      "sha256": "2f9091b78a563fa8b1b4032a96a046d84352b81613447f82e8fcb9cb40dd3426"
+    }
+  ],
+  "note": "Exact copy verified; older output retained if one existed. Whole audit remains in progress."
+}

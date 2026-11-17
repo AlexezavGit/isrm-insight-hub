@@ -1,0 +1,7 @@
+{
+  "src/lib/briefing-slides.ts": "65f8a1f76a22f5174341ca0780760304c3afd38653d086a13467cc42f5db2af8",
+  "src/components/BriefingSlider.tsx": "c9100f8e3afdc1521d96f6ba46c1c002cead94300951a045ec8ae6a97e5ce54d",
+  "src/components/BriefingStoryGraph.tsx": "cee3d70060f479bb96c8a4031c3e71c362e3be4b95d5ab46e66ab8d7e4810ad7",
+  "src/components/BriefingVisual.tsx": "de08233f3eafdbfe325caaa70bfccc4b41615982f03a04d5390c6886e2820977",
+  "src/styles.css": "1336a577c4d63d93e6f5d934762eb3014c302c0d9cab7720978d6fd528d97808"
+}

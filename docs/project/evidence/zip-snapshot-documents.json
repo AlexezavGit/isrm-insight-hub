@@ -1,0 +1,35 @@
+[
+  {
+    "path": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-pages-client-20261027.zip",
+    "sha256": "cecdbd7cc55d9d4f58f37a46a81f868f6e2d5099d84205aaf1c83958b4c9de44",
+    "documents": []
+  },
+  {
+    "path": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub-isrm-pages-959b3b8.zip",
+    "sha256": "e59776dbff99fe9047312528c79bc6cef7fb626774a621d0f1f73c79d972b1e1",
+    "documents": [
+      {
+        "member": "ISRM_Project_Description.md",
+        "sha256": "f9ed015ed2e3f9cda802a678914f293da79e02452ae65562c27bc27e6576d3f1"
+      },
+      {
+        "member": "ISRM_Community_Member_Survey_Draft.md",
+        "sha256": "4b5762db07e6be466195df1dbcc3099b4ad895f5c96f2f57cae2fb5b78cc8484"
+      }
+    ]
+  },
+  {
+    "path": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-pages-approved-20261028.zip",
+    "sha256": "653b76c0bb238d14dbf961f30c5d92f117bcf3bf0fb43b2cce0fd1ad72f6a790",
+    "documents": [
+      {
+        "member": "ISRM_Community_Member_Survey_Draft.md",
+        "sha256": "b4fe95a23c13fdab97eeaabd7c3accc3b86437c15691326fb3efafbf1a4bf9ee"
+      },
+      {
+        "member": "ISRM_Project_Description.md",
+        "sha256": "009e26b1df57795d6394acc7307b686e0572f623f6a0adc261a249d1e901e57d"
+      }
+    ]
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "file": "docs/project/REGISTRY.csv",
+  "archive": "docs/project/archive/REGISTRY.csv.before-prototype-observations-2026-11-01",
+  "before_sha256": "ebba770522594cfbdd3558e04a3059cd0a37be13990e2ea068697edddb32fe1f",
+  "after_sha256": "8724f1361c362da7fd27c3b47c8710acd647dfba5117859435adc4b156078bad",
+  "new_codes": [
+    "ISRM-OBS-DEFAULT",
+    "ISRM-OBS-QUEUE",
+    "ISRM-OBS-UK-CASE",
+    "ISRM-OBS-UK-CATEGORY",
+    "ISRM-OBS-CASE-CATEGORY",
+    "ISRM-OBS-SHORTLIST",
+    "ISRM-OBS-UN-CASE",
+    "ISRM-OBS-GUIDE-COUNTRY",
+    "ISRM-OBS-SERVICE-COVERAGE",
+    "ISRM-DATA-GEOGRAPHY",
+    "ISRM-DATA-REVIEW-METADATA"
+  ]
+}

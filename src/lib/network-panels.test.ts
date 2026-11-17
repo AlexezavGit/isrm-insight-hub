@@ -21,11 +21,19 @@ const person = {
   country: "Ukraine",
   verified: true,
   identityStatus: "Source confirmed",
+  confidence: "",
+  communityRole: "",
+  crmStage: "",
+  priority: "",
+  ukraineTheme: "",
+  ukraineCategory: "",
+  contribution: "",
+  potentialRole: "",
   evidence: "Restricted evidence detail",
   source: "https://example.org/source",
   phone: "PRIVATE-CONTACT",
   tags: [],
-} as Expert;
+} as Expert & { phone: string };
 const noop = () => {};
 async function render(node: React.ReactNode) {
   const root = createRootRoute({ component: () => node });
@@ -87,4 +95,44 @@ test("shortlist contains selected names and actions without profile descriptions
   assert(html.includes("Save this shortlist in the browser"));
   assert(!html.includes("Save a snapshot"));
   assert(html.includes("Download") || html.includes("Markdown"));
+});
+
+test("available dossier content, rather than a verification flag, controls expansion", async () => {
+  const props = {
+    uk: false,
+    full: true,
+    onFull: noop,
+    shortlisted: false,
+    onToggle: noop,
+    onGroup: noop,
+    onConnections: noop,
+    ready: true,
+  };
+  const partial = await render(
+    React.createElement(NetworkProfile, { ...props, expert: { ...person, verified: false } }),
+  );
+  assert(partial.includes("Restricted evidence detail"));
+  const empty = {
+    ...person,
+    verified: false,
+    evidence: "",
+    source: undefined,
+    ukraineTheme: "Ukraine-related experience",
+    contribution: "",
+    potentialRole: "",
+    tags: ["Unqualified / research pending"],
+  } as Expert;
+  const unprepared = await render(React.createElement(NetworkProfile, { ...props, expert: empty }));
+  assert(!unprepared.includes("Full dossier"));
+  assert(!unprepared.includes("textarea"));
+  assert(!unprepared.includes("Evidence and source"));
+  assert(unprepared.includes("No further profile information"));
+  const restricted = await render(
+    React.createElement(NetworkProfile, {
+      ...props,
+      expert: { ...empty, dossierAvailability: "restricted" },
+    }),
+  );
+  assert(restricted.includes("restricted at this access level"));
+  assert(!restricted.includes("Restricted evidence detail"));
 });

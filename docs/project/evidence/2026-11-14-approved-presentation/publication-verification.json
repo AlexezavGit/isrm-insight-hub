@@ -1,0 +1,45 @@
+{
+  "release_commit": "d989e1e6ea64ecc12a278901bd6afc6f15ba9748",
+  "previous_release": "d950d520f888285a8b5c7221366c848f22fe76e8",
+  "canonical_url": "https://isrm.pages.dev/presentation",
+  "alias_checked": "https://isrm.pages.dev/proposal",
+  "workflow_url": "https://github.com/AlexezavGit/isrm-insight-hub/actions/runs/43567592159",
+  "workflow_conclusion": "success",
+  "release_marker_read_in_user_browser": {
+    "commit": "d989e1e6ea64ecc12a278901bd6afc6f15ba9748"
+  },
+  "browser_checks": [
+    "Published initial heading matches accepted AI-paradigm correction",
+    "Published /presentation sample shows 178 records and 45 initial findings",
+    "Same-view link opens /?view=map&sample=expertise and shows Sample 178",
+    "Configurator service opens explanation and scope alert without activating service",
+    "Scope alert opens /scope#scope-service-research",
+    "English/Ukrainian slides and graph-state/workflow controls checked in published page",
+    "Print action and rewind checked in published page"
+  ],
+  "print": [
+    {
+      "locale": "en",
+      "pages": 8,
+      "source": "PDF printed from deployed /presentation in headless Chrome",
+      "temporary_qa_file": "/private/tmp/isrm-approved-qa-en.pdf"
+    },
+    {
+      "locale": "uk",
+      "pages": 8,
+      "source": "PDF printed from deployed /presentation in headless Chrome",
+      "temporary_qa_file": "/private/tmp/isrm-approved-qa-uk.pdf"
+    }
+  ],
+  "data_sha256": "8ee920535230894c522403623c8f62009edb75e84f28d93bcab655d76c98b5d6",
+  "source_workbook_sha256": "bb4adfa5e809ccc80359b984076c49df8ff7e21b11f5ab0f8f2a9e472847b13b",
+  "not_done": [
+    "Full recovered persons walkthrough adaptation",
+    "Semantic compact/expanded configurator and dossier refinements",
+    "Full remaining graph-label audit",
+    "Architecture/partner handoff acceptance"
+  ],
+  "credentials_modified": false,
+  "registry_modified": false,
+  "pdf_deliverable": "Website with print formatting; temporary PDFs used only to verify pagination"
+}

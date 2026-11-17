@@ -1,0 +1,20 @@
+{
+  "documents": [
+    {
+      "id": "isrm-audit-2026-11-01",
+      "title": "Контрольна точка: брифінг і прототип",
+      "path": "2026-11-01-briefing-prototype-audit.md",
+      "status": "done",
+      "sha256": "370c1cc8a5812d6d669b45467b2db0976938a9ec9ad79aa3d3ad4ede1d5d5463"
+    },
+    {
+      "id": "isrm-prototype-refinement-2026-11-01",
+      "title": "Уточнення: переліки, панелі, відзнаки й терміни",
+      "path": "2026-11-01-prototype-refinement.md",
+      "status": "done",
+      "sha256": "34215413b99a5d26fcbb0e936b385f4700846b11530664e0dce6597fc04c2ecf"
+    }
+  ],
+  "overall_task": "in_progress",
+  "next_gate": "Prototype refinement review; no configurator acceptance yet"
+}

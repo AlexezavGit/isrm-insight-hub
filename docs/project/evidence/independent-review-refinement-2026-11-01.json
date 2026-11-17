@@ -1,0 +1,16 @@
+{
+  "rule": "QA-2",
+  "reviewer": "verify_isrm_registry",
+  "status": "done",
+  "confirmed": [
+    "ISRM-REQ-PANELS and ISRM-REQ-LISTS match direct source",
+    "GitHub repository visibility public independently checked",
+    "Published tree data blob matches local source",
+    "Contact fields present; values not printed",
+    "EXP-001 evidence exists but guest projection hides it",
+    "Content availability is separate from verified flag",
+    "Case context is separate from interpersonal recommendation"
+  ],
+  "correction": "Historical all-panels-open option explicitly superseded by ISRM-REQ-PANELS",
+  "final_read": "Reviewer confirmed historical options are superseded, selected-list context remains beside full dossier, and all three new registry rows."
+}

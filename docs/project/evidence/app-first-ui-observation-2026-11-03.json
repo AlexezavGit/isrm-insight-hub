@@ -1,0 +1,50 @@
+{
+  "status": "done",
+  "wide": {
+    "documentWidth": 1130,
+    "footer": {
+      "direction": "row",
+      "height": 64
+    },
+    "header": {
+      "height": 64
+    },
+    "journeyTabsInsideApp": 0,
+    "navigation": [
+      {
+        "label": "Network",
+        "y": 546.5
+      },
+      {
+        "label": "Search",
+        "y": 546.5
+      },
+      {
+        "label": "My shortlist · 0",
+        "y": 546.5
+      },
+      {
+        "label": "Capabilities",
+        "y": 546.5
+      }
+    ],
+    "url": "http://127.0.0.1:8771/",
+    "viewport": {
+      "height": 602,
+      "width": 1130
+    }
+  },
+  "narrow": {
+    "viewportWidth": 390,
+    "documentWidth": 390,
+    "source": "13-narrow-final.jpg and observed DOM",
+    "largeTextAndContrastTested": true
+  },
+  "workingCycle": "Filter EXP-004 -> one graph match and result -> mini dossier -> add -> shortlist -> capabilities -> same context restored; test selection removed afterward",
+  "guide": "Started from Help, closed and restored work",
+  "settings": "Escape closed menus; English and initial text/contrast preferences restored",
+  "limitations": [
+    "Specific UI states, not a full accessibility compliance audit",
+    "No messages, research, contact requests, consent or integration activated"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "status": "done_in_project_root",
+  "bundle": "/Users/alexzvo/Documents/ChatGPT/isrm/work/isrm-deep-audit/deliverable",
+  "report": "/Users/alexzvo/Documents/ChatGPT/isrm/work/isrm-deep-audit/deliverable/ISRM_Workspace_Revision_2026-11-03.html",
+  "requested_external_copy": {
+    "destination": "/Users/alexzvo/Documents/Codex/2026-10-31/product-design-audit-users-alexzvo-codex/outputs/isrm-deep-audit-2026-10-31",
+    "status": "not_executed",
+    "reason": "Escalated filesystem approval returned Rejected (rejected by user). No external copy or retry performed."
+  },
+  "app": "http://127.0.0.1:8771/",
+  "report_url": "http://127.0.0.1:8768/ISRM_Workspace_Revision_2026-11-03.html",
+  "scope": "Local implementation and reviewable bundle complete; external duplicate copy was not authorized."
+}

@@ -1,0 +1,13 @@
+{
+  "local_commit": "56d43f22085d7c248b19b4d087fde444fecdb541",
+  "remote_commit": "3ce13068e29304f1eeeb636ced07fd30c05953a2",
+  "equal_selected_source": false,
+  "compared_files": 193,
+  "differences": [
+    {
+      "path": "scripts/build-scope-proof.ts",
+      "local": "d4477c07e6709bb553b72a66646615fd5d5e5c07",
+      "remote": null
+    }
+  ]
+}

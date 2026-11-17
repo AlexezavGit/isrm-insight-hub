@@ -1,0 +1,31 @@
+{
+  "base_commit": "d950d520f888285a8b5c7221366c848f22fe76e8",
+  "production_branch": "codex/network-workflow-batch",
+  "paths": {
+    "src/components/AppShell.tsx": "8cf7ce7671826290cc443c3bf428f092e424b2b2c45e61ec416a4d1830f25513",
+    "src/components/BriefingDataFlowFigure.tsx": "6d9807aada9c87d0aedc31e46eb616f2fa4c89fffbf96663a5a6cb9b254ae5c2",
+    "src/components/BriefingEvidenceFigures.tsx": "910f827f5f83f0f2cfc19d74a900e9ac4978549279aa9329c2e5bb178a715fc3",
+    "src/components/BriefingSearchGraphFigure.tsx": "2b4c4603da5daa154a76d9902018e5b465179d81cec63c67f24f00ce9e943a67",
+    "src/components/BriefingSlider.tsx": "c9100f8e3afdc1521d96f6ba46c1c002cead94300951a045ec8ae6a97e5ce54d",
+    "src/components/BriefingStoryGraph.tsx": "1665148d350701b1a27b884b18e8f15fd6ec6d9ebe455cf17b19fca1664c91a8",
+    "src/components/BriefingVisual.tsx": "1ce7d746b467ed9b6cc6d918223d58f97643e87afd565cbee280b01c8defd036",
+    "src/components/BriefingWorkflowFigure.tsx": "5d06620d38088a007b73b938f2d925e05ff90172a69a3f31388d19f67c550560",
+    "src/components/ClientHeader.tsx": "039dc8be715a3a114bfa6a8f62681e38ff5604115a9fcee3dcae18b7903d1009",
+    "src/components/NetworkGraph.tsx": "4862747b1a8731b4c0bb8e7906321581726834b93d79fe3ea1cacbe4adceb1a7",
+    "src/components/NetworkWorkspace.tsx": "a26d1f021f89427b406af156d35b1fd0ee389668ea0f5c5eaa3cce8a7d8a6a75",
+    "src/components/PresentationFeedback.tsx": "b025738eeeacfd16462ebe643ae2b1092f38681596b485dbc9175cae9fddd4d9",
+    "src/components/ScopeCardDecks.tsx": "0426d51fb1b75814606a115b880b47d4339d3f60f42a95bd5df343bb672c8c90",
+    "src/lib/briefing-graph.test.ts": "01a5ed98a3e561fdcddedaa09376e69b92301124252bc1b2975bb839710a2bdd",
+    "src/lib/briefing-graph.ts": "9bb748346c5838454e33d808e842d83ffd743b42732c87f9c42bfa4b90943973",
+    "src/lib/briefing-slides.ts": "748054529b76ef9eca8a3c3095cb75976897ca440a92c1334f49792e79c4faae",
+    "src/lib/network-symbols.test.ts": "dec2d1a4c72383fe812ae6a139173412146119e7c4e39b6d3ae3c7651e9febda",
+    "src/lib/network-symbols.ts": "48e4a12b39efbbd0dffc178dd30ab30d76f799b947ec5831ab5615e491bb0f23",
+    "src/lib/workspace-map.ts": "c39bb2dd64a986300cf3558d7a32b6688e0e16e0b79c26d740d580512c57aa6c",
+    "src/routeTree.gen.ts": "c487666e05bd237c87afe0d03c3e1178b481ade8625ab2e03ffc1a6ae7249916",
+    "src/routes/index.tsx": "09ed16ac6378c908d08fbaa28deddaab585bcac947bc56790f149e49969024e6",
+    "src/routes/presentation.tsx": "52b1c189b33a60758dfc8996ff3a08bf2589dc20cd5e19396e374ba117d798b7",
+    "src/routes/proposal.tsx": "af07fd847de1df74276c4f8820e8bb0adbcc0786f8651de203c9ff4ac1712f4d",
+    "src/routes/scope.tsx": "5b422f5d1e56121eaebf8b82a78e148646eb7de3a8e60441efb5f662ffa8ef4b",
+    "src/styles.css": "bb0bd2bc35453126ba068fef0d218a2a63223e3445bde769c2000a7b4ec850c8"
+  }
+}

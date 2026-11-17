@@ -1,0 +1,23 @@
+{
+  "currentHours": 172,
+  "existingWorkValue": 6451.078697634021,
+  "coreFutureHours": 640,
+  "coreDevelopmentAllocation": 30455.092456272236,
+  "remainingDevelopmentAllocation": 24004.013758638215,
+  "coreFullCost": 44215.68431952808,
+  "coreUKBudget": 55411.67056088987,
+  "coreProposedBudget": 50849,
+  "coreDiscount": 0.082341328364683,
+  "coreProfit": 6633.315680471918,
+  "developerMedianCost": 19203.211006910573,
+  "workflowBudgets": [
+    29085,
+    26531,
+    17469
+  ],
+  "workflowProfits": [
+    3794.451459017713,
+    3460.802633288862,
+    2278.802662898557
+  ]
+}

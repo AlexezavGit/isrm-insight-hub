@@ -1,0 +1,197 @@
+{
+  "sha": "78cb22e51344f95318dc33284ebda406849a3968",
+  "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/trees/78cb22e51344f95318dc33284ebda406849a3968",
+  "tree": [
+    {
+      "path": ".env",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "94dc03aa2a0796849491e1a9bc9810bd3c705797",
+      "size": 361,
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/blobs/94dc03aa2a0796849491e1a9bc9810bd3c705797"
+    },
+    {
+      "path": ".github",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1938fadab53fd19f77a32a8e9429f4c3f605adc4",
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/trees/1938fadab53fd19f77a32a8e9429f4c3f605adc4"
+    },
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a6068944f587567bc6880d087ccb554fab5561d1",
+      "size": 428,
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/blobs/a6068944f587567bc6880d087ccb554fab5561d1"
+    },
+    {
+      "path": ".kiro",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "302a6d85e6b21435d54fbfdbf65d6728ad4d02c7",
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/trees/302a6d85e6b21435d54fbfdbf65d6728ad4d02c7"
+    },
+    {
+      "path": ".lovable",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "4813c6bde059f7233661deb584e3ee86a2ec5e8e",
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/trees/4813c6bde059f7233661deb584e3ee86a2ec5e8e"
+    },
+    {
+      "path": ".prettierignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "be49b2655e2222e8a688f616a5c13500298801a0",
+      "size": 92,
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/blobs/be49b2655e2222e8a688f616a5c13500298801a0"
+    },
+    {
+      "path": ".prettierrc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "90abee2393e79dff7ec36856c94f662a263f0107",
+      "size": 90,
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/blobs/90abee2393e79dff7ec36856c94f662a263f0107"
+    },
+    {
+      "path": "AGENTS.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f1e775ff6ea478de1724b69cc6c2cc7af7403083",
+      "size": 1138,
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/blobs/f1e775ff6ea478de1724b69cc6c2cc7af7403083"
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ec02bc7df49b7bafcdc65f870a2efafc4b75ba44",
+      "size": 3432,
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/blobs/ec02bc7df49b7bafcdc65f870a2efafc4b75ba44"
+    },
+    {
+      "path": "bun.lock",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2492e60973fcc8ddb43306e2c740ae78b7c74d21",
+      "size": 233050,
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/blobs/2492e60973fcc8ddb43306e2c740ae78b7c74d21"
+    },
+    {
+      "path": "bunfig.toml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eccc852c7b9f67eecab0b218eb5dd1f4d9ad4852",
+      "size": 380,
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/blobs/eccc852c7b9f67eecab0b218eb5dd1f4d9ad4852"
+    },
+    {
+      "path": "components.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f0817a84e832a693e7a79a911efe0b081bd97e06",
+      "size": 443,
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/blobs/f0817a84e832a693e7a79a911efe0b081bd97e06"
+    },
+    {
+      "path": "docs",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0c0c5ed1eb07bd6daa7d6db5b1d0cd1d6dfd9408",
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/trees/0c0c5ed1eb07bd6daa7d6db5b1d0cd1d6dfd9408"
+    },
+    {
+      "path": "drizzle",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "3874f5b4292442ef2e3950665cf406a2d38c76be",
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/trees/3874f5b4292442ef2e3950665cf406a2d38c76be"
+    },
+    {
+      "path": "eslint.config.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "be4075bd5e14ae3e6420613f789c3fc8bbeda819",
+      "size": 1250,
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/blobs/be4075bd5e14ae3e6420613f789c3fc8bbeda819"
+    },
+    {
+      "path": "package-lock.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1bd1cf5b35a2f5d8722be532f3b17858224b565d",
+      "size": 276432,
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/blobs/1bd1cf5b35a2f5d8722be532f3b17858224b565d"
+    },
+    {
+      "path": "package.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cd6a662252efe71cbb180a16d6f89f3f0d5b6e33",
+      "size": 3192,
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/blobs/cd6a662252efe71cbb180a16d6f89f3f0d5b6e33"
+    },
+    {
+      "path": "plan",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "cc9e15f3a89f3ed2e452695e561dae5c4dbeda5d",
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/trees/cc9e15f3a89f3ed2e452695e561dae5c4dbeda5d"
+    },
+    {
+      "path": "public",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "703be539a947bc82f1ee13bf6ec338bbf708cb30",
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/trees/703be539a947bc82f1ee13bf6ec338bbf708cb30"
+    },
+    {
+      "path": "roadmap.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "23f6424267bce98ac7588999bd13907476437b12",
+      "size": 1779,
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/blobs/23f6424267bce98ac7588999bd13907476437b12"
+    },
+    {
+      "path": "scripts",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "6f5afb00351975a07f535cca144dd82e56f5589d",
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/trees/6f5afb00351975a07f535cca144dd82e56f5589d"
+    },
+    {
+      "path": "src",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "62caffd86f0e8d5189d2307c1131c92597e702de",
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/trees/62caffd86f0e8d5189d2307c1131c92597e702de"
+    },
+    {
+      "path": "supabase",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "53cb9804a78c0a60253324bb40bfeed6480baa1e",
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/trees/53cb9804a78c0a60253324bb40bfeed6480baa1e"
+    },
+    {
+      "path": "tsconfig.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a522d218dc57d4ca2577d8fc1f8ac864b7711ba7",
+      "size": 820,
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/blobs/a522d218dc57d4ca2577d8fc1f8ac864b7711ba7"
+    },
+    {
+      "path": "vite.config.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eaf4d323334eab9541056d015816f7173d809719",
+      "size": 926,
+      "url": "https://api.github.com/repos/AlexezavGit/isrm-insight-hub/git/blobs/eaf4d323334eab9541056d015816f7173d809719"
+    }
+  ],
+  "truncated": false
+}

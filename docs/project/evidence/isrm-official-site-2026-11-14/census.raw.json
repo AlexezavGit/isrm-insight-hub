@@ -1,0 +1,1383 @@
+{
+  "directoryUrl": "https://www.theisrm.org/international-chapters/",
+  "checkedAt": "2026-11-14T15:01:30.760148+00:00",
+  "scope": "Public directory links; not a census of all operational ISRM chapters. Published roles, not independently verified appointment or affiliation with private sample.",
+  "entries": [
+    {
+      "id": "international-chapters",
+      "label": "MENU",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/#elementor-action%3Aaction%3Dpopup%3Aopen%26settings%3DeyJpZCI6IjM1MDkiLCJ0b2dnbGUiOmZhbHNlfQ%3D%3D",
+      "checkedAt": "2026-11-14T15:01:16.973185+00:00",
+      "sha256": "10a5ce1177e46039d1d4e66022200edd7ed2859b714c5bb25276f0162adffb21",
+      "headings": [
+        {
+          "text": "ISRM",
+          "image": ""
+        },
+        {
+          "text": "INTERNATIONAL",
+          "image": ""
+        },
+        {
+          "text": "CHAPTERS",
+          "image": ""
+        }
+      ],
+      "people": [],
+      "status": "read"
+    },
+    {
+      "id": "anz-hub",
+      "label": "ANZ HUB",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/anz-hub/",
+      "checkedAt": "2026-11-14T15:01:17.072651+00:00",
+      "sha256": "786d011ef18ef5371f4fee410788b37e51e5da3d7eda51b5c8eec266d5a72961",
+      "headings": [
+        {
+          "text": "AUSTRALIA & NEW ZEALAND",
+          "image": ""
+        },
+        {
+          "text": "HUB",
+          "image": ""
+        },
+        {
+          "text": "Dr Gavriel Schneider",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Gavriel-Schneider.jpg"
+        },
+        {
+          "text": "ANZ/APAC Hub President",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Gavriel-Schneider.jpg"
+        },
+        {
+          "text": "Dave Cohen",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/02/dave-cohen.webp"
+        },
+        {
+          "text": "ANZ Hub President",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/02/dave-cohen.webp"
+        }
+      ],
+      "people": [
+        {
+          "name": "Dr Gavriel Schneider",
+          "role": "ANZ/APAC Hub President",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2025/03/Gavriel-Schneider.jpg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/anz-hub/",
+          "sourceHeading": "Dr Gavriel Schneider → ANZ/APAC Hub President"
+        },
+        {
+          "name": "Dave Cohen",
+          "role": "ANZ Hub President",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/02/dave-cohen.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/anz-hub/",
+          "sourceHeading": "Dave Cohen → ANZ Hub President"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "asean-hub",
+      "label": "ASEAN HUB",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/asean-hub/",
+      "checkedAt": "2026-11-14T15:01:17.199766+00:00",
+      "sha256": "41801e04e33371a0d8c7a5662ba200a2731f89c6eb7ebaf02eb2ba5f038eca54",
+      "headings": [
+        {
+          "text": "ASEAN",
+          "image": ""
+        },
+        {
+          "text": "HUB",
+          "image": ""
+        },
+        {
+          "text": "Jeffry Johary",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/02/jeffry-johary.webp"
+        },
+        {
+          "text": "ASEAN Hub President",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/02/jeffry-johary.webp"
+        },
+        {
+          "text": "Piers Dixon",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/03/piers-dixon.webp"
+        },
+        {
+          "text": "ASEAN Hub VIce-President",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/03/piers-dixon.webp"
+        },
+        {
+          "text": "Ian Betts",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Ian-Betts.jpg"
+        },
+        {
+          "text": "ASEAN Senior Advisor",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Ian-Betts.jpg"
+        },
+        {
+          "text": "John Herzog",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/03/john-herzog.webp"
+        },
+        {
+          "text": "Indonesia Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/03/john-herzog.webp"
+        },
+        {
+          "text": "Stephen Karl Jones",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/03/stephen-karl-jones.webp"
+        },
+        {
+          "text": "Thailand Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/03/stephen-karl-jones.webp"
+        },
+        {
+          "text": "Sergio Diasana",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Sergio-Diasana.jpg"
+        },
+        {
+          "text": "Philippines Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Sergio-Diasana.jpg"
+        }
+      ],
+      "people": [
+        {
+          "name": "Jeffry Johary",
+          "role": "ASEAN Hub President",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/02/jeffry-johary.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/asean-hub/",
+          "sourceHeading": "Jeffry Johary → ASEAN Hub President"
+        },
+        {
+          "name": "Piers Dixon",
+          "role": "ASEAN Hub VIce-President",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/03/piers-dixon.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/asean-hub/",
+          "sourceHeading": "Piers Dixon → ASEAN Hub VIce-President"
+        },
+        {
+          "name": "Ian Betts",
+          "role": "ASEAN Senior Advisor",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2025/03/Ian-Betts.jpg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/asean-hub/",
+          "sourceHeading": "Ian Betts → ASEAN Senior Advisor"
+        },
+        {
+          "name": "John Herzog",
+          "role": "Indonesia Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/03/john-herzog.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/asean-hub/",
+          "sourceHeading": "John Herzog → Indonesia Chapter Chair"
+        },
+        {
+          "name": "Stephen Karl Jones",
+          "role": "Thailand Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/03/stephen-karl-jones.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/asean-hub/",
+          "sourceHeading": "Stephen Karl Jones → Thailand Chapter Chair"
+        },
+        {
+          "name": "Sergio Diasana",
+          "role": "Philippines Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2025/03/Sergio-Diasana.jpg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/asean-hub/",
+          "sourceHeading": "Sergio Diasana → Philippines Chapter Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "north-america-hub",
+      "label": "North America HUB",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/north-america-hub/",
+      "checkedAt": "2026-11-14T15:01:17.010371+00:00",
+      "sha256": "099273f00befd7cab72f90a4df0b3ece9ae9e960e827dedbbfd695b82602b21f",
+      "headings": [
+        {
+          "text": "NORTH AMERICA",
+          "image": ""
+        },
+        {
+          "text": "HUB",
+          "image": ""
+        },
+        {
+          "text": "Matthew Porcelli",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Matthew-Porcelli.jpg"
+        },
+        {
+          "text": "North America Hub President",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Matthew-Porcelli.jpg"
+        },
+        {
+          "text": "Rob Currie",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Rob-Currie.jpg"
+        },
+        {
+          "text": "Canada Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Rob-Currie.jpg"
+        },
+        {
+          "text": "Edward Colson",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/02/edward-colson.webp"
+        },
+        {
+          "text": "West Coast Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/02/edward-colson.webp"
+        },
+        {
+          "text": "Don Zoufal",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Don-Zoufal.jpg"
+        },
+        {
+          "text": "Central US Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Don-Zoufal.jpg"
+        },
+        {
+          "text": "Danyetta Fleming",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/02/danyetta-fleming.webp"
+        },
+        {
+          "text": "Central US Chapter Co-Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/02/danyetta-fleming.webp"
+        }
+      ],
+      "people": [
+        {
+          "name": "Matthew Porcelli",
+          "role": "North America Hub President",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2025/03/Matthew-Porcelli.jpg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/north-america-hub/",
+          "sourceHeading": "Matthew Porcelli → North America Hub President"
+        },
+        {
+          "name": "Rob Currie",
+          "role": "Canada Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2025/03/Rob-Currie.jpg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/north-america-hub/",
+          "sourceHeading": "Rob Currie → Canada Chapter Chair"
+        },
+        {
+          "name": "Edward Colson",
+          "role": "West Coast Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/02/edward-colson.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/north-america-hub/",
+          "sourceHeading": "Edward Colson → West Coast Chapter Chair"
+        },
+        {
+          "name": "Don Zoufal",
+          "role": "Central US Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2025/03/Don-Zoufal.jpg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/north-america-hub/",
+          "sourceHeading": "Don Zoufal → Central US Chapter Chair"
+        },
+        {
+          "name": "Danyetta Fleming",
+          "role": "Central US Chapter Co-Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/02/danyetta-fleming.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/north-america-hub/",
+          "sourceHeading": "Danyetta Fleming → Central US Chapter Co-Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "uk-hub",
+      "label": "UK HUB",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/uk-hub/",
+      "checkedAt": "2026-11-14T15:01:18.948812+00:00",
+      "sha256": "a16ef83581daf065fff0e1f36dd05c8c7590a920967865ca348c41040d5b0341",
+      "headings": [
+        {
+          "text": "UK HUB",
+          "image": ""
+        },
+        {
+          "text": "Richard Brooks",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/12/richard-brooks.webp"
+        },
+        {
+          "text": "UK HUB President",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/12/richard-brooks.webp"
+        },
+        {
+          "text": "Abi Lawal",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/Abi-Lawal-rlrcwismxqzrw32fxim8rw2vxsewxbio7t7i1pp62o.jpg"
+        },
+        {
+          "text": "London Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/Abi-Lawal-rlrcwismxqzrw32fxim8rw2vxsewxbio7t7i1pp62o.jpg"
+        },
+        {
+          "text": "Charles Fryer-Stevens",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Charles-Fryer-Stevens.jpg"
+        },
+        {
+          "text": "Scotland Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Charles-Fryer-Stevens.jpg"
+        },
+        {
+          "text": "Toby Coates",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/Toby-63-rr4fi4wh1liplm7ng6po8c6jnhxekvzcht9y7nm8lc.jpg"
+        },
+        {
+          "text": "Midlands Lead",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/Toby-63-rr4fi4wh1liplm7ng6po8c6jnhxekvzcht9y7nm8lc.jpg"
+        }
+      ],
+      "people": [
+        {
+          "name": "Richard Brooks",
+          "role": "UK HUB President",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2025/12/richard-brooks.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/uk-hub/",
+          "sourceHeading": "Richard Brooks → UK HUB President"
+        },
+        {
+          "name": "Abi Lawal",
+          "role": "London Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/Abi-Lawal-rlrcwismxqzrw32fxim8rw2vxsewxbio7t7i1pp62o.jpg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/uk-hub/",
+          "sourceHeading": "Abi Lawal → London Chapter Chair"
+        },
+        {
+          "name": "Charles Fryer-Stevens",
+          "role": "Scotland Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2025/03/Charles-Fryer-Stevens.jpg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/uk-hub/",
+          "sourceHeading": "Charles Fryer-Stevens → Scotland Chapter Chair"
+        },
+        {
+          "name": "Toby Coates",
+          "role": "Midlands Lead",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/Toby-63-rr4fi4wh1liplm7ng6po8c6jnhxekvzcht9y7nm8lc.jpg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/uk-hub/",
+          "sourceHeading": "Toby Coates → Midlands Lead"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "benelux-chapter",
+      "label": "Benelux Chapter",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/benelux-chapter/",
+      "checkedAt": "2026-11-14T15:01:18.935441+00:00",
+      "sha256": "e1b4d0f1902ebbefa6eb51c03e8e41daab5ecfbfa48d107d03d2cb3720ec2464",
+      "headings": [
+        {
+          "text": "BENELUX",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "Eelco Dykstra",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/02/eelco-dykstra.webp"
+        },
+        {
+          "text": "Benelux Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/02/eelco-dykstra.webp"
+        }
+      ],
+      "people": [
+        {
+          "name": "Eelco Dykstra",
+          "role": "Benelux Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/02/eelco-dykstra.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/benelux-chapter/",
+          "sourceHeading": "Eelco Dykstra → Benelux Chapter Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "bolivia-chapter",
+      "label": "Bolivia Chapter",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/bolivia-chapter/",
+      "checkedAt": "2026-11-14T15:01:19.042981+00:00",
+      "sha256": "470b7e27110baf1045ba89e83cebae305cefc5078d44799c48afa81d57f00061",
+      "headings": [
+        {
+          "text": "BOLIVIA",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "Laurence Hewick",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Laurence-Hewick.jpg"
+        },
+        {
+          "text": "Bolivia Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Laurence-Hewick.jpg"
+        }
+      ],
+      "people": [
+        {
+          "name": "Laurence Hewick",
+          "role": "Bolivia Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2025/03/Laurence-Hewick.jpg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/bolivia-chapter/",
+          "sourceHeading": "Laurence Hewick → Bolivia Chapter Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "canada-chapter",
+      "label": "Canada Chapter",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/canada-chapter/",
+      "checkedAt": "2026-11-14T15:01:19.108199+00:00",
+      "sha256": "b3b32686ad0cae10b03e73f8ee906aa7c69533fd428ce12806f52a07ab31fa93",
+      "headings": [
+        {
+          "text": "CANADA",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "Rob Currie",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Rob-Currie.jpg"
+        },
+        {
+          "text": "Canada Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Rob-Currie.jpg"
+        }
+      ],
+      "people": [
+        {
+          "name": "Rob Currie",
+          "role": "Canada Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2025/03/Rob-Currie.jpg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/canada-chapter/",
+          "sourceHeading": "Rob Currie → Canada Chapter Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "caribbean-chapter",
+      "label": "Caribbean Chapter",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/caribbean-chapter/",
+      "checkedAt": "2026-11-14T15:01:21.203317+00:00",
+      "sha256": "6a12492da2ae7b60ec64a4c5d4d37189ed69138ce3873e38f29c8dec319c6074",
+      "headings": [
+        {
+          "text": "Caribbean",
+          "image": ""
+        },
+        {
+          "text": "Chapter",
+          "image": ""
+        },
+        {
+          "text": "Evan Inniss Springer",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/10/evan-inniss-springer.webp"
+        },
+        {
+          "text": "Caribbean Chapter",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/10/evan-inniss-springer.webp"
+        }
+      ],
+      "people": [],
+      "status": "read"
+    },
+    {
+      "id": "egypt-chapter",
+      "label": "Egypt Chapter",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/egypt-chapter/",
+      "checkedAt": "2026-11-14T15:01:20.796293+00:00",
+      "sha256": "0a014a6844e03f88490541f2e8f1c9e05032bd18a3e7900790db5ac753311100",
+      "headings": [
+        {
+          "text": "EGYPT",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "Ahmed Khalifa",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Ahmed-Khalifa.jpg"
+        },
+        {
+          "text": "Egypt Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Ahmed-Khalifa.jpg"
+        }
+      ],
+      "people": [
+        {
+          "name": "Ahmed Khalifa",
+          "role": "Egypt Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2025/03/Ahmed-Khalifa.jpg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/egypt-chapter/",
+          "sourceHeading": "Ahmed Khalifa → Egypt Chapter Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "germany-chapter",
+      "label": "Germany Chapter",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/germany-chapter/",
+      "checkedAt": "2026-11-14T15:01:20.973810+00:00",
+      "sha256": "9131d2198b49b1ce6746a06a6a2130c6b5ec29eddf2e282f25c9ea2fb8ca59c2",
+      "headings": [
+        {
+          "text": "GERMANY",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "Maxim Gutman",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Maxim-Gutman.jpg"
+        },
+        {
+          "text": "Germany Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Maxim-Gutman.jpg"
+        }
+      ],
+      "people": [
+        {
+          "name": "Maxim Gutman",
+          "role": "Germany Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2025/03/Maxim-Gutman.jpg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/germany-chapter/",
+          "sourceHeading": "Maxim Gutman → Germany Chapter Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "hungary-chapter",
+      "label": "Hungary Chapter",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/hungary-chapter/",
+      "checkedAt": "2026-11-14T15:01:21.520730+00:00",
+      "sha256": "b804b393bbeac56dab261650c38d6673116affe44917eacb8b0ce0ed2d4a8ab4",
+      "headings": [
+        {
+          "text": "HUNGARY",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "Martin Fisher",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/01/martin-fisher.webp"
+        },
+        {
+          "text": "Hungary Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/01/martin-fisher.webp"
+        }
+      ],
+      "people": [
+        {
+          "name": "Martin Fisher",
+          "role": "Hungary Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/01/martin-fisher.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/hungary-chapter/",
+          "sourceHeading": "Martin Fisher → Hungary Chapter Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "ireland-chapter",
+      "label": "Ireland Chapter",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/ireland-chapter/",
+      "checkedAt": "2026-11-14T15:01:22.811300+00:00",
+      "sha256": "e7d59d318941cca454db8f02b6891789ef1f251334578515844ba4084d340166",
+      "headings": [
+        {
+          "text": "IRELAND",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "Garry Bergin",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Garry-Bergin.jpg"
+        },
+        {
+          "text": "Ireland Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Garry-Bergin.jpg"
+        },
+        {
+          "text": "Paul Kellett",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/02/paul-kellett.webp"
+        },
+        {
+          "text": "Ireland Chapter Vice-Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/02/paul-kellett.webp"
+        }
+      ],
+      "people": [
+        {
+          "name": "Garry Bergin",
+          "role": "Ireland Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2025/03/Garry-Bergin.jpg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/ireland-chapter/",
+          "sourceHeading": "Garry Bergin → Ireland Chapter Chair"
+        },
+        {
+          "name": "Paul Kellett",
+          "role": "Ireland Chapter Vice-Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/02/paul-kellett.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/ireland-chapter/",
+          "sourceHeading": "Paul Kellett → Ireland Chapter Vice-Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "israel-chapter",
+      "label": "Israel Chapter",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/israel-chapter/",
+      "checkedAt": "2026-11-14T15:01:23.022189+00:00",
+      "sha256": "f0a3b58ada3f095c1e609b22a59564c85dcdb0ff9be698c4eedb49d3f91c4755",
+      "headings": [
+        {
+          "text": "ISRAEL",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "Ivor Terret",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/blank-1.jpg"
+        },
+        {
+          "text": "Israel Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/blank-1.jpg"
+        }
+      ],
+      "people": [
+        {
+          "name": "Ivor Terret",
+          "role": "Israel Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2025/03/blank-1.jpg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/israel-chapter/",
+          "sourceHeading": "Ivor Terret → Israel Chapter Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "jordan-chapter",
+      "label": "Jordan Chapter",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/jordan-chapter/",
+      "checkedAt": "2026-11-14T15:01:23.232802+00:00",
+      "sha256": "899d9218a22fada838c9a2f6f6623c2e8db0c5eada5bae9eed72ccc2910c9151",
+      "headings": [
+        {
+          "text": "JORDAN",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "Mirza Q. Hatoqay",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/11/mirza-q-hatoqay.webp"
+        },
+        {
+          "text": "Jordan Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/11/mirza-q-hatoqay.webp"
+        }
+      ],
+      "people": [
+        {
+          "name": "Mirza Q. Hatoqay",
+          "role": "Jordan Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/11/mirza-q-hatoqay.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/jordan-chapter/",
+          "sourceHeading": "Mirza Q. Hatoqay → Jordan Chapter Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "ksa-chapter",
+      "label": "KSA Chapter",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/ksa-chapter/",
+      "checkedAt": "2026-11-14T15:01:23.487967+00:00",
+      "sha256": "19c7942cbf1b60343e6d17add9ea115a32e8d8c28f3e3ee1faf0e104df093c9c",
+      "headings": [
+        {
+          "text": "KSA",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "Dr. Fayadh Alenezi",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/06/fayadh-alenezi.webp"
+        },
+        {
+          "text": "KSA Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/06/fayadh-alenezi.webp"
+        },
+        {
+          "text": "Abdulrahman Alhabashi",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/06/abdulrahman-alhabashi.webp"
+        },
+        {
+          "text": "KSA Chapter Vice-Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/06/abdulrahman-alhabashi.webp"
+        }
+      ],
+      "people": [
+        {
+          "name": "Dr. Fayadh Alenezi",
+          "role": "KSA Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/06/fayadh-alenezi.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/ksa-chapter/",
+          "sourceHeading": "Dr. Fayadh Alenezi → KSA Chapter Chair"
+        },
+        {
+          "name": "Abdulrahman Alhabashi",
+          "role": "KSA Chapter Vice-Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/06/abdulrahman-alhabashi.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/ksa-chapter/",
+          "sourceHeading": "Abdulrahman Alhabashi → KSA Chapter Vice-Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "mediterranean-chapter",
+      "label": "Mediterranean Chapter",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/mediterranean-chapter/",
+      "checkedAt": "2026-11-14T15:01:24.856711+00:00",
+      "sha256": "3264d1b2bd260a15a3eda76ec07b1c008b098aeef08a0b237ee0a03d508dba13",
+      "headings": [
+        {
+          "text": "MEDITERRANEAN",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "George Gkioulekas",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/George-Gkioulekas.jpg"
+        },
+        {
+          "text": "Mediterranean Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/George-Gkioulekas.jpg"
+        },
+        {
+          "text": "Christina Alexandropoulou",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/02/Alexandropoulou-e1719407622737.jpg"
+        },
+        {
+          "text": "Mediterranean Chapter Co-Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/02/Alexandropoulou-e1719407622737.jpg"
+        }
+      ],
+      "people": [
+        {
+          "name": "George Gkioulekas",
+          "role": "Mediterranean Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2025/03/George-Gkioulekas.jpg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/mediterranean-chapter/",
+          "sourceHeading": "George Gkioulekas → Mediterranean Chapter Chair"
+        },
+        {
+          "name": "Christina Alexandropoulou",
+          "role": "Mediterranean Chapter Co-Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/02/Alexandropoulou-e1719407622737.jpg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/mediterranean-chapter/",
+          "sourceHeading": "Christina Alexandropoulou → Mediterranean Chapter Co-Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "mexico-chapter",
+      "label": "Mexico Chapter",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/mexico-chapter/",
+      "checkedAt": "2026-11-14T15:01:24.868347+00:00",
+      "sha256": "6b3b077dd906cde31e3d88ac01307562b936d39be7560b41d1c6f114348bfa90",
+      "headings": [
+        {
+          "text": "MEXICO",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "Iliana Fernandez",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Iliana-Fernandez.jpg"
+        },
+        {
+          "text": "Mexico Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Iliana-Fernandez.jpg"
+        }
+      ],
+      "people": [
+        {
+          "name": "Iliana Fernandez",
+          "role": "Mexico Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2025/03/Iliana-Fernandez.jpg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/mexico-chapter/",
+          "sourceHeading": "Iliana Fernandez → Mexico Chapter Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "nordic-states-chapter",
+      "label": "Nordic States Chapter",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/nordic-states-chapter/",
+      "checkedAt": "2026-11-14T15:01:25.291755+00:00",
+      "sha256": "7cbc0d30f60170da76408081f0e542549a76939ed6c1b822f0665a61d586a9a8",
+      "headings": [
+        {
+          "text": "NORDIC STATES",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "David Llewellyn",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/David-Llewellyn.jpg"
+        },
+        {
+          "text": "Nordic States Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/David-Llewellyn.jpg"
+        }
+      ],
+      "people": [
+        {
+          "name": "David Llewellyn",
+          "role": "Nordic States Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2025/03/David-Llewellyn.jpg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/nordic-states-chapter/",
+          "sourceHeading": "David Llewellyn → Nordic States Chapter Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "palestine-chapter",
+      "label": "Palestine Chapter",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/palestine-chapter/",
+      "checkedAt": "2026-11-14T15:01:25.515898+00:00",
+      "sha256": "489250d2e6c8bab1419d5efa727122492103d215dc8ab4873ba601c191a52568",
+      "headings": [
+        {
+          "text": "PALESTINE",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "Tareq Ghosheh",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/06/Tareq-Ghosheh.webp"
+        },
+        {
+          "text": "Palestine Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/06/Tareq-Ghosheh.webp"
+        },
+        {
+          "text": "Ibrahim Abu Elbeh",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/06/Ibrahim-Abu-Elbeh.webp"
+        },
+        {
+          "text": "Palestine Chapter Vice-Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/06/Ibrahim-Abu-Elbeh.webp"
+        }
+      ],
+      "people": [
+        {
+          "name": "Tareq Ghosheh",
+          "role": "Palestine Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/06/Tareq-Ghosheh.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/palestine-chapter/",
+          "sourceHeading": "Tareq Ghosheh → Palestine Chapter Chair"
+        },
+        {
+          "name": "Ibrahim Abu Elbeh",
+          "role": "Palestine Chapter Vice-Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/06/Ibrahim-Abu-Elbeh.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/palestine-chapter/",
+          "sourceHeading": "Ibrahim Abu Elbeh → Palestine Chapter Vice-Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "south-africa-chapter",
+      "label": "South Africa Chapter",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/south-africa-chapter/",
+      "checkedAt": "2026-11-14T15:01:26.864293+00:00",
+      "sha256": "1f81f0530b1a51859e38e3b9a168c042348a85b644d13915348b9027d0a4073b",
+      "headings": [
+        {
+          "text": "SOUTH AFRICA",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "Greg Zuccarini",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/11/greg-zuccarini.webp"
+        },
+        {
+          "text": "South Africa Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/11/greg-zuccarini.webp"
+        }
+      ],
+      "people": [
+        {
+          "name": "Greg Zuccarini",
+          "role": "South Africa Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/11/greg-zuccarini.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/south-africa-chapter/",
+          "sourceHeading": "Greg Zuccarini → South Africa Chapter Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "sri-lanka-chapter",
+      "label": "Sri Lanka Chapter",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/sri-lanka-chapter/",
+      "checkedAt": "2026-11-14T15:01:26.819715+00:00",
+      "sha256": "dd30ecb167d0cda4b8b140b51923ed5e21c4e3ccef2c07997d990afe7051a6f1",
+      "headings": [
+        {
+          "text": "SRI LANKA",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "Amjad Saleem",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/06/amjad-saleem.webp"
+        },
+        {
+          "text": "Sri Lanka Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/06/amjad-saleem.webp"
+        }
+      ],
+      "people": [
+        {
+          "name": "Amjad Saleem",
+          "role": "Sri Lanka Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/06/amjad-saleem.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/sri-lanka-chapter/",
+          "sourceHeading": "Amjad Saleem → Sri Lanka Chapter Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "south-east-europe-chapter",
+      "label": "SE Europe Chapter",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/south-east-europe-chapter/",
+      "checkedAt": "2026-11-14T15:01:27.262106+00:00",
+      "sha256": "d6fbe681ce543410a06f21748c0ee26b957cec0b30ab67577c82fea5dc04db96",
+      "headings": [
+        {
+          "text": "SOUTH-EAST EUROPE",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "Dr Zoran Kekovic",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Zoran-Kekovic.jpg"
+        },
+        {
+          "text": "SE Europe Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/03/Zoran-Kekovic.jpg"
+        }
+      ],
+      "people": [
+        {
+          "name": "Dr Zoran Kekovic",
+          "role": "SE Europe Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2025/03/Zoran-Kekovic.jpg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/south-east-europe-chapter/",
+          "sourceHeading": "Dr Zoran Kekovic → SE Europe Chapter Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "uae-chapter",
+      "label": "UAE Chapter",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/uae-chapter/",
+      "checkedAt": "2026-11-14T15:01:27.426559+00:00",
+      "sha256": "d111bb7ba8ea3ab388b21f31c011fc1f11d81878c288fd9792cce65ffbca33eb",
+      "headings": [
+        {
+          "text": "UAE",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "Meredydd (Med) Hughes",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/02/meredydd-hughes-.webp"
+        },
+        {
+          "text": "Dubai Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/02/meredydd-hughes-.webp"
+        }
+      ],
+      "people": [
+        {
+          "name": "Meredydd (Med) Hughes",
+          "role": "Dubai Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/02/meredydd-hughes-.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/uae-chapter/",
+          "sourceHeading": "Meredydd (Med) Hughes → Dubai Chapter Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "ukraine-chapter",
+      "label": "Ukraine Chapter",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/ukraine-chapter/",
+      "checkedAt": "2026-11-14T15:01:28.752503+00:00",
+      "sha256": "ef9fc2f82795f9194f0834efd382efba8d41796f9ab596303e40ce7af0ec5f93",
+      "headings": [
+        {
+          "text": "UKRAINE",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "Ian Spence",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/06/ian-spence.webp"
+        },
+        {
+          "text": "Ukraine Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/06/ian-spence.webp"
+        },
+        {
+          "text": "Andrii Lukashenko",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/andrii-lukashenko-rpa3b5z95c9m9lniw16bmtm3tlm1bfb617xwpnk9hc.webp"
+        },
+        {
+          "text": "Ukraine Chapter Vice-Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/andrii-lukashenko-rpa3b5z95c9m9lniw16bmtm3tlm1bfb617xwpnk9hc.webp"
+        },
+        {
+          "text": "John Price",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/john-price-rozl4warptcxsz4znou9wu3dwilzckltwugccrkpa8.webp"
+        },
+        {
+          "text": "Ukraine Chapter Advisory",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/john-price-rozl4warptcxsz4znou9wu3dwilzckltwugccrkpa8.webp"
+        },
+        {
+          "text": "Andrii Buzarov",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/andrey-buzarov-roxy3sukg09hedyiq3sxq3h19sxqze4fqlj6lyh4ow.webp"
+        },
+        {
+          "text": "Ukraine Chapter Partnerships",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/andrey-buzarov-roxy3sukg09hedyiq3sxq3h19sxqze4fqlj6lyh4ow.webp"
+        },
+        {
+          "text": "Prof. Olena Goroshko",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/olena-goroshko-roxy436sj6nmy3ji1q9tziv3t1isc29hg0piw01ssg.webp"
+        },
+        {
+          "text": "Partnerships",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/olena-goroshko-roxy436sj6nmy3ji1q9tziv3t1isc29hg0piw01ssg.webp"
+        },
+        {
+          "text": "Prof. Dr. Rusudan Makhachashvili",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/rusudan-makhachashvili-roxy4l1q51c32otk5fzqswcv3d2reb8duh3r09bbi8.webp"
+        },
+        {
+          "text": "Academic Liaison",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/rusudan-makhachashvili-roxy4l1q51c32otk5fzqswcv3d2reb8duh3r09bbi8.webp"
+        },
+        {
+          "text": "Hanna Zavolodko",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/hanna-zavolodko-roxy4z5azjvdwu92v435cass0559lrscwew17eqeww.webp"
+        },
+        {
+          "text": "Academic Liaison",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/hanna-zavolodko-roxy4z5azjvdwu92v435cass0559lrscwew17eqeww.webp"
+        },
+        {
+          "text": "Kseniia Pidruchna",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/kseniia-kluban-rpa3jll4gtt8fnein6eti6zzp21ldnsguynqq123nk.webp"
+        },
+        {
+          "text": "Women in Strategic Risk",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/kseniia-kluban-rpa3jll4gtt8fnein6eti6zzp21ldnsguynqq123nk.webp"
+        },
+        {
+          "text": "Nataliia Hrabska",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/nataliia-hrabska-rq8rapduyeoirpw9m7ibriiyfjho0eixnw4z3h1wjk.webp"
+        },
+        {
+          "text": "Women in Strategic Risk & Young Professionals",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/nataliia-hrabska-rq8rapduyeoirpw9m7ibriiyfjho0eixnw4z3h1wjk.webp"
+        },
+        {
+          "text": "Peter Ott",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/peter-ott-roxy5krlcqozbvdocvfkfncdo06pit66ndw78rucxs.webp"
+        },
+        {
+          "text": "Young Professionals & Mentoring",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/peter-ott-roxy5krlcqozbvdocvfkfncdo06pit66ndw78rucxs.webp"
+        },
+        {
+          "text": "Maksym Chebotarov",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/maksym-chebotarov-rozndzthd8djhtc83qti1dd2zaw1ggk4e8qgy7bwg0.webp"
+        },
+        {
+          "text": "Young Professionals & Mentoring",
+          "image": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/maksym-chebotarov-rozndzthd8djhtc83qti1dd2zaw1ggk4e8qgy7bwg0.webp"
+        }
+      ],
+      "people": [
+        {
+          "name": "Ian Spence",
+          "role": "Ukraine Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/06/ian-spence.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/ukraine-chapter/",
+          "sourceHeading": "Ian Spence → Ukraine Chapter Chair"
+        },
+        {
+          "name": "Andrii Lukashenko",
+          "role": "Ukraine Chapter Vice-Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/andrii-lukashenko-rpa3b5z95c9m9lniw16bmtm3tlm1bfb617xwpnk9hc.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/ukraine-chapter/",
+          "sourceHeading": "Andrii Lukashenko → Ukraine Chapter Vice-Chair"
+        },
+        {
+          "name": "John Price",
+          "role": "Ukraine Chapter Advisory",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/john-price-rozl4warptcxsz4znou9wu3dwilzckltwugccrkpa8.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/ukraine-chapter/",
+          "sourceHeading": "John Price → Ukraine Chapter Advisory"
+        },
+        {
+          "name": "Andrii Buzarov",
+          "role": "Ukraine Chapter Partnerships",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/andrey-buzarov-roxy3sukg09hedyiq3sxq3h19sxqze4fqlj6lyh4ow.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/ukraine-chapter/",
+          "sourceHeading": "Andrii Buzarov → Ukraine Chapter Partnerships"
+        },
+        {
+          "name": "Prof. Olena Goroshko",
+          "role": "Partnerships",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/olena-goroshko-roxy436sj6nmy3ji1q9tziv3t1isc29hg0piw01ssg.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/ukraine-chapter/",
+          "sourceHeading": "Prof. Olena Goroshko → Partnerships"
+        },
+        {
+          "name": "Prof. Dr. Rusudan Makhachashvili",
+          "role": "Academic Liaison",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/rusudan-makhachashvili-roxy4l1q51c32otk5fzqswcv3d2reb8duh3r09bbi8.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/ukraine-chapter/",
+          "sourceHeading": "Prof. Dr. Rusudan Makhachashvili → Academic Liaison"
+        },
+        {
+          "name": "Hanna Zavolodko",
+          "role": "Academic Liaison",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/hanna-zavolodko-roxy4z5azjvdwu92v435cass0559lrscwew17eqeww.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/ukraine-chapter/",
+          "sourceHeading": "Hanna Zavolodko → Academic Liaison"
+        },
+        {
+          "name": "Kseniia Pidruchna",
+          "role": "Women in Strategic Risk",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/kseniia-kluban-rpa3jll4gtt8fnein6eti6zzp21ldnsguynqq123nk.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/ukraine-chapter/",
+          "sourceHeading": "Kseniia Pidruchna → Women in Strategic Risk"
+        },
+        {
+          "name": "Nataliia Hrabska",
+          "role": "Women in Strategic Risk & Young Professionals",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/nataliia-hrabska-rq8rapduyeoirpw9m7ibriiyfjho0eixnw4z3h1wjk.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/ukraine-chapter/",
+          "sourceHeading": "Nataliia Hrabska → Women in Strategic Risk & Young Professionals"
+        },
+        {
+          "name": "Peter Ott",
+          "role": "Young Professionals & Mentoring",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/peter-ott-roxy5krlcqozbvdocvfkfncdo06pit66ndw78rucxs.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/ukraine-chapter/",
+          "sourceHeading": "Peter Ott → Young Professionals & Mentoring"
+        },
+        {
+          "name": "Maksym Chebotarov",
+          "role": "Young Professionals & Mentoring",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/elementor/thumbs/maksym-chebotarov-rozndzthd8djhtc83qti1dd2zaw1ggk4e8qgy7bwg0.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/ukraine-chapter/",
+          "sourceHeading": "Maksym Chebotarov → Young Professionals & Mentoring"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "university-of-gloucestershire",
+      "label": "University of Gloucestershire",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/university-of-gloucestershire/",
+      "checkedAt": "2026-11-14T15:01:28.644738+00:00",
+      "sha256": "45170ff03352bfa414b5cbadca55f6c4249068da8e271b763ac5efe81540e014",
+      "headings": [
+        {
+          "text": "UNIVERSITY",
+          "image": ""
+        },
+        {
+          "text": "OF GLOUCESTERSHIRE",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "Nadine Sulkowski",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/04/1707823828398.jpeg"
+        },
+        {
+          "text": "Gloucestershire Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2025/04/1707823828398.jpeg"
+        }
+      ],
+      "people": [
+        {
+          "name": "Nadine Sulkowski",
+          "role": "Gloucestershire Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2025/04/1707823828398.jpeg",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/university-of-gloucestershire/",
+          "sourceHeading": "Nadine Sulkowski → Gloucestershire Chapter Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "women-in-strategic-risk",
+      "label": "Women in Strategic Risk",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/women-in-strategic-risk/",
+      "checkedAt": "2026-11-14T15:01:29.087070+00:00",
+      "sha256": "a7d2704766cd16fb60baf73a6d88f92108ee08bcde0235ddc6d38a6e0d4687b5",
+      "headings": [
+        {
+          "text": "WOMEN IN STRATEGIC RISK",
+          "image": ""
+        },
+        {
+          "text": "CHAPTER",
+          "image": ""
+        },
+        {
+          "text": "Veda Woods",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/06/veda-woods.webp"
+        },
+        {
+          "text": "Women in Strategic Risk Chapter Chair",
+          "image": "https://www.theisrm.org/wp-content/uploads/2026/06/veda-woods.webp"
+        }
+      ],
+      "people": [
+        {
+          "name": "Veda Woods",
+          "role": "Women in Strategic Risk Chapter Chair",
+          "portraitUrl": "https://www.theisrm.org/wp-content/uploads/2026/06/veda-woods.webp",
+          "sourceUrl": "https://www.theisrm.org/international-chapters/women-in-strategic-risk/",
+          "sourceHeading": "Veda Woods → Women in Strategic Risk Chapter Chair"
+        }
+      ],
+      "status": "read"
+    },
+    {
+      "id": "international-chapters",
+      "label": "{title}",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/#",
+      "checkedAt": "2026-11-14T15:01:29.625995+00:00",
+      "sha256": "10a5ce1177e46039d1d4e66022200edd7ed2859b714c5bb25276f0162adffb21",
+      "headings": [
+        {
+          "text": "ISRM",
+          "image": ""
+        },
+        {
+          "text": "INTERNATIONAL",
+          "image": ""
+        },
+        {
+          "text": "CHAPTERS",
+          "image": ""
+        }
+      ],
+      "people": [],
+      "status": "read"
+    },
+    {
+      "id": "international-chapters",
+      "label": "CloseMenu",
+      "sourceUrl": "https://www.theisrm.org/international-chapters/#elementor-action%3Aaction%3Dpopup%3Aclose%26settings%3DeyJkb19ub3Rfc2hvd19hZ2FpbiI6IiJ9",
+      "checkedAt": "2026-11-14T15:01:30.759713+00:00",
+      "sha256": "10a5ce1177e46039d1d4e66022200edd7ed2859b714c5bb25276f0162adffb21",
+      "headings": [
+        {
+          "text": "ISRM",
+          "image": ""
+        },
+        {
+          "text": "INTERNATIONAL",
+          "image": ""
+        },
+        {
+          "text": "CHAPTERS",
+          "image": ""
+        }
+      ],
+      "people": [],
+      "status": "read"
+    }
+  ]
+}

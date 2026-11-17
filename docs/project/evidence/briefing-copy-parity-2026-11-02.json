@@ -1,0 +1,7 @@
+{
+  "status": "done",
+  "source": "src/lib/briefing-slides.ts",
+  "document": "BRIEFING-REVISION.md",
+  "scope": "All EN and UK labels, titles, bodies, insights, principles and notes; not approval of the proposed copy",
+  "missing": []
+}

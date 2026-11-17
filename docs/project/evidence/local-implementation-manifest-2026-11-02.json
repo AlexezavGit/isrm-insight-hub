@@ -1,0 +1,118 @@
+{
+  "status": "done",
+  "base_commit": "56d43f22085d7c248b19b4d087fde444fecdb541",
+  "branch": "codex/isrm-prototype-panels",
+  "root": "/Users/alexzvo/Documents/ChatGPT/isrm/work/isrm-prototype-panels",
+  "scope": "Local prototype working cycle and briefing text candidate; no configurator migration, release or deployment",
+  "source_files": [
+    {
+      "file": "src/components/BriefingEvidenceFigures.tsx",
+      "sha256": "97b664cc1e0ed728e04cd40d73630171220c5e0071f30a2bae116c3c694a7bf1"
+    },
+    {
+      "file": "src/components/BriefingNextSteps.tsx",
+      "sha256": "53cf02abe5a6d75430913a0016c9e7d062182e8b27e72d8ecd3c8e8ed90947f7"
+    },
+    {
+      "file": "src/components/BriefingSlider.tsx",
+      "sha256": "122045d34ea3bfa1238ddfb2e260ef4946c6a5a6bed8a7f4142aa82390d2daf9"
+    },
+    {
+      "file": "src/components/ClientHeader.tsx",
+      "sha256": "f8a107f1f507f4ad8172ac5d101a0cc38ea0e639c4470773b9f4348ee4e310f7"
+    },
+    {
+      "file": "src/components/NetworkInspectionDock.tsx",
+      "sha256": "9f427fd490401a3bdd8d81447c0269da34dfcc5076305890d7a2335943b351a8"
+    },
+    {
+      "file": "src/components/NetworkProfile.tsx",
+      "sha256": "860ea4513e6e940d2855ab06660e04c8f7db3f0d54a41f5654565654382cdb2d"
+    },
+    {
+      "file": "src/components/NetworkPrototypeDock.tsx",
+      "sha256": "3df94128568fb57650ce21066ac6cbe01ef3c65978b6a645ed219d0882773b70"
+    },
+    {
+      "file": "src/components/NetworkShortlist.tsx",
+      "sha256": "f96070d393f7a271970175097d534c08790b1c1b5dd291a1cb918418992a3fe6"
+    },
+    {
+      "file": "src/components/NetworkWalkthrough.tsx",
+      "sha256": "52c98023d08a2ef8c97d37e1792b49c8b79f4a080b6a9528bf00b784bc12cfa9"
+    },
+    {
+      "file": "src/components/NetworkWorkbench.tsx",
+      "sha256": "a454515145bd17488c006b16d8d1099f08e4432a42658e5369cfda049cd091ea"
+    },
+    {
+      "file": "src/lib/briefing-slides.ts",
+      "sha256": "51e585ecd83080e9430a5a75a863440d58f370db4dd1c851c41b024bb1046f03"
+    },
+    {
+      "file": "src/lib/dossier-content.ts",
+      "sha256": "526ad07b2340fbf9f92a75eec47688c4c9a59aeb6ef2441399416d7f51ef7f61"
+    },
+    {
+      "file": "src/lib/experts.server.ts",
+      "sha256": "c2e5e238c28cf213ec7e00d9928aac591128a19d107ea134837bcb5caaff0156"
+    },
+    {
+      "file": "src/lib/network-panels.test.ts",
+      "sha256": "48c3254568f49e5a12045dc015bf115a752682a129b06034dd7f717e2f7ebe72"
+    },
+    {
+      "file": "src/lib/prototype-workspace.test.ts",
+      "sha256": "d1743da98f64d725fa7c904e2f3588114f87a8da9e48f19f91c907c798be0f98"
+    },
+    {
+      "file": "src/lib/prototype-workspace.ts",
+      "sha256": "8531dadc612b65710540f5429b3d216f7b9c9b7964a80da52180a2075c25dc66"
+    },
+    {
+      "file": "src/lib/types.ts",
+      "sha256": "34b763f753b7d9a8a6f7648d887927d092d30dc674064b4dc79d0b2968e3fc09"
+    },
+    {
+      "file": "src/styles.css",
+      "sha256": "da86053f19c9d204edd9635df5ae85f6830b7e86673b0038764176816e88ea14"
+    }
+  ],
+  "checks": {
+    "commands": [
+      {
+        "check": "changed-files-lint-final",
+        "exit_code": 0,
+        "log": "/Users/alexzvo/Documents/ChatGPT/isrm/work/isrm-deep-audit/changed-files-lint-final.log"
+      },
+      {
+        "check": "implementation-tests-final",
+        "exit_code": 0,
+        "log": "/Users/alexzvo/Documents/ChatGPT/isrm/work/isrm-deep-audit/implementation-tests-final.log"
+      },
+      {
+        "check": "implementation-tsc-final",
+        "exit_code": 2,
+        "log": "/Users/alexzvo/Documents/ChatGPT/isrm/work/isrm-deep-audit/implementation-tsc-final.log"
+      },
+      {
+        "check": "implementation-lint-final",
+        "exit_code": 1,
+        "log": "/Users/alexzvo/Documents/ChatGPT/isrm/work/isrm-deep-audit/implementation-lint-final.log"
+      },
+      {
+        "check": "implementation-build-final",
+        "exit_code": 0,
+        "log": "/Users/alexzvo/Documents/ChatGPT/isrm/work/isrm-deep-audit/implementation-build-final.log"
+      },
+      {
+        "check": "implementation-diff-check",
+        "exit_code": 0,
+        "log": "/Users/alexzvo/Documents/ChatGPT/isrm/work/isrm-deep-audit/implementation-diff-check.log"
+      }
+    ],
+    "new_typescript_diagnostics": []
+  },
+  "dependency_recovery": "npm ci from unchanged lockfile; project-local cache; dangling original symlink archived",
+  "registry_changed": false
+}

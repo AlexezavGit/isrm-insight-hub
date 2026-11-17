@@ -1,0 +1,22 @@
+{
+  "docs/project/REGISTRY.csv": {
+    "before_sha256": "f8400faa9041dedcdf0725726390fec1f6087b800f1ad8acca3a6173814346c3",
+    "after_sha256": "ebba770522594cfbdd3558e04a3059cd0a37be13990e2ea068697edddb32fe1f",
+    "archive": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/project/archive/REGISTRY.csv.before-qa-clarify-scope-2026-10-31"
+  },
+  "docs/project/ENTRY.md": {
+    "before_sha256": "32164f2f27c8a63f3f64b81cbe68fd51cb99c1f8cf769542fb0fba5ffbeaffb1",
+    "after_sha256": "499669b520a495565f0f805cd377ec1397e8be6b98e940ca3687289172207faf",
+    "archive": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/project/archive/ENTRY.md.before-live-marker-and-qa-2026-10-31"
+  },
+  "PROJECT_OVERLAY_ISRM.md": {
+    "before_sha256": "970209fa54acfc92d855d11d1b43e329fd7d38ad13e15b984ef0af5243328820",
+    "after_sha256": "b89782baeb1e63317f541e6fd517c59d72bd2d0a20e5d1841e0f7b6af9a1d363",
+    "archive": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/project/archive/PROJECT_OVERLAY_ISRM.md.before-qa-clarify-scope-2026-10-31"
+  },
+  "docs/README.md": {
+    "before_sha256": "24f4c528919ee4244097113ba9448c9a4bba1ca0453b862e4be17bf9258d592c",
+    "after_sha256": "14eaedf364c2dc28b11316ddbb0b5aaa2a39de84ec3d52a44cdc07d5117e2c92",
+    "archive": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/project/archive/README.md.before-project-entry-pointer-2026-10-31"
+  }
+}

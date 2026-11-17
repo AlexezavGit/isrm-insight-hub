@@ -1,0 +1,70 @@
+{
+  "documents": [
+    {
+      "id": "isrm-audit-2026-11-01",
+      "title": "Контрольна точка: брифінг і прототип",
+      "path": "2026-11-01-briefing-prototype-audit.md",
+      "status": "done",
+      "sha256": "370c1cc8a5812d6d669b45467b2db0976938a9ec9ad79aa3d3ad4ede1d5d5463"
+    },
+    {
+      "id": "isrm-prototype-refinement-2026-11-01",
+      "title": "Уточнення: переліки, панелі, відзнаки й терміни",
+      "path": "2026-11-01-prototype-refinement.md",
+      "status": "done",
+      "sha256": "34215413b99a5d26fcbb0e936b385f4700846b11530664e0dce6597fc04c2ecf"
+    },
+    {
+      "id": "isrm-approved-audit-work-order-2026-11-01",
+      "title": "Погодження прототипу та порядок реалізації",
+      "path": "2026-11-01-approved-audit-work-order.md",
+      "status": "done",
+      "sha256": "b429fb79a02a3923631c2a628540773379f01e870b4c5039055eeeb30f8ae897"
+    },
+    {
+      "id": "isrm-local-prototype-briefing-2026-11-02",
+      "title": "Локальний прототип і конкретна редакція брифінгу",
+      "path": "2026-11-02-local-prototype-and-briefing.md",
+      "status": "done",
+      "sha256": "bbf1e072f5bb048e6d289f873f9cf4ff190b72ca54f2cf42b9f2c86054bb16c5"
+    },
+    {
+      "id": "isrm-app-first-navigation-2026-11-03",
+      "title": "Застосунок як основний продукт: навігація та модель функцій",
+      "path": "2026-11-03-app-first-and-navigation.md",
+      "status": "done",
+      "sha256": "316b949057f26076e987212b891eb129614292b989e4cd5867b57eb0d7add71d"
+    },
+    {
+      "id": "isrm-workspace-ux-filter-2026-11-03",
+      "title": "Робочий простір, огляд експертизи й професійний UX-фільтр",
+      "path": "2026-11-03-workspace-and-ux-filter.md",
+      "status": "done",
+      "sha256": "c994ad5f1ba21f5338b66a5ce146466b11222347e0eeaf85eabe2a562d3b2738"
+    },
+    {
+      "id": "isrm-ux-ideation-2026-11-03",
+      "title": "UX/UI-корекції, словник і візуальні варіанти",
+      "path": "2026-11-03-ux-ideation.md",
+      "status": "done",
+      "sha256": "589201dd1ef9c8d00baf1ae4aa291dd1ab795212b64473f3d747165ee1872562"
+    },
+    {
+      "id": "isrm-combined-dossier-2026-11-03",
+      "title": "Зведений макет міні-досьє, зв’язків і рейлу",
+      "path": "2026-11-03-combined-dossier.md",
+      "status": "done",
+      "sha256": "58365e2819291fdfa02acc51f58c842d73f1d0c96a3ca991a83371636b151d48"
+    },
+    {
+      "id": "isrm-dashboard-material-2026-11-03",
+      "title": "Дашборд, світіння та внутрішній конфігуратор",
+      "path": "2026-11-03-dashboard-material.md",
+      "status": "done",
+      "sha256": "78fef63d3807fb610a2233c17c7e7162fe80582861ecc176810370f56aea5233"
+    }
+  ],
+  "overall_task": "in_progress",
+  "next_gate": "Review the updated dashboard/material visual target; implementation must preserve the dashboard and existing lit material language, retain every prior annotation, and keep configurator inside app. UI code not yet revised.",
+  "handoff_location": "Project-local work/isrm-deep-audit/deliverable; external Documents/Codex duplicate copy was declined and not executed."
+}

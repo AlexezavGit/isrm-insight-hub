@@ -1,0 +1,20 @@
+{
+  "status": "done",
+  "source_manifest": "local-implementation-manifest-2026-11-02.json",
+  "preview": "http://127.0.0.1:8771/?view=map",
+  "verified": [
+    "Fresh load after npm ci",
+    "Search criteria and results",
+    "Open accessible dossier",
+    "Full and mini transitions",
+    "Immediate shortlist focus with adjacent mini dossier",
+    "Briefing English and Ukrainian language switches",
+    "English entry restored"
+  ],
+  "handoff_screenshot": "../reviews/deep-audit-2026-10-31/implementation-screens/13-local-handoff-2026-11-02.jpg",
+  "full_previous_walkthrough": "LOCAL-IMPLEMENTATION.md",
+  "limits": [
+    "Previous narrow, resizing, restricted-record and return-from-configuration checks belong to the same implementation pass before dependency refresh",
+    "No backend workflow or external communication executed"
+  ]
+}

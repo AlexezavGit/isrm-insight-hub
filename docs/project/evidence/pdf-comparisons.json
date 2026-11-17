@@ -1,0 +1,24 @@
+[
+  {
+    "name": "partner pack",
+    "a": "/Users/alexzvo/Documents/ChatGPT/isrm/outputs/isrm-partner-pack-20261031/ISRM_Partner_Discussion_Pack_EN.pdf",
+    "b": "/Users/alexzvo/.copilot/repos/isrm-insight-hub/docs/Чек ап/ISRM_Partner_Discussion_Pack_EN.pdf",
+    "bytes_equal": false,
+    "sha256_a": "5390672ff1701209ed6ef81a92d61700acfad91bb6e4d2f735c730885c6f2f59",
+    "sha256_b": "4e9a6ec8e2e3616dfc11b8824d77a534648b9ed9e60d11cbf1e76aae2cda5ae9",
+    "extracted_text_equal": true,
+    "text_sha256_a": "7e0216333cac7e7fb0a57b98a06103c26ca00344789651e6dfb661683aa834a7",
+    "text_sha256_b": "7e0216333cac7e7fb0a57b98a06103c26ca00344789651e6dfb661683aa834a7"
+  },
+  {
+    "name": "developer brief",
+    "a": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/developer-review/ISRM_Developer_Brief_EN.pdf",
+    "b": "/Users/alexzvo/.copilot/repos/isrm-insight-hub/docs/Чек ап/ISRM_Developer_Brief_EN.pdf",
+    "bytes_equal": false,
+    "sha256_a": "528587cd33b278542187267b18b20fac50be0257d07b42a3f8ef6a4558158569",
+    "sha256_b": "72c23f8ce57b7f2d9c17aee3b3e1e7916a30f3c51092f017ed0524b0676ecbba",
+    "extracted_text_equal": false,
+    "text_sha256_a": "4f576bc751bd4f7600965dfc433ac6429e4431a7b8b70118b8d4d49f82c078e5",
+    "text_sha256_b": "a7b7e42e752e65a2fe82e7f55226034dac04b276a2c1a31d721eb1e2a7d0a374"
+  }
+]

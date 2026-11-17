@@ -2,6 +2,12 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   expansionProgress,
+  networkLifecycleFrame,
+  NETWORK_ASSEMBLY_DURATION,
+  NETWORK_LIFECYCLE_DURATION,
+  NETWORK_ORIGIN_PAUSE,
+  NETWORK_SCATTER_DURATION,
+  NETWORK_SCATTER_PAUSE,
   briefingApproach,
   directNeighbours,
   concentratorGroups,
@@ -29,7 +35,39 @@ test("every slide retains recorded categories when community roles have not been
   assert.equal(briefingGroups([], 0).length, 0);
 });
 
-test("the live reveal starts at one point, unfolds over seconds and settles exactly", () => {
+test("the network reveals from one point, pauses dispersed, then assembles into its ordered layout", () => {
+  assert.deepEqual(networkLifecycleFrame(0), { stage: "origin", progress: 0 });
+  assert.deepEqual(networkLifecycleFrame(NETWORK_ORIGIN_PAUSE), {
+    stage: "scatter",
+    progress: 0,
+  });
+  assert.deepEqual(networkLifecycleFrame(NETWORK_ORIGIN_PAUSE + NETWORK_SCATTER_DURATION), {
+    stage: "pause",
+    progress: 1,
+  });
+  assert.deepEqual(
+    networkLifecycleFrame(NETWORK_ORIGIN_PAUSE + NETWORK_SCATTER_DURATION + NETWORK_SCATTER_PAUSE),
+    {
+      stage: "assemble",
+      progress: 0,
+    },
+  );
+  assert.deepEqual(
+    networkLifecycleFrame(
+      NETWORK_ORIGIN_PAUSE +
+        NETWORK_SCATTER_DURATION +
+        NETWORK_SCATTER_PAUSE +
+        NETWORK_ASSEMBLY_DURATION / 2,
+    ),
+    { stage: "assemble", progress: 0.5 },
+  );
+  assert.deepEqual(networkLifecycleFrame(NETWORK_LIFECYCLE_DURATION), {
+    stage: "complete",
+    progress: 1,
+  });
+  assert.deepEqual(networkLifecycleFrame(-1), { stage: "origin", progress: 0 });
+});
+test("the briefing backdrop reveal settles exactly after its overshoot", () => {
   assert.equal(expansionProgress(0, 0), 0);
   assert.equal(expansionProgress(150, 200), 0);
   assert(expansionProgress(800, 0) > 0);

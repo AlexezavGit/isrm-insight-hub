@@ -21,11 +21,11 @@ export interface Expert {
   potentialRole: string;
   caseTheme?: string | undefined;
   internationalRelevance?: string | undefined;
+  dossierAvailability?: "available" | "restricted" | "not-prepared";
+  organizationAvailability?: "available" | "restricted" | "unrecorded";
   // revealed only
   organization?: string | undefined;
   role?: string | undefined;
-  phone?: string | undefined;
-  linkedin?: string | undefined;
   source?: string | undefined;
   sensitivity?: string | undefined;
 }

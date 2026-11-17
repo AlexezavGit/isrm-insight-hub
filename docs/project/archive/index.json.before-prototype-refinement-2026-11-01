@@ -1,0 +1,13 @@
+{
+  "documents": [
+    {
+      "id": "isrm-audit-2026-11-01",
+      "title": "Контрольна точка: брифінг і прототип",
+      "path": "2026-11-01-briefing-prototype-audit.md",
+      "status": "done",
+      "sha256": "370c1cc8a5812d6d669b45467b2db0976938a9ec9ad79aa3d3ad4ede1d5d5463"
+    }
+  ],
+  "overall_task": "in_progress",
+  "next_gate": "FLOW-3 prototype acceptance"
+}

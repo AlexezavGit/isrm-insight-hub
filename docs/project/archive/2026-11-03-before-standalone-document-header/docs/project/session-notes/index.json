@@ -1,0 +1,41 @@
+{
+  "documents": [
+    {
+      "id": "isrm-audit-2026-11-01",
+      "title": "Контрольна точка: брифінг і прототип",
+      "path": "2026-11-01-briefing-prototype-audit.md",
+      "status": "done",
+      "sha256": "370c1cc8a5812d6d669b45467b2db0976938a9ec9ad79aa3d3ad4ede1d5d5463"
+    },
+    {
+      "id": "isrm-prototype-refinement-2026-11-01",
+      "title": "Уточнення: переліки, панелі, відзнаки й терміни",
+      "path": "2026-11-01-prototype-refinement.md",
+      "status": "done",
+      "sha256": "34215413b99a5d26fcbb0e936b385f4700846b11530664e0dce6597fc04c2ecf"
+    },
+    {
+      "id": "isrm-approved-audit-work-order-2026-11-01",
+      "title": "Погодження прототипу та порядок реалізації",
+      "path": "2026-11-01-approved-audit-work-order.md",
+      "status": "done",
+      "sha256": "b429fb79a02a3923631c2a628540773379f01e870b4c5039055eeeb30f8ae897"
+    },
+    {
+      "id": "isrm-local-prototype-briefing-2026-11-02",
+      "title": "Локальний прототип і конкретна редакція брифінгу",
+      "path": "2026-11-02-local-prototype-and-briefing.md",
+      "status": "done",
+      "sha256": "bbf1e072f5bb048e6d289f873f9cf4ff190b72ca54f2cf42b9f2c86054bb16c5"
+    },
+    {
+      "id": "isrm-app-first-navigation-2026-11-03",
+      "title": "Застосунок як основний продукт: навігація та модель функцій",
+      "path": "2026-11-03-app-first-and-navigation.md",
+      "status": "done",
+      "sha256": "bf0c7f2a125e02bb575503d9197befed78fd897ec5a0b546c7079f25d646a122"
+    }
+  ],
+  "overall_task": "in_progress",
+  "next_gate": "Review the app-first entry and functions/workflow model. Local chrome finished; onboarding/shared overview/saved semantic maps and full configurator/scope audit remain open."
+}

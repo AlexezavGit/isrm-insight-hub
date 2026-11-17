@@ -1,0 +1,757 @@
+ANZ HUB – ISRM (https://www.theisrm.org/international-chapters/anz-hub/)
+citeturn70view0 [wordlim: 200] Crawled: last month; Content type: text/html; Source: find({"ref_id":"https://www.theisrm.org/international-chapters/anz-hub/","pattern":"Dr Gavriel Schneider"}); Total lines: 187
+L31: ### 【8†Radical Uncertainty: Navigating the New Risk Landscape of 2026 and Beyond】
+L32: 
+L33: 03/02/2026
+L34: 
+L35: Load More
+L36: 
+L37: 【9†Image】
+L38: 
+L39: ## Dr Gavriel Schneider
+L40: 
+L41: ## ANZ/APAC Hub President
+L42: 
+L43:   * gav.schneider@isrm.org.au
+L44: 
+L45: 【10†Image】
+L46: 
+L47: ## Dave Cohen
+L48: 
+L49: ## ANZ Hub President
+L50: 
+L51:   * dave.cohen@theisrm.org
+L52: 
+L53:   * 【11†ISRM ANZ Chapter†www.linkedin.com】
+L54:   * 【12†isrm.org.au†isrm.org.au】
+--------------------------------------------------------------------------------
+ASEAN HUB – ISRM (https://www.theisrm.org/international-chapters/asean-hub/)
+citeturn70view1 [wordlim: 200] Crawled: 5 days ago; Content type: text/html; Source: find({"ref_id":"https://www.theisrm.org/international-chapters/asean-hub/","pattern":"Jeffry Johary"}); Total lines: 227
+L31: ### 【8†Navigating Indonesia’s Evolving Risk Environment: Terrorism, Crime and Strategic Resilience】
+L32: 
+L33: 21/07/2026
+L34: 
+L35: ### 【9†Level 5 Award in Corporate Risk and Crisis Management – ASEAN】
+L36: 
+L37: 22/06/2026
+L38: 
+L39: ### 【10†Risk no longer sits in separate boxes: reflections from the ISRM Indonesia Conference】
+L40: 
+L41: 15/06/2026
+L42: 
+L43: ### 【11†ISRM Indonesia Conference 2026】
+L44: 
+L45: 08/06/2026
+L46: 
+L47: Load More
+L48: 
+L49: 【12†Image】
+L50: 
+L51: ## Jeffry Johary
+L52: 
+L53: ## ASEAN Hub President
+L54: 
+L55:   * jeffry.johary@ocs.com
+L56: 
+L57: 【13†Image】
+L58: 
+L59: ## Piers Dixon
+--------------------------------------------------------------------------------
+North America HUB – ISRM (https://www.theisrm.org/international-chapters/north-america-hub/)
+citeturn70view2 [wordlim: 200] Crawled: 3 weeks ago; Content type: text/html; Source: find({"ref_id":"https://www.theisrm.org/international-chapters/north-america-hub/","pattern":"Matthew Porcelli"}); Total lines: 221
+L52: ## North America Hub President
+L53: 
+L54:   * matthew.porcelli (matthew.porcelli@theisrm.org)
+L55: 
+L56: 【13†Image】
+L57: 
+L58: ## Rob Currie
+L59: 
+L60: ## Canada Chapter Chair
+L61: 
+L62:   * rob@rcas.ca ( rob@rcas.ca)
+L63: 
+L64: 【14†Image】
+L65: 
+L66: ## Edward Colson
+L67: 
+L68: ## West Coast Chapter Chair
+L69: 
+L70:   * edward.colson@theisrm.org
+L71: 
+L72: 【15†Image】
+L73: 
+L74: ## Don Zoufal
+L75: 
+L76: ## Central US Chapter Chair
+L77: 
+L78:   * dzoufal@gmail.com
+L79: 
+L80: 【16†Image】
+L81: 
+L82: ## Danyetta Fleming
+L83: 
+L84: ## Central US Chapter Co-Chair
+L85: 
+L86:   * fleming_danyetta (fleming_danyetta@covenantsec.com)
+L87: 
+L88:   * 【17†ISRM - North America†www.linkedin.com】
+--------------------------------------------------------------------------------
+UK HUB – ISRM (https://www.theisrm.org/international-chapters/uk-hub/)
+citeturn70view3 [wordlim: 200] Crawled: today; Content type: text/html; Source: find({"ref_id":"https://www.theisrm.org/international-chapters/uk-hub/","pattern":"Richard Brooks"}); Total lines: 223
+L48: ### 【13†Intelligence, Influence & Resilience – Exclusive Breakfast Briefing | July 2026】
+L49: 
+L50: 24/06/2026
+L51: 
+L52: ### 【14†Leadership, Resilience and Strategic Risk: Highlights from the ISRM London Chapter Meet & Greet】
+L53: 
+L54: 17/06/2026
+L55: 
+L56: Load More
+L57: 
+L58:   * 【15†ISRM UK HUB†www.linkedin.com】
+L59: 
+L60: 【16†Image】
+L61: 
+L62: ## Richard Brooks
+L63: 
+L64: ## UK HUB President
+L65: 
+L66:   * richard.brooks@theisrm.org
+L67: 
+L68: 【17†Image: Abi Lawal】
+L69: 
+L70: ## Abi Lawal
+L71: 
+L72: ## London Chapter Chair
+L73: 
+L74:   * abi.lawal@theisrm.org
+L75: 
+L76: 【18†Image】
+L77: 
+L78: ## Charles Fryer-Stevens
+--------------------------------------------------------------------------------
+Internal Error ()
+citeturn70view4 [wordlim: 200] Source: find({"ref_id":"https://www.theisrm.org/international-chapters/benelux-chapter/","pattern":"Eelco Dykstra"}); 
+Failed to fetch https://www.theisrm.org/international-chapters/benelux-chapter/: TimeoutError--------------------------------------------------------------------------------
+Internal Error ()
+citeturn70view5 [wordlim: 200] Source: find({"ref_id":"https://www.theisrm.org/international-chapters/bolivia-chapter/","pattern":"Laurence Hewick"}); 
+Failed to fetch https://www.theisrm.org/international-chapters/bolivia-chapter/: (429) Too Many Requests--------------------------------------------------------------------------------
+Canada Chapter – ISRM (https://www.theisrm.org/international-chapters/canada-chapter/)
+citeturn70view6 [wordlim: 200] Crawled: last month; Content type: text/html; Source: find({"ref_id":"https://www.theisrm.org/international-chapters/canada-chapter/","pattern":"Rob Currie"}); Total lines: 190
+L31: ### 【8†Managing data centres’ power demand risk: Could SMRs power Canada’s sovereign cloud’s data centres?】
+L32: 
+L33: 16/04/2026
+L34: 
+L35: ### 【9†Risks And Opportunities Associated With Competing Options For Achieving A Sovereign Cloud Infrastructure】
+L36: 
+L37: 23/03/2026
+L38: 
+L39: ### 【10†Hope Is Not A Security Strategy】
+L40: 
+L41: 23/03/2026
+L42: 
+L43: ### 【11†ISRM Voices Episode 7: Making “Boring” Fun: Risk, Resilience and Facilitation with Teresa Riccio-Goodwin】
+L44: 
+L45: 02/03/2026
+L46: 
+L47: Load More
+L48: 
+L49: 【12†Image】
+L50: 
+L51: ## Rob Currie
+--------------------------------------------------------------------------------
+Caribbean Chapter – ISRM (https://www.theisrm.org/international-chapters/caribbean-chapter/)
+citeturn70view7 [wordlim: 200] Crawled: today; Content type: text/html; Source: find({"ref_id":"https://www.theisrm.org/international-chapters/caribbean-chapter/","pattern":"Evan Inniss Springer"}); Total lines: 156
+L0: 【0†iframe†www.googletagmanager.com】
+L1: 
+L2: 【1†MENU】
+L3: 
+L4: 【1†MENU】
+L5: 
+L6: 【2†LOGIN】
+L7: 
+L8: ## Caribbean
+L9: 
+L10: ## Chapter
+L11: 
+L12: ### 【3†DRRC Conversations: Bridging Strategic Risk and Disaster Resilience】
+L13: 
+L14: 23/10/2026
+L15: 
+L16: 【4†Image】
+L17: 
+L18: ## Evan Inniss Springer
+L19: 
+L20: ## Caribbean Chapter
+L21: 
+L22:   * evan.springer@theisrm.org
+L23: 
+L24: ## Get Updates And Stay Connected
+L25: 
+L26: [Input] [Input] [Input] [Input]
+L27: 
+L28: Email [Input: Email]
+L29: 
+L30: SUBSCRIBE
+L31: 
+L32:   * 【5†The ISRM†www.linkedin.com】
+L33:   * 【6†The ISRM†www.youtube.com】
+L34:   * admin@theisrm.org
+--------------------------------------------------------------------------------
+Egypt Chapter – ISRM (https://www.theisrm.org/international-chapters/egypt-chapter/)
+citeturn70view8 [wordlim: 200] Crawled: last month; Content type: text/html; Source: find({"ref_id":"https://www.theisrm.org/international-chapters/egypt-chapter/","pattern":"Ahmed Khalifa"}); Total lines: 158
+L0: 【0†iframe†www.googletagmanager.com】
+L1: 
+L2: 【1†MENU】
+L3: 
+L4: 【1†MENU】
+L5: 
+L6: 【2†LOGIN】
+L7: 
+L8: ## EGYPT
+L9: 
+L10: ## CHAPTER
+L11: 
+L12: ### 【3†ISRM Egypt Chapter Inaugural Webinar】
+L13: 
+L14: 09/06/2023
+L15: 
+L16: 【4†Image】
+L17: 
+L18: ## Ahmed Khalifa
+L19: 
+L20: ## Egypt Chapter Chair
+L21: 
+L22:   * ahmed.khalifa@theisrm.org
+L23: 
+L24:   * 【5†ISRM Egypt Chapter†www.linkedin.com】
+L25: 
+L26: ## Get Updates And Stay Connected
+L27: 
+L28: [Input] [Input] [Input] [Input]
+L29: 
+L30: Email [Input: Email]
+L31: 
+L32: SUBSCRIBE
+L33: 
+L34:   * 【6†The ISRM†www.linkedin.com】
+L35:   * 【7†The ISRM†www.youtube.com】
+L36:   * admin@theisrm.org
+--------------------------------------------------------------------------------
+Germany Chapter – ISRM (https://www.theisrm.org/international-chapters/germany-chapter/)
+citeturn70view9 [wordlim: 200] Crawled: last month; Content type: text/html; Source: find({"ref_id":"https://www.theisrm.org/international-chapters/germany-chapter/","pattern":"Maxim Gutman"}); Total lines: 152
+L0: 【0†iframe†www.googletagmanager.com】
+L1: 
+L2: 【1†MENU】
+L3: 
+L4: 【1†MENU】
+L5: 
+L6: 【2†LOGIN】
+L7: 
+L8: ## GERMANY
+L9: 
+L10: ## CHAPTER
+L11: 
+L12: 【3†Image】
+L13: 
+L14: ## Maxim Gutman
+L15: 
+L16: ## Germany Chapter Chair
+L17: 
+L18:   * maxim.gutman@theisrm.org
+L19: 
+L20: ## Get Updates And Stay Connected
+L21: 
+L22: [Input] [Input] [Input] [Input]
+L23: 
+L24: Email [Input: Email]
+L25: 
+L26: SUBSCRIBE
+L27: 
+L28:   * 【4†The ISRM†www.linkedin.com】
+L29:   * 【5†The ISRM†www.youtube.com】
+L30:   * admin@theisrm.org
+--------------------------------------------------------------------------------
+Hungary Chapter – ISRM (https://www.theisrm.org/international-chapters/hungary-chapter/)
+citeturn70view10 [wordlim: 200] Crawled: 2 months ago; Content type: text/html; Source: find({"ref_id":"https://www.theisrm.org/international-chapters/hungary-chapter/","pattern":"Martin Fisher"}); Total lines: 159
+L0: 【0†iframe†www.googletagmanager.com】
+L1: 
+L2: 【1†MENU】
+L3: 
+L4: 【1†MENU】
+L5: 
+L6: 【2†LOGIN】
+L7: 
+L8: ## HUNGARY
+L9: 
+L10: ## CHAPTER
+L11: 
+L12: ### 【3†The Incident Command System by Dylan Nash】
+L13: 
+L14: 27/07/2026
+L15: 
+L16: ### 【4†Martin Fisher appointed as Hungary Chapter Chair】
+L17: 
+L18: 16/01/2026
+L19: 
+L20: 【5†Image】
+L21: 
+L22: ## Martin Fisher
+L23: 
+L24: ## Hungary Chapter Chair
+L25: 
+L26:   * martinjohnfisher.ifrc (martinjohnfisher.ifrc@gmail.com)
+--------------------------------------------------------------------------------
+Ireland Chapter – ISRM (https://www.theisrm.org/international-chapters/ireland-chapter/)
+citeturn70view11 [wordlim: 200] Crawled: today; Content type: text/html; Source: find({"ref_id":"https://www.theisrm.org/international-chapters/ireland-chapter/","pattern":"Garry Bergin"}); Total lines: 186
+L0: 【0†iframe†www.googletagmanager.com】
+L1: 
+L2: 【1†MENU】
+L3: 
+L4: 【1†MENU】
+L5: 
+L6: 【2†LOGIN】
+L7: 
+L8: ## IRELAND
+L9: 
+L10: ## CHAPTER
+L11: 
+L12: ### 【3†The Hacker’s View: What Your Digital Footprint Really Reveals】
+L13: 
+L14: 04/08/2026
+L15: 
+L16: ### 【4†ISRM Fellow Garry Bergin Named Outstanding Security Consultant at the 2026 Irish OSPAs】
+L17: 
+L18: 28/05/2026
+L19: 
+L20: ### 【5†ISRM Ireland Chapter Recognized at 2026 OSPAs for Security Partnership Excellence】
+L21: 
+L22: 25/05/2026
+L23: 
+L24: ### 【6†Lord Mayor of Dublin, Councillor Ray McAdam Awarded First-Ever Honorary Fellowship by ISRM Ireland】
+L25: 
+L26: 20/03/2026
+L27: ### 【7†Operation Sentinel: OSINT – Cradle to the Grave】
+L28: 
+L29: 09/02/2026
+L30: 
+L31: ### 【8†ISRM Ireland Chapter Symposium: Operation NextGen Catalyst – A Resounding Success in Shaping the Future of Security】
+L32: 
+L33: 22/09/2025
+L34: 
+L35: Load More
+L36: 
+L37: 【9†Image】
+L38: 
+L39: ## Garry Bergin
+L40: 
+L41: ## Ireland Chapter Chair
+L42: 
+L43:   * garry.bergin@theisrm.org
+L44: 
+L45: 【10†Image】
+L46: 
+L47: ## Paul Kellett
+L48: 
+L49: ## Ireland Chapter Vice-Chair
+L50: 
+L51:   * paul.kellett@theisrm.org
+L52: 
+L53:   * 【11†ISRM Ireland Chapter†www.linkedin.com】
+--------------------------------------------------------------------------------
+Israel Chapter – ISRM (https://www.theisrm.org/international-chapters/israel-chapter/)
+citeturn70view12 [wordlim: 200] Crawled: 3 months ago; Content type: text/html; Source: find({"ref_id":"https://www.theisrm.org/international-chapters/israel-chapter/","pattern":"Ivor Terret"}); Total lines: 163
+L0: 【0†iframe†www.googletagmanager.com】
+L1: 
+L2: 【1†MENU】
+L3: 
+L4: 【1†MENU】
+L5: 
+L6: 【2†LOGIN】
+L7: 
+L8: ## ISRAEL
+L9: 
+L10: ## CHAPTER
+L11: 
+L12: ### 【3†ASIS Israel Chapter and The ISRM Israel Chapter: Strategy in Regional Conflicts.】
+L13: 
+L14: 30/11/2022
+L15: 
+L16: ### 【4†Security Challenges in the Era of Pandemics Event】
+L17: 
+L18: 16/02/2021
+L19: 
+L20: ### 【5†ISRM ISRAEL Chapter Launch】
+L21: 
+L22: 11/01/2021
+L23: 
+L24: 【6†Image】
+L25: 
+L26: ## Ivor Terret
+L27: 
+L28: ## Israel Chapter Chair
+L29: 
+L30:   * ivor.terret@theisrm.org
+--------------------------------------------------------------------------------
+Internal Error ()
+citeturn70view13 [wordlim: 200] Source: find({"ref_id":"https://www.theisrm.org/international-chapters/jordan-chapter/","pattern":"Mirza Q. Hatoqay"}); 
+Failed to fetch https://www.theisrm.org/international-chapters/jordan-chapter/: TimeoutError--------------------------------------------------------------------------------
+KSA Chapter – ISRM (https://www.theisrm.org/international-chapters/ksa-chapter/)
+citeturn70view14 [wordlim: 200] Crawled: last month; Content type: text/html; Source: find({"ref_id":"https://www.theisrm.org/international-chapters/ksa-chapter/","pattern":"Dr. Fayadh Alenezi"}); Total lines: 184
+L27: ### 【7†The ISRM KSA Journal – Inaugural Edition】
+L28: 
+L29: 11/07/2026
+L30: 
+L31: ### 【8†From Risk to Opportunity: The Role of Risk Managers in Creating Value】
+L32: 
+L33: 30/06/2026
+L34: 
+L35: Load More
+L36: 
+L37: 【9†Image】
+L38: 
+L39: ## Dr. Fayadh Alenezi
+L40: 
+L41: ## KSA Chapter Chair
+L42: 
+L43:   * fayadh.alenezi@theisrm.org
+L44: 
+L45: 【10†Image】
+L46: 
+L47: ## Abdulrahman Alhabashi
+L48: 
+L49: ## KSA Chapter Vice-Chair
+L50: 
+L51:   * abdulrahman.alhabashi (abdulrahman.alhabashi@theisrm.org)
+--------------------------------------------------------------------------------
+Mediterranean Chapter – ISRM (https://www.theisrm.org/international-chapters/mediterranean-chapter/)
+citeturn70view15 [wordlim: 200] Crawled: 4 weeks ago; Content type: text/html; Source: find({"ref_id":"https://www.theisrm.org/international-chapters/mediterranean-chapter/","pattern":"George Gkioulekas"}); Total lines: 184
+L23: ### 【6†ISRM Honorary Sponsor of the 1st Greek Risk Management Awards 2026】
+L24: 
+L25: 08/03/2026
+L26: 
+L27: ### 【7†The ISRM at Security Project 2026 – A Strong and Impactful Presence in the Mediterranean 】
+L28: 
+L29: 02/03/2026
+L30: 
+L31: ### 【8†ISRM Announced as Honorary Sponsor of the Security Project 2026】
+L32: 
+L33: 21/02/2026
+L34: 
+L35: Load More
+L36: 
+L37: 【9†Image】
+L38: 
+L39: ## George Gkioulekas
+L40: 
+L41: ## Mediterranean Chapter Chair
+L42: 
+L43:   * george.gkioulekas (george.gkioulekas@theisrm.org)
+L44: 
+L45: 【10†Image: Christina Alexandropoulou, MBA, PMP, F.ISRM】
+L46: 
+L47: ## Christina Alexandropoulou
+--------------------------------------------------------------------------------
+Mexico Chapter – ISRM (https://www.theisrm.org/international-chapters/mexico-chapter/)
+citeturn70view16 [wordlim: 200] Crawled: 5 months ago; Content type: text/html; Source: find({"ref_id":"https://www.theisrm.org/international-chapters/mexico-chapter/","pattern":"Iliana Fernandez"}); Total lines: 181
+L0: 【0† 】
+L1: 
+L2: MENU
+L3: 
+L4: MENU
+L5: 
+L6: 【1† LOGIN 】
+L7: 
+L8: ## MEXICO
+L9: 
+L10: ## CHAPTER
+L11: 
+L12: 【30†Image】
+L13: 
+L14: ###  【2† Security Industry Association Announces 2025 SIA Women in Security Forum Power 100 Honorees 】
+L15: 
+L16: 14/03/2025
+L17: 
+L18: 【31†Image】
+L19: 
+L20: ###  【3† Iliana Fernandez – ISRM Mexico Chapter Chair 】
+L21: 
+L22: 11/07/2024
+L23: 
+L24: 【32†Image】
+L25: 
+L26: ###  【4† ISRM Mexico City Chapter Announcement 】
+L27: 
+L28: 01/10/2023
+L29: 
+L30: 【33†Image】
+L31: 
+L32: ## Iliana Fernandez
+L33: 
+L34: ## Mexico Chapter Chair
+L35: 
+L36:   * iliana.fernandez
+L37: 
+L38:   * 【5† ISRM - North America †www.linkedin.com】
+--------------------------------------------------------------------------------
+Nordic States Chapter – ISRM (https://www.theisrm.org/international-chapters/nordic-states-chapter/)
+citeturn70view17 [wordlim: 200] Crawled: 3 months ago; Content type: text/html; Source: find({"ref_id":"https://www.theisrm.org/international-chapters/nordic-states-chapter/","pattern":"David Llewellyn"}); Total lines: 173
+L0: 【0†iframe†www.googletagmanager.com】
+L1: 
+L2: 【1†MENU】
+L3: 
+L4: 【1†MENU】
+L5: 
+L6: 【2†LOGIN】
+L7: 
+L8: ## NORDIC STATES
+L9: 
+L10: ## CHAPTER
+L11: 
+L12: ### 【3†Resilience as an Enabler: Converging Horizons and Crossing Borders】
+L13: 
+L14: 14/09/2023
+L15: 
+L16: ### 【4†Cyber Threat Landscape for the Nordics. Has the War Changed Our Focus?】
+L17: 
+L18: 28/10/2022
+L19: 
+L20: ### 【5†Re-Launch of Nordic Chapter】
+L21: 
+L22: 28/10/2022
+L23: 
+L24: ### 【6†Supply Chain Risks in Vaccine Supply Chains】
+L25: 
+L26: 20/05/2021
+L27: 
+L28: ### 【7†Covid-19: Lessons From The Nordic Experience Event】
+L29: 
+L30: 13/04/2021
+L31: 
+L32: 【8†Image】
+L33: 
+L34: ## David Llewellyn
+L35: ## Nordic States Chapter Chair
+L36: 
+L37:   * david.llewellyn@theisrm.org
+L38: 
+L39:   * 【9†ISRM - Nordic Chapter†www.linkedin.com】
+L40: 
+L41: ## Get Updates And Stay Connected
+L42: 
+L43: [Input] [Input] [Input] [Input]
+L44: 
+L45: Email [Input: Email]
+L46: 
+L47: SUBSCRIBE
+L48: 
+L49:   * 【10†The ISRM†www.linkedin.com】
+L50:   * 【11†The ISRM†www.youtube.com】
+L51:   * admin@theisrm.org
+--------------------------------------------------------------------------------
+Internal Error ()
+citeturn70view18 [wordlim: 200] Source: find({"ref_id":"https://www.theisrm.org/international-chapters/palestine-chapter/","pattern":"Tareq Ghosheh"}); 
+Failed to fetch https://www.theisrm.org/international-chapters/palestine-chapter/: TimeoutError--------------------------------------------------------------------------------
+Internal Error ()
+citeturn70view19 [wordlim: 200] Source: find({"ref_id":"https://www.theisrm.org/international-chapters/south-africa-chapter/","pattern":"Greg Zuccarini"}); 
+Failed to fetch https://www.theisrm.org/international-chapters/south-africa-chapter/: TimeoutError--------------------------------------------------------------------------------
+Sri Lanka Chapter – ISRM (https://www.theisrm.org/international-chapters/sri-lanka-chapter/)
+citeturn70view20 [wordlim: 200] Crawled: today; Content type: text/html; Source: find({"ref_id":"https://www.theisrm.org/international-chapters/sri-lanka-chapter/","pattern":"Amjad Saleem"}); Total lines: 177
+L27: ### 【7†A strong start for the ISRM Sri Lanka Chapter】
+L28: 
+L29: 15/06/2026
+L30: 
+L31: ### 【8†Introducing the ISRM Sri Lanka Chapter】
+L32: 
+L33: 28/04/2026
+L34: 
+L35: 【9†Image】
+L36: 
+L37: ## Amjad Saleem
+L38: 
+L39: ## Sri Lanka Chapter Chair
+L40: 
+L41:   * amjad.saleem@theisrm.org
+L42: 
+L43:   * 【10†ISRM Sri Lanka Chapter†www.linkedin.com】
+L44: 
+L45: ## Get Updates And Stay Connected
+L46: 
+L47: [Input] [Input] [Input] [Input]
+L48: 
+L49: Email [Input: Email]
+L50: 
+L51: SUBSCRIBE
+L52: 
+L53:   * 【11†The ISRM†www.linkedin.com】
+L54:   * 【12†The ISRM†www.youtube.com】
+L55:   * admin@theisrm.org
+--------------------------------------------------------------------------------
+South-East Europe Chapter – ISRM (https://www.theisrm.org/international-chapters/south-east-europe-chapter/)
+citeturn70view21 [wordlim: 200] Crawled: last month; Content type: text/html; Source: find({"ref_id":"https://www.theisrm.org/international-chapters/south-east-europe-chapter/","pattern":"Dr Zoran Kekovic"}); Total lines: 177
+L27: ### 【7†ISRM South-East Europe Chapter and ASIS Serbia Form Strategic Partnership】
+L28: 
+L29: 13/02/2025
+L30: 
+L31: ### 【8†Upcoming CARUK Webinar: Risk Management 2025 – Thinking in Tetris】
+L32: 
+L33: 07/02/2025
+L34: 
+L35: Load More
+L36: 
+L37: 【9†Image】
+L38: 
+L39: ## Dr Zoran Kekovic
+L40: 
+L41: ## SE Europe Chapter Chair
+L42: 
+L43:   * zorankekovic@yahoo.com
+L44: 
+L45: ## Get Updates And Stay Connected
+L46: 
+L47: [Input] [Input] [Input] [Input]
+L48: 
+L49: Email [Input: Email]
+L50: 
+L51: SUBSCRIBE
+L52: 
+L53:   * 【10†The ISRM†www.linkedin.com】
+L54:   * 【11†The ISRM†www.youtube.com】
+L55:   * admin@theisrm.org
+--------------------------------------------------------------------------------
+UAE Chapter – ISRM (https://www.theisrm.org/international-chapters/uae-chapter/)
+citeturn70view22 [wordlim: 200] Crawled: 2 days ago; Content type: text/html; Source: find({"ref_id":"https://www.theisrm.org/international-chapters/uae-chapter/","pattern":"Meredydd (Med) Hughes"}); Total lines: 177
+L31: ### 【8†Dubai Chapter: The Networking Event】
+L32: 
+L33: 16/01/2026
+L34: 
+L35: Load More
+L36: 
+L37: 【9†Image】
+L38: 
+L39: ## Meredydd (Med) Hughes
+L40: 
+L41: ## Dubai Chapter Chair
+L42: 
+L43:   * meredydd.hughes (meredydd.hughes@theisrm.org)
+L44: 
+L45: ## Get Updates And Stay Connected
+L46: 
+L47: [Input] [Input] [Input] [Input]
+L48: 
+L49: Email [Input: Email]
+L50: 
+L51: SUBSCRIBE
+L52: 
+L53:   * 【10†The ISRM†www.linkedin.com】
+L54:   * 【11†The ISRM†www.youtube.com】
+L55:   * admin@theisrm.org
+--------------------------------------------------------------------------------
+Ukraine Chapter – ISRM (https://www.theisrm.org/international-chapters/ukraine-chapter/)
+citeturn70view23 [wordlim: 200] Crawled: today; Content type: text/html; Source: find({"ref_id":"https://www.theisrm.org/international-chapters/ukraine-chapter/","pattern":"Ian Spence"}); Total lines: 250
+L0: 【0†iframe†www.googletagmanager.com】
+L1: 
+L2: 【1†MENU】
+L3: 
+L4: 【1†MENU】
+L5: 
+L6: 【2†LOGIN】
+L7: 
+L8: ## UKRAINE
+L9: 
+L10: ## CHAPTER
+L11: 
+L12: ### 【3†Practical Mental Health Incident Management for Non-Specialists】
+L13: 
+L14: 09/10/2026
+L15: 
+L16: ### 【4†Lessons From the Frontline: From Theory To Doctrine】
+L17: 
+L18: 17/08/2026
+L19: 
+L20: ### 【5†Building a Community of Risk Professionals for Ukraine】
+L21: 
+L22: 09/07/2026
+L23: 
+L35: ## Ukraine Chapter Chair
+L36: 
+L37:   * ian.spence@theisrm.org
+L38: 
+L39: 【9†Image: andrii-lukashenko】
+L40: 
+L41: ## Andrii Lukashenko
+L42: 
+L43: ## Ukraine Chapter Vice-Chair
+L44: 
+L45:   * andrii.lukashenko@theisrm.org
+L46: 
+L47: 【10†Image: john-price】
+L48: 
+L49: ## John Price
+L50: 
+L51: ## Ukraine Chapter Advisory
+L52: 
+L53:   * john.price@theisrm.org
+L54: 
+L55: 【11†Image: andrey-buzarov】
+L56: 
+L57: ## Andrii Buzarov
+L58: 
+L59: ## Ukraine Chapter Partnerships
+L60: 
+L61:   * andrii.buzarov@theisrm.org
+L62: 
+L63: 【12†Image: olena-goroshko】
+L64: 
+L65: ## Prof. Olena Goroshko
+--------------------------------------------------------------------------------
+Internal Error ()
+citeturn70view24 [wordlim: 200] Source: find({"ref_id":"https://www.theisrm.org/international-chapters/university-of-gloucestershire/","pattern":"Nadine Sulkowski"}); 
+Failed to fetch https://www.theisrm.org/international-chapters/university-of-gloucestershire/: (429) Too Many Requests--------------------------------------------------------------------------------
+Women in Strategic Risk – ISRM (https://www.theisrm.org/international-chapters/women-in-strategic-risk/)
+citeturn70view25 [wordlim: 200] Crawled: last month; Content type: text/html; Source: find({"ref_id":"https://www.theisrm.org/international-chapters/women-in-strategic-risk/","pattern":"Veda Woods"}); Total lines: 191
+L27: ### 【7†AI for Global Security Risk Management】
+L28: 
+L29: 30/04/2024
+L30: 
+L31: ### 【8†Exploring the Future of Risk and Security Convergence】
+L32: 
+L33: 07/11/2023
+L34: 
+L35: ### 【9†Focus: Staying Safe Online】
+L36: 
+L37: 19/10/2023
+L38: 
+L39: ### 【10†Beyond Borders: Exploring Transnational Dimensions of Human Trafficking in Ukraine and India】
+L40: 
+L41: 06/06/2023
+L42: 
+L43: ### 【11†International Women’s Month – Panel on Allyship】
+L44: 
+L45: 01/03/2023
+L46: 
+L47: Load More
+L48: 
+L49: 【12†Image】
+L50: 
+L51: ## Veda Woods
+L52: ## Women in Strategic Risk
+L53: Chapter Chair
+L54: 
+L55:   * veda.woods@theisrm.org
+L56: 
+L57:   * 【13†ISRM Women in Strategic Risk†www.linkedin.com】
+L58: 
+L59: ## Get Updates And Stay Connected
+L60: 
+L61: [Input] [Input] [Input] [Input]
+L62: 
+L63: Email [Input: Email]
+L64: 
+L65: SUBSCRIBE
+L66: 
+L67:   * 【14†The ISRM†www.linkedin.com】
+L68:   * 【15†The ISRM†www.youtube.com】
+L69:   * admin@theisrm.org
+

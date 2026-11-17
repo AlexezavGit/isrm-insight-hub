@@ -1,0 +1,20 @@
+{
+  "status": "done",
+  "reviewer": "/root/verify_isrm_registry",
+  "independent_of_producer": true,
+  "scope": "Registry passports and new runtime membership/status/illustration model, not the whole interface or verification of people",
+  "findings_resolved": [
+    "Generic Member/participant no longer means ISRM membership",
+    "Chapter and an unrelated Head field are not concatenated into a chapter-head claim"
+  ],
+  "accepted": [
+    "Current one-panel requirement and two entry paths have direct-source passports",
+    "Previous panel requirement preserved as historical; other registry rows unchanged",
+    "Source verified flag is not an AI or peer decision",
+    "New map path has no permanent ISRM hub or serviceCovers hash",
+    "Configuration points are noninteractive illustrations with stated boundaries"
+  ],
+  "tests": "Targeted workspace model tests rerun successfully by reviewer",
+  "registry_sha256": "94583d6adb934bc8f2ea16e99a5dd3f06d7c3361abb49144cef318dea4d4e2d5",
+  "source_sha256": "3e4a9c377ab92b420dac35e84f86eba9aff24f2c3a6e24b3fcaf97e9a0077814"
+}

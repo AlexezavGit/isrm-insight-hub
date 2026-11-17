@@ -1,0 +1,13 @@
+{
+  "status": "done",
+  "source_file": "/Users/alexzvo/Documents/ChatGPT/isrm/isrm-insight-hub/docs/project/sources/app-first-framing-user-2026-11-02.txt",
+  "source_sha256": "a66d61659ed78bc0694ed321de2f2fcfa0c9ddfd39392fb2665c3ac977c27020",
+  "registry_before": "0cfe7cd75374700f2e3c01ed00e09621870fb165017be5e9ac96973b5ceb9c01",
+  "registry_after": "e3befcc47e763395e8f513933b17b9907d7bec1e3a2c299622af4eed3290d817",
+  "new_codes": [
+    "ISRM-REQ-TOP-ROW",
+    "ISRM-REQ-BOTTOM-ROW"
+  ],
+  "attached_audit_status": "Third-party claims; no readiness, hours, financial claims or output scores adopted",
+  "independent_review": "app-first-qa-2026-11-03.json"
+}

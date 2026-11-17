@@ -1,7 +1,43 @@
 import type { Expert } from "./types";
 import type { NetworkNode } from "./network-model";
 
-/** One deliberate unfold, a small overshoot, then a handover to the live simulation. */
+export const NETWORK_ORIGIN_PAUSE = 450;
+export const NETWORK_SCATTER_DURATION = 1400;
+export const NETWORK_SCATTER_PAUSE = 900;
+export const NETWORK_ASSEMBLY_DURATION = 2200;
+export const NETWORK_LIFECYCLE_DURATION =
+  NETWORK_ORIGIN_PAUSE +
+  NETWORK_SCATTER_DURATION +
+  NETWORK_SCATTER_PAUSE +
+  NETWORK_ASSEMBLY_DURATION;
+
+export type NetworkLifecycleFrame = {
+  stage: "origin" | "scatter" | "pause" | "assemble" | "complete";
+  progress: number;
+};
+
+/** Point reveal, brief free-network pause, and smooth assembly into grouped positions. */
+export function networkLifecycleFrame(elapsed: number): NetworkLifecycleFrame {
+  const time = Math.max(0, elapsed);
+  if (time < NETWORK_ORIGIN_PAUSE) return { stage: "origin", progress: 0 };
+  if (time < NETWORK_ORIGIN_PAUSE + NETWORK_SCATTER_DURATION)
+    return {
+      stage: "scatter",
+      progress: (time - NETWORK_ORIGIN_PAUSE) / NETWORK_SCATTER_DURATION,
+    };
+  if (time < NETWORK_ORIGIN_PAUSE + NETWORK_SCATTER_DURATION + NETWORK_SCATTER_PAUSE)
+    return { stage: "pause", progress: 1 };
+  if (time < NETWORK_LIFECYCLE_DURATION)
+    return {
+      stage: "assemble",
+      progress:
+        (time - NETWORK_ORIGIN_PAUSE - NETWORK_SCATTER_DURATION - NETWORK_SCATTER_PAUSE) /
+        NETWORK_ASSEMBLY_DURATION,
+    };
+  return { stage: "complete", progress: 1 };
+}
+
+/** One deliberate reveal with a small overshoot, used by the briefing backdrop. */
 export function expansionProgress(elapsed: number, delay = 0) {
   const t = Math.max(0, Math.min(1, (elapsed - delay) / 2800));
   if (t === 0 || t === 1) return t;
