@@ -1,0 +1,119 @@
+# Network exploration and scope batch
+
+User specification: conversation of 27 October 2026, last complete /graf and /scope requirements. Continue inline; accumulate changes locally and in Git, no individual Cloudflare uploads.
+
+## Tasks
+- [ ] One persistent graph: ISRM anchor, people, organisations only from accessible supplied fields, services and workflow concentrators. Separate graph emphasis from panel visibility. Do not infer acquaintance, endorsement, compliance or AI verification from categorical links.
+- [ ] Two bottom tabs Search / Workflows. Briefing / scope contextual arrows in dashboard. Full-width legend, demonstration and bounded data notice. Common header utilities, no login on briefing.
+- [ ] Translucent light panels leave a mobile graph gutter. First node selection highlights, repeated selection opens detail. Four workflow folders: core, engagement, expertise, own development. Services connect graph and dossier. Explicit exclusion confirmation only changes demo configuration, never claims live operations.
+- [ ] Existing survey draft view, mailing-list request saved in scope, custom service/workflow text uses shared draft and exports.
+- [ ] Scope fallback inside receipt; default budget preference Approve only on new drafts; retain invalidation after scope changes. Three compact actions Send / PDF / Rewind. Clarify workflow, integration two-line label, common eyebrow. Briefing rewind and context in body, notices on graph.
+- [ ] Internal pricing reconciliation and SaaS scenario saved separately; no invented conversion evidence or claimed break-even. Public source branch must exclude internal partner estimates.
+- [ ] Build, graph model and draft tests, browser review desktop/mobile, local commits and safe public Git sync. One final deployment only after accumulated verification.
+
+## Verification focus
+No synthetic personal edges; no orphan links after filtering; retained people positions; empty/service selection; unknown data fields visibly unavailable; native keyboard controls; outside-tap mobile area; same custom request in scope, Markdown/PDF/email; existing budget preferences preserved.
+
+## Decisions
+- The last two-tab instruction supersedes the earlier three-tab instruction.
+- Existing personal data access restrictions remain. Organisation/city/verification fields are never invented.
+- Removal warnings describe proposed capabilities, not revoked live invitations or messages.
+- 35,714 is a funnel arithmetic scenario, not established economic break-even. Costs, churn and retention remain unknown.
+
+## Implementation status
+- Code implemented and stored locally, commits 789c231, 4fa838c and subsequent motion fix.
+- Graph model/draft suite: 27 passing; build passes; changed-module TypeScript and focused lint pass. Global tsc still has pre-existing PartnerGraph/PartnerProposal/partner-finance errors.
+- Fresh static reviewer found two issues: service first-click/detail/exclusion sequencing and excluded coverage restored by alternate workflow entry. Both corrected; exclusion regression test passed after failing first.
+- Desktop/mobile browser and end-to-end UI checks pending: local Mac locked; browser extension cannot access the originating session.
+- Public source candidate prepared at /tmp/isrm-public-network-sync, branch codex/network-workflow-batch, commit 1049d63; no internal partner documents included. Push automatically rejected: public source snapshot may include client-derived material without sufficiently specific public-destination authorization. Do not retry through a workaround.
+- No new Cloudflare upload made.
+- UI decisions: last two-tab instruction wins; unsupported city/recommendation/AI/compliance data not inferred; disabling demo capabilities never claims live invitations/messages cancelled; existing draft budget decisions retained, Approve default only for new draft.
+
+## Refinement and verification · 27 October
+This status supersedes the earlier browser/public-sync limitations above.
+
+- Static service wheel with deterministic, separate people cohorts; no camera movement on inspection. Explicit concentrator choices move the camera. Shapes and colours distinguish node types; labels appear on hover/inspection.
+- Full-height translucent panels sit beneath blurred header/footer surfaces. Desktop search switches remain visible. Workflow tree opens a services-only wheel; selecting a workflow/service surfaces potential coverage and opens its description.
+- Descriptions include intended users/results, dependencies and proposed technology. Member survey has five opening questions and the unchanged source draft. Preview does not collect responses or send invitations.
+- Survey inclusion is idempotent and restores an unchecked request. Fallback retains custom requests explicitly for separate discussion, outside its selected scope/price, across email/Markdown/print sources.
+- Compact plain Fallback options with two checkboxes and individual-search footnote. Each selected workflow, integration interest and custom description has its own proposal-receipt line. Workflow definition precedes core. Existing draft preferences retained; new drafts default to Approve.
+- All graph panels have an explicit close-all/graph action; custom-description entry is visible above the workflow tree. Final briefing has three equal-width 52px actions, including Back to start; scope actions share this height.
+- Browser verified: desktop tree/core/service details; survey → scope → fallback retains survey outside £10,080 price; 390px portrait has no horizontal overflow and leaves a 72px outside-tap gutter; close-all leaves zero panels; final briefing actions measured equal width/height and Back to start returns to slide one. Enlarged-text slide-three cards do not overlap or cross the footer after layout correction.
+- Browser has prefers-reduced-motion enabled, so animation was checked in source/computed styles, not visually observed playing. It respects that preference. Desktop/mobile proof images are in docs/review and are not copied into the public branch.
+- 31 focused/model/draft tests pass. Focused lint and production build pass. Global TypeScript still reports pre-existing PartnerGraph, PartnerProposal, network-access.test and partner-finance errors; no changed-module errors in the recorded check.
+- Fresh read-only review found no remaining blockers after three request/visibility-state fixes. Browser review subsequently caught and fixed sticky panel headers intercepting folder clicks and the older compact-cycle CSS overriding row sizes.
+- Public branch codex/network-workflow-batch was subsequently explicitly authorised by the user and pushed at 38d6536. Current refinement will be synced as source only; private partner calculations/history and these review images are excluded. No new Cloudflare upload in this batch.
+
+## Shortlist, dossier navigation and live graph · next refinement
+User authorised continuation inline, including the subsequent request to preserve an initially live, draggable graph and return to the last structured view after a search choice.
+
+- [x] Open shortlist from the dashboard counter and a dossier context link; use the same browser-local draft for group name, membership and exports. A shortlist panel stays left, with person/service details on the right. Unavailable record codes remain visible without inventing profiles.
+- [x] Dossiers use ClientHeader and the lock/unlock icon. Contact fields have explicit light surfaces and dark ink. Directory, shortlist and Explore connections are contextual routes, including a mobile two-row arrangement.
+- [x] Workflow tree uses light text actions and plus/minus disclosure. Workflow overview stays inside the tree. Concrete person/service details alone open the right panel. Remove Centre this service; node inspection actions are compact and underline on hover.
+- [x] networkNeighborhood follows two recorded steps. Person/category paths use category edges, not universal sample or proposed-service edges. Capability paths use proposed coverage/architecture and honour service exclusions. layoutNetwork centres the chosen node at zero and arranges distance-one and distance-two rings. Three behavioural tests failed first, then passed, including separation of review status from network role.
+- [x] Initial live view enables dragging and force layout; search/layer choices enter structured mode. The Live graph control preserves/restores anchor, mode and active service selections together. Reduced motion suppresses automatic simulation and entrance motion while preserving user-driven drag.
+- [x] Browser checks: empty shortlist, add profile, rename group, reopen profile, full dossier, context route back to shortlist, and person-centred graph. Source role/review/engagement fields remain separate. Service description opens on the right; workflow does not; Centre this service is absent. Service → Live → structured regression was reproduced before fix and passed afterwards.
+- [x] Mobile 390×844: document width390, panel width318, 72px exposed graph gutter; dossier context links stay inside the viewport. Contact input/textarea measured rgb(24,51,66) text on rgb(250,246,237) backgrounds.
+- [ ] Manual native drag gesture verification is blocked by the Mac being locked. Browser-extension DOM/screenshot checks remain available. Drag uses the installed force-graph API; no claim of a completed physical gesture test.
+- [x] Consulted the supplied member survey, website audit DOCX and pricing/model documents in the copilot repo. The audit supports clearer membership routes and knowledge/resource organisation. Historical architecture/pricing documents explicitly disclaim current approval; no client prices changed and no partner documents enter the public source branch.
+- [x] Final verification: 34 tests and production build pass; focused ESLint is clean. Changed modules have no TypeScript errors. Global tsc retains the recorded pre-existing PartnerGraph/PartnerProposal/network-access.test/partner-finance failures.
+- [x] Fresh read-only review found two live-mode regressions (restoring only anchor, and automatic simulation under reduced motion). Both fixed and targeted re-review reports no remaining blockers. Browser confirmed service → Live → service restores both mode and anchor.
+- [x] Public source-only commit d1b86cc pushed to codex/network-workflow-batch. Internal documents and review images excluded. Local preview restarted independently on port5174; no Cloudflare upload.
+
+### Panel headings share the dashboard row
+
+- [x] Move Briefing / metrics / Scope into the central dashboard group. Place left/right panel names and close-all graph actions in the side slots; remove all five separate white panel header blocks.
+- [x] Keep full-height translucent panels underneath the header surfaces. Content padding follows measured dashboard height; mobile uses a compact title row and retains the exposed graph gutter.
+- [x] Browser verified shortlist, workflow tree and service description; 390×844 has document width390, and Ukrainian labels fit the central dashboard at1100px. Desktop two-panel proof saved privately in docs/review/panel-dashboard-headings-2026-10-27.jpg.
+- [x] Production build and focused ESLint pass. No new dependencies or price changes; no Cloudflare upload.
+
+### Cloudflare release preparation and document review — paused for owner review
+
+- [x] Owner authorised deployment to https://isrm.pages.dev/. Existing production deployment b463aacb remains untouched and available at its version URL. Inspected its spring/force network interaction and original source; no claim of a successful native drag gesture (native input returned windowNotFoundAtPosition).
+- [x] Built the Cloudflare Pages preset and a single minified worker, preserving side-effect imports with esbuild ignoreAnnotations. Tested in local workerd: proposal/map/scope respond200 and graph server-function returns45 sample profiles. 34 behavioural tests pass; focused ESLint passes.
+- [x] Added an explicit Play/Pause for live graph only when reduced motion is signalled. Browser verified positions visibly change after Play; search choice returns to structured mode and removes the motion override. Normal system preference remains unchanged.
+- [x] Automatic approval rejected uploading the original ZIP because it included full internal-looking Markdown documents. A new client-only ZIP excludes all documents/source maps/internal directories. Original full-document download links are replaced with scope/private-review wording, avoiding broken public links.
+- [x] Owner subsequently asked to review both documents before confirming publication. STOP before further upload or Save and deploy. Review drafts: docs/review/ISRM_Project_Overview_Review_EN.md and docs/review/ISRM_Member_Survey_Review_EN.md. Originals unchanged. The project overview removes oldUSD ranges, outdated delivery model, partner details and premature TII/PM commitments; the proposed opening survey has8questions with further topics reserved for separate discussion.
+- [ ] Obtain owner agreement on document revisions, then determine whether they are approved for public download. Rebuild the chosen package and deploy through the existing Cloudflare Pages production project. Do not equate review approval with authority to send survey invitations or collect responses.
+- [ ] Final production/browser smoke checks and Git source sync after approved release. Prepared client-only ZIP: /Users/alexzvo/Documents/ChatGPT/isrm/isrm-pages-client-20261027.zip. It currently contains the app without either full document; no upload or deployment succeeded.
+
+### Approved release and network refinements · 28 October 2026
+
+- [x] Owner explicitly approved both review documents and uploading them. Public Markdown paths contain the approved English overview and eight-question survey; publication/demonstration only, not live collection or mailing. Originals archived privately under docs/archive/pre-publication-2026-10-28.
+- [x] Briefing/Scope move away from larger figures. Counter animation respects reduced motion. Add-to-shortlist shows +1 and “in your group”. Shortlist opens on the right when invoked from a dossier. Browser verified +1/right panel; mobile390px has no horizontal overflow and retains72px graph gutter.
+- [x] ISRM is pinned to0,0 in model and live simulation; drag handlers restore its position. Source-sample links are faint/dashed and excluded from relationship traversal.
+- [x] Reference catalogues include zero-count choices:249 ISO country/territory codes,22 current UK SIC2026 sections (ONS workbook3August2026), working expertise directions, role/review enums and recorded categories. Aliases normalise without splitting ambiguous US/Canada records. Counts use the selected review-queue eligibility. Zero means no coded records in this sample, not organisational absence.
+- [x] Browser tested Japan0 and empty-state message. Final fix passes reference selection to the graph model so an empty category remains without invented links.
+- [x] Final39tests pass; Pages build passes; focused lint0errors (existing react-refresh warnings in filters.tsx). Changed files have no tsc errors; recorded pre-existing partner/test errors remain.
+- [x] FinalZIP:/Users/alexzvo/Documents/ChatGPT/isrm/isrm-pages-approved-20261028.zip;36files;1089199bytes;sha256653b76c0bb238d14dbf961f30c5d92f117bcf3bf0fb43b2cce0fd1ad72f6a790. Only two explicitly approved documents; no internal docs/plan/workbooks/source maps. Staging:/tmp/isrm-pages-release-20261028-upload.
+- [ ] Connection restored, but native CUA reports Mac locked; automatic unlock failed. CDP focus times out. Owner asked to unlock and keep Chrome open. Production Save and deploy has NOT been clicked. No further publication/document approval is needed.
+
+#### Latest reconnect checkpoint
+
+- Local source commit5934775 is clean. Public-source candidate commitc0c5343 is prepared in /tmp/isrm-public-network-sync, with9srcfiles and2approvedpublicMarkdown files only. Automatic approval rejected its GitHub push because this complete payload/public destination needs explicit authorisation. Do not retry or use another tool to bypass the rejection. Ask approval for commitc0c5343 to https://github.com/AlexezavGit/isrm-insight-hub/tree/codex/network-workflow-batch.
+- No Cloudflare CLI credentials are configured. Dashboard publication remains blocked by a locked Mac. User must unlock the screen; connection restoration alone did not unlock it. No Save and deploy action succeeded.
+
+#### Publication gate update
+
+- Owner explicitly approved the11files in public candidatec0c5343. Push to github.com/AlexezavGit/isrm-insight-hub branchcodex/network-workflow-batch succeeded.
+- Mac now unlocked. Old Cloudflare tab1949476519 times out on CDPfocus. Fresh tab1949476529 is usable through browser.tabs.get; main form is the existingisrmPages production upload page. Native Chrome full AX was rejected by auto-review because it would reveal unrelated browsing; do not repeat that broad read.
+- FileChooser.setFiles for the approved ZIP failed because the ChatGPT Chrome extension lacks “Allow access to file URLs”. User has been told the exact extension setting, or may choose the ZIP manually in the existing form. Save and deploy remains disabled; no upload/deploy completed. CFtab markedhandoff.
+- Owner asked whether Git automatically deploys. Explained existingPagesproject isDirectUpload/NoGitconnection; push alone does not update it. GitHubActions deployment to the samePagesproject is a possible later setup, not currently configured or authorised as a new credential/access grant.
+
+### GitHub Actions deployment · 28 October 2026
+
+This supersedes the manual-upload and Git-integration checkpoints above. The owner explicitly authorised automatic deployment from the public source branch to the existing `isrm.pages.dev` project.
+
+- Workflow, release preparation, destination guard and post-deploy verification are stored in the public branch and mirrored locally. Existing repository secrets are reused; no credential or access grant was created.
+- Source branch: `codex/network-workflow-batch`. Other branches and pull requests do not deploy. The destination is the existing `isrm` project; its production branch label is read from Cloudflare rather than guessed.
+- First Linux run exposed missing native optional dependencies in the Mac-generated lockfile. Added157 platform-specific entries with every existing package entry/version unchanged. Fresh npm ci,39tests, Pages build and release preparation pass locally. Run40671656774 also passed these steps on Linux.
+- Destination guard then rejected the saved account ID format; the masked log shows trailing whitespace. Target check and pinned Wrangler4.83.0 now trim surrounding whitespace and never print/write credential values. A failing whitespace reproduction passed after the fix, including a stub CLI assertion of the exact destination/normalised child environment.
+- Public head at this checkpoint: e8ed1e3. Deployment verification remains pending; no success claim yet. Approved documents remain in the public allowlist; internal notes/workbooks/history remain excluded.
+
+#### Successful production deployment
+
+- [x] GitHub Actions run40672024902 completed successfully: https://github.com/AlexezavGit/isrm-insight-hub/actions/runs/40672024902 (publish job122760917574,1m1s).
+- [x] Cloudflare version9a25ee77 published to https://isrm.pages.dev/; version URL https://9a25ee77.isrm.pages.dev/. Production release.json matches e8ed1e3cbf9bd94de234871bcb33d2ab8682a144 exactly. Both CI and a separate local HTTP check verified proposal/scope/map and the two approved Markdown downloads.
+- [x] Browser production check shows45visible/45matched profiles, the larger dashboard, new panel controls and zero-count reference choices. Explicit Play activates live motion despite the browser's reduced-motion preference. No claim of a new native drag gesture test.
+- [x] Production proof saved privately: docs/review/production-release-2026-10-28.png. Git-backed local source includes all deployment scripts/configuration and portable lockfile; internal history and this plan are not pushed to the public branch.
+- Future pushes to codex/network-workflow-batch automatically run locked install,39behavioural tests, Pages build, guarded production deploy and post-deploy HTTP checks. Source files alone saved on disk do not publish until committed and pushed to this branch.

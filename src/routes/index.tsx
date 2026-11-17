@@ -1,5 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { NetworkWorkbench } from "@/components/NetworkWorkbench";
+import { CLIENT_SERVICES } from "@/lib/client-catalog";
 
 type IndexSearch = {
   view?: "map";
@@ -7,6 +8,7 @@ type IndexSearch = {
   stage?: "configuration";
   preset?: string;
   anchor?: string;
+  capability?: string;
 };
 
 export const Route = createFileRoute("/")({
@@ -27,6 +29,11 @@ export const Route = createFileRoute("/")({
     if (stage) result.stage = stage;
     if (panel) result.panel = panel;
     if (preset !== undefined) result.preset = preset;
+    if (
+      typeof search["capability"] === "string" &&
+      CLIENT_SERVICES.some((s) => s.id === search["capability"])
+    )
+      result.capability = search["capability"];
     if (typeof search["anchor"] === "string" && search["anchor"].length <= 200)
       result.anchor = search["anchor"];
     return result;

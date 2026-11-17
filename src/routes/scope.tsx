@@ -1,3 +1,9 @@
+import { IntegrationStrip } from "@/components/IntegrationStrip";
+import { ScopeDeliveryNotes } from "@/components/ScopeDeliveryNotes";
+import { PROJECT_POSITIONING } from "@/lib/project-positioning";
+import { packageIsCustom } from "@/lib/tailored-scope";
+import { BoardDecisionNote } from "@/components/BoardDecisionNote";
+import { BOARD_RECIPIENT, BOARD_CAPACITY } from "@/lib/board-brief";
 import { ClientHeader } from "@/components/ClientHeader";
 import { ScopePrintDocument } from "@/components/ScopePrintDocument";
 import { buildClientMarkdown } from "@/lib/scope-document";
@@ -13,7 +19,13 @@ import { ClientAccessibility } from "@/components/ClientAccessibility";
 import { AccessControl } from "@/components/AppShell";
 import { useI18n } from "@/lib/i18n";
 import { CLIENT_SERVICES, CLIENT_WORKFLOWS } from "@/lib/client-catalog";
-import { CLIENT_APPROVED_PRICES, clientQuote } from "@/lib/client-pricing";
+import {
+  CLIENT_APPROVED_PRICES,
+  clientQuote,
+  clientPriceLines,
+  clientQuoteRange,
+  indicativePriceLabel,
+} from "@/lib/client-pricing";
 import { BRIEFING_MILESTONES } from "@/lib/briefing-milestones";
 import { buildClientSummary, emailHref } from "@/lib/client-draft";
 export const Route = createFileRoute("/scope")({
@@ -37,15 +49,8 @@ function ScopePage() {
   const [notice, setNotice] = useState("");
   const responseHint = useDismissibleDetails();
   const quote = clientQuote(draft);
-  const money = (value: number | null) =>
-    value === null
-      ? t("Pending approval", "Очікує погодження")
-      : t("From ", "Від ") +
-        new Intl.NumberFormat(locale === "uk" ? "uk-UA" : "en-GB", {
-          style: "currency",
-          currency: CLIENT_APPROVED_PRICES.currency,
-          maximumFractionDigits: 0,
-        }).format(value);
+  const estimate = clientQuoteRange(draft);
+  const money = (value: number | null) => indicativePriceLabel(value, locale);
   const summary = buildClientSummary(draft, locale);
   const validLimit =
     draft.budgetPosition !== "limit" ||
@@ -62,7 +67,7 @@ function ScopePage() {
   };
   return (
     <main className="client-scope scope-card-cabinet">
-      <ClientHeader hideOnScroll />
+      <ClientHeader hideOnScroll baseline />
       <div className="client-scope-shell">
         <Link className="client-back-link" to="/" search={{ view: "map" }}>
           <ArrowLeft size={18} />
@@ -79,18 +84,9 @@ function ScopePage() {
           </aside>
         </header>
         <section className="scope-project-introduction">
-          <p>
-            {t(
-              "A project to develop safer professional communication and strengthen trust in network expertise across ISRM’s sphere of influence.",
-              "Проєкт із розвитку безпеки професійних комунікацій та зміцнення довіри до носіїв мережевої експертизи в зоні впливу ISRM.",
-            )}
-          </p>
-          <p>
-            {t(
-              "Our role is to help ISRM define the practical approach, responsibilities and evidence needed to support its members. The proposed application brings together management consulting, professional research and digital delivery around those requirements.",
-              "Наша роль — допомогти ISRM визначити практичний підхід, відповідальність і доказову основу для підтримки своїх членів. Запропонований застосунок поєднує управлінський консалтинг, професійні дослідження й цифрові інструменти навколо цих потреб.",
-            )}
-          </p>
+          <p>{PROJECT_POSITIONING.name[locale]}</p>
+          <p>{PROJECT_POSITIONING.purpose[locale]}</p>
+          <p>{PROJECT_POSITIONING.explanation[locale]}</p>
           <details className="scope-context-note">
             <summary>
               {t("Relevant consulting experience", "Профільний консалтинговий досвід")}
@@ -110,6 +106,11 @@ function ScopePage() {
             </a>
           </details>
         </section>
+        <p className="scope-recipient">
+          <strong>{BOARD_RECIPIENT}</strong>
+          <br />
+          {BOARD_CAPACITY[locale]}
+        </p>
         <p className="scope-project-subtitle">
           {t(
             "Proposed application capabilities, delivery stages and budget limits",
@@ -137,8 +138,8 @@ function ScopePage() {
           <div>
             <p className="scope-workflow-definition">
               {t(
-                "A workflow is an organised sequence of recurring actions: who contributes, what happens next and how the result is used. The application can support and automate the agreed steps.",
-                "Workflow — це впорядкована послідовність повторюваних дій: хто долучається, що відбувається далі та як використовується результат. Застосунок підтримує й автоматизує погоджені кроки.",
+                "A workflow brings recurring actions, responsibilities and decisions together around a useful result. ISRM’s policies and agreed standards define the expected outcome; technology supports the process. Combine the proposed capabilities, remove what is unnecessary or describe your own requirement.",
+                "Workflow поєднує повторювані дії, відповідальність і рішення навколо корисного результату. Політики ISRM та погоджені стандарти визначають очікуваний результат; технологія підтримує процес. Комбінуйте запропоновані можливості, прибирайте зайве або опишіть власну потребу.",
               )}
             </p>
             <p className="scope-delivery-intro">
@@ -147,6 +148,8 @@ function ScopePage() {
                 "Виконання передбачає три етапи. Ядро та кожен workflow мають власні самодостатні результати, які погоджуються для кожного етапу.",
               )}
             </p>
+            <IntegrationStrip locale={locale} />
+            <BoardDecisionNote locale={locale} />
             <DataUseNotice context="scope" compact />
             <p className="scope-deck-hint">
               {t(
@@ -251,8 +254,8 @@ function ScopePage() {
             </details>
             <p className="scope-workflow-intro">
               {t(
-                "Work on either workflow can begin whenever you decide it is needed. Both build on the core; the starting scope and dependencies are agreed separately.",
-                "Роботу над будь-яким workflow можна почати, коли ви вирішите, що він потрібний. Обидва спираються на ядро; початковий обсяг і залежності погоджуються окремо.",
+                "Work on a workflow can begin whenever you decide it is needed. Each builds on the core; the starting scope and dependencies are agreed separately.",
+                "Роботу над будь-яким workflow можна почати, коли ви вирішите, що він потрібний. Кожен спирається на ядро; початковий обсяг і залежності погоджуються окремо.",
               )}
             </p>
             <WorkflowDeck locale={locale} draft={draft} ready={ready} update={update} />
@@ -293,8 +296,10 @@ function ScopePage() {
                   <input
                     type="checkbox"
                     checked={draft.mode === "full" && draft.integrationInterest}
-                    disabled={!ready || draft.mode !== "full"}
-                    onChange={(e) => update({ integrationInterest: e.target.checked })}
+                    disabled={!ready}
+                    onChange={(e) =>
+                      update({ mode: "full", integrationInterest: e.target.checked })
+                    }
                   />
                   <span>
                     {t(
@@ -315,62 +320,45 @@ function ScopePage() {
             </p>
             <h2>{t("Your selected scope", "Обраний обсяг")}</h2>
             <div className="client-price-receipt" aria-live="polite" aria-atomic="true">
-              <p>
-                <span>
-                  {draft.mode === "graph"
-                    ? t("Fallback · application as is", "Fallback · застосунок як є")
-                    : t("Core application", "Базовий застосунок")}
-                </span>
-                <strong>
-                  {money(
-                    draft.mode === "graph"
-                      ? CLIENT_APPROVED_PRICES.graph
-                      : CLIENT_APPROVED_PRICES.base,
-                  )}
-                </strong>
-              </p>
-              {draft.mode === "full" &&
-                CLIENT_WORKFLOWS.filter((w) => draft.workflowIds.includes(w.id)).map((w) => (
-                  <p key={w.id}>
-                    <span>{w.title[locale]}</span>
-                    <strong>
-                      {t("Include in the proposal estimate", "Додати до розрахунків у пропозиції")}
-                    </strong>
-                  </p>
-                ))}
-              {draft.mode === "graph" &&
-                draft.serviceIds
-                  .filter((id) => id === "research")
-                  .map((id) => (
-                    <p key={id}>
-                      <span>{CLIENT_SERVICES.find((s) => s.id === id)?.title[locale]}</span>
-                      <strong>{money(CLIENT_APPROVED_PRICES.addons[id] ?? null)}</strong>
-                    </p>
-                  ))}
-              {draft.mode === "full" && draft.integrationInterest && (
-                <p>
-                  <span>{t("Further development & AI", "Подальший розвиток та ШІ")}</span>
-                  <strong>{t("To estimate", "До оцінки")}</strong>
+              {clientPriceLines(draft, locale).map((line) => (
+                <p key={line.id}>
+                  <span>{line.title}</span>
+                  <strong>{money(line.value)}</strong>
                 </p>
-              )}
-              {draft.customIncluded &&
+              ))}
+              {draft.mode !== "full" &&
+                draft.customIncluded &&
                 draft.requests.map((request) => (
                   <p key={request.id}>
                     <span>{request.title}</span>
-                    <strong>
-                      {draft.mode === "full"
-                        ? t("To estimate", "До оцінки")
-                        : t("Separate discussion", "Окреме обговорення")}
-                    </strong>
+                    <strong>{t("Separate discussion", "Окреме обговорення")}</strong>
                   </p>
                 ))}
               <p className="client-price-total">
-                <span>{t("Total", "Разом")}</span>
+                <span>
+                  {estimate.pending
+                    ? t("Priced scope subtotal", "Сума оцінених позицій")
+                    : t("Indicative total", "Індикативна сума")}
+                </span>
                 <strong className="scope-quote-value" key={String(quote)}>
-                  {money(quote)}
+                  {indicativePriceLabel(estimate.low, locale, estimate.high)}
                 </strong>
               </p>
             </div>
+            <p className="scope-receipt-note">
+              {t(
+                "Indicative prices only; exact calculations follow in the detailed proposal we prepare. Changed package contents require reassessment. Campaigns, content, licences, AI/API usage and ongoing professional review are quoted separately; unpriced requests are excluded.",
+                "Ціни виключно індикативні; точні розрахунки — у детальній пропозиції, яку ми підготуємо. Зміна складу пакетів потребує переоцінки. Кампанії, контент, ліцензії, AI/API й постійне рецензування оцінюються окремо; неоцінені запити не включені.",
+              )}
+            </p>
+            {draft.mode === "full" && (
+              <p className="scope-receipt-note">
+                {t(
+                  "The AI OSINT technical integration is already included in the core. It is an additional item only for the fallback route.",
+                  "Технічна інтеграція AI OSINT уже включена до ядра. Додатковою позицією вона є лише у fallback.",
+                )}
+              </p>
+            )}
             <section className="scope-fallback" aria-labelledby="scope-fallback-title">
               <h3 id="scope-fallback-title">
                 {t("Fallback options", "Fallback · альтернативний варіант")}
@@ -488,13 +476,14 @@ function ScopePage() {
                   (step) => `${step.title[locale]} — ${Math.round(step.fraction * 100)}%`,
                 ).join("; ")}
                 {t(
-                  ". Subject to agreement. Workflow estimates follow a separate discussion.",
-                  ". Підлягають погодженню. Workflow розрахуємо окремо після обговорення.",
+                  ". Subject to agreement. Workflows have separate scope and delivery agreements.",
+                  ". Підлягають погодженню. Обсяг і виконання workflow погоджуються окремо.",
                 )}
               </p>
             )}
             <p className="scope-receipt-note">
               {draft.mode === "full" &&
+                !packageIsCustom(draft, "core") &&
                 t(
                   "Core planning range £33,600–34,944. ",
                   "Плановий діапазон ядра £33 600–34 944. ",
@@ -507,6 +496,7 @@ function ScopePage() {
             <a className="client-button scope-receipt-next" href="#scope-response-section">
               {t("Accept & arrange a discussion", "Погодити та домовитися про обговорення")}
             </a>
+            <ScopeDeliveryNotes locale={locale} />
           </aside>
         </div>
         <section id="scope-response-section" className="client-scope-card scope-response-section">
@@ -520,8 +510,8 @@ function ScopePage() {
                 <summary>{t("Client response", "Відповідь замовника")}</summary>
                 <p>
                   {t(
-                    "Confirm the capabilities you want discussed, select the fallback if appropriate, and leave your contact details. We will prepare a detailed proposal; this does not place an order or approve a final price.",
-                    "Погодьте функціональність для обговорення, за потреби оберіть fallback та залиште контактні дані. На цій основі підготуємо детальну пропозицію; це не замовлення робіт і не погодження остаточної ціни.",
+                    "Continue with individual research, consider a tailored core or select further capabilities for assessment. If you already know what is needed, record the scope directly. A brief impression of the prototype is welcome whichever route you choose. Your response is a basis for a detailed proposal, not an order or acceptance of a final price.",
+                    "Продовжуйте разові дослідження, розгляньте індивідуальне ядро або оберіть додаткові можливості для оцінки. Якщо вже знаєте потребу — одразу опишіть обсяг. Будемо вдячні за коротке враження від прототипу за будь-якого вибору. Відповідь є основою детальної пропозиції, не замовленням чи погодженням остаточної ціни.",
                   )}
                 </p>
               </details>
@@ -646,7 +636,7 @@ function ScopePage() {
       </div>
       <a className="scope-mobile-total" href="#scope-budget-panel">
         <span>{t("Your indicative total", "Ваш індикативний підсумок")}</span>
-        <strong>{money(quote)}</strong>
+        <strong>{indicativePriceLabel(estimate.low, locale, estimate.high)}</strong>
         <ArrowLeft size={17} aria-hidden="true" />
       </a>
       <ScopePrintDocument summary={summary} locale={locale} />

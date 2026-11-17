@@ -1,0 +1,66 @@
+{
+  "branch": "publish/isrm-client-dev-v2",
+  "files": [
+    {
+      "file": "src/components/NetworkGraph.tsx",
+      "lines": 455,
+      "nonblank": 439,
+      "dates": [
+        "2026-09-24",
+        "2026-09-25",
+        "2026-09-29",
+        "2026-10-14",
+        "2026-10-15",
+        "2026-10-17",
+        "2026-10-18",
+        "2026-10-19",
+        "2026-10-20",
+        "2026-10-21",
+        "2026-10-22",
+        "2026-10-26"
+      ]
+    },
+    {
+      "file": "src/lib/network.functions.ts",
+      "lines": 24,
+      "nonblank": 21,
+      "dates": [
+        "2026-09-24",
+        "2026-10-14",
+        "2026-10-19",
+        "2026-10-20",
+        "2026-10-22",
+        "2026-10-26"
+      ]
+    },
+    {
+      "file": "src/lib/mcp/tools/network-stats.ts",
+      "lines": 28,
+      "nonblank": 26,
+      "dates": [
+        "2026-09-26",
+        "2026-10-10",
+        "2026-10-20",
+        "2026-10-22",
+        "2026-10-26"
+      ]
+    }
+  ],
+  "unique_active_dates": [
+    "2026-09-24",
+    "2026-09-25",
+    "2026-09-26",
+    "2026-09-29",
+    "2026-10-10",
+    "2026-10-14",
+    "2026-10-15",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19",
+    "2026-10-20",
+    "2026-10-21",
+    "2026-10-22",
+    "2026-10-26"
+  ],
+  "note": "Calendar dates with commits are not measured person-days. Dependencies, data, legacy PartnerGraph and shared CSS excluded."
+}

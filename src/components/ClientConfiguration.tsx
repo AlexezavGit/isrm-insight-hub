@@ -164,9 +164,10 @@ export function ClientConfiguration({
                   <input
                     type="checkbox"
                     checked={draft.workflowIds.includes(w.id)}
-                    disabled={!ready || draft.mode !== "full"}
+                    disabled={!ready}
                     onChange={(e) =>
                       update({
+                        mode: "full",
                         workflowIds: e.target.checked
                           ? [...draft.workflowIds, w.id]
                           : draft.workflowIds.filter((id) => id !== w.id),
@@ -202,7 +203,7 @@ export function ClientConfiguration({
         <button
           type="button"
           className="client-button client-button-secondary"
-          disabled={!ready || draft.mode !== "full"}
+          disabled={!ready}
           onClick={start}
         >
           {tab === "workflows"

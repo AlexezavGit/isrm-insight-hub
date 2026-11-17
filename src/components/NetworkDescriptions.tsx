@@ -1,3 +1,4 @@
+import { IntegrationStrip } from "./IntegrationStrip";
 import { Link } from "@tanstack/react-router";
 import {
   CLIENT_SERVICES,
@@ -10,23 +11,31 @@ import { SERVICE_CONTEXT } from "@/lib/service-context";
 export function NetworkServiceDependencies({
   id,
   locale,
+  expanded = false,
 }: {
   id: ServiceId;
   locale: ClientLocale;
+  expanded?: boolean;
 }) {
   const c = SERVICE_CONTEXT[id],
     uk = locale === "uk";
   return (
-    <dl className="network-service-context">
-      <dt>{uk ? "Хто користуватиметься" : "Who would use it"}</dt>
-      <dd>{c.users[locale]}</dd>
-      <dt>{uk ? "Очікуваний результат" : "Intended result"}</dt>
-      <dd>{c.result[locale]}</dd>
-      <dt>{uk ? "Від чого залежить" : "Dependencies"}</dt>
-      <dd>{c.dependencies[locale]}</dd>
-      <dt>{uk ? "Запропонована технологія" : "Proposed technology"}</dt>
-      <dd>{c.technology[locale]}</dd>
-    </dl>
+    <details className="network-service-dependencies" open={expanded || undefined}>
+      <summary>
+        {uk ? "Користувачі, результат і залежності" : "Users, outcome & dependencies"}
+      </summary>
+      <dl className="network-service-context">
+        <dt>{uk ? "Хто користуватиметься" : "Who would use it"}</dt>
+        <dd>{c.users[locale]}</dd>
+        <dt>{uk ? "Очікуваний результат" : "Intended result"}</dt>
+        <dd>{c.result[locale]}</dd>
+        <dt>{uk ? "Від чого залежить" : "Dependencies"}</dt>
+        <dd>{c.dependencies[locale]}</dd>
+        <dt>{uk ? "Запропонована технологія" : "Proposed technology"}</dt>
+        <dd>{c.technology[locale]}</dd>
+      </dl>
+      <IntegrationStrip locale={locale} />
+    </details>
   );
 }
 export function NetworkWorkflowDescription({

@@ -151,6 +151,32 @@ export const CLIENT_WORKFLOWS = [
       ],
     },
   },
+  {
+    id: "monitoring",
+    title: {
+      en: "Situational awareness & expert briefings",
+      uk: "Моніторинг подій та експертні брифінги",
+    },
+    detail: {
+      en: "Future workflow. Members and chapter teams could follow agreed topics and regions, bring relevant signals to suitable colleagues and retain a reviewed briefing. World Monitor is one possible source; no live feed or monitoring service is connected in this demonstration.",
+      uk: "Майбутній workflow. Члени й команди чаптерів зможуть стежити за погодженими темами й регіонами, залучати доречних колег до оцінки сигналів і зберігати перевірений брифінг. World Monitor — одне з можливих джерел; у демонстрації немає підключеного потоку чи служби моніторингу.",
+    },
+    serviceIds: ["groups", "research", "review", "evidence", "publishing"] as ServiceId[],
+    outputs: {
+      en: [
+        "Topics & regions to follow",
+        "Relevant colleagues & local context",
+        "Reviewed assessments & briefings",
+        "Learning from subsequent events",
+      ],
+      uk: [
+        "Теми й регіони спостереження",
+        "Доречні колеги та місцевий контекст",
+        "Перевірені оцінки й брифінги",
+        "Уточнення висновків за новими подіями",
+      ],
+    },
+  },
 ] as const;
 export type WorkflowId = (typeof CLIENT_WORKFLOWS)[number]["id"];
 
@@ -200,6 +226,20 @@ export const WORKFLOW_OUTCOME_COPY = {
       "Practitioners could develop their experience into material supported by sources and professional review. ISRM could support a publication that readers can verify and use in their work, with clear attribution, evidence and limits of application.",
       "The Board and chapters could frame questions that matter to the profession and invite relevant expertise. Members could contribute to research and discussions and receive reviewed findings to inform their own practice.",
       "Members could find colleagues with relevant experience for a client enquiry and reuse permitted network resources. ISRM could help connect the enquiry with expertise, while experience from the work could inform shared knowledge. Project planning and management require a separate integration.",
+    ],
+  },
+  monitoring: {
+    en: [
+      "Members could choose agreed countries, sectors and subjects. A bounded pilot would connect one licensed source and retain the source link, event time and publication time; a media signal would remain distinct from a verified event.",
+      "Chapter teams could identify colleagues with relevant recorded expertise and invite their contribution through an agreed process. A category match does not establish availability, endorsement or permission to contact.",
+      "A responsible reviewer could check the evidence and local interpretation before a briefing is shared with an agreed audience. The record would retain authorship, sources, review date, permissions and limits of use.",
+      "The Board and members could revisit an assessment as events develop, record corrections and identify useful research or learning topics. The proposed pilot is not a round-the-clock alerting or emergency-response service.",
+    ],
+    uk: [
+      "Члени зможуть обрати погоджені країни, сектори та теми. Обмежений пілот підключатиме одне ліцензоване джерело зі збереженням посилання, часу події та публікації; медійний сигнал відокремлюватиметься від перевіреного факту.",
+      "Команди чаптерів зможуть знаходити колег із зафіксованою доречною експертизою й запрошувати їх до оцінки за погодженим порядком. Збіг категорії не підтверджує доступність, рекомендацію або дозвіл на контакт.",
+      "Відповідальний рецензент зможе перевірити докази й місцевий контекст перед поширенням брифінгу погодженій аудиторії. Запис зберігатиме авторство, джерела, дату перевірки, дозволи й межі використання.",
+      "Правління та члени зможуть повертатися до оцінки за розвитком подій, фіксувати виправлення й визначати корисні теми досліджень або навчання. Пілот не є цілодобовою службою сповіщень чи реагування на надзвичайні події.",
     ],
   },
 } as const;

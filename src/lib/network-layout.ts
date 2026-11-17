@@ -30,10 +30,30 @@ export function layoutNetwork(
   const categories = model.nodes.filter(
     (n) => !["expert", "isrm", "service", "workflow"].includes(n.kind),
   );
-  categories.forEach((n, i) => {
-    const a = (i / Math.max(1, categories.length)) * 2 * Math.PI;
-    positions.set(n.id, { x: Math.cos(a) * 242, y: Math.sin(a) * 242 });
-  });
+  const rings = new Map<number, typeof categories>();
+  for (const node of categories) {
+    const radius =
+      mode === "services"
+        ? 242
+        : node.id.startsWith("expertise:")
+          ? 230
+          : node.id.startsWith("sector:")
+            ? 310
+            : node.id.startsWith("country:")
+              ? 390
+              : node.id.startsWith("organisation:")
+                ? 350
+                : 270;
+    rings.set(radius, [...(rings.get(radius) ?? []), node]);
+  }
+  for (const [radius, nodes] of rings) {
+    nodes
+      .sort((a, b) => a.id.localeCompare(b.id))
+      .forEach((n, i) => {
+        const angle = (i / nodes.length) * 2 * Math.PI - Math.PI / 2;
+        positions.set(n.id, { x: Math.cos(angle) * radius, y: Math.sin(angle) * radius });
+      });
+  }
   const groups = new Map<string, string[]>();
   for (const n of model.nodes.filter((n) => n.kind === "expert")) {
     const owner =
@@ -73,12 +93,15 @@ export function layoutNetwork(
   }
   return positions;
 }
+export const GRAPH_LABEL_ZOOM = 1.65;
+export const GRAPH_READABLE_ZOOM = 1.8;
 export function fitGraphView(
   positions: Map<string, Point>,
   visibleIds: string[],
   anchor: string,
   width: number,
   height: number,
+  readable = true,
 ) {
   const centre = positions.get(anchor) ?? { x: 0, y: 0 };
   const pts = visibleIds.map((id) => positions.get(id)).filter((p): p is Point => !!p);
@@ -87,6 +110,11 @@ export function fitGraphView(
   return {
     x: centre.x,
     y: centre.y,
-    zoom: Math.max(0.25, Math.min(1.7, (width - 48) / (dx * 2), (height - 48) / (dy * 2))),
+    zoom: readable
+      ? Math.max(
+          GRAPH_READABLE_ZOOM,
+          Math.min(2.2, (width - 48) / (dx * 2), (height - 48) / (dy * 2)),
+        )
+      : Math.max(0.25, Math.min(1.7, (width - 48) / (dx * 2), (height - 48) / (dy * 2))),
   };
 }

@@ -1,0 +1,412 @@
+{
+  "source": "ISRM_Partner_Pricing_Review.xlsx, Library version 2, 28 October 2026",
+  "workstreams": [
+    {
+      "name": "Core application",
+      "hours": 640,
+      "development": 30455.092456272236,
+      "cost": 44215.68431952808,
+      "revenue": 50849,
+      "contribution": 6633.315680471918
+    },
+    {
+      "name": "Engagement and acquisition",
+      "hours": 216,
+      "development": 8101.354643540398,
+      "cost": 25290.548540982287,
+      "revenue": 29085,
+      "contribution": 3794.451459017713
+    },
+    {
+      "name": "Expertise into products",
+      "hours": 256,
+      "development": 9601.605503455286,
+      "cost": 23070.197366711138,
+      "revenue": 26531,
+      "contribution": 3460.802633288862
+    },
+    {
+      "name": "Situational monitoring pilot",
+      "hours": 160,
+      "development": 6001.003439659554,
+      "cost": 15190.197337101443,
+      "revenue": 17469,
+      "contribution": 2278.802662898557
+    }
+  ],
+  "functions": [
+    {
+      "stream": "core",
+      "function": "Client liaison and approvals",
+      "executor": "Alex",
+      "hours": 40,
+      "rate": 49.25,
+      "fee": 1970
+    },
+    {
+      "stream": "core",
+      "function": "Contract, privacy and rights",
+      "executor": "Alex",
+      "hours": 16,
+      "rate": 49.34949145349057,
+      "fee": 789.5918632558491
+    },
+    {
+      "stream": "core",
+      "function": "OSINT protocol and test sample",
+      "executor": "Dmytro",
+      "hours": 48,
+      "rate": 81.125,
+      "fee": 3894
+    },
+    {
+      "stream": "core",
+      "function": "Strategy and product definition",
+      "executor": "Oleksii",
+      "hours": 40,
+      "rate": 64.75,
+      "fee": 2590
+    },
+    {
+      "stream": "core",
+      "function": "Product ownership and acceptance",
+      "executor": "Oleksii",
+      "hours": 56,
+      "rate": 65.125,
+      "fee": 3647
+    },
+    {
+      "stream": "engagement",
+      "function": "Client decisions and approvals",
+      "executor": "Alex",
+      "hours": 16,
+      "rate": 49.25,
+      "fee": 788
+    },
+    {
+      "stream": "engagement",
+      "function": "Communication rights and terms",
+      "executor": "Alex",
+      "hours": 12,
+      "rate": 49.34949145349057,
+      "fee": 592.1938974418869
+    },
+    {
+      "stream": "engagement",
+      "function": "Campaign, content and follow-up",
+      "executor": "Dmytro",
+      "hours": 128,
+      "rate": 52.25,
+      "fee": 6688
+    },
+    {
+      "stream": "engagement",
+      "function": "OSINT audience segmentation",
+      "executor": "Dmytro",
+      "hours": 24,
+      "rate": 81.125,
+      "fee": 1947
+    },
+    {
+      "stream": "engagement",
+      "function": "Acquisition product strategy",
+      "executor": "Oleksii",
+      "hours": 40,
+      "rate": 64.75,
+      "fee": 2590
+    },
+    {
+      "stream": "engagement",
+      "function": "Product ownership and acceptance",
+      "executor": "Oleksii",
+      "hours": 32,
+      "rate": 65.125,
+      "fee": 2084
+    },
+    {
+      "stream": "expertise",
+      "function": "Authorship and reuse rights",
+      "executor": "Alex",
+      "hours": 16,
+      "rate": 49.34949145349057,
+      "fee": 789.5918632558491
+    },
+    {
+      "stream": "expertise",
+      "function": "Audience needs and distribution",
+      "executor": "Dmytro",
+      "hours": 40,
+      "rate": 52.25,
+      "fee": 2090
+    },
+    {
+      "stream": "expertise",
+      "function": "Evidence and review protocol",
+      "executor": "Dmytro",
+      "hours": 48,
+      "rate": 81.125,
+      "fee": 3894
+    },
+    {
+      "stream": "expertise",
+      "function": "Expertise-product strategy",
+      "executor": "Oleksii",
+      "hours": 40,
+      "rate": 64.75,
+      "fee": 2590
+    },
+    {
+      "stream": "expertise",
+      "function": "Product ownership and acceptance",
+      "executor": "Oleksii",
+      "hours": 40,
+      "rate": 65.125,
+      "fee": 2605
+    },
+    {
+      "stream": "monitoring",
+      "function": "Source licensing and pilot terms",
+      "executor": "Alex",
+      "hours": 12,
+      "rate": 49.34949145349057,
+      "fee": 592.1938974418869
+    },
+    {
+      "stream": "monitoring",
+      "function": "Sources, signals and review protocol",
+      "executor": "Dmytro",
+      "hours": 48,
+      "rate": 81.125,
+      "fee": 3894
+    },
+    {
+      "stream": "monitoring",
+      "function": "Pilot editorial process",
+      "executor": "Dmytro",
+      "hours": 16,
+      "rate": 52.25,
+      "fee": 836
+    },
+    {
+      "stream": "monitoring",
+      "function": "Pilot use case and strategy",
+      "executor": "Oleksii",
+      "hours": 24,
+      "rate": 64.75,
+      "fee": 1554
+    },
+    {
+      "stream": "monitoring",
+      "function": "Product ownership and acceptance",
+      "executor": "Oleksii",
+      "hours": 24,
+      "rate": 65.125,
+      "fee": 1563
+    }
+  ],
+  "people": [
+    {
+      "name": "Alex",
+      "coreFees": 2759.591863255849,
+      "optionalFees": 2761.9796581396236,
+      "coreProfit": 2211.1052268239728,
+      "optionalProfit": 3178.018918401711,
+      "potentialTotal": 10910.695666621155,
+      "coreIncome": 4970.697090079822
+    },
+    {
+      "name": "Dmytro",
+      "coreFees": 3894,
+      "optionalFees": 19349,
+      "coreProfit": 2211.1052268239728,
+      "optionalProfit": 3178.018918401711,
+      "potentialTotal": 28632.124145225684,
+      "coreIncome": 6105.105226823973
+    },
+    {
+      "name": "Oleksii",
+      "coreFees": 6237,
+      "optionalFees": 12986,
+      "coreProfit": 2211.1052268239728,
+      "optionalProfit": 3178.018918401711,
+      "potentialTotal": 24612.124145225684,
+      "coreIncome": 8448.105226823973
+    }
+  ],
+  "technicalPackages": [
+    {
+      "id": "C01",
+      "stream": "core",
+      "description": "Technical architecture",
+      "hours": 64,
+      "cost": 2400.4013758638216
+    },
+    {
+      "id": "C02",
+      "stream": "core",
+      "description": "UX and responsive interface",
+      "hours": 48,
+      "cost": 1800.3010318978663
+    },
+    {
+      "id": "C03",
+      "stream": "core",
+      "description": "Import, profiles and dossiers",
+      "hours": 96,
+      "cost": 3600.6020637957326
+    },
+    {
+      "id": "C04",
+      "stream": "core",
+      "description": "Fields, relationships, groups and lists",
+      "hours": 80,
+      "cost": 3000.501719829777
+    },
+    {
+      "id": "C05",
+      "stream": "core",
+      "description": "Production graph and search improvements",
+      "hours": 40,
+      "cost": 1500.2508599148885
+    },
+    {
+      "id": "C06",
+      "stream": "core",
+      "description": "Authorisation, storage and audit",
+      "hours": 96,
+      "cost": 3600.6020637957326
+    },
+    {
+      "id": "C07",
+      "stream": "core",
+      "description": "Integration of the existing AI OSINT researcher",
+      "hours": 96,
+      "cost": 3600.6020637957326
+    },
+    {
+      "id": "C08",
+      "stream": "core",
+      "description": "Quality assurance and security verification",
+      "hours": 80,
+      "cost": 3000.501719829777
+    },
+    {
+      "id": "C09",
+      "stream": "core",
+      "description": "Deployment and handover",
+      "hours": 40,
+      "cost": 1500.2508599148885
+    },
+    {
+      "id": "E01",
+      "stream": "engagement",
+      "description": "Audience journeys and membership/client enquiries",
+      "hours": 64,
+      "cost": 2400.4013758638216
+    },
+    {
+      "id": "E02",
+      "stream": "engagement",
+      "description": "Campaign forms and agreed connectors",
+      "hours": 64,
+      "cost": 2400.4013758638216
+    },
+    {
+      "id": "E03",
+      "stream": "engagement",
+      "description": "Workflow automation and measurement",
+      "hours": 48,
+      "cost": 1800.3010318978663
+    },
+    {
+      "id": "E04",
+      "stream": "engagement",
+      "description": "Testing and workflow handover",
+      "hours": 40,
+      "cost": 1500.2508599148885
+    },
+    {
+      "id": "X01",
+      "stream": "expertise",
+      "description": "Knowledge and evidence registry",
+      "hours": 80,
+      "cost": 3000.501719829777
+    },
+    {
+      "id": "X02",
+      "stream": "expertise",
+      "description": "Review, transformation and publication",
+      "hours": 64,
+      "cost": 2400.4013758638216
+    },
+    {
+      "id": "X03",
+      "stream": "expertise",
+      "description": "Agreed knowledge and learning connectors",
+      "hours": 64,
+      "cost": 2400.4013758638216
+    },
+    {
+      "id": "X04",
+      "stream": "expertise",
+      "description": "Testing, measurement and handover",
+      "hours": 48,
+      "cost": 1800.3010318978663
+    },
+    {
+      "id": "M01",
+      "stream": "monitoring",
+      "description": "Pilot scenario, signal schema and access",
+      "hours": 16,
+      "cost": 600.1003439659554
+    },
+    {
+      "id": "M02",
+      "stream": "monitoring",
+      "description": "One licensed source connector and cache",
+      "hours": 32,
+      "cost": 1200.2006879319108
+    },
+    {
+      "id": "M03",
+      "stream": "monitoring",
+      "description": "Topics, regions and expertise links",
+      "hours": 24,
+      "cost": 900.1505159489332
+    },
+    {
+      "id": "M04",
+      "stream": "monitoring",
+      "description": "Human review and corrections queue",
+      "hours": 32,
+      "cost": 1200.2006879319108
+    },
+    {
+      "id": "M05",
+      "stream": "monitoring",
+      "description": "Briefing, source links and version archive",
+      "hours": 24,
+      "cost": 900.1505159489332
+    },
+    {
+      "id": "M06",
+      "stream": "monitoring",
+      "description": "Testing, rights checks and pilot handover",
+      "hours": 32,
+      "cost": 1200.2006879319108
+    }
+  ],
+  "coreFutureDevelopment": 24004.013758638215,
+  "coreDevelopmentAllocation": 30455.092456272236,
+  "coreOperatingAllowance": 870,
+  "rateSources": {
+    "client": 394,
+    "communications": 418,
+    "strategy": 518,
+    "product": 521,
+    "osint": 649,
+    "legalUAH": 3000,
+    "gbpUAH": 60.7909,
+    "dayHours": 8
+  }
+}

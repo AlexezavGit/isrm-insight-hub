@@ -1,6 +1,34 @@
+import { NetworkCapabilityTree } from "./NetworkCapabilityTree";
+import {
+  packageServiceIds,
+  packageChanges,
+  excludeServiceChanges,
+  type PackageId,
+} from "@/lib/tailored-scope";
+import { selectedServiceIds } from "@/lib/client-draft";
+import { NetworkConcentrator } from "./NetworkConcentrator";
+import { NetworkWalkthrough, type WalkthroughState } from "./NetworkWalkthrough";
+import { NetworkProfile } from "./NetworkProfile";
+import { NetworkShortlist } from "./NetworkShortlist";
+import { NetworkInspectionDock } from "./NetworkInspectionDock";
+import { stackedInspectionLayout, type StackWidths } from "@/lib/network-dock";
+import {
+  chooseSearchExample,
+  resolveReplayExit,
+  SEARCH_REPLAY,
+  CONFIGURATION_REPLAY,
+  type Experience,
+} from "@/lib/network-experience";
 import { NetworkServiceDependencies, NetworkWorkflowDescription } from "./NetworkDescriptions";
+import {
+  SERVICE_FRAME_FIELDS,
+  emptyServiceFrame,
+  serviceFrameText,
+  missingRequirementFields,
+} from "@/lib/service-request-frame";
 import { MemberSurveyPreview } from "./MemberSurveyPreview";
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { CLIENT_APPROVED_PRICES, indicativePriceLabel } from "@/lib/client-pricing";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { Link, useSearch } from "@tanstack/react-router";
 import {
   ArrowLeft,
@@ -25,6 +53,7 @@ import {
   CLIENT_WORKFLOWS,
   CORE_SERVICE_IDS,
   type ServiceId,
+  type WorkflowId,
 } from "@/lib/client-catalog";
 import type { GraphLayers } from "@/lib/network-model";
 import { buildNetwork, relatedPeople, workflowServices } from "@/lib/network-model";
@@ -38,33 +67,58 @@ export function NetworkWorkbench() {
     uk = locale === "uk",
     t = (en: string, ua: string) => (uk ? ua : en);
   const { data, loading } = useAccess(),
-    { draft, update, ready } = useClientDraft();
+    { draft, update, ready, error: draftError } = useClientDraft();
   const route = useSearch({ strict: false }) as {
     panel?: string;
     stage?: string;
     preset?: string;
     anchor?: string;
+    capability?: string;
   };
   const root = useRef<HTMLElement>(null);
   const [wide, setWide] = useState(false);
+  const [viewportWidth, setViewportWidth] = useState(0);
+  const [inspectionFocus, setInspectionFocus] = useState(0);
+  const [panelInset, setPanelInset] = useState(0);
+  const resizedPanels = useRef(new Set<keyof StackWidths>());
+  const [searchFocus, setSearchFocus] = useState(0);
+  const [configurationStarted, setConfigurationStarted] = useState(false);
+  const [connectionPath, setConnectionPath] = useState<string[]>([]);
+  const [panelWidths, setPanelWidths] = useState<StackWidths>({
+    search: 300,
+    profile: 330,
+    shortlist: 330,
+  });
+  const [attemptedSave, setAttemptedSave] = useState(false);
+  const [walk, setWalk] = useState<WalkthroughState | null>(null);
+  const [groupOpen, setGroupOpen] = useState(route.panel === "shortlist");
+  const [fullDossier, setFullDossier] = useState(false);
+  const [experience, setExperience] = useState<Experience>(
+    route.stage === "configuration" || route.preset ? "configuration" : "prototype",
+  );
+  const [exampleName, setExampleName] = useState("");
+  const [exampleCodes, setExampleCodes] = useState<string[]>([]);
+  const savedView = useRef<ReturnType<typeof captureView> | null>(null);
   const [live, setLive] = useState(!route.anchor && !route.stage && !route.preset);
-  const [motionRequested, setMotionRequested] = useState(false);
+  const [motionRequested, setMotionRequested] = useState(true);
   const [searchHidden, setSearchHidden] = useState(false);
   const [left, setLeft] = useState<"search" | "workflows" | "shortlist" | null>(
     route.panel === "shortlist"
-      ? "shortlist"
+      ? null
       : route.panel === "search"
         ? "search"
         : route.stage === "configuration"
           ? "workflows"
           : null,
   );
-  const [shortlistSide, setShortlistSide] = useState<"left" | "right">("left");
   const [groupFeedback, setGroupFeedback] = useState<string | null>(null);
   const [mode, setMode] = useState<"people" | "services">(
     route.stage === "configuration" ? "services" : "people",
   );
-  const [f, setF] = useFilters();
+  const [f, setF] = useFilters(!walk && experience === "prototype");
+  const searchBeforeConnections = useRef<{ f: typeof f; anchor: string; live: boolean } | null>(
+    null,
+  );
   const [layers, setLayers] = useState<GraphLayers>({
     sector: true,
     theme: true,
@@ -81,21 +135,25 @@ export function NetworkWorkbench() {
     [service, setService] = useState<ServiceId | null>(null);
   const [active, setActive] = useState<ServiceId[]>([]),
     [openWorkflow, setOpenWorkflow] = useState<string | null>(null);
+  const [inspectedWorkflow, setInspectedWorkflow] = useState<string | null>(null);
   const lastStructured = useRef({ anchor, mode, active });
+  const [excludePackage, setExcludePackage] = useState<PackageId | null>(null);
   const [exclude, setExclude] = useState<ServiceId | null>(null),
     [disabled, setDisabled] = useState<ServiceId[]>([]);
   const [composer, setComposer] = useState(false),
     [kind, setKind] = useState<"service" | "workflow">("workflow"),
     [title, setTitle] = useState(""),
-    [description, setDescription] = useState(""),
+    [frame, setFrame] = useState(emptyServiceFrame),
     [saved, setSaved] = useState(false);
   const [mailing, setMailing] = useState(false),
     [survey, setSurvey] = useState(false),
     [mounted, setMounted] = useState(false),
-    [visible, setVisible] = useState(0),
-    [reduced, setReduced] = useState(false);
+    [visible, setVisible] = useState(0);
   const all = useMemo(() => data?.experts ?? [], [data]),
-    filtered = useMemo(() => applyFilters(all, f), [all, f]);
+    filtered = useMemo(
+      () => applyFilters(all, experience === "configuration" ? EMPTY : f),
+      [all, f, experience],
+    );
   const shown = useMemo(
     () => filtered.filter((e) => e.verified || layers.researchQueue),
     [filtered, layers.researchQueue],
@@ -104,26 +162,72 @@ export function NetworkWorkbench() {
     () => all.filter((expert) => expert.verified || layers.researchQueue),
     [all, layers.researchQueue],
   );
-  const selected = shown.find((e) => e.code === person),
+  const example = useMemo(() => chooseSearchExample(all), [all]);
+  const selectedCodes = walk?.kind === "prototype" ? exampleCodes : draft.shortlist;
+  const walkId = walk
+    ? (walk.kind === "configuration" ? CONFIGURATION_REPLAY : SEARCH_REPLAY)[walk.index]?.id
+    : undefined;
+  const selected = all.find((e) => e.code === person),
     selectedService = CLIENT_SERVICES.find((s) => s.id === service);
   const persistentSearch =
-    wide && !searchHidden && mode === "people" && !left && !selected && !service;
-  const leftPanelVisible = !!(
-    (left && !(left === "shortlist" && shortlistSide === "right")) ||
-    persistentSearch
+    wide && !searchHidden && experience === "prototype" && mode === "people" && !left;
+  const leftPanelVisible = !!(left || persistentSearch);
+  const layout = stackedInspectionLayout(
+    viewportWidth,
+    {
+      search: experience === "configuration" ? left === "workflows" : leftPanelVisible,
+      profile: experience === "configuration" ? !!inspectedWorkflow : !!selected,
+      shortlist: experience === "configuration" ? !!(selected || service) : groupOpen,
+    },
+    panelWidths,
+    experience === "configuration",
   );
   const rightPanelVisible = !!(
     selected ||
     service ||
-    (left === "shortlist" && shortlistSide === "right")
+    (experience === "configuration" ? left === "workflows" : groupOpen)
   );
-  const panelOpen = !!(left || selected || service);
-  const model = useMemo(() => buildNetwork(shown, layers, locale, f), [shown, layers, locale, f]);
+  const dossierFull = fullDossier;
+  const setWidth = (panel: keyof StackWidths, width: number) => {
+    resizedPanels.current.add(panel);
+    setPanelWidths((current) => ({ ...current, [panel]: width }));
+    if (panel === "profile")
+      setFullDossier(
+        width >= Math.max(460, Math.min(520, Math.round((viewportWidth - 40) / 4) + 40)),
+      );
+  };
+  const panelOpen = !!(left || selected || service || (groupOpen && experience === "prototype"));
+  const selection = experience === "configuration" ? EMPTY : f;
+  const model = useMemo(
+    () => buildNetwork(shown, layers, locale, selection),
+    [shown, layers, locale, selection],
+  );
+  const configuredServices = useMemo(() => selectedServiceIds(draft), [draft]);
+  const exclusionImpact = useMemo(() => {
+    if (!exclude) return [];
+    const next = { ...draft, ...excludeServiceChanges(draft, exclude, excludePackage) };
+    const after = relatedPeople(
+      model,
+      selectedServiceIds(next).map((id) => "svc:" + id),
+    );
+    return [
+      ...relatedPeople(
+        model,
+        configuredServices.map((id) => "svc:" + id),
+      ),
+    ].filter((id) => !after.has(id));
+  }, [exclude, excludePackage, draft, model, configuredServices]);
+  const graphServices =
+    experience === "configuration" && !walk
+      ? configurationStarted
+        ? configuredServices
+        : []
+      : active;
   const count =
-    mode === "services" && active.length
+    mode === "services"
       ? relatedPeople(
           model,
-          active.map((s) => "svc:" + s),
+          graphServices.map((s) => "svc:" + s),
         ).size
       : shown.length;
   const close = () => {
@@ -133,7 +237,6 @@ export function NetworkWorkbench() {
   };
   const structure = () => {
     setLive(false);
-    setMotionRequested(false);
     if (live) {
       setAnchor(lastStructured.current.anchor);
       setMode(lastStructured.current.mode);
@@ -141,23 +244,221 @@ export function NetworkWorkbench() {
     }
   };
   const openShortlist = () => {
-    setShortlistSide(
-      selected || service || (left === "shortlist" && shortlistSide === "right") ? "right" : "left",
-    );
-    close();
-    setSearchHidden(true);
-    setLeft("shortlist");
+    setGroupOpen((v) => !v);
   };
   const inspectPerson = (code: string) => {
+    setInspectionFocus((value) => value + 1);
     structure();
-    setF(EMPTY);
+    setFullDossier(false);
     if (!all.find((e) => e.code === code)?.verified)
       setLayers((v) => ({ ...v, researchQueue: true }));
     setService(null);
     setPerson(code);
-    if (!wide || (left === "shortlist" && shortlistSide === "right")) setLeft(null);
+  };
+  const captureView = () => ({
+    f: { ...f },
+    layers: { ...layers },
+    anchor,
+    mode,
+    active: [...active],
+    left,
+    person,
+    service,
+    live,
+    searchHidden,
+    groupOpen,
+    fullDossier,
+    openWorkflow,
+    inspectedWorkflow,
+    configurationStarted,
+    connectionPath: [...connectionPath],
+    disabled: [...disabled],
+    motionRequested,
+    connectionReturn: searchBeforeConnections.current,
+  });
+  const endWalk = (takeOver = false, restore = true) => {
+    if (!walk) return;
+    const result = resolveReplayExit(
+      savedView.current,
+      captureView(),
+      draft.shortlist,
+      exampleCodes,
+      takeOver,
+    );
+    if (takeOver && walk.kind === "prototype") {
+      update({ shortlist: result.selection, groupName: draft.groupName || exampleName });
+      setGroupOpen(true);
+    }
+    if (takeOver && walk.kind === "configuration" && walk.index >= 3)
+      update({
+        mode: "full",
+        workflowIds: [...new Set<WorkflowId>([...draft.workflowIds, "engagement"])],
+      });
+    if (!takeOver && restore) {
+      const view = result.view;
+      setF(view.f);
+      setLayers(view.layers);
+      setAnchor(view.anchor);
+      setMode(view.mode);
+      setActive(view.active);
+      setLeft(view.left);
+      setPerson(view.person);
+      setService(view.service);
+      setLive(view.live);
+      setSearchHidden(view.searchHidden);
+      setGroupOpen(view.groupOpen);
+      setFullDossier(view.fullDossier);
+      setOpenWorkflow(view.openWorkflow);
+      setInspectedWorkflow(view.inspectedWorkflow);
+      setConfigurationStarted(view.configurationStarted);
+      setConnectionPath(view.connectionPath);
+      setDisabled(view.disabled);
+      setMotionRequested(view.motionRequested);
+      searchBeforeConnections.current = view.connectionReturn;
+    }
+    setWalk(null);
+    savedView.current = null;
+  };
+  const beginWalk = () => {
+    if (!walk) savedView.current = captureView();
+    setExampleCodes([]);
+    setExampleName(t("Example enquiry", "Приклад запиту"));
+    setWalk({ kind: experience, index: 0, playing: true });
+  };
+  useEffect(() => {
+    if (!walk?.playing || loading) return;
+    const length =
+      walk.kind === "configuration" ? CONFIGURATION_REPLAY.length : SEARCH_REPLAY.length;
+    if (walk.index >= length - 1) {
+      setWalk((v) => (v ? { ...v, playing: false } : v));
+      return;
+    }
+    const timer = window.setTimeout(
+      () => setWalk((v) => (v ? { ...v, index: v.index + 1 } : v)),
+      6500,
+    );
+    return () => window.clearTimeout(timer);
+  }, [walk?.playing, walk?.index, walk?.kind, loading]);
+  useEffect(() => {
+    if (!walk || loading) return;
+    const id = (walk.kind === "configuration" ? CONFIGURATION_REPLAY : SEARCH_REPLAY)[walk.index]
+      ?.id;
+    setSearchHidden(true);
+    setPerson(null);
+    setService(null);
+    setInspectedWorkflow(null);
+    setFullDossier(false);
+    setLeft(null);
+    if (walk.kind === "configuration") {
+      setMode("services");
+      setLive(false);
+      setAnchor("isrm");
+      setGroupOpen(false);
+      setF(EMPTY);
+      setLeft("workflows");
+      if (id === "intro" || id === "core") {
+        setInspectedWorkflow("core");
+        setOpenWorkflow("core");
+        setActive([...CORE_SERVICE_IDS]);
+      }
+      if (id === "service") {
+        setInspectedWorkflow("core");
+        setOpenWorkflow("core");
+        setActive(["search"]);
+        setService("search");
+      }
+      if (id === "workflow") {
+        setInspectedWorkflow("engagement");
+        setOpenWorkflow("engagement");
+        setActive(workflowServices("engagement", []));
+      }
+      if (id === "tailor") setOpenWorkflow("own");
+      return;
+    }
+    setMode("people");
+    setLive(id === "intro");
+    setAnchor("isrm");
+    setLayers((v) => ({
+      ...v,
+      country: true,
+      sector: true,
+      specialisation: true,
+      researchQueue: !!example?.people.some((p) => !p.verified),
+    }));
+    const first = example?.people[0],
+      second = example?.people[1] ?? first;
+    if (!first) {
+      setWalk((v) => (v ? { ...v, playing: false } : v));
+      setLeft("search");
+      return;
+    }
+    const filters = {
+      ...EMPTY,
+      country: id === "intro" ? "" : first.country,
+      sector: walk.index >= 2 ? first.sector : "",
+      expertise: walk.index >= 3 && walk.index < 10 ? first.primaryExpertise : "",
+    };
+    if (walk.index >= 11 && second) {
+      filters.country = second.country;
+      filters.sector = second.sector;
+      filters.expertise = "";
+    }
+    setF(filters);
+    if (walk.index <= 3) setLeft("search");
+    if (walk.index >= 4 && walk.index <= 10) setPerson(first.code);
+    if (walk.index >= 6 && walk.index <= 9) setFullDossier(true);
+    if (walk.index >= 11 && second) {
+      setPerson(second.code);
+      setAnchor(second.code);
+    }
+    setExampleCodes(
+      walk.index >= 12 ? example.people.map((p) => p.code) : walk.index >= 10 ? [first.code] : [],
+    );
+    setGroupOpen(walk.index >= 10);
+    // Commands are tied to the replay step, not to subsequent manual panel interactions.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [walk?.index, walk?.kind, loading, example]);
+  useEffect(() => {
+    if (!walkId) return;
+    const panel = root.current?.querySelector<HTMLElement>(".network-right-panel");
+    if (!panel) return;
+    const field =
+      walkId === "full-evidence" ? "evidence" : walkId === "full-expertise" ? "expertise" : null;
+    const frame = requestAnimationFrame(() => {
+      const target = field
+        ? panel.querySelector<HTMLElement>('[data-profile-field="' + field + '"]')
+        : walkId === "request" || walkId === "findings"
+          ? panel.querySelector<HTMLElement>(".network-research-preview")
+          : null;
+      if (target)
+        panel.scrollTop +=
+          target.getBoundingClientRect().top -
+          panel.getBoundingClientRect().top -
+          parseFloat(getComputedStyle(panel).paddingTop) -
+          8;
+      else panel.scrollTop = 0;
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [walkId, person]);
+  const changePackage = (id: PackageId, serviceId: ServiceId, checked: boolean) => {
+    setConfigurationStarted(true);
+    if (!checked) {
+      setExcludePackage(id);
+      setExclude(serviceId);
+      return;
+    }
+    update(packageChanges(draft, id, [...packageServiceIds(draft, id), serviceId]));
+    setService(serviceId);
+    setDisabled((v) => v.filter((s) => s !== serviceId));
   };
   const choose = (id: ServiceId) => {
+    setConfigurationStarted(true);
+    if (experience === "configuration") {
+      if (!inspectedWorkflow)
+        setInspectedWorkflow(openWorkflow && openWorkflow !== "own" ? openWorkflow : "core");
+    } else setInspectedWorkflow(null);
+    setInspectionFocus((value) => value + 1);
+    if (id === "survey") setSurvey(true);
     setLive(false);
     setDisabled((v) => v.filter((s) => s !== id));
     setActive([id]);
@@ -165,9 +466,11 @@ export function NetworkWorkbench() {
     if (mode !== "services") setAnchor("isrm");
     setService(id);
     setPerson(null);
-    if (!wide) setLeft(null);
   };
   const activateWorkflow = (id: string) => {
+    setConfigurationStarted(true);
+    setInspectedWorkflow(id);
+    setInspectionFocus((value) => value + 1);
     setLive(false);
     setMode("services");
     setActive(workflowServices(id, disabled));
@@ -178,6 +481,8 @@ export function NetworkWorkbench() {
     setOpenWorkflow((v) => (v === id ? null : id));
   };
   const chooseAnchor = (id: string) => {
+    if (all.some((e) => e.code === id) && !searchBeforeConnections.current)
+      searchBeforeConnections.current = { f: { ...f }, anchor, live };
     setLive(false);
     close();
     setAnchor(id);
@@ -197,11 +502,28 @@ export function NetworkWorkbench() {
       setActive(workflowServices(w, disabled));
     } else setMode("people");
   };
+  const continueSearch = () => {
+    setSearchFocus((value) => value + 1);
+    const view = searchBeforeConnections.current;
+    if (view) {
+      setF(view.f);
+      setAnchor(view.anchor);
+      setLive(view.live);
+      searchBeforeConnections.current = null;
+    }
+    setLeft("search");
+    setSearchHidden(false);
+    setPerson(null);
+    setService(null);
+    setMode("people");
+  };
   const startComposer = (k: "service" | "workflow") => {
+    if (walk) endWalk();
     setKind(k);
     setTitle("");
-    setDescription("");
+    setFrame(emptyServiceFrame());
     setSaved(false);
+    setAttemptedSave(false);
     setComposer(true);
   };
   useEffect(() => {
@@ -212,26 +534,81 @@ export function NetworkWorkbench() {
   useEffect(() => {
     setMounted(true);
     const screen = matchMedia("(min-width:1100px)");
-    setWide(screen.matches);
-    const resize = () => setWide(screen.matches);
-    screen.addEventListener("change", resize);
-    const q = matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(q.matches);
-    const change = () => setReduced(q.matches);
-    q.addEventListener("change", change);
+    const resize = () => {
+      setWide(screen.matches);
+      setViewportWidth(window.innerWidth);
+    };
+    resize();
+    window.addEventListener("resize", resize);
     return () => {
-      q.removeEventListener("change", change);
-      screen.removeEventListener("change", resize);
+      window.removeEventListener("resize", resize);
     };
   }, []);
   useEffect(() => {
     if (loading) return;
-    if (person && !shown.some((e) => e.code === person)) setPerson(null);
+    if (person && !all.some((e) => e.code === person)) setPerson(null);
     if (anchor !== "isrm" && !model.nodes.some((n) => n.id === anchor)) setAnchor("isrm");
-  }, [shown, model, person, anchor, loading]);
+  }, [shown, all, model, person, anchor, loading]);
+  const prototypeView = useRef<{
+    f: typeof f;
+    layers: GraphLayers;
+    anchor: string;
+    left: typeof left;
+    live: boolean;
+    groupOpen: boolean;
+    searchHidden: boolean;
+  } | null>(null);
+  useEffect(() => {
+    const next: Experience =
+      route.stage === "configuration" || route.preset ? "configuration" : "prototype";
+    if (next === experience) return;
+    const returnView = resolveReplayExit(
+      savedView.current,
+      captureView(),
+      draft.shortlist,
+      exampleCodes,
+      false,
+    ).view;
+    if (walk) endWalk(false, false);
+    if (next === "configuration") {
+      prototypeView.current = returnView;
+      close();
+      setF(EMPTY);
+      setGroupOpen(false);
+      setMode("services");
+      setLive(false);
+      setAnchor("isrm");
+      setActive([]);
+      setLeft("workflows");
+      setSearchHidden(true);
+    } else {
+      close();
+      setMode("people");
+      setService(null);
+      setActive([]);
+      const view = prototypeView.current;
+      if (view) {
+        setF(view.f);
+        setLayers(view.layers);
+        setAnchor(view.anchor);
+        setLeft(view.left);
+        setLive(view.live);
+        setGroupOpen(view.groupOpen);
+        setSearchHidden(view.searchHidden);
+      } else {
+        setAnchor("isrm");
+        setLive(true);
+        setSearchHidden(false);
+      }
+    }
+    setExperience(next);
+    // Route changes are explicit experience transitions; routine panel changes are not.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [route.stage, route.preset]);
   useEffect(() => {
     if (route.panel === "shortlist") {
-      setLeft("shortlist");
+      setGroupOpen(true);
+      setLeft(null);
       setSearchHidden(true);
     } else if (route.panel === "search") setLeft("search");
   }, [route.panel]);
@@ -247,7 +624,7 @@ export function NetworkWorkbench() {
   useEffect(() => {
     if (!route.preset) return;
     setLive(false);
-    if (route.preset === "engagement" || route.preset === "expertise") {
+    if (CLIENT_WORKFLOWS.some((w) => w.id === route.preset)) {
       setLeft("workflows");
       const w = route.preset;
       setMode("services");
@@ -257,31 +634,241 @@ export function NetworkWorkbench() {
     }
   }, [route.preset]);
   useEffect(() => {
+    if (experience !== "configuration" || !route.capability) return;
+    const capability = CLIENT_SERVICES.find((item) => item.id === route.capability);
+    if (capability) {
+      setLeft("workflows");
+      choose(capability.id);
+    }
+    // This is an explicit route handoff, not an effect of ordinary service inspection.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [route.capability, experience]);
+  useEffect(() => {
+    if (experience === "configuration") {
+      setPanelWidths({ search: 300, profile: 330, shortlist: 330 });
+      setPanelInset(0);
+    }
+  }, [experience]);
+  useEffect(() => {
     const el = root.current;
     if (!el) return;
     const header = el.querySelector<HTMLElement>(".shared-client-header"),
       dashboard = el.querySelector<HTMLElement>(".network-dashboard");
     if (!header || !dashboard) return;
+    const rail = el.querySelector<HTMLElement>(".network-bottom-rail");
+    const controls = el.querySelector<HTMLElement>(".network-concentrators");
     const measure = () => {
+      const tab = header.querySelector<HTMLElement>(".client-journey-tabs > a");
+      if (experience === "configuration") {
+        setPanelInset(0);
+      } else if (wide && tab) {
+        const rect = tab.getBoundingClientRect();
+        const column = Math.max(220, Math.min(560, Math.round(rect.width)));
+        setPanelInset(Math.max(0, Math.round(rect.left - el.getBoundingClientRect().left)));
+        setPanelWidths((current) => {
+          const next = { ...current };
+          for (const key of ["search", "profile", "shortlist"] as const)
+            if (!resizedPanels.current.has(key)) next[key] = column;
+          return Object.keys(next).some(
+            (key) => next[key as keyof StackWidths] !== current[key as keyof StackWidths],
+          )
+            ? next
+            : current;
+        });
+      }
       const top = header.offsetHeight + dashboard.offsetHeight;
       el.style.setProperty("--network-controls-top", `${top}px`);
-      el.style.setProperty("--network-header-bottom", `${top + 48}px`);
+      el.style.setProperty(
+        "--network-header-bottom",
+        `${top + (controls?.offsetHeight ?? 0) + 12}px`,
+      );
+      if (rail?.offsetHeight)
+        el.style.setProperty("--network-rail-height", `${rail.offsetHeight}px`);
     };
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(header);
     ro.observe(dashboard);
+    if (rail) ro.observe(rail);
+    if (controls) ro.observe(controls);
     return () => ro.disconnect();
-  }, []);
+  }, [wide, panelOpen, experience]);
+  const personServiceInspection = (
+    <>
+      {selected && (
+        <aside
+          className={`network-paper-panel network-right-panel ${dossierFull ? "is-full-dossier" : ""}`}
+          aria-label={
+            dossierFull
+              ? t("Full person dossier", "Повне досьє персони")
+              : t("Person dossier", "Досьє персони")
+          }
+        >
+          {experience === "configuration" ? (
+            <>
+              <h2>{selected.displayName}</h2>
+              <p>{selected.primaryExpertise}</p>
+              <p className="network-panel-note">
+                {t(
+                  "Illustrative audience profile. Coverage does not establish actual use, entitlement or participation. Switch to the prototype to review and shortlist expertise.",
+                  "Профіль можливої аудиторії. Охоплення не підтверджує користування, право доступу чи участь. Для дослідження й відбору експертизи перейдіть до прототипу.",
+                )}
+              </p>
+              <Link
+                className="network-context-action"
+                to="/"
+                search={{ view: "map", anchor: selected.code }}
+              >
+                {t("Review in the prototype", "Переглянути у прототипі")}
+              </Link>
+            </>
+          ) : (
+            <>
+              <NetworkProfile
+                expert={selected}
+                example={!!walk}
+                uk={uk}
+                full={dossierFull}
+                onFull={(full) => {
+                  setFullDossier(full);
+                  setPanelWidths((current) => ({
+                    ...current,
+                    profile: full ? 560 : Math.max(220, Math.round((viewportWidth - 40) / 4)),
+                  }));
+                }}
+                shortlisted={selectedCodes.includes(selected.code)}
+                ready={ready}
+                onToggle={() => {
+                  const removing = selectedCodes.includes(selected.code);
+                  const shortlist = removing
+                    ? selectedCodes.filter((code) => code !== selected.code)
+                    : [...selectedCodes, selected.code];
+                  if (walk?.kind === "prototype") setExampleCodes(shortlist);
+                  else update({ shortlist });
+                  setGroupOpen(true);
+                  setGroupFeedback(
+                    removing
+                      ? t("Removed from your group · −1", "Прибрано з вашої групи · −1")
+                      : t("Added to your group · +1", "Додано до вашої групи · +1"),
+                  );
+                }}
+                onGroup={() => setGroupOpen(true)}
+                onConnections={() => chooseAnchor(selected.code)}
+                replayResearch={
+                  walkId === "request" ? "request" : walkId === "findings" ? "findings" : undefined
+                }
+                highlight={
+                  walkId === "full-expertise"
+                    ? "expertise"
+                    : walkId === "full-evidence"
+                      ? "evidence"
+                      : undefined
+                }
+              />
+            </>
+          )}
+        </aside>
+      )}
+      {selectedService && (
+        <aside
+          className="network-paper-panel network-right-panel"
+          aria-label={t("Service dossier", "Опис сервісу")}
+        >
+          <h2>{selectedService.title[locale]}</h2>
+          <details className="network-service-description" open>
+            <summary>{t("How this would help", "Як це допоможе")}</summary>
+            <p>{selectedService.detail[locale]}</p>
+          </details>
+          <NetworkServiceDependencies
+            id={selectedService.id}
+            locale={locale}
+            expanded={
+              wide && (experience === "configuration" ? layout.shortlist : layout.profile) >= 460
+            }
+          />
+          {service === "survey" && (
+            <button
+              className="network-context-action"
+              onClick={() => {
+                if (walk) endWalk();
+                setSurvey(true);
+              }}
+            >
+              {t("Open the questionnaire", "Відкрити опитувальник")}
+            </button>
+          )}
+          <small>{selectedService.status[locale]}</small>
+          <button
+            className="network-context-action"
+            onClick={() => {
+              startComposer("service");
+              setTitle(selectedService.title[locale]);
+            }}
+          >
+            {t("Suggest a change to this capability", "Запропонувати зміну цієї функції")}
+          </button>
+          <p className="network-panel-note">
+            {t(
+              "Illustrative audience bands show potential overlapping coverage. They are not actual assignments or inferred interests.",
+              "Умовні групи аудиторії показують можливе перехресне охоплення. Це не реальні призначення й не припущення про інтереси персон.",
+            )}
+          </p>
+          {service === "contact" && (
+            <>
+              <button
+                className="network-folder-button"
+                onClick={() => {
+                  if (walk) endWalk();
+                  setMailing(true);
+                }}
+              >
+                {t("Prepare a mailing list", "Скласти список розсилки")}
+              </button>
+              <button
+                className="network-folder-button"
+                onClick={() => {
+                  if (walk) endWalk();
+                  setSurvey(true);
+                }}
+              >
+                {t("View the member questionnaire", "Переглянути опитувальник членів")}
+              </button>
+            </>
+          )}
+          <button
+            className="network-folder-button"
+            onClick={() => {
+              close();
+              setLeft("workflows");
+            }}
+          >
+            {t("Back to workflows", "До workflow")}
+          </button>
+          <button
+            className="network-folder-button"
+            onClick={() => {
+              if (walk) endWalk();
+              setExcludePackage(null);
+              setExclude(service);
+            }}
+          >
+            {t("Remove from proposed scope", "Вилучити із запропонованого обсягу")}
+          </button>
+        </aside>
+      )}
+    </>
+  );
   const backButton = (
     <button
       className="graph-return-tab"
       onClick={() => {
+        setInspectedWorkflow(null);
         close();
+        setGroupOpen(false);
         setSearchHidden(true);
       }}
-      aria-label={t("Close all panels · show graph", "Закрити всі панелі · до графа")}
-      title={t("Close all panels · show graph", "Закрити всі панелі · до графа")}
+      aria-label={t("Show graph", "Показати граф")}
+      title={t("Show graph", "Показати граф")}
     >
       <Network size={21} />
     </button>
@@ -289,35 +876,84 @@ export function NetworkWorkbench() {
   return (
     <main
       ref={root}
-      className={`client-network-page network-workbench ${panelOpen ? "has-panel" : ""}`}
+      className={`client-network-page network-workbench is-${experience} ${panelOpen ? "has-panel" : ""} ${groupOpen ? "has-shortlist-tray" : ""} ${walk ? "has-replay" : ""}`}
+      style={
+        {
+          "--network-inspection-width": `${layout.width}px`,
+          "--network-left-space": `${wide ? layout.width + (layout.width ? panelInset : 0) : 0}px`,
+          "--network-dock-left": `${wide ? panelInset : 0}px`,
+        } as CSSProperties
+      }
+      data-replay-step={walkId}
+      onPointerDownCapture={(event) => {
+        if (
+          walk?.playing &&
+          !(event.target as HTMLElement).closest(
+            ".network-replay-coach,.network-replay-invite,.network-survey-link",
+          )
+        )
+          setWalk({ ...walk, playing: false });
+      }}
     >
       <div
         className={`network-canvas ${leftPanelVisible ? "has-left-panel" : ""} ${rightPanelVisible ? "has-right-panel" : ""} ${persistentSearch ? "has-search-rail" : ""}`}
+        style={
+          wide ? { left: layout.width + (layout.width ? panelInset : 0), right: 0 } : undefined
+        }
       >
         {mounted && !loading && (
           <Suspense fallback={null}>
             <NetworkGraph
               experts={shown}
               layers={layers}
-              referenceSelection={f}
+              referenceSelection={selection}
               locale={locale}
               focus={person}
               onFocus={(code) => {
-                close();
+                setInspectionFocus((value) => value + 1);
+                setService(null);
+                setFullDossier(false);
                 if (code) setPerson(code);
-                else setSearchHidden(true);
+                else {
+                  close();
+                  setGroupOpen(false);
+                  setInspectedWorkflow(null);
+                  setSearchHidden(true);
+                }
               }}
               serviceMode={mode === "services"}
               live={live}
-              activeServiceIds={active}
+              activeServiceIds={graphServices}
+              highlightedService={service}
+              coachNode={walk ? person || anchor : null}
+              highlightedPath={connectionPath}
+              onServiceExclude={(id) => {
+                if (walk) endWalk();
+                setExcludePackage(null);
+                setExclude(id as ServiceId);
+              }}
               onServiceSelect={(id) => choose(id as ServiceId)}
               onWorkflowSelect={activateWorkflow}
+              workflowInfoId={openWorkflow && openWorkflow !== "own" ? openWorkflow : null}
+              showConnectionPath={experience === "prototype"}
+              readableExpansions={experience === "prototype"}
+              onWorkflowDismiss={
+                experience === "prototype" ? () => setInspectedWorkflow(null) : undefined
+              }
+              onPath={(ids) => {
+                setConnectionPath(ids);
+                if (ids.length) {
+                  setAnchor("isrm");
+                  setLive(false);
+                }
+              }}
               onVisibleCount={setVisible}
               anchor={anchor}
               onAnchor={chooseAnchor}
               warningService={exclude}
+              warningPeopleIds={exclusionImpact}
               disabledServiceIds={disabled}
-              motionPaused={reduced && !motionRequested}
+              motionPaused={!motionRequested}
             />
           </Suspense>
         )}
@@ -330,14 +966,14 @@ export function NetworkWorkbench() {
           </p>
         )}
       </div>
-      <ClientHeader />
+      <ClientHeader baseline={experience === "configuration"} />
       <div className={`network-dashboard ${persistentSearch ? "has-search-rail" : ""}`}>
         <div className="network-panel-heading network-left-heading">
           {leftPanelVisible && (
             <>
               <h2>
                 {left === "workflows"
-                  ? "Workflows"
+                  ? t("Capability configurator", "Конфігуратор функціональності")
                   : left === "shortlist"
                     ? t("Your shortlist", "Ваш shortlist")
                     : t("Search", "Пошук")}
@@ -348,13 +984,10 @@ export function NetworkWorkbench() {
         </div>
         <nav
           className="network-dashboard-navigation"
-          aria-label={t("Briefing and scope", "Брифінг та обсяг робіт")}
+          aria-label={t("Current view and selection", "Поточний вигляд і відбір")}
         >
-          <Link to="/proposal" className="network-context-link">
-            <ArrowLeft size={17} />
-            <span>{t("Briefing", "Брифінг")}</span>
-          </Link>
           <div className="network-metrics" aria-live="polite">
+            {experience === "prototype" && backButton}
             <span>
               <strong className="network-metric-number" key={visible}>
                 {visible}
@@ -369,36 +1002,32 @@ export function NetworkWorkbench() {
                 ? t("service coverage", "охоплено сервісом")
                 : t("matched", "знайдено")}
             </span>
-            <button
-              className={`network-shortlist-trigger ${groupFeedback ? "has-feedback" : ""}`}
-              onClick={openShortlist}
-              aria-label={t("Open shortlist", "Відкрити shortlist")}
-            >
-              <strong className="network-metric-number" key={draft.shortlist.length}>
-                {draft.shortlist.length}
-              </strong>
-              {t("in your group", "у вашій групі")}
-            </button>
+            {experience === "prototype" && (
+              <button
+                className={`network-shortlist-trigger ${groupFeedback ? "has-feedback" : ""}`}
+                onClick={openShortlist}
+                aria-label={t("Open shortlist", "Відкрити shortlist")}
+              >
+                <strong className="network-metric-number" key={selectedCodes.length}>
+                  {selectedCodes.length}
+                </strong>
+                {t("in your group", "у вашій групі")}
+              </button>
+            )}
             {groupFeedback && (
               <span className="network-group-feedback" role="status">
                 {groupFeedback}
               </span>
             )}
           </div>
-          <Link to="/scope" className="network-context-link">
-            <span>{t("Scope & budget", "Обсяг і бюджет")}</span>
-            <ArrowRight size={17} />
-          </Link>
         </nav>
         <div className="network-panel-heading network-right-heading">
-          {(selected || selectedService || (left === "shortlist" && shortlistSide === "right")) && (
+          {(selected || selectedService) && (
             <>
               <h2>
-                {left === "shortlist" && shortlistSide === "right"
-                  ? t("Your shortlist", "Ваш shortlist")
-                  : selected
-                    ? `${t("Dossier", "Досьє")} · ${selected.code}`
-                    : t("Service capability", "Сервісна функціональність")}
+                {selected
+                  ? `${t("Dossier", "Досьє")} · ${selected.code}`
+                  : t("Service capability", "Сервісна функціональність")}
               </h2>
               {backButton}
             </>
@@ -408,53 +1037,33 @@ export function NetworkWorkbench() {
       {(!panelOpen || wide) && (
         <div
           className={`network-concentrators ${leftPanelVisible ? "has-left-panel" : ""} ${rightPanelVisible ? "has-right-panel" : ""} ${persistentSearch ? "has-search-rail" : ""}`}
+          style={
+            wide
+              ? { left: layout.width + (layout.width ? panelInset : 0) + 12, right: 12 }
+              : undefined
+          }
         >
-          <label>
-            <span>{t("Concentrator", "Концентратор")}</span>
-            <select
-              aria-label={t("Choose graph concentrator", "Обрати концентратор графа")}
-              value={model.nodes.some((n) => n.id === anchor) ? anchor : "isrm"}
-              onChange={(e) => chooseAnchor(e.target.value)}
-            >
-              <option value="isrm">ISRM</option>
-              <optgroup label={t("Workflows", "Workflow")}>
-                <option value="workflow:core">{t("Trust core", "Ядро довіри")}</option>
-                {CLIENT_WORKFLOWS.map((w) => (
-                  <option key={w.id} value={"workflow:" + w.id}>
-                    {w.title[locale]}
-                  </option>
-                ))}
-              </optgroup>
-              <optgroup label={t("Services", "Сервіси")}>
-                {CLIENT_SERVICES.map((s) => (
-                  <option key={s.id} value={"svc:" + s.id}>
-                    {s.title[locale]}
-                  </option>
-                ))}
-              </optgroup>
-              <optgroup label={t("People", "Персони")}>
-                {shown.map((p) => (
-                  <option key={p.code} value={p.code}>
-                    {p.displayName}
-                  </option>
-                ))}
-              </optgroup>
-              <optgroup
-                label={t(
-                  "Supplied categories & organisations",
-                  "Категорії та організації з вибірки",
-                )}
-              >
-                {model.nodes
-                  .filter((n) => !["expert", "service", "workflow", "isrm"].includes(n.kind))
-                  .map((n) => (
-                    <option key={n.id} value={n.id}>
-                      {n.label}
-                    </option>
-                  ))}
-              </optgroup>
-            </select>
-          </label>
+          <NetworkConcentrator
+            nodes={
+              experience === "prototype"
+                ? model.nodes.filter((n) => !["service", "workflow"].includes(n.kind))
+                : model.nodes
+            }
+            value={anchor}
+            configuration={experience === "configuration"}
+            onFindPerson={
+              experience === "prototype"
+                ? (query) => {
+                    structure();
+                    setF({ ...EMPTY, q: query });
+                    setLeft("search");
+                    setSearchHidden(false);
+                  }
+                : undefined
+            }
+            onChange={chooseAnchor}
+            uk={uk}
+          />
           <button
             className="network-live-control"
             aria-pressed={live}
@@ -466,14 +1075,14 @@ export function NetworkWorkbench() {
                 setSearchHidden(true);
                 setMode("people");
                 setAnchor("isrm");
-                setMotionRequested(false);
+                setMotionRequested(true);
                 setLive(true);
               }
             }}
           >
             {t("Live graph", "Живий граф")}
           </button>
-          {live && reduced && (
+          {live && (
             <button
               className="network-motion-control"
               aria-pressed={motionRequested}
@@ -492,12 +1101,23 @@ export function NetworkWorkbench() {
               {motionRequested ? <Pause size={16} /> : <Play size={16} />}
             </button>
           )}
+          <span className="network-experience-purpose">
+            {experience === "prototype"
+              ? t(
+                  "Interactive prototype · find, review and retain expertise",
+                  "Інтерактивний прототип · знайти, перевірити й відібрати експертизу",
+                )
+              : t(
+                  "Capability configurator · choose services for your proposal",
+                  "Конфігуратор · обрати сервіси для пропозиції",
+                )}
+          </span>
           <span className="network-interaction-hint">
             {live
-              ? reduced && !motionRequested
+              ? !motionRequested
                 ? t(
-                    "Reduced motion: drag nodes manually or press Play; search restores the structured view.",
-                    "Зменшення руху: тягніть вузли вручну або натисніть Play; пошук повертає структуру.",
+                    "Paused. Drag nodes manually or press Play; search returns to the structured view.",
+                    "Рух призупинено. Тягніть вузли вручну або натисніть Play; пошук повертає структуру.",
                   )
                 : t(
                     "Drag nodes to explore; a search choice returns to the structured view.",
@@ -509,374 +1129,333 @@ export function NetworkWorkbench() {
                     "Зв’язки у межах двох кроків · спільні записи, не особисті знайомства.",
                   )
                 : t(
-                    "Hover for a name; select a node for details. Centre the view only when you choose.",
+                    "Hover to see direct connections; zoom in for names. Select a node for details.",
                     "Наведіть для назви; оберіть вузол для опису. Центрування — окрема дія.",
                   )}
           </span>
         </div>
       )}
-      {(left === "search" || persistentSearch) && (
-        <aside
-          className={`network-paper-panel network-left-panel ${persistentSearch ? "is-persistent-search" : ""}`}
-          aria-label={t("Search panel", "Панель пошуку")}
-        >
-          <fieldset className="network-layer-switch">
-            <legend>{t("Concentrators switch", "Перемикач концентраторів")}</legend>
-            {(
-              [
-                ["organization", "People + organisations", "Персони та організації"],
-                ["hub", "Professional role / chapter", "Професійна роль / чаптер"],
-                ["rank", "Recorded review status", "Зафіксований статус перевірки"],
-                ["specialisation", "Specialisation / expertise", "Спеціалізація / експертиза"],
-                ["sector", "Economic sectors", "Сектори економіки"],
-                ["theme", "Experience themes", "Тематики досвіду"],
-                ["country", "Countries / territories", "Країни / території"],
-                ["researchQueue", "Awaiting review", "Очікують перевірки"],
-                ["services", "ISRM application services", "Сервіси застосунку ISRM"],
-              ] as const
-            ).map(([id, en, ua]) => (
-              <label key={id}>
-                <input
-                  type="checkbox"
-                  checked={id === "services" ? mode === "services" : !!layers[id]}
-                  onChange={(e) => {
-                    structure();
-                    setLayers({ ...layers, [id]: e.target.checked });
-                    if (id === "services") {
-                      setMode(e.target.checked ? "services" : "people");
-                      setAnchor("isrm");
-                      setActive([]);
-                      setPerson(null);
-                      setService(null);
-                    }
-                  }}
-                />
-                {t(en, ua)}
-              </label>
-            ))}
-          </fieldset>
-          <p className="network-panel-note">
-            {t(
-              "Explore recorded coverage and reference categories, including those with no matching profiles.",
-              "Переглядайте наявні записи й категорії довідника, зокрема ті, для яких профілів ще немає.",
-            )}
-          </p>
-          <details className="network-refine-fields" open={left === "search"}>
-            <summary>{t("Refine the search", "Уточнити пошук")}</summary>
-            <FilterBar
-              experts={referenceExperts}
-              f={f}
-              setF={(value) => {
-                structure();
-                setF(value);
-              }}
-              compact
-              showResearchQueue={false}
-              includeReference
-            />
-          </details>
-          <button className="network-folder-button" onClick={close}>
-            {t("Show results", "Показати результати")} · {shown.length}
-          </button>
-          <details className="network-profile-list">
-            <summary>{t("Profiles · keyboard access", "Профілі · вибір з клавіатури")}</summary>
-            {shown.map((p) => (
-              <button key={p.code} onClick={() => inspectPerson(p.code)}>
-                {p.displayName}
-              </button>
-            ))}
-          </details>
-        </aside>
-      )}
-      {left === "shortlist" && (
-        <aside
-          className={`network-paper-panel network-${shortlistSide}-panel`}
-          aria-label={t("Shortlist", "Shortlist · відібрана група")}
-        >
-          <label className="network-group-name">
-            {t("Group name", "Назва групи")}
-            <input
-              value={draft.groupName}
-              disabled={!ready}
-              onChange={(e) => update({ groupName: e.target.value })}
-              placeholder={t("Working group", "Робоча група")}
-            />
-          </label>
-          <p className="network-panel-note">
-            {t(
-              "Saved in this browser. Opening a profile does not remove it from your group.",
-              "Збережено в цьому браузері. Перегляд профілю не прибирає його з групи.",
-            )}
-          </p>
-          {!draft.shortlist.length && (
-            <p>
-              {t(
-                "Select a person and choose Add to shortlist. Your selection will appear here.",
-                "Оберіть персону й натисніть «Додати до відбору». Вибрані профілі з’являться тут.",
-              )}
-            </p>
-          )}
-          <ol className="network-shortlist">
-            {draft.shortlist.map((code) => {
-              const p = all.find((e) => e.code === code);
-              return (
-                <li key={code}>
-                  <button
-                    className="network-context-action"
-                    onClick={() => inspectPerson(code)}
-                    disabled={!p}
-                  >
-                    {p?.displayName || code}
-                  </button>
-                  <p>
-                    {p?.primaryExpertise ||
-                      t(
-                        "Not in the current accessible sample",
-                        "Немає в поточній доступній вибірці",
-                      )}
-                  </p>
-                  <div>
-                    {p && (
-                      <button className="network-context-action" onClick={() => chooseAnchor(code)}>
-                        {t("Explore connections", "Дослідити зв’язки")}
-                      </button>
-                    )}
-                    <button
-                      className="network-context-action"
-                      disabled={!ready}
-                      onClick={() =>
-                        update({ shortlist: draft.shortlist.filter((id) => id !== code) })
-                      }
-                      aria-label={t("Remove ", "Прибрати ") + code}
-                    >
-                      {t("Remove", "Прибрати")}
-                    </button>
-                  </div>
-                </li>
-              );
-            })}
-          </ol>
-          <Link className="network-context-action" to="/scope">
-            {t("Review your proposal request", "Переглянути запит на пропозицію")}
-          </Link>
-        </aside>
-      )}
-      {left === "workflows" && (
-        <aside
-          className="network-paper-panel network-left-panel"
-          aria-label={t("Workflow panel", "Панель workflow")}
-        >
-          <p className="network-panel-note">
-            {t(
-              "Recurring actions, organised around a useful result. Select a folder to see its services and their potential coverage.",
-              "Повторювані дії, впорядковані навколо корисного результату. Оберіть папку, щоб побачити її сервіси та можливе охоплення.",
-            )}
-          </p>
-          <button
-            className="network-service-tab network-add-request"
-            onClick={() => startComposer("workflow")}
-          >
-            <Plus size={18} />
-            {t("Describe your own requirement", "Описати власну потребу")}
-          </button>
-          {[
-            {
-              id: "core",
-              title: { en: "Trust core", uk: "Ядро довіри" },
-              serviceIds: CORE_SERVICE_IDS,
-            },
-            ...CLIENT_WORKFLOWS,
-          ].map((w) => (
-            <section key={w.id} className="network-workflow-folder">
+      <NetworkInspectionDock
+        historical={experience === "configuration"}
+        searchKey={searchFocus}
+        searchLabel={
+          experience === "configuration" ? t("Configurator", "Конфігуратор") : t("Search", "Пошук")
+        }
+        onCloseSearch={() => {
+          setLeft(null);
+          setSearchHidden(true);
+        }}
+        search={
+          experience === "configuration" && left === "workflows" ? (
+            <aside
+              className="network-paper-panel network-left-panel"
+              aria-label={t("Workflow panel", "Панель workflow")}
+            >
+              <p className="network-panel-note">
+                {t(
+                  "Choose support for ISRM’s working practices and policies. Explore a workflow or service, adjust its contents or describe your own requirement. Your choices shape a proposal; they do not activate services.",
+                  "Оберіть підтримку робочих практик і політик ISRM. Перегляньте workflow чи сервіс, змініть склад або опишіть власну потребу. Вибір формує пропозицію, а не активує сервіси.",
+                )}
+              </p>
               <button
-                className="network-folder-button"
-                aria-expanded={openWorkflow === w.id}
-                onClick={() => activateWorkflow(w.id)}
+                className="network-service-tab network-add-request"
+                onClick={() => startComposer("workflow")}
               >
-                {w.title[locale]}
-                {openWorkflow === w.id ? <Minus size={18} /> : <Plus size={18} />}
+                <Plus size={18} />
+                {t("Describe your own requirement", "Описати власну потребу")}
               </button>
-              {openWorkflow === w.id && (
-                <div className="network-folder-content">
-                  <details className="network-workflow-overview">
-                    <summary>{t("About this workflow", "Про цей workflow")}</summary>
-                    <NetworkWorkflowDescription
-                      id={w.id}
-                      locale={locale}
-                      onService={choose}
-                      compact
-                    />
-                  </details>
-                  {w.id !== "core" && (
-                    <label className="network-approve-choice">
+              <button
+                className="network-context-action network-survey-entry"
+                onClick={() => {
+                  if (walk) endWalk();
+                  setSurvey(true);
+                }}
+              >
+                {t(
+                  "Member & Board questionnaire · view draft",
+                  "Опитувальник членів і правління · переглянути",
+                )}
+              </button>
+              <NetworkCapabilityTree
+                draft={
+                  walk?.kind === "configuration"
+                    ? {
+                        ...draft,
+                        packageServices: {},
+                        workflowIds: walk.index >= 3 ? ["engagement"] : [],
+                      }
+                    : draft
+                }
+                locale={locale}
+                open={openWorkflow}
+                onOpen={activateWorkflow}
+                onService={choose}
+                editing={wide && layout.search >= 460}
+                disabled={!ready || !!walk}
+                onToggle={changePackage}
+                onWorkflow={(id, checked) => {
+                  setConfigurationStarted(true);
+                  setInspectedWorkflow(id);
+                  update({
+                    mode: "full",
+                    workflowIds: checked
+                      ? [...new Set([...draft.workflowIds, id])]
+                      : draft.workflowIds.filter((w) => w !== id),
+                  });
+                }}
+              />
+              {walk?.kind === "configuration" && walkId === "result" && (
+                <section className="network-example-proposal">
+                  <h3>{t("Example proposal selection", "Приклад позицій пропозиції")}</h3>
+                  <p>
+                    {t("Core service capabilities", "Сервісна функціональність ядра")} ·{" "}
+                    {indicativePriceLabel(CLIENT_APPROVED_PRICES.base, locale)}
+                  </p>
+                  <p>
+                    {t("Engagement cycle", "Цикл залучення")} ·{" "}
+                    {indicativePriceLabel(CLIENT_APPROVED_PRICES.engagement, locale)}
+                  </p>
+                  <small>
+                    {t(
+                      "Existing indicative development estimates, subject to an agreed specification. This example is not saved unless you choose to use it.",
+                      "Наявні індикативні оцінки розробки за погодженим ТЗ. Приклад не зберігається без вашого вибору.",
+                    )}
+                  </small>
+                  <Link
+                    className="network-context-action"
+                    to="/scope"
+                    onClick={() => endWalk(true)}
+                  >
+                    {t(
+                      "Use this selection and review scope",
+                      "Взяти цей вибір і переглянути обсяг",
+                    )}
+                  </Link>
+                </section>
+              )}
+              <section className="network-workflow-folder">
+                <button
+                  className="network-folder-button"
+                  onClick={() => setOpenWorkflow((v) => (v === "own" ? null : "own"))}
+                  aria-expanded={openWorkflow === "own"}
+                >
+                  {t("Future development / add your own", "Майбутні розробки / додати своє")}
+                  {openWorkflow === "own" ? <Minus size={18} /> : <Plus size={18} />}
+                </button>
+                {openWorkflow === "own" && (
+                  <div className="network-folder-content">
+                    <button
+                      className="network-service-tab"
+                      onClick={() => startComposer("workflow")}
+                    >
+                      {t("Describe a process or workflow", "Описати процес або workflow")}
+                    </button>
+                    <button
+                      className="network-service-tab"
+                      onClick={() => startComposer("service")}
+                    >
+                      {t("Describe a service or capability", "Описати сервіс або функціональність")}
+                    </button>
+                    {walk?.kind === "configuration" && walkId === "tailor" && (
+                      <div className="network-example-frame">
+                        <h3>{t("Example requirement frame", "Приклад шаблону потреби")}</h3>
+                        {SERVICE_FRAME_FIELDS.map((field) => (
+                          <p key={field.id}>
+                            <strong>{uk ? field.uk : field.en}</strong>
+                            <br />
+                            <small>{uk ? field.helpUk : field.helpEn}</small>
+                          </p>
+                        ))}
+                        <p>
+                          {t(
+                            "Fill this form in your own words after taking over; it becomes a separate proposal item.",
+                            "Переберіть керування й заповніть шаблон своїми словами; він стане окремою позицією пропозиції.",
+                          )}
+                        </p>
+                      </div>
+                    )}
+                    {draft.requests.map((r) => (
+                      <article key={r.id}>
+                        <strong>{r.title}</strong>
+                        <p>{r.description}</p>
+                      </article>
+                    ))}
+                  </div>
+                )}
+              </section>
+            </aside>
+          ) : experience === "prototype" && leftPanelVisible ? (
+            <aside
+              className={`network-paper-panel network-left-panel ${persistentSearch ? "is-persistent-search" : ""}`}
+              aria-label={t("Search panel", "Панель пошуку")}
+            >
+              <fieldset className="network-layer-switch">
+                <legend>{t("View connections by", "Показати зв’язки за")}</legend>
+                {(
+                  [
+                    ["organization", "People + organisations", "Персони та організації"],
+                    ["hub", "Professional role / chapter", "Професійна роль / чаптер"],
+                    ["rank", "Recorded review status", "Зафіксований статус перевірки"],
+                    ["specialisation", "Specialisation / expertise", "Спеціалізація / експертиза"],
+                    ["sector", "Economic sectors", "Сектори економіки"],
+                    ["theme", "Experience themes", "Тематики досвіду"],
+                    ["country", "Countries / territories", "Країни / території"],
+                    ["researchQueue", "Awaiting review", "Очікують перевірки"],
+                    ["services", "ISRM application services", "Сервіси застосунку ISRM"],
+                  ] as const
+                )
+                  .filter(([id]) => id !== "services")
+                  .map(([id, en, ua]) => (
+                    <label key={id} data-layer-id={id}>
                       <input
                         type="checkbox"
-                        checked={draft.workflowIds.includes(w.id as "engagement" | "expertise")}
-                        disabled={!ready || draft.mode !== "full"}
-                        onChange={(e) =>
-                          update({
-                            workflowIds: e.target.checked
-                              ? [...draft.workflowIds, w.id as "engagement" | "expertise"]
-                              : draft.workflowIds.filter((id) => id !== w.id),
-                          })
-                        }
+                        checked={!!layers[id]}
+                        onChange={(e) => {
+                          structure();
+                          setLayers({ ...layers, [id]: e.target.checked });
+                          if (id === "services") {
+                            setMode(e.target.checked ? "services" : "people");
+                            setAnchor("isrm");
+                            setActive([]);
+                            setPerson(null);
+                            setService(null);
+                          }
+                        }}
                       />
-                      {t(
-                        "Approve · include in the proposal estimate",
-                        "Погоджую · додати до розрахунків у пропозиції",
-                      )}
+                      {t(en, ua)}
                     </label>
-                  )}
-                  {w.serviceIds.map((id) => (
-                    <button
-                      className={`network-service-tab ${disabled.includes(id) ? "is-muted" : ""}`}
-                      key={id}
-                      onClick={() => choose(id)}
-                    >
-                      {CLIENT_SERVICES.find((s) => s.id === id)?.title[locale]}
-                      <ArrowRight size={16} />
-                    </button>
                   ))}
-                </div>
-              )}
-            </section>
-          ))}
-          <section className="network-workflow-folder">
-            <button
-              className="network-folder-button"
-              onClick={() => setOpenWorkflow((v) => (v === "own" ? null : "own"))}
-              aria-expanded={openWorkflow === "own"}
-            >
-              {t("Future development / add your own", "Майбутні розробки / додати своє")}
-              {openWorkflow === "own" ? <Minus size={18} /> : <Plus size={18} />}
-            </button>
-            {openWorkflow === "own" && (
-              <div className="network-folder-content">
-                <button className="network-service-tab" onClick={() => startComposer("workflow")}>
-                  {t("Describe a process or workflow", "Описати процес або workflow")}
-                </button>
-                <button className="network-service-tab" onClick={() => startComposer("service")}>
-                  {t("Describe a service or capability", "Описати сервіс або функціональність")}
-                </button>
-                {draft.requests.map((r) => (
-                  <article key={r.id}>
-                    <strong>{r.title}</strong>
-                    <p>{r.description}</p>
-                  </article>
+              </fieldset>
+              <p className="network-panel-note">
+                {t(
+                  "Explore recorded coverage and reference categories, including those with no matching profiles.",
+                  "Переглядайте наявні записи й категорії довідника, зокрема ті, для яких профілів ще немає.",
+                )}
+              </p>
+              <details className="network-refine-fields" open={left === "search"}>
+                <summary>{t("Refine the search", "Уточнити пошук")}</summary>
+                <FilterBar
+                  experts={referenceExperts}
+                  f={f}
+                  setF={(value) => {
+                    structure();
+                    searchBeforeConnections.current = null;
+                    setF(value);
+                  }}
+                  compact
+                  showResearchQueue={false}
+                  includeReference
+                />
+              </details>
+              <button className="network-folder-button" onClick={close}>
+                {t("Show results", "Показати результати")} · {shown.length}
+              </button>
+              <details className="network-profile-list">
+                <summary>{t("Profiles · keyboard access", "Профілі · вибір з клавіатури")}</summary>
+                {shown.map((p) => (
+                  <button key={p.code} onClick={() => inspectPerson(p.code)}>
+                    {p.displayName}
+                  </button>
                 ))}
-              </div>
-            )}
-          </section>
-        </aside>
-      )}
-      {selected && (
-        <aside
-          className="network-paper-panel network-right-panel"
-          aria-label={t("Person dossier", "Досьє персони")}
-        >
-          <h2>{selected.displayName}</h2>
-          {selected.organization && (
-            <p>
-              {selected.role} · {selected.organization}
-            </p>
-          )}
-          <p>{selected.primaryExpertise}</p>
-          <dl>
-            <dt>{t("Sector", "Сектор")}</dt>
-            <dd>{selected.sector}</dd>
-            <dt>{t("Country / territory", "Країна / територія")}</dt>
-            <dd>{selected.country}</dd>
-            <dt>{t("Source record status", "Статус запису у джерелі")}</dt>
-            <dd>{selected.identityStatus || t("Not supplied", "Не надано")}</dd>
-            <dt>{t("Network role · source field", "Роль у мережі · вихідне поле")}</dt>
-            <dd>{selected.communityRole || t("Not supplied", "Не надано")}</dd>
-            <dt>{t("Engagement stage · source field", "Етап взаємодії · вихідне поле")}</dt>
-            <dd>{selected.crmStage || t("Not supplied", "Не надано")}</dd>
-          </dl>
-          <p className="network-panel-note">
-            {t(
-              "Shared categories describe the supplied records. They do not establish a personal introduction, endorsement or willingness to collaborate.",
-              "Спільні категорії описують передані записи. Вони не підтверджують особистого знайомства, рекомендації чи готовності до співпраці.",
-            )}
-          </p>
-          <Link
-            className="network-folder-button"
-            to="/experts/$code"
-            params={{ code: selected.code }}
-          >
-            {t("Full dossier", "Повне досьє")}
-          </Link>
-          <button
-            className="network-folder-button"
-            disabled={!ready}
-            onClick={() => {
-              const removing = draft.shortlist.includes(selected.code);
-              update({
-                shortlist: removing
-                  ? draft.shortlist.filter((code) => code !== selected.code)
-                  : [...draft.shortlist, selected.code],
-              });
-              setGroupFeedback(
-                removing
-                  ? t("Removed from your group · −1", "Прибрано з вашої групи · −1")
-                  : t("Added to your group · +1", "Додано до вашої групи · +1"),
-              );
-            }}
-          >
-            {draft.shortlist.includes(selected.code)
-              ? t("In your group · remove", "У вашій групі · прибрати")
-              : t("Add to shortlist", "Додати до відбору")}
-          </button>
-          <button className="network-context-action" onClick={openShortlist}>
-            {t("Open shortlist", "Відкрити shortlist")}
-          </button>
-          <button className="network-context-action" onClick={() => chooseAnchor(selected.code)}>
-            {t("Explore connections", "Дослідити зв’язки")}
-          </button>
-        </aside>
-      )}
-      {selectedService && (
-        <aside
-          className="network-paper-panel network-right-panel"
-          aria-label={t("Service dossier", "Опис сервісу")}
-        >
-          <h2>{selectedService.title[locale]}</h2>
-          <p>{selectedService.detail[locale]}</p>
-          <NetworkServiceDependencies id={selectedService.id} locale={locale} />
-          {service === "survey" && <MemberSurveyPreview locale={locale} />}
-          <small>{selectedService.status[locale]}</small>
-          <p className="network-panel-note">
-            {t(
-              "Highlighted people illustrate potential coverage of this capability using supplied categories; they are not assigned participants.",
-              "Підсвічені персони ілюструють можливе охоплення за категоріями вибірки; це не призначені учасники.",
-            )}
-          </p>
-          {service === "contact" && (
-            <>
-              <button className="network-folder-button" onClick={() => setMailing(true)}>
-                {t("Prepare a mailing list", "Скласти список розсилки")}
-              </button>
-              <button className="network-folder-button" onClick={() => setSurvey(true)}>
-                {t("View the member questionnaire", "Переглянути опитувальник членів")}
-              </button>
-            </>
-          )}
-          <button
-            className="network-folder-button"
-            onClick={() => {
-              close();
-              setLeft("workflows");
-            }}
-          >
-            {t("Back to workflows", "До workflow")}
-          </button>
-          <button className="network-folder-button" onClick={() => setExclude(service)}>
-            {t("Exclude from the current view", "Виключити з поточного перегляду")}
-          </button>
-        </aside>
-      )}
+              </details>
+            </aside>
+          ) : null
+        }
+        profileKey={
+          person || service || inspectedWorkflow
+            ? `${person || service || inspectedWorkflow}:${inspectionFocus}`
+            : null
+        }
+        layout={layout}
+        onWidth={setWidth}
+        onCloseProfile={() => {
+          if (experience === "configuration") setInspectedWorkflow(null);
+          else {
+            setPerson(null);
+            setService(null);
+          }
+        }}
+        auxiliaryLabel={experience === "configuration" ? t("Service", "Сервіс") : undefined}
+        profileLabel={experience === "configuration" ? t("Workflow", "Workflow") : undefined}
+        onCloseShortlist={() =>
+          experience === "configuration" ? (setService(null), setPerson(null)) : setGroupOpen(false)
+        }
+        onGraph={() => {
+          setInspectedWorkflow(null);
+          close();
+          setGroupOpen(false);
+          setSearchHidden(true);
+        }}
+        uk={uk}
+        auxiliaryKey={
+          experience === "configuration" && (service || person)
+            ? `${service || person}:${inspectionFocus}`
+            : null
+        }
+        profile={
+          experience === "configuration" ? (
+            inspectedWorkflow ? (
+              <>
+                {inspectedWorkflow && (
+                  <aside
+                    className="network-paper-panel network-right-panel"
+                    aria-label={t("Workflow description", "Опис workflow")}
+                  >
+                    <NetworkWorkflowDescription
+                      id={inspectedWorkflow}
+                      locale={locale}
+                      onService={choose}
+                      compact={!(wide && layout.profile >= 460)}
+                    />
+                  </aside>
+                )}
+              </>
+            ) : null
+          ) : selected ? (
+            personServiceInspection
+          ) : null
+        }
+        shortlist={
+          experience === "configuration" ? (
+            selected || selectedService ? (
+              personServiceInspection
+            ) : null
+          ) : groupOpen ? (
+            <NetworkShortlist
+              people={all}
+              codes={selectedCodes}
+              name={walk?.kind === "prototype" ? exampleName : draft.groupName}
+              onName={(name) =>
+                walk?.kind === "prototype" ? setExampleName(name) : update({ groupName: name })
+              }
+              expanded={wide && layout.shortlist >= 460}
+              onExpand={() => setWidth("shortlist", layout.shortlist >= 460 ? 330 : 560)}
+              onInspect={inspectPerson}
+              onRemove={(code) =>
+                walk?.kind === "prototype"
+                  ? setExampleCodes((v) => v.filter((id) => id !== code))
+                  : update({ shortlist: draft.shortlist.filter((id) => id !== code) })
+              }
+              onRestore={(shortlist, groupName) => update({ shortlist, groupName })}
+              onClose={() => setGroupOpen(false)}
+              onSearch={continueSearch}
+              uk={uk}
+              example={walk?.kind === "prototype"}
+              disabled={!ready}
+            />
+          ) : null
+        }
+      />
       <footer className="network-bottom-rail">
-        <div className="network-legend" aria-label={t("Graph legend", "Легенда графа")}>
+        <div
+          className="network-legend"
+          aria-label={t("Graph legend", "Легенда графа")}
+          title={t(
+            "Legend · these symbols describe node types",
+            "Легенда · ці символи пояснюють типи вузлів",
+          )}
+        >
+          <small>{t("Legend", "Легенда")}</small>
           <span>
             <Users size={14} />
             {t("Person", "Персона")}
@@ -897,43 +1476,74 @@ export function NetworkWorkbench() {
           <span className="network-demo-label">
             {t("Demonstration · supplied sample", "Демонстрація · передана вибірка")}
           </span>
+          <button
+            className="network-survey-link"
+            onClick={() => {
+              if (walk) endWalk();
+              setSurvey(true);
+            }}
+          >
+            {t("Questionnaire", "Опитувальник")}
+          </button>
+          <NetworkWalkthrough
+            host={root}
+            state={walk}
+            experience={experience}
+            onStart={beginWalk}
+            onChange={setWalk}
+            onClose={() => endWalk()}
+            onTakeOver={() => endWalk(true)}
+            uk={uk}
+            available={!!example}
+          />
           <DataUseNotice compact />
         </div>
         <nav
           className="client-network-dock network-two-tabs"
-          aria-label={t("Graph panels", "Панелі графа")}
+          aria-label={t("Current workspace actions", "Дії поточного режиму")}
         >
-          <button
-            aria-pressed={mode === "people"}
-            onClick={() => {
-              close();
-              setSearchHidden(false);
-              setMode("people");
-              if (anchor.startsWith("svc:") || anchor.startsWith("workflow:")) setAnchor("isrm");
-              setLeft(left === "search" ? null : "search");
-            }}
-          >
-            <Search size={25} />
-            {t("Search", "Пошук")}
-          </button>
-          <button
-            aria-pressed={mode === "services"}
-            onClick={() => {
-              const opening = left !== "workflows";
-              close();
-              setMode("services");
-              if (opening) {
-                setLive(false);
-                setActive([]);
-                setAnchor("isrm");
-                setOpenWorkflow(null);
-                setLeft("workflows");
-              }
-            }}
-          >
-            <GitBranch size={25} />
-            Workflows
-          </button>
+          {experience === "prototype" ? (
+            <>
+              <button
+                aria-pressed={left === "search" || persistentSearch}
+                onClick={() => {
+                  const opening = !(left === "search" || persistentSearch);
+                  close();
+                  setSearchHidden(!opening);
+                  setMode("people");
+                  if (opening) continueSearch();
+                  else setLeft(null);
+                }}
+              >
+                <Search size={25} />
+                {t("Search", "Пошук")}
+              </button>
+              <button aria-pressed={groupOpen} onClick={openShortlist}>
+                <Users size={25} />
+                {t("Your shortlist", "Ваш відбір")} · {selectedCodes.length}
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                aria-pressed={left === "workflows"}
+                onClick={() => {
+                  const opening = left !== "workflows";
+                  close();
+                  setLeft(opening ? "workflows" : null);
+                  setSearchHidden(true);
+                  setMode("services");
+                }}
+              >
+                <GitBranch size={25} />
+                {t("Workflows & services", "Workflow та сервіси")}
+              </button>
+              <button onClick={() => startComposer("workflow")}>
+                <Plus size={25} />
+                {t("Describe what you need", "Опишіть вашу потребу")}
+              </button>
+            </>
+          )}
         </nav>
       </footer>
       <Dialog open={!!exclude} onOpenChange={(o) => !o && setExclude(null)}>
@@ -945,18 +1555,25 @@ export function NetworkWorkbench() {
           <DialogHeader>
             <DialogTitle>
               {t(
-                "Exclude this capability from the view?",
-                "Виключити цю функціональність із перегляду?",
+                "Remove this capability from the proposed composition?",
+                "Вилучити функціональність із запропонованого складу?",
               )}
             </DialogTitle>
             <DialogDescription>
               {t(
-                "This changes the demonstration only. No live message, invitation or service is cancelled. A change to the agreed core would need a revised scope.",
-                "Це змінює лише демонстрацію. Жодне повідомлення, запрошення чи сервіс не скасовується. Зміна погодженого ядра потребуватиме уточнення обсягу.",
+                "This changes your proposed scope. No live message, invitation or service is cancelled. Changed packages require a revised estimate. People who retain another selected service remain covered in the illustration.",
+                "Це змінює запропонований обсяг. Повідомлення, запрошення чи діючі сервіси не скасовуються. Змінені пакети потребують переоцінки. Персони з іншим обраним сервісом залишаються охопленими в ілюстрації.",
               )}
             </DialogDescription>
           </DialogHeader>
           <p>{CLIENT_SERVICES.find((s) => s.id === exclude)?.detail[locale]}</p>
+          <p>
+            {t(
+              "Illustrative profiles left without a selected service: ",
+              "Профілів без обраного сервісу в ілюстрації: ",
+            )}
+            {exclusionImpact.length}
+          </p>
           <div className="client-inline-actions">
             <button className="client-button" onClick={() => setExclude(null)}>
               {t("Keep the capability", "Залишити функціональність")}
@@ -965,15 +1582,24 @@ export function NetworkWorkbench() {
               className="client-text-button"
               onClick={() => {
                 if (exclude) {
-                  setDisabled((v) => [...new Set([...v, exclude])]);
-                  setActive((v) => v.filter((s) => s !== exclude));
+                  const changes = excludeServiceChanges(draft, exclude, excludePackage);
+                  const stillIncluded = selectedServiceIds({ ...draft, ...changes }).includes(
+                    exclude,
+                  );
+                  update(changes);
+                  setDisabled((v) =>
+                    stillIncluded
+                      ? v.filter((id) => id !== exclude)
+                      : [...new Set([...v, exclude])],
+                  );
+                  setActive((v) => (stillIncluded ? v : v.filter((s) => s !== exclude)));
                   setService(null);
                   setAnchor("isrm");
                 }
                 setExclude(null);
               }}
             >
-              {t("Exclude from view", "Виключити з перегляду")}
+              {t("Remove from proposed scope", "Вилучити із запропонованого обсягу")}
             </button>
           </div>
         </DialogContent>
@@ -1000,8 +1626,16 @@ export function NetworkWorkbench() {
             </DialogDescription>
           </DialogHeader>
           <form
+            noValidate
+            onChange={() => setSaved(false)}
             onSubmit={(e) => {
               e.preventDefault();
+              setAttemptedSave(true);
+              const missing = missingRequirementFields(title, frame);
+              if (missing.length || !ready) {
+                document.getElementById("requirement-" + missing[0])?.focus();
+                return;
+              }
               update({
                 requests: [
                   ...draft.requests,
@@ -1009,7 +1643,7 @@ export function NetworkWorkbench() {
                     id: crypto.randomUUID(),
                     kind,
                     title: title.trim(),
-                    description: description.trim(),
+                    description: serviceFrameText(frame, locale),
                   },
                 ],
                 customIncluded: true,
@@ -1030,8 +1664,10 @@ export function NetworkWorkbench() {
               </select>
             </label>
             <label>
-              {t("Title", "Назва")}
+              {t("Title", "Назва")} *
               <input
+                id="requirement-title"
+                aria-invalid={attemptedSave && !title.trim()}
                 required
                 value={title}
                 onChange={(e) => {
@@ -1040,37 +1676,56 @@ export function NetworkWorkbench() {
                 }}
               />
             </label>
-            <label>
-              {t(
-                "Who needs it, actions, data and intended outcome",
-                "Кому потрібно, дії, дані та очікуваний результат",
+            {SERVICE_FRAME_FIELDS.map((field) => (
+              <label key={field.id}>
+                {field[locale]}
+                {field.id === "need" || field.id === "outcome" ? " *" : ""}
+                <small>{uk ? field.helpUk : field.helpEn}</small>
+                <textarea
+                  id={"requirement-" + field.id}
+                  aria-invalid={
+                    attemptedSave &&
+                    (field.id === "need" || field.id === "outcome") &&
+                    !frame[field.id].trim()
+                  }
+                  rows={field.rows}
+                  required={field.id === "need" || field.id === "outcome"}
+                  value={frame[field.id]}
+                  onChange={(event) => {
+                    setFrame((current) => ({ ...current, [field.id]: event.target.value }));
+                    setSaved(false);
+                  }}
+                />
+              </label>
+            ))}
+            <div className="network-requirement-submit">
+              {draftError && <p role="alert">{draftError}</p>}
+              {attemptedSave && missingRequirementFields(title, frame).length > 0 && (
+                <p role="alert">
+                  {t("Please complete the required fields: ", "Заповніть обов’язкові поля: ")}
+                  {missingRequirementFields(title, frame)
+                    .map((id) =>
+                      id === "title"
+                        ? t("Title", "Назва")
+                        : SERVICE_FRAME_FIELDS.find((field) => field.id === id)![locale],
+                    )
+                    .join("; ")}
+                </p>
               )}
-              <textarea
-                required
-                rows={5}
-                value={description}
-                onChange={(e) => {
-                  setDescription(e.target.value);
-                  setSaved(false);
-                }}
-              />
-            </label>
-            {saved ? (
-              <div role="status">
-                <p>{t("Added to your scope draft.", "Додано до чернетки scope.")}</p>
-                <button type="button" onClick={() => startComposer(kind)}>
-                  {t("Describe another", "Описати наступне")}
+              {saved ? (
+                <div role="status">
+                  <p>{t("Added to your scope draft.", "Додано до чернетки scope.")}</p>
+                  <button type="button" onClick={() => startComposer(kind)}>
+                    {t("Describe another", "Описати наступне")}
+                  </button>
+                  <Link to="/scope">{t("Review scope", "Переглянути scope")}</Link>
+                </div>
+              ) : (
+                <button className="client-button" type="submit" disabled={!ready}>
+                  {t("Save to scope", "Зберегти до scope")}
                 </button>
-                <Link to="/scope">{t("Review scope", "Переглянути scope")}</Link>
-              </div>
-            ) : (
-              <button
-                className="client-button"
-                disabled={!ready || !title.trim() || !description.trim()}
-              >
-                {t("Save to scope", "Зберегти до scope")}
-              </button>
-            )}
+              )}
+            </div>
           </form>
         </DialogContent>
       </Dialog>
