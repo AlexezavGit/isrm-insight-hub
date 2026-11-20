@@ -94,6 +94,8 @@ export default function NetworkGraph({
     () => buildNetwork(experts, layers, locale, referenceSelection),
     [experts, layers, locale, referenceSelection],
   );
+  // TRACE-LOGS
+  if (typeof window !== "undefined") (window.__ngTrace ||= []).push({ experts: experts?.length, layers: layers ? Object.values(layers).filter(Boolean).length : null, locale, ref: !!referenceSelection });
   const effective = useMemo(
     () => activeServiceIds.filter((id) => !disabledServiceIds.includes(id)),
     [activeServiceIds, disabledServiceIds],
@@ -114,10 +116,13 @@ export default function NetworkGraph({
     const lost = [...previousCoverage.current].filter((id) => !covered.has(id));
     previousCoverage.current = new Set(covered);
     if (!serviceMode || motionPaused) {
-      setDeparting(new Map());
+      // Reuse the current map when nothing departed; a fresh Map each run kept
+      // re-rendering this effect in a loop (Maximum update depth exceeded).
+      setDeparting((current) => (current.size ? new Map() : current));
       return;
     }
     const now = performance.now();
+    if (lost.length === 0) return;
     setDeparting(
       (current) =>
         new Map(

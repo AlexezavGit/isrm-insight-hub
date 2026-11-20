@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { NetworkWorkbench } from "@/components/NetworkWorkbench";
+import { NetworkWorkspace } from "@/components/NetworkWorkspace";
 import { CLIENT_SERVICES } from "@/lib/client-catalog";
 
 type IndexSearch = {
@@ -56,5 +56,5 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: NetworkWorkbench,
+  component: NetworkWorkspace,
 });
