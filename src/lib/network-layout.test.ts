@@ -133,11 +133,15 @@ test("structured people categories have separate expertise, sector and country r
       researchQueue: false,
       specialisation: true,
       country: true,
+      publicLeadership: true,
     },
     "en",
   );
   const points = layoutNetwork(g, "people", [], []);
   const radius = (id: string) => Math.hypot(points.get(id)!.x, points.get(id)!.y);
+  const representatives = g.nodes.filter((node) => node.id.startsWith("public-person:"));
+  assert(representatives.length > 0);
+  assert(representatives.every((node) => radius(node.id) < radius("expertise:Risk consulting")));
   assert(radius("expertise:Risk consulting") < radius("sector:Risk"));
   assert(radius("sector:Risk") < radius("country:United Kingdom"));
   assert.deepEqual(points.get("isrm"), { x: 0, y: 0 });
@@ -163,6 +167,55 @@ test("workspace layout places recorded people and categories without an artifici
   assert(Math.abs(positions.get("sector:Risk")!.x) < 1e-10);
   assert.equal(positions.get("sector:Risk")!.y, -310);
   assert(Math.hypot(positions.get("P0")!.x, positions.get("P0")!.y) > 200);
+});
+
+test("the workspace keeps category rings outside the complete people sample during category focus", async () => {
+  const { buildExperts } = await import("./experts.server");
+  const model = buildNetwork(
+    buildExperts("guest"),
+    {
+      sector: true,
+      theme: false,
+      hub: false,
+      researchQueue: true,
+      specialisation: true,
+      country: true,
+      publicLeadership: true,
+    },
+    "en",
+    {},
+    { includeHub: false, includeServiceCoverage: false },
+  );
+  const rings = ["expertise:", "sector:", "country:"].map((prefix) =>
+    model.nodes.filter((node) => node.id.startsWith(prefix)).map((node) => node.id),
+  );
+  const peopleAndRepresentatives = model.nodes.filter(
+    (node) => node.kind === "expert" || node.id.startsWith("public-person:"),
+  );
+  const arrange = (anchor: string) =>
+    layoutNetwork(model, "people", [], [], anchor, false, {
+      keepPeopleInsideRings: true,
+    });
+  const overview = arrange("");
+  for (const anchor of ["", ...rings.map((ids) => ids[0]!)]) {
+    const positions = arrange(anchor);
+    assert.deepEqual(positions, overview);
+    const radius = (id: string) => Math.hypot(positions.get(id)!.x, positions.get(id)!.y);
+    let edge = Math.max(...peopleAndRepresentatives.map((node) => radius(node.id)));
+    for (const ring of rings) {
+      assert(ring.length > 0);
+      assert(Math.min(...ring.map(radius)) - edge > 30);
+      for (const id of ring) assert.deepEqual(positions.get(id), overview.get(id));
+      edge = Math.max(...ring.map(radius));
+    }
+    const visible = [...positions.keys()];
+    const camera = fitGraphView(positions, visible, anchor, 288, 212, false, 0.08);
+    assert.deepEqual({ x: camera.x, y: camera.y }, positions.get(anchor) ?? { x: 0, y: 0 });
+    for (const { x, y } of positions.values()) {
+      assert(Math.abs(x - camera.x) * camera.zoom < 144);
+      assert(Math.abs(y - camera.y) * camera.zoom < 106);
+    }
+  }
 });
 
 test("the dispersed opening layout is deterministic, spread around the anchor, and non-collapsed", () => {

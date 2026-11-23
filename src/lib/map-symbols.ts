@@ -18,6 +18,16 @@ export const MAP_SYMBOLS: Record<
   core: { shape: "core", color: "#78d4c2", filled: false },
   illustration: { shape: "circle", color: "#92c8ba", filled: true },
 };
+
+export const PEOPLE_MAP_NODE_STYLES: Partial<
+  Record<MapKind, { radius: number; fill: string; strokeWidth: number }>
+> = {
+  country: { radius: 12, fill: "#294c55", strokeWidth: 2.2 },
+  expertise: { radius: 8.5, fill: "#443b28", strokeWidth: 1.6 },
+  sector: { radius: 8, fill: "#354364", strokeWidth: 1.8 },
+  organisation: { radius: 7, fill: "#223d47", strokeWidth: 1.4 },
+};
+export const PUBLIC_REPRESENTATIVE_OUTLINE = "#e5c66b";
 /** Shared geometry for the actual map and its legend/slips. */
 export function mapSymbolPath(kind: MapKind, r: number) {
   return rawMapSymbolPath(kind, r).replace(/-?\d+(?:\.\d+)?(?:e[-+]?\d+)?/gi, (value) =>

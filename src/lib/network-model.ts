@@ -1,3 +1,4 @@
+import { hasRecordedContent } from "./dossier-content";
 import { publicLeadershipGraph } from "./public-directory";
 import type { Expert } from "./types";
 import { canonicalCountry } from "./network-reference";
@@ -60,9 +61,7 @@ export interface NetworkModel {
   nodes: NetworkNode[];
   links: NetworkEdge[];
 }
-const known = (s: string | undefined) =>
-  !!s?.trim() &&
-  !["Unclassified", "Не оцінено", "Unknown", "Ukraine-related experience"].includes(s);
+const known = (s: string | undefined) => hasRecordedContent(s) && s?.trim() !== "Не оцінено";
 /** Coverage illustrates proposed service use; never a social recommendation or endorsement. */
 export function serviceCovers(id: string, e: Expert) {
   // Illustrative participation bands, not an inference about this person's interests or use.
@@ -229,7 +228,7 @@ export function buildNetwork(
     [selection.role, "role", "hub"],
     [sourceFlagCriteria ? undefined : selection.reviewStatus, "record-status", "hub"],
   ] as [string | undefined, string, GraphKind][]) {
-    if (value && !map.has(prefix + ":" + value)) {
+    if (value && known(value) && !map.has(prefix + ":" + value)) {
       const id = prefix + ":" + value;
       const node: NetworkNode = { id, kind, label: value, size: 0 };
       nodes.push(node);
