@@ -62,6 +62,15 @@ export function NetworkProfile({
   }, [e.code, example]);
   const phase = replayResearch ?? "idle";
   const findings = researchFindings(e);
+  const hasDossierContent = !!(
+    e.evidence ||
+    e.source ||
+    e.contribution ||
+    e.potentialRole ||
+    e.caseTheme ||
+    e.internationalRelevance ||
+    (e.tags && e.tags.length > 0 && e.tags.some((tag) => tag !== "Unqualified / research pending"))
+  );
   const configurationAction = (id: ServiceId, en: string, ua: string) => (
     <Link
       className="network-context-action"
@@ -115,7 +124,7 @@ export function NetworkProfile({
           )}
         </small>
       </details>
-      {full && (
+      {full && hasDossierContent && (
         <>
           <section
             data-profile-field="evidence"
@@ -156,6 +165,19 @@ export function NetworkProfile({
             ))}
         </>
       )}
+      {full && !hasDossierContent && (
+        <p>
+          {e.dossierAvailability === "restricted"
+            ? t(
+                "Profile detail is restricted at this access level",
+                "Деталі профілю обмежені для цього рівня доступу",
+              )
+            : t(
+                "No further profile information",
+                "Додаткова інформація про профіль відсутня",
+              )}
+        </p>
+      )}
       {full && (e.linkedin || e.phone) && (
         <section>
           <h3>{t("Available contact details", "Доступні контактні дані")}</h3>
@@ -167,7 +189,7 @@ export function NetworkProfile({
           {e.phone && <p>{e.phone}</p>}
         </section>
       )}
-      {full && (
+      {full && hasDossierContent && (
         <section className="network-profile-work">
           <h3>{t("Your working record", "Ваша робота з профілем")}</h3>
           <label>
